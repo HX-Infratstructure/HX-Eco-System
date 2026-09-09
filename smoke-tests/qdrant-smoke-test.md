@@ -148,8 +148,14 @@ The script deletes `hx_smoke_qdrant` in its `finally` block and verifies that th
 If the script is interrupted before cleanup, run:
 
 ```bash
-curl -X DELETE "${QDRANT_URL}/collections/hx_smoke_qdrant" \
-  ${QDRANT_API_KEY:+-H "api-key: ${QDRANT_API_KEY}"}
+if [ -n "${QDRANT_API_KEY:-}" ]; then
+  curl -X DELETE \
+    -H "api-key: ${QDRANT_API_KEY}" \
+    "${QDRANT_URL}/collections/hx_smoke_qdrant"
+else
+  curl -X DELETE \
+    "${QDRANT_URL}/collections/hx_smoke_qdrant"
+fi
 ```
 
 Then remove the disposable test script/workspace as appropriate.
