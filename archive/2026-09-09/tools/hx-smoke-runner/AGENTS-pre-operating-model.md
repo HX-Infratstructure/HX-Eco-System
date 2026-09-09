@@ -13,11 +13,10 @@ Read:
 1. repository root `AGENTS.md`;
 2. `docs/00-control/CURRENT-STATE.md`;
 3. `docs/00-control/BUILD-STATE.md`;
-4. `docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md`;
-5. relevant SUT server record and runbook;
-6. `docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md`;
-7. `docs/04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md`;
-8. the exact component authority under `/smoke-tests/`.
+4. relevant SUT server record and runbook;
+5. `docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md`;
+6. `docs/04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md`;
+7. the exact component authority under `/smoke-tests/`.
 
 Do not use archive or human HTML as execution authority.
 
@@ -92,5 +91,4 @@ When a helper's behavior changes:
 2. syntax-check shell scripts and compile-check Python helpers;
 3. keep the CLI stable where possible;
 4. update the toolset standard when packages, paths, or gates change;
-5. update the architecture operating model only when the subsystem boundary/authority model changes;
-6. never create a second competing runner implementation outside this directory.
+5. never create a second competing runner implementation outside this directory.

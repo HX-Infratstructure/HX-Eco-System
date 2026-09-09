@@ -11,10 +11,9 @@ Agentic tools and coding agents must read these files in order:
 3. `docs/00-control/BUILD-STATE.md`
 4. `docs/00-control/DECISIONS.md`
 5. `docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md`
-6. If smoke-testing, `docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md`.
-7. The current server record and runbook for the server being worked on.
-8. The relevant application standard.
-9. If smoke-testing, the exact `/smoke-tests/*.md` authority and the scoped runner instructions under `tools/hx-smoke-runner/AGENTS.md`.
+6. The current server record and runbook for the server being worked on.
+7. The relevant application standard.
+8. If smoke-testing, the exact `/smoke-tests/*.md` authority and the scoped runner instructions under `tools/hx-smoke-runner/AGENTS.md`.
 
 `CLAUDE.md` exists as a Claude Code entry point and points back to `AGENTS.md` so instructions do not drift.
 
@@ -41,8 +40,6 @@ For every material implementation surface, keep:
 6. no duplicated competing implementation or instruction plane.
 
 If an agent cannot determine what to read, what it may change, how to prove success, and where evidence belongs from the repository itself, the repository context is incomplete.
-
-For the smoke-testing subsystem, the architecture-level map is `docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md`; detailed execution remains in the HX-5 standards and component smoke-test authorities.
 
 ## Core build philosophy
 

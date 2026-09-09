@@ -11,12 +11,11 @@ Before changing anything:
 3. `docs/00-control/BUILD-STATE.md`
 4. `docs/00-control/DECISIONS.md`
 5. `docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md`
-6. If smoke-testing, `docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md`.
-7. Relevant current server record under `docs/02-server-records/`
-8. Relevant runbook under `docs/03-runbooks/`
-9. Relevant standard under `docs/04-application-standards/`
-10. If executing a component smoke test, the exact authority under `smoke-tests/`.
-11. If using the HX-5 runner, `tools/hx-smoke-runner/AGENTS.md`.
+6. Relevant current server record under `docs/02-server-records/`
+7. Relevant runbook under `docs/03-runbooks/`
+8. Relevant standard under `docs/04-application-standards/`
+9. If executing a component smoke test, the exact authority under `smoke-tests/`.
+10. If using the HX-5 runner, `tools/hx-smoke-runner/AGENTS.md`.
 
 Do not read `archive/` or `human-html/` as current authority unless explicitly asked.
 
@@ -60,7 +59,6 @@ Temporary validation wiring must be recorded and removed/disabled before closure
 
 ## 5. Smoke-test authority and HX-5 runner rule
 
-- `docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md` defines **how the smoke-testing subsystem fits together**.
 - `/smoke-tests/*.md` defines **what each component must prove**.
 - `docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md` defines **how HX executes and retains the proof**.
 - `docs/04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md` defines the permanent HX-5 client toolset and bootstrap.
