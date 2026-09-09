@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HX Eco-System — DeepSeek Harness Implementation Addendum v1.0</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;max-width:1180px;margin:36px auto;padding:0 24px;color:#1f2937;line-height:1.55}h1,h2,h3{color:#111827}table{border-collapse:collapse;width:100%;margin:16px 0 28px}th,td{border:1px solid #cbd5e1;padding:8px 10px;text-align:left;vertical-align:top}th{background:#f1f5f9}pre{background:#f8fafc;border:1px solid #e2e8f0;padding:14px;overflow-x:auto}code{font-family:Consolas,Menlo,monospace}.note{background:#f8fafc;border-left:4px solid #64748b;padding:12px 16px}.pass{font-weight:bold}
+</style>
+</head>
+<body>
+<h1>HX Eco-System — DeepSeek Harness Implementation and Meta-Agent Smoke-Test Addendum</h1>
+<p><strong>Version:</strong> 1.0 &nbsp; <strong>Status:</strong> evergreen current &nbsp; <strong>Applies to:</strong> HX-5 CentCom / DeepSeek Harness</p>
+<p class="note"><strong>Human mirror.</strong> Authoritative agent source: <code>docs/00-control/HX-ECO-SYSTEM-DEEPSEEK-HARNESS-IMPLEMENTATION-ADDENDUM.md</code>.</p>
+
+<h2>Purpose</h2>
+<p>DeepSeek Harness must prove more than CLI/service health. The Harness is the HX <strong>meta-agent</strong> for AI-agent and AI-solution construction. Agents invoked beneath it are <strong>sub-agents</strong> that execute bounded application-building work under Harness orchestration.</p>
+<p>The BASE PASS test remains intentionally small. It proves decomposition, delegation, artifact handoff, runnable application creation, independent validation, and Harness-level synthesis.</p>
+
+<h2>Operating model</h2>
+<pre>Infrastructure Owner / Human
+          ↓
+DeepSeek Harness — META-AGENT
+          ↓
+  decomposes and delegates
+          ↓
+ Architect / Planner
+ Builder / Implementer
+ Reviewer / Validator
+          ↓
+ small runnable AI solution
+          ↓
+Harness synthesis + PASS/FAIL</pre>
+
+<h2>Preconditions</h2>
+<ul>
+<li>HX-5 base OS/domain/GPU state accepted.</li>
+<li>HX-5 Ollama and assigned Ornith model have passed BASE PASS.</li>
+<li>DeepSeek Harness native runtime/CLI or service is healthy.</li>
+<li>At least one approved HX model endpoint is available.</li>
+<li>A disposable local workspace is available.</li>
+</ul>
+<p>The smoke test does not require a production database, NFS share, permanent MCP integration, permanent OmniRoute policy, or external cloud provider.</p>
+
+<h2>Required smoke test</h2>
+<p>Give the Harness a bounded request to build a minimal native Python AI CLI such as <code>hx-agent-smoke</code>. The application accepts a short text request, calls one approved HX Ollama model, returns a structured result containing at least intent, answer, and model, and includes a README and executable smoke test.</p>
+
+<h3>Harness responsibilities</h3>
+<ol>
+<li>Interpret the solution requirement.</li>
+<li>Decompose it into discrete work packages.</li>
+<li>Delegate to at least two distinct sub-agent roles; three are preferred for the first test.</li>
+<li>Preserve context and artifact handoffs across sub-agents.</li>
+<li>Ensure the built application is actually executed.</li>
+<li>Route the result through an independent review step.</li>
+<li>Collect the outputs and return one final PASS/FAIL result.</li>
+</ol>
+
+<h3>Suggested sub-agents</h3>
+<table>
+<tr><th>Role</th><th>Expected work</th></tr>
+<tr><td>Architect / Planner</td><td>Creates <code>solution-spec.md</code>, acceptance criteria, approved model endpoint, and simple application flow.</td></tr>
+<tr><td>Builder / Implementer</td><td>Consumes the specification and creates the application, README, and smoke test.</td></tr>
+<tr><td>Reviewer / Validator</td><td>Consumes the spec and built artifact, runs the test independently, and records criterion-by-criterion validation.</td></tr>
+</table>
+
+<h2>Expected disposable workspace</h2>
+<pre>hx-harness-smoke/
+├── solution-spec.md
+├── app.py
+├── README.md
+├── test_smoke.py
+└── validation-result.md</pre>
+
+<h2>BASE PASS criteria</h2>
+<table>
+<tr><th>#</th><th>Capability</th><th>Proof required</th></tr>
+<tr><td>1</td><td>Meta-agent control</td><td>Harness owns the top-level task and orchestration flow.</td></tr>
+<tr><td>2</td><td>Task decomposition</td><td>Requirement becomes multiple bounded work packages.</td></tr>
+<tr><td>3</td><td>Sub-agent delegation</td><td>At least two distinct sub-agent roles receive different work.</td></tr>
+<tr><td>4</td><td>Context/artifact handoff</td><td>A downstream sub-agent uses an upstream artifact or decision.</td></tr>
+<tr><td>5</td><td>Application creation</td><td>A real runnable application artifact is produced.</td></tr>
+<tr><td>6</td><td>AI execution</td><td>The generated application invokes an approved HX model and gets a usable result.</td></tr>
+<tr><td>7</td><td>Independent validation</td><td>Reviewer/validator checks the implementation against acceptance criteria.</td></tr>
+<tr><td>8</td><td>Harness synthesis</td><td>Harness reconciles the sub-agent outcomes and produces one final result.</td></tr>
+<tr><td>9</td><td>Evidence</td><td>Delegation, artifacts, backend/model, test output, and final status are captured.</td></tr>
+<tr><td>10</td><td>Reboot persistence</td><td>After reboot, Harness can again execute a short delegated sub-agent task.</td></tr>
+</table>
+
+<h2>Closure rule</h2>
+<pre>Harness runtime/service health = PASS
+                 AND
+Harness meta-agent solution-building smoke test = PASS</pre>
+<p class="pass">Process health alone is not sufficient to close DeepSeek Harness BASE PASS.</p>
+
+<h2>Non-goals</h2>
+<p>The smoke test does not require the full HX Agent Factory, permanent registry population, production deployment, full fleet orchestration, permanent MCP wiring, permanent OmniRoute routing, RAG/memory integration, NFS configuration, or production secrets/data.</p>
+
+<h2>Evidence</h2>
+<p>Retain HX-5 host/time, Harness version, model/backend, top-level request, sub-agent roles and work packages, artifact paths, execution output, validation result, Harness synthesis, and final PASS/FAIL. Update the HX-5 server record and BUILD-STATE when the gate closes.</p>
+</body>
+</html>
