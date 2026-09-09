@@ -1,1 +1,21 @@
-<!doctype html><html><head><meta charset="utf-8"><title>HX Model Placement Standard</title></head><body><h1>HX Eco-System — Model Placement and Embedding Standard</h1><p><strong>Human mirror.</strong> Authoritative source: <code>docs/00-control/HX-ECO-SYSTEM-MODEL-PLACEMENT-AND-EMBEDDING-STANDARD.md</code>.</p><ul><li>Granite-Docling 258M stays on HX-16 with Docling; CPU-first validation.</li><li>HX-4 hosts BGE-M3, Nomic Embed Text v1.5, and a BGE-family reranker.</li><li>BGE-M3 is primary/default; Nomic is alternate benchmark/fallback.</li><li>Different embedding models never share one Qdrant collection.</li></ul></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Model Placement and Embedding Standard</title><style>body{font-family:Arial,Helvetica,sans-serif;max-width:1080px;margin:36px auto;padding:0 24px;color:#1f2937;line-height:1.55}h1,h2{color:#111827}table{border-collapse:collapse;width:100%;margin:16px 0 28px}th,td{border:1px solid #cbd5e1;padding:8px 10px;text-align:left;vertical-align:top}th{background:#f1f5f9}pre{background:#f8fafc;border:1px solid #e2e8f0;padding:14px;overflow:auto}.note{background:#f8fafc;border-left:4px solid #64748b;padding:12px 16px}</style></head><body><h1>HX Eco-System — Model Placement and Embedding Standard</h1><p><strong>Status:</strong> OWNER APPROVED &nbsp; <strong>Version:</strong> 1.0</p><p class="note"><strong>Human mirror.</strong> Authoritative source: <code>docs/00-control/HX-ECO-SYSTEM-MODEL-PLACEMENT-AND-EMBEDDING-STANDARD.md</code>.</p><h2>Placement decisions</h2><table><tr><th>Capability</th><th>Host</th><th>Standard</th></tr><tr><td>Granite-Docling 258M</td><td>HX-16</td><td>Embedded with Docling; CPU-first validation; GPU only if measured performance later justifies it.</td></tr><tr><td>BGE-M3</td><td>HX-4</td><td>Primary/default shared embedding model; 1024 dimensions.</td></tr><tr><td>Nomic Embed Text v1.5</td><td>HX-4</td><td>Alternate benchmark/fallback; 768 dimensions by default.</td></tr><tr><td>BGE-family reranker</td><td>HX-4</td><td>Shared retrieval reranking; exact checkpoint pinned before installation.</td></tr></table><h2>Architecture</h2><pre>HX-16 Docling
+  ├─ Docling runtime
+  ├─ Granite-Docling 258M
+  └─ Docling MCP
+
+HX-4 Meta-X
+  ├─ GPT-OSS 20B
+  ├─ BGE-M3
+  ├─ Nomic Embed Text v1.5
+  └─ BGE-family reranker</pre><p>Granite-Docling is a document-understanding VLM and stays inside the Docling capability boundary. It is not the general HX vector embedding service and is not routinely routed through OmniRoute.</p><h2>Why both embedding models</h2><p>Both BGE-M3 and Nomic are installed so HX can benchmark retrieval quality, latency, GPU utilization, storage cost, and workload-specific performance without rebuilding the embedding host. BGE-M3 remains the default unless workload evidence justifies an exception.</p><h2>Qdrant collection rule</h2><p>Different embedding models occupy different semantic vector spaces and must never be mixed in one Qdrant collection.</p><pre>Required collection metadata:
+embedding_model
+embedding_model_revision
+embedding_dimension
+embedding_normalization
+embedding_service_version
+chunking_profile
+created_utc
+
+Naming examples:
+&lt;domain&gt;__bge_m3_1024
+&lt;domain&gt;__nomic_v15_768</pre><h2>Model-switch procedure</h2><ol><li>Create a new collection.</li><li>Pin the new model/revision/dimension.</li><li>Re-embed the source corpus.</li><li>Load the new vectors.</li><li>Run retrieval acceptance tests.</li><li>Move the consumer only after PASS.</li><li>Retain or retire the prior collection by owner decision.</li></ol><p>There is no in-place embedding-model switch.</p><h2>HX-5 decision</h2><p>Shared embedding/reranking remains on HX-4 even if HX-5 receives two 16 GB GPUs. HX-5 headroom is reserved for CentCom, Ornith, DeepSeek Harness, development/test work, and future control-plane experimentation.</p><h2>BASE PASS impact</h2><p><strong>HX-4:</strong> GPT-OSS 20B, embedding serving runtime, BGE-M3, Nomic v1.5, BGE reranker, API smoke tests, resource observation, reboot persistence.</p><p><strong>HX-16:</strong> Docling, Granite-Docling 258M, conventional fallback pipeline, Docling MCP, representative document conversion, CPU performance observation, reboot persistence where applicable.</p></body></html>
