@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Eco-System Deep Agents Implementation Addendum v1.0</title><style>body{font-family:Arial,Helvetica,sans-serif;max-width:1180px;margin:36px auto;padding:0 24px;color:#1f2937;line-height:1.55}h1,h2,h3{color:#111827}table{border-collapse:collapse;width:100%;margin:16px 0 28px}th,td{border:1px solid #cbd5e1;padding:8px 10px;text-align:left;vertical-align:top}th{background:#f1f5f9}pre{background:#f8fafc;border:1px solid #e2e8f0;padding:14px;overflow-x:auto}code{font-family:Consolas,Menlo,monospace}.note{background:#f8fafc;border-left:4px solid #64748b;padding:12px 16px}.pass{background:#ecfdf5;border-left:4px solid #10b981;padding:12px 16px}</style></head><body><h1>HX Eco-System — Deep Agents Implementation and LOB Agent Factory Smoke-Test Addendum</h1><p><strong>Version:</strong> 1.0 &nbsp; <strong>Status:</strong> evergreen current &nbsp; <strong>Host:</strong> HX-12</p><p class="note"><strong>Human mirror.</strong> Authoritative agent source: <code>docs/00-control/HX-ECO-SYSTEM-DEEP-AGENTS-IMPLEMENTATION-ADDENDUM.md</code>.</p><h2>Purpose</h2><p>Deep Agents on HX-12 is the HX line-of-business agent factory/application-agent harness. BASE PASS must prove that it can create and run a small domain agent package; package import or a plain LLM response is not sufficient.</p><h2>Role boundary</h2><pre>HX-5 DeepSeek Harness
+META-AGENT / broad AI-solution orchestration
+        ↓
+HX-12 Deep Agents
+LOB AGENT FACTORY / application-agent harness
+        ↓
+Domain agents used by line-of-business applications</pre><h2>Current upstream basis</h2><p>Planning review on September 9, 2026 found <code>deepagents==0.7.13</code> as the current stable Python release. Deep Agents is a batteries-included harness built on LangChain/LangGraph with sub-agent delegation, filesystem tools, context management, optional shell access, skills, memory, and custom/MCP-compatible tools. The accepted version must be re-verified and pinned at implementation time.</p><h2>Critical preflight</h2><p>The selected HX model must prove reliable tool calling before the full test: at minimum one filesystem operation and one <code>task</code> sub-agent delegation. Ordinary chat completion does not establish compatibility.</p><h2>LOB Agent Factory smoke test</h2><p>Deep Agents creates a disposable package named approximately <code>hx-lob-agent-smoke</code> for a synthetic service-case routing scenario.</p><pre>bounded synthetic LOB requirement
+          ↓
+Deep Agents builder on HX-12
+          ↓
+real generated LOB agent package
+          ↓
+Deep Agent supervisor
+          ↓
+Intake Agent / Business Rule Agent / Reviewer Agent
+          ↓
+known-answer routing result + validation</pre><p>The example critical outage case must resolve to <strong>Operations / P1</strong> under the supplied synthetic business rules.</p><h2>Expected artifacts</h2><pre>hx-lob-agent-smoke/
+├── README.md
+├── business-rules.md
+├── agent.py
+├── test_smoke.py
+└── validation-result.md</pre><h2>Deep Agents-specific proof</h2><ul><li>real filesystem artifact creation;</li><li>at least two distinct domain sub-agents, three preferred;</li><li>actual <code>task</code> delegation using stable isolated sub-agents;</li><li>context handoff between delegated work;</li><li>business-rule/tool use;</li><li>structured known-answer output;</li><li>independent validation;</li><li>same-thread context continuity using a disposable checkpointer;</li><li>reboot persistence of the pinned environment and smoke package.</li></ul><h2>Closure rule</h2><div class="pass"><pre>Deep Agents environment/runtime health = PASS
+                    AND
+approved-model tool-calling compatibility = PASS
+                    AND
+LOB agent creation + execution smoke test = PASS</pre></div><h2>Not required for BASE PASS</h2><p>Production LOB data, production UI/API deployment, permanent MCP or OmniRoute wiring, PostgreSQL/Redis persistence, Qdrant/LightRAG, Mem0, NFS, external cloud models, experimental fork sub-agent mode, and containers are explicitly outside this smoke-test boundary.</p></body></html>

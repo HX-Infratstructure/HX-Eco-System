@@ -1,7 +1,7 @@
 ---
 document: HX Eco-System Base Implementation Priority
 status: evergreen_current
-version: 1.5
+version: 1.4
 date: 2026-09-09
 scope: HX-1 through HX-17
 authority: HX-Eco-System clean rebuild
@@ -9,7 +9,7 @@ authority: HX-Eco-System clean rebuild
 
 # HX Eco-System — Base Implementation Priority and Server Map
 
-**Version:** 1.5  
+**Version:** 1.4  
 **Document type:** Evergreen roadmap — updated as verified information, owner decisions, and additional work become available.  
 **Purpose:** Define the dependency-driven order, BASE PASS boundaries, model placement, smoke tests, current server/application assignments, and known follow-on infrastructure tasks for the clean HX Eco-System rebuild.  
 **Scope boundary:** Base installation and standalone validation. Permanent cross-service integration is a later program.
@@ -99,13 +99,13 @@ HX-2 and HX-3 establish the proven GPU-inference pattern: clean OS, domain membe
 | 5 | HX-10 | **Qdrant + Qdrant Web UI + Qdrant MCP** | Native Qdrant, persistent storage, API health, direct Web UI, MCP smoke test, reboot persistence |
 | 6 | HX-6 | **OmniRoute** | Native service/UI, curated provider/model controls, one temporary proven Ollama route, direct-vs-routed functional proof, cleanup, reboot persistence |
 | 7 | HX-15 | **FastMCP** | Shared/custom MCP development runtime, test MCP server, service pattern, reboot validation |
-| 8 | HX-5 | **DeepSeek Harness** | Native Harness runtime/CLI or service health **plus** required meta-agent solution-building smoke test proving decomposition, sub-agent delegation, runnable AI artifact creation, independent validation, synthesis, and reboot delegated-task persistence |
+| 8 | HX-5 | **DeepSeek Harness** | Native Harness runtime/CLI or service health; fleet orchestration deferred |
 | 9 | HX-7 | **NGINX — development use only** | Native NGINX, active/enabled, simple development proxy smoke test; no ecosystem service routes |
 | 10 | HX-16 | **Docling + Granite-Docling 258M + Docling MCP** | Native Docling, local Granite model, CPU-first conversion/performance test, fallback pipeline, MCP smoke test |
 | 11 | HX-17 | **Crawl4AI + Crawl4AI MCP** | Native Crawl4AI, representative crawl, MCP smoke test, service/API base if used |
 | 12 | HX-11 | **LightRAG + LightRAG MCP** | Native LightRAG, local config/storage, health, MCP smoke test, reboot persistence; ecosystem wiring deferred |
 | 13 | HX-13 | **Mem0 + assigned MCP capability** | Native Mem0, local smoke test, persistent config, assigned MCP smoke test |
-| 14 | HX-12 | **Deep Agents by LangChain** | Pinned native Deep Agents environment, approved-model tool-calling probe, real filesystem artifact creation, generated LOB agent package with domain sub-agents, actual `task` delegation, known-answer business-rule result, short-lived thread continuity, independent validation, evidence, and reboot persistence |
+| 14 | HX-12 | **Deep Agents by LangChain** | Native environment and standalone agent smoke test; tools/memory/integration deferred |
 | 15 | HX-14 | **n8n + n8n MCP** | Native n8n, persistent data/config, direct UI, MCP smoke test, reboot persistence; workflows deferred |
 | 16 | HX-8 | **Open WebUI** | Native UI/storage, direct LAN UI, temporary direct Ollama prompt/response proof, cleanup, reboot persistence |
 
@@ -133,7 +133,7 @@ HX-2 and HX-3 establish the proven GPU-inference pattern: clean OS, domain membe
 8. HX-5 DeepSeek Harness  
 9. HX-7 NGINX dev/test only
 
-**Exit:** routing, shared/custom MCP development, CentCom Harness, and dev-only NGINX exist independently. OmniRoute has proven one temporary route to a known-good HX Ollama model and exposes only the approved HX catalog. DeepSeek Harness has also proven its meta-agent role by delegating bounded work to sub-agents and producing/validating a small runnable AI solution.
+**Exit:** routing, shared/custom MCP development, CentCom Harness, and dev-only NGINX exist independently. OmniRoute has proven one temporary route to a known-good HX Ollama model and exposes only the approved HX catalog.
 
 ### Wave D — Knowledge acquisition
 
@@ -154,7 +154,7 @@ HX-2 and HX-3 establish the proven GPU-inference pattern: clean OS, domain membe
 14. HX-12 Deep Agents  
 15. HX-14 n8n + MCP
 
-**Exit:** HX-12 has proven that Deep Agents can create and run a small line-of-business agent package using domain sub-agents, tools/files, known-answer business rules, disposable thread state, and independent validation. HX-14 n8n operates independently. Production agent bindings and workflows remain deferred.
+**Exit:** agent and workflow runtimes operate independently; production tool bindings and workflows remain deferred.
 
 ### Wave G — User interaction
 
@@ -262,50 +262,6 @@ Reply exactly: HX-OMNIROUTE-PASS
 ```
 
 Record direct-versus-routed evidence, backend/provider/model, and result; then remove or disable the validation route.
-
-### HX-5 DeepSeek Harness
-
-DeepSeek Harness does not receive functional BASE PASS from runtime/service health alone.
-
-Prove:
-
-```text
-human requirement
-      ↓
-DeepSeek Harness — meta-agent
-      ↓
-sub-agent planning / building / review
-      ↓
-small runnable AI solution
-      ↓
-Harness synthesis + PASS/FAIL
-```
-
-Detailed authority: `HX-ECO-SYSTEM-DEEPSEEK-HARNESS-IMPLEMENTATION-ADDENDUM.md`.
-
-### HX-12 Deep Agents
-
-Deep Agents does not receive functional BASE PASS from package import or a plain LLM response.
-
-Prove:
-
-```text
-bounded synthetic LOB requirement
-          ↓
-Deep Agents builder on HX-12
-          ↓
-real generated LOB agent package
-          ↓
-Deep Agent supervisor
-          ↓
-domain sub-agents + business rules/tools
-          ↓
-known-answer LOB result + independent validation
-```
-
-The selected model must first prove reliable Deep Agents tool calling, including filesystem use and `task` sub-agent delegation. The LOB smoke test also proves disposable same-thread context continuity and reboot persistence.
-
-Detailed authority: `HX-ECO-SYSTEM-DEEP-AGENTS-IMPLEMENTATION-ADDENDUM.md`.
 
 ## 9. OmniRoute provider and model catalog standard
 
