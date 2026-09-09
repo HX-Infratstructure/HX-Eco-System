@@ -11,27 +11,22 @@
 4. Resolve/accept current GPU symmetry decision before workload placement assumptions.
 5. Install Ornith model and close its model/inference BASE PASS.
 6. Activate the CentCom smoke-test runner role before moving into HX-9 and later component builds:
-   - verify the authenticated `HX-Infratstructure/HX-Eco-System` checkout on HX-5;
-   - read `../../04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md`;
-   - execute `04-centcom-smoke-runner-bootstrap.sh` from this runbook directory/repository checkout;
-   - install only the client/runner tools defined by the current toolset standard;
-   - select and record `HX_SMOKE_ROOT`, `HX_SMOKE_VENV`, and `HX_ECO_REPO`;
-   - run `hx-smoke-doctor`;
-   - run `hx-smoke-doctor --remote` and require the known-good HX-2 response `HX-CENTCOM-RUNNER-PASS`;
+   - install only the client/runner tools actually required by the current smoke-test catalog;
+   - select and record `HX_SMOKE_ROOT` on HX-5;
+   - prove one remote smoke-runner invocation against an already-proven HX endpoint;
    - keep disposable test projects, fixtures, scripts, manifests, logs, and cleanup verification on HX-5 rather than on the SUT;
-   - follow `../../04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md` for all later component runs.
-7. Record the installed CentCom client-tool versions and remote activation evidence in the HX-5 server record. Do not mark the smoke-runner capability active from documentation alone.
-8. Install DeepSeek Harness only at its scheduled priority after the model fleet/OmniRoute foundation is available. The Harness is not a prerequisite for CentCom smoke-runner activation.
-9. Validate Harness runtime/CLI or service health.
-10. Execute the required Harness meta-agent capability smoke test defined in `../../../smoke-tests/deepseek-harness-smoke-test.md` and `../../00-control/HX-ECO-SYSTEM-DEEPSEEK-HARNESS-IMPLEMENTATION-ADDENDUM.md`:
+   - follow `../../04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md`.
+7. Install DeepSeek Harness only at its scheduled priority after the model fleet/OmniRoute foundation is available. The Harness is not a prerequisite for CentCom smoke-runner activation.
+8. Validate Harness runtime/CLI or service health.
+9. Execute the required Harness meta-agent capability smoke test defined in `../../../smoke-tests/deepseek-harness-smoke-test.md` and `../../00-control/HX-ECO-SYSTEM-DEEPSEEK-HARNESS-IMPLEMENTATION-ADDENDUM.md`:
    - Harness owns the top-level solution request and orchestration;
    - temporary sub-agents perform bounded planning, building, and review work;
    - sub-agents hand artifacts/context to one another;
    - the workflow produces and executes a small runnable AI application against one approved HX model;
    - an independent reviewer sub-agent validates the result;
    - Harness synthesizes the final evidence and PASS/FAIL result.
-11. Prove Harness reboot persistence with a short delegated sub-agent invocation after reboot. The full solution-build test does not need to be repeated after reboot.
-12. Update the HX-5 server record and `BUILD-STATE.md` only after the relevant HX-5 workload gates have passed.
+10. Prove Harness reboot persistence with a short delegated sub-agent invocation after reboot. The full solution-build test does not need to be repeated after reboot.
+11. Update the HX-5 server record and `BUILD-STATE.md` only after the relevant HX-5 workload gates have passed.
 
 ## CentCom smoke-runner activation rule
 
@@ -42,13 +37,11 @@ Ollama + Ornith inference PASS
               AND
 HX-5 reboot persistence PASS
               AND
-CentCom bootstrap complete
+smoke-runner client toolset present
               AND
-hx-smoke-doctor PASS
+HX_SMOKE_ROOT ready
               AND
-hx-smoke-doctor --remote PASS
-              AND
-client versions recorded
+one remote known-good validation PASS
               =
 CENTCOM SMOKE-RUNNER ACTIVE
 ```

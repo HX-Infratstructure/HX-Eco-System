@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+VENV="${HX_SMOKE_VENV:-$HOME/.venvs/hx-smoke-runner}"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+exec "$VENV/bin/python" "$SCRIPT_DIR/hx-smoke-ui-capture.py" "$@"

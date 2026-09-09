@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  hx-smoke-new <sut-host> <component> <smoke-test-file> [sut-ip]
+
+Example:
+  hx-smoke-new hx-9 postgresql postgresql-smoke-test.md 192.168.50.209
+USAGE
+}
+
+[[ $# -ge 3 && $# -le 4 ]] || { usage >&2; exit 2; }
+
+if [[ "$(hostname -s)" != "hx-5" ]]; then
+  echo "ERROR: hx-smoke-new must run on HX-5 CentCom." >&2
+  exit 1
+fi
+
+SUT_HOST="$1"
+COMPONENT="$2"
+TEST_FILE="$3"
+SUT_IP="${4:-TO_RECORD}"
+
+[[ "$SUT_HOST" =~ ^hx-[0-9]+$ ]] || { echo "ERROR: invalid SUT host: $SUT_HOST" >&2; exit 2; }
+[[ "$COMPONENT" =~ ^[a-z0-9][a-z0-9._-]*$ ]] || { echo "ERROR: invalid component slug: $COMPONENT" >&2; exit 2; }
+[[ "$TEST_FILE" =~ ^[A-Za-z0-9._-]+\.md$ ]] || { echo "ERROR: smoke-test file must be a simple .md filename" >&2; exit 2; }
+
+HX_ECO_REPO="${HX_ECO_REPO:-$HOME/src/HX-Eco-System}"
+HX_SMOKE_ROOT="${HX_SMOKE_ROOT:-$HOME/hx-smoke-runs}"
+PROC="$HX_ECO_REPO/smoke-tests/$TEST_FILE"
+
+[[ -d "$HX_ECO_REPO/.git" ]] || { echo "ERROR: HX_ECO_REPO is not a git checkout: $HX_ECO_REPO" >&2; exit 1; }
+[[ -f "$PROC" ]] || { echo "ERROR: smoke-test authority not found: $PROC" >&2; exit 1; }
+git -C "$HX_ECO_REPO" ls-files --error-unmatch "smoke-tests/$TEST_FILE" >/dev/null 2>&1 || {
+  echo "ERROR: smoke-test authority is not committed/tracked: smoke-tests/$TEST_FILE" >&2
+  exit 1
+}
+
+git -C "$HX_ECO_REPO" diff --quiet -- "smoke-tests/$TEST_FILE" || {
+  echo "ERROR: smoke-test authority has uncommitted changes; commit/revert before execution." >&2
+  exit 1
+}
+git -C "$HX_ECO_REPO" diff --cached --quiet -- "smoke-tests/$TEST_FILE" || {
+  echo "ERROR: smoke-test authority has staged but uncommitted changes; commit/revert before execution." >&2
+  exit 1
+}
+
+UTC="$(date -u +%Y%m%dT%H%M%SZ)"
+RUN_ID="${UTC}_${SUT_HOST}_${COMPONENT}"
+RUN_DIR="$HX_SMOKE_ROOT/$RUN_ID"
+
+umask 077
+mkdir -p "$RUN_DIR"/{procedure,runner,fixtures,raw,evidence/supporting,cleanup}
+cp "$PROC" "$RUN_DIR/procedure/$TEST_FILE"
+
+REPO_COMMIT="$(git -C "$HX_ECO_REPO" rev-parse HEAD)"
+PROC_SHA="$(sha256sum "$PROC" | awk '{print $1}')"
+OPERATOR="${USER:-unknown}"
+
+cat > "$RUN_DIR/manifest.md" <<EOF_MANIFEST
+---
+run_id: $RUN_ID
+utc_start: $UTC
+utc_end:
+status: IN_PROGRESS
+operator: $OPERATOR
+runner_host: hx-5
+sut_host: $SUT_HOST
+sut_ip: $SUT_IP
+component: $COMPONENT
+component_version_or_revision: TO_RECORD
+smoke_test_file: smoke-tests/$TEST_FILE
+smoke_test_repo_commit: $REPO_COMMIT
+smoke_test_sha256: $PROC_SHA
+transport_or_endpoint: TO_RECORD
+known_answer: SEE_PROCEDURE
+validation_only_dependencies: SEE_PROCEDURE
+cleanup_objects_expected: SEE_PROCEDURE
+---
+
+# HX Smoke-Test Run Manifest
+
+Use the copied procedure in procedure/ as the acceptance authority for this run.
+Do not place secrets in this manifest or retained evidence.
+EOF_MANIFEST
+
+cat > "$RUN_DIR/evidence/result.txt" <<'EOF_RESULT'
+FUNCTIONAL=IN_PROGRESS
+STATUS=IN_PROGRESS
+SUMMARY=
+EOF_RESULT
+
+cat > "$RUN_DIR/cleanup/cleanup.txt" <<'EOF_CLEANUP'
+CLEANUP=IN_PROGRESS
+DETAIL=
+EOF_CLEANUP
+
+printf '%s\n' "$RUN_DIR"

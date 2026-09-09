@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "$(hostname -s)" != "hx-5" ]]; then
+  echo "ERROR: hx-smoke-doctor must run on HX-5 CentCom." >&2
+  exit 1
+fi
+
+VENV="${HX_SMOKE_VENV:-$HOME/.venvs/hx-smoke-runner}"
+
+check_cmd() {
+  local name="$1"
+  local cmd="$2"
+  printf '%-18s ' "$name"
+  if command -v "$cmd" >/dev/null 2>&1; then
+    echo "PASS ($(command -v "$cmd"))"
+  else
+    echo "FAIL"
+    return 1
+  fi
+}
+
+fail=0
+for pair in \
+  "psql:psql" \
+  "redis-cli:redis-cli" \
+  "curl:curl" \
+  "jq:jq" \
+  "git:git" \
+  "ssh:ssh" \
+  "python3:python3"; do
+  IFS=: read -r label cmd <<<"$pair"
+  check_cmd "$label" "$cmd" || fail=1
+done
+
+[[ -x "$VENV/bin/python" ]] || { echo "smoke-venv         FAIL ($VENV)"; fail=1; }
+
+if [[ -x "$VENV/bin/python" ]]; then
+  "$VENV/bin/python" - <<'PY' || fail=1
+from importlib.metadata import version
+print(f"fastmcp            PASS ({version('fastmcp')})")
+print(f"playwright         PASS ({version('playwright')})")
+from playwright.sync_api import sync_playwright
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.set_content("<p>HX-CENTCOM-BROWSER-PASS</p>")
+    assert "HX-CENTCOM-BROWSER-PASS" in page.text_content("body")
+    browser.close()
+print("chromium-launch    PASS")
+PY
+fi
+
+if [[ "${1:-}" == "--remote" ]]; then
+  URL="${HX_SMOKE_PROBE_OLLAMA_URL:-http://192.168.50.202:11434}"
+  MODEL="${HX_SMOKE_PROBE_MODEL:-qwen-x:qwen3.8-27b-q6_k}"
+  EXPECT="HX-CENTCOM-RUNNER-PASS"
+  RESPONSE="$(curl -fsS --max-time 120 "$URL/api/generate" \
+    -H 'Content-Type: application/json' \
+    -d "{\"model\":\"$MODEL\",\"prompt\":\"Reply exactly: $EXPECT\",\"stream\":false}" \
+    | jq -r '.response' | tr -d '\r\n')" || fail=1
+  if [[ "$RESPONSE" == "$EXPECT" ]]; then
+    echo "remote-known-good  PASS ($URL / $MODEL)"
+  else
+    echo "remote-known-good  FAIL (response=$RESPONSE)"
+    fail=1
+  fi
+fi
+
+if [[ "$fail" -ne 0 ]]; then
+  echo "HX_CENTCOM_SMOKE_RUNNER=FAIL"
+  exit 1
+fi
+
+echo "HX_CENTCOM_SMOKE_RUNNER=PASS"

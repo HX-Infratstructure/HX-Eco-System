@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  hx-smoke-promote <run-dir> <PASS|FAIL|NOT_EXECUTABLE>
+
+Before promotion, normalize:
+  evidence/result.txt    -> FUNCTIONAL=PASS|FAIL|NOT_EXECUTABLE
+  cleanup/cleanup.txt    -> CLEANUP=PASS|NOT_APPLICABLE|FAIL
+USAGE
+}
+
+[[ $# -eq 2 ]] || { usage >&2; exit 2; }
+
+if [[ "$(hostname -s)" != "hx-5" ]]; then
+  echo "ERROR: hx-smoke-promote must run on HX-5 CentCom." >&2
+  exit 1
+fi
+
+RUN_DIR="$(readlink -f "$1")"
+FINAL_STATUS="$2"
+case "$FINAL_STATUS" in
+  PASS|FAIL|NOT_EXECUTABLE) ;;
+  *) echo "ERROR: invalid status: $FINAL_STATUS" >&2; exit 2 ;;
+esac
+
+HX_ECO_REPO="${HX_ECO_REPO:-$HOME/src/HX-Eco-System}"
+HX_SMOKE_ROOT="$(readlink -f "${HX_SMOKE_ROOT:-$HOME/hx-smoke-runs}")"
+
+case "$RUN_DIR/" in
+  "$HX_SMOKE_ROOT"/*) ;;
+  *) echo "ERROR: run directory is outside HX_SMOKE_ROOT." >&2; exit 1 ;;
+esac
+
+[[ -f "$RUN_DIR/manifest.md" ]] || { echo "ERROR: missing manifest.md" >&2; exit 1; }
+[[ -f "$RUN_DIR/evidence/result.txt" ]] || { echo "ERROR: missing evidence/result.txt" >&2; exit 1; }
+[[ -f "$RUN_DIR/cleanup/cleanup.txt" ]] || { echo "ERROR: missing cleanup/cleanup.txt" >&2; exit 1; }
+[[ -d "$HX_ECO_REPO/.git" ]] || { echo "ERROR: HX_ECO_REPO is not a git checkout." >&2; exit 1; }
+
+RUN_ID="$(awk -F': ' '$1=="run_id" {print $2; exit}' "$RUN_DIR/manifest.md")"
+SUT_HOST="$(awk -F': ' '$1=="sut_host" {print $2; exit}' "$RUN_DIR/manifest.md")"
+COMPONENT="$(awk -F': ' '$1=="component" {print $2; exit}' "$RUN_DIR/manifest.md")"
+
+[[ -n "$RUN_ID" && -n "$SUT_HOST" && -n "$COMPONENT" ]] || {
+  echo "ERROR: manifest is missing run_id, sut_host, or component." >&2
+  exit 1
+}
+
+FUNCTIONAL="$(awk -F= '$1=="FUNCTIONAL" {print $2; exit}' "$RUN_DIR/evidence/result.txt")"
+CLEANUP="$(awk -F= '$1=="CLEANUP" {print $2; exit}' "$RUN_DIR/cleanup/cleanup.txt")"
+
+if [[ "$FINAL_STATUS" == "PASS" ]]; then
+  [[ "$FUNCTIONAL" == "PASS" ]] || { echo "ERROR: PASS requires FUNCTIONAL=PASS." >&2; exit 1; }
+  [[ "$CLEANUP" == "PASS" || "$CLEANUP" == "NOT_APPLICABLE" ]] || {
+    echo "ERROR: PASS requires CLEANUP=PASS or CLEANUP=NOT_APPLICABLE." >&2
+    exit 1
+  }
+fi
+
+# Prevent obvious credentials from entering retained repository evidence.
+if grep -RIE --exclude='*.png' --exclude='*.jpg' --exclude='*.jpeg' --exclude='*.webp' \
+  '(ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|BEGIN (OPENSSH|RSA|EC) PRIVATE KEY|Authorization:[[:space:]]*Bearer[[:space:]]+[^[:space:]]+)' \
+  "$RUN_DIR/manifest.md" "$RUN_DIR/evidence" "$RUN_DIR/cleanup" >/dev/null 2>&1; then
+  echo "ERROR: possible secret detected in promotion set; redact before promotion." >&2
+  exit 1
+fi
+
+UTC_END="$(date -u +%Y%m%dT%H%M%SZ)"
+sed -i "s/^status: .*/status: $FINAL_STATUS/" "$RUN_DIR/manifest.md"
+sed -i "s/^utc_end:.*/utc_end: $UTC_END/" "$RUN_DIR/manifest.md"
+sed -i "s/^STATUS=.*/STATUS=$FINAL_STATUS/" "$RUN_DIR/evidence/result.txt"
+
+DEST="$HX_ECO_REPO/docs/05-evidence/$SUT_HOST/$COMPONENT/$RUN_ID"
+[[ ! -e "$DEST" ]] || { echo "ERROR: destination already exists: $DEST" >&2; exit 1; }
+
+mkdir -p "$DEST"
+cp "$RUN_DIR/manifest.md" "$DEST/manifest.md"
+cp "$RUN_DIR/evidence/result.txt" "$DEST/result.txt"
+cp "$RUN_DIR/cleanup/cleanup.txt" "$DEST/cleanup.txt"
+
+if compgen -G "$RUN_DIR/evidence/supporting/*" >/dev/null; then
+  mkdir -p "$DEST/supporting"
+  cp -a "$RUN_DIR/evidence/supporting/." "$DEST/supporting/"
+fi
+
+cat > "$DEST/README.md" <<EOF_README
+# Retained smoke-test evidence
+
+- Run: $RUN_ID
+- SUT: $SUT_HOST
+- Component: $COMPONENT
+- Final status: **$FINAL_STATUS**
+
+This bundle was promoted from HX-5 CentCom. Review the manifest, result, cleanup proof, and supporting captures before committing it.
+EOF_README
+
+printf 'PROMOTED=%s\n' "$DEST"
+printf 'NEXT=review evidence, then commit explicitly; do not auto-commit from this script\n'

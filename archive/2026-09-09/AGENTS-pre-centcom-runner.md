@@ -14,17 +14,15 @@ Before changing anything:
 6. Relevant current server record under `docs/02-server-records/`
 7. Relevant runbook under `docs/03-runbooks/`
 8. Relevant standard under `docs/04-application-standards/`
-9. If executing a component smoke test, the exact authority under `smoke-tests/`.
-10. If using the HX-5 runner, `tools/hx-smoke-runner/AGENTS.md`.
 
 Do not read `archive/` or `human-html/` as current authority unless explicitly asked.
 
 ## 2. Truth order
 
 1. Explicit current instruction from the infrastructure owner.
-2. Current active control/architecture Markdown in `docs/` and the exact current component acceptance authority in `smoke-tests/` when testing.
+2. Current active Markdown in `docs/`.
 3. Current live evidence from the server being worked on.
-4. Current approved runbook/execution artifact.
+4. Current approved runbook.
 5. Historical/archive material, only as reference.
 6. General model knowledge.
 
@@ -40,7 +38,7 @@ If current live evidence contradicts an active document, stop treating the docum
 - Do not mount, wipe, repartition, format, or repurpose an old/unmounted disk without explicit approval.
 - Do not import old HX-Infrastructure configuration or closure claims into this clean rebuild.
 - Historical hardware facts may inform planning but must be reverified before becoming current authority.
-- A server is not PASS/CLOSED until workload, functional, cleanup where applicable, and reboot-persistence gates are satisfied and its server record is updated.
+- A server is not PASS/CLOSED until workload, functional, and reboot-persistence gates are satisfied and its server record is updated.
 - Batch obvious repetitive commands where practical; avoid unnecessary ping-pong and redundant prechecks.
 - Do not diagnose or remediate HX-3's longer boot time unless explicitly asked. It is a recorded observation only.
 
@@ -53,24 +51,10 @@ A base build may include small, reversible functional smoke tests against alread
 Examples:
 - Open WebUI may temporarily point directly at one known-good Ollama endpoint to send a prompt and receive a response.
 - OmniRoute may temporarily route one request to one known-good Ollama endpoint and compare direct versus routed behavior.
-- Mem0/LightRAG may use already-proven state/retrieval dependencies with synthetic disposable data where their primary contract requires it.
 
 Temporary validation wiring must be recorded and removed/disabled before closure unless explicitly approved as permanent architecture.
 
-## 5. Smoke-test authority and HX-5 runner rule
-
-- `/smoke-tests/*.md` defines **what each component must prove**.
-- `docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md` defines **how HX executes and retains the proof**.
-- `docs/04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md` defines the permanent HX-5 client toolset and bootstrap.
-- `tools/hx-smoke-runner/` contains the repository-owned helper implementation and scoped AI instructions.
-
-After CentCom runner activation, execute later component smoke tests remotely from HX-5 whenever the product exposes a LAN/API/protocol/native-client/UI surface.
-
-Do not leave general test scripts, Python environments, fixture libraries, runner dependencies, manifests, or evidence bundles on the system under test. A local SUT command invoked remotely over approved SSH is an exception only when local execution is intrinsic to the component.
-
-An AI agent must not modify smoke-test acceptance criteria inside an in-progress run. If an authority is defective or stale, correct it in a separate reviewed repository change, commit it, and start a new run ID.
-
-## 6. Application companion rule
+## 5. Application companion rule
 
 When a major application has a product-specific MCP server or native Web UI, those are part of that application's base build.
 
@@ -84,7 +68,7 @@ Examples:
 
 HX-15 FastMCP is a shared/custom MCP development host. It is not a prerequisite for product-specific MCP servers.
 
-## 7. Model-placement rule
+## 6. Model-placement rule
 
 - HX-16 owns Granite-Docling 258M inside the Docling boundary. CPU-first base validation; GPU only if measured need justifies it later.
 - HX-4 owns the shared embedding/reranking plane.
@@ -94,7 +78,7 @@ HX-15 FastMCP is a shared/custom MCP development host. It is not a prerequisite 
 - Never mix embeddings from different models in one Qdrant collection.
 - A model change requires a new collection and re-embedding.
 
-## 8. OmniRoute catalog rule
+## 7. OmniRoute catalog rule
 
 OmniRoute discovery does not equal HX approval.
 
@@ -104,7 +88,7 @@ Maintain two explicit controls:
 
 Provider approval does not approve the provider's entire model catalog. Free/no-auth/discovered providers are not automatically active.
 
-## 9. NGINX rule
+## 8. NGINX rule
 
 HX-7 NGINX is dev/test only.
 
@@ -112,16 +96,13 @@ Use it to render/proxy UIs for applications being actively developed when useful
 
 Do not use HX-7 as a general reverse proxy for Qdrant, LightRAG, n8n, Open WebUI, databases, MCP servers, or normal HX ecosystem services.
 
-## 10. Documentation and execution-artifact rule
+## 9. Documentation rule
 
-- Agents edit authoritative Markdown and approved execution artifacts only.
-- `docs/**/*.md` = current control, architecture, standards, runbooks, server records, and evidence indexes.
-- `smoke-tests/*.md` = current component acceptance authorities.
-- `docs/03-runbooks/**/*.sh` and `tools/hx-smoke-runner/*` = approved repository execution helpers where present.
-- Human HTML mirrors live under `human-html/` and are not execution authority.
+- Agents edit authoritative Markdown only.
+- Human HTML mirrors live under `human-html/`.
 - Only one current version stays active.
 - Superseded versions go to `archive/`.
 - Do not create duplicate active documents with timestamps, `(1)`, `final-final`, or model-name prefixes.
 - Stable active filenames are mandatory.
 
-Before declaring work complete, update the current server record, build state, and any affected decision/standard document. Do not mark planned tooling as installed until live HX-5 evidence exists.
+Before declaring work complete, update the current server record, build state, and any affected decision/standard document.

@@ -1,0 +1,19 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX-5 CentCom Smoke-Runner Toolset and Bootstrap</title><style>body{font-family:Arial,Helvetica,sans-serif;max-width:1100px;margin:36px auto;padding:0 24px;color:#1f2937;line-height:1.55}h1,h2{color:#111827}table{border-collapse:collapse;width:100%;margin:16px 0 28px}th,td{border:1px solid #cbd5e1;padding:8px 10px;text-align:left;vertical-align:top}th{background:#f1f5f9}pre{background:#f8fafc;border:1px solid #e2e8f0;padding:14px;overflow-x:auto}.note{background:#f8fafc;border-left:4px solid #64748b;padding:12px 16px}code{font-family:Consolas,Menlo,monospace}</style></head><body><h1>HX-5 CentCom — Smoke-Runner Toolset and Bootstrap</h1><p><strong>Version:</strong> 1.0 &nbsp; <strong>Status:</strong> current &nbsp; <strong>Date:</strong> 2026-09-09</p><p class="note"><strong>Agent-first design.</strong> Component acceptance lives in <code>/smoke-tests/</code>; process authority lives in the HX-5 smoke-test standard; executable helpers and scoped agent instructions live in <code>tools/hx-smoke-runner/</code>.</p><h2>Architecture</h2><pre>HX-5 CentCom
+  ├─ psql / redis-cli / curl / jq / SSH client
+  ├─ Python venv
+  │   ├─ FastMCP 4.0.3
+  │   └─ Playwright 1.62.0 + Chromium
+  ├─ disposable run workspaces
+  └─ repository-owned helper commands
+        ↓
+remote LAN/API/client/UI proof
+        ↓
+System Under Test</pre><h2>Permanent client toolset</h2><table><tr><th>Tool</th><th>Purpose</th></tr><tr><td>postgresql-client</td><td>PostgreSQL native client</td></tr><tr><td>redis-tools</td><td>Redis native client</td></tr><tr><td>curl + jq</td><td>HTTP/JSON smoke calls</td></tr><tr><td>git</td><td>Authority/commit identity and evidence staging</td></tr><tr><td>openssh-client</td><td>Exception-path remote local-command invocation</td></tr><tr><td>Python venv</td><td>Isolated FastMCP and browser runner dependencies</td></tr><tr><td>Playwright Chromium</td><td>Headless direct-LAN UI evidence</td></tr></table><h2>Runner commands</h2><pre>hx-smoke-doctor
+hx-smoke-doctor --remote
+hx-smoke-new
+hx-smoke-ui-capture
+hx-smoke-promote</pre><h2>Key controls</h2><ul><li>No test harness or general-purpose runner dependencies are left on the SUT.</li><li>No container runtime is installed.</li><li>Python dependencies are pinned; Ubuntu clients follow supported distro updates.</li><li>Smoke-test criteria cannot be edited inside an in-progress run.</li><li>PASS requires functional proof plus cleanup verification.</li><li>Evidence promotion never auto-commits.</li><li>UI evidence requires expected live-state text, not merely a rendered page.</li></ul><h2>Bootstrap</h2><pre>cd "$HX_ECO_REPO"
+bash docs/03-runbooks/HX-5/04-centcom-smoke-runner-bootstrap.sh
+export PATH="$HOME/.local/bin:$PATH"
+hx-smoke-doctor
+hx-smoke-doctor --remote</pre><p>The remote activation probe uses already-PASS HX-2 by default and expects <code>HX-CENTCOM-RUNNER-PASS</code>. DeepSeek Harness is not required for CentCom runner activation.</p></body></html>
