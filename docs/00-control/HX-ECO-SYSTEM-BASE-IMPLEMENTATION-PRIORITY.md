@@ -1,7 +1,7 @@
 ---
 document: HX Eco-System Base Implementation Priority
-status: planning_current
-version: 1.3
+status: evergreen_current
+version: 1.4
 date: 2026-09-09
 scope: HX-1 through HX-17
 authority: HX-Eco-System clean rebuild
@@ -9,9 +9,12 @@ authority: HX-Eco-System clean rebuild
 
 # HX Eco-System — Base Implementation Priority and Server Map
 
-**Version:** 1.3  
-**Purpose:** Define the dependency-driven order, BASE PASS boundaries, model placement, smoke tests, and current server/application assignments for the clean HX Eco-System rebuild.  
+**Version:** 1.4  
+**Document type:** Evergreen roadmap — updated as verified information, owner decisions, and additional work become available.  
+**Purpose:** Define the dependency-driven order, BASE PASS boundaries, model placement, smoke tests, current server/application assignments, and known follow-on infrastructure tasks for the clean HX Eco-System rebuild.  
 **Scope boundary:** Base installation and standalone validation. Permanent cross-service integration is a later program.
+
+This document is intentionally **not final or frozen**. The active file at this stable path is always the current roadmap. Superseded versions are archived according to `DOCUMENT-CONTROL.md`.
 
 ## 1. Governing build rule
 
@@ -331,7 +334,39 @@ Normal application UIs remain directly accessible on their own native server/por
 | HX-16 | `192.168.50.216` | Docling + Granite-Docling 258M + MCP | 10 |
 | HX-17 | `192.168.50.217` | Crawl4AI + MCP | 11 |
 
-## 12. Integration readiness gate
+## 12. Planned infrastructure follow-ons — lower priority
+
+These items are intentionally tracked **near the bottom of the roadmap** and are **not on the immediate critical path** for the current server/application stand-up sequence. They should be planned and executed when the base fleet is sufficiently mature and the owner is ready to standardize them.
+
+### 12.1 Fleet SSH pass / non-interactive SSH configuration
+
+Establish the approved fleet-wide SSH automation credential pattern so CentCom and authorized agentic tooling can perform non-interactive server-to-server administration without repeatedly prompting for credentials.
+
+Current roadmap intent:
+
+- define the approved fleet SSH authentication pattern;
+- preserve working interactive SSH while adding an approved non-interactive mechanism;
+- document where the credential/key material is sourced and how scripts consume it;
+- validate from the designated control/administration host to HX fleet targets;
+- do not introduce access restrictions or alter network policy as part of this task without explicit owner approval.
+
+**Priority:** Planned / lower priority — no immediate action required.
+
+### 12.2 NFS mounts and shared filesystem configuration
+
+Define and implement the current HX shared NFS mount standard only after the required server roles and storage sources are confirmed in the clean rebuild.
+
+Current roadmap intent:
+
+- identify the authoritative NFS export host(s), export paths, and intended consumers;
+- define stable fleet mount points and persistence behavior;
+- validate ownership/permissions and reboot persistence;
+- document each approved mount in the applicable server record;
+- do not automatically recreate historical prototype/HX-Infrastructure mounts unless the owner explicitly approves them for the clean HX Eco-System.
+
+**Priority:** Planned / lower priority — no immediate action required.
+
+## 13. Integration readiness gate
 
 Base-build completion requires current server records for HX-1 through HX-17 and independent proof of every assigned service, native Web UI, product-specific MCP endpoint, defined functional smoke test, cleanup requirement, and reboot-persistence gate.
 
