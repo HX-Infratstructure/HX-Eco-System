@@ -13,7 +13,7 @@ Agentic tools and coding agents must read these files in order:
 5. `docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md`
 6. The current server record and runbook for the server being worked on.
 
-`CLAUDE.md` exists as a Claude Code entry point and deliberately points back to `AGENTS.md` so instructions do not drift.
+`CLAUDE.md` exists as a Claude Code entry point and points back to `AGENTS.md` so instructions do not drift.
 
 ## Authoritative surfaces
 
