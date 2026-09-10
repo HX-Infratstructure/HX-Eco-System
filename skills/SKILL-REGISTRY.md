@@ -1,7 +1,7 @@
 ---
 document: HX Eco-System Skill Registry
 status: current
-version: 1.0
+version: 1.1
 date: 2026-09-09
 authority: HX-Eco-System clean rebuild
 ---
@@ -14,9 +14,10 @@ This is the current inventory and trust/status registry for reusable AI-agent sk
 
 ## Active / approved
 
-| Component | HX host | Canonical HX skill | Class | Upstream | Upstream mode | Status | HX use | Companion capability | Last reviewed |
+| Component | HX host | Canonical HX skill | Class | Primary upstream | Upstream mode | Status | HX use | Companion capability | Last reviewed |
 |---|---|---|---|---|---|---|---|---|---|
 | Qdrant | HX-10 | `skills/qdrant/hx-qdrant-advisor/` | `HX_NATIVE + WRAPPER` | Qdrant `qdrant/skills` → `meta/qdrant-advisor` | live `skills.qdrant.tech` Advisor; reviewed commit `b0941d03eddf88629306aa16588383400e68230b` | **APPROVED** | plan, native install/config reasoning, validation preparation, troubleshoot, optimize, migrate, upgrade | Qdrant Web UI + Qdrant MCP | 2026-09-09 |
+| LightRAG | HX-11 | `skills/lightrag/hx-lightrag-advisor/` | `HX_NATIVE + WRAPPER` | official `HKUDS/LightRAG` repository; no official LightRAG `SKILL.md` catalog found | verify current release/main + `AGENTS.md`/docs/`env.example`; reviewed main `d964d92b1018c27983d1dcf6ca19ebbaebeb262e`, release `v1.5.7` | **APPROVED** | plan, native install/config reasoning, storage/model reconciliation, validation preparation, troubleshoot, migrate, upgrade; execution only through future HX-11 runbook | LightRAG MCP | 2026-09-09 |
 
 ## Discovery backlog
 
@@ -31,7 +32,6 @@ These rows intentionally do not invent external sources. Add a source only after
 | OmniRoute | HX-6 | TBD | TBD | `DISCOVERY` | provider/model routing/configuration |
 | NGINX | HX-7 | TBD | TBD | `DISCOVERY` | dev/test proxy configuration only |
 | Open WebUI | HX-8 | TBD | TBD | `DISCOVERY` | native install/config/model connection/UI troubleshooting |
-| LightRAG | HX-11 | TBD | TBD | `DISCOVERY` | native install/config/RAG/storage/model integration |
 | Deep Agents | HX-12 | TBD | TBD | `DISCOVERY` | LOB agent factory/runtime/tool calling |
 | Mem0 | HX-13 | TBD | TBD | `DISCOVERY` | memory providers/configuration/lifecycle |
 | n8n | HX-14 | TBD | TBD | `DISCOVERY` | native workflow runtime/configuration/MCP |
@@ -39,6 +39,14 @@ These rows intentionally do not invent external sources. Add a source only after
 | Docling / Granite-Docling | HX-16 | TBD | TBD | `DISCOVERY` | document conversion/VLM/native runtime |
 | Crawl4AI | HX-17 | TBD | TBD | `DISCOVERY` | crawl/extraction/native runtime/MCP |
 | BGE-M3 / Nomic / reranker | HX-4 | TBD | TBD | `DISCOVERY` | embedding/reranking serving/model migration |
+
+## Community/reference candidates under review
+
+| Component | Source | Classification | Status | Notes |
+|---|---|---|---|---|
+| LightRAG | `zwovadis/lightrag-claude-skill` | `COMMUNITY` | `REFERENCE_ONLY` | Query-oriented Claude Code skill; not install/config authority; assumptions must be checked against current HKUDS API docs and HX network placement. |
+| LightRAG | `butchokoy25/lightrag-claude-skills` | `COMMUNITY` | `REFERENCE_ONLY / LATER_INTEGRATION` | Seven Claude skills + session hooks/helpers/MCP config for persistent memory; not part of HX-11 BASE build. |
+| LightRAG MCP | `desimpkins/daniel-lightrag-mcp` | `COMMUNITY` | `DISCOVERY` | Example community MCP candidate; exact HX LightRAG MCP implementation remains to be selected/reviewed. |
 
 ## Qdrant provenance
 
@@ -53,7 +61,21 @@ Official meta-skill: meta/qdrant-advisor
 HX wrapper: skills/qdrant/hx-qdrant-advisor/
 ```
 
-The Qdrant Advisor is consumed as current vendor expertise. The HX wrapper is the local control surface that preserves HX architecture and points the agent to current execution/validation authorities.
+## LightRAG provenance
+
+Official source reviewed:
+
+```text
+Project: LightRAG
+Organization: HKUDS
+Repository: HKUDS/LightRAG
+Current reviewed main: d964d92b1018c27983d1dcf6ca19ebbaebeb262e
+Latest reviewed release: v1.5.7
+Official LightRAG SKILL.md catalog found: NO
+HX wrapper: skills/lightrag/hx-lightrag-advisor/
+```
+
+The LightRAG wrapper consumes current official project guidance directly. Community agent skills/MCPs remain subordinate reference candidates unless separately admitted.
 
 ## Registry update fields
 
