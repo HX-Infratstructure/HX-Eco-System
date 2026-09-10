@@ -49,12 +49,17 @@ jobs:
       - name: shellcheck runbooks and runner
         run: |
           shopt -s nullglob
-          files=(
-            docs/03-runbooks/common/hx-base.env
-            docs/03-runbooks/common/*.sh
-            docs/03-runbooks/HX-*/*.sh
-            tools/hx-smoke-runner/hx-smoke-*
-            tools/hx-doc/hx-*
+          # Shell only. The hx-* globs also match Python files, which
+          # shellcheck cannot parse.
+          mapfile -t files < <(
+            printf '%s\n' \
+              docs/03-runbooks/common/hx-base.env \
+              docs/03-runbooks/common/hx-app-lib.sh \
+              docs/03-runbooks/common/*.sh \
+              docs/03-runbooks/HX-*/*.sh \
+              tools/hx-smoke-runner/hx-smoke-* \
+              tools/hx-doc/hx-* \
+            | grep -vE '\.py$' | sort -u
           )
           printf 'checking %s\n' "${files[@]}"
           shellcheck --shell=bash --severity=warning "${files[@]}"
@@ -79,7 +84,20 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: gitleaks
-        uses: gitleaks/gitleaks-action@v2
+      # The gitleaks *action* requires a paid licence for organisation-owned
+      # repositories. The gitleaks binary itself is MIT and free, so run that.
+      - name: Install gitleaks
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          url="$(gh api repos/gitleaks/gitleaks/releases/latest \
+                 --jq '.assets[] | select(.name|test("linux_x64.tar.gz$")) | .browser_download_url')"
+          curl -fsSL "$url" -o /tmp/gitleaks.tar.gz
+          tar -xzf /tmp/gitleaks.tar.gz -C /tmp gitleaks
+          sudo install -m0755 /tmp/gitleaks /usr/local/bin/gitleaks
+          gitleaks version
+
+      - name: Scan working tree and history
+        run: |
+          gitleaks dir . --redact --no-banner
+          gitleaks git . --redact --no-banner
