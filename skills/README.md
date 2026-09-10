@@ -14,7 +14,7 @@ HX OWNER DECISIONS + CURRENT ECOSYSTEM AUTHORITY
               HX SKILL WRAPPER
         stable HX rules + task workflow
                      |
-                     +----> current vendor skill/docs
+                     +----> current official vendor/project guidance
                      |      product expertise only
                      v
              HX RUNBOOK / STANDARD
@@ -61,7 +61,8 @@ skills/
         └── references/
             ├── hx-context.md
             ├── authority-map.md
-            └── upstream.md
+            ├── upstream.md
+            └── community-candidates.md   # only when useful
 ```
 
 The canonical HX copy lives here. Claude Code, Codex, OpenCode, or other agent-specific skill directories are **deployment targets**, not separate sources of truth.
@@ -86,24 +87,24 @@ Before using a component skill:
 
 1. read `README.md`, current state, build state, decisions, and architecture orientation;
 2. establish the component's HX host, role, current state, dependency boundary, and BASE PASS expectation;
-3. read the component's current server record/runbook/standard;
+3. read the component's current server record/runbook/standard when it exists;
 4. check `SKILL-REGISTRY.md` for the approved HX skill and upstream source;
 5. load the HX wrapper;
-6. consult current vendor guidance as directed by the wrapper;
+6. consult current official vendor/project guidance as directed by the wrapper;
 7. execute through HX runbook/standard authority;
 8. validate through the smoke-test roadmap and exact smoke-test authority.
 
 **Ecosystem first. Skill second. Execution third. Validation fourth.**
 
-## Initial reference implementation
+## Approved reference implementations
 
-Qdrant is the first governed HX component skill:
+### Qdrant
 
 ```text
 skills/qdrant/hx-qdrant-advisor/
 ```
 
-It combines:
+Combines:
 
 - HX-10 architecture and server placement;
 - HX native/systemd and clean-room rules;
@@ -111,7 +112,21 @@ It combines:
 - Qdrant build/validation authorities;
 - live official Qdrant Advisor guidance from `skills.qdrant.tech`.
 
-See `skills/qdrant/README.md`.
+### LightRAG
+
+```text
+skills/lightrag/hx-lightrag-advisor/
+```
+
+Combines:
+
+- HX-11 architecture, direct-LAN/native deployment, and RAG boundary;
+- HX-10 Qdrant and HX-4 BGE-M3 dependency rules;
+- LightRAG build/validation authorities and current authority gaps;
+- current official `HKUDS/LightRAG` `AGENTS.md`, API/server docs, `env.example`, releases, and source/tests;
+- reviewed community Claude/MCP projects as reference only.
+
+No official Qdrant-style LightRAG `SKILL.md` catalog was found at the 2026-09-09 review, so the HX wrapper consumes the current official project repository rather than promoting a community skill to vendor authority.
 
 ## Governance
 
