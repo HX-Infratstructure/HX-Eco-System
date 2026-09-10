@@ -43,10 +43,10 @@ directory, the same way the base blocks are.
 
 | Host | Block | Source |
 |---|---|---|
-| HX-6 | `10-omniroute.sh` | npm, on Node from the official binary tarball |
+| HX-6 | `10-omniroute.sh` | npm (`diegosouzapw/OmniRoute`, D-019), on Node from the official binary tarball |
 | HX-7 | `10-nginx.sh` | nginx.org stable source, built natively |
 | HX-8 | `10-open-webui.sh` | PyPI |
-| HX-9 | `10-postgresql.sh` | PGDG vendor repository — see the note in the block |
+| HX-9 | `10-postgresql.sh` | postgresql.org source tarball, hash-verified, built natively |
 | HX-9 | `10-redis.sh` | GitHub release source, built natively |
 | HX-10 | `10-qdrant.sh` | prebuilt Linux binary from the GitHub release |
 | HX-11 | `10-lightrag.sh` | PyPI |
@@ -56,6 +56,10 @@ directory, the same way the base blocks are.
 | HX-15 | `10-fastmcp.sh` | PyPI |
 | HX-16 | `10-docling.sh` | PyPI plus Hugging Face for Granite-Docling |
 | HX-17 | `10-crawl4ai.sh` | PyPI |
+
+Every application now comes from PyPI, npm, a GitHub release, an upstream
+source tarball, a direct binary, or Hugging Face. The Ubuntu archive is used
+only for the NVIDIA driver and for build toolchains and library headers.
 
 Shared helpers live in `common/hx-app-lib.sh`: a service user, a venv, a
 systemd unit, a start check, and a Node installer that verifies the official

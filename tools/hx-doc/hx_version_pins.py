@@ -36,11 +36,11 @@ REQUIREMENTS = REPO / "tools/hx-smoke-runner/requirements.txt"
 HX12_RUNBOOK = REPO / "docs/03-runbooks/HX-12/README.md"
 
 # Package sources approved for application software.
-APP_SOURCES = {"pypi", "github", "binary", "huggingface"}
+APP_SOURCES = {"pypi", "github", "binary", "huggingface", "npm", "source"}
 # Sources acceptable for drivers only.
 DRIVER_ONLY_SOURCES = {"ubuntu-archive", "snap"}
 # Vendor-operated repositories. Not the Ubuntu archive, not Snap.
-VENDOR_REPO_SOURCES = {"pgdg", "npm"}
+VENDOR_REPO_SOURCES = {"npm", "source"}
 
 
 def http(url: str) -> dict:
@@ -113,10 +113,11 @@ def collect() -> list[dict]:
             pins.append(dict(package=name, pinned=v, source=source, kind="app",
                              where="hx-base.env", probe=(probe_kind, ref)))
 
-    if (major := env_val("HX_POSTGRES_MAJOR")):
-        # PGDG is the vendor's own repository, not the Ubuntu archive.
-        pins.append(dict(package=f"postgresql-{major}", pinned=major, source="pgdg",
-                         kind="app", where="hx-base.env", probe=("pgdg", major)))
+    if (ver := env_val("HX_POSTGRES_VERSION")):
+        # Built from the upstream source tarball (D-020), not any repository.
+        pins.append(dict(package="postgresql", pinned=ver, source="source",
+                         kind="app", where="hx-base.env",
+                         probe=("postgres", env_val("HX_POSTGRES_MAJOR") or "")))
 
     if (m := env_val("HX_GRANITE_DOCLING_MODEL")) and (r := env_val("HX_GRANITE_DOCLING_REVISION")):
         pins.append(dict(package=m, pinned=r[:12], source="huggingface",
@@ -163,10 +164,11 @@ def latest(kind: str, ref: str) -> str:
         i = page.find("Stable version")
         m = re.search(r"nginx-(\d+\.\d+\.\d+)", page[i:i + 2000]) if i >= 0 else None
         return m.group(1) if m else "?"
-    if kind == "pgdg":
-        supported = [v for v in http("https://www.postgresql.org/versions.json")
-                     if v.get("supported")]
-        return str(max(int(v["major"]) for v in supported)) if supported else "?"
+    if kind == "postgres":
+        for v in http("https://www.postgresql.org/versions.json"):
+            if str(v.get("major")) == str(ref):
+                return f"{v['major']}.{v['latestMinor']}"
+        return "?"
     if kind == "ubuntu":
         data = http(
             "https://api.launchpad.net/1.0/ubuntu/+archive/primary"

@@ -76,20 +76,33 @@ HX server.
 **Owner action required:** ratify as written, or amend. Until ratified this
 entry is a record of current state, not an approval.
 
-## D-019 — OmniRoute product identity — PROPOSED, owner confirmation required
+## D-019 — OmniRoute product identity — RATIFIED 2026-09-10
 
-No document in this repository names the upstream project behind "OmniRoute".
-The HX-6 install block targets `diegosouzapw/OmniRoute` (npm package
-`omniroute`, MIT, currently 3.8.50), because its described role matches HX-6
-exactly: a single-endpoint AI gateway with hundreds of discoverable providers,
-quota-aware fallback, and an OpenAI-compatible API. D-010's insistence that
-"discovery does not equal approval" and that "free/no-auth/discovered providers
-are not automatically active" reads as written against precisely that product.
+HX-6 OmniRoute is `https://github.com/diegosouzapw/OmniRoute.git`, confirmed by
+the infrastructure owner. MIT licence. The headless server installs from the
+npm package `omniroute`, pinned in `docs/03-runbooks/common/hx-base.env`.
 
-**This is an inference, not a record.** Confirm it before HX-6 is built. If
-OmniRoute is a different product, or something HX built, say so and the HX-6
-block is rewritten; nothing else depends on this.
+The project's GitHub release assets are desktop application builds, and its
+documented container path is not used. HX installs from npm onto Node.js taken
+from the official nodejs.org binary tarball.
 
-If confirmed, note that the headless server installs from npm. The project's
-GitHub release assets are desktop application builds only, and its documented
-container path is not used here.
+D-010 applies in full and is the reason this server exists: the product
+discovers hundreds of providers by default, and discovery is not approval.
+Build the explicit provider allowlist and the explicit model allowlist before
+HX-6 closes.
+
+## D-020 — PostgreSQL install source — RATIFIED 2026-09-10
+
+HX-9 PostgreSQL is built from the official source tarball at
+`https://www.postgresql.org/ftp/source/v18.6/`, not from the PGDG repository.
+The owner chose the source build so no application software on the fleet comes
+from an apt repository.
+
+`docs/03-runbooks/common/10-postgresql.sh` downloads
+`postgresql-18.6.tar.bz2`, verifies it against the SHA-256 published beside it
+and pinned in `hx-base.env`, builds with `./configure --prefix=/srv/postgresql`,
+runs `initdb`, and installs the `hx-postgresql` unit.
+
+Every application on the fleet now comes from PyPI, npm, a GitHub release, an
+upstream source tarball, a direct binary, or Hugging Face. The Ubuntu archive
+is used only for the NVIDIA driver and for build toolchains and library headers.
