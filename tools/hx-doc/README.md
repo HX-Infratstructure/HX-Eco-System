@@ -16,6 +16,7 @@ No third-party dependencies. Python 3 standard library only.
 | `hx-smoke-lint` | hoping | smoke-test authorities carry every required section |
 | `hx-new-server` | copy and paste | a new server's runbook and record are complete from the start |
 | `hx-doc-supersede` | six manual steps | the archive procedure happens the same way every time |
+| `hx-preflight` | finding a 404 on a lab machine | every pinned artifact is still fetchable, checked from anywhere |
 
 ## The fleet is the source of truth
 
@@ -39,6 +40,18 @@ tools/hx-doc/hx-render-html        # after editing any Markdown
 tools/hx-doc/hx-doc-check          # before committing
 tools/hx-doc/hx-record-check       # what is still open in the server records
 ```
+
+## Before a build day
+
+```bash
+tools/hx-doc/hx-preflight
+```
+
+Confirms every download the install blocks make still resolves, every pinned
+PyPI and npm version still exists and is not yanked, every pinned Hugging Face
+revision still resolves, and the pinned NVIDIA driver is still installable on
+noble/amd64. Downloads nothing; about thirty seconds. Run it the morning of a
+build so a dead pin is found before a machine is touched, not during.
 
 ## Version currency
 

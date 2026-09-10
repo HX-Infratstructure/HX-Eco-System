@@ -23,6 +23,9 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Pinned artifacts are still fetchable
+        run: ./tools/hx-doc/hx-preflight --quiet
+
       - name: Check pins
         id: drift
         env:

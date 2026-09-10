@@ -79,7 +79,7 @@ def collect() -> list[dict]:
         branch = env_val("HX_NVIDIA_BRANCH") or ""
         pins.append(dict(package=f"nvidia-driver-{branch}-server-open", pinned=v,
                          source="ubuntu-archive", kind="driver", where="hx-base.env",
-                         probe=("ubuntu", f"nvidia-graphics-drivers-{branch}")))
+                         probe=("ubuntu", f"nvidia-driver-{branch}-server-open")))
 
     if (v := env_val("HX_RERANKER_RUNTIME_VERSION")):
         pins.append(dict(package=env_val("HX_RERANKER_RUNTIME") or "infinity-emb",
@@ -170,16 +170,26 @@ def latest(kind: str, ref: str) -> str:
                 return f"{v['major']}.{v['latestMinor']}"
         return "?"
     if kind == "ubuntu":
-        data = http(
-            "https://api.launchpad.net/1.0/ubuntu/+archive/primary"
-            f"?ws.op=getPublishedSources&source_name={ref}&exact_match=true&status=Published"
-        )
-        versions = [
-            e["source_package_version"] for e in data.get("entries", [])
-            if "noble" in e.get("distro_series_link", "")
-            and e.get("pocket") in ("Updates", "Security", "Release")
-        ]
-        return versions[0] if versions else "not in noble"
+        # Compare against the *binary* actually installable on noble/amd64, not
+        # the source-package version. A source build can exist without a
+        # published binary for this flavour, which reads as false drift.
+        # Proposed is excluded: it is not enabled on HX hosts.
+        url = ("https://api.launchpad.net/1.0/ubuntu/+archive/primary"
+               f"?ws.op=getPublishedBinaries&binary_name={ref}"
+               "&exact_match=true&status=Published")
+        versions, seen = [], set()
+        while url and url not in seen:
+            seen.add(url)
+            data = http(url)
+            for e in data.get("entries", []):
+                link = e.get("distro_arch_series_link", "")
+                if "/noble/" not in link or not link.endswith("/amd64"):
+                    continue
+                if e.get("pocket") not in ("Updates", "Security", "Release"):
+                    continue
+                versions.append(e["binary_package_version"])
+            url = data.get("next_collection_link")
+        return sorted(set(versions))[-1] if versions else "not in noble"
     return "?"
 
 
