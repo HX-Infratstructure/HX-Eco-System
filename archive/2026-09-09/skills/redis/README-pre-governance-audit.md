@@ -50,28 +50,6 @@ The official Redis skill bundle is not installed wholesale as a second HX source
 
 At the 2026-09-09 review, the latest non-prerelease Redis release is 8.10.1 and the reviewed `redis/agent-skills` main commit is `a84871d065f398fed55e1633f66b66f731eb4e2b`. These record upstream context; they do not by themselves select the HX-9 runtime version or package source.
 
-## Governed intake verification
-
-The current wrapper was re-audited against `skills/AGENTS.md`, `skills/SKILL-GOVERNANCE.md`, the active base implementation roadmap, and the active smoke-test roadmap on 2026-09-09.
-
-Current proof alignment:
-
-```text
-B3  HX-9 Redis core
-    prerequisite: CentCom active
-    live coupling: none; TTL-protected disposable key only
-    authority: smoke-tests/redis-smoke-test.md
-
-B4  HX-9 Redis MCP
-    prerequisite: accepted B3 Redis PASS
-    live coupling: parent Redis service only
-    authority: smoke-tests/mcp-companion-smoke-test.md
-```
-
-The canonical `hx-redis-advisor` package passes the current skill validator and packages successfully as `skill.zip`. The included `redis-readonly-audit.sh` also passes shell syntax validation and a representative no-Redis read-only run. The helper discovers Redis-named systemd service units rather than assuming a package-specific unit name.
-
-This is **skill-package validation only**. It is not Redis runtime evidence and does not advance HX-9 `BUILD-STATE`.
-
 ## Important boundary
 
 The wrapper is approved guidance; HX-9 itself remains NOT STARTED. It does not advance BUILD-STATE or independently select Redis runtime version/package source, service/config/data path, persistence/memory/eviction policy, network/auth/TLS/firewall policy, Cluster/Sentinel/replication topology, application integration, or exact Redis MCP implementation before current HX authority pins those choices.

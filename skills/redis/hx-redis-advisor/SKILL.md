@@ -18,6 +18,8 @@ Apply current Redis expertise without allowing vendor quickstarts, cloud product
 7. Reviewed official `redis/agent-skills` guidance as subordinate product expertise.
 8. Historical reference and general model knowledge only where higher authorities do not answer.
 
+Before material work, follow the scoped preflight in `skills/AGENTS.md`: read root `AGENTS.md` and `README.md`, establish current component state, read `skills/SKILL-GOVERNANCE.md`, `skills/SKILL-REGISTRY.md`, and `skills/redis/README.md`, then load this wrapper and only the references required for the task. Do not use `human-html/` or `archive/` as execution authority.
+
 Read `references/hx-context.md` and `references/authority-map.md` first.
 
 ## Operating workflow
@@ -91,7 +93,7 @@ Use `scripts/redis-readonly-audit.sh` only for read-only baseline collection whe
 
 ## Validation boundary
 
-Redis BASE validation remains controlled by `smoke-tests/redis-smoke-test.md`: PING, bounded SET/GET of the exact smoke token, DELETE, and cleanup verification. Redis MCP is proven separately through `smoke-tests/mcp-companion-smoke-test.md`; reboot/evidence closure follows current HX roadmap rules.
+Redis BASE validation remains controlled by the current smoke roadmap and exact authorities. The current proof chain is `B3` HX-9 Redis core -> `B4` HX-9 Redis MCP. `B3` requires CentCom active and proves PING, bounded SET/GET of the exact smoke token, DELETE, and cleanup verification through `smoke-tests/redis-smoke-test.md`. `B4` requires accepted `B3` PASS and proves only the parent Redis MCP companion through `smoke-tests/mcp-companion-smoke-test.md`. Reboot/evidence closure follows current HX roadmap rules.
 
 Do not substitute `systemctl active`, `PING`, a vendor quickstart, or this skill for the current smoke authority.
 

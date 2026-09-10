@@ -65,30 +65,6 @@ skills/mem0/
         └── mem0-agent-skills.md
 ```
 
-## Governed intake verification
-
-The current wrapper was re-audited against `skills/AGENTS.md`, `skills/SKILL-GOVERNANCE.md`, the active base implementation roadmap, and the active smoke-test roadmap on 2026-09-09.
-
-Current proof alignment:
-
-```text
-E3  HX-13 Mem0 core
-    prerequisites: B5 Qdrant PASS + A2 accepted embedding PASS + one approved LLM PASS
-    live coupling: dedicated disposable Qdrant collection + synthetic memory only
-    authority: smoke-tests/mem0-smoke-test.md
-
-E4  HX-13 Mem0 MCP
-    prerequisite: accepted E3 Mem0 PASS
-    live coupling: parent Mem0 service only
-    authority: smoke-tests/mcp-companion-smoke-test.md
-```
-
-The canonical `hx-mem0-advisor` package passes the current skill validator and packages successfully as `skill.zip`.
-
-No generic Mem0 execution/audit script is included. That is deliberate: HX-13 has no current server record or execution runbook, and the package must not invent service-unit, environment, listener, persistence-path, or MCP implementation assumptions before those authorities exist.
-
-This is **skill-package validation only**. It is not Mem0 runtime evidence and does not advance HX-13 `BUILD-STATE`.
-
 ## Important boundary
 
 Skill approval does not advance HX-13 build state and does not select the package version, environment layout, service/API shape, config/data paths, permanent Qdrant collection, model bindings, network/access pattern, memory-retention policy, graph-memory design, or assigned MCP implementation.

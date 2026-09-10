@@ -21,6 +21,9 @@ section "HX REDIS READ-ONLY AUDIT"
 printf 'timestamp_utc=%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 printf 'redis_host=%s\n' "$REDIS_HOST"
 printf 'redis_port=%s\n' "$REDIS_PORT"
+if [ "$REDIS_HOST" = "127.0.0.1" ]; then
+  printf 'endpoint_note=%s\n' 'Default endpoint is local because this host audit is intended to run on HX-9. Set REDIS_HOST explicitly for remote endpoint checks.'
+fi
 
 section "HOST"
 run hostnamectl
@@ -33,16 +36,26 @@ run free -h
 
 section "SYSTEMD"
 run systemctl --failed --no-pager
-run systemctl is-enabled redis-server
-run systemctl is-active redis-server
-run systemctl status redis-server --no-pager -l
+if command -v systemctl >/dev/null 2>&1; then
+  REDIS_UNITS="$(systemctl list-unit-files --type=service --no-legend 2>/dev/null | awk 'tolower($1) ~ /redis/ {print $1}')"
+  if [ -z "$REDIS_UNITS" ]; then
+    printf 'No Redis-named systemd service unit discovered. Do not infer the unit name from a tutorial or package convention.\n'
+  else
+    while IFS= read -r unit; do
+      [ -n "$unit" ] || continue
+      run systemctl is-enabled "$unit"
+      run systemctl is-active "$unit"
+      run systemctl status "$unit" --no-pager -l
+    done <<< "$REDIS_UNITS"
+  fi
+fi
 
 section "PACKAGES AND BINARIES"
 run command -v redis-server
 run command -v redis-cli
 run redis-server --version
 run redis-cli --version
-run apt-cache policy redis redis-server redis-tools
+run sh -c "dpkg-query -W 2>/dev/null | grep -Ei 'redis|keydb|valkey' || true"
 
 if ! command -v redis-cli >/dev/null 2>&1; then
   section "REDIS CLIENT UNAVAILABLE"

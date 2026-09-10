@@ -18,6 +18,8 @@ Apply current Mem0 expertise without allowing Platform-first quickstarts, coding
 7. Reviewed official Mem0 skills as subordinate product/developer expertise.
 8. Historical reference and general model knowledge only where higher authorities do not answer.
 
+Before material work, follow the scoped preflight in `skills/AGENTS.md`: read root `AGENTS.md` and `README.md`, establish current component state, read `skills/SKILL-GOVERNANCE.md`, `skills/SKILL-REGISTRY.md`, and `skills/mem0/README.md`, then load this wrapper and only the references required for the task. Do not use `human-html/` or `archive/` as execution authority.
+
 Read `references/hx-context.md` and `references/authority-map.md` first.
 
 ## Establish HX context
@@ -118,7 +120,9 @@ Do not install a Mem0 coding-assistant plugin across the HX agent fleet merely b
 
 ## Validation boundary
 
-Mem0 BASE validation remains controlled by `smoke-tests/mem0-smoke-test.md`:
+Mem0 BASE validation remains controlled by the current smoke roadmap and exact authorities. The current proof chain is `E3` HX-13 Mem0 core -> `E4` HX-13 Mem0 MCP. `E3` requires accepted `B5` Qdrant PASS, accepted `A2` embedding PASS, and one approved LLM PASS; its only live validation integration is the dedicated disposable Qdrant collection plus synthetic memory defined by `smoke-tests/mem0-smoke-test.md`. `E4` requires accepted `E3` PASS and validates only the parent Mem0 MCP companion through `smoke-tests/mcp-companion-smoke-test.md`.
+
+The Mem0 core proof is:
 
 1. initialize Mem0 OSS with accepted HX providers;
 2. store one synthetic memory with deterministic content;
