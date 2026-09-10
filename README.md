@@ -130,7 +130,7 @@ component server/runbook/standard
         ↓
 HX governed skill wrapper
         ↓
-current vendor-official skill/docs
+current official vendor/project guidance
         ↓
 reconcile with HX decisions
         ↓
@@ -148,9 +148,10 @@ Current authorities:
 - Registry: `skills/SKILL-REGISTRY.md`
 - Scoped agent instructions: `skills/AGENTS.md`
 
-Initial approved implementation:
+Approved implementations:
 
 - Qdrant: `skills/qdrant/hx-qdrant-advisor/` — HX wrapper around the current official Qdrant Advisor.
+- LightRAG: `skills/lightrag/hx-lightrag-advisor/` — HX wrapper around current official `HKUDS/LightRAG` repository guidance; community Claude/MCP projects remain reference-only unless separately admitted.
 
 Agent-specific Claude/Codex/OpenCode skill installations are derived deployments from this canonical source, not separate authorities. Skills never store actual credentials or sshpass passwords.
 
