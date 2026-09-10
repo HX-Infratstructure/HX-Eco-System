@@ -1,0 +1,18 @@
+id	ip	role	state	gate	note
+HX-1	192.168.50.200	Samba AD / DNS / Kerberos / NTP	PASS	CLOSED	Clean base retained; foundation for the whole fleet
+HX-2	192.168.50.202	Qwen-X / Ollama	PASS	CLOSED	Qwen3.8-27B Q6_K; 2 x RTX 4070 Ti SUPER 16GB; model source URI UNRESOLVED
+HX-3	192.168.50.203	Coder-X / Ollama	PASS	CLOSED	Qwen3-Coder-30B-A3B-Instruct Q6_K; 2 x RTX 5060 Ti 16GB; full artifact hash UNRESOLVED
+HX-4	192.168.50.204	Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker	NOT_STARTED	NEXT	Shared embedding/reranking plane; reranker pinned in common/hx-base.env
+HX-5	192.168.50.205	CentCom / Ornith / DeepSeek Harness / dev-test	NOT_STARTED	-	Becomes the smoke-test runner station after its own base closes
+HX-6	192.168.50.206	OmniRoute	NOT_STARTED	-	Provider and model allowlists required (D-010)
+HX-7	192.168.50.207	NGINX dev/test only	NOT_STARTED	-	Not the ecosystem reverse proxy (D-004)
+HX-8	192.168.50.208	Open WebUI	NOT_STARTED	-	Last in build order; temporary Ollama link for base proof (D-008)
+HX-9	192.168.50.209	PostgreSQL + MCP / Redis + MCP	NOT_STARTED	-	Two applications on one host; each closes separately
+HX-10	192.168.50.210	Qdrant + Web UI + MCP	NOT_STARTED	-	One embedding identity per collection (D-005)
+HX-11	192.168.50.211	LightRAG + MCP	NOT_STARTED	-	Needs HX-10 and HX-4 proof first
+HX-12	192.168.50.212	Deep Agents (LangChain) LOB agent factory	NOT_STARTED	-	Prose runbook; pin deepagents version at implementation time
+HX-13	192.168.50.213	Mem0 + assigned MCP	NOT_STARTED	-	MCP implementation not yet selected
+HX-14	192.168.50.214	n8n + MCP	NOT_STARTED	-	Install from GitHub release or npm tarball, not Snap
+HX-15	192.168.50.215	FastMCP shared/custom MCP development host	NOT_STARTED	-	Not a prerequisite for product-specific MCP servers
+HX-16	192.168.50.216	Docling + Granite-Docling 258M + MCP	NOT_STARTED	-	Granite-Docling stays here, CPU-first (D-006)
+HX-17	192.168.50.217	Crawl4AI + MCP	NOT_STARTED	-	Native install; official MCP bridge is Docker-coupled, needs a native choice

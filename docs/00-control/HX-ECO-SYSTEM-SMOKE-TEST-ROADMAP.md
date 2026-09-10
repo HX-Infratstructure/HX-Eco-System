@@ -110,7 +110,7 @@ These are prerequisites, not new CentCom smoke runs.
 |---:|---|---|---|---|
 | A1 | HX-4 GPT-OSS / Ollama inference | `../../smoke-tests/ollama-inference-smoke-test.md` | HX-4 accepted base/GPU/Ollama state | None |
 | A2 | HX-4 BGE-M3 + Nomic embeddings | `../../smoke-tests/embedding-models-smoke-test.md` | HX-4 accepted serving runtime | None |
-| A3 | HX-4 BGE-family reranker | `../../smoke-tests/reranker-smoke-test.md` | checkpoint/runtime pinned; HX-4 accepted runtime | None; **NOT EXECUTABLE until pinned** |
+| A3 | HX-4 BGE-family reranker | `../../smoke-tests/reranker-smoke-test.md` | HX-4 accepted runtime; `hx-reranker` active | None |
 | A4 | HX-5 Ornith / Ollama inference | `../../smoke-tests/ollama-inference-smoke-test.md` | HX-5 accepted base/GPU/Ollama state | None |
 | A5 | CentCom smoke-runner activation | HX-5 toolset/bootstrap standard + `hx-smoke-doctor --remote` | HX-5 Ornith/base persistence + current HX-2 PASS | One known-answer remote call to HX-2 |
 

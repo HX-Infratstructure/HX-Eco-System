@@ -14,26 +14,28 @@ Clean-room rebuild of HX-1 through HX-17 into a verified base ecosystem. Current
 The **ecosystem architecture is the cornerstone**. Validation proves the ecosystem after its server role, configuration, ownership, and dependency boundaries are understood.
 
 ## Current build state
-
+<!-- HX-FLEET:TABLE columns=id,role,state -->
 | Server | Assignment | State |
 |---|---|---|
-| HX-1 | Samba AD / DNS / Kerberos / NTP | PASS / CLOSED |
-| HX-2 | Qwen-X / Ollama / Qwen3.8-27B Q6_K | PASS / CLOSED |
-| HX-3 | Coder-X / Ollama / Qwen3-Coder-30B Q6_K | PASS / CLOSED |
-| HX-4 | Meta-X / GPT-OSS 20B + shared embeddings/reranker | NEXT |
-| HX-5 | CentCom / Ornith / DeepSeek Harness / dev-test | NOT STARTED |
-| HX-6 | OmniRoute | NOT STARTED |
-| HX-7 | NGINX — dev/test only | NOT STARTED |
-| HX-8 | Open WebUI | NOT STARTED |
-| HX-9 | PostgreSQL + MCP / Redis + MCP | NOT STARTED |
-| HX-10 | Qdrant + Web UI + MCP | NOT STARTED |
-| HX-11 | LightRAG + MCP | NOT STARTED |
-| HX-12 | Deep Agents by LangChain | NOT STARTED |
-| HX-13 | Mem0 + assigned MCP capability | NOT STARTED |
-| HX-14 | n8n + MCP | NOT STARTED |
-| HX-15 | FastMCP shared/custom MCP development host | NOT STARTED |
-| HX-16 | Docling + Granite-Docling 258M + MCP | NOT STARTED |
-| HX-17 | Crawl4AI + MCP | NOT STARTED |
+| HX-1 | Samba AD / DNS / Kerberos / NTP | **PASS** |
+| HX-2 | Qwen-X / Ollama | **PASS** |
+| HX-3 | Coder-X / Ollama | **PASS** |
+| HX-4 | Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker | **NOT STARTED** |
+| HX-5 | CentCom / Ornith / DeepSeek Harness / dev-test | **NOT STARTED** |
+| HX-6 | OmniRoute | **NOT STARTED** |
+| HX-7 | NGINX dev/test only | **NOT STARTED** |
+| HX-8 | Open WebUI | **NOT STARTED** |
+| HX-9 | PostgreSQL + MCP / Redis + MCP | **NOT STARTED** |
+| HX-10 | Qdrant + Web UI + MCP | **NOT STARTED** |
+| HX-11 | LightRAG + MCP | **NOT STARTED** |
+| HX-12 | Deep Agents (LangChain) LOB agent factory | **NOT STARTED** |
+| HX-13 | Mem0 + assigned MCP | **NOT STARTED** |
+| HX-14 | n8n + MCP | **NOT STARTED** |
+| HX-15 | FastMCP shared/custom MCP development host | **NOT STARTED** |
+| HX-16 | Docling + Granite-Docling 258M + MCP | **NOT STARTED** |
+| HX-17 | Crawl4AI + MCP | **NOT STARTED** |
+<!-- /HX-FLEET:TABLE -->
+
 
 ## Current deployment order
 

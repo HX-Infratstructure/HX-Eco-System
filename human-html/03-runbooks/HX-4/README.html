@@ -41,7 +41,8 @@ font-size:12.5px;color:var(--fg2)}
 <p>Steps 1-3 are the shared base blocks. Run them from this directory; each one refuses to run on any host other than <code>hx-4</code>.</p>
 <pre><code class="lang-bash">./01-base-admin-network-updates.sh    # reboots
 ./02-domain-nvidia.sh                 # reboots
-./03-storage-ollama.sh</code></pre>
+./03-storage-ollama.sh
+./../common/04-reranker.sh hx-4    # after the models are in place</code></pre>
 <p>Implementation lives in <code>../common/</code>; version pins and the host -&gt; IP map live in <code>../common/hx-base.env</code>. Ollama and the NVIDIA driver are pinned to the fleet baseline, and block 3 stops if the installed Ollama does not match the pin. See <code>../README.md</code> before changing a pin.</p>
 <h2>Sequence</h2>
 <ol>
@@ -50,7 +51,10 @@ font-size:12.5px;color:var(--fg2)}
 <li>Validate GPU/storage; require inspected <code>/srv/ollama</code>; install/configure Ollama; reboot/health validation.</li>
 <li>Install GPT-OSS 20B.</li>
 <li>Install shared embedding runtime and BGE-M3 + Nomic v1.5.</li>
-<li>Install selected BGE-family reranker.</li>
+<li>Install the pinned BGE reranker: <code>../common/04-reranker.sh hx-4</code>.</li>
+</ol>
+<p>Model <code>BAAI/bge-reranker-v2-m3</code> @ <code>953dc6f6</code>, served by <code>infinity-emb</code> 0.0.77 from PyPI under systemd on port 7997. Not Snap, not the Ubuntu archive.</p>
+<ol>
 <li>API/model smoke tests, resource observation, reboot persistence.</li>
 <li>Update HX-4 server record and BUILD-STATE before closure.</li>
 </ol>

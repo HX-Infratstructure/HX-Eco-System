@@ -1,58 +1,84 @@
 # hx-doc — repository consistency tooling
 
-Three small tools. Each one exists because the corresponding failure was found
-in this repository during the 2026-09-10 audit, and each converts a written
-rule into something that fails loudly.
+Seven small tools. Each exists because the matching failure actually happened
+here, and each converts a written rule into something that fails loudly.
 
 No third-party dependencies. Python 3 standard library only.
 
-| Tool | Replaces | Rule it enforces |
+| Tool | Replaces | Enforces |
 |---|---|---|
+| `hx-fleet` | six hand-typed server tables | every fleet table and the runbook IP map comes from `docs/00-control/hx-fleet.tsv` |
 | `hx-render-html` | hand-written HTML mirrors | a mirror always matches its Markdown source |
-| `hx-doc-check` | manual proofreading | links resolve, vocabulary is defined, filenames are stable, evidence is committable |
-| `hx-upstream-drift` | remembering to re-check pins | the registry's reviewed commits still match upstream |
+| `hx-doc-check` | proofreading | links resolve, vocabulary is defined, filenames are stable, evidence is committable |
+| `hx-version-pins` | remembering to look | product pins match what upstream ships, and applications do not come from the Ubuntu archive or Snap |
+| `hx-upstream-drift` | remembering to look | the registry's reviewed commits still match upstream |
+| `hx-record-check` | hoping the template was followed | server records carry every required section, and open gaps stay visible |
+| `hx-smoke-lint` | hoping | smoke-test authorities carry every required section |
+| `hx-new-server` | copy and paste | a new server's runbook and record are complete from the start |
+| `hx-doc-supersede` | six manual steps | the archive procedure happens the same way every time |
 
-## hx-render-html
+## The fleet is the source of truth
 
-Generates every file under `human-html/` from its authoritative Markdown.
+`docs/00-control/hx-fleet.tsv` holds the 17-server map: `id`, `ip`, `role`,
+`state`, `gate`, `note`. Edit it, then run `hx-fleet`. That regenerates every
+marked table in the documents and `docs/03-runbooks/common/hx-fleet-ips.env`,
+which the runbooks source for the host to IP lookup.
 
-```bash
-./tools/hx-doc/hx-render-html            # regenerate
-./tools/hx-doc/hx-render-html --check    # CI: fail if any mirror is stale
+A document opts in by carrying markers:
+
+```text
+<!-- HX-FLEET:TABLE columns=id,ip,role,state -->
+<!-- /HX-FLEET:TABLE -->
 ```
 
-`human-html/**` is generated output. Do not edit it by hand; edit the Markdown
-and re-render. The mirrors were previously hand-written abridgements, and the
-most important one had lost the entire ecosystem-cornerstone section.
-
-## hx-doc-check
+## Everyday use
 
 ```bash
-./tools/hx-doc/hx-doc-check
+tools/hx-doc/hx-fleet              # after editing hx-fleet.tsv
+tools/hx-doc/hx-render-html        # after editing any Markdown
+tools/hx-doc/hx-doc-check          # before committing
+tools/hx-doc/hx-record-check       # what is still open in the server records
 ```
 
-Checks:
-
-- **links** — every internal path reference resolves. A reference to something
-  that does not exist yet is allowed when the document says so; the recognised
-  phrasings are listed in `FORWARD_MARKERS` in the script.
-- **vocabulary** — `SKILL-REGISTRY.md` uses only lifecycle states that
-  `SKILL-GOVERNANCE.md` defines.
-- **frontmatter** — active control documents carry `document`, `status`, `date`.
-- **duplicates** — no `-v1.2`, dated, or `(1)` filename in the active tree.
-- **evidence** — `.gitignore` cannot silently drop retained evidence logs.
-
-## hx-upstream-drift
-
-Reads the pinned commits out of `skills/SKILL-REGISTRY.md` itself, so it cannot
-fall out of step with the registry.
+## Version currency
 
 ```bash
-./tools/hx-doc/hx-upstream-drift                  # report
-./tools/hx-doc/hx-upstream-drift --fail-on-drift  # non-zero when behind
-./tools/hx-doc/hx-upstream-drift --markdown       # table for an issue body
+tools/hx-doc/hx-version-pins       # Ollama, NVIDIA, reranker, Python deps
+tools/hx-doc/hx-upstream-drift     # the 9 pinned skill commits
 ```
 
-Drift is information, not a failure. When a pin is behind, re-review that
-source and update both the reviewed commit and the `Last reviewed` date in the
-registry.
+Both run weekly in CI and open one issue when something moves. Drift is
+information, not a failure: a pin stays valid until the owner moves it.
+
+`hx-version-pins` also enforces the package-source rule. Application software
+comes from PyPI, a GitHub release, a direct binary, or Hugging Face. The Ubuntu
+archive is for drivers only, and an application pinned there is reported as
+REVIEW with a migration note.
+
+## Starting a new server
+
+```bash
+tools/hx-doc/hx-new-server hx-9 --no-ollama
+```
+
+Creates the runbook wrappers, the runbook README, and the server record from
+`docs/02-server-records/_TEMPLATE.md`. Use `--no-ollama` for any host that is
+not an inference server. Existing files are never overwritten without `--force`.
+
+## Superseding a document
+
+```bash
+tools/hx-doc/hx-doc-supersede docs/00-control/DECISIONS.md --suffix pre-d019
+```
+
+Archives the current copy and its mirror under `archive/<today>/`, leaves the
+active file for you to edit, then tells you to re-render and check. Add
+`--dry-run` to see what it would do.
+
+## CI
+
+`.github/workflows/hx-checks.yml` runs `hx-doc-check`, `hx-render-html --check`,
+`hx-fleet --check`, `hx-record-check`, `hx-smoke-lint`, shellcheck, a
+CRLF/executable-bit check, a Python compile, and a secret scan on every pull
+request. `.github/workflows/hx-upstream-drift.yml` runs the two currency tools
+weekly.

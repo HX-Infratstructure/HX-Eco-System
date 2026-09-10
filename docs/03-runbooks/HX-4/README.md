@@ -13,6 +13,7 @@ refuses to run on any host other than `hx-4`.
 ./01-base-admin-network-updates.sh    # reboots
 ./02-domain-nvidia.sh                 # reboots
 ./03-storage-ollama.sh
+./../common/04-reranker.sh hx-4    # after the models are in place
 ```
 
 Implementation lives in `../common/`; version pins and the host -> IP map live
@@ -26,7 +27,9 @@ pin. See `../README.md` before changing a pin.
 3. Validate GPU/storage; require inspected `/srv/ollama`; install/configure Ollama; reboot/health validation.
 4. Install GPT-OSS 20B.
 5. Install shared embedding runtime and BGE-M3 + Nomic v1.5.
-6. Install selected BGE-family reranker.
+6. Install the pinned BGE reranker: `../common/04-reranker.sh hx-4`.
+   Model `BAAI/bge-reranker-v2-m3` @ `953dc6f6`, served by `infinity-emb`
+   0.0.77 from PyPI under systemd on port 7997. Not Snap, not the Ubuntu archive.
 7. API/model smoke tests, resource observation, reboot persistence.
 8. Update HX-4 server record and BUILD-STATE before closure.
 

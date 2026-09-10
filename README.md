@@ -63,13 +63,13 @@ Detailed ecosystem authority: `docs/01-architecture/ARCHITECTURE-ORIENTATION.md`
 HX-1 through HX-3 have current as-built evidence. Future-server target configuration is **planned until verified during that server's rebuild**.
 
 ## 3. Server and application map
-
+<!-- HX-FLEET:TABLE columns=id,ip,role,state -->
 | Server | IP | Assignment | State |
 |---|---|---|---|
-| HX-1 | `192.168.50.200` | Samba AD / DNS / Kerberos / NTP | **PASS / CLOSED** |
-| HX-2 | `192.168.50.202` | Qwen-X / Ollama / Qwen3.8-27B Q6_K | **PASS / CLOSED** |
-| HX-3 | `192.168.50.203` | Coder-X / Ollama / Qwen3-Coder-30B Q6_K | **PASS / CLOSED** |
-| HX-4 | `192.168.50.204` | Meta-X / GPT-OSS 20B + BGE-M3 / Nomic / BGE reranker | **NEXT** |
+| HX-1 | `192.168.50.200` | Samba AD / DNS / Kerberos / NTP | **PASS** |
+| HX-2 | `192.168.50.202` | Qwen-X / Ollama | **PASS** |
+| HX-3 | `192.168.50.203` | Coder-X / Ollama | **PASS** |
+| HX-4 | `192.168.50.204` | Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker | **NOT STARTED** |
 | HX-5 | `192.168.50.205` | CentCom / Ornith / DeepSeek Harness / dev-test | **NOT STARTED** |
 | HX-6 | `192.168.50.206` | OmniRoute | **NOT STARTED** |
 | HX-7 | `192.168.50.207` | NGINX dev/test only | **NOT STARTED** |
@@ -77,12 +77,14 @@ HX-1 through HX-3 have current as-built evidence. Future-server target configura
 | HX-9 | `192.168.50.209` | PostgreSQL + MCP / Redis + MCP | **NOT STARTED** |
 | HX-10 | `192.168.50.210` | Qdrant + Web UI + MCP | **NOT STARTED** |
 | HX-11 | `192.168.50.211` | LightRAG + MCP | **NOT STARTED** |
-| HX-12 | `192.168.50.212` | Deep Agents — LOB agent factory/runtime harness | **NOT STARTED** |
+| HX-12 | `192.168.50.212` | Deep Agents (LangChain) LOB agent factory | **NOT STARTED** |
 | HX-13 | `192.168.50.213` | Mem0 + assigned MCP | **NOT STARTED** |
 | HX-14 | `192.168.50.214` | n8n + MCP | **NOT STARTED** |
 | HX-15 | `192.168.50.215` | FastMCP shared/custom MCP development host | **NOT STARTED** |
 | HX-16 | `192.168.50.216` | Docling + Granite-Docling 258M + MCP | **NOT STARTED** |
 | HX-17 | `192.168.50.217` | Crawl4AI + MCP | **NOT STARTED** |
+<!-- /HX-FLEET:TABLE -->
+
 
 ## 4. Two roadmaps — build first, prove second
 
@@ -258,11 +260,27 @@ Before validation, an agent must be able to state the component's **owner server
 
 ## 11. Current build position
 
-- HX-1: **PASS / CLOSED** — foundation services.
-- HX-2: **PASS / CLOSED** — Qwen-X / Ollama.
-- HX-3: **PASS / CLOSED** — Coder-X / Ollama.
-- HX-4: **NEXT** — Meta-X plus shared embedding/reranking plane.
-- HX-5 through HX-17: planned/not started except for staged repository documentation/runbooks where present.
+<!-- HX-FLEET:TABLE columns=id,role,state,gate -->
+| Server | Assignment | State | Gate |
+|---|---|---|---|
+| HX-1 | Samba AD / DNS / Kerberos / NTP | **PASS** | **CLOSED** |
+| HX-2 | Qwen-X / Ollama | **PASS** | **CLOSED** |
+| HX-3 | Coder-X / Ollama | **PASS** | **CLOSED** |
+| HX-4 | Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker | **NOT STARTED** | **NEXT** |
+| HX-5 | CentCom / Ornith / DeepSeek Harness / dev-test | **NOT STARTED** | — |
+| HX-6 | OmniRoute | **NOT STARTED** | — |
+| HX-7 | NGINX dev/test only | **NOT STARTED** | — |
+| HX-8 | Open WebUI | **NOT STARTED** | — |
+| HX-9 | PostgreSQL + MCP / Redis + MCP | **NOT STARTED** | — |
+| HX-10 | Qdrant + Web UI + MCP | **NOT STARTED** | — |
+| HX-11 | LightRAG + MCP | **NOT STARTED** | — |
+| HX-12 | Deep Agents (LangChain) LOB agent factory | **NOT STARTED** | — |
+| HX-13 | Mem0 + assigned MCP | **NOT STARTED** | — |
+| HX-14 | n8n + MCP | **NOT STARTED** | — |
+| HX-15 | FastMCP shared/custom MCP development host | **NOT STARTED** | — |
+| HX-16 | Docling + Granite-Docling 258M + MCP | **NOT STARTED** | — |
+| HX-17 | Crawl4AI + MCP | **NOT STARTED** | — |
+<!-- /HX-FLEET:TABLE -->
 
 Qdrant, LightRAG, PostgreSQL, Redis, Mem0, Docling, and Crawl4AI skills are approved as guidance. Their approval does not change the runtime/build state of the assigned application servers.
 

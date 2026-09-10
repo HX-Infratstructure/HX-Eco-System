@@ -1,4 +1,4 @@
-name: Upstream pin drift
+name: Version and pin currency
 
 # skills/SKILL-REGISTRY.md pins the exact upstream commit each governed skill
 # was reviewed at. Those pins were maintained entirely by memory. This reports
@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   drift:
-    name: Compare pinned commits to upstream
+    name: Compare pins to upstream
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,10 +28,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./tools/hx-doc/hx-upstream-drift --markdown > drift.md
-          ./tools/hx-doc/hx-upstream-drift --fail-on-drift > /dev/null \
-            && echo "drifted=false" >> "$GITHUB_OUTPUT" \
-            || echo "drifted=true"  >> "$GITHUB_OUTPUT"
+          {
+            echo "## Pinned upstream commits"
+            echo
+            ./tools/hx-doc/hx-upstream-drift --markdown
+            echo
+            echo "## Product version pins"
+            echo
+            ./tools/hx-doc/hx-version-pins --markdown
+          } > drift.md
+          drifted=false
+          ./tools/hx-doc/hx-upstream-drift --fail-on-drift   >/dev/null || drifted=true
+          ./tools/hx-doc/hx-version-pins  --fail-on-outdated >/dev/null || drifted=true
+          echo "drifted=$drifted" >> "$GITHUB_OUTPUT"
           cat drift.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open or update the drift issue
@@ -39,7 +48,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          title="Upstream skill pins have drifted"
+          title="Version pins have drifted"
           body="$(cat drift.md)
 
           Re-review each drifted source, then update its reviewed commit and

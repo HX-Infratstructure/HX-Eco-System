@@ -25,8 +25,17 @@ jobs:
       - name: Links, vocabulary, filenames, evidence
         run: ./tools/hx-doc/hx-doc-check
 
+      - name: Fleet tables match docs/00-control/hx-fleet.tsv
+        run: ./tools/hx-doc/hx-fleet --check
+
       - name: human-html mirrors match their Markdown sources
         run: ./tools/hx-doc/hx-render-html --check
+
+      - name: Server records follow the template
+        run: ./tools/hx-doc/hx-record-check
+
+      - name: Smoke-test authorities are complete
+        run: ./tools/hx-doc/hx-smoke-lint --quiet
 
   scripts:
     name: Execution artifacts
@@ -45,9 +54,7 @@ jobs:
             docs/03-runbooks/common/*.sh
             docs/03-runbooks/HX-*/*.sh
             tools/hx-smoke-runner/hx-smoke-*
-            tools/hx-doc/hx-doc-check
-            tools/hx-doc/hx-render-html
-            tools/hx-doc/hx-upstream-drift
+            tools/hx-doc/hx-*
           )
           printf 'checking %s\n' "${files[@]}"
           shellcheck --shell=bash --severity=warning "${files[@]}"

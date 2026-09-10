@@ -48,7 +48,7 @@ font-size:12.5px;color:var(--fg2)}
 <li><strong>Both BGE-M3 and Nomic Embed Text v1.5 will be installed on HX-4.</strong></li>
 <li><strong>BGE-M3 is the default/authoritative HX embedding model.</strong></li>
 <li><strong>Nomic Embed Text v1.5 is the alternate benchmark/fallback embedding model.</strong></li>
-<li><strong>A BGE-family reranker will also be hosted on HX-4.</strong> The exact checkpoint will be pinned before installation.</li>
+<li><strong>A BGE-family reranker is hosted on HX-4.</strong> Pinned 2026-09-10 to <code>BAAI/bge-reranker-v2-m3</code> at revision <code>953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e</code>, served by <code>infinity-emb</code> 0.0.77 from PyPI under systemd on port 7997. It is the M3-family cross-encoder that pairs with BGE-M3. The revision is an immutable commit, so a later upstream edit cannot change the model under a stable name. Authoritative pins: <code>docs/03-runbooks/common/hx-base.env</code>.</li>
 <li><strong>HX-5 remains CentCom / DeepSeek Harness / development-test capacity.</strong> Shared embedding infrastructure will not be placed there merely because a second 16 GB GPU may become available.</li>
 </ol>
 <h2>2. Why Granite-Docling stays on HX-16</h2>
