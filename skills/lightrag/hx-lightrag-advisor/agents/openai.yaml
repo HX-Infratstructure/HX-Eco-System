@@ -1,0 +1,3 @@
+interface:
+  display_name: "HX LightRAG Advisor"
+  short_description: "Apply current LightRAG expertise within HX-11 architecture and validation rules."
