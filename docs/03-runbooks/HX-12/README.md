@@ -9,7 +9,11 @@
 1. Validate the HX-12 base OS, hostname/IP/DNS/gateway, domain membership, SSSD, updates, and failed-unit state using the standard clean-build pattern.
 2. Install the native Python/runtime prerequisites required by the accepted Deep Agents release. No Docker, Podman, or Kubernetes.
 3. Re-check the current stable `langchain-ai/deepagents` release at implementation time and pin the exact accepted version in the HX-12 server record. Planning reference as of 2026-09-09: `deepagents==0.7.13`.
-4. Create the native Deep Agents Python environment and verify the package imports and `create_deep_agent()` initialization path.
+4. Create the native Deep Agents Python environment and verify the package
+   imports and the `create_deep_agent()` initialisation path:
+   `../common/10-deep-agents.sh hx-12`
+   The version is pinned in `../common/hx-base.env` and audited by
+   `tools/hx-doc/hx-version-pins`.
 5. Configure one explicit owner-approved HX model endpoint.
 6. Run the required model/harness compatibility probe before the full smoke test:
    - prove at least one Deep Agents filesystem tool call;

@@ -52,7 +52,7 @@ These rows intentionally do not invent external sources. Add a source only after
 |---|---|---|---|---|---|
 | Samba AD/DNS/Kerberos/NTP | HX-1 | TBD | TBD | `DISCOVERY` | foundation administration/troubleshooting |
 | Ollama / inference | HX-2/3/4/5 | TBD | TBD | `DISCOVERY` | native install/config/model serving/troubleshooting |
-| OmniRoute | HX-6 | TBD | TBD | `DISCOVERY` | provider/model routing/configuration |
+| OmniRoute | HX-6 | TBD | `diegosouzapw/OmniRoute` — **identified by inference, not yet owner-confirmed** | `DISCOVERY` | provider/model routing/configuration |
 | NGINX | HX-7 | TBD | TBD | `DISCOVERY` | dev/test proxy configuration only |
 | Open WebUI | HX-8 | TBD | TBD | `DISCOVERY` | native install/config/model connection/UI troubleshooting |
 | Deep Agents | HX-12 | TBD | TBD | `DISCOVERY` | LOB agent factory/runtime/tool calling |

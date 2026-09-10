@@ -35,6 +35,40 @@ on HX-5.
 3. Domain/GPU/storage re-validation, pinned Ollama, systemd override, listener
    and API proof.
 
+## Application install blocks
+
+Each application has one block in `common/`, named `10-<app>.sh`, taking the
+host name. They are written once and called from the server's runbook
+directory, the same way the base blocks are.
+
+| Host | Block | Source |
+|---|---|---|
+| HX-6 | `10-omniroute.sh` | npm, on Node from the official binary tarball |
+| HX-7 | `10-nginx.sh` | nginx.org stable source, built natively |
+| HX-8 | `10-open-webui.sh` | PyPI |
+| HX-9 | `10-postgresql.sh` | PGDG vendor repository — see the note in the block |
+| HX-9 | `10-redis.sh` | GitHub release source, built natively |
+| HX-10 | `10-qdrant.sh` | prebuilt Linux binary from the GitHub release |
+| HX-11 | `10-lightrag.sh` | PyPI |
+| HX-12 | `10-deep-agents.sh` | PyPI |
+| HX-13 | `10-mem0.sh` | PyPI |
+| HX-14 | `10-n8n.sh` | npm, on Node from the official binary tarball |
+| HX-15 | `10-fastmcp.sh` | PyPI |
+| HX-16 | `10-docling.sh` | PyPI plus Hugging Face for Granite-Docling |
+| HX-17 | `10-crawl4ai.sh` | PyPI |
+
+Shared helpers live in `common/hx-app-lib.sh`: a service user, a venv, a
+systemd unit, a start check, and a Node installer that verifies the official
+checksum.
+
+Some applications are libraries or CLIs rather than daemons — Docling,
+Crawl4AI, Deep Agents, FastMCP and Mem0. Those blocks install and prove the
+runtime; the thing that gets a unit is the companion MCP server or a small
+local service, and each block says so.
+
+Validation is deliberately minimal everywhere: the service starts, and it
+survives a reboot.
+
 ## Version pins
 
 `common/hx-base.env` holds `HX_OLLAMA_VERSION` and `HX_NVIDIA_PKG_VERSION`.

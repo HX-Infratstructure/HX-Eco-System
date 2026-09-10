@@ -40,7 +40,8 @@ font-size:12.5px;color:var(--fg2)}
 <h2>Execution</h2>
 <p>Steps 1-2 are the shared base blocks. Run them from this directory; each one refuses to run on any host other than <code>hx-8</code>.</p>
 <pre><code class="lang-bash">./01-base-admin-network-updates.sh # reboots
-./02-domain-nvidia.sh              # reboots</code></pre>
+./02-domain-nvidia.sh              # reboots
+../common/10-open-webui.sh hx-8</code></pre>
 <p>Implementation lives in <code>../common/</code>; version pins and the host -&gt; IP map live in <code>../common/hx-base.env</code>. See <code>../README.md</code> before changing a pin.</p>
 <h2>Sequence</h2>
 <ol>
@@ -49,9 +50,9 @@ font-size:12.5px;color:var(--fg2)}
 </ol>
 <p>driver; reboot.</p>
 <ol>
-<li>Install the Open WebUI application software.</li>
+<li>Install Open WebUI:</li>
 </ol>
-<p>Application software comes from PyPI, a GitHub release, or a direct binary. Not Snap. Not the Ubuntu archive.</p>
+<p><code>../common/10-open-webui.sh hx-8</code> Versions are pinned in <code>../common/hx-base.env</code>. Application software comes from PyPI, a GitHub release, a direct binary, or Hugging Face. Not Snap. Not the Ubuntu archive.</p>
 <ol>
 <li>Validation: the service starts, and it survives a reboot.</li>
 <li>Fill in <code>docs/02-server-records/HX-8.md</code>, then set <code>state</code> and</li>

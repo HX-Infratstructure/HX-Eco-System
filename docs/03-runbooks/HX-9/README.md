@@ -12,6 +12,8 @@ refuses to run on any host other than `hx-9`.
 ```bash
 ./01-base-admin-network-updates.sh # reboots
 ./02-domain-nvidia.sh              # reboots
+../common/10-postgresql.sh hx-9
+../common/10-redis.sh hx-9
 ```
 
 Implementation lives in `../common/`; version pins and the host -> IP map live
@@ -22,8 +24,11 @@ in `../common/hx-base.env`. See `../README.md` before changing a pin.
 1. Base/admin/network validation; apt update + upgrade; reboot.
 2. Join `hx.local.arpa`; validate SSSD/domain user; install the pinned NVIDIA
    driver; reboot.
-3. Install the PostgreSQL + MCP / Redis + MCP application software.
-   Application software comes from PyPI, a GitHub release, or a direct binary.
+3. Install PostgreSQL and Redis:
+   `../common/10-postgresql.sh hx-9`
+   `../common/10-redis.sh hx-9`
+   Versions are pinned in `../common/hx-base.env`. Application software
+   comes from PyPI, a GitHub release, a direct binary, or Hugging Face.
    Not Snap. Not the Ubuntu archive.
 4. Validation: the service starts, and it survives a reboot.
 5. Fill in `docs/02-server-records/HX-9.md`, then set `state` and

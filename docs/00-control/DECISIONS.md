@@ -75,3 +75,21 @@ HX server.
 
 **Owner action required:** ratify as written, or amend. Until ratified this
 entry is a record of current state, not an approval.
+
+## D-019 — OmniRoute product identity — PROPOSED, owner confirmation required
+
+No document in this repository names the upstream project behind "OmniRoute".
+The HX-6 install block targets `diegosouzapw/OmniRoute` (npm package
+`omniroute`, MIT, currently 3.8.50), because its described role matches HX-6
+exactly: a single-endpoint AI gateway with hundreds of discoverable providers,
+quota-aware fallback, and an OpenAI-compatible API. D-010's insistence that
+"discovery does not equal approval" and that "free/no-auth/discovered providers
+are not automatically active" reads as written against precisely that product.
+
+**This is an inference, not a record.** Confirm it before HX-6 is built. If
+OmniRoute is a different product, or something HX built, say so and the HX-6
+block is rewritten; nothing else depends on this.
+
+If confirmed, note that the headless server installs from npm. The project's
+GitHub release assets are desktop application builds only, and its documented
+container path is not used here.

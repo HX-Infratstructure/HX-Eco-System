@@ -39,6 +39,8 @@ HX12_RUNBOOK = REPO / "docs/03-runbooks/HX-12/README.md"
 APP_SOURCES = {"pypi", "github", "binary", "huggingface"}
 # Sources acceptable for drivers only.
 DRIVER_ONLY_SOURCES = {"ubuntu-archive", "snap"}
+# Vendor-operated repositories. Not the Ubuntu archive, not Snap.
+VENDOR_REPO_SOURCES = {"pgdg", "npm"}
 
 
 def http(url: str) -> dict:
@@ -89,6 +91,37 @@ def collect() -> list[dict]:
                          kind="model", where="hx-base.env",
                          probe=("hf", model), full_pin=rev))
 
+    # Application pins for the remaining fleet.
+    # (env var, display name, source, probe kind, probe ref)
+    APPS = [
+        ("HX_OMNIROUTE_VERSION",   "omniroute",     "npm",     "npm",    "omniroute"),
+        ("HX_NGINX_VERSION",       "nginx",         "binary",  "nginx",  ""),
+        ("HX_OPEN_WEBUI_VERSION",  "open-webui",    "pypi",    "pypi",   "open-webui"),
+        ("HX_REDIS_VERSION",       "redis",         "github",  "github", "redis/redis"),
+        ("HX_QDRANT_VERSION",      "qdrant",        "github",  "github", "qdrant/qdrant"),
+        ("HX_LIGHTRAG_VERSION",    "lightrag-hku",  "pypi",    "pypi",   "lightrag-hku"),
+        ("HX_DEEPAGENTS_VERSION",  "deepagents",    "pypi",    "pypi",   "deepagents"),
+        ("HX_MEM0_VERSION",        "mem0ai",        "pypi",    "pypi",   "mem0ai"),
+        ("HX_NODE_VERSION",        "nodejs",        "binary",  "node",   ""),
+        ("HX_N8N_VERSION",         "n8n",           "npm",     "npm",    "n8n"),
+        ("HX_FASTMCP_VERSION",     "fastmcp",       "pypi",    "pypi",   "fastmcp"),
+        ("HX_DOCLING_VERSION",     "docling",       "pypi",    "pypi",   "docling"),
+        ("HX_CRAWL4AI_VERSION",    "crawl4ai",      "pypi",    "pypi",   "crawl4ai"),
+    ]
+    for var, name, source, probe_kind, ref in APPS:
+        if (v := env_val(var)):
+            pins.append(dict(package=name, pinned=v, source=source, kind="app",
+                             where="hx-base.env", probe=(probe_kind, ref)))
+
+    if (major := env_val("HX_POSTGRES_MAJOR")):
+        # PGDG is the vendor's own repository, not the Ubuntu archive.
+        pins.append(dict(package=f"postgresql-{major}", pinned=major, source="pgdg",
+                         kind="app", where="hx-base.env", probe=("pgdg", major)))
+
+    if (m := env_val("HX_GRANITE_DOCLING_MODEL")) and (r := env_val("HX_GRANITE_DOCLING_REVISION")):
+        pins.append(dict(package=m, pinned=r[:12], source="huggingface",
+                         kind="model", where="hx-base.env", probe=("hf", m)))
+
     for line in read(REQUIREMENTS).splitlines():
         m = re.match(r"^([A-Za-z0-9_.-]+)==([0-9][\w.]*)\s*$", line.strip())
         if m:
@@ -115,6 +148,25 @@ def latest(kind: str, ref: str) -> str:
         return http(f"https://api.github.com/repos/{ref}/releases/latest")["tag_name"].lstrip("v")
     if kind == "hf":
         return (http(f"https://huggingface.co/api/models/{ref}").get("sha") or "?")[:12]
+    if kind == "npm":
+        return http(f"https://registry.npmjs.org/{ref}")["dist-tags"]["latest"]
+    if kind == "node":
+        data = http("https://nodejs.org/dist/index.json")
+        lts = [x for x in data if x.get("lts")]
+        return (lts[0]["version"] if lts else data[0]["version"]).lstrip("v")
+    if kind == "nginx":
+        # nginx.org labels one release as the stable line.
+        page = urllib.request.urlopen(
+            urllib.request.Request("https://nginx.org/en/download.html",
+                                   headers={"User-Agent": "hx-version-pins"}),
+            timeout=30).read().decode("utf-8", "replace")
+        i = page.find("Stable version")
+        m = re.search(r"nginx-(\d+\.\d+\.\d+)", page[i:i + 2000]) if i >= 0 else None
+        return m.group(1) if m else "?"
+    if kind == "pgdg":
+        supported = [v for v in http("https://www.postgresql.org/versions.json")
+                     if v.get("supported")]
+        return str(max(int(v["major"]) for v in supported)) if supported else "?"
     if kind == "ubuntu":
         data = http(
             "https://api.launchpad.net/1.0/ubuntu/+archive/primary"
