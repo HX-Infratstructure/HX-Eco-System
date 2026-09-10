@@ -1,0 +1,3 @@
+interface:
+  display_name: "HX Mem0 Advisor"
+  short_description: "Apply current Mem0 OSS expertise within HX-13 architecture and smoke-test rules."

@@ -160,22 +160,6 @@ Combines:
 
 The wrapper does not install the upstream eight-skill bundle as a second HX source of truth. Core, connections, Search and observability guidance are accepted/adapted; Cluster/replication and Redis Cloud-only AI services remain reference-only for current BASE; TLS/firewall/bind/global-command hardening remains owner-controlled. The current upstream release/skill commit records provenance and does not by itself select the HX-9 runtime version, package source, data/persistence/memory policy, or Redis MCP implementation.
 
-### Mem0
-
-```text
-skills/mem0/hx-mem0-advisor/
-```
-
-Combines:
-
-- HX-13 placement, native/self-hosted OSS, Qdrant/Ollama dependency, and memory/data-lifecycle boundaries;
-- Mem0 BASE and assigned MCP validation authorities;
-- current official Mem0 documentation and `mem0ai/mem0` source as primary product/API truth;
-- the reviewed official six-skill `mem0ai/mem0/skills/` graph as `VENDOR_OFFICIAL` developer expertise;
-- explicit separation between the HX-13 runtime, hosted Platform/Vercel paths, repository-writing integration pipelines, and coding-assistant plugins.
-
-The wrapper adapts the official `mem0` skill for HX OSS use. `mem0-cli`, `mem0-vercel-ai-sdk`, `mem0-integrate`, and `mem0-test-integration` remain reference-only for HX-13 BASE unless separately authorized; `mem0-oss-to-platform` is rejected for the current HX-13 runtime unless the owner changes the native/self-hosted architecture. The current Mem0 coding-agent plugin/MCP remains a separate reference capability; the exact assigned HX-13 MCP implementation still requires selection.
-
 ## Governance
 
 `SKILL-GOVERNANCE.md` defines admission, trust, authority precedence, version/provenance, update, testing, secret-handling, deployment, and retirement rules.

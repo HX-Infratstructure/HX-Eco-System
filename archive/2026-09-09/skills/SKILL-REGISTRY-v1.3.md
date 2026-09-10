@@ -1,7 +1,7 @@
 ---
 document: HX Eco-System Skill Registry
 status: current
-version: 1.4
+version: 1.3
 date: 2026-09-09
 authority: HX-Eco-System clean rebuild
 ---
@@ -20,7 +20,6 @@ This is the current inventory and trust/status registry for reusable AI-agent sk
 | LightRAG | HX-11 | `skills/lightrag/hx-lightrag-advisor/` | `HX_NATIVE + WRAPPER` | official `HKUDS/LightRAG` repository; no official LightRAG `SKILL.md` catalog found | verify current release/main + `AGENTS.md`/docs/`env.example`; reviewed main `d964d92b1018c27983d1dcf6ca19ebbaebeb262e`, release `v1.5.7` | **APPROVED** | plan, native install/config reasoning, storage/model reconciliation, validation preparation, troubleshoot, migrate, upgrade; execution only through future HX-11 runbook | LightRAG MCP | 2026-09-09 |
 | PostgreSQL | HX-9 | `skills/postgresql/hx-postgresql-advisor/` | `HX_NATIVE + WRAPPER` | PostgreSQL Global Development Group docs/releases + reviewed Neon `neondatabase/postgres-skills` | PGDG is product authority; Neon Agent Skill reviewed at `27fe45e0f71ea89a6eaf9ea4d2e4068957c81c26`; Agent Skills format from `agentskills.io` | **APPROVED** | plan, native install/config reasoning, SQL/schema/index/query expertise, diagnostics, validation preparation, backup/restore and upgrade planning; execution only through future HX-9 runbook | PostgreSQL MCP | 2026-09-09 |
 | Redis | HX-9 | `skills/redis/hx-redis-advisor/` | `HX_NATIVE + WRAPPER` | Redis official docs/releases + official `redis/agent-skills` | Redis product guidance is primary; reviewed Agent Skills main `a84871d065f398fed55e1633f66b66f731eb4e2b`, plugin `redis-development` 1.4.0; latest non-prerelease Redis release at review 8.10.1 | **APPROVED** | plan, native standalone install/config reasoning, persistence/recovery, memory/eviction, data modeling/TTL, clients, Search/JSON/vector/RAG, Streams/coordination, observability, validation preparation, troubleshoot and upgrade; execution only through future HX-9 runbook | Redis MCP | 2026-09-09 |
-| Mem0 | HX-13 | `skills/mem0/hx-mem0-advisor/` | `HX_NATIVE + WRAPPER` | official `mem0ai/mem0` docs/source + official six-skill graph | product docs/source primary; reviewed main `02f7a9b2c4fe38dedb96631e48c85c74ad58b605`; Python source 2.0.20, TypeScript source 3.1.6; official skills catalog 6; portable agent plugin 0.3.1 | **APPROVED** | plan, native OSS install/config reasoning, memory lifecycle/scoping, Qdrant/Ollama integration, SDK/framework expertise, validation preparation, troubleshooting and upgrade; Platform/Vercel/repository-writing pipelines gated; execution only through future HX-13 runbook | assigned Mem0 MCP — implementation not yet selected | 2026-09-09 |
 
 ## Discovery backlog
 
@@ -34,6 +33,7 @@ These rows intentionally do not invent external sources. Add a source only after
 | NGINX | HX-7 | TBD | TBD | `DISCOVERY` | dev/test proxy configuration only |
 | Open WebUI | HX-8 | TBD | TBD | `DISCOVERY` | native install/config/model connection/UI troubleshooting |
 | Deep Agents | HX-12 | TBD | TBD | `DISCOVERY` | LOB agent factory/runtime/tool calling |
+| Mem0 | HX-13 | TBD | TBD | `DISCOVERY` | memory providers/configuration/lifecycle |
 | n8n | HX-14 | TBD | TBD | `DISCOVERY` | native workflow runtime/configuration/MCP |
 | FastMCP | HX-15 | TBD | TBD | `DISCOVERY` | MCP server/tool design/runtime/client behavior |
 | Docling / Granite-Docling | HX-16 | TBD | TBD | `DISCOVERY` | document conversion/VLM/native runtime |
@@ -104,25 +104,6 @@ HX wrapper: skills/redis/hx-redis-advisor/
 ```
 
 HX intentionally curates the official Redis bundle rather than direct-installing it as a second authority. `redis-core`, `redis-connections`, `redis-search`, and `redis-observability` are accepted/adapted. `redis-security` is adapted under owner-controlled network/security rules. `redis-clustering`, Redis Cloud LangCache, and managed Agent Memory guidance are reference-only for current BASE unless separately admitted. Redis skill approval does not advance HX-9 build state or select the runtime version/package source, service/data path, persistence/memory policy, network/auth topology, or exact Redis MCP implementation.
-
-## Mem0 provenance
-
-```text
-Project authority: official Mem0 documentation and source
-Repository: mem0ai/mem0
-Reviewed main: 02f7a9b2c4fe38dedb96631e48c85c74ad58b605
-Python source version: 2.0.20
-TypeScript source version: 3.1.6
-Official Agent Skills: 6
-Reference skills: mem0 3.0.0; mem0-cli 1.1.0; mem0-vercel-ai-sdk 1.1.0
-Pipeline skills: mem0-integrate 0.1.0; mem0-test-integration 0.1.0; mem0-oss-to-platform
-Portable agent plugin: integrations/mem0-agent-plugin 0.3.1; stdio MCP
-Standalone mem0ai/mem0-mcp: ARCHIVED
-HX classification of upstream skill source: VENDOR_OFFICIAL
-HX wrapper: skills/mem0/hx-mem0-advisor/
-```
-
-HX intentionally curates the official Mem0 six-skill graph rather than direct-installing it as a second authority. The `mem0` reference skill is adapted to the native/self-hosted HX-13 OSS role; CLI, Vercel, repository integration/testing pipelines, hosted Platform, and coding-assistant plugin/MCP guidance remain gated or reference-only unless separately admitted. `mem0-oss-to-platform` conflicts with the current HX-13 runtime and is not active guidance unless the owner changes the architecture. Mem0 skill approval does not advance HX-13 build state or select package version, environment/service layout, config/data paths, permanent Qdrant/model bindings, memory lifecycle policy, network/access pattern, or the exact assigned Mem0 MCP implementation.
 
 ## Registry update fields
 
