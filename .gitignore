@@ -30,3 +30,6 @@ temp/
 
 # Retained smoke-test evidence may legitimately contain log captures.
 !docs/05-evidence/**/*.log
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
