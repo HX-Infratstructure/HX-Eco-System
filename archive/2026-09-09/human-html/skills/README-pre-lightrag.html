@@ -1,0 +1,12 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Skills Architecture</title><style>body{max-width:1050px;margin:40px auto;padding:0 24px;background:#0b0f14;color:#e8eef6;font:16px/1.55 system-ui}h1,h2{color:#fff}pre{background:#111820;border:1px solid #263241;padding:16px;border-radius:10px;overflow:auto}code{color:#b9ddff}.call{border-left:4px solid #ffd166;background:#111820;padding:14px}</style></head><body><h1>HX Eco-System Skills Architecture</h1><p class="call"><strong>Ecosystem first. Skill second. Execution third. Validation fourth.</strong></p><pre>HX owner decisions + current ecosystem authority
+  ↓
+HX component context
+  ↓
+HX skill wrapper
+  ↘ current vendor skill/docs
+  ↓
+HX runbook / standard
+  ↓
+HX smoke roadmap + exact test
+  ↓
+evidence</pre><h2>Canonical source</h2><p><code>skills/</code> is the governed source for reusable agent expertise. Claude Code, Codex, OpenCode, and other agent-specific locations are deployment targets only.</p><h2>Initial implementation</h2><p>Qdrant on HX-10 uses <code>skills/qdrant/hx-qdrant-advisor/</code>, combining stable HX context with live official Qdrant Advisor guidance.</p><h2>Controls</h2><p>Skills cannot override HX architecture, server placement, native/systemd deployment, network/security/storage rules, model placement, or smoke-test acceptance criteria. Skills do not store credentials.</p><p>Markdown authorities: <code>skills/README.md</code>, <code>skills/SKILL-GOVERNANCE.md</code>, and <code>skills/SKILL-REGISTRY.md</code>.</p></body></html>
