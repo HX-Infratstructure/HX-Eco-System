@@ -16,7 +16,7 @@ flowchart BT
     K["KNOWLEDGE / RAG / MEMORY<br/>HX-16 Docling · HX-17 Crawl4AI<br/>HX-11 LightRAG · HX-13 Mem0"]
     C["CONTROL / ROUTING / MCP DEV<br/>HX-6 OmniRoute · HX-15 FastMCP<br/>HX-5 DeepSeek Harness · HX-7 NGINX dev/test"]
     A["AGENT / WORKFLOW / UI<br/>HX-12 Deep Agents · HX-14 n8n<br/>HX-8 Open WebUI"]
-    X["SKILLS CAPABILITY LAYER<br/>HX wrappers + current vendor/project expertise<br/>advisory · governed · canonical in /skills"]
+    X["SKILLS CAPABILITY LAYER<br/>HX wrappers + current vendor expertise<br/>advisory · governed · canonical in /skills"]
     V["VALIDATION LAYER<br/>HX-5 CentCom smoke runner<br/>ordered proof · cleanup · evidence"]
 
     F --> I
@@ -152,7 +152,6 @@ Approved implementations:
 
 - Qdrant: `skills/qdrant/hx-qdrant-advisor/` — HX wrapper around the current official Qdrant Advisor.
 - LightRAG: `skills/lightrag/hx-lightrag-advisor/` — HX wrapper around current official `HKUDS/LightRAG` repository guidance; community Claude/MCP projects remain reference-only unless separately admitted.
-- PostgreSQL: `skills/postgresql/hx-postgresql-advisor/` — HX wrapper using PostgreSQL Global Development Group guidance as product authority, the Agent Skills open format, and reviewed Neon `postgres-skills` as subordinate community expert reference.
 
 Agent-specific Claude/Codex/OpenCode skill installations are derived deployments from this canonical source, not separate authorities. Skills never store actual credentials or sshpass passwords.
 

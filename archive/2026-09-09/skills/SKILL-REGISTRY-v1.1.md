@@ -1,7 +1,7 @@
 ---
 document: HX Eco-System Skill Registry
 status: current
-version: 1.2
+version: 1.1
 date: 2026-09-09
 authority: HX-Eco-System clean rebuild
 ---
@@ -18,7 +18,6 @@ This is the current inventory and trust/status registry for reusable AI-agent sk
 |---|---|---|---|---|---|---|---|---|---|
 | Qdrant | HX-10 | `skills/qdrant/hx-qdrant-advisor/` | `HX_NATIVE + WRAPPER` | Qdrant `qdrant/skills` → `meta/qdrant-advisor` | live `skills.qdrant.tech` Advisor; reviewed commit `b0941d03eddf88629306aa16588383400e68230b` | **APPROVED** | plan, native install/config reasoning, validation preparation, troubleshoot, optimize, migrate, upgrade | Qdrant Web UI + Qdrant MCP | 2026-09-09 |
 | LightRAG | HX-11 | `skills/lightrag/hx-lightrag-advisor/` | `HX_NATIVE + WRAPPER` | official `HKUDS/LightRAG` repository; no official LightRAG `SKILL.md` catalog found | verify current release/main + `AGENTS.md`/docs/`env.example`; reviewed main `d964d92b1018c27983d1dcf6ca19ebbaebeb262e`, release `v1.5.7` | **APPROVED** | plan, native install/config reasoning, storage/model reconciliation, validation preparation, troubleshoot, migrate, upgrade; execution only through future HX-11 runbook | LightRAG MCP | 2026-09-09 |
-| PostgreSQL | HX-9 | `skills/postgresql/hx-postgresql-advisor/` | `HX_NATIVE + WRAPPER` | PostgreSQL Global Development Group docs/releases + reviewed Neon `neondatabase/postgres-skills` | PGDG is product authority; Neon Agent Skill reviewed at `27fe45e0f71ea89a6eaf9ea4d2e4068957c81c26`; Agent Skills format from `agentskills.io` | **APPROVED** | plan, native install/config reasoning, SQL/schema/index/query expertise, diagnostics, validation preparation, backup/restore and upgrade planning; execution only through future HX-9 runbook | PostgreSQL MCP | 2026-09-09 |
 
 ## Discovery backlog
 
@@ -28,6 +27,7 @@ These rows intentionally do not invent external sources. Add a source only after
 |---|---|---|---|---|---|
 | Samba AD/DNS/Kerberos/NTP | HX-1 | TBD | TBD | `DISCOVERY` | foundation administration/troubleshooting |
 | Ollama / inference | HX-2/3/4/5 | TBD | TBD | `DISCOVERY` | native install/config/model serving/troubleshooting |
+| PostgreSQL | HX-9 | TBD | TBD | `DISCOVERY` | install/config/client/admin/performance/upgrade |
 | Redis | HX-9 | TBD | TBD | `DISCOVERY` | install/config/persistence/client/performance/upgrade |
 | OmniRoute | HX-6 | TBD | TBD | `DISCOVERY` | provider/model routing/configuration |
 | NGINX | HX-7 | TBD | TBD | `DISCOVERY` | dev/test proxy configuration only |
@@ -44,12 +44,13 @@ These rows intentionally do not invent external sources. Add a source only after
 
 | Component | Source | Classification | Status | Notes |
 |---|---|---|---|---|
-| PostgreSQL | `neondatabase/postgres-skills` → `postgres-best-practices` | `COMMUNITY / EXPERT REFERENCE` | `APPROVED_AS_REFERENCE` | Agent Skills-compatible practitioner guidance; PGDG remains product authority. Do not direct-install as a second HX source. |
 | LightRAG | `zwovadis/lightrag-claude-skill` | `COMMUNITY` | `REFERENCE_ONLY` | Query-oriented Claude Code skill; not install/config authority; assumptions must be checked against current HKUDS API docs and HX network placement. |
 | LightRAG | `butchokoy25/lightrag-claude-skills` | `COMMUNITY` | `REFERENCE_ONLY / LATER_INTEGRATION` | Seven Claude skills + session hooks/helpers/MCP config for persistent memory; not part of HX-11 BASE build. |
 | LightRAG MCP | `desimpkins/daniel-lightrag-mcp` | `COMMUNITY` | `DISCOVERY` | Example community MCP candidate; exact HX LightRAG MCP implementation remains to be selected/reviewed. |
 
 ## Qdrant provenance
+
+Official source reviewed:
 
 ```text
 Vendor: Qdrant
@@ -62,6 +63,8 @@ HX wrapper: skills/qdrant/hx-qdrant-advisor/
 
 ## LightRAG provenance
 
+Official source reviewed:
+
 ```text
 Project: LightRAG
 Organization: HKUDS
@@ -73,21 +76,6 @@ HX wrapper: skills/lightrag/hx-lightrag-advisor/
 ```
 
 The LightRAG wrapper consumes current official project guidance directly. Community agent skills/MCPs remain subordinate reference candidates unless separately admitted.
-
-## PostgreSQL provenance
-
-```text
-Project authority: PostgreSQL Global Development Group
-Current upstream context at review: PostgreSQL 18.6; PostgreSQL 19 still beta
-Agent Skills standard: https://agentskills.io/
-Reviewed external skill: neondatabase/postgres-skills
-Reviewed Neon main: 27fe45e0f71ea89a6eaf9ea4d2e4068957c81c26
-Reviewed Neon skill blob: 1720cf9fb7e7c31795433756d4bea154b5512d0f
-HX classification of Neon source: COMMUNITY / expert reference
-HX wrapper: skills/postgresql/hx-postgresql-advisor/
-```
-
-PostgreSQL major version, package source, data placement, listener/authentication pattern, HA/pooling/backup topology, and exact PostgreSQL MCP implementation remain owner/runbook decisions for HX-9. Skill approval does not advance HX-9 build state.
 
 ## Registry update fields
 

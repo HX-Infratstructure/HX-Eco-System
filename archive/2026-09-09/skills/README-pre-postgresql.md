@@ -77,7 +77,7 @@ Do not maintain divergent hand-edited copies per agent.
 | `VENDOR_OFFICIAL` | Skill or skill system published by the product vendor/project. |
 | `COMMUNITY` | Third-party skill requiring explicit review before HX use. |
 | `WRAPPER` | HX skill that combines HX context/governance with external expertise. |
-| `META` | Skill that routes to or dynamically loads narrower skills. |
+| `META` | Skill that routes to or dynamically loads more specialized skills. |
 
 A skill can have more than one classification, such as `HX_NATIVE + WRAPPER` or `VENDOR_OFFICIAL + META`.
 
@@ -127,22 +127,6 @@ Combines:
 - reviewed community Claude/MCP projects as reference only.
 
 No official Qdrant-style LightRAG `SKILL.md` catalog was found at the 2026-09-09 review, so the HX wrapper consumes the current official project repository rather than promoting a community skill to vendor authority.
-
-### PostgreSQL
-
-```text
-skills/postgresql/hx-postgresql-advisor/
-```
-
-Combines:
-
-- HX-9 placement, native/systemd and PostgreSQL/Redis shared-host boundaries;
-- PostgreSQL BASE and MCP validation authorities;
-- current PostgreSQL Global Development Group documentation, releases, versioning and Ubuntu packaging guidance as primary product truth;
-- the open Agent Skills format from `agentskills.io`;
-- reviewed Neon `neondatabase/postgres-skills` practitioner guidance as `COMMUNITY / expert reference`, not PGDG authority.
-
-The wrapper deliberately does not choose the HX-9 PostgreSQL major, package source, data placement, listener/authentication pattern, HA/replication, PgBouncer, backup/PITR topology, or MCP implementation before the HX-9 runbook pins those choices.
 
 ## Governance
 
