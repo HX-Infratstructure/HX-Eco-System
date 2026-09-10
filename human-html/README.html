@@ -36,213 +36,136 @@ a{color:var(--accent)}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
 </style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>README.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX Eco-System</h1>
-<p>Authoritative repository for the clean-room HX Eco-System rebuild.</p>
-<blockquote><strong>Cornerstone first:</strong> understand the HX ecosystem and its configuration before applying skills or the smoke-test validation model. Skills augment expertise; validation proves the architecture. Neither defines the ecosystem.</blockquote>
-<h2>1. HX Eco-System cornerstone</h2>
-<p>HX is a <strong>17-server native-Linux AI ecosystem</strong> organized into foundation, inference, state/retrieval, control/routing, knowledge/RAG, agent/workflow, and user-interaction capabilities.</p>
-<pre class="mermaid">flowchart BT
-    F["FOUNDATION / CORNERSTONE&lt;br/&gt;HX-1 AD · DNS · Kerberos · NTP&lt;br/&gt;LAN · gateway · domain · native Linux + systemd"]
-    I["INFERENCE&lt;br/&gt;HX-2 Qwen-X · HX-3 Coder-X&lt;br/&gt;HX-4 Meta-X · HX-5 Ornith"]
-    S["STATE / RETRIEVAL&lt;br/&gt;HX-9 PostgreSQL + Redis&lt;br/&gt;HX-10 Qdrant"]
-    K["KNOWLEDGE / RAG / MEMORY&lt;br/&gt;HX-16 Docling · HX-17 Crawl4AI&lt;br/&gt;HX-11 LightRAG · HX-13 Mem0"]
-    C["CONTROL / ROUTING / MCP DEV&lt;br/&gt;HX-6 OmniRoute · HX-15 FastMCP&lt;br/&gt;HX-5 DeepSeek Harness · HX-7 NGINX dev/test"]
-    A["AGENT / WORKFLOW / UI&lt;br/&gt;HX-12 Deep Agents · HX-14 n8n&lt;br/&gt;HX-8 Open WebUI"]
-    X["SKILLS CAPABILITY LAYER&lt;br/&gt;HX wrappers + current vendor/project expertise&lt;br/&gt;advisory · governed · canonical in /skills"]
-    V["VALIDATION LAYER&lt;br/&gt;HX-5 CentCom smoke runner&lt;br/&gt;ordered proof · cleanup · evidence"]
+<p>Authoritative repository for the clean-room HX Eco-System rebuild: a <strong>17-server native-Linux AI ecosystem</strong>, built one server at a time, each one validated and recorded before the next begins.</p>
+<blockquote><strong>Cornerstone first.</strong> Understand the ecosystem and its configuration before applying skills or the smoke-test model. Skills augment expertise. Validation proves the architecture. Neither one defines the ecosystem.</blockquote>
+<hr/>
+<h2>1. Start here</h2>
+<div class="tw"><table><thead><tr><th>You are</th><th>Read this</th></tr></thead><tbody><tr><td>An agent working in this repo</td><td><code>AGENTS.md</code> — the operating contract</td></tr><tr><td>Building a server today</td><td><code>docs/03-runbooks/RUN-SHEET.md</code></td></tr><tr><td>Looking for current state</td><td><code>docs/00-control/hx-fleet.tsv</code></td></tr><tr><td>Deciding something</td><td><code>docs/00-control/DECISIONS.md</code></td></tr><tr><td>Reading as a human</td><td><code>human-html/</code> — generated, never authority</td></tr></tbody></table></div>
+<hr/>
+<h2>2. Build order</h2>
+<p>Each layer depends on the one before it. This is dependency sequencing, not permanent integration wiring.</p>
+<pre class="mermaid">flowchart LR
+    F["&lt;b&gt;Foundation&lt;/b&gt;&lt;br/&gt;HX-1"]
+    I["&lt;b&gt;Inference&lt;/b&gt;&lt;br/&gt;HX-2 · HX-3 · HX-4 · HX-5"]
+    S["&lt;b&gt;State &amp;amp; retrieval&lt;/b&gt;&lt;br/&gt;HX-9 · HX-10"]
+    C["&lt;b&gt;Routing &amp;amp; MCP&lt;/b&gt;&lt;br/&gt;HX-6 · HX-15 · HX-7"]
+    K["&lt;b&gt;Knowledge&lt;/b&gt;&lt;br/&gt;HX-16 · HX-17"]
+    R["&lt;b&gt;RAG &amp;amp; memory&lt;/b&gt;&lt;br/&gt;HX-11 · HX-13"]
+    A["&lt;b&gt;Agents &amp;amp; workflow&lt;/b&gt;&lt;br/&gt;HX-12 · HX-14"]
+    U["&lt;b&gt;Interface&lt;/b&gt;&lt;br/&gt;HX-8"]
 
-    F --&gt; I
-    I --&gt; S
-    I --&gt; C
-    S --&gt; K
-    S --&gt; C
-    K --&gt; A
-    C --&gt; A
-
-    X -. assists .-&gt; I
-    X -. assists .-&gt; S
-    X -. assists .-&gt; C
-    X -. assists .-&gt; K
-    X -. assists .-&gt; A
-
-    V -. validates .-&gt; I
-    V -. validates .-&gt; S
-    V -. validates .-&gt; C
-    V -. validates .-&gt; K
-    V -. validates .-&gt; A</pre>
-<p><strong>Interpretation:</strong> the foundation supports the ecosystem; service planes build capability upward; governed skills provide product expertise inside HX boundaries; the validation layer proves components without becoming a new architecture plane.</p>
-<p>Detailed ecosystem authority: <code>docs/01-architecture/ARCHITECTURE-ORIENTATION.md</code>.</p>
-<h2>2. Foundational configuration</h2>
-<div class="tw"><table><thead><tr><th>Item</th><th>HX baseline</th></tr></thead><tbody><tr><td>LAN</td><td><code>192.168.50.0/24</code></td></tr><tr><td>Gateway</td><td><code>192.168.50.1</code></td></tr><tr><td>Infrastructure DNS</td><td>HX-1 — <code>192.168.50.200</code></td></tr><tr><td>AD domain</td><td><code>hx.local.arpa</code></td></tr><tr><td>Kerberos realm</td><td><code>HX.LOCAL.ARPA</code></td></tr><tr><td>Domain client pattern</td><td>SSSD / realmd / adcli</td></tr><tr><td>Foundation services</td><td>HX-1 — Samba AD / DNS / Kerberos / NTP</td></tr><tr><td>Deployment</td><td>Native Ubuntu Linux + systemd</td></tr><tr><td>Containers</td><td>Not used unless explicitly approved by the owner</td></tr><tr><td>Normal UI access</td><td>Direct native application server/port</td></tr><tr><td>NGINX</td><td>HX-7 dev/test UI rendering only; not the common reverse proxy</td></tr></tbody></table></div>
-<p>HX-1 through HX-3 have current as-built evidence. Future-server target configuration is <strong>planned until verified during that server's rebuild</strong>.</p>
-<h2>3. Server and application map</h2>
+    F --&gt; I --&gt; S --&gt; C --&gt; K --&gt; R --&gt; A --&gt; U</pre>
+<p>Two things cut across every layer and are deliberately <strong>not</strong> drawn, because cross-cutting concerns make a diagram less readable rather than more:</p>
+<ul>
+<li><strong>Governed skills</strong> (<code>skills/</code>) advise on any component. They never decide.</li>
+<li><strong>Validation</strong> (<code>smoke-tests/</code>, run from HX-5 CentCom) proves any component.</li>
+</ul>
+<p>It never becomes an architecture layer of its own.</p>
+<hr/>
+<h2>3. Current state</h2>
 <p>&lt;!-- HX-FLEET:TABLE columns=id,ip,role,state --&gt;</p>
 <div class="tw"><table><thead><tr><th>Server</th><th>IP</th><th>Assignment</th><th>State</th></tr></thead><tbody><tr><td>HX-1</td><td><code>192.168.50.200</code></td><td>Samba AD / DNS / Kerberos / NTP</td><td><strong>PASS</strong></td></tr><tr><td>HX-2</td><td><code>192.168.50.202</code></td><td>Qwen-X / Ollama</td><td><strong>PASS</strong></td></tr><tr><td>HX-3</td><td><code>192.168.50.203</code></td><td>Coder-X / Ollama</td><td><strong>PASS</strong></td></tr><tr><td>HX-4</td><td><code>192.168.50.204</code></td><td>Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-5</td><td><code>192.168.50.205</code></td><td>CentCom / Ornith / DeepSeek Harness / dev-test</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-6</td><td><code>192.168.50.206</code></td><td>OmniRoute</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-7</td><td><code>192.168.50.207</code></td><td>NGINX dev/test only</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-8</td><td><code>192.168.50.208</code></td><td>Open WebUI</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-9</td><td><code>192.168.50.209</code></td><td>PostgreSQL + MCP / Redis + MCP</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-10</td><td><code>192.168.50.210</code></td><td>Qdrant + Web UI + MCP</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-11</td><td><code>192.168.50.211</code></td><td>LightRAG + MCP</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-12</td><td><code>192.168.50.212</code></td><td>Deep Agents (LangChain) LOB agent factory</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-13</td><td><code>192.168.50.213</code></td><td>Mem0 + assigned MCP</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-14</td><td><code>192.168.50.214</code></td><td>n8n + MCP</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-15</td><td><code>192.168.50.215</code></td><td>FastMCP shared/custom MCP development host</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-16</td><td><code>192.168.50.216</code></td><td>Docling + Granite-Docling 258M + MCP</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-17</td><td><code>192.168.50.217</code></td><td>Crawl4AI + MCP</td><td><strong>NOT STARTED</strong></td></tr></tbody></table></div>
 <p>&lt;!-- /HX-FLEET:TABLE --&gt;</p>
-<h2>4. Two roadmaps — build first, prove second</h2>
-<p>HX has two complementary evergreen roadmaps:</p>
-<pre><code class="lang-text">BASE IMPLEMENTATION ROADMAP
-What gets built? In what dependency order? What is BASE PASS?
-        ↓
-SMOKE-TEST ROADMAP
-What proof runs next? Which prior PASS evidence does it consume?
-What limited temporary integration is permitted?
-        ↓
-COMPONENT SMOKE AUTHORITY
-Exactly how is the known-answer test executed and cleaned up?</code></pre>
+<p>Generated from <code>docs/00-control/hx-fleet.tsv</code>. Edit that file, then run <code>tools/hx-doc/hx-fleet</code>. Do not hand-edit the table.</p>
+<p><strong>Design readiness is not as-built completion.</strong> A pinned version and a written runbook mean the work is planned, not that it is running.</p>
+<hr/>
+<h2>4. Foundational configuration</h2>
+<div class="tw"><table><thead><tr><th>Item</th><th>HX baseline</th></tr></thead><tbody><tr><td>LAN</td><td><code>192.168.50.0/24</code></td></tr><tr><td>Gateway</td><td><code>192.168.50.1</code></td></tr><tr><td>Infrastructure DNS</td><td>HX-1</td></tr><tr><td>AD domain</td><td><code>hx.local.arpa</code></td></tr><tr><td>Kerberos realm</td><td><code>HX.LOCAL.ARPA</code></td></tr><tr><td>Domain client pattern</td><td>SSSD / realmd / adcli</td></tr><tr><td>Deployment</td><td>Native Ubuntu Linux + systemd</td></tr><tr><td>Containers</td><td>Not used unless explicitly approved</td></tr><tr><td>Normal UI access</td><td>Direct native application server and port</td></tr><tr><td>NGINX</td><td>HX-7, development and test rendering only</td></tr></tbody></table></div>
+<p>HX-1 through HX-3 have current as-built evidence. Everything else is planned until verified during that server's own build.</p>
+<hr/>
+<h2>5. Core rules</h2>
 <ul>
-<li>Deployment/build roadmap: <code>docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md</code></li>
-<li>Ordered proof roadmap: <code>docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code></li>
+<li><strong>KISS.</strong> One server, validate it, record it, move on.</li>
+<li><strong>Native.</strong> Linux and systemd. No Docker, Podman or Kubernetes.</li>
+<li><strong>Clean room.</strong> Historical HX-Infrastructure artifacts are reference only and</li>
+</ul>
+<p>do not establish current state.</p>
+<ul>
+<li><strong>Package sources.</strong> Application software comes from PyPI, npm, a GitHub</li>
+</ul>
+<p>release, an upstream source tarball, a direct binary, or Hugging Face. The Ubuntu archive is used only for the NVIDIA driver and for build toolchains and library headers. Never Snap.</p>
+<ul>
+<li><strong>Companion services.</strong> A product's own MCP server and native Web UI are part</li>
+</ul>
+<p>of that application's base build. HX-15 FastMCP is a shared development host, not a prerequisite for any of them.</p>
+<ul>
+<li><strong>Retrieval plane.</strong> BGE-M3 primary at 1024 dimensions, Nomic Embed Text v1.5</li>
+</ul>
+<p>alternate at 768, and the BGE reranker — all on HX-4. Never mix embedding identities in one Qdrant collection; a model change means a new collection and re-embedding.</p>
+<ul>
+<li><strong>Granite-Docling</strong> stays with Docling on HX-16, CPU-first for base validation.</li>
+<li><strong>NGINX</strong> is HX-7 development and test only, never the ecosystem front door.</li>
+<li><strong>Base before integration.</strong> Permanent routes, production schemas and</li>
+</ul>
+<p>collections, agent bindings, RAG ingestion, workflows and end-to-end wiring all come after standalone base closure.</p>
+<hr/>
+<h2>6. Building a server</h2>
+<p>Every server follows the same six steps. Full detail, including what will stop you on each host, is in <code>docs/03-runbooks/RUN-SHEET.md</code>.</p>
+<pre><code class="lang-bash">tools/hx-doc/hx-preflight                        # from anywhere, before build day
+
+cd docs/03-runbooks
+./common/01-base-admin-network-updates.sh hx-9   # reboots
+./common/02-domain-nvidia.sh hx-9                # reboots
+./common/10-postgresql.sh hx-9                   # the application</code></pre>
+<p>One implementation of each block lives in <code>docs/03-runbooks/common/</code>, with five-line per-server wrappers. Every block refuses to run on the wrong host. Versions are pinned in <code>common/hx-base.env</code> and audited by <code>tools/hx-doc/hx-version-pins</code>.</p>
+<p>Validation is two questions, everywhere: <strong>does the service start, and does it survive a reboot.</strong></p>
+<hr/>
+<h2>7. Two roadmaps — build first, prove second</h2>
+<pre><code class="lang-text">BASE IMPLEMENTATION ROADMAP     what gets built, in what dependency order
+            |
+SMOKE-TEST ROADMAP              what proof runs next, on which prior evidence
+            |
+COMPONENT SMOKE AUTHORITY       exactly how each known-answer test is run</code></pre>
+<ul>
+<li>Build order: <code>docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md</code></li>
+<li>Proof order: <code>docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code></li>
 <li>Exact procedures: <code>smoke-tests/</code></li>
 </ul>
-<p>The proof roadmap uses <strong>cumulative evidence with minimal live coupling</strong>.</p>
-<h2>5. Core architecture rules</h2>
-<ul>
-<li><strong>KISS:</strong> one server, validate it, record it, then move on.</li>
-<li><strong>Native deployment:</strong> Linux + systemd; no Docker/Podman/Kubernetes unless explicitly approved.</li>
-<li><strong>Clean room:</strong> historical HX-Infrastructure artifacts are reference only and do not establish current state.</li>
-<li><strong>Companion services:</strong> assigned product MCP servers and native Web UIs are part of the parent application's base build.</li>
-<li><strong>FastMCP boundary:</strong> HX-15 is shared/custom MCP development/runtime; it is not a prerequisite for product-specific MCP servers.</li>
-<li><strong>HX-4 retrieval inference:</strong> BGE-M3 primary/default at 1024 dimensions; Nomic Embed Text v1.5 alternate/default 768; BGE-family reranker also on HX-4.</li>
-<li><strong>Qdrant rule:</strong> never mix embeddings from different model identities in one collection; changing models requires a new collection and re-embedding.</li>
-<li><strong>Docling rule:</strong> Granite-Docling 258M stays with Docling on HX-16 and is CPU-first for base validation.</li>
-<li><strong>NGINX boundary:</strong> HX-7 is dev/test only, not normal ecosystem routing.</li>
-<li><strong>Base before integration:</strong> permanent routes, production schemas/collections, agent bindings, RAG ingestion, workflows, and end-to-end integration come after standalone base closure.</li>
-</ul>
-<h2>6. Governed skills capability layer</h2>
-<p><code>skills/</code> is the canonical HX library for reusable AI-agent expertise.</p>
-<pre><code class="lang-text">HX ecosystem context
-        ↓
-component server/runbook/standard
-        ↓
-HX governed skill wrapper
-        ↓
-current official vendor/project guidance
-        ↓
-reconcile with HX decisions
-        ↓
-execute from HX authority
-        ↓
-validate from HX smoke authority</code></pre>
-<p>Skills may improve planning, native installation/configuration decisions, troubleshooting, upgrades, and validation preparation. They do <strong>not</strong> replace architecture, runbooks, or smoke-test acceptance criteria.</p>
-<p>Current authorities:</p>
-<ul>
-<li>Architecture: <code>skills/README.md</code></li>
-<li>Governance: <code>skills/SKILL-GOVERNANCE.md</code></li>
-<li>Registry: <code>skills/SKILL-REGISTRY.md</code></li>
-<li>Scoped agent instructions: <code>skills/AGENTS.md</code></li>
-</ul>
-<p>Approved implementations:</p>
-<ul>
-<li>Qdrant: <code>skills/qdrant/hx-qdrant-advisor/</code> — HX wrapper around the current official Qdrant Advisor.</li>
-<li>LightRAG: <code>skills/lightrag/hx-lightrag-advisor/</code> — HX wrapper around current official <code>HKUDS/LightRAG</code> repository guidance; community Claude/MCP projects remain reference-only unless separately admitted.</li>
-<li>PostgreSQL: <code>skills/postgresql/hx-postgresql-advisor/</code> — HX wrapper using PostgreSQL Global Development Group guidance as product authority, the Agent Skills open format, and reviewed Neon <code>postgres-skills</code> as subordinate community expert reference.</li>
-<li>Redis: <code>skills/redis/hx-redis-advisor/</code> — HX wrapper using official Redis product guidance plus reviewed <code>redis/agent-skills</code>, curated to preserve HX-9 native/systemd, shared-host, security/topology, and smoke-test authority.</li>
-<li>Mem0: <code>skills/mem0/hx-mem0-advisor/</code> — HX wrapper around current official <code>mem0ai/mem0</code> product guidance and six-skill graph, curated for HX-13 native/self-hosted OSS, approved Qdrant/Ollama dependencies, owner-gated integration automation, and HX smoke-test authority.</li>
-<li>Docling: <code>skills/docling/hx-docling-advisor/</code> — HX wrapper around current official <code>docling-project/docling</code> product guidance and packaged usage skill plus official <code>docling-project/docling-mcp</code>, curated for HX-16 native/systemd placement, Granite-Docling 258M CPU-first BASE proof, companion MCP separation, and HX smoke-test authority.</li>
-<li>Crawl4AI: <code>skills/crawl4ai/hx-crawl4ai-advisor/</code> — HX wrapper using current official <code>unclecode/crawl4ai</code> 0.9.x product guidance as primary authority plus reviewed <code>brettdavies/crawl4ai-skill</code> as a subordinate community expert reference, curated for HX-17 native deployment, deterministic D3 crawl/Markdown proof, owner-gated MCP implementation, and HX network/security/model boundaries.</li>
-</ul>
-<p>Agent-specific Claude/Codex/OpenCode skill installations are derived deployments from this canonical source, not separate authorities. Skills never store actual credentials or sshpass passwords.</p>
-<h2>7. Dependency-driven base-build sequence</h2>
-<pre><code class="lang-text">Inference
-  HX-4 Meta-X -&gt; HX-5 CentCom/Ornith
-        ↓
-State / Retrieval
-  HX-9 PostgreSQL + Redis -&gt; HX-10 Qdrant
-        ↓
-Routing / Control / MCP Development
-  HX-6 OmniRoute -&gt; HX-15 FastMCP -&gt; HX-5 DeepSeek Harness -&gt; HX-7 NGINX dev/test
-        ↓
-Knowledge Acquisition
-  HX-16 Docling -&gt; HX-17 Crawl4AI
-        ↓
-RAG / Memory
-  HX-11 LightRAG -&gt; HX-13 Mem0
-        ↓
-Agents / Workflow
-  HX-12 Deep Agents -&gt; HX-14 n8n
-        ↓
-User Interaction
-  HX-8 Open WebUI</code></pre>
-<p>This is dependency sequencing, not permanent integration wiring.</p>
-<h2>8. Validation layer — ordered smoke testing</h2>
-<p>Only after the ecosystem role/configuration is understood do we apply the validation model.</p>
-<pre class="mermaid">flowchart LR
-    A["Ecosystem authority&lt;br/&gt;role · host · config · state"]
-    B["Smoke roadmap&lt;br/&gt;ordered prior proof"]
-    C["Component smoke test&lt;br/&gt;known answer"]
-    D["HX-5 CentCom&lt;br/&gt;remote disposable run"]
-    E["SUT&lt;br/&gt;real application interface"]
-    F["Cleanup + verify"]
-    G["Reboot / persistence"]
-    H["Evidence + review"]
-    I["BASE PASS / CLOSED"]
-
-    A --&gt; B --&gt; C --&gt; D --&gt; E --&gt; F --&gt; G --&gt; H --&gt; I</pre>
-<p>Validation rules:</p>
-<ol>
-<li><strong>Architecture first.</strong> Smoke tests inherit the ecosystem architecture; they do not redefine it.</li>
-<li><strong>Ordered proof.</strong> Downstream tests cite current prior PASS evidence when their primary contract depends on earlier capabilities.</li>
-<li><strong>Minimal live integration.</strong> Use only the temporary connection actually required to prove function.</li>
-<li><strong>HX-5 executes remotely</strong> after its CentCom activation gate passes; general test tooling stays off the SUT.</li>
-<li><strong>Service health is not enough.</strong> A known-answer primary-function test is required.</li>
-<li><strong>Cleanup is part of PASS.</strong> Temporary validation state is removed and verified.</li>
-<li><strong>Evidence closes the loop.</strong> Reviewed proof plus reboot persistence supports server-record and <code>BUILD-STATE.md</code> closure.</li>
-</ol>
-<p>Detailed validation authorities:</p>
-<ul>
-<li>Smoke roadmap: <code>docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code></li>
-<li>Validation architecture: <code>docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md</code></li>
-<li>Component acceptance: <code>smoke-tests/</code></li>
-<li>HX-5 execution process: <code>docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md</code></li>
-<li>CentCom toolset/bootstrap: <code>docs/04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md</code></li>
-<li>Runner implementation: <code>tools/hx-smoke-runner/</code></li>
-</ul>
-<h2>9. AI-centric reading order</h2>
-<p>Agentic tools and coding agents must learn the ecosystem before skills and validation:</p>
+<p>The proof roadmap uses <strong>cumulative evidence with minimal live coupling</strong>. A downstream test reuses prior PASS evidence and creates only the smallest temporary integration needed to prove its own contract. Temporary wiring is removed before closure.</p>
+<p>Service health is never enough. A known-answer test is required, cleanup is part of PASS, and reviewed evidence plus reboot persistence closes the loop.</p>
+<hr/>
+<h2>8. Governed skills</h2>
+<p><code>skills/</code> is the canonical HX library of reusable agent expertise. A skill may improve planning, native installation and configuration reasoning, troubleshooting, upgrades and validation preparation. It does <strong>not</strong> replace architecture, runbooks, or acceptance criteria.</p>
+<pre><code class="lang-text">HX context -&gt; component runbook -&gt; HX skill wrapper -&gt; current vendor guidance
+           -&gt; reconcile with HX decisions -&gt; execute from HX authority</code></pre>
+<p>Approved wrappers cover Qdrant, LightRAG, PostgreSQL, Redis, Mem0, Docling and Crawl4AI. Each pins the exact upstream commit it was reviewed against, and <code>tools/hx-doc/hx-upstream-drift</code> reports when one moves.</p>
+<p>Skill approval is guidance only. It never changes the build state of the assigned server.</p>
+<p>Authorities: <code>skills/README.md</code>, <code>skills/SKILL-GOVERNANCE.md</code>, <code>skills/SKILL-REGISTRY.md</code>, <code>skills/AGENTS.md</code>.</p>
+<p>Skills never contain credentials of any kind.</p>
+<hr/>
+<h2>9. Repository tooling</h2>
+<p>Rules kept only in prose drift. These enforce them, and CI runs all of them on every change. Python 3 standard library only, no dependencies.</p>
+<div class="tw"><table><thead><tr><th>Command</th><th>Enforces</th></tr></thead><tbody><tr><td><code>hx-preflight</code></td><td>every pinned artifact is still fetchable, checked from anywhere</td></tr><tr><td><code>hx-fleet</code></td><td>every fleet table and the runbook IP map comes from the TSV</td></tr><tr><td><code>hx-render-html</code></td><td>every mirror matches its Markdown source</td></tr><tr><td><code>hx-doc-check</code></td><td>links resolve, vocabulary is defined, filenames are stable</td></tr><tr><td><code>hx-version-pins</code></td><td>pins are current, and no application comes from apt or Snap</td></tr><tr><td><code>hx-upstream-drift</code></td><td>the registry's reviewed commits are still current</td></tr><tr><td><code>hx-record-check</code></td><td>server records follow the template; open gaps stay visible</td></tr><tr><td><code>hx-smoke-lint</code></td><td>smoke authorities carry every required section</td></tr><tr><td><code>hx-new-server</code></td><td>a new server's runbook and record start complete</td></tr><tr><td><code>hx-doc-supersede</code></td><td>the archive procedure runs the same way every time</td></tr></tbody></table></div>
+<pre><code class="lang-bash">tools/hx-doc/hx-doc-check          # before committing
+tools/hx-doc/hx-render-html        # after editing any Markdown</code></pre>
+<p><code>human-html/**</code> is <strong>generated output</strong>. Edit the Markdown and re-render; never edit a mirror by hand. Detail in <code>tools/hx-doc/README.md</code>.</p>
+<p>CI also runs shellcheck, a CRLF and executable-bit check, a Python compile, and a secret scan, and CodeRabbit reviews every pull request against the rules in <code>.coderabbit.yaml</code>. A weekly workflow reports version drift as a single issue.</p>
+<hr/>
+<h2>10. Authoritative surfaces</h2>
+<div class="tw"><table><thead><tr><th>Path</th><th>Status</th></tr></thead><tbody><tr><td><code>docs/00-control/hx-fleet.tsv</code></td><td>single source of truth for the fleet</td></tr><tr><td><code>docs/**/*.md</code></td><td>current control, architecture, standards, records, runbooks</td></tr><tr><td><code>docs/03-runbooks/**/*.sh</code></td><td>approved execution artifacts</td></tr><tr><td><code>smoke-tests/*.md</code></td><td>component acceptance authorities, validation only</td></tr><tr><td><code>skills/**</code></td><td>governed agent expertise, subordinate to the above</td></tr><tr><td><code>tools/**</code></td><td>repository tooling</td></tr><tr><td><code>human-html/**</code></td><td>generated human view, never execution authority</td></tr><tr><td><code>archive/**</code></td><td>superseded history, never current authority</td></tr></tbody></table></div>
+<hr/>
+<h2>11. Reading order for agents</h2>
+<p>Learn the ecosystem before the skills, and the skills before the validation:</p>
 <ol>
 <li><code>README.md</code></li>
-<li><code>docs/00-control/CURRENT-STATE.md</code></li>
-<li><code>docs/00-control/BUILD-STATE.md</code></li>
+<li><code>docs/00-control/CURRENT-STATE.md</code> and <code>docs/00-control/BUILD-STATE.md</code></li>
 <li><code>docs/00-control/DECISIONS.md</code></li>
 <li><code>docs/01-architecture/ARCHITECTURE-ORIENTATION.md</code></li>
-<li><code>docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md</code></li>
-<li>Relevant server record, runbook, and application/model standard.</li>
-<li>If a governed component skill exists: <code>skills/SKILL-GOVERNANCE.md</code>, <code>skills/SKILL-REGISTRY.md</code>, and the component wrapper.</li>
-<li><strong>Only when validating:</strong> <code>docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code>.</li>
-<li><code>docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md</code>.</li>
-<li>The exact <code>/smoke-tests/*.md</code> authority.</li>
-<li>If using CentCom: <code>tools/hx-smoke-runner/AGENTS.md</code>.</li>
+<li>The relevant server record, runbook, and application standard</li>
+<li>If a governed skill exists: <code>skills/SKILL-GOVERNANCE.md</code>, then the wrapper</li>
+<li><strong>Only when validating:</strong> the smoke-test roadmap, the operating model, then</li>
 </ol>
-<p>Before validation, an agent must be able to state the component's <strong>owner server, target IP, role, current state, applicable foundation rules, intended dependencies, BASE PASS boundary, and required prior PASS evidence</strong>.</p>
-<p><code>CLAUDE.md</code> points back to <code>AGENTS.md</code> so agent instructions do not drift.</p>
-<h2>10. Authoritative surfaces</h2>
-<ul>
-<li><code>docs/**/*.md</code> — current control, architecture, standards, server records, runbooks, and evidence indexes.</li>
-<li><code>skills/**/*.md</code>, <code>skills/**/SKILL.md</code>, and skill metadata — canonical governed agent expertise, subordinate to HX architecture/runbooks/smoke authority.</li>
-<li><code>smoke-tests/*.md</code> — exact component smoke-test acceptance procedures; validation authority only.</li>
-<li><code>docs/03-runbooks/**/*.sh</code> — approved execution/bootstrap artifacts.</li>
-<li><code>tools/hx-smoke-runner/</code> — repository-owned CentCom validation implementation and scoped AI instructions.</li>
-<li><code>human-html/**/*.html</code> — human-readable mirrors; not execution authority.</li>
-<li><code>archive/**</code> — superseded history; never current authority.</li>
-</ul>
-<h2>11. Current build position</h2>
-<p>&lt;!-- HX-FLEET:TABLE columns=id,role,state,gate --&gt;</p>
-<div class="tw"><table><thead><tr><th>Server</th><th>Assignment</th><th>State</th><th>Gate</th></tr></thead><tbody><tr><td>HX-1</td><td>Samba AD / DNS / Kerberos / NTP</td><td><strong>PASS</strong></td><td><strong>CLOSED</strong></td></tr><tr><td>HX-2</td><td>Qwen-X / Ollama</td><td><strong>PASS</strong></td><td><strong>CLOSED</strong></td></tr><tr><td>HX-3</td><td>Coder-X / Ollama</td><td><strong>PASS</strong></td><td><strong>CLOSED</strong></td></tr><tr><td>HX-4</td><td>Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker</td><td><strong>NOT STARTED</strong></td><td><strong>NEXT</strong></td></tr><tr><td>HX-5</td><td>CentCom / Ornith / DeepSeek Harness / dev-test</td><td><strong>NOT STARTED</strong></td><td>—</td></tr><tr><td>HX-6</td><td>OmniRoute</td><td><strong>NOT STARTED</strong></td><td>—</td></tr><tr><td>HX-7</td><td>NGINX dev/test only</td><td><strong>NOT STARTED</strong></td><td>—</td></tr><tr><td>HX-8</td><td>Open WebUI</td><td><strong>NOT STARTED</strong></td><td>—</td></tr><tr><td>HX-9</td><td>PostgreSQL + MCP / Redis + MCP</td><td><strong>NOT STARTED</strong></td><td>—</td></tr><tr><td>HX-10</td><td>Qdrant + Web UI + MCP</td><td><strong>NOT STARTED</strong></td><td>—</td></tr><tr><td>HX-11</td><td>LightRAG + MCP</td><td><strong>NOT STARTED</strong></td><td>—</td></tr><tr><td>HX-12</td><td>Deep Agents (LangChain) LOB agent factory</td><td><strong>NOT STARTED</strong></td><td>—</td></tr><tr><td>HX-13</td><td>Mem0 + assigned MCP</td><td><strong>NOT STARTED</strong></td><td>—</td></tr><tr><td>HX-14</td><td>n8n + MCP</td><td><strong>NOT STARTED</strong></td><td>—</td></tr><tr><td>HX-15</td><td>FastMCP shared/custom MCP development host</td><td><strong>NOT STARTED</strong></td><td>—</td></tr><tr><td>HX-16</td><td>Docling + Granite-Docling 258M + MCP</td><td><strong>NOT STARTED</strong></td><td>—</td></tr><tr><td>HX-17</td><td>Crawl4AI + MCP</td><td><strong>NOT STARTED</strong></td><td>—</td></tr></tbody></table></div>
-<p>&lt;!-- /HX-FLEET:TABLE --&gt;</p>
-<p>Qdrant, LightRAG, PostgreSQL, Redis, Mem0, Docling, and Crawl4AI skills are approved as guidance. Their approval does not change the runtime/build state of the assigned application servers.</p>
-<p><strong>Design readiness is not as-built completion.</strong></p>
-<h2>12. Repository tooling</h2>
-<p>Consistency rules are enforced by code, not by proofreading:</p>
-<pre><code class="lang-bash">tools/hx-doc/hx-doc-check         # links, vocabulary, frontmatter, filenames, evidence
-tools/hx-doc/hx-render-html       # regenerate every human-html/ mirror
-tools/hx-doc/hx-upstream-drift    # are the registry's pinned commits still current?</code></pre>
-<p><code>human-html/**</code> is generated. Edit Markdown, then re-render. CI runs <code>hx-doc-check</code>, <code>hx-render-html --check</code>, <code>shellcheck</code>, a CRLF/executable-bit check, and a secret scan on every pull request.</p>
-<h2>13. Document lifecycle</h2>
-<p>Active documents use stable, unversioned filenames. Version/date/status live inside the document where applicable.</p>
-<p>When a document is superseded:</p>
+<p>the exact <code>smoke-tests/</code> authority</p>
 <ol>
-<li>archive the prior copy under <code>archive/YYYY-MM-DD/&lt;original-path&gt;/</code>;</li>
-<li>replace the active file at the same stable path;</li>
-<li>update the matching HTML mirror when one exists;</li>
-<li>leave exactly one active version.</li>
-</ol><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>README.md</code>.</footer></div></body></html>
+<li>If using the runner: <code>tools/hx-smoke-runner/AGENTS.md</code></li>
+</ol>
+<p>Before validating anything, an agent must be able to state the component's owner server, target IP, role, current state, applicable foundation rules, dependencies, BASE PASS boundary, and required prior PASS evidence. If it cannot, it is not ready to run the test.</p>
+<p><code>CLAUDE.md</code> points back to <code>AGENTS.md</code> so agent instructions cannot drift apart.</p>
+<hr/>
+<h2>12. Document lifecycle</h2>
+<p>Active documents use stable, unversioned filenames. Version, date and status live inside the document.</p>
+<p>To supersede one:</p>
+<pre><code class="lang-bash">tools/hx-doc/hx-doc-supersede docs/00-control/DECISIONS.md --suffix pre-d021
+# edit the active file, then:
+tools/hx-doc/hx-render-html &amp;&amp; tools/hx-doc/hx-doc-check</code></pre>
+<p>That archives the prior copy and its mirror under <code>archive/YYYY-MM-DD/</code>, leaves the active file in place to edit, and leaves exactly one active version.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>README.md</code>.</footer></div></body></html>
