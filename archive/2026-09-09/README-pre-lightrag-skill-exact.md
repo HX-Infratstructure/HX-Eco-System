@@ -1,0 +1,1 @@
+Exact prior root README remains available at commit 75f96315a14b01012ea0b2d87a4553c54d319525 and blob 6bde3c419d92a2f7161ccd0c4e484406570dbb2a. This marker exists only to record immutable provenance; current authority is the active README.md.
