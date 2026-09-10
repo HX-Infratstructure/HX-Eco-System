@@ -1,0 +1,3 @@
+interface:
+  display_name: "HX Redis Advisor"
+  short_description: "Apply current Redis expertise within HX-9 architecture and smoke-test rules."

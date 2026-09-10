@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Skills Architecture</title><style>body{max-width:1050px;margin:40px auto;padding:0 24px;background:#0b0f14;color:#e8eef6;font:16px/1.55 system-ui}h1,h2{color:#fff}pre{background:#111820;border:1px solid #263241;padding:16px;border-radius:10px;overflow:auto}code{color:#b9ddff}.call{border-left:4px solid #ffd166;background:#111820;padding:14px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #263241;padding:9px;vertical-align:top}th{background:#151e28}.ok{color:#81c784}</style></head><body><h1>HX Eco-System Skills Architecture</h1><p class="call"><strong>Ecosystem first. Skill second. Execution third. Validation fourth.</strong></p><pre>HX owner decisions + current ecosystem authority
+  ↓
+HX component context
+  ↓
+HX skill wrapper
+  ↘ current official product/project guidance
+  ↘ reviewed external skill expertise where appropriate
+  ↓
+HX runbook / standard
+  ↓
+HX smoke roadmap + exact test
+  ↓
+evidence</pre><h2>Canonical source</h2><p><code>skills/</code> is the governed source for reusable agent expertise. Agent-specific directories are deployment targets only.</p><h2>Approved implementations</h2><table><tr><th>Component</th><th>Host</th><th>Wrapper</th><th>Primary upstream model</th></tr><tr><td>Qdrant</td><td>HX-10</td><td class="ok"><code>hx-qdrant-advisor</code></td><td>Official Qdrant Advisor / live skills.qdrant.tech</td></tr><tr><td>LightRAG</td><td>HX-11</td><td class="ok"><code>hx-lightrag-advisor</code></td><td>Official HKUDS/LightRAG repository guidance</td></tr><tr><td>PostgreSQL</td><td>HX-9</td><td class="ok"><code>hx-postgresql-advisor</code></td><td>PGDG official docs/releases; reviewed Neon Agent Skill as community expert reference; agentskills.io format</td></tr></table><h2>Controls</h2><p>Skills cannot override HX architecture, server placement, native/systemd deployment, network/security/storage rules, model placement, or smoke-test acceptance criteria. Skills do not store credentials.</p><p>For PostgreSQL, the wrapper does not select the HX-9 major, package source, data path, listener/auth pattern, HA/pooling/backup topology or MCP implementation before the runbook pins them.</p><p>Markdown authorities: <code>skills/README.md</code>, <code>skills/SKILL-GOVERNANCE.md</code>, and <code>skills/SKILL-REGISTRY.md</code>.</p></body></html>

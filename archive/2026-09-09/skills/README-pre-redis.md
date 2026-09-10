@@ -144,22 +144,6 @@ Combines:
 
 The wrapper deliberately does not choose the HX-9 PostgreSQL major, package source, data placement, listener/authentication pattern, HA/replication, PgBouncer, backup/PITR topology, or MCP implementation before the HX-9 runbook pins those choices.
 
-### Redis
-
-```text
-skills/redis/hx-redis-advisor/
-```
-
-Combines:
-
-- HX-9 placement, native/systemd and PostgreSQL/Redis shared-host boundaries;
-- Redis BASE and MCP validation authorities;
-- current official Redis documentation, source, releases and packaging guidance as primary product truth;
-- reviewed official `redis/agent-skills` as `VENDOR_OFFICIAL` agent expertise;
-- HX-specific curation for topology, security/network authority, standalone operation and evidence-based closure.
-
-The wrapper does not install the upstream eight-skill bundle as a second HX source of truth. Core, connections, Search and observability guidance are accepted/adapted; Cluster/replication and Redis Cloud-only AI services remain reference-only for current BASE; TLS/firewall/bind/global-command hardening remains owner-controlled. The current upstream release/skill commit records provenance and does not by itself select the HX-9 runtime version, package source, data/persistence/memory policy, or Redis MCP implementation.
-
 ## Governance
 
 `SKILL-GOVERNANCE.md` defines admission, trust, authority precedence, version/provenance, update, testing, secret-handling, deployment, and retirement rules.

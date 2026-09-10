@@ -1,7 +1,7 @@
 ---
 document: HX Eco-System Skill Registry
 status: current
-version: 1.3
+version: 1.2
 date: 2026-09-09
 authority: HX-Eco-System clean rebuild
 ---
@@ -19,7 +19,6 @@ This is the current inventory and trust/status registry for reusable AI-agent sk
 | Qdrant | HX-10 | `skills/qdrant/hx-qdrant-advisor/` | `HX_NATIVE + WRAPPER` | Qdrant `qdrant/skills` → `meta/qdrant-advisor` | live `skills.qdrant.tech` Advisor; reviewed commit `b0941d03eddf88629306aa16588383400e68230b` | **APPROVED** | plan, native install/config reasoning, validation preparation, troubleshoot, optimize, migrate, upgrade | Qdrant Web UI + Qdrant MCP | 2026-09-09 |
 | LightRAG | HX-11 | `skills/lightrag/hx-lightrag-advisor/` | `HX_NATIVE + WRAPPER` | official `HKUDS/LightRAG` repository; no official LightRAG `SKILL.md` catalog found | verify current release/main + `AGENTS.md`/docs/`env.example`; reviewed main `d964d92b1018c27983d1dcf6ca19ebbaebeb262e`, release `v1.5.7` | **APPROVED** | plan, native install/config reasoning, storage/model reconciliation, validation preparation, troubleshoot, migrate, upgrade; execution only through future HX-11 runbook | LightRAG MCP | 2026-09-09 |
 | PostgreSQL | HX-9 | `skills/postgresql/hx-postgresql-advisor/` | `HX_NATIVE + WRAPPER` | PostgreSQL Global Development Group docs/releases + reviewed Neon `neondatabase/postgres-skills` | PGDG is product authority; Neon Agent Skill reviewed at `27fe45e0f71ea89a6eaf9ea4d2e4068957c81c26`; Agent Skills format from `agentskills.io` | **APPROVED** | plan, native install/config reasoning, SQL/schema/index/query expertise, diagnostics, validation preparation, backup/restore and upgrade planning; execution only through future HX-9 runbook | PostgreSQL MCP | 2026-09-09 |
-| Redis | HX-9 | `skills/redis/hx-redis-advisor/` | `HX_NATIVE + WRAPPER` | Redis official docs/releases + official `redis/agent-skills` | Redis product guidance is primary; reviewed Agent Skills main `a84871d065f398fed55e1633f66b66f731eb4e2b`, plugin `redis-development` 1.4.0; latest non-prerelease Redis release at review 8.10.1 | **APPROVED** | plan, native standalone install/config reasoning, persistence/recovery, memory/eviction, data modeling/TTL, clients, Search/JSON/vector/RAG, Streams/coordination, observability, validation preparation, troubleshoot and upgrade; execution only through future HX-9 runbook | Redis MCP | 2026-09-09 |
 
 ## Discovery backlog
 
@@ -29,6 +28,7 @@ These rows intentionally do not invent external sources. Add a source only after
 |---|---|---|---|---|---|
 | Samba AD/DNS/Kerberos/NTP | HX-1 | TBD | TBD | `DISCOVERY` | foundation administration/troubleshooting |
 | Ollama / inference | HX-2/3/4/5 | TBD | TBD | `DISCOVERY` | native install/config/model serving/troubleshooting |
+| Redis | HX-9 | TBD | TBD | `DISCOVERY` | install/config/persistence/client/performance/upgrade |
 | OmniRoute | HX-6 | TBD | TBD | `DISCOVERY` | provider/model routing/configuration |
 | NGINX | HX-7 | TBD | TBD | `DISCOVERY` | dev/test proxy configuration only |
 | Open WebUI | HX-8 | TBD | TBD | `DISCOVERY` | native install/config/model connection/UI troubleshooting |
@@ -88,22 +88,6 @@ HX wrapper: skills/postgresql/hx-postgresql-advisor/
 ```
 
 PostgreSQL major version, package source, data placement, listener/authentication pattern, HA/pooling/backup topology, and exact PostgreSQL MCP implementation remain owner/runbook decisions for HX-9. Skill approval does not advance HX-9 build state.
-
-## Redis provenance
-
-```text
-Project authority: Redis official documentation, source, and releases
-Current upstream context at review: Redis 8.10.1, published 2026-08-17
-Official Agent Skills: redis/agent-skills
-Reviewed Agent Skills main: a84871d065f398fed55e1633f66b66f731eb4e2b
-Reviewed plugin: redis-development 1.4.0
-Reviewed source skills: 8
-Upstream license: MIT
-HX classification of upstream skill source: VENDOR_OFFICIAL
-HX wrapper: skills/redis/hx-redis-advisor/
-```
-
-HX intentionally curates the official Redis bundle rather than direct-installing it as a second authority. `redis-core`, `redis-connections`, `redis-search`, and `redis-observability` are accepted/adapted. `redis-security` is adapted under owner-controlled network/security rules. `redis-clustering`, Redis Cloud LangCache, and managed Agent Memory guidance are reference-only for current BASE unless separately admitted. Redis skill approval does not advance HX-9 build state or select the runtime version/package source, service/data path, persistence/memory policy, network/auth topology, or exact Redis MCP implementation.
 
 ## Registry update fields
 
