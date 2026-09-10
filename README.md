@@ -2,122 +2,237 @@
 
 Authoritative repository for the clean-room HX Eco-System rebuild.
 
-## Start here
+> **Cornerstone first:** understand the HX ecosystem and its configuration before applying the smoke-test validation model. Validation sits on top of the architecture; it does not define it.
 
-Agentic tools and coding agents must read these files in order:
+## 1. HX Eco-System cornerstone
 
-1. `AGENTS.md`
-2. `docs/00-control/CURRENT-STATE.md`
-3. `docs/00-control/BUILD-STATE.md`
-4. `docs/00-control/DECISIONS.md`
-5. `docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md`
-6. If smoke-testing, `docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md`.
-7. The current server record and runbook for the server being worked on.
-8. The relevant application standard.
-9. If smoke-testing, the exact `/smoke-tests/*.md` authority and `tools/hx-smoke-runner/AGENTS.md`.
+HX is a **17-server native-Linux AI ecosystem** organized into foundation, inference, state/retrieval, control/routing, knowledge/RAG, agent/workflow, and user-interaction capabilities.
 
-`CLAUDE.md` points back to `AGENTS.md` so agent instructions do not drift.
+```mermaid
+flowchart BT
+    F["FOUNDATION / CORNERSTONE<br/>HX-1 AD · DNS · Kerberos · NTP<br/>LAN · gateway · domain · native Linux + systemd"]
+    I["INFERENCE<br/>HX-2 Qwen-X · HX-3 Coder-X<br/>HX-4 Meta-X · HX-5 Ornith"]
+    S["STATE / RETRIEVAL<br/>HX-9 PostgreSQL + Redis<br/>HX-10 Qdrant"]
+    K["KNOWLEDGE / RAG / MEMORY<br/>HX-16 Docling · HX-17 Crawl4AI<br/>HX-11 LightRAG · HX-13 Mem0"]
+    C["CONTROL / ROUTING / MCP DEV<br/>HX-6 OmniRoute · HX-15 FastMCP<br/>HX-5 DeepSeek Harness · HX-7 NGINX dev/test"]
+    A["AGENT / WORKFLOW / UI<br/>HX-12 Deep Agents · HX-14 n8n<br/>HX-8 Open WebUI"]
+    V["VALIDATION LAYER<br/>HX-5 CentCom smoke runner<br/>ordered proof · cleanup · evidence"]
 
-## Authoritative surfaces
+    F --> I
+    I --> S
+    I --> C
+    S --> K
+    S --> C
+    K --> A
+    C --> A
 
-- `docs/**/*.md` — current control, architecture, standards, server records, runbooks, and evidence indexes.
-- `smoke-tests/*.md` — exact component smoke-test acceptance procedures.
-- `docs/03-runbooks/**/*.sh` — approved execution/bootstrap artifacts.
-- `tools/hx-smoke-runner/` — repository-owned HX-5 CentCom smoke-runner implementation and scoped AI instructions.
-- `human-html/**/*.html` — human-readable mirrors; not execution authority.
-- `archive/**` — superseded history; never current authority.
+    V -. validates .-> I
+    V -. validates .-> S
+    V -. validates .-> C
+    V -. validates .-> K
+    V -. validates .-> A
 
-## Smoke Test Structure
+    classDef foundation fill:#263238,color:#ffffff,stroke:#90a4ae,stroke-width:3px;
+    classDef inference fill:#1565c0,color:#ffffff,stroke:#90caf9,stroke-width:2px;
+    classDef state fill:#00695c,color:#ffffff,stroke:#80cbc4,stroke-width:2px;
+    classDef control fill:#6a1b9a,color:#ffffff,stroke:#ce93d8,stroke-width:2px;
+    classDef knowledge fill:#ef6c00,color:#ffffff,stroke:#ffcc80,stroke-width:2px;
+    classDef app fill:#2e7d32,color:#ffffff,stroke:#a5d6a7,stroke-width:2px;
+    classDef validation fill:#ad1457,color:#ffffff,stroke:#f48fb1,stroke-width:2px;
 
-HX uses a **remote, CentCom-driven smoke-test model**. The repository defines the test, **HX-5 CentCom executes it**, and the **System Under Test (SUT)** remains clean except for explicitly authorized temporary `hx_smoke_*` state.
+    class F foundation;
+    class I inference;
+    class S state;
+    class C control;
+    class K knowledge;
+    class A app;
+    class V validation;
+```
+
+**Interpretation:** the foundation supports the ecosystem; the service planes build capability upward; the validation layer proves those components without becoming a new architecture plane.
+
+Detailed ecosystem authority: `docs/01-architecture/ARCHITECTURE-ORIENTATION.md`.
+
+## 2. Foundational configuration
+
+| Item | HX baseline |
+|---|---|
+| LAN | `192.168.50.0/24` |
+| Gateway | `192.168.50.1` |
+| Infrastructure DNS | HX-1 — `192.168.50.200` |
+| AD domain | `hx.local.arpa` |
+| Kerberos realm | `HX.LOCAL.ARPA` |
+| Domain client pattern | SSSD / realmd / adcli |
+| Foundation services | HX-1 — Samba AD / DNS / Kerberos / NTP |
+| Deployment | Native Ubuntu Linux + systemd |
+| Containers | Not used unless explicitly approved by the owner |
+| Normal UI access | Direct native application server/port |
+| NGINX | HX-7 dev/test UI rendering only; not the common reverse proxy |
+
+HX-1 through HX-3 have current as-built evidence. Future-server target configuration is **planned until verified during that server's rebuild**.
+
+## 3. Server and application map
+
+| Server | IP | Assignment | State |
+|---|---|---|---|
+| HX-1 | `192.168.50.200` | Samba AD / DNS / Kerberos / NTP | **PASS / CLOSED** |
+| HX-2 | `192.168.50.202` | Qwen-X / Ollama / Qwen3.8-27B Q6_K | **PASS / CLOSED** |
+| HX-3 | `192.168.50.203` | Coder-X / Ollama / Qwen3-Coder-30B Q6_K | **PASS / CLOSED** |
+| HX-4 | `192.168.50.204` | Meta-X / GPT-OSS 20B + BGE-M3 / Nomic / BGE reranker | **NEXT** |
+| HX-5 | `192.168.50.205` | CentCom / Ornith / DeepSeek Harness / dev-test | **NOT STARTED** |
+| HX-6 | `192.168.50.206` | OmniRoute | **NOT STARTED** |
+| HX-7 | `192.168.50.207` | NGINX dev/test only | **NOT STARTED** |
+| HX-8 | `192.168.50.208` | Open WebUI | **NOT STARTED** |
+| HX-9 | `192.168.50.209` | PostgreSQL + MCP / Redis + MCP | **NOT STARTED** |
+| HX-10 | `192.168.50.210` | Qdrant + Web UI + MCP | **NOT STARTED** |
+| HX-11 | `192.168.50.211` | LightRAG + MCP | **NOT STARTED** |
+| HX-12 | `192.168.50.212` | Deep Agents — LOB agent factory/runtime harness | **NOT STARTED** |
+| HX-13 | `192.168.50.213` | Mem0 + assigned MCP | **NOT STARTED** |
+| HX-14 | `192.168.50.214` | n8n + MCP | **NOT STARTED** |
+| HX-15 | `192.168.50.215` | FastMCP shared/custom MCP development host | **NOT STARTED** |
+| HX-16 | `192.168.50.216` | Docling + Granite-Docling 258M + MCP | **NOT STARTED** |
+| HX-17 | `192.168.50.217` | Crawl4AI + MCP | **NOT STARTED** |
+
+## 4. Two roadmaps — build first, prove second
+
+HX now has two complementary evergreen roadmaps:
+
+```text
+BASE IMPLEMENTATION ROADMAP
+What gets built? In what dependency order? What is BASE PASS?
+        ↓
+SMOKE-TEST ROADMAP
+What proof runs next? Which prior PASS evidence does it consume?
+What limited temporary integration is permitted?
+        ↓
+COMPONENT SMOKE AUTHORITY
+Exactly how is the known-answer test executed and cleaned up?
+```
+
+- Deployment/build roadmap: `docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md`
+- Ordered proof roadmap: `docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md`
+- Exact procedures: `smoke-tests/`
+
+The proof roadmap uses **cumulative evidence with minimal live coupling**. A later test references earlier PASS evidence when it truly depends on it, but HX does not force unnecessary cross-service wiring merely to create a chain.
+
+## 5. Core architecture rules
+
+- **KISS:** one server, validate it, record it, then move on.
+- **Native deployment:** Linux + systemd; no Docker/Podman/Kubernetes unless explicitly approved.
+- **Clean room:** historical HX-Infrastructure artifacts are reference only and do not establish current state.
+- **Companion services:** assigned product MCP servers and native Web UIs are part of the parent application's base build.
+- **FastMCP boundary:** HX-15 is shared/custom MCP development/runtime; it is not a prerequisite for product-specific MCP servers.
+- **HX-4 retrieval inference:** BGE-M3 primary/default at 1024 dimensions; Nomic Embed Text v1.5 alternate/default 768; BGE-family reranker also on HX-4.
+- **Qdrant rule:** never mix embeddings from different model identities in one collection; changing models requires a new collection and re-embedding.
+- **Docling rule:** Granite-Docling 258M stays with Docling on HX-16 and is CPU-first for base validation.
+- **NGINX boundary:** HX-7 is dev/test only, not normal ecosystem routing.
+- **Base before integration:** permanent routes, production schemas/collections, agent bindings, RAG ingestion, workflows, and end-to-end integration come after standalone base closure.
+
+## 6. Dependency-driven base-build sequence
+
+```text
+Inference
+  HX-4 Meta-X -> HX-5 CentCom/Ornith
+        ↓
+State / Retrieval
+  HX-9 PostgreSQL + Redis -> HX-10 Qdrant
+        ↓
+Routing / Control / MCP Development
+  HX-6 OmniRoute -> HX-15 FastMCP -> HX-5 DeepSeek Harness -> HX-7 NGINX dev/test
+        ↓
+Knowledge Acquisition
+  HX-16 Docling -> HX-17 Crawl4AI
+        ↓
+RAG / Memory
+  HX-11 LightRAG -> HX-13 Mem0
+        ↓
+Agents / Workflow
+  HX-12 Deep Agents -> HX-14 n8n
+        ↓
+User Interaction
+  HX-8 Open WebUI
+```
+
+This is dependency sequencing, not permanent integration wiring.
+
+## 7. Validation layer — ordered smoke testing
+
+Only after the ecosystem role/configuration is understood do we apply the validation model.
 
 ```mermaid
 flowchart LR
-    subgraph AUTH["1 · Repository Authority"]
-        A["Owner decision<br/>+ roadmap"]
-        B["Component smoke test<br/><b>WHAT must pass</b>"]
-        C["HX-5 standards + runner<br/><b>HOW to prove it</b>"]
-        A --> B
-        A --> C
-    end
+    A["Ecosystem authority<br/>role · host · config · state"]
+    B["Smoke roadmap<br/>ordered prior proof"]
+    C["Component smoke test<br/>known answer"]
+    D["HX-5 CentCom<br/>remote disposable run"]
+    E["SUT<br/>real application interface"]
+    F["Cleanup + verify"]
+    G["Reboot / persistence"]
+    H["Evidence + review"]
+    I["BASE PASS / CLOSED"]
 
-    subgraph CENTCOM["2 · HX-5 CentCom · Development / Test"]
-        D["Disposable test project<br/>manifest · fixtures · runner"]
-        E["Remote execution<br/>API · native client · MCP · UI"]
-        D --> E
-    end
-
-    subgraph SUT["3 · System Under Test"]
-        F["Installed application<br/>+ approved configuration"]
-        G["Temporary<br/>hx_smoke_* state only"]
-        F --> G
-    end
-
-    subgraph CLOSE["4 · Prove · Clean · Close"]
-        H["Known-answer<br/>functional proof"]
-        I["Cleanup<br/>+ verify cleanup"]
-        J["Reboot / persistence<br/>proof"]
-        K["Retained evidence<br/>+ review"]
-        L["BASE PASS<br/>/ CLOSED"]
-        H --> I --> J --> K --> L
-    end
-
-    B --> D
-    C --> D
-    E --> F
-    G --> H
-
-    classDef authority fill:#1565c0,color:#ffffff,stroke:#90caf9,stroke-width:2px;
-    classDef runner fill:#6a1b9a,color:#ffffff,stroke:#ce93d8,stroke-width:2px;
-    classDef sut fill:#ef6c00,color:#ffffff,stroke:#ffcc80,stroke-width:2px;
-    classDef proof fill:#2e7d32,color:#ffffff,stroke:#a5d6a7,stroke-width:2px;
-
-    class A,B,C authority;
-    class D,E runner;
-    class F,G sut;
-    class H,I,J,K,L proof;
+    A --> B --> C --> D --> E --> F --> G --> H --> I
 ```
 
-### How it works
+Validation rules:
 
-1. **Repository authority** — the roadmap defines build order; `/smoke-tests/` defines the exact component PASS criteria; HX-5 standards and runner code define execution mechanics.
-2. **HX-5 CentCom** — owns disposable test projects, client tooling, synthetic fixtures, manifests, browser automation, cleanup verification, and evidence assembly.
-3. **SUT** — owns the installed application and approved configuration. General test harnesses, Python environments, fixtures, and retained evidence do not live on the SUT.
-4. **Known-answer proof** — service health alone is not enough. The component must perform its primary function and, where assigned, pass its MCP/UI companion gate.
-5. **Cleanup is part of PASS** — temporary collections, keys, workflows, routes, memories, test projects, or connections must be removed and their removal verified.
-6. **Limited integration is allowed only for proof** — an already-PASS dependency may be used when required to prove a component's primary contract. Temporary validation wiring does **not** automatically become permanent architecture.
+1. **Architecture first.** Smoke tests inherit the ecosystem architecture; they do not redefine it.
+2. **Ordered proof.** Downstream tests cite current prior PASS evidence when their primary contract depends on earlier capabilities.
+3. **Minimal live integration.** Use only the temporary connection actually required to prove function.
+4. **HX-5 executes remotely** after its CentCom activation gate passes; general test tooling stays off the SUT.
+5. **Service health is not enough.** A known-answer primary-function test is required.
+6. **Cleanup is part of PASS.** Temporary collections, keys, workflows, routes, memories, connections, or projects are removed and verified.
+7. **Evidence closes the loop.** Reviewed proof plus reboot persistence supports server-record and `BUILD-STATE.md` closure.
 
-Detailed authorities:
+Detailed validation authorities:
 
-- Architecture map: `docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md`
-- Execution process: `docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md`
-- CentCom toolset/bootstrap: `docs/04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md`
+- Smoke roadmap: `docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md`
+- Validation architecture: `docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md`
 - Component acceptance: `smoke-tests/`
+- HX-5 execution process: `docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md`
+- CentCom toolset/bootstrap: `docs/04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md`
 - Runner implementation: `tools/hx-smoke-runner/`
 
-## AI-centric operating model
+## 8. AI-centric reading order
 
-The repository must contain enough current context, instructions, executable helpers, acceptance criteria, and evidence paths for an AI infrastructure/coding agent to operate without reconstructing material decisions from chat history. If an agent cannot determine **what to read, what it may change, how to prove success, and where evidence belongs**, repository context is incomplete.
+Agentic tools and coding agents must learn the ecosystem before validation:
 
-## Core build philosophy
+1. `README.md`
+2. `docs/00-control/CURRENT-STATE.md`
+3. `docs/00-control/BUILD-STATE.md`
+4. `docs/00-control/DECISIONS.md`
+5. `docs/01-architecture/ARCHITECTURE-ORIENTATION.md`
+6. `docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md`
+7. Relevant server record, runbook, and application/model standard.
+8. **Only when validating:** `docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md`.
+9. `docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md`.
+10. The exact `/smoke-tests/*.md` authority.
+11. If using CentCom: `tools/hx-smoke-runner/AGENTS.md`.
 
-KISS: **one server, validate it, record it, then move on.**
+Before validation, an agent must be able to state the component's **owner server, target IP, role, current state, applicable foundation rules, intended dependencies, BASE PASS boundary, and required prior PASS evidence**.
 
-Native Linux + systemd. No Docker, Podman, or Kubernetes unless explicitly approved by the infrastructure owner.
+`CLAUDE.md` points back to `AGENTS.md` so agent instructions do not drift.
 
-Historical HX-Infrastructure material is reference-only. It does not establish current state, configuration, or closure.
+## 9. Authoritative surfaces
 
-## Current state
+- `docs/**/*.md` — current control, architecture, standards, server records, runbooks, and evidence indexes.
+- `smoke-tests/*.md` — exact component smoke-test acceptance procedures; validation authority only.
+- `docs/03-runbooks/**/*.sh` — approved execution/bootstrap artifacts.
+- `tools/hx-smoke-runner/` — repository-owned CentCom validation implementation and scoped AI instructions.
+- `human-html/**/*.html` — human-readable mirrors; not execution authority.
+- `archive/**` — superseded history; never current authority.
 
-- HX-1: PASS / CLOSED — Samba AD/DNS/Kerberos/NTP
-- HX-2: PASS / CLOSED — Qwen-X / Ollama
-- HX-3: PASS / CLOSED — Coder-X / Ollama
-- HX-4: NEXT — Meta-X base build plus shared embedding/reranking plane
-- HX-5 through HX-17: pending clean rebuild/base application stand-up in dependency order.
+## 10. Current build position
 
-HX-5 is planned as CentCom / Ornith / DeepSeek Harness / dev-test and, after its activation gate, the standard remote smoke-test runner for later components. **Planned does not mean installed.**
+- HX-1: **PASS / CLOSED** — foundation services.
+- HX-2: **PASS / CLOSED** — Qwen-X / Ollama.
+- HX-3: **PASS / CLOSED** — Coder-X / Ollama.
+- HX-4: **NEXT** — Meta-X plus shared embedding/reranking plane.
+- HX-5 through HX-17: planned/not started except for staged repository documentation/runbooks where present.
 
-## Document lifecycle
+**Design readiness is not as-built completion.**
+
+## 11. Document lifecycle
 
 Active documents use stable, unversioned filenames. Version/date/status live inside the document where applicable.
 

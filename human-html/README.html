@@ -1,93 +1,41 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HX Eco-System</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Eco-System</title>
 <style>
-:root{color-scheme:dark;--bg:#0b0f14;--panel:#111820;--line:#263241;--text:#e8eef6;--muted:#aeb9c7;--blue:#1565c0;--purple:#6a1b9a;--orange:#ef6c00;--green:#2e7d32}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.wrap{max-width:1180px;margin:auto;padding:42px 28px 72px}h1{font-size:2.35rem;margin:0 0 8px}h2{margin-top:38px;border-bottom:1px solid var(--line);padding-bottom:8px}h3{margin-top:24px}p,li{color:var(--text)}code{color:#b9ddff}a{color:#7cc7ff}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(4,minmax(190px,1fr));gap:18px;align-items:stretch;margin:24px 0}.stage{border-radius:14px;padding:18px;border:2px solid}.stage h3{margin:0 0 14px;font-size:1rem}.node{background:#0b1118;border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:12px;margin:10px 0}.blue{background:rgba(21,101,192,.18);border-color:#64b5f6}.purple{background:rgba(106,27,154,.20);border-color:#ce93d8}.orange{background:rgba(239,108,0,.18);border-color:#ffcc80}.green{background:rgba(46,125,50,.20);border-color:#a5d6a7}.arrow{text-align:center;font-size:1.6rem;color:var(--muted);margin:-4px 0 4px}.callout{border-left:4px solid #7cc7ff;background:var(--panel);padding:14px 18px;margin:18px 0}.state{display:inline-block;padding:4px 10px;border-radius:999px;background:#11241a;border:1px solid #31513f;color:#75d69c;font-weight:700}ul,ol{padding-left:24px}@media(max-width:900px){.grid{grid-template-columns:1fr 1fr}}@media(max-width:580px){.grid{grid-template-columns:1fr}}
-</style>
-</head>
-<body><main class="wrap">
-<h1>HX Eco-System</h1>
-<p class="muted">Authoritative repository for the clean-room HX Eco-System rebuild.</p>
+:root{color-scheme:dark;--bg:#0b0f14;--panel:#111820;--line:#263241;--text:#e8eef6;--muted:#aeb9c7;--blue:#64b5f6;--teal:#80cbc4;--purple:#ce93d8;--orange:#ffb74d;--green:#81c784;--pink:#f48fb1;--grey:#90a4ae}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.wrap{max-width:1180px;margin:auto;padding:42px 28px 72px}h1{font-size:2.4rem;margin:0 0 8px}h2{margin-top:38px;border-bottom:1px solid var(--line);padding-bottom:8px}p,li{color:var(--text)}.muted{color:var(--muted)}.callout{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--blue);padding:16px 18px;border-radius:10px;margin:18px 0}.stack{display:grid;gap:10px;margin:22px 0}.layer{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:14px 16px}.foundation{border-color:var(--grey)}.inference{border-color:var(--blue)}.state{border-color:var(--teal)}.control{border-color:var(--purple)}.knowledge{border-color:var(--orange)}.app{border-color:var(--green)}.validation{border-color:var(--pink)}table{width:100%;border-collapse:collapse;margin:18px 0;font-size:.94rem}th,td{border:1px solid var(--line);padding:9px 10px;vertical-align:top}th{background:#151e28;text-align:left}pre{overflow:auto;background:#080c11;border:1px solid var(--line);border-radius:10px;padding:18px;color:#d9e7f5}code{color:#b9ddff}.flow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:20px 0}.node{padding:12px 14px;border-radius:10px;background:var(--panel);border:2px solid var(--line);font-weight:650}.arrow{color:var(--muted);font-size:1.3rem}
+</style></head><body><main class="wrap">
+<h1>HX Eco-System</h1><p class="muted">Authoritative clean-room rebuild of the 17-server HX native-Linux AI ecosystem.</p>
+<div class="callout"><strong>Cornerstone first:</strong> understand the ecosystem and its configuration before applying smoke-test validation. Validation sits on top of the architecture; it does not define it.</div>
 
-<h2>Start here</h2>
-<ol>
-<li><code>AGENTS.md</code></li>
-<li><code>docs/00-control/CURRENT-STATE.md</code></li>
-<li><code>docs/00-control/BUILD-STATE.md</code></li>
-<li><code>docs/00-control/DECISIONS.md</code></li>
-<li><code>docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md</code></li>
-<li>If smoke-testing, <code>docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md</code>.</li>
-<li>The current server record and runbook for the server being worked on.</li>
-<li>The relevant application standard.</li>
-<li>If smoke-testing, the exact <code>/smoke-tests/*.md</code> authority and <code>tools/hx-smoke-runner/AGENTS.md</code>.</li>
-</ol>
-<p><code>CLAUDE.md</code> points back to <code>AGENTS.md</code> so agent instructions do not drift.</p>
+<h2>Architecture cornerstone</h2><div class="stack"><div class="layer validation"><strong>VALIDATION</strong> — HX-5 CentCom ordered smoke testing, cleanup, evidence</div><div class="layer app"><strong>AGENT / WORKFLOW / UI</strong> — HX-12 Deep Agents · HX-14 n8n · HX-8 Open WebUI</div><div class="layer knowledge"><strong>KNOWLEDGE / RAG / MEMORY</strong> — HX-16 Docling · HX-17 Crawl4AI · HX-11 LightRAG · HX-13 Mem0</div><div class="layer control"><strong>CONTROL / ROUTING / MCP DEV</strong> — HX-6 OmniRoute · HX-15 FastMCP · HX-5 DeepSeek Harness · HX-7 NGINX dev/test</div><div class="layer state"><strong>STATE / RETRIEVAL</strong> — HX-9 PostgreSQL + Redis · HX-10 Qdrant</div><div class="layer inference"><strong>INFERENCE</strong> — HX-2 Qwen-X · HX-3 Coder-X · HX-4 Meta-X · HX-5 Ornith</div><div class="layer foundation"><strong>FOUNDATION / CORNERSTONE</strong> — HX-1 AD/DNS/Kerberos/NTP · LAN · gateway · domain · native Linux + systemd</div></div>
 
-<h2>Authoritative surfaces</h2>
-<ul>
-<li><code>docs/**/*.md</code> — current control, architecture, standards, server records, runbooks, and evidence indexes.</li>
-<li><code>smoke-tests/*.md</code> — exact component smoke-test acceptance procedures.</li>
-<li><code>docs/03-runbooks/**/*.sh</code> — approved execution/bootstrap artifacts.</li>
-<li><code>tools/hx-smoke-runner/</code> — repository-owned HX-5 CentCom smoke-runner implementation and scoped AI instructions.</li>
-<li><code>human-html/**/*.html</code> — human-readable mirrors; not execution authority.</li>
-<li><code>archive/**</code> — superseded history; never current authority.</li>
-</ul>
+<h2>Foundational configuration</h2><table><tbody><tr><th>LAN</th><td><code>192.168.50.0/24</code></td></tr><tr><th>Gateway</th><td><code>192.168.50.1</code></td></tr><tr><th>DNS</th><td>HX-1 <code>192.168.50.200</code></td></tr><tr><th>AD domain</th><td><code>hx.local.arpa</code></td></tr><tr><th>Kerberos realm</th><td><code>HX.LOCAL.ARPA</code></td></tr><tr><th>Deployment</th><td>Native Ubuntu Linux + systemd; no containers unless approved</td></tr><tr><th>NGINX</th><td>HX-7 dev/test rendering only; not common routing</td></tr></tbody></table>
 
-<h2>Smoke Test Structure</h2>
-<p>HX uses a <strong>remote, CentCom-driven smoke-test model</strong>. The repository defines the test, <strong>HX-5 CentCom executes it</strong>, and the <strong>System Under Test (SUT)</strong> remains clean except for explicitly authorized temporary <code>hx_smoke_*</code> state.</p>
+<h2>Current server map</h2><table><thead><tr><th>Server</th><th>IP</th><th>Assignment</th><th>State</th></tr></thead><tbody><tr><td>HX-1</td><td>.200</td><td>AD / DNS / Kerberos / NTP</td><td>PASS / CLOSED</td></tr><tr><td>HX-2</td><td>.202</td><td>Qwen-X / Ollama</td><td>PASS / CLOSED</td></tr><tr><td>HX-3</td><td>.203</td><td>Coder-X / Ollama</td><td>PASS / CLOSED</td></tr><tr><td>HX-4</td><td>.204</td><td>Meta-X + embeddings/reranker</td><td>NEXT</td></tr><tr><td>HX-5</td><td>.205</td><td>CentCom / Ornith / DeepSeek Harness / dev-test</td><td>NOT STARTED</td></tr><tr><td>HX-6</td><td>.206</td><td>OmniRoute</td><td>NOT STARTED</td></tr><tr><td>HX-7</td><td>.207</td><td>NGINX dev/test</td><td>NOT STARTED</td></tr><tr><td>HX-8</td><td>.208</td><td>Open WebUI</td><td>NOT STARTED</td></tr><tr><td>HX-9</td><td>.209</td><td>PostgreSQL + Redis + MCP</td><td>NOT STARTED</td></tr><tr><td>HX-10</td><td>.210</td><td>Qdrant + Web UI + MCP</td><td>NOT STARTED</td></tr><tr><td>HX-11</td><td>.211</td><td>LightRAG + MCP</td><td>NOT STARTED</td></tr><tr><td>HX-12</td><td>.212</td><td>Deep Agents</td><td>NOT STARTED</td></tr><tr><td>HX-13</td><td>.213</td><td>Mem0 + MCP</td><td>NOT STARTED</td></tr><tr><td>HX-14</td><td>.214</td><td>n8n + MCP</td><td>NOT STARTED</td></tr><tr><td>HX-15</td><td>.215</td><td>FastMCP</td><td>NOT STARTED</td></tr><tr><td>HX-16</td><td>.216</td><td>Docling + Granite-Docling + MCP</td><td>NOT STARTED</td></tr><tr><td>HX-17</td><td>.217</td><td>Crawl4AI + MCP</td><td>NOT STARTED</td></tr></tbody></table>
 
-<div class="grid">
-<section class="stage blue"><h3>1 · Repository Authority</h3><div class="node">Owner decision + roadmap</div><div class="arrow">↓</div><div class="node">Component smoke test<br><strong>WHAT must pass</strong></div><div class="node">HX-5 standards + runner<br><strong>HOW to prove it</strong></div></section>
-<section class="stage purple"><h3>2 · HX-5 CentCom</h3><div class="node">Disposable test project<br>manifest · fixtures · runner</div><div class="arrow">↓</div><div class="node">Remote execution<br>API · native client · MCP · UI</div></section>
-<section class="stage orange"><h3>3 · System Under Test</h3><div class="node">Installed application<br>+ approved configuration</div><div class="arrow">↓</div><div class="node">Temporary<br><code>hx_smoke_*</code> state only</div></section>
-<section class="stage green"><h3>4 · Prove · Clean · Close</h3><div class="node">Known-answer functional proof</div><div class="arrow">↓</div><div class="node">Cleanup + verify cleanup</div><div class="arrow">↓</div><div class="node">Reboot / persistence proof</div><div class="arrow">↓</div><div class="node">Retained evidence + review</div><div class="arrow">↓</div><div class="node"><strong>BASE PASS / CLOSED</strong></div></section>
-</div>
+<h2>Two roadmaps</h2><div class="flow"><div class="node" style="border-color:var(--blue)">Base Implementation Roadmap<br><small>what to build + dependency order</small></div><div class="arrow">→</div><div class="node" style="border-color:var(--pink)">Smoke-Test Roadmap<br><small>what to prove + prior PASS evidence + limited integration</small></div><div class="arrow">→</div><div class="node" style="border-color:var(--green)">Evidence<br><small>supports BASE PASS / CLOSED</small></div></div>
+<p>The smoke roadmap uses <strong>cumulative proof with minimal live coupling</strong>: reuse prior PASS evidence where required, but do not force unnecessary integrations.</p>
 
-<h3>How it works</h3>
-<ol>
-<li><strong>Repository authority</strong> — the roadmap defines build order; <code>/smoke-tests/</code> defines exact component PASS criteria; HX-5 standards and runner code define execution mechanics.</li>
-<li><strong>HX-5 CentCom</strong> — owns disposable test projects, client tooling, synthetic fixtures, manifests, browser automation, cleanup verification, and evidence assembly.</li>
-<li><strong>SUT</strong> — owns the installed application and approved configuration. General test harnesses, Python environments, fixtures, and retained evidence do not live on the SUT.</li>
-<li><strong>Known-answer proof</strong> — service health alone is not enough. The component must perform its primary function and, where assigned, pass its MCP/UI companion gate.</li>
-<li><strong>Cleanup is part of PASS</strong> — temporary collections, keys, workflows, routes, memories, test projects, or connections must be removed and their removal verified.</li>
-<li><strong>Limited integration is allowed only for proof</strong> — an already-PASS dependency may be used when required to prove a component's primary contract. Temporary validation wiring does not automatically become permanent architecture.</li>
-</ol>
+<h2>Validation sequence</h2><pre>Ecosystem authority
+  ↓
+Deployment roadmap / SUT ready
+  ↓
+Smoke-test roadmap / prior proof ready
+  ↓
+Exact component smoke procedure
+  ↓
+HX-5 CentCom disposable remote run
+  ↓
+Known-answer function
+  ↓
+Cleanup + verification
+  ↓
+Reboot persistence
+  ↓
+Retained evidence
+  ↓
+BASE PASS / CLOSED</pre>
 
-<div class="callout"><strong>Detailed authorities:</strong><br>
-Architecture: <code>docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md</code><br>
-Execution: <code>docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md</code><br>
-Toolset/bootstrap: <code>docs/04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md</code><br>
-Component acceptance: <code>smoke-tests/</code><br>
-Runner: <code>tools/hx-smoke-runner/</code></div>
+<h2>AI reading order</h2><ol><li>README / current state / build state / decisions</li><li>Architecture Orientation</li><li>Base Implementation Roadmap</li><li>Relevant server record, runbook, application/model standard</li><li>Only when validating: Smoke-Test Roadmap</li><li>Smoke-Testing Operating Model</li><li>Exact component smoke test and CentCom scoped instructions</li></ol>
 
-<h2>AI-centric operating model</h2>
-<p>The repository must contain enough current context, instructions, executable helpers, acceptance criteria, and evidence paths for an AI infrastructure/coding agent to operate without reconstructing material decisions from chat history. If an agent cannot determine <strong>what to read, what it may change, how to prove success, and where evidence belongs</strong>, repository context is incomplete.</p>
-
-<h2>Core build philosophy</h2>
-<p><strong>KISS: one server, validate it, record it, then move on.</strong></p>
-<p>Native Linux + systemd. No Docker, Podman, or Kubernetes unless explicitly approved by the infrastructure owner.</p>
-<p>Historical HX-Infrastructure material is reference-only. It does not establish current state, configuration, or closure.</p>
-
-<h2>Current state</h2>
-<ul>
-<li>HX-1: PASS / CLOSED — Samba AD/DNS/Kerberos/NTP</li>
-<li>HX-2: PASS / CLOSED — Qwen-X / Ollama</li>
-<li>HX-3: PASS / CLOSED — Coder-X / Ollama</li>
-<li>HX-4: NEXT — Meta-X base build plus shared embedding/reranking plane</li>
-<li>HX-5 through HX-17: pending clean rebuild/base application stand-up in dependency order.</li>
-</ul>
-<p><span class="state">PLANNED, NOT INSTALLED</span> HX-5 is planned as CentCom / Ornith / DeepSeek Harness / dev-test and, after its activation gate, the standard remote smoke-test runner for later components.</p>
-
-<h2>Document lifecycle</h2>
-<p>Active documents use stable, unversioned filenames. Version/date/status live inside the document where applicable.</p>
-<ol>
-<li>Archive the prior copy under <code>archive/YYYY-MM-DD/&lt;original-path&gt;/</code>.</li>
-<li>Replace the active file at the same stable path.</li>
-<li>Update the matching HTML mirror when one exists.</li>
-<li>Leave exactly one active version.</li>
-</ol>
+<h2>Current position</h2><p>HX-1, HX-2, HX-3 are PASS/CLOSED. HX-4 is next. HX-5 through HX-17 remain planned/not started except for staged repository documentation/runbooks. CentCom validation tooling is designed but is not active until HX-5 is built and accepted.</p>
 </main></body></html>

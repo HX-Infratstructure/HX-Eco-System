@@ -76,8 +76,6 @@ smoke_test_repo_commit: $REPO_COMMIT
 smoke_test_sha256: $PROC_SHA
 transport_or_endpoint: TO_RECORD
 known_answer: SEE_PROCEDURE
-prior_pass_evidence: TO_RECORD
-limited_integration_plan: TO_RECORD
 validation_only_dependencies: SEE_PROCEDURE
 cleanup_objects_expected: SEE_PROCEDURE
 ---
@@ -85,13 +83,6 @@ cleanup_objects_expected: SEE_PROCEDURE
 # HX Smoke-Test Run Manifest
 
 Use the copied procedure in procedure/ as the acceptance authority for this run.
-
-Before execution, replace:
-
-- prior_pass_evidence: exact current retained evidence path(s)/accepted server record(s), or NONE;
-- limited_integration_plan: brief temporary integration plan, or NONE.
-
-Use `docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md` to determine required proof dependencies.
 Do not place secrets in this manifest or retained evidence.
 EOF_MANIFEST
 

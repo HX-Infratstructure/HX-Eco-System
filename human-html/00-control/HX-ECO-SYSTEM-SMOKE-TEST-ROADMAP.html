@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HX Eco-System — Smoke-Test Roadmap</title>
+<style>
+:root{color-scheme:dark;--bg:#0b0f14;--panel:#111820;--line:#263241;--text:#e8eef6;--muted:#aeb9c7;--blue:#64b5f6;--green:#81c784;--orange:#ffb74d;--purple:#ce93d8;--pink:#f48fb1;--teal:#80cbc4}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.wrap{max-width:1180px;margin:auto;padding:42px 28px 72px}h1{font-size:2.35rem;margin:0 0 8px}h2{margin-top:38px;border-bottom:1px solid var(--line);padding-bottom:8px}h3{margin-top:26px}p,li{color:var(--text)}.muted{color:var(--muted)}.pill{display:inline-block;border:1px solid #31513f;background:#11241a;color:#75d69c;padding:4px 10px;border-radius:999px;font-weight:700}.callout{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--blue);padding:16px 18px;border-radius:10px;margin:18px 0}pre{overflow:auto;background:#080c11;border:1px solid var(--line);border-radius:10px;padding:18px;color:#d9e7f5}code{color:#b9ddff}table{width:100%;border-collapse:collapse;margin:18px 0;font-size:.94rem}th,td{border:1px solid var(--line);padding:9px 10px;vertical-align:top}th{background:#151e28;text-align:left}.phase{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin:18px 0}.phase h3{margin:0 0 8px}.flow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:20px 0}.node{padding:12px 14px;border-radius:10px;background:var(--panel);border:2px solid var(--line);font-weight:650}.arrow{color:var(--muted);font-size:1.3rem}.blue{border-color:var(--blue)}.teal{border-color:var(--teal)}.purple{border-color:var(--purple)}.orange{border-color:var(--orange)}.green{border-color:var(--green)}.pink{border-color:var(--pink)}
+</style></head><body><main class="wrap">
+<span class="pill">EVERGREEN CURRENT · v1.0 · 2026-09-09</span>
+<h1>HX Eco-System — Smoke-Test Roadmap</h1>
+<p class="muted">Ordered validation proof for the clean HX Eco-System rebuild.</p>
+
+<h2>Two roadmaps, two jobs</h2>
+<div class="flow"><div class="node blue">Base Implementation Roadmap<br><small>build order + BASE PASS boundary</small></div><div class="arrow">→</div><div class="node pink">Smoke-Test Roadmap<br><small>proof order + prior evidence + limited integration</small></div><div class="arrow">→</div><div class="node green">Retained Evidence<br><small>supports closure</small></div></div>
+<div class="callout"><strong>Core rule:</strong> cumulative proof, minimal live coupling. A later smoke test consumes prior PASS evidence only when that earlier capability is a real prerequisite. HX does not create unnecessary cross-service wiring merely to make the tests look sequential.</div>
+
+<h2>Proof-chain rule</h2>
+<p>Every CentCom-run test records <code>prior_pass_evidence</code> and <code>limited_integration_plan</code>. Use <code>NONE</code> where appropriate. Dependent tests cite exact current retained evidence paths or accepted server records.</p>
+<pre>LightRAG example
+prior_pass_evidence:
+  Qdrant PASS + BGE-M3 PASS + approved LLM PASS
+limited_integration_plan:
+  synthetic LightRAG document through those accepted services;
+  remove validation state afterward</pre>
+
+<h2>Roadmap</h2>
+<div class="phase"><h3>Phase 0 — Cornerstone proof</h3><p>HX-1 identity/DNS/Kerberos/NTP, HX-2 Qwen-X, and HX-3 Coder-X are already PASS/CLOSED. These establish the foundation and known-good inference reference.</p></div>
+<div class="phase"><h3>Phase A — Inference + CentCom activation</h3><p>HX-4 GPT-OSS → HX-4 embeddings → HX-4 reranker → HX-5 Ornith → CentCom remote-runner activation against known-good HX-2.</p><p><strong>Exit:</strong> accepted generative/retrieval inference plus a proven HX-5 remote test station.</p></div>
+<div class="phase"><h3>Phase B — State / retrieval substrate</h3><p>PostgreSQL core + MCP → Redis core + MCP → Qdrant core + Web UI + MCP.</p><p>Qdrant deliberately uses deterministic raw vectors so its core proof does not depend on embeddings.</p></div>
+<div class="phase"><h3>Phase C — Routing / MCP development / control</h3><p>OmniRoute → FastMCP → DeepSeek Harness → NGINX dev/test.</p><p>Temporary integrations: OmniRoute uses one proven model; NGINX uses one temporary HX-5 private-IP upstream; DeepSeek Harness uses one approved model directly.</p></div>
+<div class="phase"><h3>Phase D — Knowledge acquisition</h3><p>Docling + Granite-Docling + MCP → Crawl4AI + MCP. Both use deterministic local/synthetic inputs and do not require production RAG wiring.</p></div>
+<div class="phase"><h3>Phase E — RAG / memory</h3><p>LightRAG + MCP → Mem0 + MCP.</p><p>This phase intentionally consumes earlier proof: Qdrant + accepted embedding + approved LLM. PostgreSQL/Redis are added only if the accepted component configuration genuinely uses them.</p></div>
+<div class="phase"><h3>Phase F — Agents / workflow</h3><p>Deep Agents → n8n + Web UI + MCP.</p><p>Deep Agents proves its LOB-agent factory with a tool-calling model, local synthetic rules, and disposable thread state; it does not require production RAG/memory for BASE PASS.</p></div>
+<div class="phase"><h3>Phase G — User interaction</h3><p>Open WebUI proves one direct known-answer conversation against a current approved Ollama model, then removes validation-only connection state.</p></div>
+
+<h2>High-value limited integrations</h2>
+<table><thead><tr><th>Component</th><th>Consumes prior proof</th><th>Temporary live integration</th><th>Cleanup</th></tr></thead><tbody>
+<tr><td>OmniRoute</td><td>approved HX model PASS</td><td>one temporary model route</td><td>remove route/provider</td></tr>
+<tr><td>NGINX</td><td>CentCom active</td><td>temporary HX-5 HTTP upstream</td><td>remove proxy config/upstream</td></tr>
+<tr><td>LightRAG</td><td>Qdrant + embedding + LLM PASS</td><td>synthetic ingest/query path</td><td>delete smoke document/state</td></tr>
+<tr><td>Mem0</td><td>Qdrant + embedding + LLM PASS</td><td>disposable collection + memory</td><td>delete memory + collection</td></tr>
+<tr><td>DeepSeek Harness</td><td>approved model PASS</td><td>disposable generated AI project</td><td>remove project/test config</td></tr>
+<tr><td>Deep Agents</td><td>tool-calling model PASS</td><td>local rules + disposable checkpointer</td><td>remove project/checkpoint</td></tr>
+<tr><td>Open WebUI</td><td>approved Ollama model PASS</td><td>temporary direct model connection</td><td>remove validation-only connection</td></tr>
+</tbody></table>
+
+<h2>Companion gates</h2>
+<pre>parent core smoke PASS
+        ↓
+assigned UI and/or MCP companion PASS
+        ↓
+reboot persistence
+        ↓
+BASE PASS / CLOSED</pre>
+<p>MCP companion tests do not depend on the HX-15 FastMCP server. UI companion tests use direct LAN access and do not require HX-7 NGINX unless NGINX itself is under test.</p>
+
+<h2>Failure / invalidation</h2>
+<ul><li>A failed or missing required prerequisite blocks downstream PASS.</li><li>Material dependency changes can stale earlier evidence and require revalidation.</li><li>Cleanup failure prevents complete PASS.</li><li>Temporary validation wiring never becomes permanent architecture by implication.</li></ul>
+
+<h2>Current position</h2>
+<ul><li>Phase 0: PASS/CLOSED foundation exists for HX-1, HX-2, HX-3.</li><li>Phase A: next; HX-4 is the next deployment target.</li><li>CentCom tooling is designed but not active until HX-5 is built and activation evidence passes.</li><li>Later phases remain gated by deployment readiness plus prior proof dependencies.</li></ul>
+</main></body></html>

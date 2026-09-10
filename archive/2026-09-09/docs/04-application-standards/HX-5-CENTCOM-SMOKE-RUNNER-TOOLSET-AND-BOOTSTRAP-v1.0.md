@@ -1,7 +1,7 @@
 ---
 document: HX-5 CentCom Smoke-Runner Toolset and Bootstrap Standard
 status: current
-version: 1.1
+version: 1.0
 date: 2026-09-09
 scope: HX-5 smoke-runner client tooling and bootstrap
 authority: HX-Eco-System clean rebuild
@@ -16,18 +16,13 @@ This standard defines the permanent **client-side test toolset on HX-5 CentCom**
 It implements, but does not replace, `HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md`.
 
 ```text
-ecosystem orientation          = docs/01-architecture/ARCHITECTURE-ORIENTATION.md
-deployment roadmap             = docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md
-ordered proof roadmap          = docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md
 component smoke-test authority = /smoke-tests/<component>-smoke-test.md
 execution/process authority     = HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md
 runner implementation          = tools/hx-smoke-runner/
 bootstrap execution artifact   = docs/03-runbooks/HX-5/04-centcom-smoke-runner-bootstrap.sh
 ```
 
-The runner remains **AI-centric**: instructions, deterministic commands, known boundaries, proof-dependency fields, evidence rules, and executable helpers live in the repository so a coding/infrastructure agent can recover the intended workflow without reconstructing it from chat history.
-
-The runner is a validation layer. It inherits the ecosystem architecture and does not define server placement, network design, model placement, or permanent integration.
+The runner remains **AI-centric**: instructions, deterministic commands, known boundaries, evidence rules, and executable helpers live in the repository so a coding/infrastructure agent can recover the intended workflow without reconstructing it from chat history.
 
 ## 2. Permanent HX-5 toolset
 
@@ -102,9 +97,9 @@ After bootstrap, HX-5 exposes these commands through `$HOME/.local/bin`:
 |---|---|
 | `hx-smoke-doctor` | validate the CentCom client toolchain and headless Chromium |
 | `hx-smoke-doctor --remote` | additionally prove a known-good remote inference call to already-PASS HX-2 |
-| `hx-smoke-new` | create a timestamped disposable run workspace and proof-chain manifest from a committed smoke-test authority |
+| `hx-smoke-new` | create a timestamped disposable run workspace and manifest from a committed smoke-test authority |
 | `hx-smoke-ui-capture` | capture direct-LAN UI evidence only after expected live text is visible |
-| `hx-smoke-promote` | validate normalized status/cleanup plus proof-chain manifest fields, screen obvious secrets, and promote selected evidence into `docs/05-evidence/` |
+| `hx-smoke-promote` | validate normalized status/cleanup, screen obvious secrets, and promote selected evidence into `docs/05-evidence/` |
 
 The helper scripts do not change the SUT configuration by themselves.
 
@@ -154,7 +149,7 @@ export HX_SMOKE_PROBE_MODEL="qwen-x:qwen3.8-27b-q6_k"
 
 Passing the doctor does not mark HX-5 DeepSeek Harness PASS. It activates only the CentCom smoke-runner capability.
 
-## 6. Disposable run creation and proof-chain manifest
+## 6. Disposable run creation and manifest
 
 Example:
 
@@ -172,18 +167,9 @@ cd "$RUN_DIR"
 - smoke-test file;
 - repository commit SHA;
 - smoke-test SHA-256;
-- placeholders for component version, endpoint, and final status;
-- `prior_pass_evidence`;
-- `limited_integration_plan`.
+- placeholders for component version, endpoint, and final status.
 
-Before executing the test, replace the last two placeholders using `HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md`:
-
-```text
-prior_pass_evidence: <current retained evidence path(s)/accepted server record(s) or NONE>
-limited_integration_plan: <brief temporary integration plan or NONE>
-```
-
-This prevents an agent from quietly changing PASS criteria and also makes downstream proof dependencies explicit and reproducible.
+This prevents an agent from quietly changing PASS criteria in the same run that uses them.
 
 ## 7. Browser/UI evidence method
 
@@ -225,13 +211,6 @@ cleanup/cleanup.txt
   DETAIL=<short explanation>
 ```
 
-Also resolve in `manifest.md`:
-
-```text
-prior_pass_evidence
-limited_integration_plan
-```
-
 Then:
 
 ```bash
@@ -244,17 +223,13 @@ For `PASS`, promotion requires:
 FUNCTIONAL=PASS
 AND
 CLEANUP=PASS or NOT_APPLICABLE
-AND
-prior_pass_evidence is recorded or explicitly NONE
-AND
-limited_integration_plan is recorded or explicitly NONE
 ```
 
 The promotion helper:
 
 1. verifies the run came from `HX_SMOKE_ROOT`;
 2. reads SUT/component/run identity from the manifest;
-3. refuses PASS when functional, cleanup, or proof-chain fields are incomplete;
+3. refuses PASS when functional or cleanup gates are incomplete;
 4. screens the promotion set for obvious credential patterns;
 5. stamps final status and UTC end time;
 6. copies only the normalized retained bundle and selected supporting evidence to:
@@ -263,8 +238,7 @@ The promotion helper:
 docs/05-evidence/<sut>/<component>/<run-id>/
 ```
 
-7. includes the prior PASS evidence and limited-integration references in the retained bundle summary;
-8. **does not auto-commit**.
+7. **does not auto-commit**.
 
 An agent or operator reviews the promoted evidence and commits it explicitly. This keeps repository changes visible and prevents an execution helper from becoming an unreviewed Git authority.
 
@@ -281,18 +255,12 @@ Any AI agent preparing or executing a smoke test must read, in order:
 1. root `AGENTS.md`;
 2. `docs/00-control/CURRENT-STATE.md`;
 3. `docs/00-control/BUILD-STATE.md`;
-4. `docs/00-control/DECISIONS.md`;
-5. `docs/01-architecture/ARCHITECTURE-ORIENTATION.md`;
-6. `docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md`;
-7. relevant server record, runbook, and application/model standard;
-8. `docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md`;
-9. `HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md`;
-10. the component's current `/smoke-tests/*.md` authority;
-11. `tools/hx-smoke-runner/AGENTS.md`.
+4. relevant server record and runbook;
+5. `HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md`;
+6. the component's current `/smoke-tests/*.md` authority;
+7. `tools/hx-smoke-runner/AGENTS.md`.
 
 If the smoke-test authority appears defective, stale, or inconsistent with live evidence, stop the run. Correct the authority in a separate reviewed change, commit it, then start a **new run ID**. Never modify acceptance criteria inside an in-progress run workspace.
-
-If required prior PASS evidence is missing or materially stale, revalidate that prerequisite first rather than inventing a bypass.
 
 ## 10. What this standard deliberately does not do
 
@@ -305,8 +273,7 @@ It does not:
 - install a container runtime;
 - auto-commit evidence;
 - make DeepSeek Harness a prerequisite for infrastructure smoke testing;
-- make HX-15 FastMCP a prerequisite for product-specific MCP servers;
-- replace the deployment roadmap, smoke-test roadmap, or individual component smoke-test authorities.
+- replace the individual component smoke-test authorities.
 
 ## 11. Activation evidence
 

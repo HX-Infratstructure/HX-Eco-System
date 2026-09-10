@@ -9,10 +9,6 @@ Usage:
 Before promotion, normalize:
   evidence/result.txt    -> FUNCTIONAL=PASS|FAIL|NOT_EXECUTABLE
   cleanup/cleanup.txt    -> CLEANUP=PASS|NOT_APPLICABLE|FAIL
-
-For PASS, manifest.md must also contain:
-  prior_pass_evidence: <current evidence path(s)/accepted server record(s) or NONE>
-  limited_integration_plan: <brief temporary integration plan or NONE>
 USAGE
 }
 
@@ -46,8 +42,6 @@ esac
 RUN_ID="$(awk -F': ' '$1=="run_id" {print $2; exit}' "$RUN_DIR/manifest.md")"
 SUT_HOST="$(awk -F': ' '$1=="sut_host" {print $2; exit}' "$RUN_DIR/manifest.md")"
 COMPONENT="$(awk -F': ' '$1=="component" {print $2; exit}' "$RUN_DIR/manifest.md")"
-PRIOR_PASS_EVIDENCE="$(sed -n 's/^prior_pass_evidence:[[:space:]]*//p' "$RUN_DIR/manifest.md" | head -n 1)"
-LIMITED_INTEGRATION_PLAN="$(sed -n 's/^limited_integration_plan:[[:space:]]*//p' "$RUN_DIR/manifest.md" | head -n 1)"
 
 [[ -n "$RUN_ID" && -n "$SUT_HOST" && -n "$COMPONENT" ]] || {
   echo "ERROR: manifest is missing run_id, sut_host, or component." >&2
@@ -61,14 +55,6 @@ if [[ "$FINAL_STATUS" == "PASS" ]]; then
   [[ "$FUNCTIONAL" == "PASS" ]] || { echo "ERROR: PASS requires FUNCTIONAL=PASS." >&2; exit 1; }
   [[ "$CLEANUP" == "PASS" || "$CLEANUP" == "NOT_APPLICABLE" ]] || {
     echo "ERROR: PASS requires CLEANUP=PASS or CLEANUP=NOT_APPLICABLE." >&2
-    exit 1
-  }
-  [[ -n "$PRIOR_PASS_EVIDENCE" && "$PRIOR_PASS_EVIDENCE" != "TO_RECORD" ]] || {
-    echo "ERROR: PASS requires prior_pass_evidence to be recorded (use NONE when not applicable)." >&2
-    exit 1
-  }
-  [[ -n "$LIMITED_INTEGRATION_PLAN" && "$LIMITED_INTEGRATION_PLAN" != "TO_RECORD" ]] || {
-    echo "ERROR: PASS requires limited_integration_plan to be recorded (use NONE when not applicable)." >&2
     exit 1
   }
 fi
@@ -106,10 +92,8 @@ cat > "$DEST/README.md" <<EOF_README
 - SUT: $SUT_HOST
 - Component: $COMPONENT
 - Final status: **$FINAL_STATUS**
-- Prior PASS evidence: $PRIOR_PASS_EVIDENCE
-- Limited integration plan: $LIMITED_INTEGRATION_PLAN
 
-This bundle was promoted from HX-5 CentCom. Review the manifest, result, cleanup proof, dependency evidence references, and supporting captures before committing it.
+This bundle was promoted from HX-5 CentCom. Review the manifest, result, cleanup proof, and supporting captures before committing it.
 EOF_README
 
 printf 'PROMOTED=%s\n' "$DEST"

@@ -9,9 +9,7 @@ authority: infrastructure-owner
 
 ## Program objective
 
-Clean-room rebuild of HX-1 through HX-17 into a verified base ecosystem. Current scope is base installation and standalone functional validation. Full permanent interconnection is later.
-
-The **ecosystem architecture is the cornerstone**. Validation proves the ecosystem after its server role, configuration, ownership, and dependency boundaries are understood.
+Clean-room rebuild of HX-1 through HX-17 into a verified base ecosystem. Current scope is base installation and standalone functional validation. Full interconnection is later.
 
 ## Current build state
 
@@ -35,11 +33,9 @@ The **ecosystem architecture is the cornerstone**. Validation proves the ecosyst
 | HX-16 | Docling + Granite-Docling 258M + MCP | NOT STARTED |
 | HX-17 | Crawl4AI + MCP | NOT STARTED |
 
-## Current deployment order
+## Current execution order
 
-Deployment/build authority:
-
-`HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md`
+Follow `HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md`.
 
 Dependency-driven sequence:
 1. HX-4 Meta-X
@@ -59,25 +55,8 @@ Dependency-driven sequence:
 15. HX-14 n8n
 16. HX-8 Open WebUI
 
-## Current validation order
-
-Validation/proof authority:
-
-`HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md`
-
-The smoke roadmap is subordinate to deployment readiness: a component cannot be smoke-tested before its SUT is installed and ready.
-
-Current smoke position:
-
-- Phase 0 foundation proof exists for HX-1, HX-2, HX-3.
-- Phase A is next, beginning with HX-4 inference/retrieval-model proof and HX-5 inference/runner activation when the deployment sequence reaches those servers.
-- After CentCom activation, later smoke tests run remotely from HX-5 where practical.
-- Downstream tests reference current prior PASS evidence when their primary contract depends on earlier components.
-- Temporary integrations are limited to the minimum required for proof and are cleaned up afterward.
-
 ## Important current constraints
 
-- Ecosystem architecture/configuration context comes before validation.
 - Clean-room build. Do not inherit old application state.
 - Native Linux/systemd; no containers.
 - No unapproved network/security restrictions.
@@ -87,5 +66,3 @@ Current smoke position:
 - HX-4 is the shared embedding/reranking host.
 - Granite-Docling remains on HX-16.
 - Open WebUI and OmniRoute receive lightweight temporary Ollama functional tests before BASE PASS.
-- Smoke-test dependencies are proof dependencies unless the owner explicitly approves them as permanent architecture.
-- Design/runbook readiness is not as-built completion.
