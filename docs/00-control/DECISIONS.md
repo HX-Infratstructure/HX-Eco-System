@@ -56,3 +56,22 @@ HX maintains a separate evergreen smoke-test roadmap in addition to the base imp
 
 ## D-017 — Governed HX skills capability layer
 HX maintains a canonical `skills/` library as an AI-agent expertise layer between ecosystem context and execution. Component skills may combine HX-native instructions with current vendor-official expertise, but skills do not supersede owner decisions, active HX architecture, live evidence, runbooks, or smoke-test acceptance criteria. Agent-specific skill installations are derived deployments from the canonical repository source, not independently maintained authorities. External skills are classified and registered before operational use; vendor-official sources are preferred over community sources. Skills never store actual credentials, PATs, API keys, private keys, service-account secrets, or sshpass passwords. Qdrant is the first approved reference implementation through `skills/qdrant/hx-qdrant-advisor/`, which preserves HX-10/native-systemd/vector-space/smoke-test rules while consuming the current official Qdrant Advisor guidance live.
+
+## D-018 — Host firewall and inference listener posture — PROPOSED, awaiting owner ratification
+
+The HX LAN is treated as a trusted lab segment. The common base runbook
+disables `ufw` on every server, and Ollama listens on `0.0.0.0:11434` with no
+authentication. This is consistent with the standing rule that firewall,
+segmentation and TLS changes are not imposed without owner approval, and with
+KISS.
+
+This entry does not change behaviour. It records behaviour that previously
+existed only as an emergent property of two runbook scripts, so it can be
+approved, revisited, or reversed as a decision rather than rediscovered.
+
+Blast radius as it stands: any host that can reach the HX LAN can call any HX
+inference endpoint without credentials, and can reach any service port on any
+HX server.
+
+**Owner action required:** ratify as written, or amend. Until ratified this
+entry is a record of current state, not an approval.

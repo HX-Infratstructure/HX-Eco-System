@@ -27,3 +27,6 @@ node_modules/
 tmp/
 temp/
 *.log
+
+# Retained smoke-test evidence may legitimately contain log captures.
+!docs/05-evidence/**/*.log

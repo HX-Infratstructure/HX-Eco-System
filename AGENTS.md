@@ -162,7 +162,21 @@ Use it to render/proxy UIs for applications being actively developed when useful
 
 Do not use HX-7 as a general reverse proxy for Qdrant, LightRAG, n8n, Open WebUI, databases, MCP servers, or normal HX ecosystem services.
 
-## 13. Documentation and execution-artifact rule
+## 13. Repository tooling rule
+
+Written rules that nothing checks will drift. These tools are the enforcement
+layer; treat a failure as a real defect, not as noise to work around.
+
+| Command | Enforces |
+|---|---|
+| `tools/hx-doc/hx-doc-check` | links resolve, registry vocabulary is defined, control frontmatter is complete, filenames are stable, evidence is committable |
+| `tools/hx-doc/hx-render-html` | every `human-html/` mirror matches its Markdown source |
+| `tools/hx-doc/hx-upstream-drift` | the registry's pinned upstream commits are still current |
+
+If a check is wrong, fix the check in a reviewed change. Do not bypass it and
+do not weaken it to make an existing document pass.
+
+## 14. Documentation and execution-artifact rule
 
 - Agents edit authoritative Markdown and approved execution artifacts only.
 - `docs/**/*.md` = current control, architecture, standards, runbooks, server records, and evidence indexes.
@@ -170,6 +184,10 @@ Do not use HX-7 as a general reverse proxy for Qdrant, LightRAG, n8n, Open WebUI
 - `smoke-tests/*.md` = current component acceptance authorities; they do not define ecosystem architecture.
 - `docs/03-runbooks/**/*.sh` and `tools/hx-smoke-runner/*` = approved repository execution helpers where present.
 - Human HTML mirrors live under `human-html/` and are not execution authority.
+- `human-html/**` is **generated output**. Never hand-edit it. Edit the Markdown
+  source and run `tools/hx-doc/hx-render-html`.
+- Before committing a documentation change, run `tools/hx-doc/hx-doc-check` and
+  `tools/hx-doc/hx-render-html`. CI runs both and fails the change otherwise.
 - Only one current version stays active.
 - Superseded versions go to `archive/`.
 - Do not create duplicate active documents with timestamps, `(1)`, `final-final`, or model-name prefixes.

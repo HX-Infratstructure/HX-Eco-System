@@ -116,6 +116,10 @@ These are prerequisites, not new CentCom smoke runs.
 
 **Exit:** CentCom is an evidence-proven remote smoke-test station, and HX has accepted generative plus retrieval-inference endpoints needed by later tests.
 
+A1-A4 run before CentCom exists. Execute the runner from the operator station
+by exporting `HX_SMOKE_ALLOW_HOST="$(hostname -s)"`; the station used is
+recorded in each manifest. Procedure: `../05-evidence/README.md`.
+
 After A5, later component smoke tests run from HX-5 whenever the product exposes a remote/native-client/API/UI surface.
 
 ---

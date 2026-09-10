@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Eco-System Repository Status</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/00-control/REPOSITORY-STATUS.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: current &middot; status: 2026-09-09</div><h1>HX Eco-System — Repository Status</h1>
+<h2>Status</h2>
+<p><strong>Agent-facing repository initialization and SSOT reconciliation: PASS</strong></p>
+<p>Repository: <code>HX-Infratstructure/HX-Eco-System</code> Branch: <code>main</code> Visibility: private</p>
+<h2>Authority model</h2>
+<ul>
+<li><code>AGENTS.md</code> — agent operating contract.</li>
+<li><code>docs/**/*.md</code> — active authoritative agent-facing documentation.</li>
+<li><code>docs/03-runbooks/**/*.sh</code> — current approved execution artifacts for the named build stage.</li>
+<li><code>human-html/**/*.html</code> — human-readable mirrors; not agent authority.</li>
+<li><code>archive/**</code> — superseded historical material only.</li>
+</ul>
+<p>Agents must not use <code>archive/</code> or <code>human-html/</code> as current truth unless explicitly asked.</p>
+<h2>Reconciliation completed 2026-09-09</h2>
+<ul>
+<li>Full HX-2 as-built record promoted to active GitHub server record.</li>
+<li>Full HX-3 as-built record promoted to active GitHub server record.</li>
+<li>Bootstrap HX-2/HX-3 summaries archived.</li>
+<li>HX-4 three-block base runbook imported.</li>
+<li>HX-5 three-block base runbook imported.</li>
+<li>HX-4/HX-5 Block 1 sudoers temporary-file defect corrected and syntax-validated before promotion.</li>
+<li>Corrected HX-4/HX-5 Block 1 scripts also updated in the Drive project SSOT.</li>
+<li>Full owner-approved model-placement and embedding standard promoted; bootstrap summary archived.</li>
+<li>Canonical v1.3 deployment plan promoted; bootstrap summary archived.</li>
+<li>Deployment-plan and model-placement HTML mirrors expanded for human review; prior bootstrap mirrors archived.</li>
+<li>Repository tree checked for <code>.local.env</code>; none is committed.</li>
+</ul>
+<h2>Intentional limitations</h2>
+<ul>
+<li>HX-1 has a concise current baseline record because a more detailed current clean-rebuild HX-1 as-built record has not yet been established in the new SSOT. Do not fabricate missing detail from historical HX-Infrastructure material.</li>
+<li>HX-4 and HX-5 runbooks contain the approved common base blocks. Server-specific model/application installation steps are added only when finalized and executed.</li>
+<li>HX-4 through HX-17 remain NOT STARTED until current execution evidence proves otherwise.</li>
+</ul>
+<h2>Current next execution target</h2>
+<p><strong>HX-4 — Meta-X / Ollama / GPT-OSS 20B + shared BGE-M3 / Nomic embedding plane + BGE-family reranker.</strong></p>
+<p>Use <code>docs/03-runbooks/HX-4/</code> and the deployment/model standards in <code>docs/00-control/</code>.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/00-control/REPOSITORY-STATUS.md</code>.</footer></div></body></html>

@@ -1,19 +1,241 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Eco-System Base Implementation Priority v1.7</title><style>body{font-family:Arial,Helvetica,sans-serif;max-width:1180px;margin:36px auto;padding:0 24px;color:#1f2937;line-height:1.55}h1,h2,h3{color:#111827}table{border-collapse:collapse;width:100%;margin:16px 0 28px}th,td{border:1px solid #cbd5e1;padding:8px 10px;text-align:left;vertical-align:top}th{background:#f1f5f9}pre{background:#f8fafc;border:1px solid #e2e8f0;padding:14px;overflow-x:auto}code{font-family:Consolas,Menlo,monospace}.note{background:#f8fafc;border-left:4px solid #64748b;padding:12px 16px}</style></head><body><h1>HX Eco-System — Base Implementation Priority and Server Map</h1><p><strong>Version:</strong> 1.7 &nbsp; <strong>Status:</strong> evergreen current</p><p class="note"><strong>Evergreen roadmap.</strong> The authoritative agent source is <code>docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md</code>. The roadmap defines what must pass; standalone files under <code>/smoke-tests/</code> define how component proof is executed.</p><h2>Governing rule</h2><pre>one server
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Eco-System Base Implementation Priority</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: evergreen_current &middot; status: 1.7 &middot; status: 2026-09-09</div><h1>HX Eco-System — Base Implementation Priority and Server Map</h1>
+<p><strong>Version:</strong> 1.7 <strong>Document type:</strong> Evergreen roadmap — updated as verified information, owner decisions, and additional work become available. <strong>Purpose:</strong> Define the dependency-driven build order, BASE PASS boundaries, current server/application assignments, model placement, smoke-test authorities, and known follow-on infrastructure tasks for the clean HX Eco-System rebuild. <strong>Scope boundary:</strong> Base installation and standalone validation. Permanent cross-service integration is a later program.</p>
+<p>This document is intentionally <strong>not final or frozen</strong>. The active file at this stable path is always the current roadmap. Superseded versions are archived according to <code>DOCUMENT-CONTROL.md</code>.</p>
+<h2>1. Governing build rule</h2>
+<pre><code class="lang-text">one server
 → verify base state
 → install assigned workload
 → prove primary function
 → reboot
 → record evidence
 → close PASS
-→ move to next server</pre><p>Native Linux + systemd remains the deployment standard. Temporary smoke-test integration must be minimal, synthetic/disposable, validation-only, and removed after evidence capture unless explicitly approved as permanent.</p><h2>Dependency-driven implementation order</h2><table><tr><th>#</th><th>Server</th><th>Assignment</th><th>Functional emphasis</th></tr><tr><td>1</td><td>HX-4</td><td>Meta-X / GPT-OSS 20B + BGE-M3 + Nomic v1.5 + BGE reranker</td><td>Generative inference + embedding + pinned reranking proof</td></tr><tr><td>2</td><td>HX-5</td><td>CentCom / Ornith</td><td>Known-answer local inference</td></tr><tr><td>3</td><td>HX-9</td><td>PostgreSQL + MCP</td><td>Temporary-table DB lifecycle + MCP</td></tr><tr><td>4</td><td>HX-9</td><td>Redis + MCP</td><td>PING/SET/GET/DELETE + MCP</td></tr><tr><td>5</td><td>HX-10</td><td>Qdrant + Web UI + MCP</td><td>Vector write/query/read + UI + MCP</td></tr><tr><td>6</td><td>HX-6</td><td>OmniRoute</td><td>Direct-vs-routed known-answer proof</td></tr><tr><td>7</td><td>HX-15</td><td>FastMCP</td><td>Custom server/tool discovery/tool call</td></tr><tr><td>8</td><td>HX-5</td><td>DeepSeek Harness</td><td>Meta-agent solution-building proof</td></tr><tr><td>9</td><td>HX-7</td><td>NGINX — dev/test only</td><td>Temporary separate-private-IP proxy proof</td></tr><tr><td>10</td><td>HX-16</td><td>Docling + Granite-Docling 258M + MCP</td><td>Deterministic conversion + Granite CPU-first + MCP</td></tr><tr><td>11</td><td>HX-17</td><td>Crawl4AI + MCP</td><td>Deterministic crawl/Markdown + MCP</td></tr><tr><td>12</td><td>HX-11</td><td>LightRAG + MCP</td><td>Synthetic ingest/retrieval/query + MCP</td></tr><tr><td>13</td><td>HX-13</td><td>Mem0 + MCP</td><td>Disposable memory store/search/delete + MCP</td></tr><tr><td>14</td><td>HX-12</td><td>Deep Agents</td><td>LOB Agent Factory creation/execution proof</td></tr><tr><td>15</td><td>HX-14</td><td>n8n + MCP</td><td>Create/execute/save/reopen/delete workflow + MCP</td></tr><tr><td>16</td><td>HX-8</td><td>Open WebUI</td><td>Direct UI known-answer model conversation</td></tr></table><h2>Component smoke-test authorities</h2><table><tr><th>Server</th><th>Component</th><th>Standalone procedure</th></tr><tr><td>HX-4</td><td>GPT-OSS / Ollama inference</td><td><code>smoke-tests/ollama-inference-smoke-test.md</code></td></tr><tr><td>HX-4</td><td>BGE-M3 + Nomic v1.5</td><td><code>smoke-tests/embedding-models-smoke-test.md</code></td></tr><tr><td>HX-4</td><td>BGE-family reranker</td><td><code>smoke-tests/reranker-smoke-test.md</code> — conditional until checkpoint/runtime pinned</td></tr><tr><td>HX-5</td><td>Ornith / Ollama</td><td><code>smoke-tests/ollama-inference-smoke-test.md</code></td></tr><tr><td>HX-9</td><td>PostgreSQL</td><td><code>smoke-tests/postgresql-smoke-test.md</code></td></tr><tr><td>HX-9</td><td>Redis</td><td><code>smoke-tests/redis-smoke-test.md</code></td></tr><tr><td>HX-10</td><td>Qdrant</td><td><code>smoke-tests/qdrant-smoke-test.md</code></td></tr><tr><td>HX-11</td><td>LightRAG</td><td><code>smoke-tests/lightrag-smoke-test.md</code></td></tr><tr><td>HX-13</td><td>Mem0</td><td><code>smoke-tests/mem0-smoke-test.md</code></td></tr><tr><td>HX-15</td><td>FastMCP</td><td><code>smoke-tests/fastmcp-smoke-test.md</code></td></tr><tr><td>HX-7</td><td>NGINX dev/test</td><td><code>smoke-tests/nginx-smoke-test.md</code></td></tr><tr><td>HX-14</td><td>n8n</td><td><code>smoke-tests/n8n-smoke-test.md</code></td></tr><tr><td>HX-16</td><td>Docling / Granite-Docling</td><td><code>smoke-tests/docling-smoke-test.md</code></td></tr><tr><td>HX-17</td><td>Crawl4AI</td><td><code>smoke-tests/crawl4ai-smoke-test.md</code></td></tr><tr><td>HX-5</td><td>DeepSeek Harness</td><td><code>smoke-tests/deepseek-harness-smoke-test.md</code></td></tr><tr><td>HX-12</td><td>Deep Agents</td><td><code>smoke-tests/deep-agents-smoke-test.md</code></td></tr><tr><td>HX-6</td><td>OmniRoute</td><td><code>smoke-tests/omniroute-smoke-test.md</code></td></tr><tr><td>HX-8</td><td>Open WebUI</td><td><code>smoke-tests/open-webui-smoke-test.md</code></td></tr></table><h3>Reusable companion procedures</h3><table><tr><th>Applies to</th><th>Proof</th><th>Authority</th></tr><tr><td>Assigned product-specific MCP servers</td><td>Real client tool discovery + safe known-answer tool call</td><td><code>smoke-tests/mcp-companion-smoke-test.md</code></td></tr><tr><td>Assigned native Web UIs</td><td>Direct LAN UI + live backend state</td><td><code>smoke-tests/native-web-ui-smoke-test.md</code></td></tr></table><p>Companion procedures supplement the parent component smoke test; they do not replace it.</p><h2>Model placement</h2><pre>HX-16 Docling
-  └─ Granite-Docling 258M — CPU-first
-
-HX-4 Meta-X
-  ├─ GPT-OSS 20B
-  ├─ BGE-M3 — primary embeddings (1024)
-  ├─ Nomic Embed Text v1.5 — alternate (768 default)
-  └─ BGE-family reranker — exact checkpoint/runtime must be pinned</pre><p>Embedding models are never mixed in one Qdrant collection. Model changes require a new collection and complete re-embedding.</p><h2>OmniRoute catalog control</h2><pre>KNOWN TO OMNIROUTE
+→ move to next server</code></pre>
+<p>A component reaches <strong>BASE PASS</strong> only when:</p>
+<ol>
+<li>the assigned host is cleanly rebuilt and joined to <code>hx.local.arpa</code>;</li>
+<li>required OS packages are installed;</li>
+<li>the application is installed natively on Linux;</li>
+<li>long-running services use systemd where applicable;</li>
+<li>the service is active and enabled;</li>
+<li>expected local/LAN health endpoints respond;</li>
+<li>required local storage is mounted and persistent;</li>
+<li>application-specific Web UI is validated directly on its native endpoint where applicable;</li>
+<li>assigned application-specific MCP server is installed and independently smoke-tested where applicable;</li>
+<li>the defined component smoke test passes using only the minimum temporary integration required to prove primary function;</li>
+<li>validation-only data, routes, connections, projects, collections, workflows, and other temporary state are removed/disabled after the test unless explicitly approved as permanent;</li>
+<li>reboot persistence is proven;</li>
+<li>the server record and <code>BUILD-STATE.md</code> are updated;</li>
+<li>no unapproved network, storage, security, or cross-service architecture changes are introduced.</li>
+</ol>
+<h3>Clean-room boundary</h3>
+<p>Historical HX-Infrastructure material may be consulted as reference evidence only. It does not establish current configuration, application state, or completion.</p>
+<h3>Native deployment boundary</h3>
+<p>Native Linux + systemd is the deployment standard. No Docker, Podman, Kubernetes, or other containerized workload deployment unless the infrastructure owner explicitly changes this rule.</p>
+<h2>2. Application companion rule</h2>
+<p>Product-specific Web UIs and MCP servers are part of the parent application's base build where assigned.</p>
+<p>Examples:</p>
+<ul>
+<li>PostgreSQL includes PostgreSQL MCP.</li>
+<li>Redis includes its assigned Redis MCP where applicable.</li>
+<li>Qdrant includes <strong>Qdrant + Qdrant Web UI + Qdrant MCP</strong>.</li>
+<li>LightRAG includes LightRAG MCP.</li>
+<li>n8n includes n8n MCP.</li>
+<li>Docling includes Granite-Docling 258M + Docling MCP.</li>
+<li>Crawl4AI includes Crawl4AI MCP.</li>
+<li>Mem0 includes its assigned MCP capability.</li>
+</ul>
+<p>HX-15 FastMCP is the shared/custom MCP development and runtime host. It is <strong>not a prerequisite</strong> for product-specific MCP servers.</p>
+<p>MCP client registration, agent tool binding, and permanent orchestration wiring remain integration-phase work.</p>
+<h2>3. Current accepted baseline</h2>
+<div class="tw"><table><thead><tr><th>Server</th><th>Current role</th><th>State</th></tr></thead><tbody><tr><td>HX-1</td><td>Samba AD / DNS / Kerberos / NTP</td><td><strong>PASS / CLOSED</strong></td></tr><tr><td>HX-2</td><td>Qwen-X / Ollama / Qwen3.8-27B Q6_K</td><td><strong>PASS / CLOSED</strong></td></tr><tr><td>HX-3</td><td>Coder-X / Ollama / Qwen3-Coder-30B Q6_K</td><td><strong>PASS / CLOSED</strong></td></tr><tr><td>HX-4</td><td>Meta-X / GPT-OSS 20B + shared embedding/reranking</td><td><strong>NEXT — runbooks staged</strong></td></tr><tr><td>HX-5</td><td>CentCom / Ornith + DeepSeek Harness / dev-test</td><td><strong>NOT STARTED — runbooks staged</strong></td></tr><tr><td>HX-6 through HX-17</td><td>Assigned workloads below</td><td><strong>NOT STARTED</strong></td></tr></tbody></table></div>
+<p>HX-2 and HX-3 establish the proven GPU-inference pattern: clean OS, domain membership, NVIDIA 595 Server Open, dedicated Ollama storage, LAN API, exact model, functional inference, and reboot persistence.</p>
+<h2>4. Dependency-driven implementation order</h2>
+<div class="tw"><table><thead><tr><th>Priority</th><th>Server</th><th>Base component</th><th>BASE PASS boundary</th></tr></thead><tbody><tr><td>1</td><td>HX-4</td><td><strong>Meta-X / Ollama / GPT-OSS 20B + shared embeddings/reranker</strong></td><td>Ollama + GPT-OSS known-answer inference; BGE-M3 and Nomic embedding proof at approved dimensions; pinned BGE-family reranker known-answer ranking; APIs; resource observation; reboot persistence</td></tr><tr><td>2</td><td>HX-5</td><td><strong>CentCom Ollama / Ornith</strong></td><td>Accepted GPU state, Ollama, exact Ornith model, known-answer LAN inference, reboot persistence</td></tr><tr><td>3</td><td>HX-9</td><td><strong>PostgreSQL + PostgreSQL MCP</strong></td><td>Native DB, persistent service/data path, create/write/read disposable DB proof, MCP companion smoke test, reboot persistence</td></tr><tr><td>4</td><td>HX-9</td><td><strong>Redis + assigned Redis MCP</strong></td><td>Native Redis, selected persistence/config, PING/SET/GET/DELETE proof, MCP companion smoke test, reboot persistence</td></tr><tr><td>5</td><td>HX-10</td><td><strong>Qdrant + Qdrant Web UI + Qdrant MCP</strong></td><td>Native Qdrant, persistent storage, API health, vector write/query/read smoke test, direct Web UI live-state proof, MCP companion smoke test, cleanup, reboot persistence</td></tr><tr><td>6</td><td>HX-6</td><td><strong>OmniRoute</strong></td><td>Native service/UI, curated provider/model controls, one temporary proven Ollama route, direct-vs-routed proof, cleanup, reboot persistence</td></tr><tr><td>7</td><td>HX-15</td><td><strong>FastMCP</strong></td><td>Shared/custom MCP development runtime, custom test server/tool discovery/tool call, cleanup, service/reboot validation</td></tr><tr><td>8</td><td>HX-5</td><td><strong>DeepSeek Harness</strong></td><td>Runtime health plus meta-agent decomposition, sub-agent delegation, runnable AI artifact creation, independent validation, synthesis, cleanup, reboot delegated-task proof</td></tr><tr><td>9</td><td>HX-7</td><td><strong>NGINX — development use only</strong></td><td>Native NGINX, active/enabled, temporary private-IP development proxy proof, cleanup; no ecosystem service routes</td></tr><tr><td>10</td><td>HX-16</td><td><strong>Docling + Granite-Docling 258M + Docling MCP</strong></td><td>Native Docling, deterministic document conversion, Granite-Docling CPU-first proof, MCP companion smoke test, cleanup, reboot persistence where applicable</td></tr><tr><td>11</td><td>HX-17</td><td><strong>Crawl4AI + Crawl4AI MCP</strong></td><td>Native Crawl4AI, deterministic crawl/Markdown proof, MCP companion smoke test, cleanup, reboot persistence where applicable</td></tr><tr><td>12</td><td>HX-11</td><td><strong>LightRAG + LightRAG MCP</strong></td><td>Native LightRAG, health, synthetic ingest/retrieval/query proof, assigned MCP companion smoke test, cleanup, reboot persistence</td></tr><tr><td>13</td><td>HX-13</td><td><strong>Mem0 + assigned MCP capability</strong></td><td>Native Mem0, disposable store/search/delete memory lifecycle using approved dependencies, MCP companion smoke test, cleanup, persistent config/reboot validation</td></tr><tr><td>14</td><td>HX-12</td><td><strong>Deep Agents by LangChain</strong></td><td>Pinned environment, approved-model tool-calling probe, real LOB agent package, actual sub-agent delegation, known-answer business-rule result, thread continuity, independent validation, cleanup, reboot proof</td></tr><tr><td>15</td><td>HX-14</td><td><strong>n8n + n8n MCP</strong></td><td>Native n8n, persistent data/config, deterministic create/execute/save/reopen/delete workflow proof, direct UI, MCP companion smoke test, reboot persistence</td></tr><tr><td>16</td><td>HX-8</td><td><strong>Open WebUI</strong></td><td>Native UI/storage, direct LAN UI, temporary direct Ollama prompt/response proof, cleanup, reboot persistence</td></tr></tbody></table></div>
+<h2>5. Implementation waves</h2>
+<h3>Wave A — Inference plane</h3>
+<ol>
+<li>HX-4 Meta-X</li>
+<li>HX-5 CentCom / Ornith</li>
+</ol>
+<p><strong>Exit:</strong> HX-2, HX-3, HX-4, and HX-5 each expose a proven local Ollama inference endpoint. HX-4 additionally proves both assigned embedding models and the pinned reranker before its full workload gate closes.</p>
+<h3>Wave B — State and retrieval foundations</h3>
+<ol>
+<li>HX-9 PostgreSQL + MCP  </li>
+<li>HX-9 Redis + MCP  </li>
+<li>HX-10 Qdrant + Web UI + MCP</li>
+</ol>
+<p><strong>Exit:</strong> relational, transient, and vector state services are independently healthy, including assigned MCP endpoints and Qdrant's native UI.</p>
+<h3>Wave C — Routing, MCP development, control plane</h3>
+<ol>
+<li>HX-6 OmniRoute  </li>
+<li>HX-15 FastMCP  </li>
+<li>HX-5 DeepSeek Harness  </li>
+<li>HX-7 NGINX dev/test only</li>
+</ol>
+<p><strong>Exit:</strong> routing, shared/custom MCP development, CentCom Harness, and dev-only NGINX operate independently. OmniRoute proves one temporary route to a known-good HX model. DeepSeek Harness proves bounded meta-agent solution construction through sub-agents.</p>
+<h3>Wave D — Knowledge acquisition</h3>
+<ol>
+<li>HX-16 Docling + Granite-Docling + MCP  </li>
+<li>HX-17 Crawl4AI + MCP</li>
+</ol>
+<p><strong>Exit:</strong> deterministic document conversion and deterministic web-content extraction operate independently with their assigned MCP endpoints.</p>
+<h3>Wave E — RAG and memory</h3>
+<ol>
+<li>HX-11 LightRAG + MCP  </li>
+<li>HX-13 Mem0 + assigned MCP</li>
+</ol>
+<p><strong>Exit:</strong> retrieval and memory applications operate independently. Limited disposable integration required by a smoke test is permitted; permanent ecosystem wiring remains deferred.</p>
+<h3>Wave F — Agent/workflow consumers</h3>
+<ol>
+<li>HX-12 Deep Agents  </li>
+<li>HX-14 n8n + MCP</li>
+</ol>
+<p><strong>Exit:</strong> HX-12 proves creation and execution of a small LOB agent package with sub-agents, tools/files, known-answer business rules, disposable thread state, and independent validation. HX-14 proves a saved/reopened deterministic workflow. Production agent bindings/workflows remain deferred.</p>
+<h3>Wave G — User interaction</h3>
+<ol>
+<li>HX-8 Open WebUI</li>
+</ol>
+<p><strong>Exit:</strong> Open WebUI proves one temporary direct conversation against a known-good HX model and removes the validation-only connection afterward.</p>
+<h2>6. RAG and model placement</h2>
+<h3>RAG stack priority</h3>
+<pre><code class="lang-text">PostgreSQL + MCP / Redis + MCP
+              ↓
+     Qdrant + Web UI + MCP
+              ↓
+ Docling + MCP / Crawl4AI + MCP
+              ↓
+       LightRAG + MCP
+              ↓
+        Mem0 + MCP
+              ↓
+   Deep Agents / n8n consumers</code></pre>
+<p>No production corpus is ingested during base installation. Synthetic/throwaway objects are sufficient for smoke testing.</p>
+<h3>HX-16 — Docling model</h3>
+<pre><code class="lang-text">Docling
+└── Granite-Docling 258M</code></pre>
+<p>Granite-Docling is a document-understanding VLM, not the general HX text embedding model. Base validation is <strong>CPU-first</strong>. GPU acceleration is considered later only if measured performance justifies it. Do not route routine Granite-Docling inference through OmniRoute.</p>
+<h3>HX-4 — shared retrieval inference</h3>
+<pre><code class="lang-text">Meta-X / GPT-OSS 20B
+├── BGE-M3 — PRIMARY/default embedding model
+├── Nomic Embed Text v1.5 — SECONDARY benchmark/fallback
+└── BGE-family reranker</code></pre>
+<p>Default embedding dimensions:</p>
+<pre><code class="lang-text">BGE-M3       1024
+Nomic v1.5    768</code></pre>
+<p>Never mix embedding models within one Qdrant collection. Model changes require a new collection and complete re-embedding.</p>
+<p>The exact BGE-family reranker checkpoint and serving runtime remain explicit implementation decisions and must be pinned before the reranker smoke test becomes executable.</p>
+<p>Detailed authority: <code>HX-ECO-SYSTEM-MODEL-PLACEMENT-AND-EMBEDDING-STANDARD.md</code>.</p>
+<h2>7. Component smoke-test authority</h2>
+<p>The roadmap defines <strong>what must pass</strong>. Standalone files under <code>/smoke-tests/</code> define <strong>how the proof is executed</strong>. This keeps the evergreen roadmap small and prevents component procedures from bloating the baseline document.</p>
+<p>Temporary cross-service integration is permitted during BASE PASS only when it is:</p>
+<ul>
+<li>minimal and required to prove primary function;</li>
+<li>against an already-proven dependency where applicable;</li>
+<li>synthetic/disposable rather than production data;</li>
+<li>clearly labeled validation-only;</li>
+<li>removed/deleted/disabled after evidence capture unless explicitly approved as permanent.</li>
+</ul>
+<h3>Component procedures</h3>
+<div class="tw"><table><thead><tr><th>Server</th><th>Component</th><th>Executable smoke-test authority</th></tr></thead><tbody><tr><td>HX-4</td><td>GPT-OSS / Ollama inference</td><td><code>../../smoke-tests/ollama-inference-smoke-test.md</code></td></tr><tr><td>HX-4</td><td>BGE-M3 + Nomic Embed Text v1.5</td><td><code>../../smoke-tests/embedding-models-smoke-test.md</code></td></tr><tr><td>HX-4</td><td>BGE-family reranker</td><td><code>../../smoke-tests/reranker-smoke-test.md</code> — conditional until checkpoint/runtime are pinned</td></tr><tr><td>HX-5</td><td>Ornith / Ollama inference</td><td><code>../../smoke-tests/ollama-inference-smoke-test.md</code></td></tr><tr><td>HX-9</td><td>PostgreSQL</td><td><code>../../smoke-tests/postgresql-smoke-test.md</code></td></tr><tr><td>HX-9</td><td>Redis</td><td><code>../../smoke-tests/redis-smoke-test.md</code></td></tr><tr><td>HX-10</td><td>Qdrant</td><td><code>../../smoke-tests/qdrant-smoke-test.md</code></td></tr><tr><td>HX-11</td><td>LightRAG</td><td><code>../../smoke-tests/lightrag-smoke-test.md</code></td></tr><tr><td>HX-13</td><td>Mem0</td><td><code>../../smoke-tests/mem0-smoke-test.md</code></td></tr><tr><td>HX-15</td><td>FastMCP</td><td><code>../../smoke-tests/fastmcp-smoke-test.md</code></td></tr><tr><td>HX-7</td><td>NGINX dev/test</td><td><code>../../smoke-tests/nginx-smoke-test.md</code></td></tr><tr><td>HX-14</td><td>n8n</td><td><code>../../smoke-tests/n8n-smoke-test.md</code></td></tr><tr><td>HX-16</td><td>Docling / Granite-Docling</td><td><code>../../smoke-tests/docling-smoke-test.md</code></td></tr><tr><td>HX-17</td><td>Crawl4AI</td><td><code>../../smoke-tests/crawl4ai-smoke-test.md</code></td></tr><tr><td>HX-5</td><td>DeepSeek Harness</td><td><code>../../smoke-tests/deepseek-harness-smoke-test.md</code></td></tr><tr><td>HX-12</td><td>Deep Agents</td><td><code>../../smoke-tests/deep-agents-smoke-test.md</code></td></tr><tr><td>HX-6</td><td>OmniRoute</td><td><code>../../smoke-tests/omniroute-smoke-test.md</code></td></tr><tr><td>HX-8</td><td>Open WebUI</td><td><code>../../smoke-tests/open-webui-smoke-test.md</code></td></tr></tbody></table></div>
+<h3>Reusable companion procedures</h3>
+<div class="tw"><table><thead><tr><th>Applies to</th><th>Companion proof</th><th>Authority</th></tr></thead><tbody><tr><td>Assigned product-specific MCP servers</td><td>MCP discovery + safe known-answer tool call</td><td><code>../../smoke-tests/mcp-companion-smoke-test.md</code></td></tr><tr><td>Assigned native Web UIs</td><td>direct LAN UI + live backend state proof</td><td><code>../../smoke-tests/native-web-ui-smoke-test.md</code></td></tr></tbody></table></div>
+<p>Companion tests supplement the parent component smoke test; they do not replace it.</p>
+<p>DeepSeek Harness role/design authority remains <code>HX-ECO-SYSTEM-DEEPSEEK-HARNESS-IMPLEMENTATION-ADDENDUM.md</code>. Deep Agents role/design authority remains <code>HX-ECO-SYSTEM-DEEP-AGENTS-IMPLEMENTATION-ADDENDUM.md</code>. Their <code>/smoke-tests/</code> files are the concise executable acceptance procedures.</p>
+<h2>8. OmniRoute provider and model catalog standard</h2>
+<pre><code class="lang-text">KNOWN TO OMNIROUTE
         !=
 APPROVED HX PROVIDER
         !=
-APPROVED HX MODEL</pre><p>Provider and model allowlists remain independent. Cloud providers/models require explicit owner approval.</p><h2>NGINX</h2><p>HX-7 remains development/test UI rendering only. It is not the general front door for Qdrant, LightRAG, n8n, Open WebUI, databases, MCP servers, or normal ecosystem services.</p><h2>Current server map</h2><table><tr><th>Server</th><th>IP</th><th>Assignment</th></tr><tr><td>HX-1</td><td>192.168.50.200</td><td>Samba AD/DNS/Kerberos/NTP</td></tr><tr><td>HX-2</td><td>192.168.50.202</td><td>Qwen-X / Ollama</td></tr><tr><td>HX-3</td><td>192.168.50.203</td><td>Coder-X / Ollama</td></tr><tr><td>HX-4</td><td>192.168.50.204</td><td>Meta-X + embeddings/reranker</td></tr><tr><td>HX-5</td><td>192.168.50.205</td><td>CentCom / Ornith / DeepSeek Harness / dev-test</td></tr><tr><td>HX-6</td><td>192.168.50.206</td><td>OmniRoute</td></tr><tr><td>HX-7</td><td>192.168.50.207</td><td>NGINX dev/test only</td></tr><tr><td>HX-8</td><td>192.168.50.208</td><td>Open WebUI</td></tr><tr><td>HX-9</td><td>192.168.50.209</td><td>PostgreSQL / Redis + MCP</td></tr><tr><td>HX-10</td><td>192.168.50.210</td><td>Qdrant + Web UI + MCP</td></tr><tr><td>HX-11</td><td>192.168.50.211</td><td>LightRAG + MCP</td></tr><tr><td>HX-12</td><td>192.168.50.212</td><td>Deep Agents — LOB agent factory/runtime harness</td></tr><tr><td>HX-13</td><td>192.168.50.213</td><td>Mem0 + MCP</td></tr><tr><td>HX-14</td><td>192.168.50.214</td><td>n8n + MCP</td></tr><tr><td>HX-15</td><td>192.168.50.215</td><td>FastMCP</td></tr><tr><td>HX-16</td><td>192.168.50.216</td><td>Docling + Granite-Docling + MCP</td></tr><tr><td>HX-17</td><td>192.168.50.217</td><td>Crawl4AI + MCP</td></tr></table><h2>Planned infrastructure follow-ons — lower priority</h2><h3>Fleet SSH pass / non-interactive SSH configuration</h3><p>Standardize the approved non-interactive fleet authentication pattern while preserving working interactive SSH. No immediate action required.</p><h3>NFS mounts and shared filesystem configuration</h3><p>Define authoritative exports, consumers, stable mount points, permissions, and reboot persistence after server/storage roles are confirmed. Historical prototype mounts are not automatically recreated. No immediate action required.</p><h2>Integration readiness</h2><p>Base build closes only after every assigned service, companion UI/MCP endpoint, required component smoke test, cleanup step, reboot-persistence gate, server record, and build-state update is complete. Permanent service-to-service integration remains a separate program.</p></body></html>
+APPROVED HX MODEL</code></pre>
+<p>HX maintains two explicit controls:</p>
+<ol>
+<li><strong>Provider allowlist</strong> — only explicitly approved local/cloud providers are enabled or credentialed for HX use.</li>
+<li><strong>Model allowlist</strong> — within an approved provider, only specifically approved model IDs are exposed for normal HX selection/routing.</li>
+</ol>
+<p>Approving a provider does not approve its entire catalog. Free/no-auth/discovered providers are not automatically active.</p>
+<p>Initial local catalog:</p>
+<pre><code class="lang-text">HX-2  Qwen-X
+      qwen-x:qwen3.8-27b-q6_k
+
+HX-3  Coder-X
+      coder-x:qwen3-coder-30b-q6_k
+
+HX-4  Meta-X
+      GPT-OSS 20B — exact operational alias recorded at build
+
+HX-5  CentCom
+      Ornith — exact operational alias recorded at build</code></pre>
+<p>Only models from servers that have passed their own BASE PASS may enter the active catalog. Cloud providers/models require explicit owner approval.</p>
+<h2>9. NGINX decision</h2>
+<p>The former concept of HX-7 as a general reverse proxy is withdrawn.</p>
+<pre><code class="lang-text">HX-7 NGINX
+Purpose: development/test UI rendering only
+Use: proxy an application UI being actively developed when useful
+Do not use: normal routing for Qdrant, LightRAG, n8n, Open WebUI,
+            databases, MCP servers, or other ecosystem services</code></pre>
+<p>Normal application UIs remain directly accessible on their own native server/port.</p>
+<h2>10. Current server/application map</h2>
+<div class="tw"><table><thead><tr><th>Server</th><th>IP</th><th>Assignment</th><th>Priority</th></tr></thead><tbody><tr><td>HX-1</td><td><code>192.168.50.200</code></td><td>Samba AD / DNS / Kerberos / NTP</td><td>Complete</td></tr><tr><td>HX-2</td><td><code>192.168.50.202</code></td><td>Qwen-X / Ollama / Qwen3.8-27B Q6_K</td><td>Complete</td></tr><tr><td>HX-3</td><td><code>192.168.50.203</code></td><td>Coder-X / Ollama / Qwen3-Coder-30B Q6_K</td><td>Complete</td></tr><tr><td>HX-4</td><td><code>192.168.50.204</code></td><td>Meta-X / GPT-OSS 20B + BGE-M3 / Nomic / BGE reranker</td><td>1</td></tr><tr><td>HX-5</td><td><code>192.168.50.205</code></td><td>CentCom / Ornith / DeepSeek Harness / dev-test</td><td>2, 8</td></tr><tr><td>HX-6</td><td><code>192.168.50.206</code></td><td>OmniRoute</td><td>6</td></tr><tr><td>HX-7</td><td><code>192.168.50.207</code></td><td>NGINX dev/test only</td><td>9</td></tr><tr><td>HX-8</td><td><code>192.168.50.208</code></td><td>Open WebUI</td><td>16</td></tr><tr><td>HX-9</td><td><code>192.168.50.209</code></td><td>PostgreSQL + MCP / Redis + MCP</td><td>3, 4</td></tr><tr><td>HX-10</td><td><code>192.168.50.210</code></td><td>Qdrant + Web UI + MCP</td><td>5</td></tr><tr><td>HX-11</td><td><code>192.168.50.211</code></td><td>LightRAG + MCP</td><td>12</td></tr><tr><td>HX-12</td><td><code>192.168.50.212</code></td><td>Deep Agents by LangChain — LOB agent factory/runtime harness</td><td>14</td></tr><tr><td>HX-13</td><td><code>192.168.50.213</code></td><td>Mem0 + assigned MCP</td><td>13</td></tr><tr><td>HX-14</td><td><code>192.168.50.214</code></td><td>n8n + MCP</td><td>15</td></tr><tr><td>HX-15</td><td><code>192.168.50.215</code></td><td>FastMCP shared/custom MCP development host</td><td>7</td></tr><tr><td>HX-16</td><td><code>192.168.50.216</code></td><td>Docling + Granite-Docling 258M + MCP</td><td>10</td></tr><tr><td>HX-17</td><td><code>192.168.50.217</code></td><td>Crawl4AI + MCP</td><td>11</td></tr></tbody></table></div>
+<h2>11. Planned infrastructure follow-ons — lower priority</h2>
+<p>These items remain intentionally below the main server/application stand-up sequence and are <strong>not on the immediate critical path</strong>.</p>
+<h3>11.1 Fleet SSH pass / non-interactive SSH configuration</h3>
+<p>Establish the approved fleet-wide non-interactive SSH administration pattern for CentCom and authorized agentic tooling while preserving working interactive SSH.</p>
+<ul>
+<li>define the approved authentication pattern;</li>
+<li>document credential/key sourcing and script consumption;</li>
+<li>validate from the designated administration/control host;</li>
+<li>do not introduce network/access restrictions without explicit owner approval.</li>
+</ul>
+<p><strong>Priority:</strong> Planned / lower priority — no immediate action required.</p>
+<h3>11.2 NFS mounts and shared filesystem configuration</h3>
+<p>Define the clean-rebuild shared filesystem standard after authoritative exports, consumers, and storage sources are confirmed.</p>
+<ul>
+<li>identify authoritative export host(s)/paths and intended consumers;</li>
+<li>define stable mount points and reboot persistence;</li>
+<li>validate ownership/permissions;</li>
+<li>record approved mounts in applicable server records;</li>
+<li>do not automatically recreate historical prototype mounts.</li>
+</ul>
+<p><strong>Priority:</strong> Planned / lower priority — no immediate action required.</p>
+<h2>12. Integration readiness gate</h2>
+<p>Base-build completion requires current server records for HX-1 through HX-17 and independent proof of every assigned service, native Web UI, product-specific MCP endpoint, defined component smoke test, cleanup requirement, and reboot-persistence gate.</p>
+<p>Only then does the program move to:</p>
+<p><strong>HX Eco-System Integration and End-to-End Validation</strong></p>
+<p>That later program will define service contracts, credentials, OmniRoute permanent routes, database schemas, Qdrant production collections, RAG ingestion, MCP client registrations, agent tool bindings, Open WebUI permanent backends, workflows, observability, and end-to-end operational tests.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md</code>.</footer></div></body></html>

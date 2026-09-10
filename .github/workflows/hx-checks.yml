@@ -1,0 +1,78 @@
+name: HX repository checks
+
+# Every check here corresponds to a defect actually found in this repository.
+# The point is that a written rule now fails loudly instead of quietly drifting.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  documentation:
+    name: Documentation consistency
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Links, vocabulary, filenames, evidence
+        run: ./tools/hx-doc/hx-doc-check
+
+      - name: human-html mirrors match their Markdown sources
+        run: ./tools/hx-doc/hx-render-html --check
+
+  scripts:
+    name: Execution artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: shellcheck runbooks and runner
+        run: |
+          shopt -s nullglob
+          files=(
+            docs/03-runbooks/common/hx-base.env
+            docs/03-runbooks/common/*.sh
+            docs/03-runbooks/HX-*/*.sh
+            tools/hx-smoke-runner/hx-smoke-*
+            tools/hx-doc/hx-doc-check
+            tools/hx-doc/hx-render-html
+            tools/hx-doc/hx-upstream-drift
+          )
+          printf 'checking %s\n' "${files[@]}"
+          shellcheck --shell=bash --severity=warning "${files[@]}"
+
+      - name: Shell scripts are LF and executable
+        run: |
+          fail=0
+          while IFS= read -r f; do
+            if grep -qU $'\r' "$f"; then echo "CRLF: $f"; fail=1; fi
+            if [ ! -x "$f" ]; then echo "not executable: $f"; fail=1; fi
+          done < <(git ls-files 'docs/03-runbooks/**/*.sh' 'tools/hx-smoke-runner/hx-smoke-*')
+          exit $fail
+
+      - name: Python execution artifacts compile
+        run: python3 -m compileall -q tools/
+
+  secrets:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

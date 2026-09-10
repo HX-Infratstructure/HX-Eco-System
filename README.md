@@ -268,7 +268,21 @@ Qdrant, LightRAG, PostgreSQL, Redis, Mem0, Docling, and Crawl4AI skills are appr
 
 **Design readiness is not as-built completion.**
 
-## 12. Document lifecycle
+## 12. Repository tooling
+
+Consistency rules are enforced by code, not by proofreading:
+
+```bash
+tools/hx-doc/hx-doc-check         # links, vocabulary, frontmatter, filenames, evidence
+tools/hx-doc/hx-render-html       # regenerate every human-html/ mirror
+tools/hx-doc/hx-upstream-drift    # are the registry's pinned commits still current?
+```
+
+`human-html/**` is generated. Edit Markdown, then re-render. CI runs
+`hx-doc-check`, `hx-render-html --check`, `shellcheck`, a CRLF/executable-bit
+check, and a secret scan on every pull request.
+
+## 13. Document lifecycle
 
 Active documents use stable, unversioned filenames. Version/date/status live inside the document where applicable.
 

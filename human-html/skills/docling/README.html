@@ -1,11 +1,129 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Docling Advisor</title><style>body{max-width:1100px;margin:40px auto;padding:0 24px;background:#0b0f14;color:#e8eef6;font:16px/1.55 system-ui}h1,h2{color:#fff}code{color:#b9ddff}pre{background:#111820;border:1px solid #263241;padding:15px;border-radius:10px;overflow:auto}.ok{color:#81c784}.call{border-left:4px solid #ffd166;background:#111820;padding:14px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #263241;padding:9px;vertical-align:top}th{background:#151e28}</style></head><body><h1>HX Docling Advisor</h1><p class="call"><strong>Approved guidance; HX-16 remains NOT STARTED.</strong></p><h2>Placement</h2><pre>HX-16 — 192.168.50.216
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Docling Skill</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>skills/docling/README.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX Docling Skill</h1>
+<p>Docling on HX-16 uses the governed HX wrapper:</p>
+<pre><code class="lang-text">skills/docling/hx-docling-advisor/</code></pre>
+<h2>HX placement</h2>
+<pre><code class="lang-text">HX-16 — 192.168.50.216
 Docling + Granite-Docling 258M + Docling MCP
-Native Ubuntu Linux + systemd where applicable
-Granite-Docling BASE: CPU-first</pre><h2>Official source model</h2><table><tr><th>Source</th><th>HX role</th></tr><tr><td><code>docling-project/docling</code> docs/source/releases</td><td>Primary product/runtime authority</td></tr><tr><td>Packaged <code>docling/.agents/skills/docling/</code></td><td>Reviewed VENDOR_OFFICIAL usage skill; one router + six on-demand references</td></tr><tr><td><code>docling-project/docling-mcp</code></td><td>Preferred VENDOR_OFFICIAL product companion source</td></tr><tr><td>HX repository</td><td>Placement, native/systemd, CPU-first, execution, validation and owner authority</td></tr></table><h2>Reviewed provenance</h2><p>Docling main <code>cdc2477e12107f45bf8b6813571f31f9e795ba07</code>; release <code>v2.126.0</code> (2026-09-04); packaged usage SKILL blob <code>f6bdfa26aee4b0df5a4cdfb6b496286e3b9eedd6</code>. Docling MCP main <code>a8a41e6014ba3a148261702e760421086e9c80e3</code>; release/package <code>v3.2.0</code> (2026-09-01).</p><h2>HX curation</h2><p>Local CLI/Python SDK, DoclingDocument, OCR/tables/layout and Granite-Docling guidance are accepted/adapted. Extraction beta, RAG/loaders and contributor development skills remain reference-only for BASE. Remote service/VLM paths require owner decisions when they change architecture. Containerized Docling Serve and managed-service replacement are rejected under current HX architecture.</p><h2>MCP boundary</h2><p>The official Docling MCP source is accepted/adapted, but exact version, local/remote mode, transport, process, listener/cache and systemd unit remain future HX-16 runbook decisions. HX-15 FastMCP is not a prerequisite; permanent client/agent registration remains later integration work.</p><h2>Smoke alignment</h2><pre>D1  Docling + Granite-Docling
-    requires: CentCom active + Granite staged locally
-    live coupling: NONE
-    proof: deterministic local PDF -> normal conversion + Granite CPU path
+State: NOT STARTED
+Deployment: native Ubuntu Linux; systemd for long-running services where applicable
+Granite-Docling BASE: CPU-first</code></pre>
+<p>Granite-Docling 258M remains inside the HX-16 Docling boundary. Upstream remote-VLM or GPU examples do not move that model to HX-4 or another inference host.</p>
+<h2>Source model</h2>
+<p>Docling provides both an official packaged usage skill and an official product-specific MCP project. The HX wrapper uses a layered source model:</p>
+<ol>
+<li><strong>HX architecture, owner decisions, future HX-16 server record/runbook, and smoke authorities</strong> for placement, execution, CPU-first model policy, companion boundaries, and acceptance.</li>
+<li><strong>Official Docling documentation, source, releases, and package metadata</strong> as primary product/runtime authority.</li>
+<li><strong>The packaged <code>docling</code> usage skill</strong> under <code>docling/.agents/skills/docling/</code> as reviewed <code>VENDOR_OFFICIAL</code> agent expertise.</li>
+<li><strong>Official <code>docling-project/docling-mcp</code></strong> as the preferred <code>VENDOR_OFFICIAL</code> companion source, still subordinate to the future HX-16 runbook and D2 smoke authority.</li>
+</ol>
+<p>The repository-root Docling development skills are contributor guidance and are not the packaged usage skill. They remain reference-only for HX-16 runtime work.</p>
+<h2>Reviewed upstream</h2>
+<pre><code class="lang-text">Docling repository: docling-project/docling
+Reviewed main: cdc2477e12107f45bf8b6813571f31f9e795ba07
+Latest reviewed release: v2.126.0 — 2026-09-04
+Packaged usage skill: docling/.agents/skills/docling/
+Reviewed usage SKILL blob: f6bdfa26aee4b0df5a4cdfb6b496286e3b9eedd6
+Usage references: 6
+Python requirement: &gt;=3.10,&lt;4.0
+License: MIT
 
-D2  Docling MCP
+Docling MCP repository: docling-project/docling-mcp
+Reviewed MCP main: a8a41e6014ba3a148261702e760421086e9c80e3
+Latest reviewed MCP release: v3.2.0 — 2026-09-01
+MCP package at reviewed main: 3.2.0
+MCP Python requirement: &gt;=3.10
+MCP license: MIT</code></pre>
+<p>These values establish reproducible provenance. They do not select the eventual HX-16 package versions, extras, environment, model revision/cache, service layout, or MCP transport.</p>
+<h2>Official usage skill disposition</h2>
+<div class="tw"><table><thead><tr><th>Upstream capability</th><th>HX disposition</th><th>Boundary</th></tr></thead><tbody><tr><td>Local CLI and Python SDK conversion</td><td><code>ACCEPT + ADAPT</code></td><td>Use within the future accepted HX-16 package/environment.</td></tr><tr><td><code>DoclingDocument</code>, Markdown/JSON export, OCR, tables, layout</td><td><code>ACCEPT + ADAPT</code></td><td>Product expertise; task-specific options remain explicit.</td></tr><tr><td><code>granite_docling</code> / Granite-Docling-258M</td><td><code>ADAPT</code></td><td>Preserve HX D-006: model stays HX-16 and BASE is CPU-first.</td></tr><tr><td><code>docling-slim</code> modular extras</td><td><code>ADAPT</code></td><td>Future runbook selects exact package/extras.</td></tr><tr><td><code>DocumentExtractor</code> beta</td><td><code>REFERENCE_ONLY</code> for BASE</td><td>Later application scope only when beta behavior is explicitly accepted.</td></tr><tr><td>RAG/chunking/framework loaders</td><td><code>REFERENCE_ONLY</code> for BASE</td><td>Later integration; no permanent RAG wiring during Docling BASE.</td></tr><tr><td>Service Client / remote VLM / remote URL processing</td><td><code>OWNER_DECISION_REQUIRED</code></td><td>Do not introduce new remote/egress/service architecture implicitly.</td></tr><tr><td>Containerized Docling Serve</td><td><code>REJECT_FOR_HX</code></td><td>Conflicts with native Linux/systemd policy.</td></tr><tr><td>Managed Docling / IBM watsonx replacing HX-16</td><td><code>REJECT_FOR_HX</code></td><td>Conflicts with current local/native placement.</td></tr><tr><td><code>library-skills</code> / symlink deployment</td><td><code>REFERENCE_ONLY</code></td><td>Possible derived agent deployment only; <code>skills/</code> remains canonical.</td></tr><tr><td>Contributor development skills</td><td><code>REFERENCE_ONLY</code></td><td>Not HX-16 runtime/product skill authority.</td></tr></tbody></table></div>
+<h2>MCP boundary</h2>
+<p>The official <code>docling-project/docling-mcp</code> project is the preferred product-specific companion source. Upstream currently supports local, remote, and hybrid conversion modes; stdio, SSE, and streamable-HTTP transports; <code>uvx</code> quickstarts; and optional RAG/information-extraction toolsets.</p>
+<p>HX does <strong>not</strong> convert those options into defaults:</p>
+<ul>
+<li>exact package/version, local/remote mode, transport, process, listener, cache, and systemd unit remain future HX-16 runbook decisions;</li>
+<li>remote mode requiring Docling Serve is reference-only for current BASE unless separately approved;</li>
+<li>containerized Docling Serve is rejected under the current native rule;</li>
+<li>managed-service replacement is rejected unless the owner changes HX-16 architecture;</li>
+<li>optional LlamaIndex/Milvus, LlamaStack, smolagents, and similar toolsets remain outside BASE unless separately admitted;</li>
+<li>HX-15 FastMCP is not a prerequisite for the product-specific Docling MCP;</li>
+<li>permanent MCP client registration/agent binding remains integration-phase work.</li>
+</ul>
+<h2>Smoke-test alignment</h2>
+<p>The wrapper is explicitly bound to the current proof chain:</p>
+<pre><code class="lang-text">D1  HX-16 Docling + Granite-Docling
+    requires: CentCom active + Granite model staged locally
+    live coupling: NONE
+    fixture: self-generated local PDF
+    proof: normal Docling conversion + Granite-Docling CPU path
+
+D2  HX-16 Docling MCP
     requires: accepted D1 PASS
-    live coupling: parent Docling service only</pre><p>The historical v2.101.0 VLM CPU-selection defect was fixed upstream before the reviewed v2.126.0 release; D1 remains technically defensible, while installed-version/device evidence is still required.</p><h2>Governed intake verification</h2><p class="ok"><strong>Skill validator: PASS</strong></p><p><code>skill.zip</code> — 7 files — 13,506 bytes. This validates the skill package only; it is not HX-16 runtime evidence and does not advance BUILD-STATE.</p><p>Markdown authority: <code>skills/docling/README.md</code> and <code>skills/docling/hx-docling-advisor/SKILL.md</code>.</p></body></html>
+    live coupling: parent Docling service only
+    proof: real MCP negotiation + advertised tool + safe known-answer tool call</code></pre>
+<p>Exact authorities:</p>
+<ul>
+<li><code>smoke-tests/docling-smoke-test.md</code></li>
+<li><code>docs/04-application-standards/MCP-STANDARD.md</code></li>
+<li><code>smoke-tests/mcp-companion-smoke-test.md</code></li>
+<li>current smoke roadmap and CentCom operating procedures.</li>
+</ul>
+<p>A historical Docling v2.101.0 CLI bug could ignore <code>--device cpu</code> for VLM on a GPU-visible host. Upstream fixed it in June 2026 before the reviewed v2.126.0 release. The current smoke authority therefore remains technically defensible; the installed version and observed CPU execution must still be verified during D1.</p>
+<h2>Governed intake verification</h2>
+<p>The <code>hx-docling-advisor</code> wrapper was created under the current skill-creation workflow, audited against <code>skills/AGENTS.md</code>, <code>SKILL-GOVERNANCE.md</code>, HX D-006/native rules, the BASE roadmap, and the D1/D2 smoke authorities.</p>
+<p>Validation result:</p>
+<pre><code class="lang-text">Skill validator: PASS
+Packaged artifact: skill.zip
+Files: 7
+Archive size: 13,506 bytes</code></pre>
+<p>No execution/audit helper is bundled because HX-16 has no current server record or runbook and the exact package/service/MCP choices are intentionally not pinned yet. The current smoke test already contains the deterministic validation procedure.</p>
+<p><strong>Skill validation proves the reusable expertise package only. It is not Docling runtime evidence and does not advance HX-16 BUILD-STATE.</strong></p>
+<h2>Current execution boundary</h2>
+<p>HX-16 remains <strong>NOT STARTED</strong>. There is no active HX-16 server record or runbook. This skill does not select:</p>
+<ul>
+<li>exact Docling package/source/extras;</li>
+<li>Python environment/venv path;</li>
+<li>Granite-Docling model revision or cache path;</li>
+<li>long-running Docling process/service shape;</li>
+<li>listener/network exposure;</li>
+<li>Docling MCP version/mode/transport/systemd unit;</li>
+<li>remote Docling Serve architecture;</li>
+<li>permanent RAG/Qdrant/LightRAG integrations.</li>
+</ul>
+<p>Those choices remain owner/runbook-controlled.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>skills/docling/README.md</code>.</footer></div></body></html>

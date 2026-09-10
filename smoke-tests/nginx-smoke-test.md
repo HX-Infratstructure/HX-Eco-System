@@ -126,3 +126,13 @@ On the temporary test runner, stop `nginx_smoke_upstream.py` and remove the disp
 Confirm HX-7 port `18017` and the temporary upstream port are no longer part of the smoke test.
 
 **Do not add permanent ecosystem routes, DNS changes, firewall restrictions, TLS configuration, or localhost proxy targets as part of this test.**
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the temporary development proxy response.
+
+Record the NGINX version, the temporary server block used, the private
+upstream it proxied, the known-answer response, and the confirmation that the
+temporary configuration was removed and NGINX reloaded cleanly afterwards.

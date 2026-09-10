@@ -1,0 +1,56 @@
+name: Upstream pin drift
+
+# skills/SKILL-REGISTRY.md pins the exact upstream commit each governed skill
+# was reviewed at. Those pins were maintained entirely by memory. This reports
+# when an upstream has moved so the owner can decide whether to re-review.
+
+on:
+  schedule:
+    - cron: '17 6 * * 1'   # Mondays 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  drift:
+    name: Compare pinned commits to upstream
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Check pins
+        id: drift
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ./tools/hx-doc/hx-upstream-drift --markdown > drift.md
+          ./tools/hx-doc/hx-upstream-drift --fail-on-drift > /dev/null \
+            && echo "drifted=false" >> "$GITHUB_OUTPUT" \
+            || echo "drifted=true"  >> "$GITHUB_OUTPUT"
+          cat drift.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open or update the drift issue
+        if: steps.drift.outputs.drifted == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          title="Upstream skill pins have drifted"
+          body="$(cat drift.md)
+
+          Re-review each drifted source, then update its reviewed commit and
+          \`Last reviewed\` date in \`skills/SKILL-REGISTRY.md\`.
+
+          Drift is information, not a failure. A pin stays valid until the
+          owner decides to move it."
+          existing="$(gh issue list --state open --search "$title in:title" --json number --jq '.[0].number')"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create --title "$title" --body "$body" --label upstream-drift || \
+            gh issue create --title "$title" --body "$body"
+          fi

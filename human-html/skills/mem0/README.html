@@ -1,9 +1,100 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Mem0 Advisor</title><style>body{max-width:1050px;margin:40px auto;padding:0 24px;background:#0b0f14;color:#e8eef6;font:16px/1.55 system-ui}h1,h2{color:#fff}code{color:#b9ddff}pre{background:#111820;border:1px solid #263241;padding:15px;border-radius:10px;overflow:auto}.ok{color:#81c784}.call{border-left:4px solid #ffd166;background:#111820;padding:14px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #263241;padding:9px;vertical-align:top}th{background:#151e28}</style></head><body><h1>HX Mem0 Advisor</h1><p class="call"><strong>Approved guidance; HX-13 remains NOT STARTED.</strong></p><h2>Placement</h2><pre>HX-13 — 192.168.50.213
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Mem0 Skill</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>skills/mem0/README.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX Mem0 Skill</h1>
+<p>Mem0 on HX-13 uses the governed HX wrapper:</p>
+<pre><code class="lang-text">skills/mem0/hx-mem0-advisor/</code></pre>
+<h2>HX placement</h2>
+<pre><code class="lang-text">HX-13 — 192.168.50.213
 Mem0 OSS + assigned MCP capability
-Native Ubuntu Linux; systemd for long-running services where applicable</pre><h2>Authority model</h2><table><tr><th>Source</th><th>HX role</th></tr><tr><td>HX repository</td><td>Placement, execution, dependency, validation and owner decisions</td></tr><tr><td>Official Mem0 docs + <code>mem0ai/mem0</code></td><td>Primary Mem0 product/API/source authority</td></tr><tr><td>Official Mem0 six-skill graph</td><td>Vendor developer expertise, curated through HX boundaries</td></tr><tr><td>Mem0 coding-assistant plugin / MCP integrations</td><td>Separate reference capability; not automatically the HX-13 assigned MCP</td></tr></table><h2>Skill disposition</h2><p><code>mem0</code> is adapted for native/self-hosted OSS. <code>mem0-cli</code>, <code>mem0-vercel-ai-sdk</code>, <code>mem0-integrate</code>, and <code>mem0-test-integration</code> remain reference-only for HX-13 BASE unless separately authorized. <code>mem0-oss-to-platform</code> is rejected for the current HX-13 runtime unless the owner explicitly changes the architecture.</p><h2>MCP boundary</h2><p>The reviewed portable coding-assistant plugin is version 0.3.1 and includes a stdio MCP server. Hosted <code>mcp.mem0.ai</code> is Platform-oriented, and the standalone <code>mem0ai/mem0-mcp</code> repository is archived. None of these facts selects the assigned HX-13 MCP implementation; that remains an owner/runbook decision.</p><h2>Governed intake verification</h2><p>The current wrapper was re-audited against the scoped skills operating contract, skill governance, base roadmap and smoke roadmap on 2026-09-09. Required preflight now explicitly includes root <code>AGENTS.md</code>, <code>skills/AGENTS.md</code>, governance, registry and component context before the wrapper is used.</p><pre>E3  HX-13 Mem0 core
-    requires: B5 Qdrant PASS + A2 accepted embedding PASS + one approved LLM PASS
+State: NOT STARTED
+Deployment: native Ubuntu Linux; systemd for long-running services where applicable</code></pre>
+<h2>Source model</h2>
+<p>Mem0 publishes an official skills graph inside <code>mem0ai/mem0</code>. The HX wrapper uses a layered source model:</p>
+<ol>
+<li><strong>HX architecture, roadmap, future HX-13 runbook/server record, and smoke authorities</strong> for placement, execution, dependencies, and acceptance.</li>
+<li><strong>Official Mem0 documentation and <code>mem0ai/mem0</code> source</strong> as primary product/API authority.</li>
+<li><strong>Official Mem0 agent skills</strong> as vendor-authored developer expertise, curated through HX boundaries.</li>
+<li><strong>Coding-assistant plugins/MCP integrations</strong> as separate capabilities requiring their own HX admission when relevant.</li>
+</ol>
+<p>Reviewed upstream main:</p>
+<pre><code class="lang-text">02f7a9b2c4fe38dedb96631e48c85c74ad58b605</code></pre>
+<p>The reviewed official catalog contains six skills: three reference skills (<code>mem0</code>, <code>mem0-cli</code>, <code>mem0-vercel-ai-sdk</code>) and three pipeline skills (<code>mem0-integrate</code>, <code>mem0-test-integration</code>, <code>mem0-oss-to-platform</code>).</p>
+<h2>HX disposition</h2>
+<ul>
+<li><code>mem0</code> -&gt; <strong>ADAPT</strong>: use the OSS/self-hosted guidance for HX-13.</li>
+<li><code>mem0-cli</code> -&gt; <strong>REFERENCE_ONLY</strong> for HX-13 BASE unless a runbook selects it.</li>
+<li><code>mem0-vercel-ai-sdk</code> -&gt; <strong>REFERENCE_ONLY</strong>.</li>
+<li><code>mem0-integrate</code> -&gt; <strong>REFERENCE_ONLY</strong> for HX infrastructure; use only on an explicitly authorized target application repository.</li>
+<li><code>mem0-test-integration</code> -&gt; <strong>REFERENCE_ONLY</strong>; it does not replace HX smoke validation.</li>
+<li><code>mem0-oss-to-platform</code> -&gt; <strong>REJECT_FOR_HX_RUNTIME</strong> unless the owner explicitly changes HX-13 from native/self-hosted OSS to hosted Platform.</li>
+</ul>
+<h2>MCP and coding-assistant boundary</h2>
+<p>The official portable <code>integrations/mem0-agent-plugin</code> is a coding-assistant plugin (reviewed version 0.3.1) and includes a stdio MCP server. The official hosted MCP endpoint is Platform-oriented. The old standalone <code>mem0ai/mem0-mcp</code> repository is archived.</p>
+<p>None of those facts automatically selects the <strong>assigned HX-13 Mem0 MCP implementation</strong>. That remains an owner/runbook decision.</p>
+<h2>Canonical files</h2>
+<pre><code class="lang-text">skills/mem0/
+├── README.md
+├── upstream/
+│   └── SOURCE.md
+└── hx-mem0-advisor/
+    ├── SKILL.md
+    ├── agents/
+    │   └── openai.yaml
+    └── references/
+        ├── authority-map.md
+        ├── hx-context.md
+        ├── upstream.md
+        └── mem0-agent-skills.md</code></pre>
+<h2>Governed intake verification</h2>
+<p>The current wrapper was re-audited against <code>skills/AGENTS.md</code>, <code>skills/SKILL-GOVERNANCE.md</code>, the active base implementation roadmap, and the active smoke-test roadmap on 2026-09-09.</p>
+<p>Current proof alignment:</p>
+<pre><code class="lang-text">E3  HX-13 Mem0 core
+    prerequisites: B5 Qdrant PASS + A2 accepted embedding PASS + one approved LLM PASS
     live coupling: dedicated disposable Qdrant collection + synthetic memory only
+    authority: smoke-tests/mem0-smoke-test.md
 
 E4  HX-13 Mem0 MCP
-    requires: accepted E3 Mem0 PASS
-    live coupling: parent Mem0 service only</pre><p>The canonical package passes the current skill validator and packages successfully as <code>skill.zip</code>. No generic execution/audit helper is bundled because HX-13 has no current server record or runbook; service-unit, environment, listener, persistence-path and MCP implementation choices remain owner/runbook decisions. This validates the skill package only; it is not Mem0 runtime evidence.</p><h2>Validation</h2><p>BASE proof remains <code>smoke-tests/mem0-smoke-test.md</code>: initialize native Mem0 OSS with approved HX providers, store/search/delete one synthetic memory, clean disposable Qdrant state, then separately prove the assigned MCP and reboot/persistence closure.</p><p>Markdown authority: <code>skills/mem0/README.md</code> and <code>skills/mem0/hx-mem0-advisor/SKILL.md</code>.</p></body></html>
+    prerequisite: accepted E3 Mem0 PASS
+    live coupling: parent Mem0 service only
+    authority: smoke-tests/mcp-companion-smoke-test.md</code></pre>
+<p>The canonical <code>hx-mem0-advisor</code> package passes the current skill validator and packages successfully as <code>skill.zip</code>.</p>
+<p>No generic Mem0 execution/audit script is included. That is deliberate: HX-13 has no current server record or execution runbook, and the package must not invent service-unit, environment, listener, persistence-path, or MCP implementation assumptions before those authorities exist.</p>
+<p>This is <strong>skill-package validation only</strong>. It is not Mem0 runtime evidence and does not advance HX-13 <code>BUILD-STATE</code>.</p>
+<h2>Important boundary</h2>
+<p>Skill approval does not advance HX-13 build state and does not select the package version, environment layout, service/API shape, config/data paths, permanent Qdrant collection, model bindings, network/access pattern, memory-retention policy, graph-memory design, or assigned MCP implementation.</p>
+<p>Validation remains controlled by <code>smoke-tests/mem0-smoke-test.md</code>, the companion MCP smoke test, cleanup, reboot/persistence evidence, and current HX closure rules.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>skills/mem0/README.md</code>.</footer></div></body></html>

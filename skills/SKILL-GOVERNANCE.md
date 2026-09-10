@@ -63,6 +63,15 @@ Use only these registry lifecycle states:
 - `BLOCKED` — known conflict/risk prevents use.
 - `RETIRED` — no longer active; retain provenance/history as required.
 
+Two further states apply to sources HX consults but never installs as a second
+authority. They are registry states, not admission grades:
+
+- `APPROVED_AS_REFERENCE` — reviewed and approved to be consulted as expert
+  reference. It is not an HX authority and is not installed or deployed.
+- `REFERENCE_ONLY` — retained for context or future evaluation. It has not been
+  approved for operational use. Add `/ LATER_INTEGRATION` when the source is
+  expected to be re-evaluated for a later programme phase.
+
 Approval is scoped. A skill approved for troubleshooting is not automatically approved to execute infrastructure changes.
 
 ## 5. Admission checklist

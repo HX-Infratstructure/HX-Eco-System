@@ -24,6 +24,26 @@ This is the current inventory and trust/status registry for reusable AI-agent sk
 | Docling / Granite-Docling | HX-16 | `skills/docling/hx-docling-advisor/` | `HX_NATIVE + WRAPPER` | official `docling-project/docling` docs/source + packaged usage skill + official `docling-project/docling-mcp` | product guidance primary; reviewed Docling main `cdc2477e12107f45bf8b6813571f31f9e795ba07`, release `v2.126.0`, usage SKILL blob `f6bdfa26aee4b0df5a4cdfb6b496286e3b9eedd6`; Docling MCP main `a8a41e6014ba3a148261702e760421086e9c80e3`, release 3.2.0 | **APPROVED** | plan, native install/config reasoning, multi-format conversion, OCR/tables/layout, Granite-Docling CPU-first VLM, extraction/RAG/package expertise when in scope, validation preparation, troubleshooting and upgrade; remote/managed/container/RAG integration gated; execution only through future HX-16 runbook | official Docling MCP source; exact mode/transport/service layout runbook-controlled | 2026-09-09 |
 | Crawl4AI | HX-17 | `skills/crawl4ai/hx-crawl4ai-advisor/` | `HX_NATIVE + WRAPPER` | official `unclecode/crawl4ai` docs/source + reviewed official assistant skill + reviewed `brettdavies/crawl4ai-skill` | official 0.9.x product guidance primary; reviewed official main `862f6bccb9c063f49b9d42701baa0eea17a4993f`, release `v0.9.3`; official assistant skill advertises 0.7.4 compatibility; Brett v2.0.1 pins Crawl4AI 0.8.9 and is subordinate community reference | **APPROVED** | plan, native install/config reasoning, CLI/SDK, raw HTML/Markdown, CSS/XPath extraction, filtering, batch/deep/adaptive crawling, browser/runtime reasoning, validation preparation, troubleshooting and upgrade; cloud/container/LLM/proxy/session/RAG integration gated; execution only through future HX-17 runbook | assigned Crawl4AI MCP; current official bridge is Docker-server-coupled, exact native HX implementation not yet selected | 2026-09-09 |
 
+## Execution and validation bindings
+
+Governance section 5 requires an associated runbook/standard, an associated
+smoke-test authority, and a wrapper validation result for every `APPROVED`
+skill. They are recorded here as fields rather than only in prose.
+
+| Component | Execution authority | Smoke-test authority | Companion authority | Wrapper validated |
+|---|---|---|---|---|
+| Qdrant | future `docs/03-runbooks/HX-10/` — not yet created | `smoke-tests/qdrant-smoke-test.md` | `smoke-tests/native-web-ui-smoke-test.md`, `smoke-tests/mcp-companion-smoke-test.md` | 2026-09-09 — structure/frontmatter reviewed; no HX execution authority granted |
+| LightRAG | future `docs/03-runbooks/HX-11/` — not yet created | `smoke-tests/lightrag-smoke-test.md` | `smoke-tests/mcp-companion-smoke-test.md` | 2026-09-09 — structure/frontmatter reviewed; no HX execution authority granted |
+| PostgreSQL | future `docs/03-runbooks/HX-9/` — not yet created | `smoke-tests/postgresql-smoke-test.md` | `smoke-tests/mcp-companion-smoke-test.md` | 2026-09-09 — structure/frontmatter reviewed; no HX execution authority granted |
+| Redis | future `docs/03-runbooks/HX-9/` — not yet created | `smoke-tests/redis-smoke-test.md` | `smoke-tests/mcp-companion-smoke-test.md` | 2026-09-09 — structure/frontmatter reviewed; `scripts/redis-readonly-audit.sh` is read-only |
+| Mem0 | future `docs/03-runbooks/HX-13/` — not yet created | `smoke-tests/mem0-smoke-test.md` | `smoke-tests/mcp-companion-smoke-test.md` — implementation not yet selected | 2026-09-09 — structure/frontmatter reviewed; no HX execution authority granted |
+| Docling / Granite-Docling | future `docs/03-runbooks/HX-16/` — not yet created | `smoke-tests/docling-smoke-test.md` | `smoke-tests/mcp-companion-smoke-test.md` | 2026-09-09 — structure/frontmatter reviewed; no HX execution authority granted |
+| Crawl4AI | future `docs/03-runbooks/HX-17/` — not yet created | `smoke-tests/crawl4ai-smoke-test.md` | `smoke-tests/mcp-companion-smoke-test.md` — native implementation not yet selected | 2026-09-09 — structure/frontmatter reviewed; no HX execution authority granted |
+
+`Wrapper validated` records that the HX wrapper itself was reviewed, not that
+the component was installed. No skill approval advances any server's build
+state.
+
 ## Discovery backlog
 
 These rows intentionally do not invent external sources. Add a source only after it is actually found and reviewed.

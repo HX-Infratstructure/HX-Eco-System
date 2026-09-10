@@ -224,8 +224,23 @@ Size: 25 GB
 Source model reference used during installation:
 
 ```text
-hf.co/lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-GGUF:Q6_K
+HX alias:          coder-x:qwen3-coder-30b-q6_k
+Upstream identity: Qwen3-Coder-30B-A3B-Instruct (Q6_K quantisation)
+Source URI:        hf.co/lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-GGUF:Q6_K
+Artifact SHA-256:  UNRESOLVED — see provenance gap below
+Import method:     ollama pull, then `ollama cp` to the HX alias
 ```
+
+> **Provenance gap — backfill required.** Only the 12-character layer prefix
+> `72a9b20a19c7` from the pull transcript was recorded, not the full artifact
+> hash. Recover it on HX-3 with
+> `ollama show --modelfile coder-x:qwen3-coder-30b-q6_k` and the blob path
+> under `/srv/ollama/models/blobs/`, then replace `UNRESOLVED`. Required by
+> `docs/02-server-records/_TEMPLATE.md` section 6.
+>
+> Note: `lmstudio-community` is a third-party requantiser, not the Qwen
+> project. That is an accepted choice, recorded here so it is a decision rather
+> than an assumption.
 
 The model download completed successfully:
 

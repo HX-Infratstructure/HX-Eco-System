@@ -4,9 +4,25 @@
 **Expected IP:** `192.168.50.205`  
 **Role:** CentCom / Ornith / DeepSeek Harness / dev-test / fleet smoke-test runner
 
+## Execution
+
+Steps 1-3 are the shared base blocks. Run them from this directory; each one
+refuses to run on any host other than `hx-5`.
+
+```bash
+./01-base-admin-network-updates.sh    # reboots
+./02-domain-nvidia.sh                 # reboots
+./03-storage-ollama.sh
+```
+
+Implementation lives in `../common/`; version pins and the host -> IP map live
+in `../common/hx-base.env`. Ollama and the NVIDIA driver are pinned to the
+fleet baseline, and block 3 stops if the installed Ollama does not match the
+pin. See `../README.md` before changing a pin.
+
 ## Sequence
 1. Base/admin/network validation; apt update + upgrade; reboot.
-2. Join `hx.local.arpa`; validate SSSD/domain user; install `nvidia-driver-595-server-open`; reboot.
+2. Join `hx.local.arpa`; validate SSSD/domain user; install the pinned `nvidia-driver-595-server-open`; reboot.
 3. Validate GPU/storage; require inspected `/srv/ollama`; install/configure Ollama; reboot/health validation.
 4. Resolve/accept current GPU symmetry decision before workload placement assumptions.
 5. Install Ornith model and close its model/inference BASE PASS.

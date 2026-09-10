@@ -1,37 +1,202 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Eco-System — Architecture Orientation</title>
-<style>
-:root{color-scheme:dark;--bg:#0b0f14;--panel:#111820;--line:#263241;--text:#e8eef6;--muted:#aeb9c7;--blue:#64b5f6;--teal:#80cbc4;--purple:#ce93d8;--orange:#ffb74d;--green:#81c784;--pink:#f48fb1;--grey:#90a4ae}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.wrap{max-width:1180px;margin:auto;padding:42px 28px 72px}h1{font-size:2.35rem;margin:0 0 8px}h2{margin-top:38px;border-bottom:1px solid var(--line);padding-bottom:8px}p,li{color:var(--text)}.muted{color:var(--muted)}.pill{display:inline-block;padding:4px 10px;border-radius:999px;background:#11241a;border:1px solid #31513f;color:#75d69c;font-weight:700}.callout{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--blue);padding:16px 18px;border-radius:10px;margin:18px 0}.stack{display:grid;gap:12px;margin:22px 0}.layer{padding:16px;border-radius:12px;background:var(--panel);border:2px solid var(--line)}.foundation{border-color:var(--grey)}.inference{border-color:var(--blue)}.state{border-color:var(--teal)}.control{border-color:var(--purple)}.knowledge{border-color:var(--orange)}.app{border-color:var(--green)}.validation{border-color:var(--pink)}table{width:100%;border-collapse:collapse;margin:18px 0;font-size:.94rem}th,td{border:1px solid var(--line);padding:9px 10px;vertical-align:top}th{background:#151e28;text-align:left}pre{overflow:auto;background:#080c11;border:1px solid var(--line);border-radius:10px;padding:18px;color:#d9e7f5}code{color:#b9ddff}
-</style></head><body><main class="wrap">
-<span class="pill">CURRENT · v2.0 · 2026-09-09</span><h1>HX Eco-System — Architecture Orientation</h1><p class="muted">Foundational orientation for the 17-server HX native-Linux AI ecosystem.</p>
-<div class="callout"><strong>Cornerstone:</strong> the ecosystem architecture comes first. Validation proves the architecture; it does not define the architecture.</div>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Eco-System Architecture Orientation</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/01-architecture/ARCHITECTURE-ORIENTATION.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: current &middot; status: 2.0 &middot; status: 2026-09-09</div><h1>HX Eco-System — Architecture Orientation</h1>
+<h2>1. The cornerstone</h2>
+<p>The HX Eco-System is a <strong>17-server, native-Linux AI platform</strong>. Its architecture is the cornerstone. Validation exists to prove the ecosystem; validation does not define the ecosystem.</p>
+<p>Every agent/operator must understand the base architecture before using smoke-test procedures.</p>
+<pre><code class="lang-text">VALIDATION / ACCEPTANCE
+HX-5 CentCom + ordered component smoke tests
+            ↑ validates
 
-<h2>Architecture stack</h2>
-<div class="stack"><div class="layer validation"><strong>VALIDATION LAYER</strong><br>HX-5 CentCom remote smoke runner · known-answer proof · cleanup · evidence</div><div class="layer app"><strong>AGENT / WORKFLOW / UI</strong><br>HX-12 Deep Agents · HX-14 n8n · HX-8 Open WebUI</div><div class="layer knowledge"><strong>KNOWLEDGE / RAG / MEMORY</strong><br>HX-16 Docling · HX-17 Crawl4AI · HX-11 LightRAG · HX-13 Mem0</div><div class="layer control"><strong>CONTROL / ROUTING / MCP DEVELOPMENT</strong><br>HX-6 OmniRoute · HX-15 FastMCP · HX-5 DeepSeek Harness · HX-7 NGINX dev/test</div><div class="layer state"><strong>STATE / RETRIEVAL</strong><br>HX-9 PostgreSQL + Redis · HX-10 Qdrant</div><div class="layer inference"><strong>INFERENCE</strong><br>HX-2 Qwen-X · HX-3 Coder-X · HX-4 Meta-X · HX-5 Ornith</div><div class="layer foundation"><strong>FOUNDATION / CORNERSTONE</strong><br>HX-1 AD · DNS · Kerberos · NTP · LAN · gateway · domain · native Linux + systemd</div></div>
-<p>The validation layer sits above the stack and validates the service layers; it is not a second deployment/control plane.</p>
+USER / AGENT / WORKFLOW SERVICES
+Open WebUI · Deep Agents · n8n
+            ↑ consumes
 
-<h2>Foundational baseline</h2><table><tbody><tr><th>LAN</th><td><code>192.168.50.0/24</code></td></tr><tr><th>Gateway</th><td><code>192.168.50.1</code></td></tr><tr><th>Infrastructure DNS</th><td>HX-1 at <code>192.168.50.200</code></td></tr><tr><th>Domain</th><td><code>hx.local.arpa</code></td></tr><tr><th>Realm</th><td><code>HX.LOCAL.ARPA</code></td></tr><tr><th>Domain clients</th><td>SSSD / realmd / adcli</td></tr><tr><th>Deployment</th><td>Native Ubuntu Linux + systemd</td></tr><tr><th>Containers</th><td>Not used unless explicitly approved</td></tr><tr><th>NGINX</th><td>HX-7 dev/test rendering only; not the common reverse proxy</td></tr></tbody></table>
+RAG / MEMORY / KNOWLEDGE SERVICES
+LightRAG · Mem0 · Docling · Crawl4AI
+            ↑ consume
 
-<h2>Server map</h2><table><thead><tr><th>Server</th><th>IP</th><th>Assignment</th><th>State</th></tr></thead><tbody><tr><td>HX-1</td><td>192.168.50.200</td><td>Samba AD / DNS / Kerberos / NTP</td><td>PASS / CLOSED</td></tr><tr><td>HX-2</td><td>192.168.50.202</td><td>Qwen-X / Ollama</td><td>PASS / CLOSED</td></tr><tr><td>HX-3</td><td>192.168.50.203</td><td>Coder-X / Ollama</td><td>PASS / CLOSED</td></tr><tr><td>HX-4</td><td>192.168.50.204</td><td>Meta-X + embeddings/reranker</td><td>NEXT</td></tr><tr><td>HX-5</td><td>192.168.50.205</td><td>CentCom / Ornith / DeepSeek Harness / dev-test</td><td>NOT STARTED</td></tr><tr><td>HX-6</td><td>192.168.50.206</td><td>OmniRoute</td><td>NOT STARTED</td></tr><tr><td>HX-7</td><td>192.168.50.207</td><td>NGINX dev/test only</td><td>NOT STARTED</td></tr><tr><td>HX-8</td><td>192.168.50.208</td><td>Open WebUI</td><td>NOT STARTED</td></tr><tr><td>HX-9</td><td>192.168.50.209</td><td>PostgreSQL + Redis + MCP</td><td>NOT STARTED</td></tr><tr><td>HX-10</td><td>192.168.50.210</td><td>Qdrant + Web UI + MCP</td><td>NOT STARTED</td></tr><tr><td>HX-11</td><td>192.168.50.211</td><td>LightRAG + MCP</td><td>NOT STARTED</td></tr><tr><td>HX-12</td><td>192.168.50.212</td><td>Deep Agents LOB agent factory/runtime</td><td>NOT STARTED</td></tr><tr><td>HX-13</td><td>192.168.50.213</td><td>Mem0 + MCP</td><td>NOT STARTED</td></tr><tr><td>HX-14</td><td>192.168.50.214</td><td>n8n + MCP</td><td>NOT STARTED</td></tr><tr><td>HX-15</td><td>192.168.50.215</td><td>FastMCP shared/custom MCP dev host</td><td>NOT STARTED</td></tr><tr><td>HX-16</td><td>192.168.50.216</td><td>Docling + Granite-Docling + MCP</td><td>NOT STARTED</td></tr><tr><td>HX-17</td><td>192.168.50.217</td><td>Crawl4AI + MCP</td><td>NOT STARTED</td></tr></tbody></table>
+STATE / RETRIEVAL SERVICES
+PostgreSQL · Redis · Qdrant
+            ↑ support
 
-<h2>Model/data placement</h2><ul><li>HX-4 hosts BGE-M3 primary embeddings (1024), Nomic v1.5 alternate (768 default), and BGE-family reranking.</li><li>Never mix embedding-model vector spaces in one Qdrant collection; a model change requires a new collection and re-embedding.</li><li>Granite-Docling 258M stays with Docling on HX-16 and is CPU-first for base validation.</li><li>Only models on servers with accepted BASE PASS enter the active HX model/routing catalog.</li></ul>
+ROUTING / MCP / INFERENCE SERVICES
+OmniRoute · FastMCP · Qwen-X · Coder-X · Meta-X · Ornith
+            ↑ rely on
 
-<h2>Build waves</h2><pre>Inference
-  ↓
-State / Retrieval
-  ↓
-Routing / Control / MCP Development
-  ↓
-Knowledge Acquisition
-  ↓
-RAG / Memory
-  ↓
-Agents / Workflow
-  ↓
-User Interaction</pre>
-<p>Base stand-up comes before permanent integration. Temporary smoke-test wiring is not production architecture.</p>
+FOUNDATION / CORNERSTONE
+HX-1 identity + DNS + Kerberos + NTP
+LAN addressing + gateway + domain membership
+native Ubuntu Linux + systemd</code></pre>
+<p>The correct mental model is:</p>
+<pre><code class="lang-text">FOUNDATION -&gt; ECOSYSTEM SERVICES -&gt; APPLICATION CAPABILITY -&gt; VALIDATION</code></pre>
+<p>Do not invert this relationship. A smoke test is evidence that an assigned component behaves correctly inside the approved architecture; it is not an architecture source.</p>
+<h2>2. Foundational baseline configuration</h2>
+<p>The following is the accepted clean-build baseline pattern. HX-1 through HX-3 contain current as-built evidence. HX-4 through HX-17 remain planned until each server is rebuilt and verified; planned configuration must never be reported as as-built state.</p>
+<div class="tw"><table><thead><tr><th>Foundation item</th><th>HX baseline</th></tr></thead><tbody><tr><td>LAN</td><td><code>192.168.50.0/24</code></td></tr><tr><td>Default gateway</td><td><code>192.168.50.1</code></td></tr><tr><td>HX infrastructure DNS</td><td>HX-1 at <code>192.168.50.200</code></td></tr><tr><td>Active Directory domain</td><td><code>hx.local.arpa</code></td></tr><tr><td>Kerberos realm</td><td><code>HX.LOCAL.ARPA</code></td></tr><tr><td>Identity client pattern</td><td>SSSD / realmd / adcli</td></tr><tr><td>Foundation server</td><td>HX-1 — Samba AD / DNS / Kerberos / NTP</td></tr><tr><td>Deployment standard</td><td>Native Ubuntu Linux + systemd</td></tr><tr><td>Container policy</td><td>No Docker, Podman, or Kubernetes unless explicitly approved by the owner</td></tr><tr><td>Network/security policy</td><td>Do not add firewall restrictions, segmentation, TLS mandates, or architecture changes without explicit owner approval</td></tr><tr><td>Application UI pattern</td><td>Direct native application endpoint by default</td></tr><tr><td>NGINX boundary</td><td>HX-7 is development/test UI rendering only; not the ecosystem reverse proxy</td></tr><tr><td>Documentation model</td><td>Active Markdown is machine/agent authority; human HTML is a mirror; archive is historical only</td></tr></tbody></table></div>
+<p>The current HX-3 as-built record demonstrates the accepted network/domain pattern: gateway <code>192.168.50.1</code>, DNS <code>192.168.50.200</code>, domain <code>hx.local.arpa</code>, realm <code>HX.LOCAL.ARPA</code>, native Linux/systemd, and SSSD/realmd/adcli membership.</p>
+<h2>3. Ecosystem planes</h2>
+<pre class="mermaid">flowchart BT
+    F["FOUNDATION / CORNERSTONE&lt;br/&gt;HX-1 · domain · DNS · Kerberos · NTP&lt;br/&gt;LAN · gateway · native Linux + systemd"]
+    I["INFERENCE PLANE&lt;br/&gt;HX-2 Qwen-X · HX-3 Coder-X&lt;br/&gt;HX-4 Meta-X · HX-5 Ornith"]
+    S["STATE / RETRIEVAL&lt;br/&gt;HX-9 PostgreSQL + Redis&lt;br/&gt;HX-10 Qdrant"]
+    K["KNOWLEDGE / RAG / MEMORY&lt;br/&gt;HX-16 Docling · HX-17 Crawl4AI&lt;br/&gt;HX-11 LightRAG · HX-13 Mem0"]
+    C["CONTROL / ROUTING / MCP DEV&lt;br/&gt;HX-6 OmniRoute · HX-15 FastMCP&lt;br/&gt;HX-5 DeepSeek Harness · HX-7 NGINX dev/test"]
+    A["AGENT / WORKFLOW / UI&lt;br/&gt;HX-12 Deep Agents · HX-14 n8n&lt;br/&gt;HX-8 Open WebUI"]
+    V["VALIDATION LAYER&lt;br/&gt;HX-5 CentCom remote smoke runner&lt;br/&gt;known-answer proof · cleanup · evidence"]
 
-<h2>Validation sits on top</h2><p>After an agent understands the foundation, server ownership, target role, current state, dependency boundary, model/data placement, and BASE PASS expectation, it may use the validation authorities:</p><ul><li><code>docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code> — ordered proof dependencies.</li><li><code>docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md</code> — validation architecture.</li><li><code>smoke-tests/</code> — exact component procedures.</li><li>HX-5 process/tooling — execution, cleanup, and evidence.</li></ul>
+    F --&gt; I
+    I --&gt; S
+    S --&gt; K
+    I --&gt; C
+    S --&gt; C
+    K --&gt; A
+    C --&gt; A
 
-<h2>Current state boundary</h2><p>HX-1, HX-2, HX-3 are current PASS/CLOSED as-built systems. HX-4 is next. HX-5 through HX-17 remain planned/not started except for staged repository documentation/runbooks. Design readiness is not as-built completion.</p>
-</main></body></html>
+    V -. validates .-&gt; I
+    V -. validates .-&gt; S
+    V -. validates .-&gt; C
+    V -. validates .-&gt; K
+    V -. validates .-&gt; A
+
+    classDef foundation fill:#263238,color:#fff,stroke:#90a4ae,stroke-width:3px;
+    classDef inference fill:#1565c0,color:#fff,stroke:#90caf9,stroke-width:2px;
+    classDef state fill:#00695c,color:#fff,stroke:#80cbc4,stroke-width:2px;
+    classDef control fill:#6a1b9a,color:#fff,stroke:#ce93d8,stroke-width:2px;
+    classDef knowledge fill:#ef6c00,color:#fff,stroke:#ffcc80,stroke-width:2px;
+    classDef app fill:#2e7d32,color:#fff,stroke:#a5d6a7,stroke-width:2px;
+    classDef validation fill:#ad1457,color:#fff,stroke:#f48fb1,stroke-width:2px;
+
+    class F foundation;
+    class I inference;
+    class S state;
+    class C control;
+    class K knowledge;
+    class A app;
+    class V validation;</pre>
+<p>The diagram is a capability/dependency orientation, not a statement that every cross-plane relationship is already permanently integrated. The current program is base stand-up; permanent integration comes later.</p>
+<h2>4. Current server/application map</h2>
+<p>This is the current owner-approved target assignment. State is shown separately so target architecture is not confused with live configuration.</p>
+<div class="tw"><table><thead><tr><th>Server</th><th>IP</th><th>Assignment</th><th>Current state</th></tr></thead><tbody><tr><td>HX-1</td><td><code>192.168.50.200</code></td><td>Samba AD / DNS / Kerberos / NTP</td><td><strong>PASS / CLOSED</strong></td></tr><tr><td>HX-2</td><td><code>192.168.50.202</code></td><td>Qwen-X / Ollama / Qwen3.8-27B Q6_K</td><td><strong>PASS / CLOSED</strong></td></tr><tr><td>HX-3</td><td><code>192.168.50.203</code></td><td>Coder-X / Ollama / Qwen3-Coder-30B Q6_K</td><td><strong>PASS / CLOSED</strong></td></tr><tr><td>HX-4</td><td><code>192.168.50.204</code></td><td>Meta-X / GPT-OSS 20B + BGE-M3 / Nomic / BGE reranker</td><td><strong>NEXT</strong></td></tr><tr><td>HX-5</td><td><code>192.168.50.205</code></td><td>CentCom / Ornith / DeepSeek Harness / dev-test</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-6</td><td><code>192.168.50.206</code></td><td>OmniRoute</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-7</td><td><code>192.168.50.207</code></td><td>NGINX dev/test only</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-8</td><td><code>192.168.50.208</code></td><td>Open WebUI</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-9</td><td><code>192.168.50.209</code></td><td>PostgreSQL + MCP / Redis + MCP</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-10</td><td><code>192.168.50.210</code></td><td>Qdrant + Web UI + MCP</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-11</td><td><code>192.168.50.211</code></td><td>LightRAG + MCP</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-12</td><td><code>192.168.50.212</code></td><td>Deep Agents by LangChain — LOB agent factory/runtime harness</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-13</td><td><code>192.168.50.213</code></td><td>Mem0 + assigned MCP</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-14</td><td><code>192.168.50.214</code></td><td>n8n + MCP</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-15</td><td><code>192.168.50.215</code></td><td>FastMCP shared/custom MCP development host</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-16</td><td><code>192.168.50.216</code></td><td>Docling + Granite-Docling 258M + MCP</td><td><strong>NOT STARTED</strong></td></tr><tr><td>HX-17</td><td><code>192.168.50.217</code></td><td>Crawl4AI + MCP</td><td><strong>NOT STARTED</strong></td></tr></tbody></table></div>
+<p>The full dependency order and BASE PASS boundaries remain authoritative in <code>../00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md</code>.</p>
+<h2>5. Model and data-placement rules</h2>
+<h3>Generative inference</h3>
+<ul>
+<li><strong>HX-2 Qwen-X</strong> — Qwen3.8-27B Q6_K; current PASS/CLOSED inference endpoint.</li>
+<li><strong>HX-3 Coder-X</strong> — Qwen3-Coder-30B Q6_K; current PASS/CLOSED inference endpoint.</li>
+<li><strong>HX-4 Meta-X</strong> — GPT-OSS 20B target plus shared retrieval inference.</li>
+<li><strong>HX-5 CentCom</strong> — Ornith target plus development/test and DeepSeek Harness responsibilities.</li>
+</ul>
+<p>Only models on servers that have passed their own applicable BASE PASS may enter the active HX routing/model catalog.</p>
+<h3>Shared retrieval inference</h3>
+<p>HX-4 owns:</p>
+<pre><code class="lang-text">BGE-M3                 -&gt; primary/default embedding model -&gt; 1024 dimensions
+Nomic Embed Text v1.5 -&gt; alternate/fallback             -&gt; 768 dimensions default
+BGE-family reranker    -&gt; shared reranking               -&gt; exact checkpoint/runtime must be pinned</code></pre>
+<h3>Qdrant collection rule</h3>
+<p>Qdrant on HX-10 stores vectors; it does not own the embedding models.</p>
+<p>Never mix embeddings from different model identities in the same Qdrant collection. A model change requires a new collection and re-embedding.</p>
+<h3>Docling model rule</h3>
+<p>Granite-Docling 258M remains on HX-16 inside the Docling capability boundary. Base validation is CPU-first. It is not a general shared embedding or conversational model.</p>
+<p>Detailed authority: <code>../00-control/HX-ECO-SYSTEM-MODEL-PLACEMENT-AND-EMBEDDING-STANDARD.md</code>.</p>
+<h2>6. Application companion-service rule</h2>
+<p>Where assigned, a product-specific MCP server or native Web UI is part of the parent application's base build.</p>
+<p>Examples:</p>
+<ul>
+<li>PostgreSQL includes PostgreSQL MCP.</li>
+<li>Redis includes its assigned MCP.</li>
+<li>Qdrant includes Qdrant + Web UI + Qdrant MCP.</li>
+<li>LightRAG includes LightRAG MCP.</li>
+<li>Docling includes Granite-Docling + Docling MCP.</li>
+<li>Crawl4AI includes Crawl4AI MCP.</li>
+<li>n8n includes n8n MCP.</li>
+</ul>
+<p>HX-15 FastMCP is the <strong>shared/custom MCP development/runtime host</strong>. It is not a prerequisite for these product-specific MCP servers.</p>
+<h2>7. Dependency-driven build waves</h2>
+<p>The base program builds the ecosystem in dependency order:</p>
+<ol>
+<li><strong>Inference</strong> — HX-4, HX-5.</li>
+<li><strong>State/retrieval</strong> — HX-9 PostgreSQL, HX-9 Redis, HX-10 Qdrant.</li>
+<li><strong>Routing/control/MCP development</strong> — HX-6 OmniRoute, HX-15 FastMCP, HX-5 DeepSeek Harness, HX-7 NGINX dev/test.</li>
+<li><strong>Knowledge acquisition</strong> — HX-16 Docling, HX-17 Crawl4AI.</li>
+<li><strong>RAG/memory</strong> — HX-11 LightRAG, HX-13 Mem0.</li>
+<li><strong>Agent/workflow consumers</strong> — HX-12 Deep Agents, HX-14 n8n.</li>
+<li><strong>User interaction</strong> — HX-8 Open WebUI.</li>
+</ol>
+<p>This sequencing is a dependency model. It does not authorize permanent cross-service integration during base installation.</p>
+<h2>8. Base-build versus integration boundary</h2>
+<h3>Current program — base stand-up</h3>
+<p>Each assigned component is installed natively, proven independently, reboot-validated, documented, and closed before moving on.</p>
+<p>Small, reversible dependencies may be used only when required to prove a component's primary function.</p>
+<h3>Later program — ecosystem integration</h3>
+<p>Permanent service contracts, credentials, routing, production schemas/collections, RAG ingestion, MCP client registrations, agent bindings, Open WebUI permanent backends, workflows, observability, and true end-to-end tests belong to the later integration program.</p>
+<p>Do not mistake smoke-test wiring for permanent architecture.</p>
+<h2>9. Validation sits on top of the cornerstone</h2>
+<p>Once an agent understands the foundation, server role, target component, current state, and relevant architecture rules, it may apply the HX validation model.</p>
+<p>Validation authority:</p>
+<ul>
+<li><code>../00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code> — ordered proof dependencies and permitted limited validation integration.</li>
+<li><code>HX-SMOKE-TESTING-OPERATING-MODEL.md</code> — how the validation subsystem fits together.</li>
+<li><code>../../smoke-tests/</code> — exact component acceptance procedures.</li>
+<li><code>../04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md</code> — how HX-5 executes and retains proof.</li>
+<li><code>../04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md</code> — CentCom client tooling and bootstrap.</li>
+</ul>
+<p>The validation model must <strong>inherit</strong> the ecosystem architecture; it must never redefine server placement, permanent dependencies, network architecture, or component ownership.</p>
+<h2>10. AI orientation sequence</h2>
+<p>Before an AI agent changes or validates a component, it should be able to answer these questions from current repository authority:</p>
+<ol>
+<li>What is HX and what layer is this component in?</li>
+<li>Which server owns it, at what target IP, and what is that server's current state?</li>
+<li>What foundational network/domain/deployment rules apply?</li>
+<li>What upstream dependencies are architecturally required versus validation-only?</li>
+<li>What model/data placement rules apply?</li>
+<li>What is the current build priority and BASE PASS boundary?</li>
+<li>If validating, what prior PASS evidence does the smoke roadmap require?</li>
+<li>What exact smoke test proves the component works?</li>
+<li>How is evidence captured, cleanup verified, and closure recorded?</li>
+</ol>
+<p>If the agent cannot answer 1–7, it is <strong>not ready to execute validation</strong>.</p>
+<h2>11. Current state boundary</h2>
+<p>As of 2026-09-09:</p>
+<ul>
+<li>HX-1, HX-2, and HX-3 are the current PASS/CLOSED as-built foundation.</li>
+<li>HX-4 is next.</li>
+<li>HX-5 through HX-17 remain planned/not started except for staged repository documentation/runbooks where present.</li>
+<li>Smoke-test authorities and CentCom runner tooling may be designed in the repository before their corresponding runtime capability exists.</li>
+</ul>
+<p>Design readiness is not as-built completion.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/01-architecture/ARCHITECTURE-ORIENTATION.md</code>.</footer></div></body></html>

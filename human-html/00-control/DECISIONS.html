@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Eco-System Owner-Approved Decisions</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/00-control/DECISIONS.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: current &middot; status: 2026-09-09</div><h1>HX Eco-System — Owner-Approved Decisions</h1>
+<h2>D-001 — Clean-room rebuild</h2>
+<p>HX-1 clean Samba foundation is retained. HX-2 through HX-17 are rebuilt from scratch. Old HX-Infrastructure configuration and closure claims are reference-only.</p>
+<h2>D-002 — Native deployment</h2>
+<p>Native Linux + systemd. No Docker, Podman, or Kubernetes unless explicitly changed by the owner.</p>
+<h2>D-003 — Application companion services</h2>
+<p>Product-specific MCP servers and native Web UIs are part of the parent application's base build where applicable.</p>
+<h2>D-004 — NGINX</h2>
+<p>HX-7 NGINX is limited to dev/test application rendering. It is not the common reverse proxy for HX ecosystem services.</p>
+<h2>D-005 — Embedding/reranking placement</h2>
+<p>HX-4 Meta-X hosts BGE-M3 as primary/default embedding model, Nomic Embed Text v1.5 as alternate benchmark/fallback, and a BGE-family reranker. Never mix embedding-model vector spaces in one Qdrant collection.</p>
+<h2>D-006 — Granite-Docling placement</h2>
+<p>Granite-Docling 258M stays with Docling on HX-16. Base validation is CPU-first. GPU acceleration is considered only if measured need later justifies it.</p>
+<h2>D-007 — HX-5 headroom</h2>
+<p>Even if HX-5 is upgraded to 2 x 16 GB GPUs, shared embedding/reranking remains on HX-4. HX-5 headroom is reserved for CentCom, Ornith, DeepSeek Harness, and dev/test work.</p>
+<h2>D-008 — Open WebUI base functional test</h2>
+<p>HX-8 Open WebUI BASE PASS includes a temporary direct connection to one already-proven Ollama endpoint, one prompt, one model response in the UI, evidence capture, and cleanup/removal of the temporary connection.</p>
+<h2>D-009 — OmniRoute base functional test</h2>
+<p>HX-6 OmniRoute BASE PASS includes one temporary route to one already-proven Ollama endpoint, direct-versus-routed known-answer validation, evidence capture, and cleanup/removal of the temporary test route.</p>
+<h2>D-010 — OmniRoute provider/model catalog</h2>
+<p>OmniRoute maintains an explicit approved-provider allowlist and an explicit approved-model allowlist. Discovery/support does not equal approval. Approving a provider does not approve its entire model catalog.</p>
+<h2>D-011 — Active document rule</h2>
+<p>Only the latest version of a document remains active. Superseded versions go under <code>archive/</code>. Active Markdown is agent authority; HTML is a human mirror.</p>
+<h2>D-012 — DeepSeek Harness meta-agent role</h2>
+<p>DeepSeek Harness on HX-5 is the HX meta-agent/orchestration layer for AI-agent and AI-solution construction. Worker agents invoked beneath the Harness are sub-agents that receive bounded application-building work packages. Harness BASE PASS requires more than runtime health: it must complete a bounded multi-agent solution-building smoke test that proves task decomposition, sub-agent delegation, artifact handoff, creation of a runnable AI application, independent validation, and Harness-level synthesis of the final PASS/FAIL result. Detailed authority: <code>HX-ECO-SYSTEM-DEEPSEEK-HARNESS-IMPLEMENTATION-ADDENDUM.md</code>.</p>
+<h2>D-013 — Deep Agents LOB agent factory role</h2>
+<p>Deep Agents by LangChain on HX-12 is the HX line-of-business agent factory/application-agent harness. It is complementary to, not a replacement for, the HX-5 DeepSeek Harness meta-agent. Deep Agents BASE PASS requires an explicit tool-calling-capable HX model plus a bounded LOB Agent Factory smoke test that proves real filesystem artifact creation, creation/configuration of domain sub-agents, actual <code>task</code> delegation, business-rule/tool use, correct execution of a generated LOB agent package, short-lived thread continuity, independent validation, evidence capture, and reboot persistence. A package import or plain LLM response is not sufficient. Detailed authority: <code>HX-ECO-SYSTEM-DEEP-AGENTS-IMPLEMENTATION-ADDENDUM.md</code>.</p>
+<h2>D-014 — HX-5 CentCom smoke-test runner role</h2>
+<p>After HX-5 closes its own base inference foundation, CentCom becomes the standard remote execution station for subsequent HX component smoke tests. Disposable test projects, runner/client tooling, synthetic fixtures, manifests, logs, and cleanup verification live on HX-5 rather than on the application host. The system under test keeps only its installed application, approved configuration, and explicitly smoke-namespaced temporary data required by the test. Remote API/protocol/client execution is preferred; approved SSH is used only when the component's primary contract genuinely requires local execution. Cleanup and cleanup verification are mandatory parts of PASS. DeepSeek Harness is not a prerequisite for enabling the CentCom smoke-runner role. Detailed authority: <code>../04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md</code>.</p>
+<h2>D-015 — Ecosystem architecture is the cornerstone</h2>
+<p>The HX ecosystem architecture and current configuration context must be understood before validation is designed or executed. Validation sits on top of the ecosystem; it does not define the ecosystem. Agents must establish server ownership, target IP, current state, foundational network/domain/deployment rules, model/data placement, dependency boundaries, and BASE PASS expectations before selecting or running a smoke test. <code>../01-architecture/ARCHITECTURE-ORIENTATION.md</code> is the foundational orientation authority; smoke-test documents must inherit rather than redefine that architecture.</p>
+<h2>D-016 — Ordered smoke-test proof roadmap</h2>
+<p>HX maintains a separate evergreen smoke-test roadmap in addition to the base implementation roadmap. The implementation roadmap defines deployment/build order; <code>HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code> defines proof order, required prior PASS evidence, companion gates, and the minimum temporary integrations permitted during validation. Downstream smoke tests must reference current prior PASS evidence when they rely on earlier capabilities. HX favors cumulative proof with minimal live coupling: do not force unnecessary cross-service integration merely to make tests sequential. Temporary smoke-test dependencies do not automatically become permanent production architecture.</p>
+<h2>D-017 — Governed HX skills capability layer</h2>
+<p>HX maintains a canonical <code>skills/</code> library as an AI-agent expertise layer between ecosystem context and execution. Component skills may combine HX-native instructions with current vendor-official expertise, but skills do not supersede owner decisions, active HX architecture, live evidence, runbooks, or smoke-test acceptance criteria. Agent-specific skill installations are derived deployments from the canonical repository source, not independently maintained authorities. External skills are classified and registered before operational use; vendor-official sources are preferred over community sources. Skills never store actual credentials, PATs, API keys, private keys, service-account secrets, or sshpass passwords. Qdrant is the first approved reference implementation through <code>skills/qdrant/hx-qdrant-advisor/</code>, which preserves HX-10/native-systemd/vector-space/smoke-test rules while consuming the current official Qdrant Advisor guidance live.</p>
+<h2>D-018 — Host firewall and inference listener posture — PROPOSED, awaiting owner ratification</h2>
+<p>The HX LAN is treated as a trusted lab segment. The common base runbook disables <code>ufw</code> on every server, and Ollama listens on <code>0.0.0.0:11434</code> with no authentication. This is consistent with the standing rule that firewall, segmentation and TLS changes are not imposed without owner approval, and with KISS.</p>
+<p>This entry does not change behaviour. It records behaviour that previously existed only as an emergent property of two runbook scripts, so it can be approved, revisited, or reversed as a decision rather than rediscovered.</p>
+<p>Blast radius as it stands: any host that can reach the HX LAN can call any HX inference endpoint without credentials, and can reach any service port on any HX server.</p>
+<p><strong>Owner action required:</strong> ratify as written, or amend. Until ratified this entry is a record of current state, not an approval.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/00-control/DECISIONS.md</code>.</footer></div></body></html>

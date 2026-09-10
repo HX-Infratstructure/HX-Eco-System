@@ -220,10 +220,23 @@ Ollama model ID: d319d311ac30
 Source GGUF blob:
 
 ```text
-Qwen3.8-27B-Q6_K.gguf
-SHA-256:
-7d590099e0a0fe7b8df812045faa2ae12bf4dbf3492b8eb7c7c7ab24c94d36ed
+HX alias:          qwen-x:qwen3.8-27b-q6_k
+Upstream identity: Qwen3.8-27B (Q6_K quantisation)
+Source URI:        UNRESOLVED — see provenance gap below
+Artifact:          Qwen3.8-27B-Q6_K.gguf
+Artifact SHA-256:  7d590099e0a0fe7b8df812045faa2ae12bf4dbf3492b8eb7c7c7ab24c94d36ed
+Import method:     local GGUF import via Modelfile
 ```
+
+> **Provenance gap — backfill required.** The exact Hugging Face repository
+> that supplied this blob was not recorded at build time. The hash above
+> identifies the artifact but not its origin, and public `Qwen3.8-27B` GGUF
+> repositories include community rebuilds alongside the official weights, so
+> the hash alone does not establish that these are unmodified upstream weights.
+> Recover the source repository from the HX-2 shell history or the browser/CLI
+> download record and replace `UNRESOLVED`. Until then, treat the model
+> identity as recorded-but-unverified. Required by
+> `docs/02-server-records/_TEMPLATE.md` section 6.
 
 Stored under the dedicated Ollama model filesystem.
 
@@ -242,6 +255,10 @@ Content:
 ```text
 FROM /srv/ollama/models/blobs/sha256-7d590099e0a0fe7b8df812045faa2ae12bf4dbf3492b8eb7c7c7ab24c94d36ed
 ```
+
+No `TEMPLATE`, `PARAMETER`, or stop-token directives were set. The chat
+template therefore comes from the GGUF metadata. Record the resolved template
+here if chat behaviour is ever investigated.
 
 Creation command:
 
