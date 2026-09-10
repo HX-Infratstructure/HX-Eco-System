@@ -1,0 +1,3 @@
+interface:
+  display_name: "HX Qdrant Advisor"
+  short_description: "Apply current Qdrant expertise within HX architecture and smoke-test rules."

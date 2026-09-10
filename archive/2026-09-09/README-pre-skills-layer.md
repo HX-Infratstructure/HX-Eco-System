@@ -2,7 +2,7 @@
 
 Authoritative repository for the clean-room HX Eco-System rebuild.
 
-> **Cornerstone first:** understand the HX ecosystem and its configuration before applying skills or the smoke-test validation model. Skills augment expertise; validation proves the architecture. Neither defines the ecosystem.
+> **Cornerstone first:** understand the HX ecosystem and its configuration before applying the smoke-test validation model. Validation sits on top of the architecture; it does not define it.
 
 ## 1. HX Eco-System cornerstone
 
@@ -16,7 +16,6 @@ flowchart BT
     K["KNOWLEDGE / RAG / MEMORY<br/>HX-16 Docling · HX-17 Crawl4AI<br/>HX-11 LightRAG · HX-13 Mem0"]
     C["CONTROL / ROUTING / MCP DEV<br/>HX-6 OmniRoute · HX-15 FastMCP<br/>HX-5 DeepSeek Harness · HX-7 NGINX dev/test"]
     A["AGENT / WORKFLOW / UI<br/>HX-12 Deep Agents · HX-14 n8n<br/>HX-8 Open WebUI"]
-    X["SKILLS CAPABILITY LAYER<br/>HX wrappers + current vendor expertise<br/>advisory · governed · canonical in /skills"]
     V["VALIDATION LAYER<br/>HX-5 CentCom smoke runner<br/>ordered proof · cleanup · evidence"]
 
     F --> I
@@ -27,20 +26,30 @@ flowchart BT
     K --> A
     C --> A
 
-    X -. assists .-> I
-    X -. assists .-> S
-    X -. assists .-> C
-    X -. assists .-> K
-    X -. assists .-> A
-
     V -. validates .-> I
     V -. validates .-> S
     V -. validates .-> C
     V -. validates .-> K
     V -. validates .-> A
+
+    classDef foundation fill:#263238,color:#ffffff,stroke:#90a4ae,stroke-width:3px;
+    classDef inference fill:#1565c0,color:#ffffff,stroke:#90caf9,stroke-width:2px;
+    classDef state fill:#00695c,color:#ffffff,stroke:#80cbc4,stroke-width:2px;
+    classDef control fill:#6a1b9a,color:#ffffff,stroke:#ce93d8,stroke-width:2px;
+    classDef knowledge fill:#ef6c00,color:#ffffff,stroke:#ffcc80,stroke-width:2px;
+    classDef app fill:#2e7d32,color:#ffffff,stroke:#a5d6a7,stroke-width:2px;
+    classDef validation fill:#ad1457,color:#ffffff,stroke:#f48fb1,stroke-width:2px;
+
+    class F foundation;
+    class I inference;
+    class S state;
+    class C control;
+    class K knowledge;
+    class A app;
+    class V validation;
 ```
 
-**Interpretation:** the foundation supports the ecosystem; service planes build capability upward; governed skills provide product expertise inside HX boundaries; the validation layer proves components without becoming a new architecture plane.
+**Interpretation:** the foundation supports the ecosystem; the service planes build capability upward; the validation layer proves those components without becoming a new architecture plane.
 
 Detailed ecosystem authority: `docs/01-architecture/ARCHITECTURE-ORIENTATION.md`.
 
@@ -86,7 +95,7 @@ HX-1 through HX-3 have current as-built evidence. Future-server target configura
 
 ## 4. Two roadmaps — build first, prove second
 
-HX has two complementary evergreen roadmaps:
+HX now has two complementary evergreen roadmaps:
 
 ```text
 BASE IMPLEMENTATION ROADMAP
@@ -104,7 +113,7 @@ Exactly how is the known-answer test executed and cleaned up?
 - Ordered proof roadmap: `docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md`
 - Exact procedures: `smoke-tests/`
 
-The proof roadmap uses **cumulative evidence with minimal live coupling**.
+The proof roadmap uses **cumulative evidence with minimal live coupling**. A later test references earlier PASS evidence when it truly depends on it, but HX does not force unnecessary cross-service wiring merely to create a chain.
 
 ## 5. Core architecture rules
 
@@ -119,42 +128,7 @@ The proof roadmap uses **cumulative evidence with minimal live coupling**.
 - **NGINX boundary:** HX-7 is dev/test only, not normal ecosystem routing.
 - **Base before integration:** permanent routes, production schemas/collections, agent bindings, RAG ingestion, workflows, and end-to-end integration come after standalone base closure.
 
-## 6. Governed skills capability layer
-
-`skills/` is the canonical HX library for reusable AI-agent expertise.
-
-```text
-HX ecosystem context
-        ↓
-component server/runbook/standard
-        ↓
-HX governed skill wrapper
-        ↓
-current vendor-official skill/docs
-        ↓
-reconcile with HX decisions
-        ↓
-execute from HX authority
-        ↓
-validate from HX smoke authority
-```
-
-Skills may improve planning, native installation/configuration decisions, troubleshooting, upgrades, and validation preparation. They do **not** replace architecture, runbooks, or smoke-test acceptance criteria.
-
-Current authorities:
-
-- Architecture: `skills/README.md`
-- Governance: `skills/SKILL-GOVERNANCE.md`
-- Registry: `skills/SKILL-REGISTRY.md`
-- Scoped agent instructions: `skills/AGENTS.md`
-
-Initial approved implementation:
-
-- Qdrant: `skills/qdrant/hx-qdrant-advisor/` — HX wrapper around the current official Qdrant Advisor.
-
-Agent-specific Claude/Codex/OpenCode skill installations are derived deployments from this canonical source, not separate authorities. Skills never store actual credentials or sshpass passwords.
-
-## 7. Dependency-driven base-build sequence
+## 6. Dependency-driven base-build sequence
 
 ```text
 Inference
@@ -181,7 +155,7 @@ User Interaction
 
 This is dependency sequencing, not permanent integration wiring.
 
-## 8. Validation layer — ordered smoke testing
+## 7. Validation layer — ordered smoke testing
 
 Only after the ecosystem role/configuration is understood do we apply the validation model.
 
@@ -207,7 +181,7 @@ Validation rules:
 3. **Minimal live integration.** Use only the temporary connection actually required to prove function.
 4. **HX-5 executes remotely** after its CentCom activation gate passes; general test tooling stays off the SUT.
 5. **Service health is not enough.** A known-answer primary-function test is required.
-6. **Cleanup is part of PASS.** Temporary validation state is removed and verified.
+6. **Cleanup is part of PASS.** Temporary collections, keys, workflows, routes, memories, connections, or projects are removed and verified.
 7. **Evidence closes the loop.** Reviewed proof plus reboot persistence supports server-record and `BUILD-STATE.md` closure.
 
 Detailed validation authorities:
@@ -219,9 +193,9 @@ Detailed validation authorities:
 - CentCom toolset/bootstrap: `docs/04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md`
 - Runner implementation: `tools/hx-smoke-runner/`
 
-## 9. AI-centric reading order
+## 8. AI-centric reading order
 
-Agentic tools and coding agents must learn the ecosystem before skills and validation:
+Agentic tools and coding agents must learn the ecosystem before validation:
 
 1. `README.md`
 2. `docs/00-control/CURRENT-STATE.md`
@@ -230,27 +204,25 @@ Agentic tools and coding agents must learn the ecosystem before skills and valid
 5. `docs/01-architecture/ARCHITECTURE-ORIENTATION.md`
 6. `docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md`
 7. Relevant server record, runbook, and application/model standard.
-8. If a governed component skill exists: `skills/SKILL-GOVERNANCE.md`, `skills/SKILL-REGISTRY.md`, and the component wrapper.
-9. **Only when validating:** `docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md`.
-10. `docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md`.
-11. The exact `/smoke-tests/*.md` authority.
-12. If using CentCom: `tools/hx-smoke-runner/AGENTS.md`.
+8. **Only when validating:** `docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md`.
+9. `docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md`.
+10. The exact `/smoke-tests/*.md` authority.
+11. If using CentCom: `tools/hx-smoke-runner/AGENTS.md`.
 
 Before validation, an agent must be able to state the component's **owner server, target IP, role, current state, applicable foundation rules, intended dependencies, BASE PASS boundary, and required prior PASS evidence**.
 
 `CLAUDE.md` points back to `AGENTS.md` so agent instructions do not drift.
 
-## 10. Authoritative surfaces
+## 9. Authoritative surfaces
 
 - `docs/**/*.md` — current control, architecture, standards, server records, runbooks, and evidence indexes.
-- `skills/**/*.md`, `skills/**/SKILL.md`, and skill metadata — canonical governed agent expertise, subordinate to HX architecture/runbooks/smoke authority.
 - `smoke-tests/*.md` — exact component smoke-test acceptance procedures; validation authority only.
 - `docs/03-runbooks/**/*.sh` — approved execution/bootstrap artifacts.
 - `tools/hx-smoke-runner/` — repository-owned CentCom validation implementation and scoped AI instructions.
 - `human-html/**/*.html` — human-readable mirrors; not execution authority.
 - `archive/**` — superseded history; never current authority.
 
-## 11. Current build position
+## 10. Current build position
 
 - HX-1: **PASS / CLOSED** — foundation services.
 - HX-2: **PASS / CLOSED** — Qwen-X / Ollama.
@@ -260,7 +232,7 @@ Before validation, an agent must be able to state the component's **owner server
 
 **Design readiness is not as-built completion.**
 
-## 12. Document lifecycle
+## 11. Document lifecycle
 
 Active documents use stable, unversioned filenames. Version/date/status live inside the document where applicable.
 
