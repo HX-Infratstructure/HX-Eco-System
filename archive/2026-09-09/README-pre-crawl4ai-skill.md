@@ -156,7 +156,6 @@ Approved implementations:
 - Redis: `skills/redis/hx-redis-advisor/` — HX wrapper using official Redis product guidance plus reviewed `redis/agent-skills`, curated to preserve HX-9 native/systemd, shared-host, security/topology, and smoke-test authority.
 - Mem0: `skills/mem0/hx-mem0-advisor/` — HX wrapper around current official `mem0ai/mem0` product guidance and six-skill graph, curated for HX-13 native/self-hosted OSS, approved Qdrant/Ollama dependencies, owner-gated integration automation, and HX smoke-test authority.
 - Docling: `skills/docling/hx-docling-advisor/` — HX wrapper around current official `docling-project/docling` product guidance and packaged usage skill plus official `docling-project/docling-mcp`, curated for HX-16 native/systemd placement, Granite-Docling 258M CPU-first BASE proof, companion MCP separation, and HX smoke-test authority.
-- Crawl4AI: `skills/crawl4ai/hx-crawl4ai-advisor/` — HX wrapper using current official `unclecode/crawl4ai` 0.9.x product guidance as primary authority plus reviewed `brettdavies/crawl4ai-skill` as a subordinate community expert reference, curated for HX-17 native deployment, deterministic D3 crawl/Markdown proof, owner-gated MCP implementation, and HX network/security/model boundaries.
 
 Agent-specific Claude/Codex/OpenCode skill installations are derived deployments from this canonical source, not separate authorities. Skills never store actual credentials or sshpass passwords.
 
@@ -263,8 +262,6 @@ Before validation, an agent must be able to state the component's **owner server
 - HX-3: **PASS / CLOSED** — Coder-X / Ollama.
 - HX-4: **NEXT** — Meta-X plus shared embedding/reranking plane.
 - HX-5 through HX-17: planned/not started except for staged repository documentation/runbooks where present.
-
-Qdrant, LightRAG, PostgreSQL, Redis, Mem0, Docling, and Crawl4AI skills are approved as guidance. Their approval does not change the runtime/build state of the assigned application servers.
 
 **Design readiness is not as-built completion.**
 

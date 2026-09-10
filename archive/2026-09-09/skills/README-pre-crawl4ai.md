@@ -193,23 +193,6 @@ Combines:
 
 Docling's packaged usage skill is one router with six on-demand references for CLI, Python SDK, extraction, RAG, Service Client, and slim packaging. The repository-root contributor development skills are not promoted as HX-16 runtime authority. The wrapper accepts/adapts local document-processing expertise while rejecting containerized Docling Serve and managed-service substitution under current HX architecture. Exact package/extras, Python environment, model revision/cache, long-running service shape, and Docling MCP mode/transport remain future HX-16 runbook decisions.
 
-### Crawl4AI
-
-```text
-skills/crawl4ai/hx-crawl4ai-advisor/
-```
-
-Combines:
-
-- HX-17 placement, native/systemd, clean-room, network/security, and companion-MCP boundaries;
-- D3 deterministic Crawl4AI core and D4 product-MCP validation authorities;
-- current official `unclecode/crawl4ai` 0.9.x documentation, source, package metadata, release/security guidance, and API behavior as primary product truth;
-- the official downloadable Crawl4AI assistant skill as vendor reference only because current docs still label it compatible with 0.7.4;
-- reviewed `brettdavies/crawl4ai-skill` v2.0.1 as `COMMUNITY / expert reference`, explicitly bounded by its Crawl4AI 0.8.9 verification pin;
-- HX-specific curation for LLM providers, proxies, anti-detection, sessions/credentials, browser persistence, cloud/server patterns, and MCP deployment.
-
-The wrapper does not copy the Brett tree, its large 0.8.9 SDK mirror, or its scripts/templates into HX. Useful CLI/SDK, Markdown, schema extraction, filtering, batch/deep crawling, `raw:` processing, and troubleshooting patterns are adapted only after current official verification. Host-specific `defuddle`/`fetch-web`/`browse`/qmd assumptions and hard-coded `openai/gpt-4o-mini` defaults do not become HX dependencies. Current official MCP source is coupled to the `deploy/docker` self-hosted server tree; that is retained as vendor behavior evidence, while the exact HX-17 native MCP package/mode/transport/listener/systemd design remains a future runbook decision.
-
 ## Governance
 
 `SKILL-GOVERNANCE.md` defines admission, trust, authority precedence, version/provenance, update, testing, secret-handling, deployment, and retirement rules.

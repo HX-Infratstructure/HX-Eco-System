@@ -1,7 +1,7 @@
 ---
 document: HX Eco-System Skill Registry
 status: current
-version: 1.6
+version: 1.5
 date: 2026-09-09
 authority: HX-Eco-System clean rebuild
 ---
@@ -22,7 +22,6 @@ This is the current inventory and trust/status registry for reusable AI-agent sk
 | Redis | HX-9 | `skills/redis/hx-redis-advisor/` | `HX_NATIVE + WRAPPER` | Redis official docs/releases + official `redis/agent-skills` | Redis product guidance is primary; reviewed Agent Skills main `a84871d065f398fed55e1633f66b66f731eb4e2b`, plugin `redis-development` 1.4.0; latest non-prerelease Redis release at review 8.10.1 | **APPROVED** | plan, native standalone install/config reasoning, persistence/recovery, memory/eviction, data modeling/TTL, clients, Search/JSON/vector/RAG, Streams/coordination, observability, validation preparation, troubleshoot and upgrade; execution only through future HX-9 runbook | Redis MCP | 2026-09-09 |
 | Mem0 | HX-13 | `skills/mem0/hx-mem0-advisor/` | `HX_NATIVE + WRAPPER` | official `mem0ai/mem0` docs/source + official six-skill graph | product docs/source primary; reviewed main `02f7a9b2c4fe38dedb96631e48c85c74ad58b605`; Python source 2.0.20, TypeScript source 3.1.6; official skills catalog 6; portable agent plugin 0.3.1 | **APPROVED** | plan, native OSS install/config reasoning, memory lifecycle/scoping, Qdrant/Ollama integration, SDK/framework expertise, validation preparation, troubleshooting and upgrade; Platform/Vercel/repository-writing pipelines gated; execution only through future HX-13 runbook | assigned Mem0 MCP — implementation not yet selected | 2026-09-09 |
 | Docling / Granite-Docling | HX-16 | `skills/docling/hx-docling-advisor/` | `HX_NATIVE + WRAPPER` | official `docling-project/docling` docs/source + packaged usage skill + official `docling-project/docling-mcp` | product guidance primary; reviewed Docling main `cdc2477e12107f45bf8b6813571f31f9e795ba07`, release `v2.126.0`, usage SKILL blob `f6bdfa26aee4b0df5a4cdfb6b496286e3b9eedd6`; Docling MCP main `a8a41e6014ba3a148261702e760421086e9c80e3`, release 3.2.0 | **APPROVED** | plan, native install/config reasoning, multi-format conversion, OCR/tables/layout, Granite-Docling CPU-first VLM, extraction/RAG/package expertise when in scope, validation preparation, troubleshooting and upgrade; remote/managed/container/RAG integration gated; execution only through future HX-16 runbook | official Docling MCP source; exact mode/transport/service layout runbook-controlled | 2026-09-09 |
-| Crawl4AI | HX-17 | `skills/crawl4ai/hx-crawl4ai-advisor/` | `HX_NATIVE + WRAPPER` | official `unclecode/crawl4ai` docs/source + reviewed official assistant skill + reviewed `brettdavies/crawl4ai-skill` | official 0.9.x product guidance primary; reviewed official main `862f6bccb9c063f49b9d42701baa0eea17a4993f`, release `v0.9.3`; official assistant skill advertises 0.7.4 compatibility; Brett v2.0.1 pins Crawl4AI 0.8.9 and is subordinate community reference | **APPROVED** | plan, native install/config reasoning, CLI/SDK, raw HTML/Markdown, CSS/XPath extraction, filtering, batch/deep/adaptive crawling, browser/runtime reasoning, validation preparation, troubleshooting and upgrade; cloud/container/LLM/proxy/session/RAG integration gated; execution only through future HX-17 runbook | assigned Crawl4AI MCP; current official bridge is Docker-server-coupled, exact native HX implementation not yet selected | 2026-09-09 |
 
 ## Discovery backlog
 
@@ -38,6 +37,7 @@ These rows intentionally do not invent external sources. Add a source only after
 | Deep Agents | HX-12 | TBD | TBD | `DISCOVERY` | LOB agent factory/runtime/tool calling |
 | n8n | HX-14 | TBD | TBD | `DISCOVERY` | native workflow runtime/configuration/MCP |
 | FastMCP | HX-15 | TBD | TBD | `DISCOVERY` | MCP server/tool design/runtime/client behavior |
+| Crawl4AI | HX-17 | TBD | TBD | `DISCOVERY` | crawl/extraction/native runtime/MCP |
 | BGE-M3 / Nomic / reranker | HX-4 | TBD | TBD | `DISCOVERY` | embedding/reranking serving/model migration |
 
 ## Community/reference candidates under review
@@ -48,7 +48,6 @@ These rows intentionally do not invent external sources. Add a source only after
 | LightRAG | `zwovadis/lightrag-claude-skill` | `COMMUNITY` | `REFERENCE_ONLY` | Query-oriented Claude Code skill; not install/config authority; assumptions must be checked against current HKUDS API docs and HX network placement. |
 | LightRAG | `butchokoy25/lightrag-claude-skills` | `COMMUNITY` | `REFERENCE_ONLY / LATER_INTEGRATION` | Seven Claude skills + session hooks/helpers/MCP config for persistent memory; not part of HX-11 BASE build. |
 | LightRAG MCP | `desimpkins/daniel-lightrag-mcp` | `COMMUNITY` | `DISCOVERY` | Example community MCP candidate; exact HX LightRAG MCP implementation remains to be selected/reviewed. |
-| Crawl4AI | `brettdavies/crawl4ai-skill` | `COMMUNITY / EXPERT REFERENCE` | `APPROVED_AS_REFERENCE` | Portable v2.0.1 skill bundle verified against Crawl4AI 0.8.9. Useful patterns are re-checked against current official 0.9.x guidance; direct install, host-specific routing, bundled SDK mirror/scripts, and hard-coded external LLM defaults are not HX authority. |
 
 ## Qdrant provenance
 
@@ -145,33 +144,6 @@ HX wrapper: skills/docling/hx-docling-advisor/
 ```
 
 HX intentionally curates the one packaged Docling usage skill rather than direct-installing it as a second authority. Local CLI/Python SDK, structured document, OCR/table/layout, and Granite-Docling expertise are accepted/adapted. `DocumentExtractor` beta, RAG/framework loaders, repository-root contributor skills, `library-skills` deployment, remote Service Client/VLM patterns, and `uvx` quickstarts remain gated or reference-only according to scope. Containerized Docling Serve and managed-service replacement conflict with current HX architecture. The official Docling MCP project is the preferred companion source, but exact package/mode/transport/service decisions remain future HX-16 runbook choices. The D1 Docling/Granite -> D2 Docling MCP smoke chain remains unchanged. Skill approval does not advance HX-16 build state or select package/extras, Python environment, model revision/cache, service/listener layout, or permanent RAG/MCP client integration.
-
-## Crawl4AI provenance
-
-```text
-Project authority: official Crawl4AI documentation, source, releases, and current package metadata
-Repository: unclecode/crawl4ai
-Reviewed main: 862f6bccb9c063f49b9d42701baa0eea17a4993f
-Latest reviewed stable release: v0.9.3, published 2026-08-31
-Official docs line: v0.9.x
-Python requirement: >=3.10
-Official package license: Apache-2.0
-Official assistant skill asset: docs/md_v2/assets/crawl4ai-skill.zip
-Official assistant skill compatibility advertised by docs: Crawl4AI 0.7.4
-Official assistant skill asset blob: 21785b0214567f4772562697cbc49f6c9486e58f
-Reviewed community skill: brettdavies/crawl4ai-skill
-Reviewed community main: c696921b133dd962f766f596655767c0b894d206
-Community skill release: v2.0.1
-Community Crawl4AI compatibility pin: 0.8.9
-Community SKILL blob: 9ad9095283f2efc67d1499667fa604409e36fd7a
-Community VERSION blob: 55485e179379afad176ee5c7bf81d2456bd7b8c2
-Current official MCP source: deploy/docker/mcp_bridge.py + deploy/docker/server.py
-HX wrapper: skills/crawl4ai/hx-crawl4ai-advisor/
-```
-
-Current official 0.9.x product guidance remains primary. The official downloadable assistant skill is vendor-official but stale for current product facts because its own docs advertise 0.7.4 compatibility. The Brett v2.0.1 bundle is a useful community expert reference but is verified against 0.8.9; its recipes/scripts/templates are checked against current official behavior before use and are not copied wholesale into HX. ExplainX is treated only as secondary discovery metadata because its displayed update/review chronology did not reconcile with the Brett repository release history.
-
-The reviewed official v0.9.3 release is security-relevant and also pins `mcp` below 2 for its current bridge. Official MCP code is coupled to the Docker self-hosted server tree; HX retains this as vendor protocol/tool evidence but rejects container deployment and does not invent a native MCP implementation inside the skill. Exact package/version/environment/browser/service/network/proxy/session/LLM/MCP choices remain future HX-17 owner/runbook decisions. The existing D3 deterministic `raw:` Crawl4AI smoke and D4 MCP companion smoke authorities remain unchanged. Skill approval does not advance HX-17 build state or establish permanent RAG/agent/workflow integration.
 
 ## Registry update fields
 
