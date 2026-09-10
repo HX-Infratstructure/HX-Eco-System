@@ -43,11 +43,20 @@ failures: list[str] = []
 notes: list[str] = []
 
 
+# Trees that are not HX documentation and are not ours to lint:
+#   .git       plumbing
+#   archive    superseded history, never current authority
+#   human-html generated output; findings belong in the Markdown source
+#   .claude    agent tool wiring, written by the tools themselves
+#   graft      a gitignored local code-graph cache, absent in a clean checkout
+SKIP_TREES = (".git", "archive", "human-html", ".claude", "graft")
+
+
 def active_markdown() -> list[Path]:
     out = []
     for p in sorted(REPO.rglob("*.md")):
         parts = p.relative_to(REPO).parts
-        if parts[0] in (".git", "archive", "human-html"):
+        if parts[0] in SKIP_TREES:
             continue
         out.append(p)
     return out
