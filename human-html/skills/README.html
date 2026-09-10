@@ -1,13 +1,191 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Skills Architecture</title><style>body{max-width:1050px;margin:40px auto;padding:0 24px;background:#0b0f14;color:#e8eef6;font:16px/1.55 system-ui}h1,h2{color:#fff}pre{background:#111820;border:1px solid #263241;padding:16px;border-radius:10px;overflow:auto}code{color:#b9ddff}.call{border-left:4px solid #ffd166;background:#111820;padding:14px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #263241;padding:9px;vertical-align:top}th{background:#151e28}.ok{color:#81c784}</style></head><body><h1>HX Eco-System Skills Architecture</h1><p class="call"><strong>Ecosystem first. Skill second. Execution third. Validation fourth.</strong></p><pre>HX owner decisions + current ecosystem authority
-  ↓
-HX component context
-  ↓
-HX skill wrapper
-  ↘ current official product/project guidance
-  ↘ reviewed external skill expertise where appropriate
-  ↓
-HX runbook / standard
-  ↓
-HX smoke roadmap + exact test
-  ↓
-evidence</pre><h2>Canonical source</h2><p><code>skills/</code> is the governed source for reusable agent expertise. Agent-specific directories are deployment targets only.</p><h2>Approved implementations</h2><table><tr><th>Component</th><th>Host</th><th>Wrapper</th><th>Primary upstream model</th></tr><tr><td>Qdrant</td><td>HX-10</td><td class="ok"><code>hx-qdrant-advisor</code></td><td>Official Qdrant Advisor / live skills.qdrant.tech</td></tr><tr><td>LightRAG</td><td>HX-11</td><td class="ok"><code>hx-lightrag-advisor</code></td><td>Official HKUDS/LightRAG repository guidance</td></tr><tr><td>PostgreSQL</td><td>HX-9</td><td class="ok"><code>hx-postgresql-advisor</code></td><td>PGDG official docs/releases; reviewed Neon Agent Skill as community expert reference; agentskills.io format</td></tr><tr><td>Redis</td><td>HX-9</td><td class="ok"><code>hx-redis-advisor</code></td><td>Redis official docs/releases + reviewed official redis/agent-skills</td></tr><tr><td>Mem0</td><td>HX-13</td><td class="ok"><code>hx-mem0-advisor</code></td><td>Official mem0ai/mem0 docs/source + curated official six-skill graph</td></tr><tr><td>Docling</td><td>HX-16</td><td class="ok"><code>hx-docling-advisor</code></td><td>Official docling-project/docling docs/source + packaged usage skill + official docling-project/docling-mcp</td></tr><tr><td>Crawl4AI</td><td>HX-17</td><td class="ok"><code>hx-crawl4ai-advisor</code></td><td>Official unclecode/crawl4ai 0.9.x product guidance; Brett Davies v2.0.1 / Crawl4AI 0.8.9 as community expert reference</td></tr></table><h2>Controls</h2><p>Skills cannot override HX architecture, server placement, native/systemd deployment, network/security/storage rules, model placement, or smoke-test acceptance criteria. Skills do not store credentials.</p><p>For Redis, the wrapper does not direct-install the upstream eight-skill bundle. Cluster/replication and Redis Cloud-only AI services are reference-only for current BASE; TLS/firewall/bind/global-command hardening remains owner-controlled; runtime/package/persistence/memory/MCP choices remain subject to current HX authority.</p><p>For Mem0, the wrapper uses official OSS/self-hosted guidance for HX-13 while keeping hosted Platform, Vercel, repository-writing pipelines and coding-assistant plugins gated or reference-only. The exact assigned HX-13 MCP implementation is not selected by the skill.</p><p>For Docling, the wrapper preserves HX-16 native/systemd placement and owner decision D-006: Granite-Docling 258M stays on HX-16 and is CPU-first for BASE. Containerized Docling Serve and managed replacement are rejected; remote service/VLM, RAG integrations, package/extras, GPU optimization, and MCP mode/transport remain gated by HX authority.</p><p>For Crawl4AI, current official 0.9.x docs/source are product authority. The official assistant ZIP is reference-only because it still advertises 0.7.4 compatibility; the Brett community bundle is an approved reference tied to 0.8.9. Docker/cloud replacement, direct community-skill installation and hard-coded external LLM defaults are rejected; proxies, sessions/credentials, anti-detection, persistent browser profiles, network/security changes and the exact native MCP implementation remain owner/runbook-gated.</p><p>Markdown authorities: <code>skills/README.md</code>, <code>skills/SKILL-GOVERNANCE.md</code>, and <code>skills/SKILL-REGISTRY.md</code>.</p></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Eco-System Skills Architecture</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>skills/README.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX Eco-System Skills Architecture</h1>
+<p><code>skills/</code> is the canonical HX capability library for reusable AI-agent expertise.</p>
+<p>Skills sit <strong>between HX architecture and execution</strong>. They help an agent reason about a component using current product/vendor expertise, but they do not own HX architecture, server placement, runbooks, smoke-test acceptance criteria, or credentials.</p>
+<pre><code class="lang-text">HX OWNER DECISIONS + CURRENT ECOSYSTEM AUTHORITY
+                     |
+                     v
+             HX COMPONENT CONTEXT
+                     |
+                     v
+              HX SKILL WRAPPER
+        stable HX rules + task workflow
+                     |
+                     +----&gt; current official vendor/project guidance
+                     |      product expertise only
+                     v
+             HX RUNBOOK / STANDARD
+                     |
+                     v
+        HX SMOKE ROADMAP + EXACT TEST
+                     |
+                     v
+                 EVIDENCE</code></pre>
+<h2>Purpose</h2>
+<p>Use this library to make HX agents more capable without allowing external skill content to become a second architecture authority.</p>
+<p>A component skill may assist with:</p>
+<ul>
+<li>planning;</li>
+<li>native installation;</li>
+<li>configuration;</li>
+<li>troubleshooting;</li>
+<li>upgrades/migrations;</li>
+<li>product-specific diagnostics;</li>
+<li>validation preparation;</li>
+<li>interpreting smoke-test failures.</li>
+</ul>
+<p>A skill does <strong>not</strong> grant permission to change server assignments, networking, security policy, storage architecture, model placement, permanent integration, or BASE PASS criteria.</p>
+<h2>Canonical layout</h2>
+<pre><code class="lang-text">skills/
+├── README.md
+├── SKILL-GOVERNANCE.md
+├── SKILL-REGISTRY.md
+└── &lt;component&gt;/
+    ├── README.md
+    ├── upstream/
+    │   └── SOURCE.md
+    └── &lt;hx-wrapper&gt;/
+        ├── SKILL.md
+        ├── agents/
+        │   └── openai.yaml
+        └── references/
+            ├── hx-context.md
+            ├── authority-map.md
+            ├── upstream.md
+            └── community-candidates.md   # only when useful</code></pre>
+<p>The canonical HX copy lives here. Claude Code, Codex, OpenCode, or other agent-specific skill directories are <strong>deployment targets</strong>, not separate sources of truth.</p>
+<p>Do not maintain divergent hand-edited copies per agent.</p>
+<h2>Skill classes</h2>
+<div class="tw"><table><thead><tr><th>Class</th><th>Meaning</th></tr></thead><tbody><tr><td><code>HX_NATIVE</code></td><td>Skill authored specifically for HX.</td></tr><tr><td><code>VENDOR_OFFICIAL</code></td><td>Skill or skill system published by the product vendor/project.</td></tr><tr><td><code>COMMUNITY</code></td><td>Third-party skill requiring explicit review before HX use.</td></tr><tr><td><code>WRAPPER</code></td><td>HX skill that combines HX context/governance with external expertise.</td></tr><tr><td><code>META</code></td><td>Skill that routes to or dynamically loads narrower skills.</td></tr></tbody></table></div>
+<p>A skill can have more than one classification, such as <code>HX_NATIVE + WRAPPER</code> or <code>VENDOR_OFFICIAL + META</code>.</p>
+<h2>Operating order</h2>
+<p>Before using a component skill:</p>
+<ol>
+<li>read <code>README.md</code>, current state, build state, decisions, and architecture orientation;</li>
+<li>establish the component's HX host, role, current state, dependency boundary, and BASE PASS expectation;</li>
+<li>read the component's current server record/runbook/standard when it exists;</li>
+<li>check <code>SKILL-REGISTRY.md</code> for the approved HX skill and upstream source;</li>
+<li>load the HX wrapper;</li>
+<li>consult current official vendor/project guidance as directed by the wrapper;</li>
+<li>execute through HX runbook/standard authority;</li>
+<li>validate through the smoke-test roadmap and exact smoke-test authority.</li>
+</ol>
+<p><strong>Ecosystem first. Skill second. Execution third. Validation fourth.</strong></p>
+<h2>Approved reference implementations</h2>
+<h3>Qdrant</h3>
+<pre><code class="lang-text">skills/qdrant/hx-qdrant-advisor/</code></pre>
+<p>Combines:</p>
+<ul>
+<li>HX-10 architecture and server placement;</li>
+<li>HX native/systemd and clean-room rules;</li>
+<li>HX vector-space/model placement policy;</li>
+<li>Qdrant build/validation authorities;</li>
+<li>live official Qdrant Advisor guidance from <code>skills.qdrant.tech</code>.</li>
+</ul>
+<h3>LightRAG</h3>
+<pre><code class="lang-text">skills/lightrag/hx-lightrag-advisor/</code></pre>
+<p>Combines:</p>
+<ul>
+<li>HX-11 architecture, direct-LAN/native deployment, and RAG boundary;</li>
+<li>HX-10 Qdrant and HX-4 BGE-M3 dependency rules;</li>
+<li>LightRAG build/validation authorities and current authority gaps;</li>
+<li>current official <code>HKUDS/LightRAG</code> <code>AGENTS.md</code>, API/server docs, <code>env.example</code>, releases, and source/tests;</li>
+<li>reviewed community Claude/MCP projects as reference only.</li>
+</ul>
+<p>No official Qdrant-style LightRAG <code>SKILL.md</code> catalog was found at the 2026-09-09 review, so the HX wrapper consumes the current official project repository rather than promoting a community skill to vendor authority.</p>
+<h3>PostgreSQL</h3>
+<pre><code class="lang-text">skills/postgresql/hx-postgresql-advisor/</code></pre>
+<p>Combines:</p>
+<ul>
+<li>HX-9 placement, native/systemd and PostgreSQL/Redis shared-host boundaries;</li>
+<li>PostgreSQL BASE and MCP validation authorities;</li>
+<li>current PostgreSQL Global Development Group documentation, releases, versioning and Ubuntu packaging guidance as primary product truth;</li>
+<li>the open Agent Skills format from <code>agentskills.io</code>;</li>
+<li>reviewed Neon <code>neondatabase/postgres-skills</code> practitioner guidance as <code>COMMUNITY / expert reference</code>, not PGDG authority.</li>
+</ul>
+<p>The wrapper deliberately does not choose the HX-9 PostgreSQL major, package source, data placement, listener/authentication pattern, HA/replication, PgBouncer, backup/PITR topology, or MCP implementation before the HX-9 runbook pins those choices.</p>
+<h3>Redis</h3>
+<pre><code class="lang-text">skills/redis/hx-redis-advisor/</code></pre>
+<p>Combines:</p>
+<ul>
+<li>HX-9 placement, native/systemd and PostgreSQL/Redis shared-host boundaries;</li>
+<li>Redis BASE and MCP validation authorities;</li>
+<li>current official Redis documentation, source, releases and packaging guidance as primary product truth;</li>
+<li>reviewed official <code>redis/agent-skills</code> as <code>VENDOR_OFFICIAL</code> agent expertise;</li>
+<li>HX-specific curation for topology, security/network authority, standalone operation and evidence-based closure.</li>
+</ul>
+<p>The wrapper does not install the upstream eight-skill bundle as a second HX source of truth. Core, connections, Search and observability guidance are accepted/adapted; Cluster/replication and Redis Cloud-only AI services remain reference-only for current BASE; TLS/firewall/bind/global-command hardening remains owner-controlled. The current upstream release/skill commit records provenance and does not by itself select the HX-9 runtime version, package source, data/persistence/memory policy, or Redis MCP implementation.</p>
+<h3>Mem0</h3>
+<pre><code class="lang-text">skills/mem0/hx-mem0-advisor/</code></pre>
+<p>Combines:</p>
+<ul>
+<li>HX-13 placement, native/self-hosted OSS, Qdrant/Ollama dependency, and memory/data-lifecycle boundaries;</li>
+<li>Mem0 BASE and assigned MCP validation authorities;</li>
+<li>current official Mem0 documentation and <code>mem0ai/mem0</code> source as primary product/API truth;</li>
+<li>the reviewed official six-skill <code>mem0ai/mem0/skills/</code> graph as <code>VENDOR_OFFICIAL</code> developer expertise;</li>
+<li>explicit separation between the HX-13 runtime, hosted Platform/Vercel paths, repository-writing integration pipelines, and coding-assistant plugins.</li>
+</ul>
+<p>The wrapper adapts the official <code>mem0</code> skill for HX OSS use. <code>mem0-cli</code>, <code>mem0-vercel-ai-sdk</code>, <code>mem0-integrate</code>, and <code>mem0-test-integration</code> remain reference-only for HX-13 BASE unless separately authorized; <code>mem0-oss-to-platform</code> is rejected for the current HX-13 runtime unless the owner changes the native/self-hosted architecture. The current Mem0 coding-agent plugin/MCP remains a separate reference capability; the exact assigned HX-13 MCP implementation still requires selection.</p>
+<h3>Docling</h3>
+<pre><code class="lang-text">skills/docling/hx-docling-advisor/</code></pre>
+<p>Combines:</p>
+<ul>
+<li>HX-16 placement, native/systemd and clean-room rules;</li>
+<li>owner decision D-006 keeping Granite-Docling 258M on HX-16 with CPU-first BASE validation;</li>
+<li>current D1 Docling/Granite and D2 product-MCP validation authorities;</li>
+<li>current official <code>docling-project/docling</code> documentation, source, releases, model catalog, and packaged usage skill;</li>
+<li>current official <code>docling-project/docling-mcp</code> as the preferred product-specific companion source;</li>
+<li>HX-specific curation that keeps remote services, managed services, RAG integrations, containers, and GPU optimization outside current BASE unless separately approved.</li>
+</ul>
+<p>Docling's packaged usage skill is one router with six on-demand references for CLI, Python SDK, extraction, RAG, Service Client, and slim packaging. The repository-root contributor development skills are not promoted as HX-16 runtime authority. The wrapper accepts/adapts local document-processing expertise while rejecting containerized Docling Serve and managed-service substitution under current HX architecture. Exact package/extras, Python environment, model revision/cache, long-running service shape, and Docling MCP mode/transport remain future HX-16 runbook decisions.</p>
+<h3>Crawl4AI</h3>
+<pre><code class="lang-text">skills/crawl4ai/hx-crawl4ai-advisor/</code></pre>
+<p>Combines:</p>
+<ul>
+<li>HX-17 placement, native/systemd, clean-room, network/security, and companion-MCP boundaries;</li>
+<li>D3 deterministic Crawl4AI core and D4 product-MCP validation authorities;</li>
+<li>current official <code>unclecode/crawl4ai</code> 0.9.x documentation, source, package metadata, release/security guidance, and API behavior as primary product truth;</li>
+<li>the official downloadable Crawl4AI assistant skill as vendor reference only because current docs still label it compatible with 0.7.4;</li>
+<li>reviewed <code>brettdavies/crawl4ai-skill</code> v2.0.1 as <code>COMMUNITY / expert reference</code>, explicitly bounded by its Crawl4AI 0.8.9 verification pin;</li>
+<li>HX-specific curation for LLM providers, proxies, anti-detection, sessions/credentials, browser persistence, cloud/server patterns, and MCP deployment.</li>
+</ul>
+<p>The wrapper does not copy the Brett tree, its large 0.8.9 SDK mirror, or its scripts/templates into HX. Useful CLI/SDK, Markdown, schema extraction, filtering, batch/deep crawling, <code>raw:</code> processing, and troubleshooting patterns are adapted only after current official verification. Host-specific <code>defuddle</code>/<code>fetch-web</code>/<code>browse</code>/qmd assumptions and hard-coded <code>openai/gpt-4o-mini</code> defaults do not become HX dependencies. Current official MCP source is coupled to the <code>deploy/docker</code> self-hosted server tree; that is retained as vendor behavior evidence, while the exact HX-17 native MCP package/mode/transport/listener/systemd design remains a future runbook decision.</p>
+<h2>Governance</h2>
+<p><code>SKILL-GOVERNANCE.md</code> defines admission, trust, authority precedence, version/provenance, update, testing, secret-handling, deployment, and retirement rules.</p>
+<p><code>SKILL-REGISTRY.md</code> is the current inventory of approved, pilot, discovery, blocked, and retired component skills.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>skills/README.md</code>.</footer></div></body></html>

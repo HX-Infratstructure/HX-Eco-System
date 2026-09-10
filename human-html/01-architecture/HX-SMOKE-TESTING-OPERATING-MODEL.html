@@ -1,81 +1,293 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Eco-System — Smoke-Testing Operating Model</title>
-<style>
-:root{color-scheme:dark;--bg:#0b0f14;--panel:#111820;--line:#263241;--text:#e8eef6;--muted:#aeb9c7;--accent:#7cc7ff;--good:#75d69c;--warn:#ffd166;--pink:#f48fb1}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.wrap{max-width:1120px;margin:auto;padding:42px 28px 72px}h1{font-size:2.3rem;margin:0 0 8px}h2{margin-top:38px;border-bottom:1px solid var(--line);padding-bottom:8px}h3{color:var(--accent)}p,li{color:var(--text)}.muted{color:var(--muted)}.status{display:inline-block;border:1px solid #31513f;background:#11241a;color:var(--good);padding:4px 10px;border-radius:999px;font-weight:700}.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;margin:18px 0}pre{overflow:auto;background:#080c11;border:1px solid var(--line);border-radius:10px;padding:18px;color:#d9e7f5}code{color:#b9ddff}table{width:100%;border-collapse:collapse;margin:18px 0}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top}th{background:#151e28;text-align:left}.callout{border-left:4px solid var(--accent);padding:12px 16px;background:#0e1720}.warning{border-left-color:var(--warn)}.pink{border-left-color:var(--pink)}</style></head><body><main class="wrap">
-<span class="status">CURRENT v1.1 — LIVE ACTIVATION PENDING HX-5</span><h1>HX Eco-System — Smoke-Testing Operating Model</h1><p class="muted">Validation architecture for ordered proof, CentCom execution, SUT boundaries, cleanup, and retained evidence.</p>
-
-<div class="callout pink"><strong>Prerequisite:</strong> the HX ecosystem is the cornerstone. Read Architecture Orientation, the Base Implementation Roadmap, the relevant server/runbook/standard, and the Smoke-Test Roadmap before executing a component test.</div>
-
-<h2>Executive model</h2><div class="card"><pre>ECOSYSTEM ARCHITECTURE / CURRENT STATE
-          ↓
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Eco-System Smoke-Testing Operating Model</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: current &middot; status: 1.1 &middot; status: 2026-09-09</div><h1>HX Eco-System — Smoke-Testing Operating Model</h1>
+<h2>1. Purpose and prerequisite context</h2>
+<p>This document explains how HX component smoke testing fits together across the repository, HX-5 CentCom, the system under test (SUT), prior proof dependencies, and retained evidence.</p>
+<p>It is a <strong>validation-layer architecture map</strong>. It does <strong>not</strong> define the HX ecosystem itself.</p>
+<p>Before using this model, establish current ecosystem context from:</p>
+<ol>
+<li><code>ARCHITECTURE-ORIENTATION.md</code> — ecosystem cornerstone, server ownership, baseline configuration, and capability planes;</li>
+<li><code>../00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md</code> — deployment/build order and BASE PASS boundary;</li>
+<li>relevant current server record, runbook, and application/model standard;</li>
+<li><code>../00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code> — ordered proof dependencies and permitted limited integration.</li>
+</ol>
+<p>Only then select the exact component procedure under <code>/smoke-tests/</code>.</p>
+<p>Current implementation state: the repository authorities and runner tooling are defined; the CentCom runner is <strong>planned, not yet live</strong>, until HX-5 is built and its activation evidence is captured.</p>
+<h2>2. Operating model at a glance</h2>
+<pre><code class="lang-text">HX ECOSYSTEM ARCHITECTURE / CURRENT STATE
+            |
+            v
 BASE IMPLEMENTATION ROADMAP
   SUT installed and ready
-          ↓
+            |
+            v
 SMOKE-TEST ROADMAP
-  prior PASS evidence + limited integration
-          ↓
+  prior PASS evidence + permitted limited integration
+            |
+            v
 COMPONENT SMOKE AUTHORITY
-          ↓
+  exact known-answer acceptance procedure
+            |
+            v
 HX-5 CENTCOM
-  disposable project / clients / fixtures / manifest
-  prior PASS references / raw capture / cleanup proof
-          ↓ remote LAN/API/protocol/UI
+  disposable test project
+  client/runner tools
+  synthetic fixtures
+  manifest
+  prior PASS evidence references
+  raw captures
+  cleanup proof
+            |
+      remote LAN/API/protocol/UI
+      approved SSH only as exception
+            |
+            v
 SYSTEM UNDER TEST
-  application + approved config + hx_smoke_* temp state only
-          ↓
-KNOWN-ANSWER RESULT
-          ↓
-CLEANUP + VERIFICATION
-          ↓
+  installed application
+  approved configuration
+  temporary hx_smoke_* state only
+            |
+            v
+KNOWN-ANSWER FUNCTIONAL RESULT
+            |
+            v
+CLEANUP + CLEANUP VERIFICATION
+            |
+            v
 REBOOT-PERSISTENCE PROOF
-          ↓
+            |
+            v
 RETAINED EVIDENCE
-          ↓
-SERVER RECORD + BUILD-STATE CLOSURE</pre></div>
-
-<h2>Authority model</h2><table><tr><th>Authority</th><th>What it answers</th></tr><tr><td><code>ARCHITECTURE-ORIENTATION.md</code></td><td>What HX is, how it is configured, and which server owns each capability.</td></tr><tr><td><code>HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md</code></td><td>What is built, in what order, and the BASE PASS boundary.</td></tr><tr><td><code>HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code></td><td>Which proof runs next, what prior PASS evidence is required, and what limited integration is permitted.</td></tr><tr><td><code>smoke-tests/&lt;component&gt;-smoke-test.md</code></td><td>The exact component known-answer acceptance procedure.</td></tr><tr><td>HX-5 process/toolset</td><td>How CentCom executes, cleans up, records, and promotes proof.</td></tr><tr><td><code>docs/05-evidence/</code></td><td>Observed proof supporting accepted state.</td></tr><tr><td>Server record + <code>BUILD-STATE.md</code></td><td>Current as-built/closure state.</td></tr></table>
-
-<h2>Proof-chain model</h2><p>HX uses <strong>cumulative proof with minimal live coupling</strong>. Each dependent run records <code>prior_pass_evidence</code> and <code>limited_integration_plan</code>. Use <code>NONE</code> when genuinely not applicable.</p><ul><li>OmniRoute cites one approved model PASS and creates one temporary route.</li><li>LightRAG cites Qdrant + embedding + approved LLM PASS and uses only a synthetic disposable RAG path.</li><li>Mem0 cites Qdrant + embedding + approved LLM PASS and uses a disposable collection/memory.</li><li>Companion MCP/UI tests cite the parent core PASS.</li></ul><p>Do not force a dependency merely to make tests appear connected.</p>
-
-<h2>Roles and boundaries</h2><div class="card"><h3>Repository</h3><p>Owns ecosystem context, roadmaps, standards, smoke authorities, runner implementation, evidence indexes, and current state.</p></div><div class="card"><h3>HX-5 CentCom</h3><p>Owns client tools, disposable run workspaces, manifests, prior-proof references, synthetic fixtures, UI automation, cleanup verification, and evidence assembly after activation.</p></div><div class="card"><h3>System under test</h3><p>Owns only its installed application, approved configuration, real interfaces, and explicitly required smoke-namespaced temporary state.</p></div>
-
-<h2>Standard lifecycle</h2><pre>READ ECOSYSTEM AUTHORITY
- → VERIFY DEPLOYMENT READINESS
- → RESOLVE PRIOR PASS EVIDENCE
- → PLAN LIMITED INTEGRATION
- → CREATE RUN
- → PROVE REACHABILITY
- → EXECUTE KNOWN-ANSWER TEST
- → CAPTURE RESULT
- → CLEAN UP + VERIFY
- → DETERMINE STATUS
- → REBOOT-PERSISTENCE PROOF
- → PROMOTE EVIDENCE
- → REVIEW / COMMIT
- → REMOVE DISPOSABLE RUN</pre>
-
-<h2>PASS model</h2><pre>SUT service/base health
- AND required prior PASS evidence resolved
- AND known-answer component smoke test
- AND assigned MCP/UI companion gate where applicable
- AND cleanup succeeds + is verified
- AND reboot persistence
- AND reviewed retained evidence
- = BASE PASS / CLOSED</pre><div class="callout warning"><strong>Functional success with failed or unverified cleanup is not a complete PASS.</strong></div><p>Allowed states: <code>PASS</code>, <code>FAIL</code>, <code>NOT EXECUTABLE — PREREQUISITE OR OWNER DECISION REQUIRED</code>.</p>
-
-<h2>Remote-first execution</h2><ol><li>LAN/API/protocol endpoint.</li><li>Native client from HX-5 such as <code>psql</code> or <code>redis-cli</code>.</li><li>MCP client from HX-5.</li><li>Direct-LAN browser/UI proof.</li><li>Approved SSH only when local execution is intrinsic.</li></ol>
-
-<h2>Limited integration</h2><p>Temporary integration is allowed only when the dependency already passed, the smoke roadmap/current accepted configuration requires it, the data is synthetic/disposable, and all validation-only state is removed. A smoke dependency does not automatically become production architecture.</p>
-
-<h2>Proof invalidation</h2><p>Model/revision/dimension changes, vector/database behavior changes, major API/MCP changes, or SUT rebuild/config replacements can stale earlier evidence. Revalidate a stale prerequisite before using it for downstream PASS.</p>
-
-<h2>CentCom activation</h2><pre>HX-5 base/domain/GPU accepted
- AND Ollama + Ornith PASS
- AND HX-5 reboot persistence PASS
- AND CentCom toolset/bootstrap complete
- AND hx-smoke-doctor PASS
- AND remote known-good HX-2 probe PASS
- = CENTCOM SMOKE-RUNNER ACTIVE</pre><p>DeepSeek Harness is not a prerequisite for runner activation.</p>
-
-<h2>Current status — 2026-09-09</h2><ul><li>HX-1 through HX-3 provide current PASS/CLOSED cornerstone evidence.</li><li>Base Implementation Roadmap and ordered Smoke-Test Roadmap are defined.</li><li>Component smoke-test catalog and HX-5 process/toolset/runner helpers are defined.</li><li>HX-5 remains <strong>NOT STARTED</strong>; runner activation is not an as-built fact.</li></ul>
-</main></body></html>
+  docs/05-evidence/&lt;sut&gt;/&lt;component&gt;/&lt;run-id&gt;/
+            |
+            v
+SERVER RECORD + BUILD-STATE CLOSURE</code></pre>
+<p>The design centralizes validation tooling on HX-5 while keeping each application host clean.</p>
+<h2>3. Authority model</h2>
+<p>Each layer answers one question.</p>
+<div class="tw"><table><thead><tr><th>Authority</th><th>Question answered</th></tr></thead><tbody><tr><td><code>ARCHITECTURE-ORIENTATION.md</code></td><td>What is the HX ecosystem, how is it configured, and which server owns each capability?</td></tr><tr><td><code>../00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md</code></td><td>What is built, in what dependency order, and what is the component's BASE PASS boundary?</td></tr><tr><td><code>../00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code></td><td>Which proof runs next, what prior PASS evidence is required, and what limited validation integration is permitted?</td></tr><tr><td><code>../../smoke-tests/&lt;component&gt;-smoke-test.md</code></td><td>What must this component prove and how is the known-answer test executed/cleaned up?</td></tr><tr><td><code>../04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md</code></td><td>How does HX execute, clean up, and retain a smoke-test run?</td></tr><tr><td><code>../04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md</code></td><td>What permanent client toolset and bootstrap are used on HX-5?</td></tr><tr><td><code>../../tools/hx-smoke-runner/</code></td><td>What repository-owned helper implementation performs the repeatable runner operations?</td></tr><tr><td><code>../05-evidence/</code></td><td>What observed proof supports the accepted state?</td></tr><tr><td>server record + <code>../00-control/BUILD-STATE.md</code></td><td>What is the current accepted as-built/closure state?</td></tr></tbody></table></div>
+<p>No layer should silently replace another. The deployment roadmap is not the smoke roadmap; the smoke roadmap is not the component procedure; validation evidence is not architecture authority.</p>
+<h2>4. Roles and boundaries</h2>
+<h3>Repository</h3>
+<p>The repository is the durable instruction and evidence authority. It holds enough context for an AI infrastructure/coding agent to recover the intended operation without relying on chat history.</p>
+<p>It owns:</p>
+<ul>
+<li>current context and owner-approved decisions;</li>
+<li>ecosystem architecture and application standards;</li>
+<li>deployment and smoke-test roadmaps;</li>
+<li>server runbooks;</li>
+<li>component smoke-test acceptance criteria;</li>
+<li>CentCom runner code and scoped agent instructions;</li>
+<li>retained evidence indexes/bundles;</li>
+<li>current server/build state.</li>
+</ul>
+<h3>HX-5 CentCom</h3>
+<p>HX-5 is the standard development/test and smoke-test execution station after its activation gate passes.</p>
+<p>It owns:</p>
+<ul>
+<li>permanent client tooling;</li>
+<li>disposable run workspaces;</li>
+<li>synthetic test fixtures;</li>
+<li>manifests and raw captures;</li>
+<li>prior PASS evidence references;</li>
+<li>browser/UI test automation where appropriate;</li>
+<li>cleanup execution and verification;</li>
+<li>evidence assembly and promotion.</li>
+</ul>
+<p>HX-5 is <strong>not</strong> a second application deployment plane, network control plane, common reverse proxy, or permanent integration hub.</p>
+<h3>System under test</h3>
+<p>The SUT owns only:</p>
+<ul>
+<li>its installed application/runtime;</li>
+<li>its approved service configuration;</li>
+<li>its real application interfaces;</li>
+<li>temporary smoke-namespaced application state explicitly required by the test.</li>
+</ul>
+<p>General test harness code, Python environments, fixture libraries, logs, and retained evidence do not belong on the SUT.</p>
+<h2>5. Proof-chain model</h2>
+<p>The smoke roadmap uses <strong>cumulative proof with minimal live coupling</strong>.</p>
+<p>A downstream run records:</p>
+<pre><code class="lang-text">prior_pass_evidence
+limited_integration_plan</code></pre>
+<p>Use <code>NONE</code> when genuinely not applicable.</p>
+<p>Examples:</p>
+<ul>
+<li>OmniRoute cites a current approved model PASS and creates one temporary validation route.</li>
+<li>LightRAG cites Qdrant + embedding + approved LLM PASS and uses those services only for a synthetic disposable RAG proof.</li>
+<li>Mem0 cites Qdrant + embedding + approved LLM PASS and uses one disposable collection/memory lifecycle.</li>
+<li>MCP companion tests cite the parent application's core PASS; they do not depend on the HX-15 FastMCP server.</li>
+<li>UI companion tests cite the parent core PASS and use direct LAN access; they do not require HX-7 NGINX unless NGINX is the SUT.</li>
+</ul>
+<p>Do not force a dependency merely to make tests appear connected. Standalone component proof remains standalone when that gives better fault isolation.</p>
+<h2>6. Standard run lifecycle</h2>
+<pre><code class="lang-text">READ ECOSYSTEM AUTHORITY
+        -&gt; VERIFY DEPLOYMENT READINESS
+        -&gt; RESOLVE PRIOR PASS EVIDENCE
+        -&gt; PLAN LIMITED INTEGRATION
+        -&gt; CREATE RUN
+        -&gt; PROVE REACHABILITY
+        -&gt; EXECUTE KNOWN-ANSWER TEST
+        -&gt; CAPTURE RESULT
+        -&gt; CLEAN UP
+        -&gt; VERIFY CLEANUP
+        -&gt; DETERMINE STATUS
+        -&gt; REBOOT-PERSISTENCE PROOF
+        -&gt; PROMOTE EVIDENCE
+        -&gt; REVIEW / COMMIT
+        -&gt; REMOVE DISPOSABLE RUN</code></pre>
+<p>The runner helpers support this lifecycle but do not replace judgment, roadmap authority, or the component procedure.</p>
+<h2>7. PASS model</h2>
+<p>Process/service health is necessary but not sufficient.</p>
+<p>For a normal component:</p>
+<pre><code class="lang-text">SUT service/base health
+        AND
+required prior PASS evidence resolved
+        AND
+known-answer component smoke test
+        AND
+assigned MCP/UI companion gate where applicable
+        AND
+cleanup succeeds
+        AND
+cleanup verification succeeds
+        AND
+reboot persistence
+        AND
+reviewed retained evidence
+        =
+BASE PASS / CLOSED</code></pre>
+<p>A functional success with failed or unverified cleanup is not a complete PASS.</p>
+<p>Use only:</p>
+<pre><code class="lang-text">PASS
+FAIL
+NOT EXECUTABLE — PREREQUISITE OR OWNER DECISION REQUIRED</code></pre>
+<p><code>NOT EXECUTABLE</code> is appropriate when a required implementation decision or prerequisite proof is genuinely not established; it is not a substitute for a failing result.</p>
+<h2>8. Remote-first test patterns</h2>
+<p>Preferred order:</p>
+<ol>
+<li><strong>LAN/API/protocol endpoint</strong> — curl, Python, native API/client.</li>
+<li><strong>Native client from HX-5</strong> — for example <code>psql</code> or <code>redis-cli</code>.</li>
+<li><strong>MCP client from HX-5</strong> — discovery plus one safe known-answer tool call.</li>
+<li><strong>Direct-LAN browser/UI proof</strong> — Playwright-managed Chromium or operator capture where product authentication/navigation requires it.</li>
+<li><strong>Approved SSH remote command</strong> — exception only when local execution is intrinsic to the component.</li>
+</ol>
+<p>Do not copy a general-purpose harness onto the SUT just to make a test convenient.</p>
+<h2>9. Limited integration rule</h2>
+<p>Base stand-up remains base stand-up, but some components cannot prove their primary contract in complete isolation.</p>
+<p>Limited integration is allowed when all of the following are true:</p>
+<ul>
+<li>the dependency has already passed its own applicable gate;</li>
+<li>the dependency is required by the smoke roadmap/current accepted component configuration;</li>
+<li>the dependency is necessary to prove the component's primary function;</li>
+<li>test data is synthetic and disposable;</li>
+<li>validation-only objects/routes/connections are clearly identified;</li>
+<li>temporary wiring/state is removed or explicitly approved to remain.</li>
+</ul>
+<p>Examples include LightRAG using an already-proven Qdrant/LLM/embedding path, Mem0 using a disposable Qdrant collection, Open WebUI temporarily connecting to a proven Ollama endpoint, OmniRoute temporarily routing to one proven model, and NGINX proxying one temporary HX-5 upstream.</p>
+<p>A smoke-test dependency does not automatically become permanent production architecture.</p>
+<h2>10. Proof invalidation</h2>
+<p>A downstream test may rely only on current proof.</p>
+<p>Material changes can stale prior evidence, including:</p>
+<ul>
+<li>model alias/revision/dimension changes;</li>
+<li>embedding/reranker changes;</li>
+<li>Qdrant or database upgrade/configuration changes affecting behavior;</li>
+<li>major API/MCP contract changes;</li>
+<li>SUT rebuild or persistent data/configuration replacement.</li>
+</ul>
+<p>If a required proof is stale, revalidate it before downstream PASS.</p>
+<h2>11. AI-centric repository contract</h2>
+<p>The repository is incomplete if an AI agent must reconstruct material operating rules from conversation history.</p>
+<p>Before smoke testing, an agent must be able to determine from the repository alone:</p>
+<ul>
+<li>current system state and build priority;</li>
+<li>the SUT's owner server/IP, role, and architecture layer;</li>
+<li>applicable foundational network/domain/deployment rules;</li>
+<li>model/data placement rules;</li>
+<li>required versus validation-only dependencies;</li>
+<li>the BASE PASS boundary;</li>
+<li>the required prior PASS evidence;</li>
+<li>the exact smoke-test acceptance criteria;</li>
+<li>the CentCom execution process;</li>
+<li>cleanup requirements;</li>
+<li>evidence destination;</li>
+<li>stop conditions and owner-decision boundaries.</li>
+</ul>
+<p>Scoped instructions live near the implementation. <code>../../tools/hx-smoke-runner/AGENTS.md</code> governs runner behavior; the root <code>../../AGENTS.md</code> governs repository-wide behavior.</p>
+<p>An AI agent must <strong>not</strong> change a smoke-test authority during the same in-progress run that is using it. If the authority is defective or stale, stop, correct it in a separate committed change, and begin a new run ID.</p>
+<h2>12. CentCom activation sequence</h2>
+<p>The CentCom runner is activated after HX-5's inference foundation is accepted and before later state/retrieval/application components rely on ad-hoc testing.</p>
+<pre><code class="lang-text">HX-5 base/domain/GPU accepted
+        AND
+Ollama + Ornith PASS
+        AND
+HX-5 reboot persistence PASS
+        AND
+CentCom client toolset/bootstrap complete
+        AND
+hx-smoke-doctor PASS
+        AND
+remote known-good HX-2 activation probe PASS
+        =
+CENTCOM SMOKE-RUNNER ACTIVE</code></pre>
+<p>DeepSeek Harness is <strong>not</strong> a prerequisite for CentCom smoke-runner activation. Its meta-agent smoke test remains a later HX-5 workload gate in the deployment/smoke roadmaps.</p>
+<h2>13. What this model deliberately does not become</h2>
+<p>The smoke-testing system does not create:</p>
+<ul>
+<li>a container platform;</li>
+<li>a second deployment plane;</li>
+<li>a permanent cross-service integration mesh;</li>
+<li>a general reverse-proxy requirement;</li>
+<li>new firewall/TLS/DNS/network architecture;</li>
+<li>production test data;</li>
+<li>automatic evidence commits without review;</li>
+<li>permission to modify unrelated SUT state;</li>
+<li>a replacement for ecosystem architecture or component-specific acceptance criteria.</li>
+</ul>
+<h2>14. Current status</h2>
+<p>As of 2026-09-09:</p>
+<ul>
+<li>HX-1, HX-2, and HX-3 establish the current PASS/CLOSED cornerstone evidence;</li>
+<li>the base implementation roadmap is current;</li>
+<li>the ordered smoke-test roadmap is defined;</li>
+<li>the component smoke-test catalog is defined under <code>/smoke-tests/</code>;</li>
+<li>the HX-5 process/procedure and toolset/bootstrap standards are defined;</li>
+<li>repository-owned runner helpers are defined;</li>
+<li>HX-5 remains <code>NOT STARTED</code>, so CentCom smoke-runner activation is <strong>not yet an as-built fact</strong>.</li>
+</ul>
+<p>The next runtime validation begins only as the deployment sequence builds HX-4 and HX-5.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md</code>.</footer></div></body></html>

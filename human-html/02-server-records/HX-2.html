@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX-2 — Qwen-X Server Configuration</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/02-server-records/HX-2.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-2 — Qwen-X Server Configuration</h1>
+<p><strong>Server:</strong> HX-2 <strong>Role:</strong> Qwen-X / Ollama inference server <strong>Build state:</strong> PASS <strong>Build method:</strong> KISS — build, verify, record, move on <strong>Rebuild date:</strong> 2026-09-08</p>
+<hr/>
+<h2>1. Identity and Network</h2>
+<div class="tw"><table><thead><tr><th>Item</th><th>Configuration</th></tr></thead><tbody><tr><td>Hostname</td><td><code>hx-2</code></td></tr><tr><td>Intended FQDN</td><td><code>hx-2.hx.local.arpa</code></td></tr><tr><td>IPv4</td><td><code>192.168.50.202/24</code></td></tr><tr><td>Default gateway</td><td><code>192.168.50.1</code></td></tr><tr><td>DNS</td><td><code>192.168.50.200</code> — HX-1</td></tr><tr><td>Domain</td><td><code>hx.local.arpa</code></td></tr><tr><td>AD realm</td><td><code>HX.LOCAL.ARPA</code></td></tr><tr><td>Domain client</td><td>SSSD / realmd / adcli</td></tr><tr><td>SSH</td><td>Active, port <code>22</code></td></tr></tbody></table></div>
+<h3>Domain validation</h3>
+<p>Verified:</p>
+<pre><code class="lang-text">realm: hx.local.arpa
+configured: kerberos-member
+server-software: active-directory
+client-software: sssd
+login-policy: allow-realm-logins
+SSSD: active</code></pre>
+<p>Domain user resolution was tested successfully:</p>
+<pre><code class="lang-text">jarvisr@hx.local.arpa
+primary group: domain users@hx.local.arpa</code></pre>
+<p><strong>Domain join gate: PASS</strong></p>
+<hr/>
+<h2>2. Operating System</h2>
+<div class="tw"><table><thead><tr><th>Item</th><th>Configuration</th></tr></thead><tbody><tr><td>OS</td><td>Ubuntu 24.04.4 LTS</td></tr><tr><td>Kernel after rebuild</td><td>Linux 7.0.0-31-generic</td></tr><tr><td>Architecture</td><td>x86-64</td></tr><tr><td>Hardware vendor</td><td>Micro-Star International Co., Ltd.</td></tr><tr><td>Hardware model</td><td>MS-7E34</td></tr><tr><td>Firmware version</td><td>1.A80</td></tr><tr><td>Firmware date</td><td>2025-01-07</td></tr><tr><td>Linux admin</td><td><code>hxsa</code></td></tr><tr><td>sudo policy</td><td><code>hxsa</code> has NOPASSWD sudo via <code>/etc/sudoers.d/90-hx-admin</code></td></tr></tbody></table></div>
+<p>Base OS was updated with:</p>
+<pre><code class="lang-bash">sudo apt update
+sudo apt upgrade -y</code></pre>
+<p>and rebooted before the NVIDIA driver installation.</p>
+<hr/>
+<h2>3. GPU Configuration</h2>
+<p>Installed driver:</p>
+<pre><code class="lang-text">NVIDIA Driver: 595.71.05
+CUDA reported by nvidia-smi: 13.2</code></pre>
+<p>Detected GPU capacity:</p>
+<pre><code class="lang-text">GPU 0: NVIDIA GeForce RTX 4070-class — 16,376 MiB
+GPU 1: NVIDIA GeForce RTX 4070-class — 16,376 MiB
+Total installed VRAM: approximately 32 GB</code></pre>
+<p>Both GPUs were visible and healthy after reboot.</p>
+<p><strong>GPU gate: PASS</strong></p>
+<hr/>
+<h2>4. Storage Layout</h2>
+<h3>NVMe — WD_BLACK SN850X 4000GB</h3>
+<pre><code class="lang-text">nvme0n1      3.6T
+├─nvme0n1p1    1G  vfat  /boot/efi
+├─nvme0n1p2  120G  ext4  /
+└─nvme0n1p3  3.5T  ext4  /srv/ollama</code></pre>
+<p>Filesystem state at build:</p>
+<pre><code class="lang-text">/             ~118 GB total
+/srv/ollama   ~3.5 TB total, ~3.3 TB available</code></pre>
+<h3>SATA — Seagate ST8000DM004</h3>
+<pre><code class="lang-text">sda           7.3T
+└─sda1        7.3T ext4</code></pre>
+<p><code>/dev/sda1</code> is intentionally <strong>not mounted</strong> and was not altered during the HX-2 rebuild.</p>
+<h3>Ollama model storage</h3>
+<p>Dedicated model path:</p>
+<pre><code class="lang-text">/srv/ollama/models</code></pre>
+<p>Ownership:</p>
+<pre><code class="lang-text">ollama:ollama /srv/ollama
+ollama:ollama /srv/ollama/models</code></pre>
+<p>This keeps large model blobs off the 120 GB root filesystem.</p>
+<p><strong>Storage gate: PASS</strong></p>
+<hr/>
+<h2>5. Ollama Runtime</h2>
+<div class="tw"><table><thead><tr><th>Item</th><th>Configuration</th></tr></thead><tbody><tr><td>Ollama version</td><td><code>0.33.3</code></td></tr><tr><td>Service</td><td><code>ollama.service</code></td></tr><tr><td>Service state</td><td>active</td></tr><tr><td>Startup state</td><td>enabled</td></tr><tr><td>API port</td><td><code>11434</code></td></tr><tr><td>Network listener</td><td>all interfaces (<code>*:11434</code>)</td></tr><tr><td>LAN API</td><td><code>http://192.168.50.202:11434</code></td></tr></tbody></table></div>
+<p>Verified API response:</p>
+<pre><code class="lang-json">{"version":"0.33.3"}</code></pre>
+<h3>systemd override</h3>
+<p>File:</p>
+<pre><code class="lang-text">/etc/systemd/system/ollama.service.d/storage.conf</code></pre>
+<p>Current configuration:</p>
+<pre><code class="lang-ini">[Service]
+Environment="OLLAMA_MODELS=/srv/ollama/models"
+Environment="OLLAMA_HOST=0.0.0.0:11434"
+Environment="OLLAMA_NO_CLOUD=1"</code></pre>
+<p>The current <code>OLLAMA_NO_CLOUD=1</code> setting is <strong>operationally temporary</strong>, not a permanent HX architecture decision. HX-2 is intentionally running local-only while the base ecosystem is rebuilt.</p>
+<h3>Future Ollama Cloud enablement</h3>
+<p>When cloud capability is intentionally enabled later:</p>
+<ol>
+<li>Remove:</li>
+</ol>
+<pre><code class="lang-ini">   Environment="OLLAMA_NO_CLOUD=1"</code></pre>
+<ol>
+<li>Preserve:</li>
+</ol>
+<pre><code class="lang-ini">   Environment="OLLAMA_MODELS=/srv/ollama/models"
+   Environment="OLLAMA_HOST=0.0.0.0:11434"</code></pre>
+<ol>
+<li>Reload and restart:</li>
+</ol>
+<pre><code class="lang-bash">   sudo systemctl daemon-reload
+   sudo systemctl restart ollama</code></pre>
+<ol>
+<li>Complete any required Ollama cloud authentication at that time.</li>
+<li>Re-test local inference and cloud capability separately.</li>
+</ol>
+<p>Cloud enablement is <strong>future work</strong> and must not replace the local Qwen-X model path.</p>
+<hr/>
+<h2>6. Qwen-X Model</h2>
+<h3>Installed model</h3>
+<pre><code class="lang-text">Ollama name: qwen-x:qwen3.8-27b-q6_k
+Model family: Qwen3.8
+Parameter class: 27B
+Quantization: Q6_K
+Ollama model size: 23 GB
+Ollama model ID: d319d311ac30</code></pre>
+<p>Source GGUF blob:</p>
+<pre><code class="lang-text">HX alias:          qwen-x:qwen3.8-27b-q6_k
+Upstream identity: Qwen3.8-27B (Q6_K quantisation)
+Source URI:        UNRESOLVED — see provenance gap below
+Artifact:          Qwen3.8-27B-Q6_K.gguf
+Artifact SHA-256:  7d590099e0a0fe7b8df812045faa2ae12bf4dbf3492b8eb7c7c7ab24c94d36ed
+Import method:     local GGUF import via Modelfile</code></pre>
+<blockquote><strong>Provenance gap — backfill required.</strong> The exact Hugging Face repository that supplied this blob was not recorded at build time. The hash above identifies the artifact but not its origin, and public <code>Qwen3.8-27B</code> GGUF repositories include community rebuilds alongside the official weights, so the hash alone does not establish that these are unmodified upstream weights. Recover the source repository from the HX-2 shell history or the browser/CLI download record and replace <code>UNRESOLVED</code>. Until then, treat the model identity as recorded-but-unverified. Required by <code>docs/02-server-records/_TEMPLATE.md</code> section 6.</blockquote>
+<p>Stored under the dedicated Ollama model filesystem.</p>
+<h3>Import method</h3>
+<p>The direct Hugging Face Ollama shortcut downloaded the GGUF blob but failed to complete the Ollama model manifest. The downloaded Q6_K blob was preserved and imported locally instead of being downloaded again.</p>
+<p>Modelfile:</p>
+<pre><code class="lang-text">/srv/ollama/Qwen-X.Modelfile</code></pre>
+<p>Content:</p>
+<pre><code class="lang-text">FROM /srv/ollama/models/blobs/sha256-7d590099e0a0fe7b8df812045faa2ae12bf4dbf3492b8eb7c7c7ab24c94d36ed</code></pre>
+<p>No <code>TEMPLATE</code>, <code>PARAMETER</code>, or stop-token directives were set. The chat template therefore comes from the GGUF metadata. Record the resolved template here if chat behaviour is ever investigated.</p>
+<p>Creation command:</p>
+<pre><code class="lang-bash">ollama create qwen-x:qwen3.8-27b-q6_k -f /srv/ollama/Qwen-X.Modelfile</code></pre>
+<p>Result:</p>
+<pre><code class="lang-text">parsing GGUF
+verifying conversion
+writing manifest
+success</code></pre>
+<hr/>
+<h2>7. Functional Validation</h2>
+<h3>CLI inference</h3>
+<p>Command:</p>
+<pre><code class="lang-bash">ollama run qwen-x:qwen3.8-27b-q6_k "Reply with exactly: HX-2 QWEN-X PASS"</code></pre>
+<p>Validated response:</p>
+<pre><code class="lang-text">HX-2 QWEN-X PASS</code></pre>
+<p><strong>CLI inference: PASS</strong></p>
+<h3>HTTP API inference</h3>
+<p>Model:</p>
+<pre><code class="lang-text">qwen-x:qwen3.8-27b-q6_k</code></pre>
+<p>Validated generated response contained:</p>
+<pre><code class="lang-text">HX-2 API PASS</code></pre>
+<p><strong>HTTP inference: PASS</strong></p>
+<h3>LAN API</h3>
+<p>Validated:</p>
+<pre><code class="lang-text">http://192.168.50.202:11434/api/version</code></pre>
+<p>Response:</p>
+<pre><code class="lang-json">{"version":"0.33.3"}</code></pre>
+<p><strong>LAN API: PASS</strong></p>
+<h3>Reboot persistence</h3>
+<p>After reboot:</p>
+<pre><code class="lang-text">ollama.service: active
+qwen-x:qwen3.8-27b-q6_k: present
+LAN API: responding</code></pre>
+<p><strong>Reboot persistence: PASS</strong></p>
+<hr/>
+<h2>8. Final HX-2 State</h2>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean Ubuntu rebuild</td><td>PASS</td></tr><tr><td>Base OS update/upgrade</td><td>PASS</td></tr><tr><td>Samba domain join</td><td>PASS</td></tr><tr><td>SSSD</td><td>PASS</td></tr><tr><td>Domain user resolution</td><td>PASS</td></tr><tr><td>NVIDIA 595 driver</td><td>PASS</td></tr><tr><td>Dual GPU visibility</td><td>PASS</td></tr><tr><td>Dedicated Ollama storage</td><td>PASS</td></tr><tr><td>Ollama 0.33.3</td><td>PASS</td></tr><tr><td>Ollama service active/enabled</td><td>PASS</td></tr><tr><td>Qwen3.8-27B Q6_K</td><td>PASS</td></tr><tr><td>CLI inference</td><td>PASS</td></tr><tr><td>HTTP API inference</td><td>PASS</td></tr><tr><td>LAN API exposure</td><td>PASS</td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr></tbody></table></div>
+<h1>HX-2 FINAL STATUS: PASS</h1>
+<p>HX-2 is complete for the current clean-build scope.</p>
+<p>The server is ready to provide local Qwen-X inference through:</p>
+<pre><code class="lang-text">http://192.168.50.202:11434</code></pre>
+<p>using:</p>
+<pre><code class="lang-text">qwen-x:qwen3.8-27b-q6_k</code></pre>
+<p>Future ecosystem integration, including OmniRoute and Ollama Cloud capability, will be performed as later explicit integration tasks.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-2.md</code>.</footer></div></body></html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX-16 — Docling + Granite-Docling 258M + MCP Server Configuration</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/02-server-records/HX-16.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-16 — Docling + Granite-Docling 258M + MCP Server Configuration</h1>
+<p><strong>Build state:</strong> NOT STARTED | IN PROGRESS | PASS</p>
+<p><strong>Gate:</strong> — | NEXT | CLOSED</p>
+<p><strong>IP:</strong> <code>192.168.50.216</code> <strong>FQDN:</strong> <code>hx-16.hx.local.arpa</code> <strong>Record updated:</strong> YYYY-MM-DD</p>
+<blockquote>Scaffolded by <code>tools/hx-doc/hx-new-server hx-16</code>. Fill every section as the build proceeds. <code>tools/hx-doc/hx-record-check</code> reports what is still open.</blockquote>
+<h2>1. Identity and Network</h2>
+<p>Hostname, IP, gateway, DNS, domain join, SSSD, domain user resolution. State the gate result: <strong>Domain join gate: PASS/FAIL</strong>.</p>
+<h2>2. Operating System</h2>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Distribution / release</td><td></td></tr><tr><td>Kernel</td><td></td></tr><tr><td>Firmware version</td><td></td></tr><tr><td>sudo policy</td><td></td></tr></tbody></table></div>
+<h2>3. GPU Configuration</h2>
+<p>Driver package <strong>and exact version</strong>, GPU models and count, <code>nvidia-smi</code> proof. State the gate result: <strong>GPU gate: PASS/FAIL</strong>.</p>
+<h2>4. Storage Layout</h2>
+<p>Devices, filesystems, mount points, and the dedicated application path. State the gate result: <strong>Storage gate: PASS/FAIL</strong>.</p>
+<h2>5. Runtime</h2>
+<p>Package source, <strong>exact installed version</strong>, service unit, systemd overrides, listener address and port.</p>
+<h2>6. Model / Application Provenance</h2>
+<p>Required for every server that hosts a model or a downloaded artifact. All five fields are mandatory — an unknown value is recorded as <code>UNRESOLVED</code>, never omitted, because a missing field cannot be told apart from a forgotten one.</p>
+<pre><code class="lang-text">HX alias:              &lt;ollama name or service identifier&gt;
+Upstream identity:     &lt;official model/product name and version&gt;
+Source URI:            &lt;exact hf.co/... repo:file, package URL, or registry ref&gt;
+Artifact SHA-256:      &lt;full 64-character hash of the downloaded artifact&gt;
+Import method:         &lt;pull | GGUF import | package install | build from source&gt;</code></pre>
+<p>If the artifact was imported rather than pulled, also record the Modelfile or build definition verbatim, including any template, parameter, or stop-token settings. If none were set, say so explicitly.</p>
+<p>Why both Source URI and SHA-256 are required: the hash proves what is running, and the URI proves where it came from. Public model registries carry modified community rebuilds under names close to the official ones, so neither field alone establishes provenance.</p>
+<h2>7. Functional Validation</h2>
+<p>Known-answer CLI proof, HTTP/API proof, LAN proof, reboot persistence. Include the exact command and the exact response for each.</p>
+<h2>8. Final State</h2>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td></td></tr><tr><td>Domain join / SSSD</td><td></td></tr><tr><td>GPU driver and visibility</td><td></td></tr><tr><td>Dedicated storage</td><td></td></tr><tr><td>Runtime version</td><td></td></tr><tr><td>Service active / enabled</td><td></td></tr><tr><td>Model / application loaded</td><td></td></tr><tr><td>Known-answer functional proof</td><td></td></tr><tr><td>Reboot persistence</td><td></td></tr></tbody></table></div>
+<h2>9. Evidence References</h2>
+<p>Either a retained bundle path under <code>docs/05-evidence/&lt;server&gt;/&lt;component&gt;/&lt;run-id&gt;/</code>, or an explicit statement that the proof is recorded inline in section 7 of this record. See <code>docs/05-evidence/README.md</code> for which model applies.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-16.md</code>.</footer></div></body></html>

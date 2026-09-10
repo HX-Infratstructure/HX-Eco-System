@@ -13,6 +13,19 @@ authority: HX-Eco-System clean rebuild
 
 Record the approved **names and intended use** of repository automation secrets and variables without storing sensitive values in Git history.
 
+## Current automation status
+
+Two workflows are active as of 2026-09-10:
+
+| Workflow | Trigger | Secrets used |
+|---|---|---|
+| `.github/workflows/hx-checks.yml` | push, pull request | `GITHUB_TOKEN` only (automatic) |
+| `.github/workflows/hx-upstream-drift.yml` | weekly schedule, manual | `GITHUB_TOKEN` only (automatic) |
+
+Neither consumes `HXES_SECRET` or `HXES_VARIABLE` yet. Those identifiers stay
+reserved with their handling rules fixed in advance, so a value is never
+introduced ad hoc. Add a row above when a workflow starts using one.
+
 ## Registered identifiers
 
 | Name | GitHub type | Purpose | Value handling |
@@ -30,4 +43,4 @@ Record the approved **names and intended use** of repository automation secrets 
 
 ## Source disposition
 
-The temporary Drive staging file `00-Control/key.md` supplied the identifiers `HXES_SECRET` and `HXES_VARIABLE`. Its sensitive value is intentionally not reproduced here. The staging file is archived after reconciliation and is not current authority.
+The temporary Drive staging file `00-Control/key.md` (external to this repository, not a repository path) supplied the identifiers `HXES_SECRET` and `HXES_VARIABLE`. Its sensitive value is intentionally not reproduced here. The staging file is archived after reconciliation and is not current authority.

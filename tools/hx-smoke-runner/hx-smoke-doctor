@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ "$(hostname -s)" != "hx-5" ]]; then
-  echo "ERROR: hx-smoke-doctor must run on HX-5 CentCom." >&2
+# Runner-host gate.
+# HX-5 CentCom is the standard station (D-014). Before CentCom activation
+# (smoke roadmap A1-A4) there is no CentCom, so an operator station may be
+# authorised explicitly by exporting HX_SMOKE_ALLOW_HOST=<hostname -s>.
+# The station actually used is recorded in the run manifest.
+RUNNER_HOST="$(hostname -s)"
+if [[ "$RUNNER_HOST" != "hx-5" && "$RUNNER_HOST" != "${HX_SMOKE_ALLOW_HOST:-}" ]]; then
+  echo "ERROR: ${0##*/} runs on HX-5 CentCom." >&2
+  echo "       For pre-CentCom roadmap steps A1-A4, authorise this station with:" >&2
+  echo "       export HX_SMOKE_ALLOW_HOST=$RUNNER_HOST" >&2
   exit 1
 fi
 

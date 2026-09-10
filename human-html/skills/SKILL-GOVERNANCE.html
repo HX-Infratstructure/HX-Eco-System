@@ -1,6 +1,204 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Skill Governance</title><style>body{max-width:1000px;margin:40px auto;padding:0 24px;background:#0b0f14;color:#e8eef6;font:16px/1.55 system-ui}h1,h2{color:#fff}code,pre{background:#111820;color:#b9ddff}pre{padding:16px;overflow:auto;border:1px solid #263241;border-radius:10px}.call{border-left:4px solid #64b5f6;background:#111820;padding:14px}li{margin:4px 0}</style></head><body><h1>HX Eco-System — Skill Governance</h1><p class="call"><strong>Skills augment HX expertise; they do not define HX architecture.</strong></p><pre>Owner decision
-  &gt; current HX control / architecture
-  &gt; live HX evidence
-  &gt; current runbook / standard
-  &gt; governed HX skill + current official vendor guidance
-  &gt; history / general knowledge</pre><h2>Canonical source</h2><p><code>skills/</code> is the only canonical HX skill library. Agent-specific installations are derived deployments.</p><h2>Classes</h2><p>HX_NATIVE · VENDOR_OFFICIAL · COMMUNITY · WRAPPER · META</p><h2>Lifecycle</h2><p>DISCOVERY · PILOT · APPROVED · BLOCKED · RETIRED</p><h2>Key controls</h2><ul><li>HX context loads before vendor advice.</li><li>Vendor skills cannot change host placement, native/systemd deployment, network/security/storage architecture, model placement, or smoke PASS criteria.</li><li>Skills never store credentials or sshpass passwords.</li><li>Infrastructure-changing execution remains in approved HX runbooks/execution artifacts.</li><li>HX wrapper skills must validate and package successfully before APPROVED.</li></ul><p>Markdown authority: <code>skills/SKILL-GOVERNANCE.md</code>.</p></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Eco-System Skill Governance</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>skills/SKILL-GOVERNANCE.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: current &middot; status: 1.0 &middot; status: 2026-09-09</div><h1>HX Eco-System — Skill Governance</h1>
+<h2>1. Governing principle</h2>
+<p>Skills augment HX expertise; they do not define HX architecture.</p>
+<pre><code class="lang-text">OWNER DECISION
+    &gt; CURRENT HX CONTROL / ARCHITECTURE
+    &gt; LIVE HX EVIDENCE
+    &gt; CURRENT HX RUNBOOK / STANDARD
+    &gt; GOVERNED HX SKILL + CURRENT OFFICIAL VENDOR GUIDANCE
+    &gt; HISTORICAL REFERENCE
+    &gt; GENERAL MODEL KNOWLEDGE</code></pre>
+<p>If current official vendor guidance exposes a real incompatibility in an HX runbook, report the contradiction and update the smallest affected HX authority through normal review. Do not silently override the HX architecture from inside a skill.</p>
+<h2>2. Canonical location</h2>
+<p>The canonical HX skill library is:</p>
+<pre><code class="lang-text">skills/</code></pre>
+<p>Agent-specific skill locations are derived deployments only. Do not create independently maintained Claude-, Codex-, OpenCode-, or other agent-specific source trees.</p>
+<p>When deployment automation is introduced later, it must deploy from this canonical directory or from a reviewed package built from it.</p>
+<h2>3. Skill classifications</h2>
+<h3>HX_NATIVE</h3>
+<p>Authored for HX and governed entirely by HX.</p>
+<h3>VENDOR_OFFICIAL</h3>
+<p>Published by the software vendor/project. This is the preferred external source class for product expertise.</p>
+<h3>COMMUNITY</h3>
+<p>Published by a third party. Community skills require explicit review of provenance, scope, behavior, links/scripts, and architecture assumptions before they can move beyond <code>DISCOVERY</code> or <code>PILOT</code>.</p>
+<h3>WRAPPER</h3>
+<p>HX-authored skill that loads HX context first, then invokes or consults an external skill/source. Wrappers are the preferred pattern for vendor skills that may otherwise recommend architecture choices outside HX policy.</p>
+<h3>META</h3>
+<p>Skill that routes to or dynamically loads narrower skills. A vendor meta-skill is useful when the upstream knowledge base changes frequently.</p>
+<h2>4. Registry status</h2>
+<p>Use only these registry lifecycle states:</p>
+<ul>
+<li><code>DISCOVERY</code> — source identified; not approved for operational use.</li>
+<li><code>PILOT</code> — reviewed enough for bounded evaluation.</li>
+<li><code>APPROVED</code> — validated for the stated HX scope.</li>
+<li><code>BLOCKED</code> — known conflict/risk prevents use.</li>
+<li><code>RETIRED</code> — no longer active; retain provenance/history as required.</li>
+</ul>
+<p>Two further states apply to sources HX consults but never installs as a second authority. They are registry states, not admission grades:</p>
+<ul>
+<li><code>APPROVED_AS_REFERENCE</code> — reviewed and approved to be consulted as expert</li>
+</ul>
+<p>reference. It is not an HX authority and is not installed or deployed.</p>
+<ul>
+<li><code>REFERENCE_ONLY</code> — retained for context or future evaluation. It has not been</li>
+</ul>
+<p>approved for operational use. Add <code>/ LATER_INTEGRATION</code> when the source is expected to be re-evaluated for a later programme phase.</p>
+<p>Approval is scoped. A skill approved for troubleshooting is not automatically approved to execute infrastructure changes.</p>
+<h2>5. Admission checklist</h2>
+<p>Before a new external skill becomes <code>APPROVED</code>, record:</p>
+<ol>
+<li>component and HX host/role;</li>
+<li>source organization/project;</li>
+<li>source URL/repository;</li>
+<li>vendor/community classification;</li>
+<li>exact reviewed version/commit when available;</li>
+<li>live-update behavior, if any;</li>
+<li>intended triggers and use cases;</li>
+<li>associated runbook/standard;</li>
+<li>associated smoke-test authority;</li>
+<li>associated MCP/plugin/hook when relevant;</li>
+<li>known conflicts with HX architecture;</li>
+<li>whether an HX wrapper is required;</li>
+<li>validation result for the HX wrapper/package.</li>
+</ol>
+<h2>6. Vendor-content policy</h2>
+<p>Prefer current official vendor skills for product-specific reasoning when available.</p>
+<p>For fast-changing vendor skill systems:</p>
+<ul>
+<li>prefer live/contextual retrieval over vendoring the full tree;</li>
+<li>record the reviewed upstream commit/source for provenance;</li>
+<li>keep the HX wrapper stable and local;</li>
+<li>fetch only the branch relevant to the current task;</li>
+<li>cite or record canonical vendor documentation used for material decisions.</li>
+</ul>
+<p>Vendor skill content is not copied wholesale into HX unless offline/availability requirements justify it and the owner approves that maintenance burden.</p>
+<h2>7. HX-wrapper rule</h2>
+<p>A wrapper must:</p>
+<ol>
+<li>identify the component's HX host/role and current architecture boundary;</li>
+<li>load HX authority before vendor advice;</li>
+<li>explain how to access current vendor skill guidance;</li>
+<li>distinguish accepted, adapted, rejected, and owner-decision-required recommendations;</li>
+<li>point to HX execution/runbook authority;</li>
+<li>point to HX smoke-test authority;</li>
+<li>define explicit stop conditions;</li>
+<li>avoid embedding credentials or secrets;</li>
+<li>avoid copying general-purpose deployment code that bypasses HX runbooks;</li>
+<li>remain concise enough for progressive loading.</li>
+</ol>
+<h2>8. Architecture conflict rule</h2>
+<p>External skills cannot authorize:</p>
+<ul>
+<li>moving a workload to another HX server;</li>
+<li>introducing Docker, Podman, Kubernetes, or another container platform;</li>
+<li>replacing local/native deployment with vendor Cloud/embedded deployment;</li>
+<li>changing gateway, DNS, AD/domain, NTP, routing, or network topology;</li>
+<li>adding firewall/TLS/access restrictions without owner approval;</li>
+<li>repartitioning/mounting/reusing disks outside current authority;</li>
+<li>changing shared model placement;</li>
+<li>changing permanent cross-service integration;</li>
+<li>modifying smoke-test PASS criteria during a run.</li>
+</ul>
+<p>When vendor guidance recommends one of these, classify it as <code>OWNER_DECISION_REQUIRED</code> or <code>REJECT_FOR_HX</code> according to current owner decisions.</p>
+<h2>9. Execution-artifact rule</h2>
+<p>Skills may contain deterministic helper scripts when they materially improve repeatability, but infrastructure-changing code must not become hidden execution authority inside a skill.</p>
+<p>For HX component builds:</p>
+<ul>
+<li>runbooks and approved execution artifacts remain under the current repository runbook/standards structure;</li>
+<li>skills tell agents what to consider, what to check, and which authority to execute;</li>
+<li>vendor-provided scripts are reviewed before use;</li>
+<li>no vendor installer is run merely because a skill suggests it.</li>
+</ul>
+<h2>10. Validation rule</h2>
+<p>Skills can assist with validation reasoning, but HX smoke-test authorities remain decisive.</p>
+<p>A vendor quickstart, health endpoint, or vendor skill does not replace:</p>
+<ul>
+<li><code>HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code>;</li>
+<li>the exact file under <code>smoke-tests/</code>;</li>
+<li>CentCom cleanup/evidence rules;</li>
+<li>reboot persistence;</li>
+<li>server-record/BUILD-STATE closure.</li>
+</ul>
+<p>If a vendor skill reveals that an HX smoke test is technically invalid for the current version, stop the run, correct the authority separately, and use a new run ID.</p>
+<h2>11. Secrets and credentials</h2>
+<p>Skills must never contain actual:</p>
+<ul>
+<li>passwords;</li>
+<li>PATs;</li>
+<li>API keys;</li>
+<li>bearer tokens;</li>
+<li>private keys;</li>
+<li>service-account secrets;</li>
+<li><code>sshpass</code> passwords.</li>
+</ul>
+<p>Skills may document credential <strong>names</strong>, environment-variable identifiers, secret-store names, and the required access pattern.</p>
+<p>Credential handoff to Claude/agents will be handled through a separate owner-approved cornerstone completion/handoff process. Do not use the skill library as a secret store.</p>
+<h2>12. Packaging and quality gate</h2>
+<p>A new HX wrapper skill must:</p>
+<ul>
+<li>have valid <code>SKILL.md</code> frontmatter;</li>
+<li>keep the skill name lowercase and hyphenated;</li>
+<li>include required agent metadata where used by the HX skill packaging workflow;</li>
+<li>remove template/example files not needed by the skill;</li>
+<li>pass the current skill validator;</li>
+<li>package successfully before being marked <code>APPROVED</code>;</li>
+<li>remain below the platform package-size limit.</li>
+</ul>
+<p>If scripts are included, execute representative validation before approval.</p>
+<h2>13. Update rule</h2>
+<p>When an HX skill changes:</p>
+<ol>
+<li>update the canonical source under <code>skills/</code>;</li>
+<li>update the registry if scope/status/upstream provenance changed;</li>
+<li>validate/package the skill again;</li>
+<li>update agent deployment copies only from the canonical version;</li>
+<li>archive superseded governance/registry documents when replaced under normal repository document control.</li>
+</ol>
+<p>For live vendor meta-skills, a new upstream commit does not require copying new vendor content into HX. Re-review when upstream behavior, trust, or the HX-relevant guidance materially changes.</p>
+<h2>14. Retirement rule</h2>
+<p>Retire a skill when:</p>
+<ul>
+<li>the component leaves the HX architecture;</li>
+<li>the upstream source is abandoned/untrusted;</li>
+<li>a better authoritative skill supersedes it;</li>
+<li>the wrapper no longer matches HX architecture;</li>
+<li>the skill creates unacceptable ambiguity or duplicate authority.</li>
+</ul>
+<p>Mark it <code>RETIRED</code> in the registry before removing active deployment copies.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>skills/SKILL-GOVERNANCE.md</code>.</footer></div></body></html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX-3 — Coder-X Server Configuration</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/02-server-records/HX-3.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-3 — Coder-X Server Configuration</h1>
+<p><strong>Server:</strong> HX-3 <strong>Role:</strong> Coder-X / Ollama inference server <strong>Build state:</strong> PASS <strong>Rebuild date:</strong> 2026-09-08 <strong>Build method:</strong> KISS — build, verify, record, move on <strong>Deployment standard:</strong> Native Ubuntu Linux + systemd; no containers</p>
+<hr/>
+<h2>1. Identity and Network</h2>
+<div class="tw"><table><thead><tr><th>Item</th><th>As-built configuration</th></tr></thead><tbody><tr><td>Hostname</td><td><code>hx-3</code></td></tr><tr><td>IPv4</td><td><code>192.168.50.203/24</code></td></tr><tr><td>Default gateway</td><td><code>192.168.50.1</code></td></tr><tr><td>DNS</td><td><code>192.168.50.200</code> — HX-1</td></tr><tr><td>Domain</td><td><code>hx.local.arpa</code></td></tr><tr><td>Realm</td><td><code>HX.LOCAL.ARPA</code></td></tr><tr><td>Domain client</td><td>SSSD / realmd / adcli</td></tr><tr><td>SSH</td><td>Active, port <code>22</code></td></tr></tbody></table></div>
+<p>Validated network state:</p>
+<pre><code class="lang-text">eno1             UP   192.168.50.203/24
+default via 192.168.50.1
+Current DNS Server: 192.168.50.200</code></pre>
+<h2>2. Operating System and Base State</h2>
+<div class="tw"><table><thead><tr><th>Item</th><th>As-built configuration</th></tr></thead><tbody><tr><td>OS</td><td>Ubuntu 24.04.5 LTS</td></tr><tr><td>Kernel</td><td>Linux 7.0.0-31-generic</td></tr><tr><td>Architecture</td><td>x86-64</td></tr><tr><td>Hardware vendor</td><td>Gigabyte Technology Co., Ltd.</td></tr><tr><td>Hardware model</td><td>X99-UD5 WIFI-CF</td></tr><tr><td>Firmware</td><td>F22</td></tr><tr><td>Firmware date</td><td>2016-06-13</td></tr><tr><td>Linux administrator</td><td><code>hxsa</code></td></tr></tbody></table></div>
+<p>Base administration validation:</p>
+<pre><code class="lang-text">NOPASSWD sudo test: 0
+UFW: disabled / inactive
+nftables filter policies: accept
+firewalld: inactive / not installed
+SSH: active
+SSH port: 22
+failed systemd units: 0</code></pre>
+<p>After rebuild updates and reboot, Ubuntu reported:</p>
+<pre><code class="lang-text">0 updates can be applied immediately.</code></pre>
+<p>No additional network restriction or firewall hardening was introduced.</p>
+<h2>3. Domain Membership</h2>
+<p>Installed domain-client components include <code>realmd</code>, <code>sssd-ad</code>, <code>sssd-tools</code>, <code>adcli</code>, and <code>krb5-user</code>.</p>
+<p>Final realm state:</p>
+<pre><code class="lang-text">hx.local.arpa
+  type: kerberos
+  realm-name: HX.LOCAL.ARPA
+  domain-name: hx.local.arpa
+  configured: kerberos-member
+  server-software: active-directory
+  client-software: sssd
+  login-formats: %U@hx.local.arpa
+  login-policy: allow-realm-logins</code></pre>
+<p>Validation:</p>
+<pre><code class="lang-text">SSSD: active
+jarvisr@hx.local.arpa: resolves successfully
+gid: domain users@hx.local.arpa</code></pre>
+<p><strong>Domain gate: PASS</strong></p>
+<p>Operational note: the first <code>realm join</code> attempt returned a join failure; a subsequent join completed successfully and the final validated state above is authoritative.</p>
+<h2>4. GPU Configuration</h2>
+<p>Installed NVIDIA stack:</p>
+<pre><code class="lang-text">NVIDIA-SMI: 595.71.05
+Driver Version: 595.71.05
+CUDA Version reported by nvidia-smi: 13.2</code></pre>
+<p>Detected GPUs:</p>
+<pre><code class="lang-text">GPU 0: NVIDIA GeForce RTX 5060 Ti — 16,311 MiB
+GPU 1: NVIDIA GeForce RTX 5060 Ti — 16,311 MiB</code></pre>
+<p>Total installed VRAM is approximately 32 GB. Post-reboot validation showed both GPUs available with no active compute processes.</p>
+<p><strong>GPU gate: PASS</strong></p>
+<h2>5. Storage Layout</h2>
+<h3>Primary NVMe</h3>
+<pre><code class="lang-text">nvme0n1       3.6T  WD_BLACK SN7100 4TB
+├─nvme0n1p1     1G  vfat  /boot/efi
+├─nvme0n1p2   120G  ext4  /
+└─nvme0n1p3   3.5T  ext4  /srv/ollama</code></pre>
+<p>Filesystem usage observed during rebuild:</p>
+<pre><code class="lang-text">/             ~118 GB total, ~101 GB available
+/srv/ollama   ~3.5 TB total, ~3.3 TB available</code></pre>
+<h3>Secondary SATA disk</h3>
+<pre><code class="lang-text">sda          596.2G  WDC WD6400AAKS-6
+└─sda1       596.2G  ext4</code></pre>
+<p><code>/dev/sda1</code> is intentionally <strong>unmounted and untouched</strong>. It was not required for the HX-3 rebuild.</p>
+<h3>Ollama model store</h3>
+<p>Authoritative model storage:</p>
+<pre><code class="lang-text">/srv/ollama/models</code></pre>
+<p>The dedicated 3.5 TB NVMe partition is used for Ollama rather than the 120 GB root filesystem.</p>
+<p><strong>Storage gate: PASS</strong></p>
+<h2>6. Ollama Runtime</h2>
+<div class="tw"><table><thead><tr><th>Item</th><th>As-built configuration</th></tr></thead><tbody><tr><td>Ollama version</td><td><code>0.33.3</code></td></tr><tr><td>Service</td><td><code>ollama.service</code></td></tr><tr><td>Service state</td><td>active</td></tr><tr><td>Startup state</td><td>enabled</td></tr><tr><td>API port</td><td><code>11434</code></td></tr><tr><td>LAN endpoint</td><td><code>http://192.168.50.203:11434</code></td></tr><tr><td>Model storage</td><td><code>/srv/ollama/models</code></td></tr><tr><td>Cloud state</td><td>disabled for current base build</td></tr></tbody></table></div>
+<p>Systemd override:</p>
+<pre><code class="lang-text">/etc/systemd/system/ollama.service.d/storage.conf</code></pre>
+<p>Current configuration:</p>
+<pre><code class="lang-ini">[Service]
+Environment="OLLAMA_MODELS=/srv/ollama/models"
+Environment="OLLAMA_HOST=0.0.0.0:11434"
+Environment="OLLAMA_NO_CLOUD=1"</code></pre>
+<p>Validated environment:</p>
+<pre><code class="lang-text">OLLAMA_MODELS=/srv/ollama/models
+OLLAMA_HOST=0.0.0.0:11434
+OLLAMA_NO_CLOUD=1</code></pre>
+<p>LAN API version validation returned Ollama <code>0.33.3</code> before final reboot. Ollama also confirmed:</p>
+<pre><code class="lang-text">ollama cloud is disabled: web search is unavailable</code></pre>
+<h3>Future cloud enablement</h3>
+<p><code>OLLAMA_NO_CLOUD=1</code> is a <strong>current operational setting</strong>, not a permanent architecture restriction. HX-3 is expected to gain cloud capability later when that integration is intentionally enabled.</p>
+<p>At that time:</p>
+<ol>
+<li>Remove <code>Environment="OLLAMA_NO_CLOUD=1"</code> from the override.</li>
+<li>Preserve the dedicated model path and LAN listener.</li>
+<li>Reload systemd and restart Ollama.</li>
+<li>Complete any required Ollama cloud authentication.</li>
+<li>Validate local Coder-X inference independently from cloud capability.</li>
+</ol>
+<p>No cloud change is part of this server closeout.</p>
+<h2>7. Coder-X Model</h2>
+<p>Installed model:</p>
+<pre><code class="lang-text">HX alias: coder-x:qwen3-coder-30b-q6_k
+Base model: Qwen3-Coder-30B-A3B-Instruct
+Quantization: Q6_K
+Ollama model ID: efcb36ee7419
+Size: 25 GB</code></pre>
+<p>Source model reference used during installation:</p>
+<pre><code class="lang-text">HX alias:          coder-x:qwen3-coder-30b-q6_k
+Upstream identity: Qwen3-Coder-30B-A3B-Instruct (Q6_K quantisation)
+Source URI:        hf.co/lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-GGUF:Q6_K
+Artifact SHA-256:  UNRESOLVED — see provenance gap below
+Import method:     ollama pull, then `ollama cp` to the HX alias</code></pre>
+<blockquote><strong>Provenance gap — backfill required.</strong> Only the 12-character layer prefix <code>72a9b20a19c7</code> from the pull transcript was recorded, not the full artifact hash. Recover it on HX-3 with <code>ollama show --modelfile coder-x:qwen3-coder-30b-q6_k</code> and the blob path under <code>/srv/ollama/models/blobs/</code>, then replace <code>UNRESOLVED</code>. Required by <code>docs/02-server-records/_TEMPLATE.md</code> section 6. Note: <code>lmstudio-community</code> is a third-party requantiser, not the Qwen project. That is an accepted choice, recorded here so it is a decision rather than an assumption.</blockquote>
+<p>The model download completed successfully:</p>
+<pre><code class="lang-text">pulling 72a9b20a19c7: 100%
+verifying sha256 digest
+writing manifest
+success</code></pre>
+<p>CLI inference validation:</p>
+<pre><code class="lang-text">HX-3 CODER-X PASS</code></pre>
+<p>The permanent HX alias was created with <code>ollama cp</code>. Both names initially referenced the same Ollama model ID, proving the alias did not duplicate the 25 GB model data.</p>
+<p>After validation, the long Hugging Face manifest name was removed. The retained operational name is:</p>
+<pre><code class="lang-text">coder-x:qwen3-coder-30b-q6_k</code></pre>
+<p><strong>Coder-X CLI inference: PASS</strong></p>
+<h2>8. API and Reboot Validation</h2>
+<p>The Ollama LAN API was validated at:</p>
+<pre><code class="lang-text">http://192.168.50.203:11434</code></pre>
+<p>The final API generation test was reported successful by the owner during closeout. The exact generation response payload was not retained in the conversation evidence, so this record does not fabricate it.</p>
+<p>After reboot, directly observed:</p>
+<pre><code class="lang-text">ollama.service: active
+coder-x:qwen3-coder-30b-q6_k: present
+model ID: efcb36ee7419
+model size: 25 GB</code></pre>
+<p>This proves Ollama service startup and Coder-X model persistence across reboot.</p>
+<p><strong>Reboot persistence: PASS</strong></p>
+<h2>9. Informational Observation — Boot Time</h2>
+<p><strong>State: INFORMATIONAL / DEFERRED — NO ACTION</strong></p>
+<p>HX-3 has a noticeably longer boot time than the other HX servers.</p>
+<p>Owner direction:</p>
+<ul>
+<li>record the observation;</li>
+<li>do <strong>not</strong> troubleshoot or remediate it as part of this rebuild;</li>
+<li>it is not attributed to the work completed during this build.</li>
+</ul>
+<p>No causal claim is made in this record. The observation remains available for a future diagnostic task if the owner elects to investigate it.</p>
+<h2>10. Final Acceptance State</h2>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Ubuntu base rebuild</td><td>PASS</td></tr><tr><td>Base OS update state</td><td>PASS</td></tr><tr><td>Hostname / IP / DNS</td><td>PASS</td></tr><tr><td>Sudo / SSH baseline</td><td>PASS</td></tr><tr><td>UFW inactive / disabled</td><td>PASS</td></tr><tr><td>Domain membership</td><td>PASS</td></tr><tr><td>SSSD</td><td>PASS</td></tr><tr><td>Domain-user resolution</td><td>PASS</td></tr><tr><td>NVIDIA 595 driver</td><td>PASS</td></tr><tr><td>Dual RTX 5060 Ti detection</td><td>PASS</td></tr><tr><td>Dedicated Ollama NVMe storage</td><td>PASS</td></tr><tr><td>Ollama 0.33.3</td><td>PASS</td></tr><tr><td>Ollama active / enabled</td><td>PASS</td></tr><tr><td>LAN API</td><td>PASS</td></tr><tr><td>Coder-X Q6_K model</td><td>PASS</td></tr><tr><td>CLI inference</td><td>PASS</td></tr><tr><td>Final API generation</td><td>PASS — owner confirmed</td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr><tr><td>Boot-time observation</td><td>RECORDED — no action</td></tr></tbody></table></div>
+<h1>HX-3 FINAL STATUS: PASS</h1>
+<p>HX-3 is complete for the current clean-build scope.</p>
+<p>Operational inference endpoint:</p>
+<pre><code class="lang-text">http://192.168.50.203:11434</code></pre>
+<p>Operational model:</p>
+<pre><code class="lang-text">coder-x:qwen3-coder-30b-q6_k</code></pre>
+<p>Future work such as Ollama Cloud enablement or investigation of the longer boot time is explicitly outside this closeout and must be treated as a separate owner-directed task.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-3.md</code>.</footer></div></body></html>

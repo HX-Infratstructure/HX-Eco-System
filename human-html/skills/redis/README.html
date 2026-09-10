@@ -1,10 +1,89 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Redis Advisor</title><style>body{max-width:1050px;margin:40px auto;padding:0 24px;background:#0b0f14;color:#e8eef6;font:16px/1.55 system-ui}h1,h2{color:#fff}code{color:#b9ddff}pre{background:#111820;border:1px solid #263241;padding:15px;border-radius:10px;overflow:auto}.ok{color:#81c784}.call{border-left:4px solid #ffd166;background:#111820;padding:14px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #263241;padding:9px;vertical-align:top}th{background:#151e28}</style></head><body><h1>HX Redis Advisor</h1><p class="call"><strong>Approved guidance; HX-9 remains NOT STARTED.</strong></p><h2>Placement</h2><pre>HX-9 — 192.168.50.209
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Redis Skill</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>skills/redis/README.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX Redis Skill</h1>
+<p>Redis on HX-9 uses the governed HX wrapper:</p>
+<pre><code class="lang-text">skills/redis/hx-redis-advisor/</code></pre>
+<h2>HX placement</h2>
+<pre><code class="lang-text">HX-9 — 192.168.50.209
 PostgreSQL + PostgreSQL MCP
-Redis + Redis MCP
-Native Ubuntu Linux + systemd</pre><h2>Authority model</h2><table><tr><th>Source</th><th>HX role</th></tr><tr><td>Redis official docs/source/releases</td><td>Primary Redis product/version/behavior authority</td></tr><tr><td>Redis redis/agent-skills</td><td>Reviewed VENDOR_OFFICIAL agent expertise</td></tr><tr><td>HX repository</td><td>Architecture, placement, execution, security/topology decisions, validation and owner authority</td></tr></table><h2>Reviewed upstream</h2><p>Reviewed <code>redis/agent-skills</code> main <code>a84871d065f398fed55e1633f66b66f731eb4e2b</code>, plugin <code>redis-development</code> 1.4.0. Latest non-prerelease Redis release at review: <code>8.10.1</code>. These record upstream context, not an HX-9 runtime selection.</p><h2>HX curation</h2><p>Core, connections, Search and observability guidance are accepted/adapted. Cluster/replication, Redis Cloud LangCache and managed Agent Memory are reference-only for current BASE. TLS/firewall/bind/protected-mode/global command hardening remains owner-controlled.</p><h2>Governed intake verification</h2><p>The current wrapper was re-audited against the scoped skills operating contract, skill governance, base roadmap and smoke roadmap on 2026-09-09. Required preflight now explicitly includes root <code>AGENTS.md</code>, <code>skills/AGENTS.md</code>, governance, registry and component context before the wrapper is used.</p><pre>B3  HX-9 Redis core
-    requires: CentCom active
+Redis + Redis MCP on the same host
+State: NOT STARTED
+Deployment: native Ubuntu Linux + systemd</code></pre>
+<h2>Source model</h2>
+<p>Redis publishes an official Agent Skills repository, so the HX wrapper uses a layered source model:</p>
+<ol>
+<li><strong>Redis official documentation, releases, source, and packaging guidance</strong> as primary Redis product authority.</li>
+<li><strong>Redis <code>redis/agent-skills</code></strong> as reviewed <code>VENDOR_OFFICIAL</code> agent expertise, pinned at the recorded review commit.</li>
+<li>HX architecture/runbooks/smoke authority above all external guidance for HX placement, execution, security, topology, and acceptance decisions.</li>
+</ol>
+<h2>Canonical files</h2>
+<pre><code class="lang-text">skills/redis/
+├── README.md
+├── upstream/
+│   └── SOURCE.md
+└── hx-redis-advisor/
+    ├── SKILL.md
+    ├── agents/
+    │   └── openai.yaml
+    ├── scripts/
+    │   └── redis-readonly-audit.sh
+    └── references/
+        ├── authority-map.md
+        ├── hx-context.md
+        ├── upstream.md
+        └── redis-agent-skills.md</code></pre>
+<h2>Upstream curation boundary</h2>
+<p>The official Redis skill bundle is not installed wholesale as a second HX source of truth. The HX wrapper accepts/adapts Redis core, connections, Search, and observability guidance; treats Cluster/replication, Redis Cloud LangCache, and managed Agent Memory as reference-only for current BASE; and keeps TLS/firewall/bind/global-command hardening owner-controlled.</p>
+<p>At the 2026-09-09 review, the latest non-prerelease Redis release is 8.10.1 and the reviewed <code>redis/agent-skills</code> main commit is <code>a84871d065f398fed55e1633f66b66f731eb4e2b</code>. These record upstream context; they do not by themselves select the HX-9 runtime version or package source.</p>
+<h2>Governed intake verification</h2>
+<p>The current wrapper was re-audited against <code>skills/AGENTS.md</code>, <code>skills/SKILL-GOVERNANCE.md</code>, the active base implementation roadmap, and the active smoke-test roadmap on 2026-09-09.</p>
+<p>Current proof alignment:</p>
+<pre><code class="lang-text">B3  HX-9 Redis core
+    prerequisite: CentCom active
     live coupling: none; TTL-protected disposable key only
+    authority: smoke-tests/redis-smoke-test.md
 
 B4  HX-9 Redis MCP
-    requires: accepted B3 Redis PASS
-    live coupling: parent Redis service only</pre><p>The canonical package passes the current skill validator and packages successfully as <code>skill.zip</code>. The read-only helper passes shell syntax validation and a representative no-Redis run, and now discovers Redis-named systemd units rather than assuming <code>redis-server.service</code>. This validates the skill package only; it is not Redis runtime evidence.</p><h2>Validation</h2><p>BASE proof remains the HX Redis smoke authority: PING, bounded SET/GET of <code>HX-REDIS-SMOKE-9271</code>, DELETE and cleanup verification, followed by the separate Redis MCP gate and current reboot/evidence closure rules.</p><p>Markdown authority: <code>skills/redis/README.md</code> and <code>skills/redis/hx-redis-advisor/SKILL.md</code>.</p></body></html>
+    prerequisite: accepted B3 Redis PASS
+    live coupling: parent Redis service only
+    authority: smoke-tests/mcp-companion-smoke-test.md</code></pre>
+<p>The canonical <code>hx-redis-advisor</code> package passes the current skill validator and packages successfully as <code>skill.zip</code>. The included <code>redis-readonly-audit.sh</code> also passes shell syntax validation and a representative no-Redis read-only run. The helper discovers Redis-named systemd service units rather than assuming a package-specific unit name.</p>
+<p>This is <strong>skill-package validation only</strong>. It is not Redis runtime evidence and does not advance HX-9 <code>BUILD-STATE</code>.</p>
+<h2>Important boundary</h2>
+<p>The wrapper is approved guidance; HX-9 itself remains NOT STARTED. It does not advance BUILD-STATE or independently select Redis runtime version/package source, service/config/data path, persistence/memory/eviction policy, network/auth/TLS/firewall policy, Cluster/Sentinel/replication topology, application integration, or exact Redis MCP implementation before current HX authority pins those choices.</p>
+<p>Validation remains controlled by <code>smoke-tests/redis-smoke-test.md</code>, the companion MCP smoke test, reboot persistence, retained evidence, and current HX closure rules.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>skills/redis/README.md</code>.</footer></div></body></html>

@@ -1,0 +1,16 @@
+# gitleaks configuration for HX-Eco-System.
+#
+# Every smoke test is a known-answer test: it sends a fixed string and requires
+# it back verbatim. Those strings are named TOKEN in the procedures, so the
+# generic-api-key rule flags all of them. They are published test fixtures, not
+# credentials.
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+[rules.allowlist]
+description = "HX known-answer smoke-test tokens are published test fixtures"
+paths = ['''^smoke-tests/.*\.md$''']
+regexes = ['''HX-[A-Z0-9-]+-SMOKE-[A-Z0-9]+''']

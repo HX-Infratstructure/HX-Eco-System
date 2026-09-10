@@ -1,30 +1,145 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX-5 CentCom Smoke-Test Process and Procedures v1.0</title><style>body{font-family:Arial,Helvetica,sans-serif;max-width:1180px;margin:36px auto;padding:0 24px;color:#1f2937;line-height:1.55}h1,h2,h3{color:#111827}pre{background:#f8fafc;border:1px solid #e2e8f0;padding:14px;overflow-x:auto}code{font-family:Consolas,Menlo,monospace}.note{background:#f8fafc;border-left:4px solid #64748b;padding:12px 16px}table{border-collapse:collapse;width:100%;margin:16px 0 28px}th,td{border:1px solid #cbd5e1;padding:8px 10px;text-align:left;vertical-align:top}th{background:#f1f5f9}</style></head><body><h1>HX-5 CentCom — Smoke-Test Process and Procedures</h1><p><strong>Version:</strong> 1.0 &nbsp; <strong>Date:</strong> 2026-09-09 &nbsp; <strong>Status:</strong> current</p><p class="note"><strong>Purpose.</strong> HX-5 CentCom is the standard remote smoke-test execution station after its own inference foundation has passed. Test code, fixtures, manifests, and logs stay on HX-5; the system under test keeps only its application, approved configuration, and explicitly smoke-namespaced temporary data.</p><h2>Operating model</h2><pre>HX-5 CentCom
-  |- disposable test workspace
-  |- smoke-test runner/client tooling
-  |- synthetic fixtures
-  |- run manifest
-  |- captured evidence
-  |- cleanup verification
-  |
-  +---- LAN / API / CLI / approved SSH ----> System Under Test</pre><p>HX-5 is the test runner, not a second deployment plane, configuration authority, reverse proxy, or permanent integration layer.</p><h2>Core rules</h2><ul><li>Remote-first testing through the application's normal endpoint/interface.</li><li>No general test harness left on the SUT.</li><li>Local execution only when the product intrinsically requires it; temporary local files are removed and verified gone.</li><li>Synthetic/disposable data only.</li><li>Temporary objects use an obvious smoke namespace.</li><li>The current <code>/smoke-tests/</code> procedure defines PASS.</li><li>Known-answer functional proof is required; process health alone is insufficient.</li><li>Cleanup and cleanup verification are part of PASS.</li><li>Reboot persistence is a separate minimum proof.</li><li>No permanent routes, firewalls, TLS, DNS, containers, NFS, or integration wiring are introduced by testing.</li></ul><h2>Workspace</h2><pre>HX_SMOKE_ROOT=${HX_SMOKE_ROOT:-$HOME/hx-smoke-runs}
-
-$HX_SMOKE_ROOT/&lt;UTC&gt;_&lt;server&gt;_&lt;component&gt;/
-|- manifest.md
-|- procedure/
-|- runner/
-|- fixtures/
-|- raw/
-|- evidence/
-`- cleanup/</pre><p>The workspace is disposable. Only promoted evidence and the run manifest survive.</p><h2>Lifecycle</h2><pre>PREPARE
- -> PROVE REACHABILITY
- -> EXECUTE AUTHORITATIVE SMOKE TEST
- -> CAPTURE RAW EVIDENCE
- -> CLEAN UP TEMPORARY STATE
- -> VERIFY CLEANUP
- -> DETERMINE PASS / FAIL
- -> REBOOT-PERSISTENCE GATE
- -> PROMOTE EVIDENCE
- -> DELETE DISPOSABLE WORKSPACE</pre><h2>Manifest minimum</h2><pre>run_id
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX-5 CentCom Smoke-Test Process and Procedures</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: current &middot; status: 1.1 &middot; status: 2026-09-09</div><h1>HX-5 CentCom — Smoke-Test Process and Procedures</h1>
+<h2>1. Purpose and boundary</h2>
+<p>HX-5 CentCom is the HX development/test server and the standard remote execution station for component smoke tests after HX-5's own inference workload has passed its BASE PASS.</p>
+<p>The purpose is to make every later component test repeatable, evidence-driven, dependency-aware, and clean without installing ad-hoc test code on the system under test (SUT).</p>
+<p>The <strong>ecosystem architecture remains the cornerstone</strong>. This process executes validation after the agent/operator has established the SUT's role, ownership, current state, deployment boundary, and required prior proof.</p>
+<p>Before this process is used, read:</p>
+<ol>
+<li><code>../00-control/CURRENT-STATE.md</code>;</li>
+<li><code>../01-architecture/ARCHITECTURE-ORIENTATION.md</code>;</li>
+<li><code>../00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md</code>;</li>
+<li>the SUT server record/runbook and applicable standard;</li>
+<li><code>../00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code>;</li>
+<li>only then the exact <code>/smoke-tests/&lt;component&gt;-smoke-test.md</code> authority.</li>
+</ol>
+<pre><code class="lang-text">HX-5 CentCom
+    |
+    |-- disposable test workspace
+    |-- smoke-test runner / client tooling
+    |-- synthetic fixtures
+    |-- run manifest
+    |-- prior PASS evidence references
+    |-- captured evidence
+    |-- teardown / cleanup verification
+    |
+    +---- LAN / API / CLI / approved SSH ----&gt; System Under Test
+                                                |
+                                                +-- application
+                                                +-- approved service config
+                                                +-- only smoke-namespaced temporary data</code></pre>
+<p><strong>Boundary:</strong> HX-5 is the test runner, not a second deployment plane, configuration authority, reverse proxy, or permanent integration layer.</p>
+<p>The SUT keeps only its installed application, approved runtime/service configuration, and any temporary application data explicitly required by the smoke test. Test scripts, fixtures, logs, manifests, screenshots, comparison files, and runner dependencies remain on HX-5.</p>
+<h2>2. Governing rules</h2>
+<ol>
+<li><strong>Ecosystem first.</strong> Establish the component's assigned host/IP, role, current build state, architecture layer, base configuration, dependency boundary, and BASE PASS expectation before selecting the smoke test.</li>
+<li><strong>Deployment readiness wins.</strong> The smoke roadmap does not authorize a test before the deployment roadmap has installed and prepared the SUT.</li>
+<li><strong>Ordered proof.</strong> Use <code>HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code> to determine required prior PASS evidence and the minimum temporary integration permitted for the current test.</li>
+<li><strong>Remote-first.</strong> Execute smoke tests from HX-5 whenever the component exposes a LAN API, protocol endpoint, browser UI, database client interface, or other remote surface.</li>
+<li><strong>No test harness left on the SUT.</strong> Do not copy general test scripts, Python virtual environments, fixture libraries, or evidence bundles onto the application host merely for convenience.</li>
+<li><strong>Exception only when the product requires local execution.</strong> A local command may be invoked remotely over approved SSH when the component's primary contract cannot be proven remotely. Any temporary local file created solely for the test must be removed before closure.</li>
+<li><strong>Synthetic/disposable data only.</strong> Base smoke tests do not use production corpora, production workflows, production memories, persistent agent projects, or unrelated application data.</li>
+<li><strong>Smoke namespace.</strong> Temporary server-side objects must use an obvious HX smoke-test name such as <code>hx_smoke_*</code> or the exact name defined by the component authority.</li>
+<li><strong>Authoritative procedure.</strong> The executable acceptance definition comes from the current file under <code>/smoke-tests/</code>. Do not improvise a different PASS rule during execution.</li>
+<li><strong>Known-answer proof.</strong> The test must prove the component's primary contract with an expected result. Process health alone is not a functional PASS.</li>
+<li><strong>Cumulative proof, minimal live coupling.</strong> Reference earlier PASS evidence when genuinely required, but do not add integrations merely to make tests sequential.</li>
+<li><strong>Cleanup is part of PASS.</strong> A test that functionally succeeds but leaves validation-only state behind is not complete.</li>
+<li><strong>Reboot persistence is separate.</strong> After the component smoke test passes, execute the minimum post-reboot proof defined by the component/base-build authority. Do not automatically rerun a large destructive or expensive test when a shorter persistence proof is sufficient.</li>
+<li><strong>No architecture creep.</strong> Smoke testing must not introduce permanent routes, new firewalls, TLS requirements, DNS changes, service accounts, NFS dependencies, containers, or cross-service wiring unless explicitly approved.</li>
+</ol>
+<h2>3. CentCom workspace structure</h2>
+<p>Use one disposable directory per test execution.</p>
+<p>Default parent:</p>
+<pre><code class="lang-bash">export HX_SMOKE_ROOT="${HX_SMOKE_ROOT:-$HOME/hx-smoke-runs}"
+mkdir -p "$HX_SMOKE_ROOT"</code></pre>
+<p>Run identifier:</p>
+<pre><code class="lang-text">&lt;UTC timestamp&gt;_&lt;server&gt;_&lt;component&gt;</code></pre>
+<p>Example:</p>
+<pre><code class="lang-text">20260909T193000Z_hx-9_postgresql</code></pre>
+<p>Recommended workspace:</p>
+<pre><code class="lang-text">$HX_SMOKE_ROOT/20260909T193000Z_hx-9_postgresql/
+├── manifest.md
+├── procedure/
+│   └── postgresql-smoke-test.md
+├── runner/
+│   └── disposable test script(s), if required
+├── fixtures/
+│   └── synthetic input only
+├── raw/
+│   └── command/API/UI capture
+├── evidence/
+│   └── normalized PASS/FAIL evidence
+└── cleanup/
+    └── teardown output and verification</code></pre>
+<p>The workspace is disposable. After evidence is promoted to the authoritative evidence location and cleanup is verified, delete the run directory.</p>
+<p>Do not use the application host as the long-term location for any of these directories.</p>
+<h2>4. Standard execution lifecycle</h2>
+<p>Every component follows the same lifecycle.</p>
+<pre><code class="lang-text">READ ECOSYSTEM AUTHORITY
+  -&gt; VERIFY DEPLOYMENT READINESS
+  -&gt; RESOLVE PRIOR PASS EVIDENCE
+  -&gt; PLAN LIMITED INTEGRATION
+  -&gt; CREATE RUN
+  -&gt; PROVE REACHABILITY
+  -&gt; EXECUTE AUTHORITATIVE SMOKE TEST
+  -&gt; CAPTURE RAW EVIDENCE
+  -&gt; CLEAN UP TEMPORARY STATE
+  -&gt; VERIFY CLEANUP
+  -&gt; DETERMINE PASS / FAIL
+  -&gt; REBOOT-PERSISTENCE GATE
+  -&gt; PROMOTE EVIDENCE
+  -&gt; DELETE DISPOSABLE WORKSPACE</code></pre>
+<h3>Step 1 — Prepare</h3>
+<p>On HX-5:</p>
+<ol>
+<li>confirm the SUT/server and component;</li>
+<li>read the architecture orientation, current state, base implementation roadmap, current server record, runbook, application/model standard, smoke-test roadmap, and <code>/smoke-tests/&lt;component&gt;-smoke-test.md</code>;</li>
+<li>confirm the deployment roadmap says the SUT is installed/ready for this validation step;</li>
+<li>identify the exact prior PASS evidence required by the smoke-test roadmap;</li>
+<li>define the minimum validation-only integration required by the current component procedure;</li>
+<li>create a new timestamped workspace;</li>
+<li>copy or check out the current smoke-test authority into <code>procedure/</code> without editing its acceptance criteria;</li>
+<li>record the repository commit SHA used for the run;</li>
+<li>create <code>manifest.md</code> before executing the test.</li>
+</ol>
+<p>Minimum manifest fields:</p>
+<pre><code class="lang-text">run_id
 utc_start
 operator
 runner_host = hx-5
@@ -36,25 +151,224 @@ smoke_test_file
 smoke_test_repo_commit
 transport_or_endpoint
 known_answer
+prior_pass_evidence
+limited_integration_plan
 validation_only_dependencies
-cleanup_objects_expected</pre><p>Never record passwords, PATs, API keys, private keys, bearer tokens, or other secret values in the manifest or retained output.</p><h2>Remote execution patterns</h2><table><tr><th>Pattern</th><th>Use</th></tr><tr><td>Native network/API</td><td>Preferred for HTTP, REST, gRPC, Ollama, Qdrant, LightRAG, embeddings, routing, MCP HTTP, and similar services.</td></tr><tr><td>Native client on HX-5</td><td><code>psql</code>, <code>redis-cli</code>, FastMCP client, curl/Python standard-library clients, and other minimal client tooling.</td></tr><tr><td>Remote shell</td><td>Approved SSH only when the primary contract cannot be proven remotely. Any copied temporary script is removed immediately and its removal verified.</td></tr><tr><td>Web UI</td><td>Direct LAN UI on the application host. NGINX is not inserted unless HX-7 itself is the component under test.</td></tr></table><h2>Cleanup rule</h2><p>Delete only objects created by the smoke test, then query the SUT again to prove they are gone. A successful functional result with unverified residue is <strong>FAIL / INCOMPLETE</strong>.</p><h2>Status vocabulary</h2><pre>PASS
+cleanup_objects_expected</code></pre>
+<p><code>prior_pass_evidence</code> must contain current retained evidence path(s)/accepted server record(s), or <code>NONE</code> if the roadmap requires no earlier component proof.</p>
+<p><code>limited_integration_plan</code> must briefly identify the temporary live dependency/wiring used for proof, or <code>NONE</code> when the test is standalone.</p>
+<p>Never record passwords, PATs, API keys, private keys, bearer tokens, or other secret values in the manifest or retained console output.</p>
+<h3>Step 2 — Validate the proof chain</h3>
+<p>Before touching the SUT:</p>
+<ol>
+<li>confirm each required prior evidence reference exists and represents current PASS/CLOSED state;</li>
+<li>confirm no materially relevant dependency has changed since that proof;</li>
+<li>confirm the temporary integration plan matches the smoke roadmap and component procedure;</li>
+<li>confirm the plan does not create a new permanent architecture dependency.</li>
+</ol>
+<p>If required proof is missing or stale and cannot be revalidated first:</p>
+<pre><code class="lang-text">NOT EXECUTABLE — PREREQUISITE OR OWNER DECISION REQUIRED</code></pre>
+<p>Do not convert a prerequisite gap into an invented workaround.</p>
+<h3>Step 3 — Prove reachability</h3>
+<p>Use only the surface required by the component test:</p>
+<ul>
+<li>HTTP/REST/gRPC endpoint;</li>
+<li>native database client;</li>
+<li>Redis protocol client;</li>
+<li>MCP client;</li>
+<li>browser/UI from HX-5 or operator workstation where visual proof is required;</li>
+<li>approved SSH only when a local command is genuinely required.</li>
+</ul>
+<p>A successful ping or TCP connection is not the functional smoke test. It only proves the path is available.</p>
+<h3>Step 4 — Execute the component authority</h3>
+<p>Run the current standalone test exactly enough to prove its defined contract.</p>
+<p>Examples:</p>
+<pre><code class="lang-text">PostgreSQL  -&gt; create / write / read / cleanup
+Redis       -&gt; PING / SET / GET / DELETE
+Qdrant      -&gt; create collection / write / query / delete
+MCP         -&gt; discover tool / call safe tool / known result
+Ollama      -&gt; known-answer inference
+Embedding   -&gt; expected vector dimension + nonzero/repeatability
+n8n         -&gt; create / execute / save / reopen / execute / delete</code></pre>
+<p>Do not expand the test into full integration testing, performance testing, security testing, or production acceptance unless that additional scope is explicitly requested.</p>
+<h3>Step 5 — Capture raw evidence</h3>
+<p>Capture the smallest evidence set that proves what happened:</p>
+<ul>
+<li>UTC timestamp;</li>
+<li>HX-5 runner identity;</li>
+<li>SUT hostname/IP;</li>
+<li>application version/revision;</li>
+<li>endpoint or interface used;</li>
+<li>command/script identity;</li>
+<li>known-answer input;</li>
+<li>relevant response/output;</li>
+<li>exact prior PASS evidence references;</li>
+<li>temporary integration used;</li>
+<li>explicit PASS/FAIL marker;</li>
+<li>temporary object names;</li>
+<li>cleanup result;</li>
+<li>reboot-persistence result when applicable.</li>
+</ul>
+<p>For CLI/API tests, redirect stdout/stderr into <code>raw/</code> while preserving an operator-readable console result.</p>
+<p>For Web UI tests, capture only the screenshots or exported evidence necessary to prove the UI loaded and displayed live backend state or the required known-answer result.</p>
+<p>Do not capture secret values in evidence. Redact accidental secret output before promotion; do not edit the underlying functional result.</p>
+<h3>Step 6 — Cleanup temporary state</h3>
+<p>Run the exact teardown defined by the component smoke-test file.</p>
+<p>Cleanup may include:</p>
+<ul>
+<li>drop temporary PostgreSQL objects;</li>
+<li>delete Redis smoke keys;</li>
+<li>delete Qdrant smoke collections;</li>
+<li>delete synthetic Mem0 memories/collections;</li>
+<li>remove temporary OmniRoute routes;</li>
+<li>remove temporary Open WebUI connections;</li>
+<li>delete temporary n8n workflow;</li>
+<li>remove NGINX validation route;</li>
+<li>delete disposable agent/project workspaces.</li>
+</ul>
+<p>Do not delete or alter anything that was not created by the smoke test.</p>
+<h3>Step 7 — Verify cleanup</h3>
+<p>Cleanup is not assumed from a successful delete command. Query the SUT again and prove that the smoke-test object, route, workflow, collection, key, connection, or project is gone.</p>
+<p>Record the verification in <code>cleanup/</code> and in the final evidence summary.</p>
+<p>If cleanup cannot be verified:</p>
+<pre><code class="lang-text">FUNCTIONAL TEST = PASS
+CLEANUP GATE    = FAIL
+OVERALL STATUS  = FAIL / INCOMPLETE</code></pre>
+<p>Do not close BASE PASS until the validation-only residue is resolved or explicitly approved to remain.</p>
+<h3>Step 8 — Determine smoke-test status</h3>
+<p>Use only these states:</p>
+<pre><code class="lang-text">PASS
 FAIL
-NOT EXECUTABLE - PREREQUISITE OR OWNER DECISION REQUIRED</pre><p>Example: the HX-4 reranker remains NOT EXECUTABLE until its exact checkpoint and serving runtime are pinned.</p><h2>Evidence</h2><pre>docs/05-evidence/&lt;server&gt;/&lt;component&gt;/&lt;run-id&gt;/
-|- manifest.md
-|- result.txt
-|- cleanup.txt
-`- supporting captures as required</pre><p>Recommended filename: <code>YYYYMMDDTHHMMSSZ_&lt;server&gt;_&lt;component&gt;_&lt;gate&gt;_&lt;description&gt;.&lt;ext&gt;</code>.</p><h2>Failure and retry</h2><p>Preserve failed evidence, classify the failure, correct only the identified issue, and create a new run ID. Never overwrite a failed run with the later PASS.</p><h2>HX-5 activation gate</h2><pre>HX-5 base/domain/GPU state accepted
+NOT EXECUTABLE — PREREQUISITE OR OWNER DECISION REQUIRED</code></pre>
+<p>A PASS requires:</p>
+<pre><code class="lang-text">required prior PASS evidence resolved (or explicitly NONE)
+AND
+limited integration plan recorded (or explicitly NONE)
+AND
+required endpoint/interface reachable
+AND
+primary known-answer function succeeds
+AND
+expected result is verified
+AND
+cleanup succeeds
+AND
+cleanup verification succeeds</code></pre>
+<p>A prerequisite gap is not silently converted into FAIL if the test is not executable by design. Example: the HX-4 reranker remains <code>NOT EXECUTABLE</code> until its exact checkpoint/runtime is pinned.</p>
+<h3>Step 9 — Reboot-persistence gate</h3>
+<p>After the component functional test passes and cleanup completes:</p>
+<ol>
+<li>reboot the SUT as required by the base-build runbook;</li>
+<li>confirm the service returns active/enabled where applicable;</li>
+<li>confirm the required storage/configuration persists;</li>
+<li>execute the minimum post-reboot functional proof defined for that component;</li>
+<li>capture evidence from HX-5.</li>
+</ol>
+<p>Do not recreate the full temporary test dataset unless the component authority specifically requires it.</p>
+<h3>Step 10 — Promote evidence</h3>
+<p>Evidence is retained under the repository/server evidence structure, not inside the disposable runner workspace.</p>
+<p>Recommended retained bundle:</p>
+<pre><code class="lang-text">docs/05-evidence/&lt;server&gt;/&lt;component&gt;/&lt;run-id&gt;/
+├── manifest.md
+├── result.txt
+├── cleanup.txt
+└── supporting captures as required</code></pre>
+<p>For PASS, <code>hx-smoke-promote</code> requires both proof-chain manifest fields to be resolved; use <code>NONE</code> only when genuinely not applicable.</p>
+<p>If the repository evidence policy later points to external/raw storage for large artifacts, retain only the authoritative index/manifest and link/reference there. Do not create a second truth plane.</p>
+<h3>Step 11 — Remove disposable workspace</h3>
+<p>Only after evidence promotion and verification:</p>
+<pre><code class="lang-bash">rm -rf -- "$HX_SMOKE_ROOT/&lt;run-id&gt;"</code></pre>
+<p>Delete only the exact run directory. Never run a broad wildcard removal against the parent smoke root.</p>
+<h2>5. Remote execution patterns</h2>
+<h3>Pattern A — Native network protocol or HTTP API</h3>
+<p>Preferred.</p>
+<pre><code class="lang-text">HX-5 runner -&gt; SUT LAN endpoint -&gt; known-answer response</code></pre>
+<p>Use for Ollama, Qdrant, LightRAG, Crawl4AI service mode, embedding/reranking services, OmniRoute, MCP HTTP, and similar endpoints.</p>
+<h3>Pattern B — Native client from HX-5</h3>
+<p>Install the minimum client tooling on HX-5, not the database/server package on the SUT merely for testing.</p>
+<p>Examples:</p>
+<pre><code class="lang-text">psql       -&gt; PostgreSQL on HX-9
+redis-cli  -&gt; Redis on HX-9
+FastMCP client -&gt; product MCP endpoint
+curl/Python stdlib -&gt; HTTP APIs</code></pre>
+<p>Client versions and required packages are part of the HX-5 dev/test toolset and should be recorded in the HX-5 as-built record when installed permanently.</p>
+<h3>Pattern C — Remote shell invocation</h3>
+<p>Use only where local execution is intrinsic to the product or no accepted remote interface exists.</p>
+<pre><code class="lang-text">HX-5 -&gt; SSH -&gt; execute existing SUT command -&gt; return stdout/stderr to HX-5</code></pre>
+<p>Prefer inline commands or existing installed application commands. If a temporary script must be copied to the SUT:</p>
+<ol>
+<li>place it in a unique smoke-namespaced temporary path;</li>
+<li>execute it;</li>
+<li>capture its output back on HX-5;</li>
+<li>remove the script immediately;</li>
+<li>verify removal.</li>
+</ol>
+<p>This is the exception, not the default.</p>
+<h3>Pattern D — Web UI proof</h3>
+<p>The UI remains on its native application host/port. HX-5 may provide test data or API-side setup, but the visual proof is captured against the application's direct LAN UI unless the component specifically being tested is HX-7 NGINX.</p>
+<p>NGINX is not inserted merely to make another component's UI smoke test work.</p>
+<h2>6. Evidence naming and retention</h2>
+<p>Base filename:</p>
+<pre><code class="lang-text">YYYYMMDDTHHMMSSZ_&lt;server&gt;_&lt;component&gt;_&lt;gate&gt;_&lt;description&gt;.&lt;ext&gt;</code></pre>
+<p>Examples:</p>
+<pre><code class="lang-text">20260909T193000Z_hx-9_postgresql_smoke_result.txt
+20260909T193015Z_hx-9_postgresql_cleanup_result.txt
+20260909T201100Z_hx-10_qdrant_ui_live-state.png</code></pre>
+<p>Every retained result must be traceable to:</p>
+<ul>
+<li>one SUT;</li>
+<li>one component;</li>
+<li>one smoke-test authority file;</li>
+<li>one repository commit;</li>
+<li>one run ID;</li>
+<li>current prior PASS evidence or explicit <code>NONE</code>;</li>
+<li>the limited integration plan or explicit <code>NONE</code>;</li>
+<li>one PASS/FAIL determination.</li>
+</ul>
+<p>Evidence proves observed behavior. It does not independently override an explicit current owner decision or current active authority.</p>
+<h2>7. Secrets and test credentials</h2>
+<p>Smoke tests may reference credential <strong>names</strong>, paths, or environment-variable identifiers, but retained scripts/manifests/evidence must not contain actual secret values.</p>
+<p>Use environment variables or another owner-approved secret mechanism on HX-5 at execution time. Never commit a <code>.local.env</code>, PAT, API key, private key, or plaintext password to the repository.</p>
+<p>If a test credential is temporary, remove or disable it after the test when its only purpose was validation.</p>
+<h2>8. Failure, retry, and proof invalidation</h2>
+<p>On failure:</p>
+<ol>
+<li>preserve the failed run's evidence before changing the SUT;</li>
+<li>identify whether the failure is reachability, application behavior, dependency, test-runner defect, cleanup, or reboot persistence;</li>
+<li>correct only the identified issue;</li>
+<li>create a <strong>new run ID</strong> for the retry;</li>
+<li>never overwrite failed evidence with the later PASS.</li>
+</ol>
+<p>If an upstream dependency changes materially after PASS, its old evidence may no longer be valid for downstream proof. Examples include model/revision/dimension changes, vector-store/API changes, SUT rebuilds, or material runtime configuration replacements. Revalidate before citing stale evidence.</p>
+<p>The server record may summarize the final accepted state, but the evidence trail should retain materially relevant failed runs when they explain a correction or architecture decision.</p>
+<h2>9. HX-5 activation gate</h2>
+<p>The CentCom smoke-runner role becomes available only after HX-5's own base inference workload is healthy enough to close its applicable foundation gate.</p>
+<p>Before using HX-5 as the standard runner for HX-9 and later systems, record:</p>
+<pre><code class="lang-text">HX-5 base/domain/GPU state accepted
 HX-5 Ollama active/enabled
-Ornith functional PASS
+Ornith assigned model functional PASS
 HX-5 reboot persistence PASS
 smoke-runner client toolset installed
 HX_SMOKE_ROOT selected and writable
-remote test to one already-proven HX endpoint PASS</pre><p>DeepSeek Harness is not required before CentCom can operate as the fleet smoke-test runner.</p><h2>Closure equation</h2><pre>SUT base/service health
-AND component smoke test from HX-5
-AND companion MCP/UI gate where assigned
-AND cleanup + cleanup verification
-AND reboot-persistence proof
-AND retained evidence
-AND server record / BUILD-STATE update
-=
-BASE PASS / CLOSED</pre><p>The individual files under <code>/smoke-tests/</code> remain authoritative for what each component must prove. This standard defines how HX-5 executes and records those proofs.</p></body></html>
+remote test to one already-proven HX endpoint PASS</code></pre>
+<p>The smoke-runner role does <strong>not</strong> require DeepSeek Harness to be installed first. Harness remains at its scheduled implementation priority.</p>
+<h2>10. Closure rule</h2>
+<p>For each later component:</p>
+<pre><code class="lang-text">SUT base/service health
+        AND
+required prior PASS evidence resolved
+        AND
+component smoke test from HX-5
+        AND
+companion MCP/UI gate where assigned
+        AND
+cleanup + cleanup verification
+        AND
+reboot-persistence proof
+        AND
+retained evidence
+        AND
+server record / BUILD-STATE update
+        =
+BASE PASS / CLOSED</code></pre>
+<p>This procedure standardizes <strong>how</strong> HX proves components. The smoke-test roadmap defines <strong>when/after what proof</strong> the test may run. The individual files under <code>/smoke-tests/</code> remain the authority for <strong>what each component must prove</strong>.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md</code>.</footer></div></body></html>

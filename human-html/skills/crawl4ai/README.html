@@ -1,3 +1,107 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Crawl4AI Skills</title><style>body{max-width:1050px;margin:40px auto;padding:0 24px;background:#0b0f14;color:#e8eef6;font:16px/1.55 system-ui}h1,h2{color:#fff}pre{background:#111820;border:1px solid #263241;padding:16px;border-radius:10px;overflow:auto}code{color:#b9ddff}table{width:100%;border-collapse:collapse}th,td{border:1px solid #263241;padding:9px;vertical-align:top}th{background:#151e28}.ok{color:#81c784}.warn{color:#ffb74d}.muted{color:#aeb9c7}</style></head><body><h1>HX Crawl4AI Skills</h1><p><strong>HX-17 / 192.168.50.217</strong> — Crawl4AI + assigned MCP. Runtime state remains <strong>NOT STARTED</strong>.</p><h2>Canonical wrapper</h2><p class="ok"><code>skills/crawl4ai/hx-crawl4ai-advisor/</code> — APPROVED advisory expertise.</p><h2>Source hierarchy</h2><table><tr><th>Source</th><th>Reviewed point</th><th>HX disposition</th></tr><tr><td>Official unclecode/crawl4ai</td><td>main <code>862f6bcc…</code>, release <code>v0.9.3</code></td><td>Primary product authority</td></tr><tr><td>Official assistant skill</td><td>Advertised as Crawl4AI 0.7.4 compatible</td><td>Reference-only for current facts</td></tr><tr><td>brettdavies/crawl4ai-skill</td><td>main <code>c696921b…</code>, release 2.0.1, Crawl4AI 0.8.9</td><td>Community expert reference</td></tr><tr><td>ExplainX listing</td><td>Discovery/catalog page</td><td>Secondary only; ratings/dates are not provenance</td></tr></table><h2>HX boundary</h2><p>Native Python/CLI, Playwright/Chromium dependencies, raw HTML, Markdown, deterministic CSS/XPath extraction, filters and crawling patterns are accepted/adapted. Containers and cloud replacement are rejected. Proxies, anti-detection, credentials/sessions, persistent browser profiles, remote browser/CDP, network/security changes and permanent LLM/RAG bindings are owner-gated.</p><h2>MCP</h2><p>The current official MCP bridge is part of Crawl4AI's <code>deploy/docker</code> self-hosted server tree. HX keeps that as official protocol/tool evidence but does not adopt the Docker deployment. The future HX-17 runbook must select the native MCP implementation, dependency, transport, listener and systemd/process layout before D4 is executable.</p><h2>Validation</h2><pre>D3 Crawl4AI core — deterministic inline raw: HTML -> Markdown
-  ↓ accepted PASS
-D4 Crawl4AI MCP — parent Crawl4AI companion only</pre><p>The existing D3 smoke authority remains compatible with reviewed current official 0.9.3 behavior and is unchanged by skill admission.</p><p class="muted">Markdown authority: <code>skills/crawl4ai/README.md</code>.</p></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Crawl4AI Skill Intake</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>skills/crawl4ai/README.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: current &middot; status: 2026-09-09</div><h1>HX Crawl4AI Skills</h1>
+<p>Canonical HX wrapper:</p>
+<pre><code class="lang-text">skills/crawl4ai/hx-crawl4ai-advisor/</code></pre>
+<p>Status: <strong>APPROVED</strong> for advisory expertise. HX-17 itself remains <strong>NOT STARTED</strong>.</p>
+<h2>Role</h2>
+<p>HX-17 / <code>192.168.50.217</code> is assigned:</p>
+<pre><code class="lang-text">Crawl4AI native web acquisition/extraction
++ assigned Crawl4AI MCP companion</code></pre>
+<p>The BASE roadmap requires native Crawl4AI, deterministic crawl-to-Markdown proof, the MCP companion proof, cleanup, and reboot/persistence evidence where applicable. It does not authorize production RAG ingestion.</p>
+<h2>Source hierarchy</h2>
+<div class="tw"><table><thead><tr><th>Source</th><th>Class</th><th>Reviewed point</th><th>HX disposition</th></tr></thead><tbody><tr><td><code>unclecode/crawl4ai</code> docs/source/releases</td><td><code>VENDOR_OFFICIAL</code></td><td>main <code>862f6bccb9c063f49b9d42701baa0eea17a4993f</code>; release <code>v0.9.3</code></td><td><strong>PRIMARY PRODUCT AUTHORITY</strong></td></tr><tr><td>Official downloadable Crawl4AI assistant skill</td><td><code>VENDOR_OFFICIAL</code></td><td>current docs advertise compatibility with Crawl4AI <code>0.7.4</code>; asset blob <code>21785b0214567f4772562697cbc49f6c9486e58f</code></td><td><code>REFERENCE_ONLY</code> for current product facts</td></tr><tr><td><code>brettdavies/crawl4ai-skill</code></td><td><code>COMMUNITY / EXPERT REFERENCE</code></td><td>main <code>c696921b133dd962f766f596655767c0b894d206</code>; release <code>v2.0.1</code>; verified Crawl4AI <code>0.8.9</code></td><td><code>APPROVED_AS_REFERENCE</code></td></tr><tr><td>ExplainX Brett skill listing</td><td><code>SECONDARY / DISCOVERY</code></td><td>reviewed 2026-09-09</td><td>discovery metadata only; not trust/version authority</td></tr><tr><td>Official <code>deploy/docker/mcp_bridge.py</code></td><td><code>VENDOR_OFFICIAL</code> MCP source</td><td>current official main</td><td>behavior/reference accepted; HX deployment mode unresolved</td></tr></tbody></table></div>
+<p>Detailed source record: <code>upstream/SOURCE.md</code>.</p>
+<h2>Why one HX wrapper</h2>
+<p>The external material contains useful product expertise but also assumptions that conflict with or exceed current HX authority:</p>
+<ul>
+<li>official self-hosting/MCP guidance is coupled to Docker-server architecture;</li>
+<li>the official assistant skill is still labeled for Crawl4AI 0.7.4;</li>
+<li>the Brett community skill is verified against 0.8.9, not current 0.9.3;</li>
+<li>Brett's bundle assumes other host tools such as <code>defuddle</code>, <code>/fetch-web</code>, <code>/browse</code>, and qmd;</li>
+<li>one Brett helper script hard-codes <code>openai/gpt-4o-mini</code> for schema generation;</li>
+<li>upstream documents proxies, anti-detection, credentials/sessions, cloud/API and server security defaults that cannot silently become HX policy.</li>
+</ul>
+<p><code>hx-crawl4ai-advisor</code> loads HX first, then uses current official 0.9.x product guidance and only selectively consults older/community skill material.</p>
+<h2>Accepted/adapted expertise</h2>
+<p>Normally usable after current version verification:</p>
+<ul>
+<li><code>AsyncWebCrawler</code>, <code>BrowserConfig</code>, <code>CrawlerRunConfig</code>;</li>
+<li><code>crwl</code> CLI and Python SDK;</li>
+<li><code>crawl4ai-setup</code> / <code>crawl4ai-doctor</code>;</li>
+<li>local Playwright/Chromium dependency reasoning;</li>
+<li><code>raw:</code> inline HTML processing;</li>
+<li>Markdown generation;</li>
+<li>CSS/XPath schema extraction;</li>
+<li>content filters;</li>
+<li>batch/deep/adaptive crawling and URL discovery;</li>
+<li>target-specific JS wait/timing configuration;</li>
+<li>troubleshooting and upgrade analysis.</li>
+</ul>
+<h2>Gated/rejected expertise</h2>
+<div class="tw"><table><thead><tr><th>Guidance</th><th>HX handling</th></tr></thead><tbody><tr><td>Docker/Podman/Kubernetes</td><td><code>REJECT_FOR_HX</code> under current architecture</td></tr><tr><td>Hosted/cloud replacement of HX-17</td><td><code>REJECT_FOR_HX</code> unless owner changes placement</td></tr><tr><td>Hard-coded external LLM provider/model</td><td><code>REJECT_FOR_HX</code> as a default</td></tr><tr><td>Proxies, anti-detection, stored cookies/login sessions, persistent browser profiles, CDP/remote browser</td><td><code>OWNER_DECISION_REQUIRED</code> when they alter network/security/credential/persistence behavior</td></tr><tr><td>Official Docker-coupled MCP deployment</td><td><code>OWNER_DECISION_REQUIRED</code> for HX implementation; source expertise retained</td></tr><tr><td>Production LightRAG/Qdrant ingestion</td><td><code>REFERENCE_ONLY</code> for BASE / later integration</td></tr><tr><td>Direct <code>npx skills add</code> or cloning Brett into an agent skill directory</td><td><code>REJECT_FOR_HX</code> as canonical deployment; HX derives deployments from <code>skills/</code></td></tr></tbody></table></div>
+<h2>Validation authority</h2>
+<pre><code class="lang-text">D3 — HX-17 Crawl4AI core
+     prerequisite: CentCom active
+     input: deterministic inline raw: HTML
+     integration: none
+     authority: smoke-tests/crawl4ai-smoke-test.md
+
+D4 — HX-17 Crawl4AI MCP
+     prerequisite: accepted D3 PASS
+     integration: parent Crawl4AI only
+     authority: smoke-tests/mcp-companion-smoke-test.md</code></pre>
+<p>The current D3 test remains compatible with reviewed official 0.9.3 behavior: current source/docs support <code>raw:</code>, <code>AsyncWebCrawler.arun</code>, <code>BrowserConfig(headless=True, verbose=False)</code>, Markdown output, and <code>crawl4ai-doctor</code>.</p>
+<p>Skill approval does not modify the D3/D4 smoke criteria.</p>
+<h2>MCP status</h2>
+<p>HX requires Crawl4AI MCP as the HX-17 companion, but its exact native implementation is not yet pinned. Current official source implements MCP as part of the self-hosted server tree under <code>deploy/docker</code>. HX will not containerize it merely because that is the vendor layout.</p>
+<p>Before D4 becomes executable, the future HX-17 runbook must select and document the native-compatible MCP package/dependency, service mode, transport, listener, process/systemd layout, and any owner-approved network/auth controls.</p>
+<h2>Current authority gaps</h2>
+<p>No active HX-17 server record or runbook exists at this review point. Therefore this skill does <strong>not</strong> select:</p>
+<ul>
+<li>Crawl4AI package/version/package source;</li>
+<li>Python environment;</li>
+<li>browser/runtime/cache/profile paths;</li>
+<li>long-running service/listener design;</li>
+<li>proxy/egress/auth/session policy;</li>
+<li>LLM/provider bindings;</li>
+<li>exact MCP implementation/transport;</li>
+<li>permanent downstream RAG/agent/workflow integration.</li>
+</ul>
+<h2>Canonical package</h2>
+<p>The validated wrapper package is generated from the canonical <code>hx-crawl4ai-advisor/</code> directory. Agent-specific installations are derived deployments and must not become independent sources of truth.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>skills/crawl4ai/README.md</code>.</footer></div></body></html>

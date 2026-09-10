@@ -56,3 +56,53 @@ HX maintains a separate evergreen smoke-test roadmap in addition to the base imp
 
 ## D-017 — Governed HX skills capability layer
 HX maintains a canonical `skills/` library as an AI-agent expertise layer between ecosystem context and execution. Component skills may combine HX-native instructions with current vendor-official expertise, but skills do not supersede owner decisions, active HX architecture, live evidence, runbooks, or smoke-test acceptance criteria. Agent-specific skill installations are derived deployments from the canonical repository source, not independently maintained authorities. External skills are classified and registered before operational use; vendor-official sources are preferred over community sources. Skills never store actual credentials, PATs, API keys, private keys, service-account secrets, or sshpass passwords. Qdrant is the first approved reference implementation through `skills/qdrant/hx-qdrant-advisor/`, which preserves HX-10/native-systemd/vector-space/smoke-test rules while consuming the current official Qdrant Advisor guidance live.
+
+## D-018 — Host firewall and inference listener posture — PROPOSED, awaiting owner ratification
+
+The HX LAN is treated as a trusted lab segment. The common base runbook
+disables `ufw` on every server, and Ollama listens on `0.0.0.0:11434` with no
+authentication. This is consistent with the standing rule that firewall,
+segmentation and TLS changes are not imposed without owner approval, and with
+KISS.
+
+This entry does not change behaviour. It records behaviour that previously
+existed only as an emergent property of two runbook scripts, so it can be
+approved, revisited, or reversed as a decision rather than rediscovered.
+
+Blast radius as it stands: any host that can reach the HX LAN can call any HX
+inference endpoint without credentials, and can reach any service port on any
+HX server.
+
+**Owner action required:** ratify as written, or amend. Until ratified this
+entry is a record of current state, not an approval.
+
+## D-019 — OmniRoute product identity — RATIFIED 2026-09-10
+
+HX-6 OmniRoute is `https://github.com/diegosouzapw/OmniRoute.git`, confirmed by
+the infrastructure owner. MIT licence. The headless server installs from the
+npm package `omniroute`, pinned in `docs/03-runbooks/common/hx-base.env`.
+
+The project's GitHub release assets are desktop application builds, and its
+documented container path is not used. HX installs from npm onto Node.js taken
+from the official nodejs.org binary tarball.
+
+D-010 applies in full and is the reason this server exists: the product
+discovers hundreds of providers by default, and discovery is not approval.
+Build the explicit provider allowlist and the explicit model allowlist before
+HX-6 closes.
+
+## D-020 — PostgreSQL install source — RATIFIED 2026-09-10
+
+HX-9 PostgreSQL is built from the official source tarball at
+`https://www.postgresql.org/ftp/source/v18.6/`, not from the PGDG repository.
+The owner chose the source build so no application software on the fleet comes
+from an apt repository.
+
+`docs/03-runbooks/common/10-postgresql.sh` downloads
+`postgresql-18.6.tar.bz2`, verifies it against the SHA-256 published beside it
+and pinned in `hx-base.env`, builds with `./configure --prefix=/srv/postgresql`,
+runs `initdb`, and installs the `hx-postgresql` unit.
+
+Every application on the fleet now comes from PyPI, npm, a GitHub release, an
+upstream source tarball, a direct binary, or Hugging Face. The Ubuntu archive
+is used only for the NVIDIA driver and for build toolchains and library headers.

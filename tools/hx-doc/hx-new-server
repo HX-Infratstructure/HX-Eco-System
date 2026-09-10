@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+PY=""
+for cand in python3 python; do
+  if command -v "$cand" >/dev/null 2>&1 && "$cand" -c 'import sys;sys.exit(0 if sys.version_info[0]==3 else 1)' >/dev/null 2>&1; then
+    PY="$cand"; break
+  fi
+done
+[ -n "$PY" ] || { echo "ERROR: no working Python 3 on PATH" >&2; exit 1; }
+exec "$PY" "$DIR/hx_new_server.py" "$@"

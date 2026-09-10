@@ -1,0 +1,11 @@
+# Keep every shell/python execution artifact LF so it runs on Linux
+# regardless of the contributor's platform or core.autocrlf setting.
+* text=auto eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+tools/hx-smoke-runner/hx-smoke-* text eol=lf
+
+*.png binary
+*.jpg binary
+*.webp binary
+*.pdf binary

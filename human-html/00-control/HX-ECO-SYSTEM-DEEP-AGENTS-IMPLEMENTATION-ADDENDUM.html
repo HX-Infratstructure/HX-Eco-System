@@ -1,26 +1,267 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Eco-System Deep Agents Implementation Addendum v1.0</title><style>body{font-family:Arial,Helvetica,sans-serif;max-width:1180px;margin:36px auto;padding:0 24px;color:#1f2937;line-height:1.55}h1,h2,h3{color:#111827}table{border-collapse:collapse;width:100%;margin:16px 0 28px}th,td{border:1px solid #cbd5e1;padding:8px 10px;text-align:left;vertical-align:top}th{background:#f1f5f9}pre{background:#f8fafc;border:1px solid #e2e8f0;padding:14px;overflow-x:auto}code{font-family:Consolas,Menlo,monospace}.note{background:#f8fafc;border-left:4px solid #64748b;padding:12px 16px}.pass{background:#ecfdf5;border-left:4px solid #10b981;padding:12px 16px}</style></head><body><h1>HX Eco-System — Deep Agents Implementation and LOB Agent Factory Smoke-Test Addendum</h1><p><strong>Version:</strong> 1.0 &nbsp; <strong>Status:</strong> evergreen current &nbsp; <strong>Host:</strong> HX-12</p><p class="note"><strong>Human mirror.</strong> Authoritative agent source: <code>docs/00-control/HX-ECO-SYSTEM-DEEP-AGENTS-IMPLEMENTATION-ADDENDUM.md</code>.</p><h2>Purpose</h2><p>Deep Agents on HX-12 is the HX line-of-business agent factory/application-agent harness. BASE PASS must prove that it can create and run a small domain agent package; package import or a plain LLM response is not sufficient.</p><h2>Role boundary</h2><pre>HX-5 DeepSeek Harness
-META-AGENT / broad AI-solution orchestration
-        ↓
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Eco-System Deep Agents Implementation Addendum</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/00-control/HX-ECO-SYSTEM-DEEP-AGENTS-IMPLEMENTATION-ADDENDUM.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: evergreen_current &middot; status: 1.0 &middot; status: 2026-09-09</div><h1>HX Eco-System — Deep Agents Implementation and LOB Agent Factory Smoke-Test Addendum</h1>
+<h2>1. Purpose</h2>
+<p>This addendum defines the BASE PASS boundary for <strong>Deep Agents by LangChain on HX-12</strong>.</p>
+<p>Deep Agents is not installed merely so the Python package imports or a single agent returns text. HX-12 is intended to provide the <strong>line-of-business (LOB) agent harness</strong> used to create and run domain agents that power business applications.</p>
+<p>The BASE PASS test must therefore prove that Deep Agents can take a bounded LOB requirement, create a small agent implementation, delegate domain work to sub-agents, use files/tools, execute the resulting agent flow against an approved HX model, preserve short-lived thread context, independently validate the result, and return a coherent PASS/FAIL outcome.</p>
+<p>The test remains intentionally small. It does not build a production LOB application or the full future HX Agent Factory.</p>
+<h2>2. Role boundary — DeepSeek Harness vs. Deep Agents</h2>
+<p>The two harnesses have different responsibilities in the HX Eco-System.</p>
+<pre><code class="lang-text">HX-5 DeepSeek Harness
+META-AGENT / solution-building orchestrator
+    |
+    |  designs/builds broader AI solutions and agentic work
+    v
 HX-12 Deep Agents
 LOB AGENT FACTORY / application-agent harness
-        ↓
-Domain agents used by line-of-business applications</pre><h2>Current upstream basis</h2><p>Planning review on September 9, 2026 found <code>deepagents==0.7.13</code> as the current stable Python release. Deep Agents is a batteries-included harness built on LangChain/LangGraph with sub-agent delegation, filesystem tools, context management, optional shell access, skills, memory, and custom/MCP-compatible tools. The accepted version must be re-verified and pinned at implementation time.</p><h2>Critical preflight</h2><p>The selected HX model must prove reliable tool calling before the full test: at minimum one filesystem operation and one <code>task</code> sub-agent delegation. Ordinary chat completion does not establish compatibility.</p><h2>LOB Agent Factory smoke test</h2><p>Deep Agents creates a disposable package named approximately <code>hx-lob-agent-smoke</code> for a synthetic service-case routing scenario.</p><pre>bounded synthetic LOB requirement
-          ↓
-Deep Agents builder on HX-12
-          ↓
-real generated LOB agent package
-          ↓
-Deep Agent supervisor
-          ↓
-Intake Agent / Business Rule Agent / Reviewer Agent
-          ↓
-known-answer routing result + validation</pre><p>The example critical outage case must resolve to <strong>Operations / P1</strong> under the supplied synthetic business rules.</p><h2>Expected artifacts</h2><pre>hx-lob-agent-smoke/
+    |
+    |  creates and runs domain agents used by line-of-business applications
+    v
+LOB application agents</code></pre>
+<h3>HX-5 DeepSeek Harness</h3>
+<ul>
+<li>remains the HX meta-agent / solution-building orchestration layer;</li>
+<li>decomposes broader AI-solution work and coordinates sub-agents;</li>
+<li>is validated by its own meta-agent solution-building smoke test.</li>
+</ul>
+<h3>HX-12 Deep Agents</h3>
+<ul>
+<li>is the application-agent harness for LOB use cases;</li>
+<li>creates/configures domain-specific Deep Agents and their sub-agents;</li>
+<li>provides the agent runtime pattern that LOB applications can call or embed;</li>
+<li>is validated by creating and running a small LOB agent package.</li>
+</ul>
+<p>Deep Agents is not a replacement control plane for DeepSeek Harness, and DeepSeek Harness is not the runtime definition for every LOB application agent.</p>
+<h2>3. Current upstream facts that shape the test</h2>
+<p>As of 2026-09-09, the current stable Python release reviewed for this plan is <strong><code>deepagents==0.7.13</code></strong>, published 2026-09-02.</p>
+<p>The implementation team must re-check the current stable release at installation time and pin the exact accepted version in the HX-12 server record. A newer release may be selected after verifying that its public API and sub-agent behavior remain compatible with this test.</p>
+<p>Current Deep Agents architecture provides the following relevant harness capabilities:</p>
+<ul>
+<li><code>create_deep_agent()</code> as the primary construction API;</li>
+<li>sub-agent delegation through the built-in <code>task</code> capability;</li>
+<li>built-in filesystem operations for reading, writing, editing, globbing, and searching files;</li>
+<li>planning/context-management behavior for long-running multi-step work;</li>
+<li>optional shell execution when the selected backend supports it;</li>
+<li>skills and persistent memory as optional extensions;</li>
+<li>custom tools and MCP-compatible tool surfaces;</li>
+<li>LangGraph-based state, checkpointing, streaming, and persistence patterns;</li>
+<li>model-agnostic operation with any compatible LangChain chat model that supports tool calling, including appropriately configured local/self-hosted models.</li>
+</ul>
+<p>Current sub-agent behavior uses <strong><code>isolated</code></strong> as the normal/default mode. The <code>fork</code> mode is experimental. The BASE PASS test should use the stable isolated sub-agent pattern unless a later accepted version changes this recommendation.</p>
+<h2>4. Critical model-compatibility gate</h2>
+<p>Deep Agents depends on reliable <strong>tool calling</strong>. A model that can answer prompts but cannot call the harness tools reliably is not sufficient for this workload.</p>
+<p>Before the full LOB smoke test:</p>
+<ol>
+<li>configure one owner-approved HX model endpoint explicitly;</li>
+<li>prove the model can invoke at least one Deep Agents filesystem operation;</li>
+<li>prove the model can invoke the <code>task</code> sub-agent delegation capability;</li>
+<li>record the exact model, endpoint, LangChain model adapter, and result.</li>
+</ol>
+<p>Preferred approach:</p>
+<ul>
+<li>use an already-approved HX local model that has passed its own inference BASE PASS;</li>
+<li>use a direct known-good endpoint for validation unless a permanent OmniRoute path has already been approved;</li>
+<li>do not make an external cloud provider a requirement for the Deep Agents BASE PASS.</li>
+</ul>
+<p>If the selected local model cannot perform the required tool calls, classify that result as <strong>MODEL/HARNESS COMPATIBILITY NOT ESTABLISHED</strong>. Do not mark Deep Agents PASS merely because ordinary chat completion succeeds.</p>
+<h2>5. Required LOB Agent Factory smoke test</h2>
+<h3>5.1 Test objective</h3>
+<p>Use Deep Agents on HX-12 to create and run a disposable LOB agent package named approximately:</p>
+<pre><code class="lang-text">hx-lob-agent-smoke</code></pre>
+<p>The exact name may change, but the replacement test must prove the same capabilities.</p>
+<h3>5.2 Synthetic business scenario</h3>
+<p>Use a simple <strong>service-case routing</strong> scenario with no production data.</p>
+<p>Example input:</p>
+<pre><code class="lang-json">{
+  "case_id": "HX-SMOKE-001",
+  "category": "outage",
+  "severity": "critical",
+  "summary": "Synthetic line-of-business service interruption",
+  "requested_action": "route"
+}</code></pre>
+<p>Provide a local <code>business-rules.md</code> with deterministic synthetic rules such as:</p>
+<pre><code class="lang-text">category=outage + severity=critical -&gt; queue=Operations, priority=P1
+category=billing -&gt; queue=Finance
+category=access -&gt; queue=Identity</code></pre>
+<p>No real customer, employee, financial, or operational data is required.</p>
+<h2>6. Builder-stage requirement</h2>
+<p>The HX-12 Deep Agent receives a bounded instruction similar to:</p>
+<pre><code class="lang-text">Create a minimal Deep Agents line-of-business agent package named hx-lob-agent-smoke.
+
+The generated application must:
+- accept one synthetic service-case request;
+- use a Deep Agent supervisor;
+- define specialized sub-agents for intake/classification, business-rule analysis, and review/validation;
+- use the local business-rules.md file;
+- return a structured routing decision containing case_id, queue, priority, rationale, and validation_status;
+- include a README and executable smoke test;
+- run against one approved HX model with verified tool-calling support;
+- use only synthetic data.
+
+Create the files, report the artifact locations, and return PASS/FAIL against the requested acceptance criteria.</code></pre>
+<p>The builder-stage Deep Agent should use its filesystem capabilities to materialize the package rather than returning only prose or code blocks in chat.</p>
+<h2>7. Generated LOB agent structure</h2>
+<p>A successful builder stage should create a small workspace similar to:</p>
+<pre><code class="lang-text">hx-lob-agent-smoke/
 ├── README.md
 ├── business-rules.md
 ├── agent.py
 ├── test_smoke.py
-└── validation-result.md</pre><h2>Deep Agents-specific proof</h2><ul><li>real filesystem artifact creation;</li><li>at least two distinct domain sub-agents, three preferred;</li><li>actual <code>task</code> delegation using stable isolated sub-agents;</li><li>context handoff between delegated work;</li><li>business-rule/tool use;</li><li>structured known-answer output;</li><li>independent validation;</li><li>same-thread context continuity using a disposable checkpointer;</li><li>reboot persistence of the pinned environment and smoke package.</li></ul><h2>Closure rule</h2><div class="pass"><pre>Deep Agents environment/runtime health = PASS
+└── validation-result.md</code></pre>
+<p>Equivalent native project structures are acceptable.</p>
+<p>The generated <code>agent.py</code> must configure a Deep Agent supervisor and at least two distinct sub-agent roles; three are preferred for the initial proof.</p>
+<h3>Suggested sub-agents</h3>
+<p><strong>Intake / Classifier Agent</strong></p>
+<ul>
+<li>validates the synthetic request;</li>
+<li>classifies category/severity;</li>
+<li>returns a concise structured finding.</li>
+</ul>
+<p><strong>Business Rule Agent</strong></p>
+<ul>
+<li>receives the classified case;</li>
+<li>reads or is provided the relevant business-rule artifact;</li>
+<li>recommends queue and priority.</li>
+</ul>
+<p><strong>Reviewer / Validator Agent</strong></p>
+<ul>
+<li>independently checks the proposed decision against the synthetic rule set;</li>
+<li>returns explicit PASS/FAIL plus any discrepancy.</li>
+</ul>
+<p>Use the stable isolated sub-agent pattern for the initial test. Do not make experimental fork semantics a prerequisite for BASE PASS.</p>
+<h2>8. Runtime smoke-test sequence</h2>
+<p>After the package is created:</p>
+<ol>
+<li>instantiate the generated LOB Deep Agent using the pinned Deep Agents environment;</li>
+<li>submit the synthetic service case;</li>
+<li>confirm the supervisor delegates work through the Deep Agents sub-agent mechanism;</li>
+<li>confirm downstream work consumes upstream classification/context;</li>
+<li>confirm the business-rule artifact is actually consulted;</li>
+<li>confirm the final result is structured and contains the expected deterministic routing decision;</li>
+<li>run the independent validation step;</li>
+<li>run <code>test_smoke.py</code> or equivalent deterministic acceptance test;</li>
+<li>record the final artifact paths and PASS/FAIL result.</li>
+</ol>
+<p>For the example critical outage case, the expected business result is:</p>
+<pre><code class="lang-text">queue=Operations
+priority=P1
+validation_status=PASS</code></pre>
+<h2>9. Short-lived thread/state continuity proof</h2>
+<p>Because Deep Agents is intended to power application agents, BASE PASS should also prove basic thread continuity without introducing a production database.</p>
+<p>Using an in-memory or otherwise disposable LangGraph checkpointer for the smoke test:</p>
+<ol>
+<li>run the initial case under a known thread identifier;</li>
+<li>send one follow-up message under the same thread, for example:</li>
+</ol>
+<pre><code class="lang-text">Add note: 50 users are affected. Keep the same case_id and reassess the recommendation.</code></pre>
+<ol>
+<li>confirm the agent retains the case identity and relevant prior context;</li>
+<li>confirm the result remains consistent with the synthetic business rules.</li>
+</ol>
+<p>This proves the application-facing state pattern only. Production persistence, PostgreSQL schemas, Mem0 wiring, and long-term memory remain integration work.</p>
+<h2>10. BASE PASS acceptance criteria</h2>
+<p>Deep Agents on HX-12 receives functional BASE PASS only when all of the following are established:</p>
+<ol>
+<li><strong>Pinned native environment</strong> — the accepted Deep Agents version and dependencies are recorded.</li>
+<li><strong>Model tool-calling compatibility</strong> — the selected HX model successfully invokes required Deep Agents tools.</li>
+<li><strong>Harness construction</strong> — <code>create_deep_agent()</code> or the accepted equivalent initializes successfully with an explicit model.</li>
+<li><strong>Planning/decomposition</strong> — the builder breaks the LOB build request into multiple concrete tasks.</li>
+<li><strong>Filesystem use</strong> — the builder creates or edits real project artifacts in the disposable workspace.</li>
+<li><strong>LOB agent creation</strong> — the workflow produces a real runnable Deep Agents application package, not just prose.</li>
+<li><strong>Sub-agent configuration</strong> — at least two distinct domain sub-agent roles are configured; three are preferred.</li>
+<li><strong>Sub-agent delegation</strong> — the LOB supervisor actually delegates work using the Deep Agents sub-agent mechanism.</li>
+<li><strong>Context handoff</strong> — downstream work successfully consumes upstream classification or decisions.</li>
+<li><strong>Business-rule/tool use</strong> — the generated LOB flow uses the supplied synthetic business-rule artifact or equivalent test tool.</li>
+<li><strong>Correct business result</strong> — the known-answer synthetic case returns the expected queue/priority result.</li>
+<li><strong>Independent validation</strong> — a reviewer role or deterministic validator checks the final outcome against the rule set.</li>
+<li><strong>Thread continuity</strong> — a same-thread follow-up preserves the case identity and relevant context using a disposable checkpointer.</li>
+<li><strong>Harness synthesis</strong> — the supervisor returns one coherent final result rather than exposing disconnected sub-agent fragments.</li>
+<li><strong>Evidence capture</strong> — version, model/backend, tool probe, delegated roles, artifacts, test output, and final PASS/FAIL are recorded.</li>
+<li><strong>Reboot persistence</strong> — after HX-12 reboot, the pinned environment and generated smoke package remain usable and one short LOB case can be executed again. The full build stage does not need to be repeated after reboot.</li>
+</ol>
+<p>If the package cannot run, sub-agent delegation never occurs, the model cannot call required tools, the deterministic business result is wrong, or the human must manually complete the agent-building work, the functional smoke test is <strong>FAIL</strong>.</p>
+<h2>11. Evidence to retain</h2>
+<p>Record at minimum:</p>
+<ul>
+<li>HX-12 host and timestamp;</li>
+<li>Deep Agents version/revision;</li>
+<li>Python/environment details;</li>
+<li>selected model, endpoint, and LangChain model adapter;</li>
+<li>model tool-calling probe output;</li>
+<li>top-level builder request;</li>
+<li>generated artifact paths;</li>
+<li>configured sub-agent names/roles;</li>
+<li>delegation evidence;</li>
+<li>synthetic business rules;</li>
+<li>first case input/output;</li>
+<li>same-thread follow-up input/output;</li>
+<li>deterministic test output;</li>
+<li>reviewer/validator result;</li>
+<li>reboot retest result;</li>
+<li>final PASS/FAIL status.</li>
+</ul>
+<p>Store durable evidence under the normal HX evidence structure and update the HX-12 server record and <code>BUILD-STATE.md</code> when the Deep Agents gate is closed.</p>
+<h2>12. Explicit non-goals for BASE PASS</h2>
+<p>The Deep Agents smoke test does <strong>not</strong> require:</p>
+<ul>
+<li>production LOB data;</li>
+<li>a production UI;</li>
+<li>production API deployment;</li>
+<li>the full HX Agent Factory;</li>
+<li>permanent MCP client wiring;</li>
+<li>permanent OmniRoute routing policy;</li>
+<li>PostgreSQL or Redis persistence;</li>
+<li>Qdrant/LightRAG retrieval;</li>
+<li>Mem0 long-term memory;</li>
+<li>NFS mounts;</li>
+<li>production secrets;</li>
+<li>external cloud models;</li>
+<li>experimental sub-agent fork mode;</li>
+<li>containerized execution.</li>
+</ul>
+<p>Those capabilities are introduced only when their own roadmap stage or integration program requires them.</p>
+<h2>13. Closure rule</h2>
+<p>Deep Agents BASE PASS requires all three gates:</p>
+<pre><code class="lang-text">Deep Agents environment/runtime health = PASS
                     AND
 approved-model tool-calling compatibility = PASS
                     AND
-LOB agent creation + execution smoke test = PASS</pre></div><h2>Not required for BASE PASS</h2><p>Production LOB data, production UI/API deployment, permanent MCP or OmniRoute wiring, PostgreSQL/Redis persistence, Qdrant/LightRAG, Mem0, NFS, external cloud models, experimental fork sub-agent mode, and containers are explicitly outside this smoke-test boundary.</p></body></html>
+LOB agent creation + execution smoke test = PASS</code></pre>
+<p>A successful package import or one plain model response is not sufficient.</p>
+<p>This addendum is part of the evergreen HX Eco-System roadmap and should evolve as the Deep Agents upstream implementation and the HX LOB agent architecture mature.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/00-control/HX-ECO-SYSTEM-DEEP-AGENTS-IMPLEMENTATION-ADDENDUM.md</code>.</footer></div></body></html>

@@ -1,19 +1,231 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX-5 CentCom Smoke-Runner Toolset and Bootstrap</title><style>body{font-family:Arial,Helvetica,sans-serif;max-width:1100px;margin:36px auto;padding:0 24px;color:#1f2937;line-height:1.55}h1,h2{color:#111827}table{border-collapse:collapse;width:100%;margin:16px 0 28px}th,td{border:1px solid #cbd5e1;padding:8px 10px;text-align:left;vertical-align:top}th{background:#f1f5f9}pre{background:#f8fafc;border:1px solid #e2e8f0;padding:14px;overflow-x:auto}.note{background:#f8fafc;border-left:4px solid #64748b;padding:12px 16px}code{font-family:Consolas,Menlo,monospace}</style></head><body><h1>HX-5 CentCom — Smoke-Runner Toolset and Bootstrap</h1><p><strong>Version:</strong> 1.0 &nbsp; <strong>Status:</strong> current &nbsp; <strong>Date:</strong> 2026-09-09</p><p class="note"><strong>Agent-first design.</strong> Component acceptance lives in <code>/smoke-tests/</code>; process authority lives in the HX-5 smoke-test standard; executable helpers and scoped agent instructions live in <code>tools/hx-smoke-runner/</code>.</p><h2>Architecture</h2><pre>HX-5 CentCom
-  ├─ psql / redis-cli / curl / jq / SSH client
-  ├─ Python venv
-  │   ├─ FastMCP 4.0.3
-  │   └─ Playwright 1.62.0 + Chromium
-  ├─ disposable run workspaces
-  └─ repository-owned helper commands
-        ↓
-remote LAN/API/client/UI proof
-        ↓
-System Under Test</pre><h2>Permanent client toolset</h2><table><tr><th>Tool</th><th>Purpose</th></tr><tr><td>postgresql-client</td><td>PostgreSQL native client</td></tr><tr><td>redis-tools</td><td>Redis native client</td></tr><tr><td>curl + jq</td><td>HTTP/JSON smoke calls</td></tr><tr><td>git</td><td>Authority/commit identity and evidence staging</td></tr><tr><td>openssh-client</td><td>Exception-path remote local-command invocation</td></tr><tr><td>Python venv</td><td>Isolated FastMCP and browser runner dependencies</td></tr><tr><td>Playwright Chromium</td><td>Headless direct-LAN UI evidence</td></tr></table><h2>Runner commands</h2><pre>hx-smoke-doctor
-hx-smoke-doctor --remote
-hx-smoke-new
-hx-smoke-ui-capture
-hx-smoke-promote</pre><h2>Key controls</h2><ul><li>No test harness or general-purpose runner dependencies are left on the SUT.</li><li>No container runtime is installed.</li><li>Python dependencies are pinned; Ubuntu clients follow supported distro updates.</li><li>Smoke-test criteria cannot be edited inside an in-progress run.</li><li>PASS requires functional proof plus cleanup verification.</li><li>Evidence promotion never auto-commits.</li><li>UI evidence requires expected live-state text, not merely a rendered page.</li></ul><h2>Bootstrap</h2><pre>cd "$HX_ECO_REPO"
-bash docs/03-runbooks/HX-5/04-centcom-smoke-runner-bootstrap.sh
-export PATH="$HOME/.local/bin:$PATH"
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX-5 CentCom Smoke-Runner Toolset and Bootstrap Standard</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: current &middot; status: 1.1 &middot; status: 2026-09-09</div><h1>HX-5 CentCom — Smoke-Runner Toolset and Bootstrap Standard</h1>
+<h2>1. Purpose</h2>
+<p>This standard defines the permanent <strong>client-side test toolset on HX-5 CentCom</strong> and the bootstrap used to activate it as the HX Eco-System remote smoke-test runner.</p>
+<p>It implements, but does not replace, <code>HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md</code>.</p>
+<pre><code class="lang-text">ecosystem orientation          = docs/01-architecture/ARCHITECTURE-ORIENTATION.md
+deployment roadmap             = docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md
+ordered proof roadmap          = docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md
+component smoke-test authority = /smoke-tests/&lt;component&gt;-smoke-test.md
+execution/process authority     = HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md
+runner implementation          = tools/hx-smoke-runner/
+bootstrap execution artifact   = docs/03-runbooks/HX-5/04-centcom-smoke-runner-bootstrap.sh</code></pre>
+<p>The runner remains <strong>AI-centric</strong>: instructions, deterministic commands, known boundaries, proof-dependency fields, evidence rules, and executable helpers live in the repository so a coding/infrastructure agent can recover the intended workflow without reconstructing it from chat history.</p>
+<p>The runner is a validation layer. It inherits the ecosystem architecture and does not define server placement, network design, model placement, or permanent integration.</p>
+<h2>2. Permanent HX-5 toolset</h2>
+<h3>Ubuntu packages</h3>
+<p>Install only client/development utilities required by the smoke-test catalog:</p>
+<div class="tw"><table><thead><tr><th>Package</th><th>Purpose</th></tr></thead><tbody><tr><td><code>postgresql-client</code></td><td><code>psql</code> client for HX-9 PostgreSQL</td></tr><tr><td><code>redis-tools</code></td><td><code>redis-cli</code> client for HX-9 Redis</td></tr><tr><td><code>curl</code></td><td>HTTP/API probes and deterministic REST smoke calls</td></tr><tr><td><code>jq</code></td><td>JSON response extraction/validation</td></tr><tr><td><code>git</code></td><td>authoritative repository checkout, commit identity, evidence staging</td></tr><tr><td><code>openssh-client</code></td><td>exception-path remote command execution where local SUT execution is intrinsic</td></tr><tr><td><code>python3</code></td><td>standard-library smoke scripts and runner helpers</td></tr><tr><td><code>python3-venv</code></td><td>isolated permanent CentCom runner environment</td></tr><tr><td><code>python3-pip</code></td><td>controlled Python dependency installation inside the runner venv</td></tr><tr><td><code>ca-certificates</code></td><td>normal HTTPS package/API trust support</td></tr></tbody></table></div>
+<p>Do <strong>not</strong> install PostgreSQL server, Redis server, Qdrant, LightRAG, n8n, Docling, Crawl4AI, or other SUT workloads on HX-5 merely to test them.</p>
+<h3>Python runner environment</h3>
+<p>Default:</p>
+<pre><code class="lang-text">HX_SMOKE_VENV=$HOME/.venvs/hx-smoke-runner</code></pre>
+<p>Pinned accepted dependencies are stored in:</p>
+<pre><code class="lang-text">tools/hx-smoke-runner/requirements.txt</code></pre>
+<p>Accepted pins on 2026-09-09:</p>
+<pre><code class="lang-text">fastmcp==4.0.3
+playwright==1.62.0</code></pre>
+<p>FastMCP provides the current MCP client used for product-specific MCP discovery and safe tool calls. Playwright Python provides deterministic headless Chromium UI evidence.</p>
+<h3>Version policy</h3>
+<ul>
+<li>Ubuntu client packages follow the supported Ubuntu 24.04 package stream; record the installed versions during activation.</li>
+<li>Python runner packages are pinned for reproducibility.</li>
+<li>Before intentionally upgrading a pinned Python runner dependency, verify current upstream stable, review breaking changes, update <code>requirements.txt</code>, run <code>hx-smoke-doctor</code>, and commit the new accepted pin.</li>
+<li>Do not silently float Python dependencies to <code>latest</code> during a component test.</li>
+</ul>
+<h2>3. HX-5 paths</h2>
+<p>Defaults:</p>
+<pre><code class="lang-bash">export HX_ECO_REPO="${HX_ECO_REPO:-$HOME/src/HX-Eco-System}"
+export HX_SMOKE_ROOT="${HX_SMOKE_ROOT:-$HOME/hx-smoke-runs}"
+export HX_SMOKE_VENV="${HX_SMOKE_VENV:-$HOME/.venvs/hx-smoke-runner}"</code></pre>
+<p><code>HX_ECO_REPO</code> must be an already-authenticated checkout of <code>HX-Infratstructure/HX-Eco-System</code>. The bootstrap does <strong>not</strong> embed a PAT or create a new secret-management path.</p>
+<p><code>HX_SMOKE_ROOT</code> contains disposable test runs. It is not repository authority.</p>
+<h2>4. Repository-provided runner commands</h2>
+<p>After bootstrap, HX-5 exposes these commands through <code>$HOME/.local/bin</code>:</p>
+<div class="tw"><table><thead><tr><th>Command</th><th>Function</th></tr></thead><tbody><tr><td><code>hx-smoke-doctor</code></td><td>validate the CentCom client toolchain and headless Chromium</td></tr><tr><td><code>hx-smoke-doctor --remote</code></td><td>additionally prove a known-good remote inference call to already-PASS HX-2</td></tr><tr><td><code>hx-smoke-new</code></td><td>create a timestamped disposable run workspace and proof-chain manifest from a committed smoke-test authority</td></tr><tr><td><code>hx-smoke-ui-capture</code></td><td>capture direct-LAN UI evidence only after expected live text is visible</td></tr><tr><td><code>hx-smoke-promote</code></td><td>validate normalized status/cleanup plus proof-chain manifest fields, screen obvious secrets, and promote selected evidence into <code>docs/05-evidence/</code></td></tr></tbody></table></div>
+<p>The helper scripts do not change the SUT configuration by themselves.</p>
+<h2>5. Bootstrap procedure</h2>
+<p>Execute only after HX-5 base/domain/GPU, Ollama/Ornith, and reboot-persistence gates are accepted.</p>
+<p>From the authenticated repository checkout:</p>
+<pre><code class="lang-bash">cd "$HX_ECO_REPO"
+bash docs/03-runbooks/HX-5/04-centcom-smoke-runner-bootstrap.sh</code></pre>
+<p>The bootstrap:</p>
+<ol>
+<li>verifies it is running on <code>hx-5</code>;</li>
+<li>requires an existing authenticated repository checkout;</li>
+<li>installs the Ubuntu client packages listed above;</li>
+<li>creates the dedicated Python venv;</li>
+<li>installs the pinned FastMCP and Playwright dependencies;</li>
+<li>installs Playwright's Chromium runtime and required OS libraries;</li>
+<li>links the repository-owned helper commands into <code>$HOME/.local/bin</code>;</li>
+<li>creates/protects <code>HX_SMOKE_ROOT</code>;</li>
+<li>does <strong>not</strong> modify firewall, DNS, routing, NFS, application-server packages, or SUT configuration.</li>
+</ol>
+<p>Then run:</p>
+<pre><code class="lang-bash">export PATH="$HOME/.local/bin:$PATH"
 hx-smoke-doctor
-hx-smoke-doctor --remote</pre><p>The remote activation probe uses already-PASS HX-2 by default and expects <code>HX-CENTCOM-RUNNER-PASS</code>. DeepSeek Harness is not required for CentCom runner activation.</p></body></html>
+hx-smoke-doctor --remote</code></pre>
+<p>The second command uses the already-proven HX-2 Ollama endpoint by default and requires the exact known answer:</p>
+<pre><code class="lang-text">HX-CENTCOM-RUNNER-PASS</code></pre>
+<p>Defaults may be overridden with non-secret environment variables:</p>
+<pre><code class="lang-bash">export HX_SMOKE_PROBE_OLLAMA_URL="http://192.168.50.202:11434"
+export HX_SMOKE_PROBE_MODEL="qwen-x:qwen3.8-27b-q6_k"</code></pre>
+<p>Passing the doctor does not mark HX-5 DeepSeek Harness PASS. It activates only the CentCom smoke-runner capability.</p>
+<h2>6. Disposable run creation and proof-chain manifest</h2>
+<p>Example:</p>
+<pre><code class="lang-bash">RUN_DIR="$(hx-smoke-new hx-9 postgresql postgresql-smoke-test.md 192.168.50.209)"
+cd "$RUN_DIR"</code></pre>
+<p><code>hx-smoke-new</code> refuses to start from an untracked or locally modified smoke-test authority. It records:</p>
+<ul>
+<li>run ID and UTC start;</li>
+<li>operator and runner host;</li>
+<li>SUT host/IP;</li>
+<li>component;</li>
+<li>smoke-test file;</li>
+<li>repository commit SHA;</li>
+<li>smoke-test SHA-256;</li>
+<li>placeholders for component version, endpoint, and final status;</li>
+<li><code>prior_pass_evidence</code>;</li>
+<li><code>limited_integration_plan</code>.</li>
+</ul>
+<p>Before executing the test, replace the last two placeholders using <code>HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code>:</p>
+<pre><code class="lang-text">prior_pass_evidence: &lt;current retained evidence path(s)/accepted server record(s) or NONE&gt;
+limited_integration_plan: &lt;brief temporary integration plan or NONE&gt;</code></pre>
+<p>This prevents an agent from quietly changing PASS criteria and also makes downstream proof dependencies explicit and reproducible.</p>
+<h2>7. Browser/UI evidence method</h2>
+<p>The standard automated browser is <strong>Playwright-managed headless Chromium on HX-5</strong>.</p>
+<p>Use it only when the component smoke-test authority requires browser/UI proof:</p>
+<pre><code class="lang-bash">hx-smoke-ui-capture \
+  "http://&lt;sut-ip&gt;:&lt;port&gt;/" \
+  "&lt;expected live backend text&gt;" \
+  "$RUN_DIR/evidence/supporting/ui-live-state.png"</code></pre>
+<p>A screenshot is accepted only after the expected visible text is present. A page title, HTTP 200, or generic login page alone is not sufficient when the component requires proof of live backend state.</p>
+<p>The helper also writes a <code>.meta.txt</code> sidecar containing UTC time, runner, final URL, page title, expected visible text, and <code>UI_CAPTURE=PASS</code>.</p>
+<p>Rules:</p>
+<ul>
+<li>use the application's direct LAN UI; do not insert HX-7 NGINX unless NGINX itself is the SUT;</li>
+<li>do not persist a browser profile, cookies, or authentication state as repository evidence;</li>
+<li>do not put credentials in command lines retained as evidence;</li>
+<li>product-specific authenticated navigation remains defined by the applicable smoke test or an explicit implementation-time procedure;</li>
+<li>if a UI cannot be safely automated generically, capture the visual proof from the operator workstation and place only the resulting non-secret evidence in the HX-5 run bundle.</li>
+</ul>
+<h2>8. Evidence promotion</h2>
+<p>Before promotion, normalize two files in the run workspace:</p>
+<pre><code class="lang-text">evidence/result.txt
+  FUNCTIONAL=PASS|FAIL|NOT_EXECUTABLE
+  STATUS=IN_PROGRESS
+  SUMMARY=&lt;short explanation&gt;
+
+cleanup/cleanup.txt
+  CLEANUP=PASS|NOT_APPLICABLE|FAIL
+  DETAIL=&lt;short explanation&gt;</code></pre>
+<p>Also resolve in <code>manifest.md</code>:</p>
+<pre><code class="lang-text">prior_pass_evidence
+limited_integration_plan</code></pre>
+<p>Then:</p>
+<pre><code class="lang-bash">hx-smoke-promote "$RUN_DIR" PASS</code></pre>
+<p>For <code>PASS</code>, promotion requires:</p>
+<pre><code class="lang-text">FUNCTIONAL=PASS
+AND
+CLEANUP=PASS or NOT_APPLICABLE
+AND
+prior_pass_evidence is recorded or explicitly NONE
+AND
+limited_integration_plan is recorded or explicitly NONE</code></pre>
+<p>The promotion helper:</p>
+<ol>
+<li>verifies the run came from <code>HX_SMOKE_ROOT</code>;</li>
+<li>reads SUT/component/run identity from the manifest;</li>
+<li>refuses PASS when functional, cleanup, or proof-chain fields are incomplete;</li>
+<li>screens the promotion set for obvious credential patterns;</li>
+<li>stamps final status and UTC end time;</li>
+<li>copies only the normalized retained bundle and selected supporting evidence to:</li>
+</ol>
+<pre><code class="lang-text">docs/05-evidence/&lt;sut&gt;/&lt;component&gt;/&lt;run-id&gt;/</code></pre>
+<ol>
+<li>includes the prior PASS evidence and limited-integration references in the retained bundle summary;</li>
+<li><strong>does not auto-commit</strong>.</li>
+</ol>
+<p>An agent or operator reviews the promoted evidence and commits it explicitly. This keeps repository changes visible and prevents an execution helper from becoming an unreviewed Git authority.</p>
+<h2>9. AI-agent operating context</h2>
+<p>Scoped instructions live at:</p>
+<pre><code class="lang-text">tools/hx-smoke-runner/AGENTS.md</code></pre>
+<p>Any AI agent preparing or executing a smoke test must read, in order:</p>
+<ol>
+<li>root <code>AGENTS.md</code>;</li>
+<li><code>docs/00-control/CURRENT-STATE.md</code>;</li>
+<li><code>docs/00-control/BUILD-STATE.md</code>;</li>
+<li><code>docs/00-control/DECISIONS.md</code>;</li>
+<li><code>docs/01-architecture/ARCHITECTURE-ORIENTATION.md</code>;</li>
+<li><code>docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md</code>;</li>
+<li>relevant server record, runbook, and application/model standard;</li>
+<li><code>docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code>;</li>
+<li><code>HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md</code>;</li>
+<li>the component's current <code>/smoke-tests/*.md</code> authority;</li>
+<li><code>tools/hx-smoke-runner/AGENTS.md</code>.</li>
+</ol>
+<p>If the smoke-test authority appears defective, stale, or inconsistent with live evidence, stop the run. Correct the authority in a separate reviewed change, commit it, then start a <strong>new run ID</strong>. Never modify acceptance criteria inside an in-progress run workspace.</p>
+<p>If required prior PASS evidence is missing or materially stale, revalidate that prerequisite first rather than inventing a bypass.</p>
+<h2>10. What this standard deliberately does not do</h2>
+<p>It does not:</p>
+<ul>
+<li>install or configure SUT workloads;</li>
+<li>create permanent cross-service integrations;</li>
+<li>create firewall, TLS, DNS, NFS, or routing policy;</li>
+<li>store PATs/passwords/API keys in the repository;</li>
+<li>install a container runtime;</li>
+<li>auto-commit evidence;</li>
+<li>make DeepSeek Harness a prerequisite for infrastructure smoke testing;</li>
+<li>make HX-15 FastMCP a prerequisite for product-specific MCP servers;</li>
+<li>replace the deployment roadmap, smoke-test roadmap, or individual component smoke-test authorities.</li>
+</ul>
+<h2>11. Activation evidence</h2>
+<p>When actually installed on HX-5, capture at minimum:</p>
+<pre><code class="lang-text">psql --version
+redis-cli --version
+curl --version
+jq --version
+git --version
+ssh -V
+python3 --version
+FastMCP installed version
+Playwright installed version
+Chromium launch PASS
+hx-smoke-doctor --remote PASS</code></pre>
+<p>Only after live execution may the HX-5 server record and <code>BUILD-STATE.md</code> state that the CentCom smoke-runner capability is active.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md</code>.</footer></div></body></html>

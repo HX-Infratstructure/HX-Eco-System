@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+# Pick the first interpreter that actually reports Python 3. On Windows a
+# "python3" App Execution Alias can exist on PATH without being an interpreter.
+PY=""
+for cand in python3 python; do
+  if command -v "$cand" >/dev/null 2>&1 && "$cand" -c 'import sys;sys.exit(0 if sys.version_info[0]==3 else 1)' >/dev/null 2>&1; then
+    PY="$cand"; break
+  fi
+done
+[ -n "$PY" ] || { echo "ERROR: no working Python 3 on PATH" >&2; exit 1; }
+exec "$PY" "$DIR/hx_upstream_drift.py" "$@"

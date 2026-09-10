@@ -300,26 +300,28 @@ Do not use: normal routing for Qdrant, LightRAG, n8n, Open WebUI,
 Normal application UIs remain directly accessible on their own native server/port.
 
 ## 10. Current server/application map
+<!-- HX-FLEET:TABLE columns=id,ip,role,state -->
+| Server | IP | Assignment | State |
+|---|---|---|---|
+| HX-1 | `192.168.50.200` | Samba AD / DNS / Kerberos / NTP | **PASS** |
+| HX-2 | `192.168.50.202` | Qwen-X / Ollama | **PASS** |
+| HX-3 | `192.168.50.203` | Coder-X / Ollama | **PASS** |
+| HX-4 | `192.168.50.204` | Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker | **NOT STARTED** |
+| HX-5 | `192.168.50.205` | CentCom / Ornith / DeepSeek Harness / dev-test | **NOT STARTED** |
+| HX-6 | `192.168.50.206` | OmniRoute | **NOT STARTED** |
+| HX-7 | `192.168.50.207` | NGINX dev/test only | **NOT STARTED** |
+| HX-8 | `192.168.50.208` | Open WebUI | **NOT STARTED** |
+| HX-9 | `192.168.50.209` | PostgreSQL + MCP / Redis + MCP | **NOT STARTED** |
+| HX-10 | `192.168.50.210` | Qdrant + Web UI + MCP | **NOT STARTED** |
+| HX-11 | `192.168.50.211` | LightRAG + MCP | **NOT STARTED** |
+| HX-12 | `192.168.50.212` | Deep Agents (LangChain) LOB agent factory | **NOT STARTED** |
+| HX-13 | `192.168.50.213` | Mem0 + assigned MCP | **NOT STARTED** |
+| HX-14 | `192.168.50.214` | n8n + MCP | **NOT STARTED** |
+| HX-15 | `192.168.50.215` | FastMCP shared/custom MCP development host | **NOT STARTED** |
+| HX-16 | `192.168.50.216` | Docling + Granite-Docling 258M + MCP | **NOT STARTED** |
+| HX-17 | `192.168.50.217` | Crawl4AI + MCP | **NOT STARTED** |
+<!-- /HX-FLEET:TABLE -->
 
-| Server | IP | Assignment | Priority |
-|---|---|---|---:|
-| HX-1 | `192.168.50.200` | Samba AD / DNS / Kerberos / NTP | Complete |
-| HX-2 | `192.168.50.202` | Qwen-X / Ollama / Qwen3.8-27B Q6_K | Complete |
-| HX-3 | `192.168.50.203` | Coder-X / Ollama / Qwen3-Coder-30B Q6_K | Complete |
-| HX-4 | `192.168.50.204` | Meta-X / GPT-OSS 20B + BGE-M3 / Nomic / BGE reranker | 1 |
-| HX-5 | `192.168.50.205` | CentCom / Ornith / DeepSeek Harness / dev-test | 2, 8 |
-| HX-6 | `192.168.50.206` | OmniRoute | 6 |
-| HX-7 | `192.168.50.207` | NGINX dev/test only | 9 |
-| HX-8 | `192.168.50.208` | Open WebUI | 16 |
-| HX-9 | `192.168.50.209` | PostgreSQL + MCP / Redis + MCP | 3, 4 |
-| HX-10 | `192.168.50.210` | Qdrant + Web UI + MCP | 5 |
-| HX-11 | `192.168.50.211` | LightRAG + MCP | 12 |
-| HX-12 | `192.168.50.212` | Deep Agents by LangChain — LOB agent factory/runtime harness | 14 |
-| HX-13 | `192.168.50.213` | Mem0 + assigned MCP | 13 |
-| HX-14 | `192.168.50.214` | n8n + MCP | 15 |
-| HX-15 | `192.168.50.215` | FastMCP shared/custom MCP development host | 7 |
-| HX-16 | `192.168.50.216` | Docling + Granite-Docling 258M + MCP | 10 |
-| HX-17 | `192.168.50.217` | Crawl4AI + MCP | 11 |
 
 ## 11. Planned infrastructure follow-ons — lower priority
 

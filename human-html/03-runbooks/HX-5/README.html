@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX-5 Current Runbook</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/03-runbooks/HX-5/README.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-5 Current Runbook</h1>
+<p><strong>Host:</strong> hx-5 <strong>Expected IP:</strong> <code>192.168.50.205</code> <strong>Role:</strong> CentCom / Ornith / DeepSeek Harness / dev-test / fleet smoke-test runner</p>
+<h2>Execution</h2>
+<p>Steps 1-3 are the shared base blocks. Run them from this directory; each one refuses to run on any host other than <code>hx-5</code>.</p>
+<pre><code class="lang-bash">./01-base-admin-network-updates.sh    # reboots
+./02-domain-nvidia.sh                 # reboots
+./03-storage-ollama.sh</code></pre>
+<p>Implementation lives in <code>../common/</code>; version pins and the host -&gt; IP map live in <code>../common/hx-base.env</code>. Ollama and the NVIDIA driver are pinned to the fleet baseline, and block 3 stops if the installed Ollama does not match the pin. See <code>../README.md</code> before changing a pin.</p>
+<h2>Sequence</h2>
+<ol>
+<li>Base/admin/network validation; apt update + upgrade; reboot.</li>
+<li>Join <code>hx.local.arpa</code>; validate SSSD/domain user; install the pinned <code>nvidia-driver-595-server-open</code>; reboot.</li>
+<li>Validate GPU/storage; require inspected <code>/srv/ollama</code>; install/configure Ollama; reboot/health validation.</li>
+<li>Resolve/accept current GPU symmetry decision before workload placement assumptions.</li>
+<li>Install Ornith model and close its model/inference BASE PASS.</li>
+<li>Activate the CentCom smoke-test runner role before moving into HX-9 and later component builds:</li>
+<ul>
+<li>verify the authenticated <code>HX-Infratstructure/HX-Eco-System</code> checkout on HX-5;</li>
+<li>read <code>../../04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md</code>;</li>
+<li>execute <code>04-centcom-smoke-runner-bootstrap.sh</code> from this runbook directory/repository checkout;</li>
+<li>install only the client/runner tools defined by the current toolset standard;</li>
+<li>select and record <code>HX_SMOKE_ROOT</code>, <code>HX_SMOKE_VENV</code>, and <code>HX_ECO_REPO</code>;</li>
+<li>run <code>hx-smoke-doctor</code>;</li>
+<li>run <code>hx-smoke-doctor --remote</code> and require the known-good HX-2 response <code>HX-CENTCOM-RUNNER-PASS</code>;</li>
+<li>keep disposable test projects, fixtures, scripts, manifests, logs, and cleanup verification on HX-5 rather than on the SUT;</li>
+<li>follow <code>../../04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md</code> for all later component runs.</li>
+</ul>
+<li>Record the installed CentCom client-tool versions and remote activation evidence in the HX-5 server record. Do not mark the smoke-runner capability active from documentation alone.</li>
+<li>Install DeepSeek Harness only at its scheduled priority after the model fleet/OmniRoute foundation is available. The Harness is not a prerequisite for CentCom smoke-runner activation.</li>
+<li>Validate Harness runtime/CLI or service health.</li>
+<li>Execute the required Harness meta-agent capability smoke test defined in <code>../../../smoke-tests/deepseek-harness-smoke-test.md</code> and <code>../../00-control/HX-ECO-SYSTEM-DEEPSEEK-HARNESS-IMPLEMENTATION-ADDENDUM.md</code>:</li>
+<ul>
+<li>Harness owns the top-level solution request and orchestration;</li>
+<li>temporary sub-agents perform bounded planning, building, and review work;</li>
+<li>sub-agents hand artifacts/context to one another;</li>
+<li>the workflow produces and executes a small runnable AI application against one approved HX model;</li>
+<li>an independent reviewer sub-agent validates the result;</li>
+<li>Harness synthesizes the final evidence and PASS/FAIL result.</li>
+</ul>
+<li>Prove Harness reboot persistence with a short delegated sub-agent invocation after reboot. The full solution-build test does not need to be repeated after reboot.</li>
+<li>Update the HX-5 server record and <code>BUILD-STATE.md</code> only after the relevant HX-5 workload gates have passed.</li>
+</ol>
+<h2>CentCom smoke-runner activation rule</h2>
+<pre><code class="lang-text">HX-5 base/domain/GPU state accepted
+              AND
+Ollama + Ornith inference PASS
+              AND
+HX-5 reboot persistence PASS
+              AND
+CentCom bootstrap complete
+              AND
+hx-smoke-doctor PASS
+              AND
+hx-smoke-doctor --remote PASS
+              AND
+client versions recorded
+              =
+CENTCOM SMOKE-RUNNER ACTIVE</code></pre>
+<p>This activation is an HX-5 capability gate. It does not mark DeepSeek Harness PASS and does not alter the one-server-at-a-time build sequence.</p>
+<h2>DeepSeek Harness closure rule</h2>
+<pre><code class="lang-text">Harness runtime/service health = PASS
+                 AND
+Harness meta-agent solution-building smoke test = PASS</code></pre>
+<p>The Harness does not close BASE PASS from process health alone.</p>
+<p>Do not mount/wipe unrelated disks. Keep HX-5 headroom for CentCom/Harness/dev-test rather than moving shared embedding infrastructure here. Do not turn HX-5 into a second deployment/control plane; its smoke-test role is remote execution, evidence capture, and cleanup verification.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/03-runbooks/HX-5/README.md</code>.</footer></div></body></html>

@@ -1,0 +1,103 @@
+name: HX repository checks
+
+# Every check here corresponds to a defect actually found in this repository.
+# The point is that a written rule now fails loudly instead of quietly drifting.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  documentation:
+    name: Documentation consistency
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Links, vocabulary, filenames, evidence
+        run: ./tools/hx-doc/hx-doc-check
+
+      - name: Fleet tables match docs/00-control/hx-fleet.tsv
+        run: ./tools/hx-doc/hx-fleet --check
+
+      - name: human-html mirrors match their Markdown sources
+        run: ./tools/hx-doc/hx-render-html --check
+
+      - name: Server records follow the template
+        run: ./tools/hx-doc/hx-record-check
+
+      - name: Smoke-test authorities are complete
+        run: ./tools/hx-doc/hx-smoke-lint --quiet
+
+  scripts:
+    name: Execution artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: shellcheck runbooks and runner
+        run: |
+          shopt -s nullglob
+          # Shell only. The hx-* globs also match Python files, which
+          # shellcheck cannot parse.
+          mapfile -t files < <(
+            printf '%s\n' \
+              docs/03-runbooks/common/hx-base.env \
+              docs/03-runbooks/common/hx-app-lib.sh \
+              docs/03-runbooks/common/*.sh \
+              docs/03-runbooks/HX-*/*.sh \
+              tools/hx-smoke-runner/hx-smoke-* \
+              tools/hx-doc/hx-* \
+            | grep -vE '\.py$' | sort -u
+          )
+          printf 'checking %s\n' "${files[@]}"
+          shellcheck --shell=bash --severity=warning "${files[@]}"
+
+      - name: Shell scripts are LF and executable
+        run: |
+          fail=0
+          while IFS= read -r f; do
+            if grep -qU $'\r' "$f"; then echo "CRLF: $f"; fail=1; fi
+            if [ ! -x "$f" ]; then echo "not executable: $f"; fail=1; fi
+          done < <(git ls-files 'docs/03-runbooks/**/*.sh' 'tools/hx-smoke-runner/hx-smoke-*')
+          exit $fail
+
+      - name: Python execution artifacts compile
+        run: python3 -m compileall -q tools/
+
+  secrets:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # The gitleaks *action* requires a paid licence for organisation-owned
+      # repositories. The gitleaks binary itself is MIT and free, so run that.
+      - name: Install gitleaks
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          url="$(gh api repos/gitleaks/gitleaks/releases/latest \
+                 --jq '.assets[] | select(.name|test("linux_x64.tar.gz$")) | .browser_download_url')"
+          curl -fsSL "$url" -o /tmp/gitleaks.tar.gz
+          tar -xzf /tmp/gitleaks.tar.gz -C /tmp gitleaks
+          sudo install -m0755 /tmp/gitleaks /usr/local/bin/gitleaks
+          gitleaks version
+
+      - name: Scan working tree and history
+        run: |
+          gitleaks dir . --config .gitleaks.toml --redact --no-banner
+          gitleaks git . --config .gitleaks.toml --redact --no-banner

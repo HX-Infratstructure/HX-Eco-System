@@ -18,8 +18,16 @@ USAGE
 
 [[ $# -eq 2 ]] || { usage >&2; exit 2; }
 
-if [[ "$(hostname -s)" != "hx-5" ]]; then
-  echo "ERROR: hx-smoke-promote must run on HX-5 CentCom." >&2
+# Runner-host gate.
+# HX-5 CentCom is the standard station (D-014). Before CentCom activation
+# (smoke roadmap A1-A4) there is no CentCom, so an operator station may be
+# authorised explicitly by exporting HX_SMOKE_ALLOW_HOST=<hostname -s>.
+# The station actually used is recorded in the run manifest.
+RUNNER_HOST="$(hostname -s)"
+if [[ "$RUNNER_HOST" != "hx-5" && "$RUNNER_HOST" != "${HX_SMOKE_ALLOW_HOST:-}" ]]; then
+  echo "ERROR: ${0##*/} runs on HX-5 CentCom." >&2
+  echo "       For pre-CentCom roadmap steps A1-A4, authorise this station with:" >&2
+  echo "       export HX_SMOKE_ALLOW_HOST=$RUNNER_HOST" >&2
   exit 1
 fi
 
@@ -54,6 +62,27 @@ LIMITED_INTEGRATION_PLAN="$(sed -n 's/^limited_integration_plan:[[:space:]]*//p'
   exit 1
 }
 
+# AGENTS.md section 8: acceptance criteria must not change inside a run.
+# Re-verify the procedure copy against the hash recorded by hx-smoke-new.
+WANT_SHA="$(sed -n 's/^smoke_test_sha256:[[:space:]]*//p' "$RUN_DIR/manifest.md" | head -n 1)"
+PROC_COPY="$(find "$RUN_DIR/procedure" -maxdepth 1 -name '*.md' -print -quit 2>/dev/null || true)"
+[[ -n "$WANT_SHA" && "$WANT_SHA" != "TO_RECORD" ]] || {
+  echo "ERROR: manifest has no smoke_test_sha256; run was not created by hx-smoke-new." >&2
+  exit 1
+}
+[[ -n "$PROC_COPY" && -f "$PROC_COPY" ]] || {
+  echo "ERROR: no procedure copy found in $RUN_DIR/procedure/." >&2
+  exit 1
+}
+GOT_SHA="$(sha256sum "$PROC_COPY" | awk '{print $1}')"
+[[ "$WANT_SHA" == "$GOT_SHA" ]] || {
+  echo "ERROR: the smoke-test authority changed during this run." >&2
+  echo "       recorded: $WANT_SHA" >&2
+  echo "       actual:   $GOT_SHA" >&2
+  echo "       Correct the authority in a reviewed repository change, then start a new run ID." >&2
+  exit 1
+}
+
 FUNCTIONAL="$(awk -F= '$1=="FUNCTIONAL" {print $2; exit}' "$RUN_DIR/evidence/result.txt")"
 CLEANUP="$(awk -F= '$1=="CLEANUP" {print $2; exit}' "$RUN_DIR/cleanup/cleanup.txt")"
 
@@ -71,12 +100,21 @@ if [[ "$FINAL_STATUS" == "PASS" ]]; then
     echo "ERROR: PASS requires limited_integration_plan to be recorded (use NONE when not applicable)." >&2
     exit 1
   }
+  # docs/05-evidence/README.md: every retained run must identify the component
+  # version/revision, the system under test, and the transport/endpoint used.
+  for field in component_version_or_revision transport_or_endpoint sut_ip; do
+    value="$(sed -n "s/^${field}:[[:space:]]*//p" "$RUN_DIR/manifest.md" | head -n 1)"
+    [[ -n "$value" && "$value" != "TO_RECORD" ]] || {
+      echo "ERROR: PASS requires $field to be recorded in manifest.md (use NONE when genuinely not applicable)." >&2
+      exit 1
+    }
+  done
 fi
 
 # Prevent obvious credentials from entering retained repository evidence.
 if grep -RIE --exclude='*.png' --exclude='*.jpg' --exclude='*.jpeg' --exclude='*.webp' \
-  '(ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|BEGIN (OPENSSH|RSA|EC) PRIVATE KEY|Authorization:[[:space:]]*Bearer[[:space:]]+[^[:space:]]+)' \
-  "$RUN_DIR/manifest.md" "$RUN_DIR/evidence" "$RUN_DIR/cleanup" >/dev/null 2>&1; then
+  '(ghp_[A-Za-z0-9]{20,}|gho_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|BEGIN [A-Z ]*PRIVATE KEY|Authorization:[[:space:]]*(Bearer|Basic)[[:space:]]+[^[:space:]]+|sshpass[[:space:]]+-p|AKIA[0-9A-Z]{16}|xox[baprs]-[A-Za-z0-9-]{10,}|sk-[A-Za-z0-9_-]{20,}|(PASSWORD|PASSWD|SECRET|API_?KEY|TOKEN)[[:space:]]*[=:][[:space:]]*[^[:space:]]{6,})' \
+  "$RUN_DIR/manifest.md" "$RUN_DIR/evidence" "$RUN_DIR/cleanup" >/dev/null; then
   echo "ERROR: possible secret detected in promotion set; redact before promotion." >&2
   exit 1
 fi

@@ -18,6 +18,21 @@ TOOLS_DIR="$HX_ECO_REPO/tools/hx-smoke-runner"
 }
 [[ -f "$TOOLS_DIR/requirements.txt" ]] || { echo "ERROR: runner tools missing from repo checkout." >&2; exit 1; }
 
+# The runner enforces a clean, committed smoke-test authority at run time, so
+# bootstrap from a clean checkout too - otherwise the installed tooling does not
+# correspond to any reviewed commit.
+git -C "$HX_ECO_REPO" diff --quiet -- tools/hx-smoke-runner || {
+  echo "ERROR: tools/hx-smoke-runner has uncommitted changes; commit or revert first." >&2
+  exit 1
+}
+git -C "$HX_ECO_REPO" diff --cached --quiet -- tools/hx-smoke-runner || {
+  echo "ERROR: tools/hx-smoke-runner has staged but uncommitted changes." >&2
+  exit 1
+}
+BOOTSTRAP_COMMIT="$(git -C "$HX_ECO_REPO" rev-parse HEAD)"
+echo "Bootstrapping runner tooling from commit $BOOTSTRAP_COMMIT"
+
+
 sudo apt-get update
 sudo apt-get install -y \
   ca-certificates \
@@ -34,7 +49,13 @@ sudo apt-get install -y \
 mkdir -p "$(dirname "$HX_SMOKE_VENV")" "$HX_SMOKE_ROOT" "$HOME/.local/bin"
 python3 -m venv "$HX_SMOKE_VENV"
 "$HX_SMOKE_VENV/bin/python" -m pip install --upgrade pip
-"$HX_SMOKE_VENV/bin/python" -m pip install -r "$TOOLS_DIR/requirements.txt"
+if [[ -f "$TOOLS_DIR/requirements.lock" ]]; then
+  "$HX_SMOKE_VENV/bin/python" -m pip install --require-hashes -r "$TOOLS_DIR/requirements.lock"
+else
+  echo "WARNING: no requirements.lock; installing from unhashed direct pins." >&2
+  echo "         Generate a hashed lock - see the header of requirements.txt." >&2
+  "$HX_SMOKE_VENV/bin/python" -m pip install -r "$TOOLS_DIR/requirements.txt"
+fi
 
 # Playwright-managed Chromium only; no Node/npm stack and no container runtime.
 sudo "$HX_SMOKE_VENV/bin/python" -m playwright install-deps chromium
