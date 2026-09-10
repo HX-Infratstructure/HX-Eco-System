@@ -176,23 +176,6 @@ Combines:
 
 The wrapper adapts the official `mem0` skill for HX OSS use. `mem0-cli`, `mem0-vercel-ai-sdk`, `mem0-integrate`, and `mem0-test-integration` remain reference-only for HX-13 BASE unless separately authorized; `mem0-oss-to-platform` is rejected for the current HX-13 runtime unless the owner changes the native/self-hosted architecture. The current Mem0 coding-agent plugin/MCP remains a separate reference capability; the exact assigned HX-13 MCP implementation still requires selection.
 
-### Docling
-
-```text
-skills/docling/hx-docling-advisor/
-```
-
-Combines:
-
-- HX-16 placement, native/systemd and clean-room rules;
-- owner decision D-006 keeping Granite-Docling 258M on HX-16 with CPU-first BASE validation;
-- current D1 Docling/Granite and D2 product-MCP validation authorities;
-- current official `docling-project/docling` documentation, source, releases, model catalog, and packaged usage skill;
-- current official `docling-project/docling-mcp` as the preferred product-specific companion source;
-- HX-specific curation that keeps remote services, managed services, RAG integrations, containers, and GPU optimization outside current BASE unless separately approved.
-
-Docling's packaged usage skill is one router with six on-demand references for CLI, Python SDK, extraction, RAG, Service Client, and slim packaging. The repository-root contributor development skills are not promoted as HX-16 runtime authority. The wrapper accepts/adapts local document-processing expertise while rejecting containerized Docling Serve and managed-service substitution under current HX architecture. Exact package/extras, Python environment, model revision/cache, long-running service shape, and Docling MCP mode/transport remain future HX-16 runbook decisions.
-
 ## Governance
 
 `SKILL-GOVERNANCE.md` defines admission, trust, authority precedence, version/provenance, update, testing, secret-handling, deployment, and retirement rules.

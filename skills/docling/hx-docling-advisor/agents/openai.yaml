@@ -1,0 +1,3 @@
+interface:
+  display_name: "HX Docling Advisor"
+  short_description: "Apply current Docling expertise within HX-16 architecture and smoke-test rules."

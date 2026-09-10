@@ -155,7 +155,6 @@ Approved implementations:
 - PostgreSQL: `skills/postgresql/hx-postgresql-advisor/` — HX wrapper using PostgreSQL Global Development Group guidance as product authority, the Agent Skills open format, and reviewed Neon `postgres-skills` as subordinate community expert reference.
 - Redis: `skills/redis/hx-redis-advisor/` — HX wrapper using official Redis product guidance plus reviewed `redis/agent-skills`, curated to preserve HX-9 native/systemd, shared-host, security/topology, and smoke-test authority.
 - Mem0: `skills/mem0/hx-mem0-advisor/` — HX wrapper around current official `mem0ai/mem0` product guidance and six-skill graph, curated for HX-13 native/self-hosted OSS, approved Qdrant/Ollama dependencies, owner-gated integration automation, and HX smoke-test authority.
-- Docling: `skills/docling/hx-docling-advisor/` — HX wrapper around current official `docling-project/docling` product guidance and packaged usage skill plus official `docling-project/docling-mcp`, curated for HX-16 native/systemd placement, Granite-Docling 258M CPU-first BASE proof, companion MCP separation, and HX smoke-test authority.
 
 Agent-specific Claude/Codex/OpenCode skill installations are derived deployments from this canonical source, not separate authorities. Skills never store actual credentials or sshpass passwords.
 
