@@ -23,9 +23,10 @@ p = snapshot_download("${HX_GRANITE_DOCLING_MODEL}", revision="${HX_GRANITE_DOCL
 print("Granite-Docling cached at", p)
 PY
 
-/srv/docling/venv/bin/docling --version
+sudo -u docling env HF_HOME=/srv/docling/hf /srv/docling/venv/bin/docling --version
 
-hx_app_done hx-docling "$HX_HOST" "Docling ${HX_DOCLING_VERSION} + Granite-Docling 258M"
+hx_app_done NONE "$HX_HOST" "Docling ${HX_DOCLING_VERSION} + Granite-Docling 258M" \
+  "sudo -u docling env HF_HOME=/srv/docling/hf /srv/docling/venv/bin/docling --version"
 
 cat <<'NOTE'
 Docling is a CLI and library, not a daemon, so there is no unit for the core

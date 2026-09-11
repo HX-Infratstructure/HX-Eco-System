@@ -19,11 +19,13 @@ PY = sys.executable
 passed = failed = 0
 
 def run(*args, cwd=WORK):
+    """Run a tool in the scratch copy; returns (exit status, combined output)."""
     r = subprocess.run([PY] + list(args), cwd=cwd, capture_output=True, text=True,
                        encoding='utf-8', errors='replace')
     return r.returncode, (r.stdout or '') + (r.stderr or '')
 
 def check(label, cond, detail=''):
+    """Record one test result and print it."""
     global passed, failed
     if cond:
         passed += 1
@@ -33,11 +35,13 @@ def check(label, cond, detail=''):
         print('FAIL  %s\n%s' % (label, detail[:800]))
 
 def fresh():
+    """Replace the scratch copy with a clean one, so tests cannot affect each other."""
     if os.path.isdir(WORK):
         shutil.rmtree(WORK, ignore_errors=True)
     shutil.copytree(SRC, WORK, ignore=shutil.ignore_patterns('.git'))
 
 def edit(rel, fn):
+    """Rewrite one file in the scratch copy through fn."""
     p = os.path.join(WORK, rel.replace('/', os.sep))
     s = io.open(p, encoding='utf-8').read()
     io.open(p, 'w', encoding='utf-8', newline='\n').write(fn(s))
@@ -99,6 +103,7 @@ check('hx-doc-check: a target outside the repository is broken',
 # ------------------------------ hx_upstream_drift: unpaired provenance ------
 fresh()
 def unpair(s):
+    """Duplicate a Repository line so the repo and commit counts no longer match."""
     m = re.search(r'^(Repository:\s*[\w.-]+/[\w.-]+)\s*$', s, re.M)
     assert m, 'no Repository line in SKILL-REGISTRY.md'
     return s[:m.end()] + '\n' + m.group(1) + s[m.end():]
@@ -174,6 +179,7 @@ check('hx-render-html: an edited source with a stale mirror fails',
 # ------------------------------------ hx_smoke_lint: no known answer --------
 fresh()
 def strip_known(s):
+    """Remove every phrase that declares a known answer."""
     s = re.sub(r'(?i)known.answer', 'REMOVED', s)
     s = re.sub(r'(?i)expected output', 'REMOVED', s)
     s = re.sub(r'(?i)reply with exactly', 'REMOVED', s)
@@ -186,6 +192,7 @@ check('hx-smoke-lint: an authority with no known answer fails',
 # ------------------------------ hx_smoke_lint: no retention statement -------
 fresh()
 def strip_retention(s):
+    """Remove every phrase that states where evidence is retained."""
     s = re.sub(r'(?i)retention', 'REMOVED', s)
     s = re.sub(r'(?i)retain\w*', 'REMOVED', s)
     return s.replace('docs/05-evidence', 'docs/REMOVED')
@@ -197,6 +204,7 @@ check('hx-smoke-lint: an authority with no retention statement fails',
 # ------------------------- hx_smoke_lint: an empty Evidence heading fails ---
 fresh()
 def gut_evidence(s):
+    """Cut the Evidence section down to a bare heading."""
     head = s.split('## Evidence')[0]
     return head + '## Evidence' + chr(10)
 edit('smoke-tests/qdrant-smoke-test.md', gut_evidence)
@@ -211,12 +219,33 @@ check('hx-smoke-lint: a bare Evidence heading does not satisfy the check',
 fresh()
 NEGATED = 'Do not retain credentials in evidence, and do not retain secrets.'
 def negate_evidence(s):
+    """Replace the Evidence section with a sentence that only negates retention."""
     head = s.split('## Evidence')[0]
     return head + '## Evidence' + chr(10) * 2 + NEGATED + chr(10)
 edit('smoke-tests/qdrant-smoke-test.md', negate_evidence)
 rc, out = run('tools/hx-doc/hx_smoke_lint.py')
 check('hx-smoke-lint: "do not retain credentials" does not satisfy the check',
       rc != 0 and 'evidence retention' in out, out)
+
+# ---------------------------- hx_doc_check: a unit nothing creates ----------
+fresh()
+edit('docs/03-runbooks/common/10-crawl4ai.sh',
+     lambda s: s.replace('hx_app_done NONE', 'hx_app_done hx-crawl4ai', 1))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a block reporting a unit nothing creates fails',
+      rc != 0 and 'hx-crawl4ai' in out, out)
+
+# ------------------- hx_doc_check: a mention is not a unit creation ---------
+# A comment naming the unit path, or an rm of it, must not satisfy the check.
+fresh()
+def mention_only(s):
+    """Report a unit, and mention its path without creating it."""
+    s = s.replace('hx_app_done NONE', 'hx_app_done hx-crawl4ai', 1)
+    return s + chr(10) + 'sudo rm -f /etc/systemd/system/hx-crawl4ai.service' + chr(10)
+edit('docs/03-runbooks/common/10-crawl4ai.sh', mention_only)
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: naming a unit path without creating it still fails',
+      rc != 0 and 'hx-crawl4ai' in out, out)
 
 # --------------------------------------- hx_version_pins: numeric sort ------
 # Exercise the shipped comparator, not a copy of it: a test that reimplements

@@ -82,5 +82,10 @@ Reranker installed on $HX_HOST.
 Reboot-persistence check (run after the host comes back):
   systemctl is-active hx-reranker && curl -fsS http://127.0.0.1:${HX_RERANKER_PORT}/health
 
-Then record the model, revision, runtime and version in docs/02-server-records/HX-4.md.
+Then record in docs/02-server-records/HX-4.md, with the source URI and the
+full SHA-256 for each downloaded artifact as the evidence standard requires:
+  - the Infinity runtime package, its version, and where it came from;
+  - every model artifact pulled for $HX_RERANKER_MODEL at ${HX_RERANKER_REVISION}.
+A hash alone does not establish origin, and an origin alone does not establish
+what is running. An unknown value is recorded as UNRESOLVED, never omitted.
 SUMMARY

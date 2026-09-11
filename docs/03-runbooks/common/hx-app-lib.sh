@@ -76,15 +76,36 @@ hx_app_validate() {
 
 # Print the closing note every application block ends with.
 # hx_app_done <unit> <host> <what> [url]
+# Closing summary for a completed block.
+#
+# hx_app_done <unit|NONE> <host> <what> [url | reboot-check]
+#
+# Pass NONE as the unit for a library or CLI that has no daemon. It used to
+# take a unit name unconditionally, so five blocks that never create a unit
+# told the operator to run `systemctl is-active hx-<name>` after the reboot -
+# a command that can only fail. With NONE the fourth argument is the check to
+# run after a reboot instead, and it is required; with a unit name the fourth
+# argument is the optional endpoint URL.
 hx_app_done() {
-  local unit="$1" host="$2" what="$3" url="${4:-}"
+  local unit="$1" host="$2" what="$3"
+  local url="" recheck=""
+  if [ "$unit" = "NONE" ]; then
+    recheck="${4:?hx_app_done NONE requires the check to run after a reboot}"
+  else
+    url="${4:-}"
+  fi
   cat <<DONE
 
 ${what} installed on ${host}.
 $( [ -n "$url" ] && echo "  endpoint  ${url}" )
 
 Reboot-persistence check, after the host comes back:
-  systemctl is-active ${unit}
+$( if [ "$unit" = "NONE" ]; then
+     echo "  ${recheck}"
+     echo "  (no unit: this component is a library or CLI, not a daemon)"
+   else
+     echo "  systemctl is-active ${unit}"
+   fi )
 
 Then record the installed version in docs/02-server-records/${host^^}.md,
 set state and gate for ${host^^} in docs/00-control/hx-fleet.tsv, and run

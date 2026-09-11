@@ -53,6 +53,7 @@ SKIP_TREES = (".git", "archive", "human-html", ".claude", "graft")
 
 
 def active_markdown() -> list[Path]:
+    """Every current Markdown document, excluding generated and archived trees."""
     out = []
     for p in sorted(REPO.rglob("*.md")):
         parts = p.relative_to(REPO).parts
@@ -190,7 +191,47 @@ def check_evidence_not_ignored() -> None:
         )
 
 
+def check_unit_claims() -> None:
+    """A block may only report a unit it actually creates.
+
+    hx_app_done prints a reboot-persistence check. Five blocks named a unit
+    that nothing in the file creates, so the operator was told to run
+    `systemctl is-active hx-<name>` for a unit that does not exist, and that
+    check could only fail. A library or CLI passes NONE and states the command
+    to run instead.
+    """
+    common = REPO / "docs/03-runbooks/common"
+    bad = 0
+    for sh in sorted(common.glob("*.sh")):
+        raw = sh.read_text(encoding="utf-8")
+        # Comments mention unit paths, and so does an rm. Neither creates
+        # anything, and matching them would make this check unfailable.
+        code = "\n".join(
+            line for line in raw.splitlines() if not line.lstrip().startswith("#")
+        )
+        for unit in re.findall(r"hx_app_done\s+([A-Za-z0-9_-]+)", code):
+            if unit == "NONE":
+                continue
+            path = rf"/etc/systemd/system/{re.escape(unit)}\.service"
+            creates_it = (
+                re.search(rf"hx_app_unit\s+{re.escape(unit)}\b", code)
+                # A write, not merely a mention: tee, cp, install or a redirect.
+                or re.search(rf"(tee|cp|install)\b[^\n]*{path}", code)
+                or re.search(rf">\s*{path}", code)
+            )
+            if not creates_it:
+                rel = sh.relative_to(REPO).as_posix()
+                failures.append(
+                    f"units: {rel} reports unit '{unit}' but nothing in the file "
+                    "creates it; pass NONE and state the check to run instead"
+                )
+                bad += 1
+    if not bad:
+        notes.append("units: every reported unit is created by its own block")
+
+
 def main() -> int:
+    """Run every check and report. Returns the process exit status."""
     quiet = "--quiet" in sys.argv
     for fn in (
         check_links,
@@ -198,6 +239,7 @@ def main() -> int:
         check_frontmatter,
         check_duplicates,
         check_evidence_not_ignored,
+        check_unit_claims,
     ):
         fn()
 
