@@ -1,0 +1,31 @@
+id	phase	sut	component	authority	requires	integration	status
+P0	0	-	Foundation PASS (HX-1, HX-2, HX-3)	docs/00-control/BUILD-STATE.md	NONE	NONE	PASS
+A1	A	hx-4	GPT-OSS / Ollama inference	smoke-tests/ollama-inference-smoke-test.md	P0	NONE	NOT_RUN
+A2	A	hx-4	BGE-M3 + Nomic embeddings	smoke-tests/embedding-models-smoke-test.md	A1	NONE	NOT_RUN
+A3	A	hx-4	BGE-family reranker	smoke-tests/reranker-smoke-test.md	A1	NONE	NOT_RUN
+A4	A	hx-5	Ornith / Ollama inference	smoke-tests/ollama-inference-smoke-test.md	P0	NONE	NOT_RUN
+A5	A	hx-5	CentCom smoke-runner activation	docs/04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md	A4,P0	One known-answer remote call to HX-2	NOT_RUN
+B1	B	hx-9	PostgreSQL core	smoke-tests/postgresql-smoke-test.md	A5	None; session-scoped disposable data	NOT_RUN
+B2	B	hx-9	PostgreSQL MCP	smoke-tests/mcp-companion-smoke-test.md	B1	Parent PostgreSQL service only	NOT_RUN
+B3	B	hx-9	Redis core	smoke-tests/redis-smoke-test.md	A5	None; TTL-protected disposable key	NOT_RUN
+B4	B	hx-9	Redis MCP	smoke-tests/mcp-companion-smoke-test.md	B3	Parent Redis service only	NOT_RUN
+B5	B	hx-10	Qdrant core	smoke-tests/qdrant-smoke-test.md	A5	None; deterministic raw vectors avoid an embedding dependency	NOT_RUN
+B6	B	hx-10	Qdrant Web UI	smoke-tests/native-web-ui-smoke-test.md	B5	Parent Qdrant live state only	NOT_RUN
+B7	B	hx-10	Qdrant MCP	smoke-tests/mcp-companion-smoke-test.md	B5	Parent Qdrant service only	NOT_RUN
+C1	C	hx-6	OmniRoute	smoke-tests/omniroute-smoke-test.md	P0	One temporary route to the proven model; remove afterward	NOT_RUN
+C2	C	hx-15	FastMCP	smoke-tests/fastmcp-smoke-test.md	A5	Disposable custom MCP server/tool only	NOT_RUN
+C3	C	hx-5	DeepSeek Harness	smoke-tests/deepseek-harness-smoke-test.md	A4	Direct model use for a disposable generated AI project	NOT_RUN
+C4	C	hx-7	NGINX dev/test	smoke-tests/nginx-smoke-test.md	A5	HX-5 hosts one temporary private-IP HTTP upstream; remove afterward	NOT_RUN
+D1	D	hx-16	Docling + Granite-Docling	smoke-tests/docling-smoke-test.md	A5	None; self-generated local PDF	NOT_RUN
+D2	D	hx-16	Docling MCP	smoke-tests/mcp-companion-smoke-test.md	D1	Parent Docling service only	NOT_RUN
+D3	D	hx-17	Crawl4AI	smoke-tests/crawl4ai-smoke-test.md	A5	None; deterministic inline raw HTML	NOT_RUN
+D4	D	hx-17	Crawl4AI MCP	smoke-tests/mcp-companion-smoke-test.md	D3	Parent Crawl4AI service only	NOT_RUN
+E1	E	hx-11	LightRAG core	smoke-tests/lightrag-smoke-test.md	B5,A2,P0	Synthetic document through the accepted Qdrant/embedding/LLM path; delete afterward	NOT_RUN
+E2	E	hx-11	LightRAG MCP	smoke-tests/mcp-companion-smoke-test.md	E1	Parent LightRAG service only	NOT_RUN
+E3	E	hx-13	Mem0 core	smoke-tests/mem0-smoke-test.md	B5,A2,P0	Dedicated disposable Qdrant collection + synthetic memory; delete both	NOT_RUN
+E4	E	hx-13	Mem0 MCP	smoke-tests/mcp-companion-smoke-test.md	E3	Parent Mem0 service only	NOT_RUN
+F1	F	hx-12	Deep Agents	smoke-tests/deep-agents-smoke-test.md	P0	Model + local synthetic rules + disposable in-memory checkpointer	NOT_RUN
+F2	F	hx-14	n8n core	smoke-tests/n8n-smoke-test.md	A5	Disposable deterministic workflow only	NOT_RUN
+F3	F	hx-14	n8n Web UI	smoke-tests/native-web-ui-smoke-test.md	F2	Parent n8n live state only	NOT_RUN
+F4	F	hx-14	n8n MCP	smoke-tests/mcp-companion-smoke-test.md	F2	Parent n8n service only	NOT_RUN
+G1	G	hx-8	Open WebUI	smoke-tests/open-webui-smoke-test.md	P0	One temporary direct model connection; remove afterward	NOT_RUN

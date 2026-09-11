@@ -17,8 +17,13 @@ jobs:
     name: Documentation consistency
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          # checkout writes GITHUB_TOKEN into .git/config by default, and
+          # these jobs then run repository-controlled scripts. Nothing here
+          # needs authenticated git.
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: '3.12'
 
@@ -27,6 +32,9 @@ jobs:
 
       - name: Fleet tables match docs/00-control/hx-fleet.tsv
         run: ./tools/hx-doc/hx-fleet --check
+
+      - name: Proof DAG is valid and its generated blocks are current
+        run: ./tools/hx-doc/hx-proof --check
 
       - name: human-html mirrors match their Markdown sources
         run: ./tools/hx-doc/hx-render-html --check
@@ -41,7 +49,12 @@ jobs:
     name: Execution artifacts
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          # checkout writes GITHUB_TOKEN into .git/config by default, and
+          # these jobs then run repository-controlled scripts. Nothing here
+          # needs authenticated git.
+          persist-credentials: false
 
       - name: Install shellcheck
         run: sudo apt-get update && sudo apt-get install -y shellcheck
@@ -80,8 +93,12 @@ jobs:
     name: Secret scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
+          # checkout writes GITHUB_TOKEN into .git/config by default, and
+          # these jobs then run repository-controlled scripts. Nothing here
+          # needs authenticated git.
+          persist-credentials: false
           fetch-depth: 0
 
       # The gitleaks *action* requires a paid licence for organisation-owned

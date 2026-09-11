@@ -31,6 +31,23 @@ costs a minute; found mid-build it costs the morning.
 
 ---
 
+## Before running a proof step
+
+Once the smoke phase starts, confirm the step may run at all:
+
+```bash
+tools/hx-doc/hx-proof --ready B2
+```
+
+`READY — every required prior proof has passed.` means go. `NOT READY — these
+must pass first:` lists the steps that have to close before this one, and the
+remedy is to run those, not to change any pin. A step whose own status is
+`NOT_EXECUTABLE` reports `NOT RUNNABLE`: an implementation decision is still
+open, and dependencies are not the blocker.
+
+`hx-smoke-promote` enforces the same chain at promotion time, so a PASS is
+refused when a required prior step has not passed and been cited.
+
 ## The shape of every server
 
 Identical for all of them. Two reboots, then the application.
@@ -75,7 +92,9 @@ $EDITOR docs/00-control/hx-fleet.tsv        # state -> PASS, gate -> CLOSED
 tools/hx-doc/hx-fleet                       # regenerate the tables
 tools/hx-doc/hx-render-html
 tools/hx-doc/hx-doc-check && tools/hx-doc/hx-record-check
-git add -A && git commit && git push
+git add -A && git commit
+coderabbit review --agent                   # review before the push, not after
+git push
 ```
 
 The record needs the **source URI and the full SHA-256** of anything you
@@ -173,6 +192,7 @@ before the smoke phase starts.
 tools/hx-doc/hx-doc-check
 tools/hx-doc/hx-record-check
 tools/hx-doc/hx-fleet --check
+tools/hx-doc/hx-proof --check
 git status
 ```
 

@@ -210,6 +210,7 @@ every change. Python 3 standard library only, no dependencies.
 |---|---|
 | `hx-preflight` | every pinned artifact is still fetchable, checked from anywhere |
 | `hx-fleet` | every fleet table and the runbook IP map comes from the TSV |
+| `hx-proof` | every proof step and edge comes from the TSV, and the DAG is valid |
 | `hx-render-html` | every mirror matches its Markdown source |
 | `hx-doc-check` | links resolve, vocabulary is defined, filenames are stable |
 | `hx-version-pins` | pins are current, and no application comes from apt or Snap |

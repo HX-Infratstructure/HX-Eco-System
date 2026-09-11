@@ -70,20 +70,24 @@ limited_integration_plan
 For `prior_pass_evidence`:
 
 - use `NONE` when no earlier component proof is required;
-- otherwise record the exact retained evidence path(s) or current accepted server record(s) that establish the prerequisite;
+- otherwise record one entry for each step in the `Requires` column, written as
+  `<step-id> -> <evidence>` and separated by `;`;
+- the evidence is the exact retained evidence path, or the current accepted
+  server record, that establishes that step;
 - use only current PASS/CLOSED evidence;
 - do not reference an archive document as current proof.
 
-Example for a future LightRAG run:
+`hx-smoke-promote` reads the inline value of each manifest field, so every
+field stays on one line. A value indented over several lines reads as empty and
+the promotion is refused. A bare list of paths is also refused: it cannot say
+which path proves which dependency, so nothing can be checked.
+
+Example for a future LightRAG run. `hx-proof.tsv` gives step `E1` the
+dependencies `B5,A2,P0`, so each one is named:
 
 ```text
-prior_pass_evidence:
-  docs/05-evidence/hx-10/qdrant/<run-id>,
-  docs/05-evidence/hx-4/embedding-models/<run-id>,
-  docs/02-server-records/HX-2.md
-
-limited_integration_plan:
-  HX-10 Qdrant + HX-4 BGE-M3 + one approved HX LLM; synthetic data only; remove LightRAG smoke document/state after proof
+prior_pass_evidence: B5 -> docs/05-evidence/hx-10/qdrant/<run-id>; A2 -> docs/05-evidence/hx-4/embedding-models/<run-id>; P0 -> docs/02-server-records/HX-2.md
+limited_integration_plan: HX-10 Qdrant + HX-4 BGE-M3 + one approved HX LLM; synthetic data only; remove LightRAG smoke document/state after proof
 ```
 
 If a materially relevant dependency changes after its PASS—model revision/dimension, database/vector-store version/configuration, API contract, routing behavior, etc.—the prior proof may be stale. Revalidate the dependency before relying on it for a downstream PASS.
@@ -92,13 +96,11 @@ If a materially relevant dependency changes after its PASS—model revision/dime
 
 ### Phase 0 — Existing cornerstone proof
 
-These are prerequisites, not new CentCom smoke runs.
-
-| Proof | Current authority | State |
-|---|---|---|
-| HX-1 identity/DNS/Kerberos/NTP foundation | `docs/02-server-records/HX-1.md` + BUILD-STATE | **PASS / CLOSED** |
-| HX-2 Qwen-X / Ollama | `docs/02-server-records/HX-2.md` + BUILD-STATE | **PASS / CLOSED** |
-| HX-3 Coder-X / Ollama | `docs/02-server-records/HX-3.md` + BUILD-STATE | **PASS / CLOSED** |
+<!-- HX-PROOF:TABLE phase=0 -->
+| Step | SUT | Proof | Authority | Requires | Limited integration | Status |
+|---|---|---|---|---|---|---|
+| **P0** | - | Foundation PASS (HX-1, HX-2, HX-3) | [`BUILD-STATE.md`](../../docs/00-control/BUILD-STATE.md) | — | None | **PASS** |
+<!-- /HX-PROOF -->
 
 **Exit:** current foundation and at least one known-good HX model endpoint exist.
 
@@ -106,13 +108,15 @@ These are prerequisites, not new CentCom smoke runs.
 
 ### Phase A — Inference proof and CentCom activation
 
-| Order | SUT / proof | Smoke authority | Required prior proof | Limited integration |
-|---:|---|---|---|---|
-| A1 | HX-4 GPT-OSS / Ollama inference | `../../smoke-tests/ollama-inference-smoke-test.md` | HX-4 accepted base/GPU/Ollama state | None |
-| A2 | HX-4 BGE-M3 + Nomic embeddings | `../../smoke-tests/embedding-models-smoke-test.md` | HX-4 accepted serving runtime | None |
-| A3 | HX-4 BGE-family reranker | `../../smoke-tests/reranker-smoke-test.md` | HX-4 accepted runtime; `hx-reranker` active | None |
-| A4 | HX-5 Ornith / Ollama inference | `../../smoke-tests/ollama-inference-smoke-test.md` | HX-5 accepted base/GPU/Ollama state | None |
-| A5 | CentCom smoke-runner activation | HX-5 toolset/bootstrap standard + `hx-smoke-doctor --remote` | HX-5 Ornith/base persistence + current HX-2 PASS | One known-answer remote call to HX-2 |
+<!-- HX-PROOF:TABLE phase=A -->
+| Step | SUT | Proof | Authority | Requires | Limited integration | Status |
+|---|---|---|---|---|---|---|
+| **A1** | hx-4 | GPT-OSS / Ollama inference | [`ollama-inference-smoke-test.md`](../../smoke-tests/ollama-inference-smoke-test.md) | P0 | None | NOT RUN |
+| **A2** | hx-4 | BGE-M3 + Nomic embeddings | [`embedding-models-smoke-test.md`](../../smoke-tests/embedding-models-smoke-test.md) | A1 | None | NOT RUN |
+| **A3** | hx-4 | BGE-family reranker | [`reranker-smoke-test.md`](../../smoke-tests/reranker-smoke-test.md) | A1 | None | NOT RUN |
+| **A4** | hx-5 | Ornith / Ollama inference | [`ollama-inference-smoke-test.md`](../../smoke-tests/ollama-inference-smoke-test.md) | P0 | None | NOT RUN |
+| **A5** | hx-5 | CentCom smoke-runner activation | [`HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md`](../../docs/04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md) | A4,P0 | One known-answer remote call to HX-2 | NOT RUN |
+<!-- /HX-PROOF -->
 
 **Exit:** CentCom is an evidence-proven remote smoke-test station, and HX has accepted generative plus retrieval-inference endpoints needed by later tests.
 
@@ -126,15 +130,17 @@ After A5, later component smoke tests run from HX-5 whenever the product exposes
 
 ### Phase B — State and retrieval substrate
 
-| Order | SUT / proof | Smoke authority | Required prior proof | Limited integration |
-|---:|---|---|---|---|
-| B1 | HX-9 PostgreSQL core | `../../smoke-tests/postgresql-smoke-test.md` | CentCom active | None; session-scoped disposable data |
-| B2 | HX-9 PostgreSQL MCP | `../../smoke-tests/mcp-companion-smoke-test.md` | B1 PostgreSQL PASS | Parent PostgreSQL service only |
-| B3 | HX-9 Redis core | `../../smoke-tests/redis-smoke-test.md` | CentCom active | None; TTL-protected disposable key |
-| B4 | HX-9 Redis MCP | `../../smoke-tests/mcp-companion-smoke-test.md` | B3 Redis PASS | Parent Redis service only |
-| B5 | HX-10 Qdrant core | `../../smoke-tests/qdrant-smoke-test.md` | CentCom active | None; deterministic raw vectors intentionally avoid embedding dependency |
-| B6 | HX-10 Qdrant Web UI | `../../smoke-tests/native-web-ui-smoke-test.md` | B5 Qdrant PASS | Parent Qdrant live state only |
-| B7 | HX-10 Qdrant MCP | `../../smoke-tests/mcp-companion-smoke-test.md` | B5 Qdrant PASS | Parent Qdrant service only |
+<!-- HX-PROOF:TABLE phase=B -->
+| Step | SUT | Proof | Authority | Requires | Limited integration | Status |
+|---|---|---|---|---|---|---|
+| **B1** | hx-9 | PostgreSQL core | [`postgresql-smoke-test.md`](../../smoke-tests/postgresql-smoke-test.md) | A5 | None; session-scoped disposable data | NOT RUN |
+| **B2** | hx-9 | PostgreSQL MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | B1 | Parent PostgreSQL service only | NOT RUN |
+| **B3** | hx-9 | Redis core | [`redis-smoke-test.md`](../../smoke-tests/redis-smoke-test.md) | A5 | None; TTL-protected disposable key | NOT RUN |
+| **B4** | hx-9 | Redis MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | B3 | Parent Redis service only | NOT RUN |
+| **B5** | hx-10 | Qdrant core | [`qdrant-smoke-test.md`](../../smoke-tests/qdrant-smoke-test.md) | A5 | None; deterministic raw vectors avoid an embedding dependency | NOT RUN |
+| **B6** | hx-10 | Qdrant Web UI | [`native-web-ui-smoke-test.md`](../../smoke-tests/native-web-ui-smoke-test.md) | B5 | Parent Qdrant live state only | NOT RUN |
+| **B7** | hx-10 | Qdrant MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | B5 | Parent Qdrant service only | NOT RUN |
+<!-- /HX-PROOF -->
 
 **Exit:** relational, transient, and vector state capabilities are independently proven and may be cited by later tests.
 
@@ -142,12 +148,14 @@ After A5, later component smoke tests run from HX-5 whenever the product exposes
 
 ### Phase C — Routing, MCP development, and control capability
 
-| Order | SUT / proof | Smoke authority | Required prior proof | Limited integration |
-|---:|---|---|---|---|
-| C1 | HX-6 OmniRoute | `../../smoke-tests/omniroute-smoke-test.md` | one current approved HX model PASS; HX-2 preferred initially | one temporary route to the proven model; remove afterward |
-| C2 | HX-15 FastMCP | `../../smoke-tests/fastmcp-smoke-test.md` | CentCom active | disposable custom MCP server/tool only |
-| C3 | HX-5 DeepSeek Harness | `../../smoke-tests/deepseek-harness-smoke-test.md` | HX-5 model PASS + one approved HX model endpoint | direct model use for disposable generated AI project; no permanent OmniRoute/MCP/DB required |
-| C4 | HX-7 NGINX dev/test | `../../smoke-tests/nginx-smoke-test.md` | CentCom active | HX-5 hosts one temporary private-IP HTTP upstream; remove proxy/upstream afterward |
+<!-- HX-PROOF:TABLE phase=C -->
+| Step | SUT | Proof | Authority | Requires | Limited integration | Status |
+|---|---|---|---|---|---|---|
+| **C1** | hx-6 | OmniRoute | [`omniroute-smoke-test.md`](../../smoke-tests/omniroute-smoke-test.md) | P0 | One temporary route to the proven model; remove afterward | NOT RUN |
+| **C2** | hx-15 | FastMCP | [`fastmcp-smoke-test.md`](../../smoke-tests/fastmcp-smoke-test.md) | A5 | Disposable custom MCP server/tool only | NOT RUN |
+| **C3** | hx-5 | DeepSeek Harness | [`deepseek-harness-smoke-test.md`](../../smoke-tests/deepseek-harness-smoke-test.md) | A4 | Direct model use for a disposable generated AI project | NOT RUN |
+| **C4** | hx-7 | NGINX dev/test | [`nginx-smoke-test.md`](../../smoke-tests/nginx-smoke-test.md) | A5 | HX-5 hosts one temporary private-IP HTTP upstream; remove afterward | NOT RUN |
+<!-- /HX-PROOF -->
 
 **Exit:** routing, shared/custom MCP development, meta-agent solution construction, and dev/test proxy capability are proven without creating permanent integration architecture.
 
@@ -155,12 +163,14 @@ After A5, later component smoke tests run from HX-5 whenever the product exposes
 
 ### Phase D — Knowledge acquisition
 
-| Order | SUT / proof | Smoke authority | Required prior proof | Limited integration |
-|---:|---|---|---|---|
-| D1 | HX-16 Docling + Granite-Docling | `../../smoke-tests/docling-smoke-test.md` | CentCom active; Granite model staged | None; self-generated local PDF |
-| D2 | HX-16 Docling MCP | `../../smoke-tests/mcp-companion-smoke-test.md` | D1 Docling PASS | Parent Docling service only |
-| D3 | HX-17 Crawl4AI | `../../smoke-tests/crawl4ai-smoke-test.md` | CentCom active | None; deterministic inline `raw:` HTML |
-| D4 | HX-17 Crawl4AI MCP | `../../smoke-tests/mcp-companion-smoke-test.md` | D3 Crawl4AI PASS | Parent Crawl4AI service only |
+<!-- HX-PROOF:TABLE phase=D -->
+| Step | SUT | Proof | Authority | Requires | Limited integration | Status |
+|---|---|---|---|---|---|---|
+| **D1** | hx-16 | Docling + Granite-Docling | [`docling-smoke-test.md`](../../smoke-tests/docling-smoke-test.md) | A5 | None; self-generated local PDF | NOT RUN |
+| **D2** | hx-16 | Docling MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | D1 | Parent Docling service only | NOT RUN |
+| **D3** | hx-17 | Crawl4AI | [`crawl4ai-smoke-test.md`](../../smoke-tests/crawl4ai-smoke-test.md) | A5 | None; deterministic inline raw HTML | NOT RUN |
+| **D4** | hx-17 | Crawl4AI MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | D3 | Parent Crawl4AI service only | NOT RUN |
+<!-- /HX-PROOF -->
 
 **Exit:** HX can independently convert documents and acquire web content. These proofs do not yet create a permanent RAG ingestion pipeline.
 
@@ -168,14 +178,14 @@ After A5, later component smoke tests run from HX-5 whenever the product exposes
 
 ### Phase E — RAG and memory
 
-This is where cumulative smoke proof becomes most useful: the applications intentionally consume already-proven state/model capabilities.
-
-| Order | SUT / proof | Smoke authority | Required prior proof | Limited integration |
-|---:|---|---|---|---|
-| E1 | HX-11 LightRAG core | `../../smoke-tests/lightrag-smoke-test.md` | B5 Qdrant PASS + A2 accepted embedding PASS + one approved LLM PASS; include B1/B3 only if the accepted LightRAG config actually uses them | synthetic LightRAG document through accepted Qdrant/embedding/LLM path; delete document/state afterward |
-| E2 | HX-11 LightRAG MCP | `../../smoke-tests/mcp-companion-smoke-test.md` | E1 LightRAG PASS | Parent LightRAG service only |
-| E3 | HX-13 Mem0 core | `../../smoke-tests/mem0-smoke-test.md` | B5 Qdrant PASS + A2 accepted embedding PASS + one approved LLM PASS | dedicated disposable Qdrant collection + synthetic memory; delete both afterward |
-| E4 | HX-13 Mem0 MCP | `../../smoke-tests/mcp-companion-smoke-test.md` | E3 Mem0 PASS | Parent Mem0 service only |
+<!-- HX-PROOF:TABLE phase=E -->
+| Step | SUT | Proof | Authority | Requires | Limited integration | Status |
+|---|---|---|---|---|---|---|
+| **E1** | hx-11 | LightRAG core | [`lightrag-smoke-test.md`](../../smoke-tests/lightrag-smoke-test.md) | B5,A2,P0 | Synthetic document through the accepted Qdrant/embedding/LLM path; delete afterward | NOT RUN |
+| **E2** | hx-11 | LightRAG MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | E1 | Parent LightRAG service only | NOT RUN |
+| **E3** | hx-13 | Mem0 core | [`mem0-smoke-test.md`](../../smoke-tests/mem0-smoke-test.md) | B5,A2,P0 | Dedicated disposable Qdrant collection + synthetic memory; delete both | NOT RUN |
+| **E4** | hx-13 | Mem0 MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | E3 | Parent Mem0 service only | NOT RUN |
+<!-- /HX-PROOF -->
 
 **Exit:** RAG and memory primary contracts are proven against the previously accepted state and model substrate.
 
@@ -185,12 +195,14 @@ Docling/Crawl4AI PASS is useful upstream ecosystem evidence but is **not forced 
 
 ### Phase F — Agent and workflow consumers
 
-| Order | SUT / proof | Smoke authority | Required prior proof | Limited integration |
-|---:|---|---|---|---|
-| F1 | HX-12 Deep Agents | `../../smoke-tests/deep-agents-smoke-test.md` | one approved HX model with proven reliable tool calling | model + local synthetic rules + disposable in-memory checkpointer; no production RAG/memory/DB required |
-| F2 | HX-14 n8n core | `../../smoke-tests/n8n-smoke-test.md` | CentCom active | disposable deterministic workflow only |
-| F3 | HX-14 n8n Web UI | `../../smoke-tests/native-web-ui-smoke-test.md` | F2 n8n PASS | parent n8n live state only |
-| F4 | HX-14 n8n MCP | `../../smoke-tests/mcp-companion-smoke-test.md` | F2 n8n PASS | parent n8n service only |
+<!-- HX-PROOF:TABLE phase=F -->
+| Step | SUT | Proof | Authority | Requires | Limited integration | Status |
+|---|---|---|---|---|---|---|
+| **F1** | hx-12 | Deep Agents | [`deep-agents-smoke-test.md`](../../smoke-tests/deep-agents-smoke-test.md) | P0 | Model + local synthetic rules + disposable in-memory checkpointer | NOT RUN |
+| **F2** | hx-14 | n8n core | [`n8n-smoke-test.md`](../../smoke-tests/n8n-smoke-test.md) | A5 | Disposable deterministic workflow only | NOT RUN |
+| **F3** | hx-14 | n8n Web UI | [`native-web-ui-smoke-test.md`](../../smoke-tests/native-web-ui-smoke-test.md) | F2 | Parent n8n live state only | NOT RUN |
+| **F4** | hx-14 | n8n MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | F2 | Parent n8n service only | NOT RUN |
+<!-- /HX-PROOF -->
 
 **Exit:** application-agent creation/runtime and workflow execution are proven without requiring production memory, RAG, or external workflow integrations.
 
@@ -198,9 +210,11 @@ Docling/Crawl4AI PASS is useful upstream ecosystem evidence but is **not forced 
 
 ### Phase G — User interaction
 
-| Order | SUT / proof | Smoke authority | Required prior proof | Limited integration |
-|---:|---|---|---|---|
-| G1 | HX-8 Open WebUI | `../../smoke-tests/open-webui-smoke-test.md` | one current approved Ollama model PASS | one temporary direct model connection and known-answer conversation; remove validation-only connection afterward |
+<!-- HX-PROOF:TABLE phase=G -->
+| Step | SUT | Proof | Authority | Requires | Limited integration | Status |
+|---|---|---|---|---|---|---|
+| **G1** | hx-8 | Open WebUI | [`open-webui-smoke-test.md`](../../smoke-tests/open-webui-smoke-test.md) | P0 | One temporary direct model connection; remove afterward | NOT RUN |
+<!-- /HX-PROOF -->
 
 **Exit:** the user-facing layer proves a real model interaction. A rendered page without a model response is not PASS.
 
@@ -208,64 +222,80 @@ Docling/Crawl4AI PASS is useful upstream ecosystem evidence but is **not forced 
 
 ## 6. Dependency graph
 
+Generated from `hx-proof.tsv`. Every step appears. The hand-drawn version
+carried 19 nodes — the foundation plus 18 of the 29 steps — so 11 were missing
+from the picture, including every MCP companion gate.
+
+<!-- HX-PROOF:DAG -->
 ```mermaid
-flowchart TD
-    F0["Foundation PASS<br/>HX-1 + HX-2 + HX-3"]
-    A1["HX-4 GPT-OSS"]
-    A2["HX-4 Embeddings / Reranker"]
-    A4["HX-5 Ornith"]
-    A5["CentCom Runner Active"]
+flowchart LR
+    P0["<b>P0</b><br/>Foundation PASS (HX-1, HX-2, HX-3)"]
+    A1["<b>A1</b><br/>GPT-OSS / Ollama inference"]
+    A2["<b>A2</b><br/>BGE-M3 + Nomic embeddings"]
+    A3["<b>A3</b><br/>BGE-family reranker"]
+    A4["<b>A4</b><br/>Ornith / Ollama inference"]
+    A5["<b>A5</b><br/>CentCom smoke-runner activation"]
+    B1["<b>B1</b><br/>PostgreSQL core"]
+    B2["<b>B2</b><br/>PostgreSQL MCP"]
+    B3["<b>B3</b><br/>Redis core"]
+    B4["<b>B4</b><br/>Redis MCP"]
+    B5["<b>B5</b><br/>Qdrant core"]
+    B6["<b>B6</b><br/>Qdrant Web UI"]
+    B7["<b>B7</b><br/>Qdrant MCP"]
+    C1["<b>C1</b><br/>OmniRoute"]
+    C2["<b>C2</b><br/>FastMCP"]
+    C3["<b>C3</b><br/>DeepSeek Harness"]
+    C4["<b>C4</b><br/>NGINX dev/test"]
+    D1["<b>D1</b><br/>Docling + Granite-Docling"]
+    D2["<b>D2</b><br/>Docling MCP"]
+    D3["<b>D3</b><br/>Crawl4AI"]
+    D4["<b>D4</b><br/>Crawl4AI MCP"]
+    E1["<b>E1</b><br/>LightRAG core"]
+    E2["<b>E2</b><br/>LightRAG MCP"]
+    E3["<b>E3</b><br/>Mem0 core"]
+    E4["<b>E4</b><br/>Mem0 MCP"]
+    F1["<b>F1</b><br/>Deep Agents"]
+    F2["<b>F2</b><br/>n8n core"]
+    F3["<b>F3</b><br/>n8n Web UI"]
+    F4["<b>F4</b><br/>n8n MCP"]
+    G1["<b>G1</b><br/>Open WebUI"]
 
-    B1["PostgreSQL"]
-    B3["Redis"]
-    B5["Qdrant"]
-
-    C1["OmniRoute"]
-    C2["FastMCP"]
-    C3["DeepSeek Harness"]
-    C4["NGINX dev/test"]
-
-    D1["Docling"]
-    D3["Crawl4AI"]
-
-    E1["LightRAG"]
-    E3["Mem0"]
-
-    F1["Deep Agents"]
-    F2["n8n"]
-    G1["Open WebUI"]
-
-    F0 --> A1
-    F0 --> A4
+    P0 --> A1
     A1 --> A2
+    A1 --> A3
+    P0 --> A4
     A4 --> A5
-    F0 --> A5
-
+    P0 --> A5
     A5 --> B1
+    B1 --> B2
     A5 --> B3
+    B3 --> B4
     A5 --> B5
+    B5 --> B6
+    B5 --> B7
+    P0 --> C1
     A5 --> C2
+    A4 --> C3
     A5 --> C4
     A5 --> D1
+    D1 --> D2
     A5 --> D3
-    A5 --> F2
-
-    F0 --> C1
-    A4 --> C3
-
+    D3 --> D4
     B5 --> E1
     A2 --> E1
-    F0 --> E1
-
+    P0 --> E1
+    E1 --> E2
     B5 --> E3
     A2 --> E3
-    F0 --> E3
-
-    F0 --> F1
-    F0 --> G1
+    P0 --> E3
+    E3 --> E4
+    P0 --> F1
+    A5 --> F2
+    F2 --> F3
+    F2 --> F4
+    P0 --> G1
 ```
-
-The graph shows **proof dependencies**, not permanent service wiring. Companion MCP/UI gates occur after their parent component PASS and are omitted from the diagram for readability.
+<!-- /HX-PROOF -->
 
 ## 7. Companion-gate rule
 

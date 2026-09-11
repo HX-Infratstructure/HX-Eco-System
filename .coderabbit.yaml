@@ -26,10 +26,38 @@ reviews:
     enabled: true
     drafts: false
     auto_incremental_review: true
+    # This list is branches *other than* the default, so naming main here added
+    # nothing and excluded everything else. A pull request stacked on another
+    # branch was skipped with "auto reviews are disabled on base/target
+    # branches other than the default branch" - an unreviewed change, which is
+    # the one outcome this repository does not accept.
+    #
+    # The decision is made from the pull request's base branch, so this has to
+    # reach main to take effect; fixing it only on a stacked branch cannot
+    # rescue that branch's own review.
     base_branches:
-      - main
+      - ".*"
+
+  # Finishing touches. Both are already CodeRabbit defaults; they are written
+  # here so the setting is visible in the repository instead of inherited
+  # silently, and so turning one off has to be a recorded decision.
+  #
+  # autofix: the checkbox under a review comment, and `@coderabbitai autofix`.
+  # fix_ci:  `@coderabbitai fix-ci`, for CI failures attributed to the pull
+  #          request. This one requires a CodeRabbit Team plan; on the free
+  #          OSS tier the command is offered but will not deliver a fix.
+  finishing_touches:
+    autofix:
+      enabled: true
+    fix_ci:
+      enabled: true
 
   path_filters:
+    # A positive entry turns this list into an allow list: CodeRabbit treats it
+    # as a sparse-checkout include set, so naming only the two TSV files left
+    # every other file ignored. "**" keeps the whole tree in scope, and the
+    # entries below subtract from it.
+    - "**"
     # Generated output. Reviewing it wastes the file budget and any finding
     # belongs in the Markdown source or the generator, never here.
     - "!human-html/**"
@@ -37,6 +65,13 @@ reviews:
     - "!archive/**"
     # Generated from docs/00-control/hx-fleet.tsv.
     - "!docs/03-runbooks/common/hx-fleet-ips.env"
+    # CodeRabbit's own default filters exclude **/*.tsv, which silently kept
+    # both source-of-truth files out of every review. The fleet table and the
+    # proof chain are generated from these two files, and hx-smoke-promote
+    # gates a PASS on the second one. They are the last files in the
+    # repository that should go unreviewed, so re-include them by name.
+    - "docs/00-control/hx-fleet.tsv"
+    - "docs/00-control/hx-proof.tsv"
 
   path_instructions:
     - path: "docs/03-runbooks/**/*.sh"
@@ -119,7 +154,6 @@ reviews:
       enabled: true
     github-checks:
       enabled: true
-      timeout_ms: 300000
 
 chat:
   auto_reply: true

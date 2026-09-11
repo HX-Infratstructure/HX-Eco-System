@@ -10,9 +10,13 @@ Before promotion, normalize:
   evidence/result.txt    -> FUNCTIONAL=PASS|FAIL|NOT_EXECUTABLE
   cleanup/cleanup.txt    -> CLEANUP=PASS|NOT_APPLICABLE|FAIL
 
-For PASS, manifest.md must also contain:
-  prior_pass_evidence: <current evidence path(s)/accepted server record(s) or NONE>
+For PASS, manifest.md must also contain, each on one line:
+  prior_pass_evidence: <step-id> -> <evidence>; <step-id> -> <evidence>   (or NONE)
   limited_integration_plan: <brief temporary integration plan or NONE>
+
+One entry is required for every step in the Requires column of hx-proof.tsv.
+Example:
+  prior_pass_evidence: B5 -> docs/05-evidence/hx-10/qdrant/<run-id>; A2 -> docs/02-server-records/HX-4.md
 USAGE
 }
 
@@ -100,6 +104,96 @@ if [[ "$FINAL_STATUS" == "PASS" ]]; then
     echo "ERROR: PASS requires limited_integration_plan to be recorded (use NONE when not applicable)." >&2
     exit 1
   }
+  # Cumulative proof (D-016) says a downstream PASS rests on earlier accepted
+  # proof. That was an honour system: this script checked only that
+  # prior_pass_evidence was non-empty, never that the cited proof had passed.
+  # The proof DAG in hx-proof.tsv now decides.
+  PROOF_TSV="$HX_ECO_REPO/docs/00-control/hx-proof.tsv"
+  PROOF_STEP="$(sed -n 's/^proof_step:[[:space:]]*//p' "$RUN_DIR/manifest.md" | head -n 1)"
+  if [[ -f "$PROOF_TSV" ]]; then
+    # A manifest with no proof_step used to skip the whole chain. A legacy or
+    # hand-edited manifest could therefore promote with no enforcement at all,
+    # while hx-proof.tsv sat right there.
+    [[ -n "$PROOF_STEP" && "$PROOF_STEP" != "NONE" ]] || {
+      echo "ERROR: PASS requires proof_step in manifest.md while hx-proof.tsv exists." >&2
+      echo "       Create the run with hx-smoke-new, which records it." >&2
+      exit 1
+    }
+    # Existence alone let a hand-edited or legacy manifest name a valid step
+    # belonging to another host and another authority; promotion then enforced
+    # that other step's dependencies. hx-smoke-new binds the step to the run,
+    # so promotion has to bind it again rather than trust the field.
+    # The status is captured without tripping set -e, which would abort the
+    # script before the case below could say why.
+    SMOKE_TEST_FILE="$(sed -n 's/^smoke_test_file:[[:space:]]*//p' "$RUN_DIR/manifest.md" | head -n 1)"
+    BIND_RC=0
+    awk -F'\t' -v s="$PROOF_STEP" -v h="$SUT_HOST" -v a="$SMOKE_TEST_FILE" \
+      'NR>1 && $1==s {seen=1; if ($3==h && $5==a) ok=1} END {exit ok?0:(seen?2:1)}' \
+      "$PROOF_TSV" || BIND_RC=$?
+    case $BIND_RC in
+      0) ;;
+      1) echo "ERROR: manifest names proof step '$PROOF_STEP', which is not in hx-proof.tsv." >&2
+         exit 1 ;;
+      2) echo "ERROR: proof step '$PROOF_STEP' does not belong to $SUT_HOST + $SMOKE_TEST_FILE." >&2
+         awk -F'\t' -v s="$PROOF_STEP" 'NR>1 && $1==s {print "       " $1 " is " $5 " on " $3}' \
+           "$PROOF_TSV" >&2
+         exit 1 ;;
+    esac
+
+    # hx-proof --ready refuses a NOT_EXECUTABLE step outright, because an
+    # implementation decision is still open. Promotion looked only at the
+    # dependencies, so a run could be retained as PASS for a step that is
+    # not runnable at all.
+    STEP_STATUS="$(awk -F'\t' -v s="$PROOF_STEP" 'NR>1 && $1==s {print $8}' "$PROOF_TSV")"
+    if [[ "$STEP_STATUS" == "NOT_EXECUTABLE" ]]; then
+      echo "ERROR: proof step $PROOF_STEP is NOT_EXECUTABLE and cannot hold a PASS." >&2
+      echo "       Settle the open implementation decision, then change its status" >&2
+      echo "       in docs/00-control/hx-proof.tsv." >&2
+      exit 1
+    fi
+
+    REQUIRES="$(awk -F'\t' -v s="$PROOF_STEP" 'NR>1 && $1==s {print $6}' "$PROOF_TSV")"
+    if [[ -n "$REQUIRES" && "$REQUIRES" != "NONE" && "$REQUIRES" != "-" ]]; then
+      IFS=',' read -r -a DEPS <<<"$REQUIRES"
+      for dep in "${DEPS[@]}"; do
+        dep="${dep// /}"
+        [[ -n "$dep" ]] || continue
+        dep_status="$(awk -F'\t' -v s="$dep" 'NR>1 && $1==s {print $8}' "$PROOF_TSV")"
+        if [[ "$dep_status" != "PASS" ]]; then
+          echo "ERROR: $PROOF_STEP requires $dep, which is '${dep_status:-unknown}', not PASS." >&2
+          echo "       Cumulative proof: close $dep before promoting $PROOF_STEP." >&2
+          echo "       Check with: tools/hx-doc/hx-proof --ready $PROOF_STEP" >&2
+          exit 1
+        fi
+        # prior_pass_evidence is one line of "<step-id> -> <evidence>" entries
+        # separated by ';'. A bare list of paths cannot say which dependency
+        # each path proves, and the form the roadmap documented was indented
+        # over several lines, which this script never read: sed takes only the
+        # inline part, which in that form is empty.
+        DEP_RC=0
+        dep_evidence="$(
+          printf '%s' "$PRIOR_PASS_EVIDENCE" | tr ';' '\n' |
+          awk -F'->' -v d="$dep" '
+            {
+              gsub(/^[[:space:]]+|[[:space:]]+$/, "", $1)
+              gsub(/^[[:space:]]+|[[:space:]]+$/, "", $2)
+              if (NF >= 2 && $1 == d && $2 != "") { print $2; found = 1 }
+            }
+            END { exit found ? 0 : 1 }'
+        )" || DEP_RC=$?
+        if [[ $DEP_RC -ne 0 ]]; then
+          echo "ERROR: $PROOF_STEP requires $dep, but prior_pass_evidence has no" >&2
+          echo "       '$dep -> <evidence>' entry." >&2
+          echo "       Recorded: $PRIOR_PASS_EVIDENCE" >&2
+          echo "       Expected: $dep -> docs/05-evidence/<host>/<component>/<run-id>" >&2
+          exit 1
+        fi
+        echo "  $dep satisfied by $dep_evidence"
+      done
+      echo "Prior proof satisfied: $PROOF_STEP requires $REQUIRES, all PASS and cited."
+    fi
+  fi
+
   # docs/05-evidence/README.md: every retained run must identify the component
   # version/revision, the system under test, and the transport/endpoint used.
   for field in component_version_or_revision transport_or_endpoint sut_ip; do
@@ -152,3 +246,6 @@ EOF_README
 
 printf 'PROMOTED=%s\n' "$DEST"
 printf 'NEXT=review evidence, then commit explicitly; do not auto-commit from this script\n'
+if [[ "$FINAL_STATUS" == "PASS" && -n "${PROOF_STEP:-}" && "$PROOF_STEP" != "NONE" ]]; then
+  printf 'NEXT=set %s status to PASS in docs/00-control/hx-proof.tsv, then run tools/hx-doc/hx-proof\n' "$PROOF_STEP"
+fi
