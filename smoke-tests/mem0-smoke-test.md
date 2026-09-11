@@ -152,3 +152,14 @@ Pass means Mem0 initializes with the accepted HX providers, stores the synthetic
 3. Remove the local smoke-test script/workspace.
 
 **Never reset Mem0 globally or delete non-smoke Qdrant collections. Permanent Mem0-to-Qdrant/model configuration remains an integration/implementation decision beyond this disposable proof.**
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the `MEM0_SMOKE_PASS` and `MEM0_MEMORY_CLEANUP_PASS` lines.
+
+Record the Mem0 version, the HX providers configured for the run, the
+known-answer token `HX-MEM0-SMOKE-9271` as stored and retrieved, and
+confirmation that the smoke user memory was deleted and the dedicated
+`hx_mem0_smoke` collection removed with no other collection touched.

@@ -161,3 +161,13 @@ fi
 Then remove the disposable test script/workspace as appropriate.
 
 **Do not delete or modify any non-smoke-test Qdrant collection. No containers are created by this test.**
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the `QDRANT_SMOKE_PASS` and `QDRANT_SMOKE_CLEANUP_PASS` lines.
+
+Record the Qdrant version, the endpoint used, the temporary collection name,
+the top result id and payload label, and confirmation that `hx_smoke_qdrant`
+no longer exists after teardown.

@@ -79,3 +79,11 @@ No database objects or permanent test data are created.
 Release/unload temporary model state according to the accepted serving runtime, remove disposable test files, and retain only evidence.
 
 **Do not force Nomic to 1024 dimensions merely to match BGE-M3. Do not write vectors from the two models into the same Qdrant collection.**
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of one `EMBEDDING_SMOKE_PASS` line per model.
+
+Record the serving runtime and its version, each model identity and revision, the dimension each model returned, the cosine value for repeated identical input, and confirmation that temporary model state was released, disposable files removed, and no vectors written into a Qdrant collection.

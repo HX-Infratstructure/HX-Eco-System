@@ -88,3 +88,14 @@ Rank 1 is the entry with the highest `relevance_score` in the response.
 No persistent data is created. Release temporary model state according to the accepted runtime and remove disposable local test artifacts after evidence capture.
 
 **Do not use this document to select a checkpoint, introduce a new runtime, or create Qdrant data. Those decisions must be explicit before execution.**
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of both rerank responses with their `relevance_score` values.
+
+Record the pinned checkpoint and revision, the runtime and its version, the
+endpoint used, the rank 1 passage from each of the two runs, and
+confirmation that `hx-base.env` and the HX-4 record agreed on the checkpoint
+before the run.

@@ -93,3 +93,15 @@ The request uses `keep_alive: "0"` so the test does not intentionally leave the 
 Remove the disposable test script/workspace after evidence capture. Do not delete the accepted model or change persistent Ollama configuration.
 
 **No temporary router, cloud provider, or container is created by this test.**
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the request and the full response body.
+
+Record the Ollama version, the model identity actually returned, the
+known-answer token `HX-OLLAMA-SMOKE-9271` as it appeared in the response,
+the HTTP status and the `done` value, and confirmation that the disposable
+test script was removed and no accepted model or persistent Ollama
+configuration changed.

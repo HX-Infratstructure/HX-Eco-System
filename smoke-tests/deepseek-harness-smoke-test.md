@@ -141,3 +141,16 @@ After evidence capture:
 4. do not delete or modify unrelated agent projects, models, credentials, or server data.
 
 No containers are created by this test.
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the work-package breakdown, the delegation trace and the reviewer verdict.
+
+Record the Harness version, the HX model invoked by the application, the
+work packages and the roles that received them, the upstream artifact a
+downstream role consumed, the known-answer token `HX-HARNESS-APP-PASS`, and
+confirmation that the disposable `hx-harness-smoke` workspace and any
+validation-only configuration were removed while the installed Harness
+stayed in place.

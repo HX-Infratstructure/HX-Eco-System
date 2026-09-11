@@ -185,3 +185,14 @@ After evidence capture:
 5. do not modify production databases, RAG stores, long-term memory, unrelated agent projects, or model services.
 
 No containers are created by this test.
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the first-case JSON result and the sub-agent delegation trace.
+
+Record the Deep Agents version, the HX model used, the project created, the
+sub-agents configured and what each was delegated, the `HX-SMOKE-001`
+routing result with its reviewer validation, the same-thread follow-up, and
+confirmation that one short LOB case still ran after the reboot check.

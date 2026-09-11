@@ -235,3 +235,14 @@ After deletion:
 3. remove the disposable local test script/workspace.
 
 **Never call a global clear operation as part of this smoke test. Do not delete other LightRAG documents, Qdrant data, or persistent workspaces. No containers are created by this test.**
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the health response, the `track_id`, and the context-only and RAG query responses.
+
+Record the LightRAG version, the endpoint used, the vector backend in
+effect, the known-answer token `HX-LIGHTRAG-SMOKE-9271` from both query
+paths, the document ids created, and confirmation that deletion of those
+exact ids was accepted.

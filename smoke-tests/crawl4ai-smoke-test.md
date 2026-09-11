@@ -139,3 +139,14 @@ rm -f crawl4ai_smoke.py
 If the test workspace itself is disposable, remove that workspace according to the HX test-project procedure once that procedure is defined.
 
 **Do not remove the installed Crawl4AI browser/runtime files during cleanup. No containers are created by this test.**
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the `crawl4ai-doctor` output and the generated Markdown.
+
+Record the Crawl4AI version, the browser build in use, the known-answer
+token `HX-CRAWL4AI-SMOKE-9271` as it appeared in the Markdown, the title and
+both list values found, and confirmation that `crawl4ai_smoke.py` was
+removed and no browser profile or application state was left behind.

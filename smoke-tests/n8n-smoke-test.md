@@ -83,3 +83,14 @@ Delete only the workflow named `HX-N8N-SMOKE-9271` and confirm it is no longer p
 Do not delete unrelated workflows, credentials, users, projects, or n8n configuration.
 
 **No production integration and no container is created by this test.**
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the final node output and the workflow list before and after deletion.
+
+Record the n8n version, the direct UI URL used, the known-answer token
+`HX-N8N-SMOKE-9271` with its `PASS` status from both executions, and
+confirmation that the workflow named `HX-N8N-SMOKE-9271` was deleted and no
+other workflow, credential, user or project changed.
