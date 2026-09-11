@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+# Register bash with an installed graft, so shell files enter the code graph.
+#
+# Why this exists: graft ships tree-sitter-bash.wasm and its grammar manifest
+# registers it as "bash", but graft's own language table has no bash entry, so
+# .sh files are skipped entirely. This adds the one missing line.
+#
+# It is a local patch to a third-party package. `graft upgrade` or any
+# reinstall wipes it. Re-run this script afterwards. It is idempotent, and it
+# stops loudly if the upstream file has changed shape rather than guessing.
+#
+# Remove the need for this by asking upstream to add the entry:
+#   https://github.com/NanoNets/context-graph-engine
+#
+# Usage:
+#   tools/hx-doc/hx-graft-bash            patch the globally installed graft
+#   tools/hx-doc/hx-graft-bash --revert   put the file back as shipped
+#   GRAFT_ROOT=/path/to/graft tools/hx-doc/hx-graft-bash
+set -euo pipefail
+
+GRAFT_ROOT="${GRAFT_ROOT:-$(npm root -g 2>/dev/null || echo /usr/local/lib/node_modules)/@nanonets/graft}"
+TARGET="$GRAFT_ROOT/dist/graph/generic.js"
+
+[ -f "$TARGET" ] || {
+  echo "STOP: graft not found at $TARGET" >&2
+  echo "      set GRAFT_ROOT, or install: npm install -g @nanonets/graft" >&2
+  exit 1
+}
+
+# Literal string replacement in Python. No shell quoting and no sed escaping,
+# both of which can silently produce a pattern that matches nothing.
+sudo python3 - "$TARGET" "${1:-}" <<'PY'
+import shutil, sys
+
+target, mode = sys.argv[1], sys.argv[2]
+backup = target + ".pre-hx-bash"
+
+ANCHOR = '{ name: "zig", exts: [".zig"], wasm: "zig" }'
+# .env is included because docs/03-runbooks/common/hx-base.env is bash: it holds
+# hx_require_host, hx_ip_for, and every fleet version pin.
+ENTRY = '{ name: "bash", exts: [".sh", ".bash", ".env"], wasm: "bash" }'
+
+src = open(target, encoding="utf-8").read()
+
+if mode == "--revert":
+    try:
+        shutil.copyfile(backup, target)
+    except FileNotFoundError:
+        sys.exit("nothing to revert: no backup from a previous run")
+    print("reverted to the shipped file")
+    raise SystemExit
+
+if 'name: "bash"' in src:
+    print("already registered")
+    raise SystemExit
+
+if ANCHOR not in src:
+    sys.exit(
+        "STOP: the expected anchor is not in this file.\n"
+        "      graft's language table has changed shape. Patch by hand, or\n"
+        "      check whether upstream now registers bash itself."
+    )
+
+shutil.copyfile(target, backup)
+open(target, "w", encoding="utf-8", newline="").write(
+    src.replace(ANCHOR, ANCHOR + ",\n    " + ENTRY, 1)
+)
+print("registered:", ENTRY)
+print("backup:", backup)
+PY
+
+echo "next: graft build --no-reuse"
