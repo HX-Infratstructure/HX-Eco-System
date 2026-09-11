@@ -186,3 +186,14 @@ rm -rf hx-docling-smoke
 Do **not** remove the installed Docling environment, Granite-Docling model cache, or any persistent HX-16 application configuration.
 
 **No containers are created by this test.**
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the generator output and the Markdown from both conversion paths.
+
+Record the Docling version, the Granite-Docling checkpoint and revision, the
+device used for the Granite run, the `HX`, `DOCLING` and `9271` values found
+in each Markdown output, and confirmation that no external source document
+or cloud model was needed.

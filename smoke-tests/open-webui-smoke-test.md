@@ -129,3 +129,15 @@ A healthy webpage without a successful model prompt/response round trip is **FAI
 5. Do not remove any approved permanent Open WebUI configuration.
 
 No containers, persistent test databases, or production data are created by this test.
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the rendered conversation showing the response.
+
+Record the Open WebUI version, the native URL used, the temporary direct
+Ollama endpoint configured, the model selected, the `HX-OPENWEBUI-PASS`
+response as rendered, and confirmation that the validation-only connection
+was removed and the service stayed healthy after cleanup and after the
+reboot check.

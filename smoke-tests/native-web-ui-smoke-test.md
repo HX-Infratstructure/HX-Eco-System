@@ -66,3 +66,13 @@ A static page load by itself is **not** sufficient.
 - Leave no temporary NGINX/proxy route because NGINX is not used by this test.
 
 **Do not alter production data, network policy, UI branding, or permanent routing as part of this smoke test.**
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the loaded page and the live-state proof before and after a refresh.
+
+Record the application and its version, the direct native URL, the live
+backend state item verified, and confirmation that any disposable UI object
+was removed and no permanent configuration, routing or branding changed.

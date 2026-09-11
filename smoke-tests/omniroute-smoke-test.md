@@ -150,3 +150,14 @@ A healthy OmniRoute process without a successful routed model request is **FAIL*
 5. Remove any disposable local test files after evidence capture.
 
 No containers or persistent test databases are created by this test.
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the direct response and the routed response side by side.
+
+Record the OmniRoute version, the temporary provider and route used, the
+HX-2 backend and model reached, the identical token from the direct and
+routed responses, and confirmation that the validation route was removed or
+disabled and no unrelated provider became active.

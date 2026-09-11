@@ -36,7 +36,12 @@ SECTIONS = [
 # not checked.
 CONTENT = [
     ("known answer", r"known.answer|reply with exactly|exactly:|expected output"),
-    ("evidence retention", r"evidence"),
+    # "evidence" alone was satisfied by the word appearing anywhere, including
+    # in a warning about not putting secrets in evidence. Matching retain or
+    # retention is no better: "do not retain credentials" satisfies both. The
+    # standard bundle path is the one anchor a negated sentence cannot fake,
+    # and every authority that states retention cites it.
+    ("evidence retention", r"docs/05-evidence"),
 ]
 
 
@@ -58,8 +63,14 @@ def main() -> int:
             if not any(re.search(pattern, h) for h in headings):
                 problems.append(f"no section for {label}")
 
+        # Evidence retention is checked against the body: a "## Evidence"
+        # heading with nothing under it used to satisfy the check on its own.
+        # The known answer may be declared by its section heading, which is how
+        # these authorities are structured, so that one reads the whole file.
+        body = re.sub(r"^#{1,6}\s+.*$", "", text, flags=re.M)
         for label, pattern in CONTENT:
-            if not re.search(pattern, text, re.I | re.S):
+            haystack = body if label == "evidence retention" else text
+            if not re.search(pattern, haystack, re.I | re.S):
                 problems.append(f"never mentions {label}")
 
         if problems:

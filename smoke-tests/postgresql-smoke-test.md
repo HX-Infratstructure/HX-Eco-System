@@ -94,3 +94,15 @@ No permanent table is created. PostgreSQL temporary tables are session-scoped an
 If the test session is still open, terminate it normally. Remove any disposable local test files after evidence capture.
 
 **Do not create or drop persistent HX schemas/tables as part of this smoke test.**
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of both command outputs.
+
+Record the PostgreSQL version, the connection endpoint as host, port and
+database only, the role used, the known-answer token
+`HX-POSTGRES-SMOKE-9271` as written and read back, the `t` returned once the
+temporary table was gone, and confirmation that the session was closed and
+no persistent HX schema or table was created or dropped.

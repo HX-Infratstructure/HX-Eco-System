@@ -42,7 +42,8 @@ echo "REDIS_SMOKE_PASS token=$VALUE"
 echo "REDIS_SMOKE_CLEANUP_PASS"
 ```
 
-Record Redis version, target endpoint, execution timestamp, and console output. Do not capture credentials.
+Record Redis version, target endpoint, execution timestamp, and console
+output. Do not capture credentials.
 
 ## 4. Sample Data
 
@@ -82,3 +83,14 @@ redis-cli -u "$REDIS_URL" EXISTS "hx:smoke:redis:9271"
 Expected result: `0`.
 
 **Do not run FLUSHDB, FLUSHALL, or delete unrelated HX keys.**
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the `REDIS_SMOKE_PASS` and `REDIS_SMOKE_CLEANUP_PASS` lines.
+
+Record the Redis version, the endpoint used as scheme, host and port only
+because `REDIS_URL` can carry a password, the `PONG` reply, the known-answer
+token `HX-REDIS-SMOKE-9271` as written and read back, and confirmation that
+`hx:smoke:redis:9271` no longer exists.

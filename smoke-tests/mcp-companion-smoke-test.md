@@ -102,3 +102,13 @@ The reference client uses automatic protocol negotiation so the test does not ha
 - Do not create permanent agent/client registrations during this smoke test.
 
 **MCP registration with DeepSeek Harness, Deep Agents, Open WebUI, n8n, or other consumers remains integration-phase work.**
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the discovery listing and the tool result.
+
+Record the parent service and its version, the negotiated protocol version,
+the tool exercised, the expected result returned, and confirmation that only
+smoke-namespaced data was deleted and no permanent registration was created.

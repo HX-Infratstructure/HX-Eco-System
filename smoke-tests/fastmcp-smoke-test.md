@@ -99,3 +99,15 @@ Pass means the client connects, protocol negotiation succeeds, `echo_smoke` appe
 4. Retain the accepted FastMCP installation and normal HX-15 service configuration.
 
 **Do not register this temporary tool as a permanent HX MCP service. No containers are created by this test.**
+
+## Evidence
+
+Retain the run through the standard bundle described in
+`docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
+supporting capture of the discovery listing and the tool result.
+
+Record the FastMCP version, the negotiated protocol version, the temporary
+port used, the known-answer token `HX-FASTMCP-SMOKE-9271` from the
+structured result, and confirmation that the temporary server was stopped,
+the port is no longer listening, and the tool was not registered as a
+permanent HX MCP service.

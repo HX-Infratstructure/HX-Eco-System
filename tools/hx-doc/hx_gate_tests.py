@@ -183,6 +183,41 @@ rc, out = run('tools/hx-doc/hx_smoke_lint.py')
 check('hx-smoke-lint: an authority with no known answer fails',
       rc != 0 and 'known answer' in out, out)
 
+# ------------------------------ hx_smoke_lint: no retention statement -------
+fresh()
+def strip_retention(s):
+    s = re.sub(r'(?i)retention', 'REMOVED', s)
+    s = re.sub(r'(?i)retain\w*', 'REMOVED', s)
+    return s.replace('docs/05-evidence', 'docs/REMOVED')
+edit('smoke-tests/qdrant-smoke-test.md', strip_retention)
+rc, out = run('tools/hx-doc/hx_smoke_lint.py')
+check('hx-smoke-lint: an authority with no retention statement fails',
+      rc != 0 and 'evidence retention' in out, out)
+
+# ------------------------- hx_smoke_lint: an empty Evidence heading fails ---
+fresh()
+def gut_evidence(s):
+    head = s.split('## Evidence')[0]
+    return head + '## Evidence' + chr(10)
+edit('smoke-tests/qdrant-smoke-test.md', gut_evidence)
+rc, out = run('tools/hx-doc/hx_smoke_lint.py')
+check('hx-smoke-lint: a bare Evidence heading does not satisfy the check',
+      rc != 0 and 'evidence retention' in out, out)
+
+# ------------------- hx_smoke_lint: a negated sentence does not satisfy it ---
+# "do not retain credentials" contains retain. Matching that word was no
+# better than matching evidence, which is why the check is anchored to the
+# standard bundle path instead.
+fresh()
+NEGATED = 'Do not retain credentials in evidence, and do not retain secrets.'
+def negate_evidence(s):
+    head = s.split('## Evidence')[0]
+    return head + '## Evidence' + chr(10) * 2 + NEGATED + chr(10)
+edit('smoke-tests/qdrant-smoke-test.md', negate_evidence)
+rc, out = run('tools/hx-doc/hx_smoke_lint.py')
+check('hx-smoke-lint: "do not retain credentials" does not satisfy the check',
+      rc != 0 and 'evidence retention' in out, out)
+
 # --------------------------------------- hx_version_pins: numeric sort ------
 # Exercise the shipped comparator, not a copy of it: a test that reimplements
 # the logic it is checking proves only that the test is self-consistent.
