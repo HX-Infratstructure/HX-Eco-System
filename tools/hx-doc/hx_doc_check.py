@@ -53,6 +53,7 @@ SKIP_TREES = (".git", "archive", "human-html", ".claude", "graft")
 
 
 def active_markdown() -> list[Path]:
+    """Every current Markdown document, excluding generated and archived trees."""
     out = []
     for p in sorted(REPO.rglob("*.md")):
         parts = p.relative_to(REPO).parts
@@ -230,6 +231,7 @@ def check_unit_claims() -> None:
 
 
 def main() -> int:
+    """Run every check and report. Returns the process exit status."""
     quiet = "--quiet" in sys.argv
     for fn in (
         check_links,
