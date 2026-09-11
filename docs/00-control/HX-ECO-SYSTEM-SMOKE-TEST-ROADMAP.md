@@ -70,20 +70,24 @@ limited_integration_plan
 For `prior_pass_evidence`:
 
 - use `NONE` when no earlier component proof is required;
-- otherwise record the exact retained evidence path(s) or current accepted server record(s) that establish the prerequisite;
+- otherwise record one entry for each step in the `Requires` column, written as
+  `<step-id> -> <evidence>` and separated by `;`;
+- the evidence is the exact retained evidence path, or the current accepted
+  server record, that establishes that step;
 - use only current PASS/CLOSED evidence;
 - do not reference an archive document as current proof.
 
-Example for a future LightRAG run:
+`hx-smoke-promote` reads the inline value of each manifest field, so every
+field stays on one line. A value indented over several lines reads as empty and
+the promotion is refused. A bare list of paths is also refused: it cannot say
+which path proves which dependency, so nothing can be checked.
+
+Example for a future LightRAG run. `hx-proof.tsv` gives step `E1` the
+dependencies `B5,A2,P0`, so each one is named:
 
 ```text
-prior_pass_evidence:
-  docs/05-evidence/hx-10/qdrant/<run-id>,
-  docs/05-evidence/hx-4/embedding-models/<run-id>,
-  docs/02-server-records/HX-2.md
-
-limited_integration_plan:
-  HX-10 Qdrant + HX-4 BGE-M3 + one approved HX LLM; synthetic data only; remove LightRAG smoke document/state after proof
+prior_pass_evidence: B5 -> docs/05-evidence/hx-10/qdrant/<run-id>; A2 -> docs/05-evidence/hx-4/embedding-models/<run-id>; P0 -> docs/02-server-records/HX-2.md
+limited_integration_plan: HX-10 Qdrant + HX-4 BGE-M3 + one approved HX LLM; synthetic data only; remove LightRAG smoke document/state after proof
 ```
 
 If a materially relevant dependency changes after its PASS—model revision/dimension, database/vector-store version/configuration, API contract, routing behavior, etc.—the prior proof may be stale. Revalidate the dependency before relying on it for a downstream PASS.

@@ -142,10 +142,16 @@ cleanup_objects_expected: SEE_PROCEDURE
 
 Use the copied procedure in procedure/ as the acceptance authority for this run.
 
-Before execution, replace:
+Before execution, replace, each on one line:
 
-- prior_pass_evidence: exact current retained evidence path(s)/accepted server record(s), or NONE;
+- prior_pass_evidence: one entry for each step this step requires, written as
+  \`<step-id> -> <evidence path or accepted server record>\` and separated by
+  \`;\`. Use NONE when nothing is required. hx-smoke-promote reads the inline
+  value only, and refuses a bare list of paths, because a path alone does not
+  say which dependency it proves;
 - limited_integration_plan: brief temporary integration plan, or NONE.
+
+Example: \`prior_pass_evidence: B5 -> docs/05-evidence/hx-10/qdrant/<run-id>; A2 -> docs/02-server-records/HX-4.md\`
 
 Use \`docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md\` to determine required proof dependencies.
 Do not place secrets in this manifest or retained evidence.
