@@ -38,6 +38,20 @@ reviews:
     base_branches:
       - ".*"
 
+  # Finishing touches. Both are already CodeRabbit defaults; they are written
+  # here so the setting is visible in the repository instead of inherited
+  # silently, and so turning one off has to be a recorded decision.
+  #
+  # autofix: the checkbox under a review comment, and `@coderabbitai autofix`.
+  # fix_ci:  `@coderabbitai fix-ci`, for CI failures attributed to the pull
+  #          request. This one requires a CodeRabbit Team plan; on the free
+  #          OSS tier the command is offered but will not deliver a fix.
+  finishing_touches:
+    autofix:
+      enabled: true
+    fix_ci:
+      enabled: true
+
   path_filters:
     # Generated output. Reviewing it wastes the file budget and any finding
     # belongs in the Markdown source or the generator, never here.
@@ -46,6 +60,13 @@ reviews:
     - "!archive/**"
     # Generated from docs/00-control/hx-fleet.tsv.
     - "!docs/03-runbooks/common/hx-fleet-ips.env"
+    # CodeRabbit's own default filters exclude **/*.tsv, which silently kept
+    # both source-of-truth files out of every review. The fleet table and the
+    # proof chain are generated from these two files, and hx-smoke-promote
+    # gates a PASS on the second one. They are the last files in the
+    # repository that should go unreviewed, so re-include them by name.
+    - "docs/00-control/hx-fleet.tsv"
+    - "docs/00-control/hx-proof.tsv"
 
   path_instructions:
     - path: "docs/03-runbooks/**/*.sh"
@@ -128,7 +149,6 @@ reviews:
       enabled: true
     github-checks:
       enabled: true
-      timeout_ms: 300000
 
 chat:
   auto_reply: true
