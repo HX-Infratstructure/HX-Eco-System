@@ -26,8 +26,17 @@ reviews:
     enabled: true
     drafts: false
     auto_incremental_review: true
+    # This list is branches *other than* the default, so naming main here added
+    # nothing and excluded everything else. A pull request stacked on another
+    # branch was skipped with "auto reviews are disabled on base/target
+    # branches other than the default branch" - an unreviewed change, which is
+    # the one outcome this repository does not accept.
+    #
+    # The decision is made from the pull request's base branch, so this has to
+    # reach main to take effect; fixing it only on a stacked branch cannot
+    # rescue that branch's own review.
     base_branches:
-      - main
+      - ".*"
 
   path_filters:
     # Generated output. Reviewing it wastes the file budget and any finding
