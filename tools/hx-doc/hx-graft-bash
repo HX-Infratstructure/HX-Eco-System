@@ -27,9 +27,37 @@ TARGET="$GRAFT_ROOT/dist/graph/generic.js"
   exit 1
 }
 
+# Every install of graft that answers queries needs this, not just one. A
+# workstation commonly has two - a native one and one inside WSL - and the MCP
+# server launches whichever is on the host's PATH. If only one is patched, the
+# graph on disk carries shell symbols while live queries come back blind to
+# them, which looks like a graft bug rather than a half-applied patch.
+# Run this once per install, pointing GRAFT_ROOT at each.
+
+# Elevate only when the file is not already writable: a per-user npm prefix
+# (the normal case on Windows) needs no sudo, and /usr/local does.
+if [ -w "$TARGET" ]; then
+  SUDO=""
+elif command -v sudo >/dev/null 2>&1; then
+  SUDO="sudo"
+else
+  echo "STOP: $TARGET is not writable and sudo is unavailable." >&2
+  exit 1
+fi
+
+# Probe that the interpreter actually runs. On Windows a "python3" App
+# Execution Alias sits on PATH and is not an interpreter.
+PYBIN=""
+for cand in python3 python; do
+  if command -v "$cand" >/dev/null 2>&1 && "$cand" -c 'import sys;sys.exit(0 if sys.version_info[0]==3 else 1)' >/dev/null 2>&1; then
+    PYBIN="$cand"; break
+  fi
+done
+[ -n "$PYBIN" ] || { echo "STOP: no working Python 3 on PATH" >&2; exit 1; }
+
 # Literal string replacement in Python. No shell quoting and no sed escaping,
 # both of which can silently produce a pattern that matches nothing.
-sudo python3 - "$TARGET" "${1:-}" <<'PY'
+$SUDO "$PYBIN" - "$TARGET" "${1:-}" <<'PY'
 import shutil, sys
 
 target, mode = sys.argv[1], sys.argv[2]

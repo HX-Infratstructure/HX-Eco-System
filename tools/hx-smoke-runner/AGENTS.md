@@ -140,3 +140,30 @@ When a helper's behavior changes:
 5. update the architecture operating model only when the subsystem boundary/authority model changes;
 6. update the smoke-test roadmap when proof dependencies or permitted limited integrations change;
 7. never create a second competing runner implementation outside this directory.
+
+## Finding things during a run
+
+Prefer the graft MCP tools over grep or whole-file reads; one call usually
+replaces several. They cover the executable surface — the runbook blocks, the
+wrappers, the hx-doc tools.
+
+- `graft_find_code` — where a symbol lives, how something works.
+- `graft_file_api` — a script's shape before you touch it.
+- `graft_trace_calls` — what a change affects. Returns nothing for shell
+  functions; that is a parser limit, not a fact about the code.
+- `graft_repo_map` — orientation.
+
+They do **not** index the smoke authorities under `smoke-tests/`, the roadmap,
+or the control documents. Read those directly. An empty graft result means not
+in the graph, never does not exist.
+
+Three questions, three sources:
+
+| Question | Source |
+|---|---|
+| where is the code | graft |
+| may this step run | `tools/hx-doc/hx-proof --ready <id>` |
+| what must it prove | the `smoke-tests/` authority |
+
+`hx-smoke-promote` enforces the second one: a PASS is refused when a required
+prior step has not passed and been cited.

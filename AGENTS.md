@@ -220,16 +220,42 @@ TSV through a reviewed pull request.
 
 ### Graft
 
-`graft` indexes 70 of 388 files here: the Python tools and the shell blocks. It
-does not read Markdown, where every authority in this repository lives, and it
-produces no call edges for shell.
+Graft indexes the **executable surface** of this repository: every runbook
+block, every wrapper, every tool. That is the part you operate repeatedly, so
+reach for it before grep or a whole-file read.
 
-- `graft blast` before changing anything under `tools/`.
-- `graft ask` to locate a shell helper across the runbook blocks.
-- An empty result means **not in the graph**, never **does not exist**. Fall
-  back to `hx-doc-check`, `grep`, or the document itself.
-- It runs from WSL on the current workstation. `graft upgrade` wipes the bash
-  registration; re-run `tools/hx-doc/hx-graft-bash` afterwards.
+Prefer the MCP tools when the host exposes them; fall back to the CLI.
+
+| To find out | Use |
+|---|---|
+| where a symbol lives, how something works | `graft_find_code` · `graft ask` |
+| every occurrence, not just the top hits | `graft_find_all` |
+| a file's shape before editing it | `graft_file_api` · `graft skeleton` |
+| who calls this, blast radius of a rename | `graft_trace_calls` · `graft callers` |
+| orientation in the repo | `graft_repo_map` · `graft map` |
+| whether the graph matches the tree | `graft_check_freshness` · `graft check` |
+
+One call typically replaces several file reads, and each result reports what it
+saved.
+
+What it does **not** cover, so you know when to stop asking it:
+
+- The Markdown authorities. `smoke-tests/`, the roadmaps and the control
+  documents are not in the graph. Read those directly.
+- Call edges for shell. Definitions are indexed; `graft_trace_calls` on a shell
+  function returns nothing, and that is a limit of the parser, not a fact about
+  the code.
+- Ten extensionless scripts, including the smoke runner. They hold three
+  functions between them, so the loss is small, but an empty result there means
+  unindexed.
+
+An empty result means **not in the graph**, never **does not exist**.
+
+**Two installs, one patch.** A workstation often has a native Graft and another
+inside WSL, and whichever is on PATH answers. If only one carries the bash
+registration, queries come back blind to shell while the cards on disk still
+show it. Run `tools/hx-doc/hx-graft-bash` once per install, and again after any
+`graft upgrade`.
 
 ## 15. Documentation and execution-artifact rule
 
