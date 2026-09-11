@@ -57,33 +57,31 @@ HX maintains a separate evergreen smoke-test roadmap in addition to the base imp
 ## D-017 — Governed HX skills capability layer
 HX maintains a canonical `skills/` library as an AI-agent expertise layer between ecosystem context and execution. Component skills may combine HX-native instructions with current vendor-official expertise, but skills do not supersede owner decisions, active HX architecture, live evidence, runbooks, or smoke-test acceptance criteria. Agent-specific skill installations are derived deployments from the canonical repository source, not independently maintained authorities. External skills are classified and registered before operational use; vendor-official sources are preferred over community sources. Skills never store actual credentials, PATs, API keys, private keys, service-account secrets, or sshpass passwords. Qdrant is the first approved reference implementation through `skills/qdrant/hx-qdrant-advisor/`, which preserves HX-10/native-systemd/vector-space/smoke-test rules while consuming the current official Qdrant Advisor guidance live.
 
-## D-018 — Host firewall and inference listener posture — PROPOSED, awaiting owner ratification
+## D-018 — Host firewall and inference listener posture — RATIFIED 2026-09-11
 
-The HX LAN is treated as a trusted lab segment. The common base runbook
-disables `ufw` on every server, and Ollama listens on `0.0.0.0:11434` with no
-authentication. This is consistent with the standing rule that firewall,
-segmentation and TLS changes are not imposed without owner approval, and with
-KISS.
+The HX LAN is treated as a trusted lab segment.
 
-This entry does not change behaviour. It records behaviour that previously
-existed only as an emergent property of two runbook scripts, so it can be
-approved, revisited, or reversed as a decision rather than rediscovered.
+**No UFW is used anywhere on the fleet.** The common base runbook disables it on
+every server, and that is the intended posture, not a gap. Ollama listens on
+`0.0.0.0:11434` with no authentication, and that listener posture stands as
+stated.
+
+This is consistent with the standing rule that firewall, segmentation and TLS
+changes are not imposed without owner approval, and with KISS.
 
 Blast radius as it stands: any host that can reach the HX LAN can call any HX
 inference endpoint without credentials, and can reach any service port on any
-HX server.
+HX server. That is accepted.
 
 Where these statements come from: they are read from
 `docs/03-runbooks/common/01-base-admin-network-updates.sh`, which disables
 `ufw`, and from `docs/03-runbooks/common/03-storage-ollama.sh`, which sets
-`OLLAMA_HOST=0.0.0.0:11434`. They describe what the build scripts do, not a
-measured fleet: HX-1 to HX-3 are the only servers built, and no server record
-carries a dated firewall or listener observation. As-built confirmation is
-UNRESOLVED until each server is built and its record states the observed
-posture.
+`OLLAMA_HOST=0.0.0.0:11434`. They describe what the build scripts do. HX-1 to
+HX-3 are the only servers built so far, so a server record states the observed
+posture as each server closes; the decision itself does not wait on that.
 
-**Owner action required:** ratify as written, or amend. Until ratified this
-entry is a record of current state, not an approval.
+This entry closes. Do not re-raise UFW or listener hardening as a finding
+against this repository: it is a decided posture, not an open item.
 
 ## D-019 — OmniRoute product identity — RATIFIED 2026-09-10
 
