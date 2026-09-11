@@ -65,14 +65,60 @@ of the 29 steps — against 30 rows in the TSV:
 every MCP companion gate, both Web UI gates and the reranker were missing from
 the diagram, and nothing compared the two.
 
-## A note on graft
+## Graft
 
-`graft` indexes 70 of 388 files here — the Python tools and the shell blocks.
-It does not read Markdown, and it produces no call edges for shell. An empty
-`graft` result means "not in the graph", never "does not exist".
+Graft indexes what carries a file extension: 57 `.sh` runbook blocks and
+helpers, 13 `.py` tool bodies, and 2 `.env` files. Not in the graph: the
+Markdown authorities, and the 17 extensionless scripts, which is every wrapper
+in this directory plus the four smoke-runner scripts. A wrapper is a few lines
+that resolve a Python 3 and exec the `.py` body beside it, and that body is
+indexed. The runner scripts are not.
 
-`archive/` is indexed and cannot currently be excluded, so six superseded
-runbook blocks show up in results. Upstream issue: trailhq/Graft#353.
+### Use the MCP tools
+
+`graft init` registered the server in `.mcp.json`. A session opened in this
+repository gets `graft_find_code`, `graft_find_all`, `graft_trace_calls`,
+`graft_file_api`, `graft_repo_map` and `graft_check_freshness` natively. Prefer
+them over shelling out; one call typically replaces several file reads.
+
+Measured on this repository: a `graft_file_api` call on `hx-app-lib.sh`
+returned all six helpers for **88 tokens against 942** to read the file whole,
+a 91% saving. A `graft_find_code` query saved ~7,500 tokens on one call.
+
+### Patch every install, not just one
+
+A workstation usually has two Graft installs — a native one and one inside WSL
+— and whichever is on PATH answers the query. The MCP server launches the
+host's. If only one carries the bash registration, live queries come back blind
+to shell while the cards on disk still list shell symbols, which reads as a
+Graft bug rather than a half-applied patch.
+
+```bash
+tools/hx-doc/hx-graft-bash                                   # the one on PATH
+GRAFT_ROOT="$APPDATA/npm/node_modules/@nanonets/graft"   tools/hx-doc/hx-graft-bash                                 # a second install
+```
+
+Re-run after any `graft upgrade`.
+
+### Deep mode, on HX-2
+
+`graft build --deep` adds concept nodes and a per-symbol summary. It needs a
+model, and Graft speaks to any OpenAI-compatible endpoint — so it runs on the
+fleet's own inference with nothing leaving the LAN:
+
+```bash
+GRAFT_PROVIDER=openai GRAFT_BASE_URL=http://192.168.50.202:11434/v1 GRAFT_MODEL=qwen-x:qwen3.8-27b-q6_k GRAFT_API_KEY=unused graft build --deep
+```
+
+Not yet run: it needs the LAN. Treat it as untested until it has been.
+
+### Not evaluated
+
+`graft brain` mines rules from a repository's history, but it requires
+`brain connect <brainId>:<token>` against a hosted service. There is no local
+mode, so it would mean an external account and sending repository analysis off
+site. That is an owner decision and conflicts with the fleet's self-hosted
+posture, so it was not pursued.
 
 ## Before a build day
 

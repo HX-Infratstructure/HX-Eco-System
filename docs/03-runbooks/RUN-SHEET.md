@@ -186,6 +186,35 @@ before the smoke phase starts.
 
 ---
 
+## Answering a question mid-run
+
+Three tools, three different questions. Knowing which is which saves reading
+files that will not answer you.
+
+| The question | Ask |
+|---|---|
+| Which block installs this? Where is that helper? | `graft_find_code` · `graft ask "<term>"` |
+| What is in this script before I edit it? | `graft_file_api` · `graft skeleton <file>` |
+| What does changing this tool affect? | `graft_trace_calls` · `graft callers <symbol>` — **Python only** |
+| I am new to this tree, orient me | `graft_repo_map` · `graft map` |
+| May this proof step run yet? | `tools/hx-doc/hx-proof --ready <id>` |
+| What must this step actually prove? | the `smoke-tests/` authority — read it |
+| Is this server's record complete? | `tools/hx-doc/hx-record-check` |
+
+Graft answers **where the code is**. `hx-proof` answers **whether you may run
+it**. The smoke authority answers **what it must prove**. Graft does not index
+the authorities, so an empty result from it says nothing about them.
+
+Two limits worth knowing before you trust an empty result:
+
+- `graft_trace_calls` finds no callers of a **shell** function. The parser
+  records shell definitions but builds no call edges, so an empty result there
+  is the parser, not the blast radius. Grep for the name before changing a
+  function in `common/`.
+- The 17 extensionless scripts are not in the graph: every `tools/hx-doc`
+  wrapper and all four smoke-runner scripts. Those runner scripts are the ones
+  you use most during a run.
+
 ## At the end of the day
 
 ```bash

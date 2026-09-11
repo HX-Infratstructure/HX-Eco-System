@@ -243,16 +243,50 @@ TSV through a reviewed pull request.
 
 ### Graft
 
-`graft` indexes 70 of 388 files here: the Python tools and the shell blocks. It
-does not read Markdown, where every authority in this repository lives, and it
-produces no call edges for shell.
+Graft indexes the part of the **executable surface** that carries a file
+extension: 57 `.sh` blocks, 13 `.py` tool bodies and 2 `.env` files. That is
+the part you operate repeatedly, so reach for it before grep or a whole-file
+read.
 
-- `graft blast` before changing anything under `tools/`.
-- `graft ask` to locate a shell helper across the runbook blocks.
-- An empty result means **not in the graph**, never **does not exist**. Fall
-  back to `hx-doc-check`, `grep`, or the document itself.
-- It runs from WSL on the current workstation. `graft upgrade` wipes the bash
-  registration; re-run `tools/hx-doc/hx-graft-bash` afterwards.
+It does not index the 17 extensionless scripts, which is every `tools/hx-doc`
+wrapper and the four smoke-runner scripts. The wrappers are a few lines that
+resolve a Python 3 and exec the `.py` body beside them, and the body is
+indexed; the runner scripts are not, and they matter. The limits below say
+what that costs.
+
+Prefer the MCP tools when the host exposes them; fall back to the CLI.
+
+| To find out | Use |
+|---|---|
+| where a symbol lives, how something works | `graft_find_code` · `graft ask` |
+| every occurrence, not just the top hits | `graft_find_all` |
+| a file's shape before editing it | `graft_file_api` · `graft skeleton` |
+| who calls this, blast radius of a rename | `graft_trace_calls` · `graft callers` |
+| orientation in the repo | `graft_repo_map` · `graft map` |
+| whether the graph matches the tree | `graft_check_freshness` · `graft check` |
+
+One call typically replaces several file reads, and each result reports what it
+saved.
+
+What it does **not** cover, so you know when to stop asking it:
+
+- The Markdown authorities. `smoke-tests/`, the roadmaps and the control
+  documents are not in the graph. Read those directly.
+- Call edges for shell. Definitions are indexed; `graft_trace_calls` on a shell
+  function returns nothing, and that is a limit of the parser, not a fact about
+  the code.
+- Seventeen extensionless scripts: all thirteen `tools/hx-doc` wrappers and
+  the four smoke-runner scripts. They hold three shell functions between them,
+  all in the runner, so the loss is small in symbols but it covers the scripts
+  used most during a smoke run. An empty result there means unindexed.
+
+An empty result means **not in the graph**, never **does not exist**.
+
+**Two installs, one patch.** A workstation often has a native Graft and another
+inside WSL, and whichever is on PATH answers. If only one carries the bash
+registration, queries come back blind to shell while the cards on disk still
+show it. Run `tools/hx-doc/hx-graft-bash` once per install, and again after any
+`graft upgrade`.
 
 ## 15. Documentation and execution-artifact rule
 
