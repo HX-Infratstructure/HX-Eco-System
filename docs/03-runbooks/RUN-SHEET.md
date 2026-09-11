@@ -77,12 +77,20 @@ cd ~/src/HX-Eco-System/docs/03-runbooks/HX-4
 
 ### Step 5 — validation
 
+The block prints the unit name, or the command to run when the component is a
+library with no unit. Use what it printed:
+
 ```bash
-systemctl is-active <unit> && systemctl is-enabled <unit>
+UNIT=hx-qdrant            # whatever the block reported for this server
+systemctl is-active "$UNIT" && systemctl is-enabled "$UNIT"
 sudo reboot
 # once it is back:
-systemctl is-active <unit>
+systemctl is-active "$UNIT"
 ```
+
+Crawl4AI, Deep Agents, Docling, FastMCP and Mem0 are libraries or CLIs with no
+unit. For those the block prints the check to run instead, and that command is
+the reboot-persistence check.
 
 ### Step 6 — record it
 

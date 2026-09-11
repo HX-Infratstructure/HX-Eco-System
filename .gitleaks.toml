@@ -12,5 +12,10 @@ useDefault = true
 id = "generic-api-key"
 [rules.allowlist]
 description = "HX known-answer smoke-test tokens are published test fixtures"
+# AND, not OR. Without it either condition alone was enough, so the rule was
+# switched off for every smoke-test document, and a real credential pasted into
+# one would have been ignored. Both must match: the file is a smoke-test
+# authority AND the finding is an HX known-answer token.
+condition = "AND"
 paths = ['''^smoke-tests/.*\.md$''']
 regexes = ['''HX-[A-Z0-9-]+-SMOKE-[A-Z0-9]+''']

@@ -73,6 +73,15 @@ Blast radius as it stands: any host that can reach the HX LAN can call any HX
 inference endpoint without credentials, and can reach any service port on any
 HX server.
 
+Where these statements come from: they are read from
+`docs/03-runbooks/common/01-base-admin-network-updates.sh`, which disables
+`ufw`, and from `docs/03-runbooks/common/03-storage-ollama.sh`, which sets
+`OLLAMA_HOST=0.0.0.0:11434`. They describe what the build scripts do, not a
+measured fleet: HX-1 to HX-3 are the only servers built, and no server record
+carries a dated firewall or listener observation. As-built confirmation is
+UNRESOLVED until each server is built and its record states the observed
+posture.
+
 **Owner action required:** ratify as written, or amend. Until ratified this
 entry is a record of current state, not an approval.
 
@@ -125,3 +134,21 @@ D-020 records.
 application is refused, a Snap driver is refused, the Ubuntu archive is allowed
 for a driver, the Ubuntu archive is refused for an application, and PyPI is
 accepted.
+
+## D-022 — BGE reranker checkpoint and runtime — RATIFIED 2026-09-10
+
+D-005 placed a BGE-family reranker on HX-4 without naming one. The owner
+directed the exact checkpoint and runtime on 2026-09-10:
+
+- `BAAI/bge-reranker-v2-m3` at revision
+  `953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e`;
+- served by `infinity-emb` 0.0.77 from PyPI, under systemd, on port 7997.
+
+The revision is an immutable commit, so a later upstream edit cannot change the
+model under a stable name. The authoritative pins are in
+`docs/03-runbooks/common/hx-base.env`, and `tools/hx-doc/hx-version-pins`
+checks them against upstream.
+
+This was recorded in the Model Placement and Embedding Standard as item 10 two
+days after that document was approved at v1.0, without a decision to point at.
+The standard is v1.1 now and cites this entry.

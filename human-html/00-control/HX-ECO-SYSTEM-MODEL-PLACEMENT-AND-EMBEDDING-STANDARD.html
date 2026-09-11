@@ -35,8 +35,8 @@ a{color:var(--accent)}
 .mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
-</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/00-control/HX-ECO-SYSTEM-MODEL-PLACEMENT-AND-EMBEDDING-STANDARD.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: owner_approved &middot; status: 1.0 &middot; status: 2026-09-08</div><h1>HX Eco-System — Model Placement and Embedding Standard</h1>
-<p><strong>Status:</strong> OWNER APPROVED <strong>Date:</strong> September 8, 2026 <strong>Purpose:</strong> Establish the standard placement, ownership, and usage rules for Granite-Docling, shared embedding models, reranking models, and Qdrant collection compatibility.</p>
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/00-control/HX-ECO-SYSTEM-MODEL-PLACEMENT-AND-EMBEDDING-STANDARD.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: owner_approved &middot; status: 1.1 &middot; status: 2026-09-11</div><h1>HX Eco-System — Model Placement and Embedding Standard</h1>
+<p><strong>Status:</strong> OWNER APPROVED <strong>Date:</strong> September 11, 2026 (v1.1; v1.0 approved September 8, 2026) <strong>Purpose:</strong> Establish the standard placement, ownership, and usage rules for Granite-Docling, shared embedding models, reranking models, and Qdrant collection compatibility.</p>
 <h2>1. Owner-approved decisions</h2>
 <ol>
 <li><strong>Granite-Docling 258M remains with Docling on HX-16.</strong></li>
@@ -48,7 +48,10 @@ font-size:12.5px;color:var(--fg2)}
 <li><strong>Both BGE-M3 and Nomic Embed Text v1.5 will be installed on HX-4.</strong></li>
 <li><strong>BGE-M3 is the default/authoritative HX embedding model.</strong></li>
 <li><strong>Nomic Embed Text v1.5 is the alternate benchmark/fallback embedding model.</strong></li>
-<li><strong>A BGE-family reranker is hosted on HX-4.</strong> Pinned 2026-09-10 to <code>BAAI/bge-reranker-v2-m3</code> at revision <code>953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e</code>, served by <code>infinity-emb</code> 0.0.77 from PyPI under systemd on port 7997. It is the M3-family cross-encoder that pairs with BGE-M3. The revision is an immutable commit, so a later upstream edit cannot change the model under a stable name. Authoritative pins: <code>docs/03-runbooks/common/hx-base.env</code>.</li>
+<li><strong>A BGE-family reranker is hosted on HX-4.</strong> D-005 placed a BGE-family</li>
+</ol>
+<p>reranker on HX-4; the exact checkpoint and runtime were open until the owner directed them on 2026-09-10, recorded as D-022. This entry was added in v1.1 rather than at v1.0 approval. Pinned 2026-09-10 to <code>BAAI/bge-reranker-v2-m3</code> at revision <code>953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e</code>, served by <code>infinity-emb</code> 0.0.77 from PyPI under systemd on port 7997. It is the M3-family cross-encoder that pairs with BGE-M3. The revision is an immutable commit, so a later upstream edit cannot change the model under a stable name. Authoritative pins: <code>docs/03-runbooks/common/hx-base.env</code>.</p>
+<ol>
 <li><strong>HX-5 remains CentCom / DeepSeek Harness / development-test capacity.</strong> Shared embedding infrastructure will not be placed there merely because a second 16 GB GPU may become available.</li>
 </ol>
 <h2>2. Why Granite-Docling stays on HX-16</h2>
