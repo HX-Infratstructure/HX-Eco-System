@@ -218,8 +218,9 @@ Docling/Crawl4AI PASS is useful upstream ecosystem evidence but is **not forced 
 
 ## 6. Dependency graph
 
-Generated from `hx-proof.tsv`. Every step appears; the hand-drawn
-version carried 19 of 29 and silently omitted every MCP companion gate.
+Generated from `hx-proof.tsv`. Every step appears. The hand-drawn version
+carried 19 nodes — the foundation plus 18 of the 29 steps — so 11 were missing
+from the picture, including every MCP companion gate.
 
 <!-- HX-PROOF:DAG -->
 ```mermaid

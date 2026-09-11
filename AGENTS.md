@@ -197,7 +197,7 @@ layer; treat a failure as a real defect, not as noise to work around.
 | Command | Enforces |
 |---|---|
 | `tools/hx-doc/hx-doc-check` | links resolve, registry vocabulary is defined, control frontmatter is complete, filenames are stable, evidence is committable |
-| `tools/hx-doc/hx-proof` | the proof DAG is valid, its generated blocks are current, and no PASS skips its prior proof |
+| `tools/hx-doc/hx-proof` | the proof DAG is valid and its generated blocks are current |
 | `tools/hx-doc/hx-render-html` | every `human-html/` mirror matches its Markdown source |
 | `tools/hx-doc/hx-upstream-drift` | the registry's pinned upstream commits are still current |
 
