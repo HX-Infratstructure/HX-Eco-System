@@ -53,6 +53,11 @@ reviews:
       enabled: true
 
   path_filters:
+    # A positive entry turns this list into an allow list: CodeRabbit treats it
+    # as a sparse-checkout include set, so naming only the two TSV files left
+    # every other file ignored. "**" keeps the whole tree in scope, and the
+    # entries below subtract from it.
+    - "**"
     # Generated output. Reviewing it wastes the file budget and any finding
     # belongs in the Markdown source or the generator, never here.
     - "!human-html/**"
