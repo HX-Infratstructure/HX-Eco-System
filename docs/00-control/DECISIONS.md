@@ -69,9 +69,11 @@ stated.
 This is consistent with the standing rule that firewall, segmentation and TLS
 changes are not imposed without owner approval, and with KISS.
 
-Blast radius as it stands: any host that can reach the HX LAN can call any HX
-inference endpoint without credentials, and can reach any service port on any
-HX server. That is accepted.
+Intended blast radius: on a built HX host, any host that can reach the HX LAN
+can call its inference endpoint without credentials and reach the service ports
+it exposes. That is accepted, and it is what the build scripts produce. It is a
+statement of intent, not a survey: three of seventeen servers are built, and
+each server record states the posture actually observed as that server closes.
 
 Where these statements come from: they are read from
 `docs/03-runbooks/common/01-base-admin-network-updates.sh`, which disables
