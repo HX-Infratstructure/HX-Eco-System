@@ -92,7 +92,9 @@ $EDITOR docs/00-control/hx-fleet.tsv        # state -> PASS, gate -> CLOSED
 tools/hx-doc/hx-fleet                       # regenerate the tables
 tools/hx-doc/hx-render-html
 tools/hx-doc/hx-doc-check && tools/hx-doc/hx-record-check
-git add -A && git commit && git push
+git add -A && git commit
+coderabbit review --agent                   # review before the push, not after
+git push
 ```
 
 The record needs the **source URI and the full SHA-256** of anything you
@@ -190,6 +192,7 @@ before the smoke phase starts.
 tools/hx-doc/hx-doc-check
 tools/hx-doc/hx-record-check
 tools/hx-doc/hx-fleet --check
+tools/hx-doc/hx-proof --check
 git status
 ```
 
