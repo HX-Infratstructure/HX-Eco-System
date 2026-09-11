@@ -11,8 +11,9 @@ Usage:
 """
 import io, os, re, shutil, subprocess, sys, tempfile
 
-SRC = r'C:\hxrev\repo'
-WORK = r'C:\hxrev\gate-test'
+SRC = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_TMP = tempfile.mkdtemp(prefix='hx-gate-')
+WORK = os.path.join(_TMP, 'repo')
 PY = sys.executable
 
 passed = failed = 0
@@ -34,7 +35,7 @@ def check(label, cond, detail=''):
 def fresh():
     if os.path.isdir(WORK):
         shutil.rmtree(WORK, ignore_errors=True)
-    shutil.copytree(SRC, WORK, ignore=shutil.ignore_patterns('.git', 'human-html'))
+    shutil.copytree(SRC, WORK, ignore=shutil.ignore_patterns('.git'))
 
 def edit(rel, fn):
     p = os.path.join(WORK, rel.replace('/', os.sep))
@@ -128,15 +129,59 @@ rc, out = run('tools/hx-doc/hx_new_server.py', 'hx-17', '--force')
 check('hx-new-server: a missing template placeholder is refused',
       rc != 0 and 'placeholder' in out, out)
 
-# --------------------------------------- hx_version_pins: numeric sort ------
-sys.path.insert(0, os.path.join(SRC, 'tools', 'hx-doc'))
-vers = ['595.9.05-0ubuntu0.24.04.1', '595.71.05-0ubuntu0.24.04.1']
-def vkey(v):
-    return tuple(int(p) for p in re.findall(r'\d+', v))
-check('hx-version-pins: 595.71.05 sorts above 595.9.05',
-      max(set(vers), key=vkey).startswith('595.71.05'),
-      'lexicographic would pick ' + sorted(vers)[-1])
+# ------------------------------------------ hx_proof: duplicate marker ------
+fresh()
+edit('docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md',
+     lambda s: s + '\n<!-- HX-PROOF:TABLE phase=A -->\n<!-- /HX-PROOF -->\n')
+rc, out = run('tools/hx-doc/hx_proof.py', '--check')
+check('hx-proof: a duplicate phase marker is drift',
+      rc != 0 and 'phase=A' in out, out)
 
-shutil.rmtree(WORK, ignore_errors=True)
+# -------------------------------------- hx_proof: dependency on nothing -----
+fresh()
+edit('docs/00-control/hx-proof.tsv',
+     lambda s: s.replace('\tB5,A2,P0\t', '\tB5,A2,Z9\t', 1))
+rc, out = run('tools/hx-doc/hx_proof.py', '--check')
+check('hx-proof: a dependency on an unknown step is refused',
+      rc != 0 and 'Z9' in out, out)
+
+# ------------------------------------- hx_render_html: source without mirror -
+fresh()
+edit('docs/03-runbooks/README.md', lambda s: s + '\nA line the mirror does not have.\n')
+rc, out = run('tools/hx-doc/hx_render_html.py', '--check')
+check('hx-render-html: an edited source with a stale mirror fails',
+      rc != 0 and 'stale' in out.lower(), out)
+
+# ------------------------------------ hx_smoke_lint: no known answer --------
+fresh()
+def strip_known(s):
+    s = re.sub(r'(?i)known.answer', 'REMOVED', s)
+    s = re.sub(r'(?i)expected output', 'REMOVED', s)
+    s = re.sub(r'(?i)reply with exactly', 'REMOVED', s)
+    return re.sub(r'(?i)exactly:', 'REMOVED', s)
+edit('smoke-tests/redis-smoke-test.md', strip_known)
+rc, out = run('tools/hx-doc/hx_smoke_lint.py')
+check('hx-smoke-lint: an authority with no known answer fails',
+      rc != 0 and 'known answer' in out, out)
+
+# --------------------------------------- hx_version_pins: numeric sort ------
+# Exercise the shipped comparator, not a copy of it: a test that reimplements
+# the logic it is checking proves only that the test is self-consistent.
+vers = ['595.9.05-0ubuntu0.24.04.1', '595.71.05-0ubuntu0.24.04.1']
+src = io.open(os.path.join(SRC, 'tools', 'hx-doc', 'hx_version_pins.py'),
+              encoding='utf-8').read()
+m = re.search(r'( *)def vkey\(.*?return max\(set\(versions\), key=vkey\)',
+              src, re.S)
+check('hx-version-pins: the shipped comparator was found', bool(m), src[:400])
+if m:
+    ns = {'re': re}
+    body = '\n'.join(line[len(m.group(1)):] if line.strip() else line
+                     for line in m.group(0).splitlines()[:-1])
+    exec(body, ns)
+    check('hx-version-pins: 595.71.05 sorts above 595.9.05',
+          max(set(vers), key=ns['vkey']).startswith('595.71.05'),
+          'lexicographic would pick ' + sorted(vers)[-1])
+
+shutil.rmtree(_TMP, ignore_errors=True)
 print('\npassed=%d failed=%d' % (passed, failed))
 raise SystemExit(1 if failed else 0)

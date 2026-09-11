@@ -46,9 +46,16 @@ BLOCK = re.compile(
 )
 
 
-def blocks_in(text: str) -> int:
-    """How many complete marker pairs the text contains."""
-    return len(BLOCK.findall(text))
+def marker_counts(text: str) -> tuple[int, int, int]:
+    """Opening markers, closing markers, and complete pairs in the text.
+
+    All three must agree. An unclosed block matches nothing and the text comes
+    back unchanged, which used to read as "current"; an orphan closing marker
+    is the same defect from the other end.
+    """
+    opened = len(re.findall(r"<!-- HX-FLEET:TABLE columns=", text))
+    closed = len(re.findall(r"<!-- /HX-FLEET:TABLE -->", text))
+    return opened, closed, len(BLOCK.findall(text))
 
 
 def rows() -> list[dict[str, str]]:
@@ -122,10 +129,7 @@ def main() -> int:
 
         rel = md.relative_to(REPO).as_posix()
 
-        # Count the opening markers before substituting. An unclosed block
-        # matches nothing, the text comes back unchanged, and that used to read
-        # as "current" - the same silence as a deleted marker.
-        opened = len(re.findall(r"<!-- HX-FLEET:TABLE columns=", text))
+        opened, closed, paired = marker_counts(text)
 
         bad_cols: list[str] = []
 
@@ -147,9 +151,9 @@ def main() -> int:
         if bad_cols:
             stale.append(f"{rel}: unknown fleet column(s): {', '.join(sorted(set(bad_cols)))}")
             continue
-        if blocks_in(text) != opened:
-            stale.append(f"{rel}: {opened} HX-FLEET:TABLE marker(s) but "
-                         f"{blocks_in(text)} closed block(s)")
+        if not (opened == closed == paired):
+            stale.append(f"{rel}: {opened} opening and {closed} closing "
+                         f"HX-FLEET:TABLE marker(s) form {paired} complete block(s)")
             continue
         if new == text:
             continue
@@ -181,6 +185,15 @@ def main() -> int:
             return 1
         print(f"OK: {blocks} fleet table(s) and the shell IP map are current.")
         return 0
+
+    # Generation mode collected the malformed-marker and unknown-column
+    # problems and then reported success, so `hx-fleet` looked like it had
+    # rewritten a document it had actually skipped.
+    if stale:
+        for s in stale:
+            print(f"STALE   {s}")
+        print(f"\nFAIL: {len(stale)} document(s) could not be generated.")
+        return 1
 
     print(f"Fleet: {len(data)} servers -> {blocks} table(s), {written} file(s) updated.")
     return 0

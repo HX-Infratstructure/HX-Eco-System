@@ -19,7 +19,7 @@ No third-party dependencies. Python 3 standard library only.
 | `hx-doc-supersede` | six manual steps | the archive procedure happens the same way every time |
 | `hx-preflight` | finding a 404 on a lab machine | every pinned artifact is still fetchable, checked from anywhere |
 | `hx-graft-bash` | a code graph that ignored every shell file | graft indexes `.sh`, `.bash` and `.env`, so the executable surface is searchable |
-| `hx-gate-tests` | trusting that a check still checks | every gate above is broken on purpose and must fail; a check that cannot fail is a defect |
+| `hx-gate-tests` | trusting that a check still checks | every checking tool above is broken on purpose and required to fail; a check that cannot fail is a defect |
 
 ## The fleet is the source of truth
 

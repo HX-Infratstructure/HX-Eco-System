@@ -120,27 +120,9 @@ def main() -> int:
     if with_ollama:
         blocks.append("03-storage-ollama")
 
-    out = []
-    for block in blocks:
-        out.append(write(rb / f"{block}.sh",
-                         WRAPPER.format(upper=upper, block=block, host=host),
-                         True, force))
-
-    last = len(blocks)
-    width = max(len(b) for b in blocks) + 6
-    commands = "\n".join(
-        (f"./{b}.sh".ljust(width) + "# reboots") if i < 2 else f"./{b}.sh"
-        for i, b in enumerate(blocks)
-    )
-    step3 = ("3. Validate GPU/storage; install the pinned Ollama; service health.\n"
-             if with_ollama else "")
-    n = last + 1
-    out.append(write(rb / "README.md",
-                     README.format(upper=upper, host=host, ip=ip, role=role,
-                                   last=last, commands=commands, step3=step3,
-                                   appstep=n, valstep=n + 1, recstep=n + 2),
-                     False, force))
-
+    # Build and validate the record before writing anything. Validating it last
+    # meant a template defect left the runbook wrappers and README on disk with
+    # no record beside them.
     # str.replace on a missing placeholder does nothing and says nothing, so a
     # template edit would have shipped a record still reading HX-N and
     # 192.168.50.2NN. Each substitution must match exactly once.
@@ -176,6 +158,28 @@ def main() -> int:
             print(f"       {old.splitlines()[0]}", file=sys.stderr)
             return 1
         record = record.replace(old, new, 1)
+
+    out = []
+    for block in blocks:
+        out.append(write(rb / f"{block}.sh",
+                         WRAPPER.format(upper=upper, block=block, host=host),
+                         True, force))
+
+    last = len(blocks)
+    width = max(len(b) for b in blocks) + 6
+    commands = "\n".join(
+        (f"./{b}.sh".ljust(width) + "# reboots") if i < 2 else f"./{b}.sh"
+        for i, b in enumerate(blocks)
+    )
+    step3 = ("3. Validate GPU/storage; install the pinned Ollama; service health.\n"
+             if with_ollama else "")
+    n = last + 1
+    out.append(write(rb / "README.md",
+                     README.format(upper=upper, host=host, ip=ip, role=role,
+                                   last=last, commands=commands, step3=step3,
+                                   appstep=n, valstep=n + 1, recstep=n + 2),
+                     False, force))
+
     out.append(write(REPO / "docs/02-server-records" / f"{upper}.md", record, False, force))
 
     for line in out:

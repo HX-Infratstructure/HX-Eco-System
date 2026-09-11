@@ -190,15 +190,18 @@ def check_driver(e: dict[str, str]) -> None:
 def main() -> int:
     quiet = "--quiet" in sys.argv
     e = env()
+    # Guard the input, not the output. check_urls records a result whatever
+    # happens, so an empty result list could never occur and the guard that
+    # tested it could never fire. An empty environment is the real case: every
+    # pin would then read as missing.
+    if not e:
+        print("FAIL  docs/03-runbooks/common/hx-base.env produced no values; "
+              "nothing could be checked")
+        return 1
+
     print("HX pre-flight - checking that every pinned artifact is still fetchable\n")
     for fn in (check_urls, check_pypi, check_npm, check_hf, check_driver):
         fn(e)
-
-    # A gate that ran nothing must not report all clear. Every pin above now
-    # records a result, so an empty list means the environment did not load.
-    if not results:
-        print("FAIL  no checks ran; docs/03-runbooks/common/hx-base.env did not load")
-        return 1
 
     failed = 0
     for status, label, detail in results:
