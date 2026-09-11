@@ -45,6 +45,12 @@ jobs:
       - name: Smoke-test authorities are complete
         run: ./tools/hx-doc/hx-smoke-lint --quiet
 
+      # Each gate above enforces a written rule. These tests break the thing a
+      # gate guards and require it to fail, so a gate cannot quietly stop
+      # catching anything.
+      - name: Every gate still fails on the case it guards
+        run: ./tools/hx-doc/hx-gate-tests
+
   scripts:
     name: Execution artifacts
     runs-on: ubuntu-latest

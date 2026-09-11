@@ -1,6 +1,6 @@
 # hx-doc — repository consistency tooling
 
-Seven small tools. Each exists because the matching failure actually happened
+Thirteen small tools. Each exists because the matching failure actually happened
 here, and each converts a written rule into something that fails loudly.
 
 No third-party dependencies. Python 3 standard library only.
@@ -18,6 +18,8 @@ No third-party dependencies. Python 3 standard library only.
 | `hx-new-server` | copy and paste | a new server's runbook and record are complete from the start |
 | `hx-doc-supersede` | six manual steps | the archive procedure happens the same way every time |
 | `hx-preflight` | finding a 404 on a lab machine | every pinned artifact is still fetchable, checked from anywhere |
+| `hx-graft-bash` | a code graph that ignored every shell file | graft indexes `.sh`, `.bash` and `.env`, so the executable surface is searchable |
+| `hx-gate-tests` | trusting that a check still checks | every gate above is broken on purpose and must fail; a check that cannot fail is a defect |
 
 ## The fleet is the source of truth
 

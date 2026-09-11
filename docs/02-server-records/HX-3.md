@@ -2,7 +2,7 @@
 
 **Server:** HX-3  
 **Role:** Coder-X / Ollama inference server  
-**Build state:** PASS  
+**Build state:** PASS
 **Rebuild date:** 2026-09-08  
 **Build method:** KISS — build, verify, record, move on  
 **Deployment standard:** Native Ubuntu Linux + systemd; no containers

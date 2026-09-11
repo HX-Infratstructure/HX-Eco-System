@@ -22,6 +22,7 @@ from __future__ import annotations
 import csv
 import stat
 import sys
+from datetime import date
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
@@ -86,6 +87,15 @@ def write(path: Path, content: str, executable: bool, force: bool) -> str:
 
 
 def main() -> int:
+    # Every "--" token was dropped silently, so `--no-olama` scaffolded the
+    # Ollama block anyway and `--fore` overwrote nothing while reporting success.
+    known = {"--force", "--no-ollama"}
+    unknown = [a for a in sys.argv[1:] if a.startswith("--") and a not in known]
+    if unknown:
+        print(f"ERROR: unknown option(s): {' '.join(unknown)}", file=sys.stderr)
+        print(__doc__.strip(), file=sys.stderr)
+        return 2
+
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     force = "--force" in sys.argv
     with_ollama = "--no-ollama" not in sys.argv
@@ -131,18 +141,41 @@ def main() -> int:
                                    appstep=n, valstep=n + 1, recstep=n + 2),
                      False, force))
 
+    # str.replace on a missing placeholder does nothing and says nothing, so a
+    # template edit would have shipped a record still reading HX-N and
+    # 192.168.50.2NN. Each substitution must match exactly once.
+    state = row.get("state", "").strip().replace("_", " ") or "UNRESOLVED"
+    gate = row.get("gate", "").strip()
+    gate = "\u2014" if gate in ("-", "") else gate
+
     record = TEMPLATE.read_text(encoding="utf-8")
-    record = (record
-              .replace("# HX-N — <Role> Server Configuration",
-                       f"# {upper} — {role} Server Configuration")
-              .replace("**IP:** `192.168.50.2NN`", f"**IP:** `{ip}`")
-              .replace("**FQDN:** `hx-N.hx.local.arpa`",
-                       f"**FQDN:** `{host}.hx.local.arpa`")
-              .replace("> Copy this file to `HX-N.md` when a server build starts. Every heading below is\n"
-                       "> required. Delete a section only when it genuinely does not apply, and say why\n"
-                       "> in one line rather than removing it silently.\n\n",
-                       f"> Scaffolded by `tools/hx-doc/hx-new-server {host}`. Fill every section as the\n"
-                       f"> build proceeds. `tools/hx-doc/hx-record-check` reports what is still open.\n\n"))
+    swaps = [
+        ("# HX-N — <Role> Server Configuration",
+         f"# {upper} — {role} Server Configuration"),
+        ("**IP:** `192.168.50.2NN`", f"**IP:** `{ip}`"),
+        ("**FQDN:** `hx-N.hx.local.arpa`", f"**FQDN:** `{host}.hx.local.arpa`"),
+        # The record states one value. Leaving the option list in place meant
+        # every scaffolded record claimed three states at once.
+        ("**Build state:** NOT STARTED | IN PROGRESS | PASS",
+         f"**Build state:** {state}"),
+        ("**Gate:** — | NEXT | CLOSED", f"**Gate:** {gate}"),
+        ("**Record updated:** YYYY-MM-DD",
+         f"**Record updated:** {date.today().isoformat()}"),
+        ("> Copy this file to `HX-N.md` when a server build starts. Every heading below is\n"
+         "> required. Delete a section only when it genuinely does not apply, and say why\n"
+         "> in one line rather than removing it silently.\n\n",
+         f"> Scaffolded by `tools/hx-doc/hx-new-server {host}`. Fill every section as the\n"
+         f"> build proceeds. `tools/hx-doc/hx-record-check` reports what is still open.\n\n"),
+    ]
+    for old, new in swaps:
+        count = record.count(old)
+        if count != 1:
+            print(f"ERROR: {TEMPLATE.relative_to(REPO).as_posix()} has {count} "
+                  f"occurrence(s) of a required placeholder, expected 1:",
+                  file=sys.stderr)
+            print(f"       {old.splitlines()[0]}", file=sys.stderr)
+            return 1
+        record = record.replace(old, new, 1)
     out.append(write(REPO / "docs/02-server-records" / f"{upper}.md", record, False, force))
 
     for line in out:

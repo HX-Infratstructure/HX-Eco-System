@@ -118,6 +118,7 @@ def check_pypi(e: dict[str, str]) -> None:
 
     for name, version in pkgs.items():
         if not version:
+            record(False, f"pypi      {name}", "no version pinned in hx-base.env")
             continue
         try:
             data = get_json(f"https://pypi.org/pypi/{name}/{version}/json")
@@ -138,6 +139,7 @@ def check_npm(e: dict[str, str]) -> None:
     for name, version in (("omniroute", e.get("HX_OMNIROUTE_VERSION")),
                           ("n8n", e.get("HX_N8N_VERSION"))):
         if not version:
+            record(False, f"npm       {name}", "no version pinned in hx-base.env")
             continue
         try:
             data = get_json(f"https://registry.npmjs.org/{name}/{version}")
@@ -150,6 +152,8 @@ def check_hf(e: dict[str, str]) -> None:
     for model, rev in ((e.get("HX_RERANKER_MODEL"), e.get("HX_RERANKER_REVISION")),
                        (e.get("HX_GRANITE_DOCLING_MODEL"), e.get("HX_GRANITE_DOCLING_REVISION"))):
         if not model or not rev:
+            record(False, f"hf        {model or '(no model pinned)'}",
+                   "model or revision missing from hx-base.env")
             continue
         code = head(f"https://huggingface.co/api/models/{model}/revision/{rev}")
         record(code == 200, f"hf        {model}@{rev[:12]}",
@@ -159,6 +163,8 @@ def check_hf(e: dict[str, str]) -> None:
 def check_driver(e: dict[str, str]) -> None:
     branch, pin = e.get("HX_NVIDIA_BRANCH"), e.get("HX_NVIDIA_PKG_VERSION")
     if not branch or not pin:
+        record(False, "driver    nvidia",
+               "HX_NVIDIA_BRANCH or HX_NVIDIA_PKG_VERSION missing from hx-base.env")
         return
     name = f"nvidia-driver-{branch}-server-open"
     url = ("https://api.launchpad.net/1.0/ubuntu/+archive/primary"
@@ -187,6 +193,12 @@ def main() -> int:
     print("HX pre-flight - checking that every pinned artifact is still fetchable\n")
     for fn in (check_urls, check_pypi, check_npm, check_hf, check_driver):
         fn(e)
+
+    # A gate that ran nothing must not report all clear. Every pin above now
+    # records a result, so an empty list means the environment did not load.
+    if not results:
+        print("FAIL  no checks ran; docs/03-runbooks/common/hx-base.env did not load")
+        return 1
 
     failed = 0
     for status, label, detail in results:

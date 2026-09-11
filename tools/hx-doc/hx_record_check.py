@@ -83,11 +83,23 @@ def main() -> int:
         if row is None:
             problems.append(("DRIFT", f"{md.stem} is not in hx-fleet.tsv"))
         else:
-            declared = row["state"].strip().replace("_", " ").upper()
+            declared = row.get("state", "").strip().replace("_", " ").upper()
             stated = re.search(r"^\*\*(?:Build )?[Ss]tate:?\*\*\s*(.+?)\s*$", text, re.M)
-            if stated:
-                got = stated.group(1).strip().strip("*").upper()
-                if declared.split()[0] not in got:
+            if not stated:
+                problems.append(
+                    ("DRIFT", f"no '**State:**' line; hx-fleet.tsv says '{declared}'"))
+            else:
+                # Compare the whole normalised state. The old test took the
+                # first word of the fleet value and asked whether it appeared
+                # anywhere in the record, so NOT STARTED was satisfied by
+                # NOT APPLICABLE, and IN PROGRESS by INSTALLED.
+                got = stated.group(1).strip().strip("*").replace("_", " ").upper()
+                # HX-1 to HX-3 closed before the scaffold existed and state the
+                # state and the gate on one line as "PASS / CLOSED". Compare the
+                # state part; the gate has its own check.
+                got = got.split("/")[0]
+                got = " ".join(got.split())
+                if got != " ".join(declared.split()):
                     problems.append(
                         ("DRIFT", f"record says '{got}', hx-fleet.tsv says '{declared}'"))
 

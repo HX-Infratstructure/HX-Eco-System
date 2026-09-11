@@ -189,7 +189,13 @@ def latest(kind: str, ref: str) -> str:
                     continue
                 versions.append(e["binary_package_version"])
             url = data.get("next_collection_link")
-        return sorted(set(versions))[-1] if versions else "not in noble"
+        # Numeric sort, not lexicographic: "595.9.05" sorts above "595.71.05"
+        # as text, so the reported latest driver was wrong whenever a minor
+        # number crossed a digit boundary.
+        def vkey(v: str) -> tuple[int, ...]:
+            return tuple(int(p) for p in re.findall(r"\d+", v))
+
+        return max(set(versions), key=vkey) if versions else "not in noble"
     return "?"
 
 

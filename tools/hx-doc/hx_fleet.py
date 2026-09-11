@@ -46,6 +46,11 @@ BLOCK = re.compile(
 )
 
 
+def blocks_in(text: str) -> int:
+    """How many complete marker pairs the text contains."""
+    return len(BLOCK.findall(text))
+
+
 def rows() -> list[dict[str, str]]:
     with TSV.open(encoding="utf-8", newline="") as fh:
         data = list(csv.DictReader(fh, delimiter="\t"))
@@ -115,16 +120,39 @@ def main() -> int:
         if "HX-FLEET:TABLE" not in text:
             continue
 
+        rel = md.relative_to(REPO).as_posix()
+
+        # Count the opening markers before substituting. An unclosed block
+        # matches nothing, the text comes back unchanged, and that used to read
+        # as "current" - the same silence as a deleted marker.
+        opened = len(re.findall(r"<!-- HX-FLEET:TABLE columns=", text))
+
+        bad_cols: list[str] = []
+
         def repl(m: re.Match[str]) -> str:
             nonlocal blocks
             blocks += 1
             cols = [c for c in m.group(2).split(",") if c]
+            # An unknown column name fell through to a heading of its own name
+            # and a cell of em dashes in every row, and --check passed because
+            # the junk matched itself.
+            unknown = [c for c in cols if c not in HEADINGS]
+            if unknown:
+                bad_cols.extend(unknown)
+                return m.group(0)
             return m.group(1) + table(cols, data) + m.group(4)
 
         new = BLOCK.sub(repl, text)
+
+        if bad_cols:
+            stale.append(f"{rel}: unknown fleet column(s): {', '.join(sorted(set(bad_cols)))}")
+            continue
+        if blocks_in(text) != opened:
+            stale.append(f"{rel}: {opened} HX-FLEET:TABLE marker(s) but "
+                         f"{blocks_in(text)} closed block(s)")
+            continue
         if new == text:
             continue
-        rel = md.relative_to(REPO).as_posix()
         if check:
             stale.append(rel)
         else:
