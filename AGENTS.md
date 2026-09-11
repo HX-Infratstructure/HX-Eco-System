@@ -181,6 +181,10 @@ git commit
 git push -u origin HEAD && gh pr create
 ```
 
+A pull request stacked on another branch is reviewed too: `.coderabbit.yaml`
+matches every base branch, not just `main`. Naming only `main` there silently
+skipped stacked work, which is an unreviewed change.
+
 Keep a pull request under 100 changed files. CodeRabbit skips anything larger,
 and a skipped review is the same as no review. Generated output and archive are
 already filtered out in `.coderabbit.yaml`, which is what usually pushes a
