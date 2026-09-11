@@ -8,8 +8,9 @@ and runtime, and the Python dependencies. That is the gap that let Ollama
 
 It also enforces the package-source policy: application software comes from
 PyPI, GitHub releases, direct binaries, or Hugging Face. The Ubuntu archive is
-acceptable for drivers only. An application pinned to the Ubuntu archive or a
-Snap is reported as REVIEW with a migration note.
+acceptable for drivers, build toolchains and library headers only. Snap is
+never permitted, for anything. Either case is reported as REVIEW with a
+migration note.
 
 Usage:
   hx_version_pins.py                  report
@@ -37,10 +38,35 @@ HX12_RUNBOOK = REPO / "docs/03-runbooks/HX-12/README.md"
 
 # Package sources approved for application software.
 APP_SOURCES = {"pypi", "github", "binary", "huggingface", "npm", "source"}
-# Sources acceptable for drivers only.
-DRIVER_ONLY_SOURCES = {"ubuntu-archive", "snap"}
+# Acceptable for drivers only. Owner decision 2026-09-11: the Ubuntu archive
+# is permitted for the NVIDIA driver, for build toolchains and for library
+# headers. Snap is not on this list because Snap is never permitted.
+DRIVER_ONLY_SOURCES = {"ubuntu-archive"}
+# Never permitted, for anything, driver included. .coderabbit.yaml states this
+# and it is the standing rule.
+NEVER_SOURCES = {"snap"}
 # Vendor-operated repositories. Not the Ubuntu archive, not Snap.
 VENDOR_REPO_SOURCES = {"npm", "source"}
+
+
+def source_problem(pin: dict) -> str:
+    """The package-source problem with this pin, or "" when there is none.
+
+    Separate from the reporting loop so the rule can be tested without going
+    near the network, which is the only reason the rest of this tool is slow.
+    """
+    if pin["source"] in NEVER_SOURCES:
+        return ("Snap is never permitted; migrate to PyPI, a GitHub release, "
+                "or a direct binary")
+    # collect() produces exactly three kinds: app, driver and model. Build
+    # toolchains and library headers are apt-installed inside the runbook
+    # blocks and are not pins, so they never reach here. Widening this test to
+    # kinds nothing produces would be guesswork, not coverage.
+    if pin["source"] in DRIVER_ONLY_SOURCES and pin["kind"] != "driver":
+        return (f"application from {pin['source']}; migrate to PyPI, "
+                "a GitHub release, or a direct binary")
+    return ""
+
 
 
 def http(url: str) -> dict:
@@ -189,7 +215,13 @@ def latest(kind: str, ref: str) -> str:
                     continue
                 versions.append(e["binary_package_version"])
             url = data.get("next_collection_link")
-        return sorted(set(versions))[-1] if versions else "not in noble"
+        # Numeric sort, not lexicographic: "595.9.05" sorts above "595.71.05"
+        # as text, so the reported latest driver was wrong whenever a minor
+        # number crossed a digit boundary.
+        def vkey(v: str) -> tuple[int, ...]:
+            return tuple(int(p) for p in re.findall(r"\d+", v))
+
+        return max(set(versions), key=vkey) if versions else "not in noble"
     return "?"
 
 
@@ -206,10 +238,9 @@ def main() -> int:
         except (urllib.error.URLError, urllib.error.HTTPError, KeyError, IndexError) as exc:
             newest = f"unreachable ({exc.__class__.__name__})"
 
-        note = ""
-        if pin["source"] in DRIVER_ONLY_SOURCES and pin["kind"] != "driver":
+        note = source_problem(pin)
+        if note:
             status = "REVIEW"
-            note = f"application from {pin['source']}; migrate to PyPI, a GitHub release, or a direct binary"
             policy += 1
         elif newest.startswith("unreachable") or newest in ("?", "not in noble"):
             status = "REVIEW"

@@ -18,6 +18,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          # checkout writes GITHUB_TOKEN into .git/config by default, and
+          # these jobs then run repository-controlled scripts. Nothing here
+          # needs authenticated git.
+          persist-credentials: false
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: '3.12'
@@ -40,11 +45,22 @@ jobs:
       - name: Smoke-test authorities are complete
         run: ./tools/hx-doc/hx-smoke-lint --quiet
 
+      # Each gate above enforces a written rule. These tests break the thing a
+      # gate guards and require it to fail, so a gate cannot quietly stop
+      # catching anything.
+      - name: Every gate still fails on the case it guards
+        run: ./tools/hx-doc/hx-gate-tests
+
   scripts:
     name: Execution artifacts
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          # checkout writes GITHUB_TOKEN into .git/config by default, and
+          # these jobs then run repository-controlled scripts. Nothing here
+          # needs authenticated git.
+          persist-credentials: false
 
       - name: Install shellcheck
         run: sudo apt-get update && sudo apt-get install -y shellcheck
@@ -85,6 +101,10 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
+          # checkout writes GITHUB_TOKEN into .git/config by default, and
+          # these jobs then run repository-controlled scripts. Nothing here
+          # needs authenticated git.
+          persist-credentials: false
           fetch-depth: 0
 
       # The gitleaks *action* requires a paid licence for organisation-owned

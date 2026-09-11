@@ -52,6 +52,12 @@ PHASE_TITLES = {
 
 
 def steps() -> dict[str, dict[str, str]]:
+    """Every proof step from hx-proof.tsv, keyed by id, in file order.
+
+    Refuses a blank or duplicate id: either one silently overwrote an
+    earlier row, dropping a step from the tables and the DAG while
+    validation still reported success.
+    """
     with TSV.open(encoding="utf-8", newline="") as fh:
         reader = csv.DictReader(fh, delimiter="\t")
         headers = set(reader.fieldnames or [])
@@ -80,6 +86,7 @@ def steps() -> dict[str, dict[str, str]]:
 
 
 def requires_of(step: dict[str, str]) -> list[str]:
+    """The step ids this step depends on. NONE and - both mean no dependency."""
     raw = step.get("requires", "NONE")
     if raw in ("", "NONE", "-"):
         return []
@@ -92,6 +99,11 @@ def requires_of(step: dict[str, str]) -> list[str]:
 # --------------------------------------------------------------------------
 
 def validate(all_steps: dict[str, dict[str, str]]) -> list[str]:
+    """Problems found in the step table; an empty list means it is sound.
+
+    Checks the fleet host, the authority file, the status value, that every
+    named dependency exists, and that the dependency graph has no cycle.
+    """
     problems: list[str] = []
 
     # An unreadable or empty fleet inventory used to leave hosts empty, which
@@ -130,6 +142,7 @@ def validate(all_steps: dict[str, dict[str, str]]) -> list[str]:
     colour: dict[str, int] = {}
 
     def walk(node: str, trail: list[str]) -> None:
+        """Depth-first colouring that records the trail of any cycle found."""
         colour[node] = 1
         for dep in requires_of(all_steps.get(node, {})):
             if dep not in all_steps:
@@ -178,6 +191,7 @@ def runnable(sid: str, all_steps: dict[str, dict[str, str]]) -> bool:
 # --------------------------------------------------------------------------
 
 def phase_table(phase: str, all_steps: dict[str, dict[str, str]]) -> str:
+    """The Markdown table of one phase, as written into the roadmap."""
     rows = [s for s in all_steps.values() if s["phase"] == phase]
     head = "| Step | SUT | Proof | Authority | Requires | Limited integration | Status |"
     rule = "|---|---|---|---|---|---|---|"
@@ -197,6 +211,7 @@ def phase_table(phase: str, all_steps: dict[str, dict[str, str]]) -> str:
 
 
 def dag(all_steps: dict[str, dict[str, str]]) -> str:
+    """The whole dependency graph as a mermaid flowchart."""
     lines = ["```mermaid", "flowchart LR"]
     for sid, s in all_steps.items():
         label = f"<b>{sid}</b><br/>{s['component']}"
@@ -210,10 +225,18 @@ def dag(all_steps: dict[str, dict[str, str]]) -> str:
 
 
 def render(all_steps: dict[str, dict[str, str]], check: bool) -> tuple[int, list[str]]:
+    """Write the generated roadmap blocks, or report drift when check is set.
+
+    Returns the number of blocks handled and the problems found. A missing
+    or repeated marker is drift in itself: the surrounding text is
+    unchanged, so comparing content alone reported a lost or duplicated
+    table as current.
+    """
     text = ROADMAP.read_text(encoding="utf-8")
     count = 0
 
     def repl(m: re.Match[str]) -> str:
+        """Replace one marked block with freshly generated content."""
         nonlocal count
         count += 1
         kind, phase = m.group(2), m.group(3)
@@ -226,14 +249,23 @@ def render(all_steps: dict[str, dict[str, str]], check: bool) -> tuple[int, list
     # A deleted marker leaves the surrounding text untouched, so comparing
     # content alone reported success for a roadmap that had silently lost a
     # phase table or the diagram. Require the full marker set.
-    expected = {p for p in (s["phase"] for s in all_steps.values())}
-    found_tables = set(re.findall(r"<!-- HX-PROOF:TABLE phase=([0-9A-G]+) -->", text))
+    expected = {s["phase"] for s in all_steps.values()}
+    # Count the markers, do not collect them into a set. Two markers for the
+    # same phase render two identical tables, and a set reduced that to one
+    # value, so --check reported no drift for a duplicated table.
+    found_tables = re.findall(r"<!-- HX-PROOF:TABLE phase=([0-9A-G]+) -->", text)
     dag_blocks = len(re.findall(r"<!-- HX-PROOF:DAG -->", text))
     gaps = []
-    for phase in sorted(expected - found_tables):
-        gaps.append(f"{rel}: no generated table for phase {phase}")
-    for phase in sorted(found_tables - expected):
-        gaps.append(f"{rel}: table marker for phase {phase}, which has no steps")
+    for phase in sorted(expected | set(found_tables)):
+        seen = found_tables.count(phase)
+        if phase not in expected:
+            gaps.append(f"{rel}: table marker for phase {phase}, which has no steps")
+        elif seen == 0:
+            gaps.append(f"{rel}: no generated table for phase {phase}")
+        elif seen > 1:
+            gaps.append(
+                f"{rel}: expected one HX-PROOF:TABLE phase={phase} block, found {seen}"
+            )
     if dag_blocks != 1:
         gaps.append(f"{rel}: expected exactly one HX-PROOF:DAG block, found {dag_blocks}")
     if gaps:
@@ -248,6 +280,7 @@ def render(all_steps: dict[str, dict[str, str]], check: bool) -> tuple[int, list
 
 
 def main() -> int:
+    """Command entry point. Returns the process exit status."""
     argv = sys.argv[1:]
     all_steps = steps()
 
@@ -276,7 +309,13 @@ def main() -> int:
             print(f"  NOT RUNNABLE — status is {step['status']}; an implementation")
             print("  decision is still open. Dependencies are not the blocker.")
             return 1
-        if not blocked:
+        # runnable() already excludes PASS. Reporting a closed proof as READY
+        # made --ready and runnable() disagree, and invited a re-run that
+        # would overwrite accepted evidence.
+        if step["status"] == PASSED:
+            print("  ALREADY PASSED — this proof is closed. There is nothing to run.")
+            return 1
+        if runnable(sid, all_steps):
             print("  READY — every required prior proof has passed.")
             return 0
         print("  NOT READY — these must pass first:")

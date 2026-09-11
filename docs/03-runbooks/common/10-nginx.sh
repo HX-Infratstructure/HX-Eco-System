@@ -18,7 +18,7 @@ sudo apt install -y build-essential libpcre2-dev zlib1g-dev libssl-dev   # toolc
 
 URL="https://nginx.org/download/nginx-${HX_NGINX_VERSION}.tar.gz"
 tmp="$(mktemp -d)"
-curl -fsSL "$URL" -o "$tmp/nginx.tar.gz"
+hx_fetch_verified "$URL" "$tmp/nginx.tar.gz" "${HX_NGINX_SHA256:-}"
 tar -xzf "$tmp/nginx.tar.gz" -C "$tmp"
 (
   cd "$tmp/nginx-${HX_NGINX_VERSION}"

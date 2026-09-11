@@ -178,8 +178,27 @@ git add -A
 git status          # confirm the diff is what you mean to submit
 git commit
 
+# review locally before the push, not after it:
+coderabbit review --agent
+
 git push -u origin HEAD && gh pr create
 ```
+
+`coderabbit review --agent` before every push is required, not a convenience.
+The hosted reviewer runs after the push, applies the configuration from the
+base branch rather than the branch under review, and on a public repository it
+can refuse for the day once the review limit is reached. The command line
+reviewer has none of those limits: it reads the working tree and the
+configuration as they are now.
+
+The first push of the day that skipped it shipped two defects: a duplicate
+`with:` key that stopped a workflow from starting at all, and a `path_filters`
+entry that turned the filter list into an allow list and would have excluded
+every file in the repository from review. The command line reviewer reported
+both before they reached the branch.
+
+It runs from a CodeRabbit API key. `coderabbit auth status` reports whether one
+is configured.
 
 A pull request stacked on another branch is reviewed too: `.coderabbit.yaml`
 matches every base branch, not just `main`. Naming only `main` there silently

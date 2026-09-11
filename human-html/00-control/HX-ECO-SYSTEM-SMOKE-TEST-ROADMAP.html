@@ -73,18 +73,21 @@ limited_integration_plan</code></pre>
 <p>For <code>prior_pass_evidence</code>:</p>
 <ul>
 <li>use <code>NONE</code> when no earlier component proof is required;</li>
-<li>otherwise record the exact retained evidence path(s) or current accepted server record(s) that establish the prerequisite;</li>
+<li>otherwise record one entry for each step in the <code>Requires</code> column, written as</li>
+</ul>
+<p><code>&lt;step-id&gt; -&gt; &lt;evidence&gt;</code> and separated by <code>;</code>;</p>
+<ul>
+<li>the evidence is the exact retained evidence path, or the current accepted</li>
+</ul>
+<p>server record, that establishes that step;</p>
+<ul>
 <li>use only current PASS/CLOSED evidence;</li>
 <li>do not reference an archive document as current proof.</li>
 </ul>
-<p>Example for a future LightRAG run:</p>
-<pre><code class="lang-text">prior_pass_evidence:
-  docs/05-evidence/hx-10/qdrant/&lt;run-id&gt;,
-  docs/05-evidence/hx-4/embedding-models/&lt;run-id&gt;,
-  docs/02-server-records/HX-2.md
-
-limited_integration_plan:
-  HX-10 Qdrant + HX-4 BGE-M3 + one approved HX LLM; synthetic data only; remove LightRAG smoke document/state after proof</code></pre>
+<p><code>hx-smoke-promote</code> reads the inline value of each manifest field, so every field stays on one line. A value indented over several lines reads as empty and the promotion is refused. A bare list of paths is also refused: it cannot say which path proves which dependency, so nothing can be checked.</p>
+<p>Example for a future LightRAG run. <code>hx-proof.tsv</code> gives step <code>E1</code> the dependencies <code>B5,A2,P0</code>, so each one is named:</p>
+<pre><code class="lang-text">prior_pass_evidence: B5 -&gt; docs/05-evidence/hx-10/qdrant/&lt;run-id&gt;; A2 -&gt; docs/05-evidence/hx-4/embedding-models/&lt;run-id&gt;; P0 -&gt; docs/02-server-records/HX-2.md
+limited_integration_plan: HX-10 Qdrant + HX-4 BGE-M3 + one approved HX LLM; synthetic data only; remove LightRAG smoke document/state after proof</code></pre>
 <p>If a materially relevant dependency changes after its PASS—model revision/dimension, database/vector-store version/configuration, API contract, routing behavior, etc.—the prior proof may be stale. Revalidate the dependency before relying on it for a downstream PASS.</p>
 <h2>5. Smoke-test roadmap</h2>
 <h3>Phase 0 — Existing cornerstone proof</h3>

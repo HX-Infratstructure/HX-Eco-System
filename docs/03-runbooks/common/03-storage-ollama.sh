@@ -27,13 +27,14 @@ fi
 # Pin the Ollama version so a new server matches the recorded fleet baseline.
 # Clear HX_OLLAMA_VERSION in hx-base.env to take the current release instead,
 # and record the resolved version in the server record before closing it.
-if [ -n "${HX_OLLAMA_VERSION:-}" ]; then
-  echo "Installing pinned Ollama $HX_OLLAMA_VERSION"
-  curl -fsSL https://ollama.com/install.sh | OLLAMA_VERSION="$HX_OLLAMA_VERSION" sh
-else
-  echo "WARNING: no Ollama pin set; installing current release"
-  curl -fsSL https://ollama.com/install.sh | sh
-fi
+[ -n "${HX_OLLAMA_VERSION:-}" ] || {
+  echo "STOP: HX_OLLAMA_VERSION is not set in hx-base.env." >&2
+  echo "      The unpinned path installed whatever was current that day, which" >&2
+  echo "      is not a baseline a server record can state." >&2
+  exit 30
+}
+echo "Installing pinned Ollama $HX_OLLAMA_VERSION"
+hx_ollama_install "$HX_OLLAMA_VERSION" "${HX_OLLAMA_ARCHIVE_SHA256:-}"
 
 sudo mkdir -p /srv/ollama/models
 sudo chown -R ollama:ollama /srv/ollama

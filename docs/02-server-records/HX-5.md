@@ -1,11 +1,10 @@
 # HX-5 — CentCom / Ornith / DeepSeek Harness / dev-test Server Configuration
 
-**Build state:** NOT STARTED | IN PROGRESS | PASS
-**Gate:** — | NEXT | CLOSED
+**Build state:** NOT STARTED
+**Gate:** —
 **IP:** `192.168.50.205`
 **FQDN:** `hx-5.hx.local.arpa`
-**Record updated:** YYYY-MM-DD
-
+**Record updated:** 2026-09-10
 > Scaffolded by `tools/hx-doc/hx-new-server hx-5`. Fill every section as the
 > build proceeds. `tools/hx-doc/hx-record-check` reports what is still open.
 
