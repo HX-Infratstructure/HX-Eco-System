@@ -58,6 +58,10 @@ def source_problem(pin: dict) -> str:
     if pin["source"] in NEVER_SOURCES:
         return ("Snap is never permitted; migrate to PyPI, a GitHub release, "
                 "or a direct binary")
+    # collect() produces exactly three kinds: app, driver and model. Build
+    # toolchains and library headers are apt-installed inside the runbook
+    # blocks and are not pins, so they never reach here. Widening this test to
+    # kinds nothing produces would be guesswork, not coverage.
     if pin["source"] in DRIVER_ONLY_SOURCES and pin["kind"] != "driver":
         return (f"application from {pin['source']}; migrate to PyPI, "
                 "a GitHub release, or a direct binary")
