@@ -15,10 +15,14 @@ hx_node_install "$HX_NODE_VERSION"
 
 hx_app_user n8n /srv/n8n
 sudo npm install -g "n8n@${HX_N8N_VERSION}"
-n8n --version || true
+# `|| true` hid a failed install, and the unit below then pointed at a path
+# that may not exist. Fail here, and use the path that was actually installed.
+n8n --version
+N8N_BIN="$(command -v n8n)"
+[ -x "$N8N_BIN" ] || { echo "STOP: n8n is not on PATH after install" >&2; exit 30; }
 
 hx_app_unit hx-n8n "HX n8n ${HX_N8N_VERSION}" n8n /srv/n8n \
-  "/usr/local/bin/n8n start" \
+  "$N8N_BIN start" \
   "HOME=/srv/n8n" \
   "N8N_USER_FOLDER=/srv/n8n" \
   "N8N_HOST=0.0.0.0" \

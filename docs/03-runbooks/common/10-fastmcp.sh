@@ -16,7 +16,8 @@ hx_app_venv fastmcp /srv/fastmcp/venv "fastmcp==${HX_FASTMCP_VERSION}"
 
 /srv/fastmcp/venv/bin/fastmcp version
 
-hx_app_done hx-fastmcp "$HX_HOST" "FastMCP ${HX_FASTMCP_VERSION}"
+hx_app_done NONE "$HX_HOST" "FastMCP ${HX_FASTMCP_VERSION}" \
+  "/srv/fastmcp/venv/bin/python -c 'import fastmcp; print(fastmcp.__version__)'"
 
 cat <<'NOTE'
 HX-15 is a development and runtime host for shared or custom MCP servers, not a

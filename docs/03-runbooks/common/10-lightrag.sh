@@ -8,7 +8,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=./hx-app-lib.sh
 . "$SCRIPT_DIR/hx-app-lib.sh"
 
-[ $# -eq 1 ] || { echo "Usage: ${0##*/} <hx-host>   ($3)" >&2; exit 2; }
+[ $# -eq 1 ] || { echo "Usage: ${0##*/} <hx-host>   (e.g. hx-11)" >&2; exit 2; }
 hx_require_host "$1"
 
 hx_app_user lightrag /srv/lightrag
