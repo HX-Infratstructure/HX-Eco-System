@@ -243,9 +243,16 @@ TSV through a reviewed pull request.
 
 ### Graft
 
-Graft indexes the **executable surface** of this repository: every runbook
-block, every wrapper, every tool. That is the part you operate repeatedly, so
-reach for it before grep or a whole-file read.
+Graft indexes the part of the **executable surface** that carries a file
+extension: 57 `.sh` blocks, 13 `.py` tool bodies and 2 `.env` files. That is
+the part you operate repeatedly, so reach for it before grep or a whole-file
+read.
+
+It does not index the 17 extensionless scripts, which is every `tools/hx-doc`
+wrapper and the four smoke-runner scripts. The wrappers are a few lines that
+resolve a Python 3 and exec the `.py` body beside them, and the body is
+indexed; the runner scripts are not, and they matter. The limits below say
+what that costs.
 
 Prefer the MCP tools when the host exposes them; fall back to the CLI.
 
@@ -268,9 +275,10 @@ What it does **not** cover, so you know when to stop asking it:
 - Call edges for shell. Definitions are indexed; `graft_trace_calls` on a shell
   function returns nothing, and that is a limit of the parser, not a fact about
   the code.
-- Ten extensionless scripts, including the smoke runner. They hold three
-  functions between them, so the loss is small, but an empty result there means
-  unindexed.
+- Seventeen extensionless scripts: all thirteen `tools/hx-doc` wrappers and
+  the four smoke-runner scripts. They hold three shell functions between them,
+  all in the runner, so the loss is small in symbols but it covers the scripts
+  used most during a smoke run. An empty result there means unindexed.
 
 An empty result means **not in the graph**, never **does not exist**.
 

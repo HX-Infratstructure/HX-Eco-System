@@ -67,8 +67,12 @@ the diagram, and nothing compared the two.
 
 ## Graft
 
-Graft indexes the executable surface: 70 files covering every runbook block,
-wrapper and tool. The Markdown authorities are not in it.
+Graft indexes what carries a file extension: 57 `.sh` runbook blocks and
+helpers, 13 `.py` tool bodies, and 2 `.env` files. Not in the graph: the
+Markdown authorities, and the 17 extensionless scripts, which is every wrapper
+in this directory plus the four smoke-runner scripts. A wrapper is a few lines
+that resolve a Python 3 and exec the `.py` body beside it, and that body is
+indexed. The runner scripts are not.
 
 ### Use the MCP tools
 
@@ -116,7 +120,7 @@ mode, so it would mean an external account and sending repository analysis off
 site. That is an owner decision and conflicts with the fleet's self-hosted
 posture, so it was not pursued.
 
-## Before a build day## Before a build day
+## Before a build day
 
 ```bash
 tools/hx-doc/hx-preflight

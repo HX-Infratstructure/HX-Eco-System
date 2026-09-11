@@ -105,8 +105,17 @@ ls -l /srv/ollama/models/blobs/</code></pre>
 <hr/>
 <h2>Answering a question mid-run</h2>
 <p>Three tools, three different questions. Knowing which is which saves reading files that will not answer you.</p>
-<div class="tw"><table><thead><tr><th>The question</th><th>Ask</th></tr></thead><tbody><tr><td>Which block installs this? Where is that helper?</td><td><code>graft_find_code</code> · <code>graft ask "&lt;term&gt;"</code></td></tr><tr><td>What is in this script before I edit it?</td><td><code>graft_file_api</code> · <code>graft skeleton &lt;file&gt;</code></td></tr><tr><td>What does changing this tool affect?</td><td><code>graft_trace_calls</code> · <code>graft callers &lt;symbol&gt;</code></td></tr><tr><td>I am new to this tree, orient me</td><td><code>graft_repo_map</code> · <code>graft map</code></td></tr><tr><td>May this proof step run yet?</td><td><code>tools/hx-doc/hx-proof --ready &lt;id&gt;</code></td></tr><tr><td>What must this step actually prove?</td><td>the <code>smoke-tests/</code> authority — read it</td></tr><tr><td>Is this server's record complete?</td><td><code>tools/hx-doc/hx-record-check</code></td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>The question</th><th>Ask</th></tr></thead><tbody><tr><td>Which block installs this? Where is that helper?</td><td><code>graft_find_code</code> · <code>graft ask "&lt;term&gt;"</code></td></tr><tr><td>What is in this script before I edit it?</td><td><code>graft_file_api</code> · <code>graft skeleton &lt;file&gt;</code></td></tr><tr><td>What does changing this tool affect?</td><td><code>graft_trace_calls</code> · <code>graft callers &lt;symbol&gt;</code> — <strong>Python only</strong></td></tr><tr><td>I am new to this tree, orient me</td><td><code>graft_repo_map</code> · <code>graft map</code></td></tr><tr><td>May this proof step run yet?</td><td><code>tools/hx-doc/hx-proof --ready &lt;id&gt;</code></td></tr><tr><td>What must this step actually prove?</td><td>the <code>smoke-tests/</code> authority — read it</td></tr><tr><td>Is this server's record complete?</td><td><code>tools/hx-doc/hx-record-check</code></td></tr></tbody></table></div>
 <p>Graft answers <strong>where the code is</strong>. <code>hx-proof</code> answers <strong>whether you may run it</strong>. The smoke authority answers <strong>what it must prove</strong>. Graft does not index the authorities, so an empty result from it says nothing about them.</p>
+<p>Two limits worth knowing before you trust an empty result:</p>
+<ul>
+<li><code>graft_trace_calls</code> finds no callers of a <strong>shell</strong> function. The parser</li>
+</ul>
+<p>records shell definitions but builds no call edges, so an empty result there is the parser, not the blast radius. Grep for the name before changing a function in <code>common/</code>.</p>
+<ul>
+<li>The 17 extensionless scripts are not in the graph: every <code>tools/hx-doc</code></li>
+</ul>
+<p>wrapper and all four smoke-runner scripts. Those runner scripts are the ones you use most during a run.</p>
 <h2>At the end of the day</h2>
 <pre><code class="lang-bash">tools/hx-doc/hx-doc-check
 tools/hx-doc/hx-record-check
