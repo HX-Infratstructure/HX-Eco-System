@@ -23,7 +23,7 @@ print("create_deep_agent resolved:", callable(create_deep_agent))
 PY
 
 hx_app_done NONE "$HX_HOST" "Deep Agents ${HX_DEEPAGENTS_VERSION}" \
-  "/srv/deepagents/venv/bin/python -c 'import deepagents; print(deepagents.__version__)'"
+  "/srv/deepagents/venv/bin/python -c 'import deepagents; from deepagents import create_deep_agent; print(deepagents.__version__, callable(create_deep_agent))'"
 
 cat <<'NOTE'
 Deep Agents is a harness library, not a daemon, so the core install has no unit.
