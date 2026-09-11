@@ -129,6 +129,25 @@ rc, out = run('tools/hx-doc/hx_new_server.py', 'hx-17', '--force')
 check('hx-new-server: a missing template placeholder is refused',
       rc != 0 and 'placeholder' in out, out)
 
+# ------------------------------------- hx_version_pins: package sources -----
+# D-021: .coderabbit.yaml stands, so Snap is never permitted, driver included.
+# The Ubuntu archive stays available for the driver, build toolchains and
+# library headers. source_problem() is separate from the reporting loop so this
+# runs without touching the network.
+sys.path.insert(0, os.path.join(SRC, 'tools', 'hx-doc'))
+import hx_version_pins as _pins  # noqa: E402
+
+check('hx-version-pins: a Snap application is refused',
+      'never permitted' in _pins.source_problem({'source': 'snap', 'kind': 'app'}))
+check('hx-version-pins: a Snap driver is refused too',
+      'never permitted' in _pins.source_problem({'source': 'snap', 'kind': 'driver'}))
+check('hx-version-pins: the Ubuntu archive is allowed for a driver',
+      _pins.source_problem({'source': 'ubuntu-archive', 'kind': 'driver'}) == '')
+check('hx-version-pins: the Ubuntu archive is refused for an application',
+      'migrate' in _pins.source_problem({'source': 'ubuntu-archive', 'kind': 'app'}))
+check('hx-version-pins: PyPI is accepted',
+      _pins.source_problem({'source': 'pypi', 'kind': 'app'}) == '')
+
 # ------------------------------------------ hx_proof: duplicate marker ------
 fresh()
 edit('docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md',
