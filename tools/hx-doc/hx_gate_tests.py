@@ -182,6 +182,11 @@ if m:
           max(set(vers), key=ns['vkey']).startswith('595.71.05'),
           'lexicographic would pick ' + sorted(vers)[-1])
 
-shutil.rmtree(_TMP, ignore_errors=True)
+# Not ignore_errors: a workspace that cannot be removed is worth saying out
+# loud, but it is not a gate failure, so it does not change the exit status.
+try:
+    shutil.rmtree(_TMP)
+except OSError as exc:
+    print(f"warning: could not remove {_TMP}: {exc}")
 print('\npassed=%d failed=%d' % (passed, failed))
 raise SystemExit(1 if failed else 0)
