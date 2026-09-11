@@ -15,11 +15,14 @@ hx_require_host "$1"
 # archive, per the HX package-source rule. The build is a plain make.
 sudo apt install -y build-essential pkg-config    # toolchain, not application software
 
-TARBALL="${HX_REDIS_VERSION}.tar.gz"
-URL="https://github.com/redis/redis/archive/refs/tags/${TARBALL}"
+TARBALL="redis-${HX_REDIS_VERSION}.tar.gz"
+# The published release tarball, not the GitHub tag archive: GitHub builds
+# a tag archive on request and its bytes are not guaranteed stable, so it
+# cannot carry a checksum pin.
+URL="https://download.redis.io/releases/${TARBALL}"
 
 tmp="$(mktemp -d)"
-curl -fsSL "$URL" -o "$tmp/redis.tar.gz"
+hx_fetch_verified "$URL" "$tmp/redis.tar.gz" "${HX_REDIS_SHA256:-}"
 tar -xzf "$tmp/redis.tar.gz" -C "$tmp"
 make -C "$tmp/redis-${HX_REDIS_VERSION}" -j"$(nproc)"
 sudo make -C "$tmp/redis-${HX_REDIS_VERSION}" install

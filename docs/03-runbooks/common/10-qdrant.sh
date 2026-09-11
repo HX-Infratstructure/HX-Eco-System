@@ -18,7 +18,7 @@ hx_app_user qdrant /srv/qdrant
 sudo -u qdrant mkdir -p /srv/qdrant/{bin,storage,snapshots,static}
 
 tmp="$(mktemp -d)"
-curl -fsSL "$URL" -o "$tmp/$TARBALL"
+hx_fetch_verified "$URL" "$tmp/$TARBALL" "${HX_QDRANT_SHA256:-}"
 tar -xzf "$tmp/$TARBALL" -C "$tmp"
 sudo install -o qdrant -g qdrant -m 0755 "$tmp/qdrant" /srv/qdrant/bin/qdrant
 rm -rf "$tmp"

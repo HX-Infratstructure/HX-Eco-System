@@ -25,7 +25,7 @@ fi
 echo "Models present before upgrade:"
 ollama list || true
 
-curl -fsSL https://ollama.com/install.sh | OLLAMA_VERSION="$HX_OLLAMA_VERSION" sh
+hx_ollama_install "$HX_OLLAMA_VERSION" "${HX_OLLAMA_ARCHIVE_SHA256:-}"
 
 sudo systemctl daemon-reload
 sudo systemctl restart ollama
