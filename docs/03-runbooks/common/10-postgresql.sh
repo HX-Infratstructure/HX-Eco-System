@@ -61,7 +61,11 @@ sudo grep -qE "^listen_addresses = '\*'" "$PGDATA/postgresql.conf" || {
   echo "STOP: listen_addresses was not set in $PGDATA/postgresql.conf" >&2
   exit 30
 }
-sudo grep -q "$HX_LAN_CIDR" "$PGDATA/pg_hba.conf" || \
+# Match an active rule, not the text anywhere in the file: a commented-out
+# line contains the range too, and would have satisfied this guard while
+# leaving no rule in force.
+sudo grep -qE "^[[:space:]]*host[[:space:]]+all[[:space:]]+all[[:space:]]+${HX_LAN_CIDR//\//\\/}[[:space:]]+scram-sha-256" \
+  "$PGDATA/pg_hba.conf" || \
   echo "host    all             all             ${HX_LAN_CIDR}         scram-sha-256" \
   | sudo -u postgres tee -a "$PGDATA/pg_hba.conf" >/dev/null
 

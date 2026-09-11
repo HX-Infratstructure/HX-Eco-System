@@ -226,6 +226,17 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: a block reporting a unit nothing creates fails',
       rc != 0 and 'hx-crawl4ai' in out, out)
 
+# ------------------- hx_doc_check: a mention is not a unit creation ---------
+# A comment naming the unit path, or an rm of it, must not satisfy the check.
+fresh()
+def mention_only(s):
+    s = s.replace('hx_app_done NONE', 'hx_app_done hx-crawl4ai', 1)
+    return s + chr(10) + 'sudo rm -f /etc/systemd/system/hx-crawl4ai.service' + chr(10)
+edit('docs/03-runbooks/common/10-crawl4ai.sh', mention_only)
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: naming a unit path without creating it still fails',
+      rc != 0 and 'hx-crawl4ai' in out, out)
+
 # --------------------------------------- hx_version_pins: numeric sort ------
 # Exercise the shipped comparator, not a copy of it: a test that reimplements
 # the logic it is checking proves only that the test is self-consistent.

@@ -78,11 +78,14 @@ hx_app_validate() {
 # hx_app_done <unit> <host> <what> [url]
 # Closing summary for a completed block.
 #
+# hx_app_done <unit|NONE> <host> <what> [url | reboot-check]
+#
 # Pass NONE as the unit for a library or CLI that has no daemon. It used to
 # take a unit name unconditionally, so five blocks that never create a unit
 # told the operator to run `systemctl is-active hx-<name>` after the reboot -
-# a command that can only fail. The second argument after NONE is the check to
-# run instead.
+# a command that can only fail. With NONE the fourth argument is the check to
+# run after a reboot instead, and it is required; with a unit name the fourth
+# argument is the optional endpoint URL.
 hx_app_done() {
   local unit="$1" host="$2" what="$3"
   local url="" recheck=""

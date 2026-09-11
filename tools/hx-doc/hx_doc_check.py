@@ -202,13 +202,21 @@ def check_unit_claims() -> None:
     common = REPO / "docs/03-runbooks/common"
     bad = 0
     for sh in sorted(common.glob("*.sh")):
-        text = sh.read_text(encoding="utf-8")
-        for unit in re.findall(r"hx_app_done\s+([A-Za-z0-9_-]+)", text):
+        raw = sh.read_text(encoding="utf-8")
+        # Comments mention unit paths, and so does an rm. Neither creates
+        # anything, and matching them would make this check unfailable.
+        code = "\n".join(
+            line for line in raw.splitlines() if not line.lstrip().startswith("#")
+        )
+        for unit in re.findall(r"hx_app_done\s+([A-Za-z0-9_-]+)", code):
             if unit == "NONE":
                 continue
+            path = rf"/etc/systemd/system/{re.escape(unit)}\.service"
             creates_it = (
-                re.search(rf"hx_app_unit\s+{re.escape(unit)}\b", text)
-                or re.search(rf"/etc/systemd/system/{re.escape(unit)}\.service", text)
+                re.search(rf"hx_app_unit\s+{re.escape(unit)}\b", code)
+                # A write, not merely a mention: tee, cp, install or a redirect.
+                or re.search(rf"(tee|cp|install)\b[^\n]*{path}", code)
+                or re.search(rf">\s*{path}", code)
             )
             if not creates_it:
                 rel = sh.relative_to(REPO).as_posix()

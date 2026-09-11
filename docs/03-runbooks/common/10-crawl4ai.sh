@@ -12,22 +12,29 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 hx_require_host "$1"
 
 hx_app_user crawl4ai /srv/crawl4ai
-hx_app_venv crawl4ai /srv/crawl4ai/venv "crawl4ai==${HX_CRAWL4AI_VERSION}"
+hx_app_venv crawl4ai /srv/crawl4ai/venv "crawl4ai==${HX_CRAWL4AI_VERSION}" \
+  "playwright==${HX_PLAYWRIGHT_VERSION}"
 
 # Crawl4AI drives a real browser. Playwright's own Chromium only, no container.
 #
 # Playwright resolves and verifies its own browser build, so there is no
-# separate URL for this block to checksum. What that costs is traceability:
-# the build that lands depends on the Playwright version crawl4ai pulled.
-# Record the resolved Playwright and Chromium builds in the server record so
-# the browser is identified as precisely as everything else on the host.
+# separate URL for this block to checksum. Pinning Playwright above is what
+# makes the browser reproducible, and the check below refuses to continue if
+# pip resolved a different one. Record the resolved Playwright build and the
+# Chromium build in the server record, like everything else on the host.
 sudo /srv/crawl4ai/venv/bin/python -m playwright install-deps chromium
 sudo -u crawl4ai env HOME=/srv/crawl4ai \
   /srv/crawl4ai/venv/bin/python -m playwright install chromium
 
-# Print the Playwright version that resolved, so the server record can name the
-# build lineage of the browser this host will run.
-/srv/crawl4ai/venv/bin/python -m playwright --version
+# Confirm the pin took: pip resolves, and a crawl4ai dependency range could
+# have moved it.
+PLAYWRIGHT_ACTUAL="$(/srv/crawl4ai/venv/bin/python -m playwright --version)"
+echo "$PLAYWRIGHT_ACTUAL"
+case "$PLAYWRIGHT_ACTUAL" in
+  *"$HX_PLAYWRIGHT_VERSION"*) ;;
+  *) echo "STOP: Playwright is $PLAYWRIGHT_ACTUAL, not the pinned $HX_PLAYWRIGHT_VERSION" >&2
+     exit 30 ;;
+esac
 
 # The doctor is the stated validation for this block, so it has to be able
 # to fail. `|| true` made it decoration.
