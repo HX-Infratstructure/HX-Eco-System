@@ -5,8 +5,9 @@ The proof chain is the dependency structure this programme actually runs on:
 each step declares which earlier proof it needs before it may run. It used to
 live in two hand-maintained places that could disagree - a per-phase table and
 a mermaid diagram - and nothing checked either against the other. The diagram
-had 19 nodes against the table's 29 steps: every MCP companion gate, both Web
-UI gates and the reranker were missing from the picture.
+carried 19 nodes - the foundation plus 18 of the 29 steps - so 11 steps were
+missing from the picture: every MCP companion gate, both Web UI gates and the
+reranker.
 
 The TSV is now the source. The tables and the diagram are generated from it,
 the same way tools/hx-doc/hx-fleet generates the fleet tables.
@@ -52,10 +53,30 @@ PHASE_TITLES = {
 
 def steps() -> dict[str, dict[str, str]]:
     with TSV.open(encoding="utf-8", newline="") as fh:
-        rows = list(csv.DictReader(fh, delimiter="\t"))
+        reader = csv.DictReader(fh, delimiter="\t")
+        headers = set(reader.fieldnames or [])
+        rows = list(reader)
     if not rows:
         raise SystemExit(f"ERROR: {TSV} has no rows")
-    return {r["id"].strip(): {k: (v or "").strip() for k, v in r.items()} for r in rows}
+
+    required = {"id", "phase", "sut", "component", "authority",
+                "requires", "integration", "status"}
+    missing = sorted(required - headers)
+    if missing:
+        raise SystemExit(f"ERROR: {TSV} is missing column(s): {', '.join(missing)}")
+
+    # A blank or duplicate id silently overwrote an earlier row, dropping a
+    # proof step from the generated table and the DAG while validation still
+    # reported success.
+    out: dict[str, dict[str, str]] = {}
+    for n, r in enumerate(rows, start=2):
+        sid = (r.get("id") or "").strip()
+        if not sid:
+            raise SystemExit(f"ERROR: {TSV} line {n}: blank id")
+        if sid in out:
+            raise SystemExit(f"ERROR: {TSV} line {n}: duplicate id '{sid}'")
+        out[sid] = {k: (v or "").strip() for k, v in r.items()}
+    return out
 
 
 def requires_of(step: dict[str, str]) -> list[str]:
@@ -73,10 +94,20 @@ def requires_of(step: dict[str, str]) -> list[str]:
 def validate(all_steps: dict[str, dict[str, str]]) -> list[str]:
     problems: list[str] = []
 
-    hosts = set()
-    if FLEET.exists():
+    # An unreadable or empty fleet inventory used to leave hosts empty, which
+    # skipped the SUT check entirely and let a misspelled host validate clean.
+    # A check that cannot fail is a defect.
+    if not FLEET.exists():
+        problems.append(f"fleet inventory not found: {FLEET.relative_to(REPO).as_posix()}")
+        hosts: set[str] = set()
+    else:
         with FLEET.open(encoding="utf-8", newline="") as fh:
-            hosts = {r["id"].strip().lower() for r in csv.DictReader(fh, delimiter="\t")}
+            hosts = {(r.get("id") or "").strip().lower()
+                     for r in csv.DictReader(fh, delimiter="\t")}
+        hosts.discard("")
+        if not hosts:
+            problems.append(
+                f"fleet inventory has no hosts: {FLEET.relative_to(REPO).as_posix()}")
 
     for sid, step in all_steps.items():
         for dep in requires_of(step):
@@ -121,12 +152,25 @@ def validate(all_steps: dict[str, dict[str, str]]) -> list[str]:
 # Readiness
 # --------------------------------------------------------------------------
 
+# A step in one of these states cannot be run now regardless of its
+# dependencies. NOT_EXECUTABLE means an implementation decision is still open.
+NOT_RUNNABLE = {"NOT_EXECUTABLE"}
+
+
 def blockers(sid: str, all_steps: dict[str, dict[str, str]]) -> list[str]:
-    """Required steps that have not passed. Empty means ready to run."""
+    """Required steps that have not passed. Empty does not by itself mean ready."""
     return [
         dep for dep in requires_of(all_steps.get(sid, {}))
         if all_steps.get(dep, {}).get("status") != PASSED
     ]
+
+
+def runnable(sid: str, all_steps: dict[str, dict[str, str]]) -> bool:
+    """Ready to execute now: dependencies satisfied and not itself blocked."""
+    step = all_steps.get(sid, {})
+    if step.get("status") in NOT_RUNNABLE or step.get("status") == PASSED:
+        return False
+    return not blockers(sid, all_steps)
 
 
 # --------------------------------------------------------------------------
@@ -177,9 +221,26 @@ def render(all_steps: dict[str, dict[str, str]], check: bool) -> tuple[int, list
         return m.group(1) + body + m.group(5)
 
     new = BLOCK.sub(repl, text)
+    rel = ROADMAP.relative_to(REPO).as_posix()
+
+    # A deleted marker leaves the surrounding text untouched, so comparing
+    # content alone reported success for a roadmap that had silently lost a
+    # phase table or the diagram. Require the full marker set.
+    expected = {p for p in (s["phase"] for s in all_steps.values())}
+    found_tables = set(re.findall(r"<!-- HX-PROOF:TABLE phase=([0-9A-G]+) -->", text))
+    dag_blocks = len(re.findall(r"<!-- HX-PROOF:DAG -->", text))
+    gaps = []
+    for phase in sorted(expected - found_tables):
+        gaps.append(f"{rel}: no generated table for phase {phase}")
+    for phase in sorted(found_tables - expected):
+        gaps.append(f"{rel}: table marker for phase {phase}, which has no steps")
+    if dag_blocks != 1:
+        gaps.append(f"{rel}: expected exactly one HX-PROOF:DAG block, found {dag_blocks}")
+    if gaps:
+        return count, gaps
+
     if new == text:
         return count, []
-    rel = ROADMAP.relative_to(REPO).as_posix()
     if check:
         return count, [rel]
     ROADMAP.write_text(new, encoding="utf-8", newline="\n")
@@ -211,6 +272,10 @@ def main() -> int:
         print(f"{sid} — {step['component']} on {step['sut']}")
         print(f"  authority: {step['authority']}")
         print(f"  status:    {step['status']}")
+        if step["status"] in NOT_RUNNABLE:
+            print(f"  NOT RUNNABLE — status is {step['status']}; an implementation")
+            print("  decision is still open. Dependencies are not the blocker.")
+            return 1
         if not blocked:
             print("  READY — every required prior proof has passed.")
             return 0
@@ -225,14 +290,15 @@ def main() -> int:
             blocked = blockers(sid, all_steps)
             if s["status"] == PASSED:
                 mark = "PASS   "
+            elif s["status"] in NOT_RUNNABLE:
+                mark = "n/a    "
             elif blocked:
                 mark = "blocked"
             else:
                 mark = "READY  "
             waiting = f"  waits on {','.join(blocked)}" if blocked else ""
             print(f"{mark} {sid:3} {s['sut']:6} {s['component'][:44]:44}{waiting}")
-        ready = [s for s in all_steps if not blockers(s, all_steps)
-                 and all_steps[s]["status"] != PASSED]
+        ready = [s for s in all_steps if runnable(s, all_steps)]
         print(f"\n{len(all_steps)} steps. Runnable now: {', '.join(ready) or 'none'}")
         return 0
 

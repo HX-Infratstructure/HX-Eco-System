@@ -25,17 +25,28 @@ git pull
 tools/hx-doc/hx-preflight
 ```
 
-Once the smoke phase starts, also confirm the step may run at all:
-
-```bash
-tools/hx-doc/hx-proof --ready B2
-```
-
 Expect `all clear`. If anything FAILS, fix the pin in
 `docs/03-runbooks/common/hx-base.env` before starting. A dead link found here
 costs a minute; found mid-build it costs the morning.
 
 ---
+
+## Before running a proof step
+
+Once the smoke phase starts, confirm the step may run at all:
+
+```bash
+tools/hx-doc/hx-proof --ready B2
+```
+
+`READY — every required prior proof has passed.` means go. `NOT READY — these
+must pass first:` lists the steps that have to close before this one, and the
+remedy is to run those, not to change any pin. A step whose own status is
+`NOT_EXECUTABLE` reports `NOT RUNNABLE`: an implementation decision is still
+open, and dependencies are not the blocker.
+
+`hx-smoke-promote` enforces the same chain at promotion time, so a PASS is
+refused when a required prior step has not passed and been cited.
 
 ## The shape of every server
 

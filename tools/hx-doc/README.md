@@ -8,7 +8,7 @@ No third-party dependencies. Python 3 standard library only.
 | Tool | Replaces | Enforces |
 |---|---|---|
 | `hx-fleet` | six hand-typed server tables | every fleet table and the runbook IP map comes from `docs/00-control/hx-fleet.tsv` |
-| `hx-proof` | a hand-drawn DAG that omitted 10 of 29 steps | every proof step and edge comes from `docs/00-control/hx-proof.tsv`, and a PASS cannot skip its prior proof |
+| `hx-proof` | a hand-drawn DAG that omitted 11 of 29 steps | every proof step and edge comes from `docs/00-control/hx-proof.tsv`, and a PASS cannot skip its prior proof |
 | `hx-render-html` | hand-written HTML mirrors | a mirror always matches its Markdown source |
 | `hx-doc-check` | proofreading | links resolve, vocabulary is defined, filenames are stable, evidence is committable |
 | `hx-version-pins` | remembering to look | product pins match what upstream ships, and applications do not come from the Ubuntu archive or Snap |
@@ -58,7 +58,8 @@ It rejects a dangling `requires`, a cycle, a missing authority file, an unknown
 host, and an unrecognised status. `hx-smoke-promote` reads the same file and
 refuses a PASS whose prior proof has not passed and been cited.
 
-The hand-maintained version it replaced had 19 nodes against 29 table rows:
+The hand-maintained version it replaced had 19 nodes — the foundation plus 18
+of the 29 steps — against 30 rows in the TSV:
 every MCP companion gate, both Web UI gates and the reranker were missing from
 the diagram, and nothing compared the two.
 

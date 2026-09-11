@@ -83,10 +83,21 @@ if [[ -f "$PROOF_TSV" ]]; then
          exit 2 ;;
     esac
   fi
-  awk -F'	' -v s="$PROOF_STEP" 'NR>1 && $1==s {found=1} END {exit !found}' "$PROOF_TSV" || {
-    echo "ERROR: '$PROOF_STEP' is not a step in hx-proof.tsv" >&2
-    exit 2
-  }
+  # Existence is not enough: an explicit id for another host or another
+  # authority would put the wrong step in the manifest, and hx-smoke-promote
+  # would then enforce the wrong dependency set. Bind it to this run.
+  # Capture the status without tripping `set -e`, which would abort here and
+  # exit silently before the case below could explain why.
+  BIND_RC=0
+  awk -F'	' -v s="$PROOF_STEP" -v h="$SUT_HOST" -v a="smoke-tests/$TEST_FILE"     'NR>1 && $1==s {seen=1; if ($3==h && $5==a) ok=1} END {exit ok?0:(seen?2:1)}'     "$PROOF_TSV" || BIND_RC=$?
+  case $BIND_RC in
+    0) ;;
+    1) echo "ERROR: '$PROOF_STEP' is not a step in hx-proof.tsv" >&2; exit 2 ;;
+    2) echo "ERROR: step '$PROOF_STEP' does not belong to $SUT_HOST + smoke-tests/$TEST_FILE." >&2
+       awk -F'\t' -v s="$PROOF_STEP" 'NR>1 && $1==s {print "       " $1 " is " $5 " on " $3}' \
+         "$PROOF_TSV" >&2
+       exit 2 ;;
+  esac
 else
   PROOF_STEP="${PROOF_STEP:-NONE}"
 fi

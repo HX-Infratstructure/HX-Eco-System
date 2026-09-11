@@ -106,7 +106,15 @@ if [[ "$FINAL_STATUS" == "PASS" ]]; then
   # The proof DAG in hx-proof.tsv now decides.
   PROOF_TSV="$HX_ECO_REPO/docs/00-control/hx-proof.tsv"
   PROOF_STEP="$(sed -n 's/^proof_step:[[:space:]]*//p' "$RUN_DIR/manifest.md" | head -n 1)"
-  if [[ -f "$PROOF_TSV" && -n "$PROOF_STEP" && "$PROOF_STEP" != "NONE" ]]; then
+  if [[ -f "$PROOF_TSV" ]]; then
+    # A manifest with no proof_step used to skip the whole chain. A legacy or
+    # hand-edited manifest could therefore promote with no enforcement at all,
+    # while hx-proof.tsv sat right there.
+    [[ -n "$PROOF_STEP" && "$PROOF_STEP" != "NONE" ]] || {
+      echo "ERROR: PASS requires proof_step in manifest.md while hx-proof.tsv exists." >&2
+      echo "       Create the run with hx-smoke-new, which records it." >&2
+      exit 1
+    }
     awk -F'\t' -v s="$PROOF_STEP" 'NR>1 && $1==s {found=1} END {exit !found}' "$PROOF_TSV" || {
       echo "ERROR: manifest names proof step '$PROOF_STEP', which is not in hx-proof.tsv." >&2
       exit 1
@@ -125,7 +133,9 @@ if [[ "$FINAL_STATUS" == "PASS" ]]; then
           echo "       Check with: tools/hx-doc/hx-proof --ready $PROOF_STEP" >&2
           exit 1
         fi
-        if [[ "$PRIOR_PASS_EVIDENCE" != *"$dep"* ]]; then
+        # Delimiter-bounded, not a substring: a bare *"$dep"* test let B1 be
+        # satisfied by B10, or by any prose that happened to contain it.
+        if ! printf '%s' "$PRIOR_PASS_EVIDENCE" | grep -qE "(^|[^A-Za-z0-9])${dep}([^A-Za-z0-9]|$)"; then
           echo "ERROR: $PROOF_STEP requires $dep, but prior_pass_evidence does not cite it." >&2
           echo "       Recorded: $PRIOR_PASS_EVIDENCE" >&2
           echo "       Name the evidence that establishes $dep." >&2

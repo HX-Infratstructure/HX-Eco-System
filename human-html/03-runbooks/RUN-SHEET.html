@@ -44,10 +44,13 @@ font-size:12.5px;color:var(--fg2)}
 <pre><code class="lang-bash">cd ~/src/HX-Eco-System
 git pull
 tools/hx-doc/hx-preflight</code></pre>
-<p>Once the smoke phase starts, also confirm the step may run at all:</p>
-<pre><code class="lang-bash">tools/hx-doc/hx-proof --ready B2</code></pre>
 <p>Expect <code>all clear</code>. If anything FAILS, fix the pin in <code>docs/03-runbooks/common/hx-base.env</code> before starting. A dead link found here costs a minute; found mid-build it costs the morning.</p>
 <hr/>
+<h2>Before running a proof step</h2>
+<p>Once the smoke phase starts, confirm the step may run at all:</p>
+<pre><code class="lang-bash">tools/hx-doc/hx-proof --ready B2</code></pre>
+<p><code>READY — every required prior proof has passed.</code> means go. <code>NOT READY — these must pass first:</code> lists the steps that have to close before this one, and the remedy is to run those, not to change any pin. A step whose own status is <code>NOT_EXECUTABLE</code> reports <code>NOT RUNNABLE</code>: an implementation decision is still open, and dependencies are not the blocker.</p>
+<p><code>hx-smoke-promote</code> enforces the same chain at promotion time, so a PASS is refused when a required prior step has not passed and been cited.</p>
 <h2>The shape of every server</h2>
 <p>Identical for all of them. Two reboots, then the application.</p>
 <div class="tw"><table><thead><tr><th>Step</th><th>Block</th><th>Reboots</th><th>Roughly</th></tr></thead><tbody><tr><td>1</td><td><code>common/01-base-admin-network-updates.sh</code></td><td>yes</td><td>10-20 min</td></tr><tr><td>2</td><td><code>common/02-domain-nvidia.sh</code></td><td>yes</td><td>10-15 min</td></tr><tr><td>3</td><td><code>common/03-storage-ollama.sh</code></td><td>no</td><td>5 min</td></tr><tr><td>4</td><td>the application block</td><td>no</td><td>varies</td></tr><tr><td>5</td><td>validate: starts, then reboot, then starts</td><td>yes</td><td>5 min</td></tr><tr><td>6</td><td>record it</td><td>no</td><td>5 min</td></tr></tbody></table></div>
