@@ -169,8 +169,15 @@ through a pull request so CodeRabbit reviews it. Review is not optional.
 
 ```bash
 git checkout -b <type>/<short-name>
-# work, then:
-tools/hx-doc/hx-doc-check && tools/hx-doc/hx-render-html
+
+# work, then regenerate anything derived and check it:
+tools/hx-doc/hx-fleet && tools/hx-doc/hx-render-html && tools/hx-doc/hx-doc-check
+
+# commit before pushing - git push sends commits, not working-tree edits:
+git add -A
+git status          # confirm the diff is what you mean to submit
+git commit
+
 git push -u origin HEAD && gh pr create
 ```
 
