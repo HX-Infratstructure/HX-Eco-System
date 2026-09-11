@@ -25,6 +25,12 @@ git pull
 tools/hx-doc/hx-preflight
 ```
 
+Once the smoke phase starts, also confirm the step may run at all:
+
+```bash
+tools/hx-doc/hx-proof --ready B2
+```
+
 Expect `all clear`. If anything FAILS, fix the pin in
 `docs/03-runbooks/common/hx-base.env` before starting. A dead link found here
 costs a minute; found mid-build it costs the morning.

@@ -197,11 +197,39 @@ layer; treat a failure as a real defect, not as noise to work around.
 | Command | Enforces |
 |---|---|
 | `tools/hx-doc/hx-doc-check` | links resolve, registry vocabulary is defined, control frontmatter is complete, filenames are stable, evidence is committable |
+| `tools/hx-doc/hx-proof` | the proof DAG is valid, its generated blocks are current, and no PASS skips its prior proof |
 | `tools/hx-doc/hx-render-html` | every `human-html/` mirror matches its Markdown source |
 | `tools/hx-doc/hx-upstream-drift` | the registry's pinned upstream commits are still current |
 
 If a check is wrong, fix the check in a reviewed change. Do not bypass it and
 do not weaken it to make an existing document pass.
+
+### Proof chain
+
+`docs/00-control/hx-proof.tsv` is the source for the smoke-test dependency
+chain. Before running a step, ask whether it may run at all:
+
+```bash
+tools/hx-doc/hx-proof --ready B2
+```
+
+`hx-smoke-promote` enforces the same DAG: a PASS is refused when a required
+prior step has not passed and been cited in `prior_pass_evidence`. There is no
+bypass flag. If a dependency genuinely does not apply, change `requires` in the
+TSV through a reviewed pull request.
+
+### Graft
+
+`graft` indexes 70 of 388 files here: the Python tools and the shell blocks. It
+does not read Markdown, where every authority in this repository lives, and it
+produces no call edges for shell.
+
+- `graft blast` before changing anything under `tools/`.
+- `graft ask` to locate a shell helper across the runbook blocks.
+- An empty result means **not in the graph**, never **does not exist**. Fall
+  back to `hx-doc-check`, `grep`, or the document itself.
+- It runs from WSL on the current workstation. `graft upgrade` wipes the bash
+  registration; re-run `tools/hx-doc/hx-graft-bash` afterwards.
 
 ## 15. Documentation and execution-artifact rule
 

@@ -28,6 +28,9 @@ jobs:
       - name: Fleet tables match docs/00-control/hx-fleet.tsv
         run: ./tools/hx-doc/hx-fleet --check
 
+      - name: Proof DAG is valid and its generated blocks are current
+        run: ./tools/hx-doc/hx-proof --check
+
       - name: human-html mirrors match their Markdown sources
         run: ./tools/hx-doc/hx-render-html --check
 
