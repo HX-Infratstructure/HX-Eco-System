@@ -61,6 +61,14 @@ def pins() -> list[tuple[str, str, str]]:
         component, body = block.group(1), block.group(2)
         repos = REPO_LINE.findall(body)
         shas = SHA_LINE.findall(body)
+        # zip() silently drops the surplus, so an unequal block either skipped a
+        # pin or paired a repository with another entry's commit and reported
+        # drift against the wrong thing.
+        if len(repos) != len(shas):
+            raise SystemExit(
+                f"ERROR: {component} provenance lists {len(repos)} repository line(s) "
+                f"and {len(shas)} reviewed-commit line(s); they must pair up."
+            )
         for repo, sha in zip(repos, shas):
             found.append((component, repo, sha))
     return found
@@ -106,7 +114,11 @@ def main() -> int:
     if drifted:
         print("Re-review the drifted sources, then update the reviewed commit and")
         print("'Last reviewed' date in skills/SKILL-REGISTRY.md.")
-    return 1 if (fail_on_drift and drifted) else 0
+    # An unreachable upstream is not evidence that a pin is current. Returning
+    # 0 for it made --fail-on-drift pass on a network failure.
+    if errors:
+        print(f"{errors} upstream(s) could not be reached; their pins were not checked.")
+    return 1 if (fail_on_drift and (drifted or errors)) else 0
 
 
 if __name__ == "__main__":

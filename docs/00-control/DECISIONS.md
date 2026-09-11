@@ -106,3 +106,22 @@ runs `initdb`, and installs the `hx-postgresql` unit.
 Every application on the fleet now comes from PyPI, npm, a GitHub release, an
 upstream source tarball, a direct binary, or Hugging Face. The Ubuntu archive
 is used only for the NVIDIA driver and for build toolchains and library headers.
+
+## D-021 — Snap is never a package source — RATIFIED 2026-09-11
+
+Two rules in the repository disagreed. `.coderabbit.yaml` told the reviewer
+"Snap is never permitted". `hx-base.env` and `tools/hx-doc/hx_version_pins.py`
+said the Ubuntu archive and Snap were both acceptable for drivers.
+
+The owner ratified the `.coderabbit.yaml` wording: **Snap is never permitted,
+for anything, the NVIDIA driver included.**
+
+The Ubuntu archive is unchanged by this. It stays available for the NVIDIA
+driver, for build toolchains and for library headers, and nothing else, as
+D-020 records.
+
+`hx_version_pins.py` reports a Snap pin as REVIEW whatever it is for.
+`tools/hx-doc/hx-gate-tests` holds five checks on that rule: a Snap
+application is refused, a Snap driver is refused, the Ubuntu archive is allowed
+for a driver, the Ubuntu archive is refused for an application, and PyPI is
+accepted.

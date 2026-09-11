@@ -2,7 +2,7 @@
 
 **Server:** HX-2  
 **Role:** Qwen-X / Ollama inference server  
-**Build state:** PASS  
+**Build state:** PASS
 **Build method:** KISS — build, verify, record, move on  
 **Rebuild date:** 2026-09-08
 

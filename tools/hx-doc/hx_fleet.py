@@ -46,6 +46,18 @@ BLOCK = re.compile(
 )
 
 
+def marker_counts(text: str) -> tuple[int, int, int]:
+    """Opening markers, closing markers, and complete pairs in the text.
+
+    All three must agree. An unclosed block matches nothing and the text comes
+    back unchanged, which used to read as "current"; an orphan closing marker
+    is the same defect from the other end.
+    """
+    opened = len(re.findall(r"<!-- HX-FLEET:TABLE columns=", text))
+    closed = len(re.findall(r"<!-- /HX-FLEET:TABLE -->", text))
+    return opened, closed, len(BLOCK.findall(text))
+
+
 def rows() -> list[dict[str, str]]:
     with TSV.open(encoding="utf-8", newline="") as fh:
         data = list(csv.DictReader(fh, delimiter="\t"))
@@ -115,16 +127,36 @@ def main() -> int:
         if "HX-FLEET:TABLE" not in text:
             continue
 
+        rel = md.relative_to(REPO).as_posix()
+
+        opened, closed, paired = marker_counts(text)
+
+        bad_cols: list[str] = []
+
         def repl(m: re.Match[str]) -> str:
             nonlocal blocks
             blocks += 1
             cols = [c for c in m.group(2).split(",") if c]
+            # An unknown column name fell through to a heading of its own name
+            # and a cell of em dashes in every row, and --check passed because
+            # the junk matched itself.
+            unknown = [c for c in cols if c not in HEADINGS]
+            if unknown:
+                bad_cols.extend(unknown)
+                return m.group(0)
             return m.group(1) + table(cols, data) + m.group(4)
 
         new = BLOCK.sub(repl, text)
+
+        if bad_cols:
+            stale.append(f"{rel}: unknown fleet column(s): {', '.join(sorted(set(bad_cols)))}")
+            continue
+        if not (opened == closed == paired):
+            stale.append(f"{rel}: {opened} opening and {closed} closing "
+                         f"HX-FLEET:TABLE marker(s) form {paired} complete block(s)")
+            continue
         if new == text:
             continue
-        rel = md.relative_to(REPO).as_posix()
         if check:
             stale.append(rel)
         else:
@@ -153,6 +185,15 @@ def main() -> int:
             return 1
         print(f"OK: {blocks} fleet table(s) and the shell IP map are current.")
         return 0
+
+    # Generation mode collected the malformed-marker and unknown-column
+    # problems and then reported success, so `hx-fleet` looked like it had
+    # rewritten a document it had actually skipped.
+    if stale:
+        for s in stale:
+            print(f"STALE   {s}")
+        print(f"\nFAIL: {len(stale)} document(s) could not be generated.")
+        return 1
 
     print(f"Fleet: {len(data)} servers -> {blocks} table(s), {written} file(s) updated.")
     return 0

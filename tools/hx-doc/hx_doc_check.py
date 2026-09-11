@@ -89,6 +89,10 @@ def check_links() -> None:
                         (md.parent / target).resolve(),
                         (REPO / target.lstrip("/")).resolve(),
                     ]
+                    # A traversal such as ../../outside/file.md resolved out of
+                    # the repository and passed on whatever happened to exist on
+                    # the machine running the check.
+                    candidates = [c for c in candidates if c.is_relative_to(REPO)]
                     if any(c.exists() for c in candidates):
                         continue
                     context = line + " " + heading_for[lineno]
@@ -169,13 +173,21 @@ def check_evidence_not_ignored() -> None:
         ["git", "-C", str(REPO), "check-ignore", "-q", probe],
         capture_output=True,
     )
+    # git check-ignore: 0 means ignored, 1 means not ignored, anything else is
+    # an error. Treating "anything but 0" as success let a git failure, such as
+    # running outside a work tree, report the evidence path as committable.
     if r.returncode == 0:
         failures.append(
             "evidence: .gitignore would silently drop retained evidence logs "
             f"(matched {probe})"
         )
-    else:
+    elif r.returncode == 1:
         notes.append("evidence: retained evidence logs are committable")
+    else:
+        failures.append(
+            f"evidence: git check-ignore failed (exit {r.returncode}); "
+            "the evidence path was not checked"
+        )
 
 
 def main() -> int:
