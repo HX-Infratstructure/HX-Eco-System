@@ -37,9 +37,11 @@ SECTIONS = [
 CONTENT = [
     ("known answer", r"known.answer|reply with exactly|exactly:|expected output"),
     # "evidence" alone was satisfied by the word appearing anywhere, including
-    # in a warning about not putting secrets in evidence. An authority has to
-    # say what is retained and where.
-    ("evidence retention", r"retain|retention|docs/05-evidence"),
+    # in a warning about not putting secrets in evidence. Matching retain or
+    # retention is no better: "do not retain credentials" satisfies both. The
+    # standard bundle path is the one anchor a negated sentence cannot fake,
+    # and every authority that states retention cites it.
+    ("evidence retention", r"docs/05-evidence"),
 ]
 
 

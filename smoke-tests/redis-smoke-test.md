@@ -90,4 +90,7 @@ Retain the run through the standard bundle described in
 `docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
 supporting capture of the `REDIS_SMOKE_PASS` and `REDIS_SMOKE_CLEANUP_PASS` lines.
 
-Record the Redis version, the endpoint used, the `PONG` reply, the known-answer token `HX-REDIS-SMOKE-9271` as written and read back, and confirmation that `hx:smoke:redis:9271` no longer exists.
+Record the Redis version, the endpoint used as scheme, host and port only
+because `REDIS_URL` can carry a password, the `PONG` reply, the known-answer
+token `HX-REDIS-SMOKE-9271` as written and read back, and confirmation that
+`hx:smoke:redis:9271` no longer exists.

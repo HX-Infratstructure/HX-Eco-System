@@ -79,6 +79,7 @@ def request(method, path, payload=None, timeout=30):
 
 track_id = None
 doc_ids = []
+cleanup_ok = False
 try:
     code, _ = request("GET", "/health")
     assert code == 200, f"health returned {code}"
@@ -155,9 +156,46 @@ finally:
             timeout=60,
         )
         assert code in (200, 202), f"document cleanup returned {code}"
-        print("LIGHTRAG_SMOKE_CLEANUP_REQUESTED")
+
+        # Acceptance is not removal: 202 says the request was taken, not that
+        # the document is gone. Poll until every created id is absent and the
+        # token is no longer retrievable, so a PASS cannot leave the smoke
+        # document in an index that later tests read from.
+        deadline = time.time() + TIMEOUT
+        while time.time() < deadline:
+            code, status = request(
+                "GET",
+                "/documents/track_status/" + urllib.parse.quote(track_id, safe=""),
+            )
+            listed = status.get("documents", []) if code == 200 else []
+            remaining = [d for d in listed if d.get("id") in doc_ids]
+
+            code, context = request(
+                "POST",
+                "/query",
+                {
+                    "query": "What is the exact smoke token for Project Cedar?",
+                    "mode": "hybrid",
+                    "only_need_context": True,
+                },
+                timeout=90,
+            )
+            token_gone = code == 200 and TOKEN not in json.dumps(context)
+
+            if not remaining and token_gone:
+                cleanup_ok = True
+                break
+            time.sleep(2)
+
+        print("LIGHTRAG_SMOKE_CLEANUP_PASS" if cleanup_ok
+              else "LIGHTRAG_SMOKE_CLEANUP_FAIL")
     elif track_id:
         print(f"CLEANUP_REQUIRED track_id={track_id}")
+
+if doc_ids and not cleanup_ok:
+    raise SystemExit(
+        "cleanup did not complete: the smoke document may still be indexed"
+    )
 ```
 
 2. Run the test.
@@ -166,7 +204,7 @@ finally:
 python3 lightrag_smoke.py
 ```
 
-3. If cleanup reports only `CLEANUP_REQUIRED`, query the recorded `track_id`, obtain the returned document `id`, and delete only that smoke-test document before closing the test.
+3. If cleanup reports `CLEANUP_REQUIRED` or `LIGHTRAG_SMOKE_CLEANUP_FAIL`, query the recorded `track_id`, obtain the returned document `id`, delete only that smoke-test document, and confirm by hand that the id is gone and the token is no longer retrievable before closing the test.
 
 4. Record the LightRAG version, configured LLM, configured embedding model/dimension, storage backend, target URL, `track_id`, document id, and console output with the normal HX smoke-test evidence.
 
@@ -196,7 +234,7 @@ A passing run includes:
 
 ```text
 LIGHTRAG_SMOKE_PASS token=HX-LIGHTRAG-SMOKE-9271
-LIGHTRAG_SMOKE_CLEANUP_REQUESTED
+LIGHTRAG_SMOKE_CLEANUP_PASS
 ```
 
 Pass means:
@@ -206,13 +244,19 @@ Pass means:
 - the tracked document reaches `processed` rather than `failed`;
 - a `hybrid` context-only query retrieves the exact smoke token;
 - a normal `hybrid` RAG query returns the exact smoke token;
-- deletion of the smoke document is accepted.
+- deletion of the smoke document is accepted, and the document id is then
+  absent and the token no longer retrievable.
 
 If Qdrant is the configured vector backend, this same test also proves the minimal LightRAG-to-Qdrant write/retrieval path without creating a parallel database instance.
 
 ## 6. Cleanup / Teardown
 
-The script requests deletion of the exact document ids created by the smoke test using:
+The script deletes the exact document ids created by the smoke test, then
+proves the deletion completed. Acceptance alone is not cleanup: the API may
+return `202` and leave the document indexed, and a leftover smoke document sits
+in a retrieval index that later tests read from.
+
+Deletion uses:
 
 ```text
 DELETE /documents/delete_document
@@ -228,11 +272,17 @@ with:
 }
 ```
 
-After deletion:
+After deletion the script polls until both hold, and prints
+`LIGHTRAG_SMOKE_CLEANUP_PASS` only when they do:
 
-1. confirm the smoke document is no longer listed in LightRAG;
-2. confirm the token `HX-LIGHTRAG-SMOKE-9271` is no longer retrievable from the smoke document;
-3. remove the disposable local test script/workspace.
+1. the smoke document id is no longer listed in LightRAG;
+2. the token `HX-LIGHTRAG-SMOKE-9271` is no longer retrievable.
+
+If either is still true when the timeout expires the script prints
+`LIGHTRAG_SMOKE_CLEANUP_FAIL` and exits non-zero. Close the document by hand
+before recording the run.
+
+Then remove the disposable local test script/workspace.
 
 **Never call a global clear operation as part of this smoke test. Do not delete other LightRAG documents, Qdrant data, or persistent workspaces. No containers are created by this test.**
 
@@ -244,5 +294,5 @@ supporting capture of the health response, the `track_id`, and the context-only 
 
 Record the LightRAG version, the endpoint used, the vector backend in
 effect, the known-answer token `HX-LIGHTRAG-SMOKE-9271` from both query
-paths, the document ids created, and confirmation that deletion of those
-exact ids was accepted.
+paths, the document ids created, and the `LIGHTRAG_SMOKE_CLEANUP_PASS` line
+proving those exact ids are absent and the token is no longer retrievable.
