@@ -218,6 +218,14 @@ rc, out = run('tools/hx-doc/hx_smoke_lint.py')
 check('hx-smoke-lint: "do not retain credentials" does not satisfy the check',
       rc != 0 and 'evidence retention' in out, out)
 
+# ---------------------------- hx_doc_check: a unit nothing creates ----------
+fresh()
+edit('docs/03-runbooks/common/10-crawl4ai.sh',
+     lambda s: s.replace('hx_app_done NONE', 'hx_app_done hx-crawl4ai', 1))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a block reporting a unit nothing creates fails',
+      rc != 0 and 'hx-crawl4ai' in out, out)
+
 # --------------------------------------- hx_version_pins: numeric sort ------
 # Exercise the shipped comparator, not a copy of it: a test that reimplements
 # the logic it is checking proves only that the test is self-consistent.

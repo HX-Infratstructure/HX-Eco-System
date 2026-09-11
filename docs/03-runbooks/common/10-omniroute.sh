@@ -17,10 +17,14 @@ hx_node_install "$HX_NODE_VERSION"
 
 hx_app_user omniroute /srv/omniroute
 sudo npm install -g "omniroute@${HX_OMNIROUTE_VERSION}"
-omniroute --version || true
+# `|| true` hid a failed install, and the unit below then pointed at a path
+# that may not exist. Fail here, and use the path that was actually installed.
+omniroute --version
+OMNIROUTE_BIN="$(command -v omniroute)"
+[ -x "$OMNIROUTE_BIN" ] || { echo "STOP: omniroute is not on PATH after install" >&2; exit 30; }
 
 hx_app_unit hx-omniroute "HX OmniRoute ${HX_OMNIROUTE_VERSION}" omniroute /srv/omniroute \
-  "/usr/local/bin/omniroute" \
+  "$OMNIROUTE_BIN" \
   "HOME=/srv/omniroute" \
   "PORT=${HX_OMNIROUTE_PORT}" \
   "HOST=0.0.0.0"

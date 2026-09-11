@@ -190,6 +190,37 @@ def check_evidence_not_ignored() -> None:
         )
 
 
+def check_unit_claims() -> None:
+    """A block may only report a unit it actually creates.
+
+    hx_app_done prints a reboot-persistence check. Five blocks named a unit
+    that nothing in the file creates, so the operator was told to run
+    `systemctl is-active hx-<name>` for a unit that does not exist, and that
+    check could only fail. A library or CLI passes NONE and states the command
+    to run instead.
+    """
+    common = REPO / "docs/03-runbooks/common"
+    bad = 0
+    for sh in sorted(common.glob("*.sh")):
+        text = sh.read_text(encoding="utf-8")
+        for unit in re.findall(r"hx_app_done\s+([A-Za-z0-9_-]+)", text):
+            if unit == "NONE":
+                continue
+            creates_it = (
+                re.search(rf"hx_app_unit\s+{re.escape(unit)}\b", text)
+                or re.search(rf"/etc/systemd/system/{re.escape(unit)}\.service", text)
+            )
+            if not creates_it:
+                rel = sh.relative_to(REPO).as_posix()
+                failures.append(
+                    f"units: {rel} reports unit '{unit}' but nothing in the file "
+                    "creates it; pass NONE and state the check to run instead"
+                )
+                bad += 1
+    if not bad:
+        notes.append("units: every reported unit is created by its own block")
+
+
 def main() -> int:
     quiet = "--quiet" in sys.argv
     for fn in (
@@ -198,6 +229,7 @@ def main() -> int:
         check_frontmatter,
         check_duplicates,
         check_evidence_not_ignored,
+        check_unit_claims,
     ):
         fn()
 

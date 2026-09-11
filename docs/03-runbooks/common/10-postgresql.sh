@@ -55,8 +55,14 @@ fi
 
 # Listen on the LAN, matching the fleet posture.
 sudo -u postgres sed -i "s/^#\?listen_addresses.*/listen_addresses = '*'/" "$PGDATA/postgresql.conf"
-sudo grep -q '192.168.50.0/24' "$PGDATA/pg_hba.conf" || \
-  echo "host    all             all             192.168.50.0/24         scram-sha-256" \
+# sed reports success when it matches nothing, so confirm the value is there
+# before starting a unit whose whole point is the LAN listener.
+sudo grep -qE "^listen_addresses = '\*'" "$PGDATA/postgresql.conf" || {
+  echo "STOP: listen_addresses was not set in $PGDATA/postgresql.conf" >&2
+  exit 30
+}
+sudo grep -q "$HX_LAN_CIDR" "$PGDATA/pg_hba.conf" || \
+  echo "host    all             all             ${HX_LAN_CIDR}         scram-sha-256" \
   | sudo -u postgres tee -a "$PGDATA/pg_hba.conf" >/dev/null
 
 sudo tee /etc/systemd/system/hx-postgresql.service >/dev/null <<UNIT
