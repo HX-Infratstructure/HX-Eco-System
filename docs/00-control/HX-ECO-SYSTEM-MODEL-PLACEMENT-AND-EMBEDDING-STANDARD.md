@@ -1,8 +1,8 @@
 ---
 document: HX Eco-System Model Placement and Embedding Standard
 status: owner_approved
-version: 1.0
-date: 2026-09-08
+version: 1.1
+date: 2026-09-11
 scope: HX-4 shared retrieval inference and HX-16 Docling model placement
 authority: HX-Eco-System clean rebuild
 ---
@@ -10,7 +10,7 @@ authority: HX-Eco-System clean rebuild
 # HX Eco-System — Model Placement and Embedding Standard
 
 **Status:** OWNER APPROVED  
-**Date:** September 8, 2026  
+**Date:** September 11, 2026 (v1.1; v1.0 approved September 8, 2026)  
 **Purpose:** Establish the standard placement, ownership, and usage rules for Granite-Docling, shared embedding models, reranking models, and Qdrant collection compatibility.
 
 ## 1. Owner-approved decisions
@@ -24,7 +24,10 @@ authority: HX-Eco-System clean rebuild
 7. **Both BGE-M3 and Nomic Embed Text v1.5 will be installed on HX-4.**
 8. **BGE-M3 is the default/authoritative HX embedding model.**
 9. **Nomic Embed Text v1.5 is the alternate benchmark/fallback embedding model.**
-10. **A BGE-family reranker is hosted on HX-4.** Pinned 2026-09-10 to `BAAI/bge-reranker-v2-m3` at revision `953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e`, served by `infinity-emb` 0.0.77 from PyPI under systemd on port 7997. It is the M3-family cross-encoder that pairs with BGE-M3. The revision is an immutable commit, so a later upstream edit cannot change the model under a stable name. Authoritative pins: `docs/03-runbooks/common/hx-base.env`.
+10. **A BGE-family reranker is hosted on HX-4.** D-005 placed a BGE-family
+   reranker on HX-4; the exact checkpoint and runtime were open until the
+   owner directed them on 2026-09-10, recorded as D-022. This entry was
+   added in v1.1 rather than at v1.0 approval. Pinned 2026-09-10 to `BAAI/bge-reranker-v2-m3` at revision `953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e`, served by `infinity-emb` 0.0.77 from PyPI under systemd on port 7997. It is the M3-family cross-encoder that pairs with BGE-M3. The revision is an immutable commit, so a later upstream edit cannot change the model under a stable name. Authoritative pins: `docs/03-runbooks/common/hx-base.env`.
 11. **HX-5 remains CentCom / DeepSeek Harness / development-test capacity.** Shared embedding infrastructure will not be placed there merely because a second 16 GB GPU may become available.
 
 ## 2. Why Granite-Docling stays on HX-16

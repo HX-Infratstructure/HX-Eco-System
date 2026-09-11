@@ -91,9 +91,14 @@ record before that server can close.
 A server gets a **scripted** runbook when its build is the common base pattern
 plus deterministic steps. It gets a **prose** runbook when the sequence needs
 judgement at implementation time, such as pinning a package version that does
-not exist yet. HX-12 is prose for that reason. A prose runbook states its
-version references as "planning reference as of <date>" and requires the exact
-version to be pinned in the server record at implementation time.
+not exist yet. A prose runbook states its version references as "planning
+reference as of <date>" and requires the exact version to be pinned in the
+server record at implementation time.
+
+HX-12 was prose for that reason. It is scripted now:
+`common/10-deep-agents.sh` exists, `HX_DEEPAGENTS_VERSION` is pinned in
+`common/hx-base.env`, and the build-day run sheet invokes the script. No prose
+runbook remains.
 
 ## Rules
 

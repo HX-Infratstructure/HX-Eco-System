@@ -32,7 +32,14 @@ hx-smoke-new hx-4 ollama-inference ollama-inference-smoke-test.md 192.168.50.204
 
 The station actually used is written to `runner_host` in the manifest, so a
 pre-CentCom run is distinguishable from a CentCom run in the retained evidence.
-After A5 passes, HX-5 is the station and this variable is not set.
+
+After A5 passes, HX-5 is the station and these variables are not set. Clear
+them in the shell that ran the pre-CentCom steps, so a later run cannot pick up
+an authorisation that no longer applies:
+
+```bash
+unset HX_SMOKE_ALLOW_HOST HX_ECO_REPO
+```
 
 ## Standard naming
 

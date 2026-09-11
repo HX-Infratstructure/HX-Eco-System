@@ -63,10 +63,13 @@ tools/hx-doc/hx-preflight</code></pre>
 cd ~/src/HX-Eco-System/docs/03-runbooks/HX-4
 ./01-base-admin-network-updates.sh</code></pre>
 <h3>Step 5 — validation</h3>
-<pre><code class="lang-bash">systemctl is-active &lt;unit&gt; &amp;&amp; systemctl is-enabled &lt;unit&gt;
+<p>The block prints the unit name, or the command to run when the component is a library with no unit. Use what it printed:</p>
+<pre><code class="lang-bash">UNIT=hx-qdrant            # whatever the block reported for this server
+systemctl is-active "$UNIT" &amp;&amp; systemctl is-enabled "$UNIT"
 sudo reboot
 # once it is back:
-systemctl is-active &lt;unit&gt;</code></pre>
+systemctl is-active "$UNIT"</code></pre>
+<p>Crawl4AI, Deep Agents, Docling, FastMCP and Mem0 are libraries or CLIs with no unit. For those the block prints the check to run instead, and that command is the reboot-persistence check.</p>
 <h3>Step 6 — record it</h3>
 <pre><code class="lang-bash">$EDITOR docs/02-server-records/HX-4.md      # fill every section
 $EDITOR docs/00-control/hx-fleet.tsv        # state -&gt; PASS, gate -&gt; CLOSED

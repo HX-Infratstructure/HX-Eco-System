@@ -57,24 +57,33 @@ HX maintains a separate evergreen smoke-test roadmap in addition to the base imp
 ## D-017 — Governed HX skills capability layer
 HX maintains a canonical `skills/` library as an AI-agent expertise layer between ecosystem context and execution. Component skills may combine HX-native instructions with current vendor-official expertise, but skills do not supersede owner decisions, active HX architecture, live evidence, runbooks, or smoke-test acceptance criteria. Agent-specific skill installations are derived deployments from the canonical repository source, not independently maintained authorities. External skills are classified and registered before operational use; vendor-official sources are preferred over community sources. Skills never store actual credentials, PATs, API keys, private keys, service-account secrets, or sshpass passwords. Qdrant is the first approved reference implementation through `skills/qdrant/hx-qdrant-advisor/`, which preserves HX-10/native-systemd/vector-space/smoke-test rules while consuming the current official Qdrant Advisor guidance live.
 
-## D-018 — Host firewall and inference listener posture — PROPOSED, awaiting owner ratification
+## D-018 — Host firewall and inference listener posture — RATIFIED 2026-09-11
 
-The HX LAN is treated as a trusted lab segment. The common base runbook
-disables `ufw` on every server, and Ollama listens on `0.0.0.0:11434` with no
-authentication. This is consistent with the standing rule that firewall,
-segmentation and TLS changes are not imposed without owner approval, and with
-KISS.
+The HX LAN is treated as a trusted lab segment.
 
-This entry does not change behaviour. It records behaviour that previously
-existed only as an emergent property of two runbook scripts, so it can be
-approved, revisited, or reversed as a decision rather than rediscovered.
+**No UFW is used anywhere on the fleet.** The common base runbook disables it on
+every server, and that is the intended posture, not a gap. Ollama listens on
+`0.0.0.0:11434` with no authentication, and that listener posture stands as
+stated.
 
-Blast radius as it stands: any host that can reach the HX LAN can call any HX
-inference endpoint without credentials, and can reach any service port on any
-HX server.
+This is consistent with the standing rule that firewall, segmentation and TLS
+changes are not imposed without owner approval, and with KISS.
 
-**Owner action required:** ratify as written, or amend. Until ratified this
-entry is a record of current state, not an approval.
+Intended blast radius: on a built HX host, any host that can reach the HX LAN
+can call its inference endpoint without credentials and reach the service ports
+it exposes. That is accepted, and it is what the build scripts produce. It is a
+statement of intent, not a survey: three of seventeen servers are built, and
+each server record states the posture actually observed as that server closes.
+
+Where these statements come from: they are read from
+`docs/03-runbooks/common/01-base-admin-network-updates.sh`, which disables
+`ufw`, and from `docs/03-runbooks/common/03-storage-ollama.sh`, which sets
+`OLLAMA_HOST=0.0.0.0:11434`. They describe what the build scripts do. HX-1 to
+HX-3 are the only servers built so far, so a server record states the observed
+posture as each server closes; the decision itself does not wait on that.
+
+This entry closes. Do not re-raise UFW or listener hardening as a finding
+against this repository: it is a decided posture, not an open item.
 
 ## D-019 — OmniRoute product identity — RATIFIED 2026-09-10
 
@@ -125,3 +134,21 @@ D-020 records.
 application is refused, a Snap driver is refused, the Ubuntu archive is allowed
 for a driver, the Ubuntu archive is refused for an application, and PyPI is
 accepted.
+
+## D-022 — BGE reranker checkpoint and runtime — RATIFIED 2026-09-10
+
+D-005 placed a BGE-family reranker on HX-4 without naming one. The owner
+directed the exact checkpoint and runtime on 2026-09-10:
+
+- `BAAI/bge-reranker-v2-m3` at revision
+  `953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e`;
+- served by `infinity-emb` 0.0.77 from PyPI, under systemd, on port 7997.
+
+The revision is an immutable commit, so a later upstream edit cannot change the
+model under a stable name. The authoritative pins are in
+`docs/03-runbooks/common/hx-base.env`, and `tools/hx-doc/hx-version-pins`
+checks them against upstream.
+
+This was recorded in the Model Placement and Embedding Standard as item 10 two
+days after that document was approved at v1.0, without a decision to point at.
+The standard is v1.1 now and cites this entry.

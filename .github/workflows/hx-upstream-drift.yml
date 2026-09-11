@@ -51,6 +51,16 @@ jobs:
           echo "drifted=$drifted" >> "$GITHUB_OUTPUT"
           cat drift.md >> "$GITHUB_STEP_SUMMARY"
 
+          # Drift is information: a pin stays valid until the owner moves it,
+          # so a drifted pin opens an issue rather than failing the job. An
+          # upstream that could not be reached is different. Nothing was
+          # compared, and reporting that as a clean run is the "check that
+          # cannot fail" this repository keeps removing.
+          if grep -q 'could not be reached' drift.md; then
+            echo "::error::one or more upstreams were unreachable; the pins were not checked"
+            exit 1
+          fi
+
       - name: Open or update the drift issue
         if: steps.drift.outputs.drifted == 'true'
         env:
