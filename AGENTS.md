@@ -162,7 +162,34 @@ Use it to render/proxy UIs for applications being actively developed when useful
 
 Do not use HX-7 as a general reverse proxy for Qdrant, LightRAG, n8n, Open WebUI, databases, MCP servers, or normal HX ecosystem services.
 
-## 13. Repository tooling rule
+## 13. Change rule — everything goes through a pull request
+
+`main` is not a working branch. Every change, including a one-line fix, goes
+through a pull request so CodeRabbit reviews it. Review is not optional.
+
+```bash
+git checkout -b <type>/<short-name>
+
+# work, then regenerate anything derived and check it:
+tools/hx-doc/hx-fleet && tools/hx-doc/hx-render-html && tools/hx-doc/hx-doc-check
+
+# commit before pushing - git push sends commits, not working-tree edits:
+git add -A
+git status          # confirm the diff is what you mean to submit
+git commit
+
+git push -u origin HEAD && gh pr create
+```
+
+Keep a pull request under 100 changed files. CodeRabbit skips anything larger,
+and a skipped review is the same as no review. Generated output and archive are
+already filtered out in `.coderabbit.yaml`, which is what usually pushes a
+change over the line.
+
+When CodeRabbit raises something, fix it. Small, medium or large. If a finding
+is wrong, say why on the thread rather than ignoring it.
+
+## 14. Repository tooling rule
 
 Written rules that nothing checks will drift. These tools are the enforcement
 layer; treat a failure as a real defect, not as noise to work around.
@@ -176,7 +203,7 @@ layer; treat a failure as a real defect, not as noise to work around.
 If a check is wrong, fix the check in a reviewed change. Do not bypass it and
 do not weaken it to make an existing document pass.
 
-## 14. Documentation and execution-artifact rule
+## 15. Documentation and execution-artifact rule
 
 - Agents edit authoritative Markdown and approved execution artifacts only.
 - `docs/**/*.md` = current control, architecture, standards, runbooks, server records, and evidence indexes.
