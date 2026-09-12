@@ -267,7 +267,12 @@ def check_generated_authority_claims() -> None:
         # made section 2's own wording fail this check, because the sentence
         # naming the acceptance authority in smoke-tests/ also says "authority".
         low = one.lower().replace("smoke-tests", " ").replace("gate-tests", " ")
-        if "source code" not in low and "tests" not in low:
+        # Whole words, not substrings: "attests" contains "tests", so a
+        # sentence such as "the control Markdown in docs/ attests to the
+        # authority order" was refused while claiming nothing.
+        words = re.findall("[a-z]+", low)
+        pairs = set(zip(words, words[1:]))
+        if ("source", "code") not in pairs and "tests" not in words:
             continue
         # "authoritative" and "the authority" say the same thing in different
         # parts of speech.

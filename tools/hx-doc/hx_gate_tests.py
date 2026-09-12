@@ -342,6 +342,13 @@ _setblock('Source code and tests are evidence, not authority. The control'
 rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: the negated wording is accepted', rc == 0, out)
 
+# "attests" contains "tests". A substring match refused this sentence, which
+# claims nothing about source code at all.
+_setblock('The control Markdown in docs/ attests to the authority order.')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a word merely containing "tests" is not a claim',
+      rc == 0, out)
+
 # And the check is not simply refusing every block: a claim that names only
 # the control Markdown passes.
 _setblock('The control Markdown in docs/ stays authoritative.')
