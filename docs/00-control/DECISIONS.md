@@ -215,6 +215,12 @@ rollout plan carrying it as step 7, after stating the requirement directly:
 every operational tool gets its own directory covering what it is, why we
 have it, and how and when to use it.
 
+The auditable record is pull request #15, which carries this entry together
+with the plan and the checker it approves; its merge into `main` is the
+ratification of record. The approver is the infrastructure owner, the role
+section 2 of `AGENTS.md` ranks first. Like D-018 to D-023, this records the
+role and the date, not a personal identity, in a public repository.
+
 An operational tool is something this repository depends on but does not
 contain: OpenWiki, CodeRabbit, graft. Each gets one document under
 `docs/06-tooling/` carrying five sections - what it is, why we have it, when
@@ -248,6 +254,13 @@ The owner's account of how that happened - adoption driven by the README and
 the installed package while the product's own documentation went unread, with
 the owner supplying the URL - is recorded as the owner's account, not as
 measured evidence. The verifiable part is the absence of the two files.
+
+**Tools already in use.** CodeRabbit and graft predate this decision and stay
+in use: `AGENTS.md` section 13 requires a CodeRabbit review before every push,
+and section 14 routes symbol lookups to graft. This decision does not suspend
+either. It makes their documents owed. Until each exists, those two sections
+are their operating instructions, and the index names them as backlog so the
+debt is visible on every `hx-doc-check` run.
 
 Backlog on ratification: CodeRabbit and graft are listed in the index with no
 document. Each is its own pull request.

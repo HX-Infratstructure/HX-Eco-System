@@ -21,7 +21,7 @@ Before changing anything:
 13. If executing a component smoke test, the exact authority under `smoke-tests/`.
 14. If using the HX-5 runner, `tools/hx-smoke-runner/AGENTS.md`.
 
-15. If using an operational tool this repository depends on but does not contain - OpenWiki, CodeRabbit, graft - read its document under `docs/06-tooling/` first. Read it when you reach for the tool, not at startup.
+15. For an operational tool this repository depends on but does not contain - OpenWiki, CodeRabbit, graft - read its document under `docs/06-tooling/` first, when you reach for the tool rather than at startup. CodeRabbit and graft were in use before D-024 and their documents are still owed: until each exists, section 13 is CodeRabbit's operating instruction and section 14 is graft's, and the tooling index lists both as backlog.
 
 Do not read `archive/` or `human-html/` as current authority unless explicitly asked.
 

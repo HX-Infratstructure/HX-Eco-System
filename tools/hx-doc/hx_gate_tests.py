@@ -356,6 +356,20 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: a claim naming only docs/ is accepted', rc == 0, out)
 
 # ---- hx-doc-check: operational tooling documents ----------------------------
+def _complete_doc(title):
+    """A tooling document valid in every respect but the one under test.
+
+    Title-only fixtures failed the heading rule as well as the rule a test
+    names, and the filename appeared in both messages, so those tests could
+    pass on the wrong gate.
+    """
+    parts = ['# ' + title, '']
+    for heading in ('What it is', 'Why we have it', 'When to use it',
+                    'How to use it'):
+        parts += ['## ' + heading, '', 'Text.', '']
+    parts += ['## Upstream', '', '- <https://example.invalid/docs>', '']
+    return chr(10).join(parts)
+
 # CodeRabbit was adopted undocumented, then OpenWiki was adopted the same way.
 # These three break the guard on purpose so a third repeat cannot pass quietly.
 fresh()
@@ -387,10 +401,10 @@ _txt = io.open(_idx, encoding='utf-8').read()
 io.open(_idx, 'w', encoding='utf-8', newline=chr(10)).write(
     _txt.rstrip() + chr(10) * 2 + 'Also see [orphan](orphan.md).' + chr(10))
 _orph = os.path.join(WORK, 'docs', '06-tooling', 'orphan.md')
-io.open(_orph, 'w', encoding='utf-8', newline=chr(10)).write('# Orphan' + chr(10))
+io.open(_orph, 'w', encoding='utf-8', newline=chr(10)).write(_complete_doc('Orphan'))
 rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: a prose link below the Index table is not an entry',
-      rc != 0 and 'tooling:' in out and 'orphan.md' in out, out)
+      rc != 0 and 'orphan.md is not linked from the' in out, out)
 
 # A link in prose is not an index entry. Scanning the whole README would
 # let a document pass by being mentioned anywhere.
@@ -417,7 +431,7 @@ _cut = _body[:_body.index('## Upstream')] + '## Upstream' + chr(10) * 2 + 'None.
 io.open(_tool, 'w', encoding='utf-8', newline=chr(10)).write(_cut)
 rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: an Upstream heading with no link fails',
-      rc != 0 and 'tooling:' in out and 'Upstream' in out, out)
+      rc != 0 and "has an 'Upstream' heading with no link" in out, out)
 
 # The word, not a URL. 'http' alone used to satisfy the Upstream rule.
 fresh()
@@ -428,16 +442,16 @@ _w = (_b[:_b.index('## Upstream')] + '## Upstream' + chr(10) * 2 +
 io.open(_t, 'w', encoding='utf-8', newline=chr(10)).write(_w)
 rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: the word http is not an Upstream link',
-      rc != 0 and 'tooling:' in out and 'Upstream' in out, out)
+      rc != 0 and "has an 'Upstream' heading with no link" in out, out)
 
 # Substring, not a link. 'wiki.md' occurs inside 'openwiki.md', so a
 # substring test would call this file linked when nothing links to it.
 fresh()
 _sub = os.path.join(WORK, 'docs', '06-tooling', 'wiki.md')
-io.open(_sub, 'w', encoding='utf-8', newline=chr(10)).write('# Wiki' + chr(10))
+io.open(_sub, 'w', encoding='utf-8', newline=chr(10)).write(_complete_doc('Wiki'))
 rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: a filename that is only a substring of a link is unlinked',
-      rc != 0 and 'tooling:' in out and 'wiki.md' in out, out)
+      rc != 0 and 'wiki.md is not linked from the' in out, out)
 
 # A heading inside a fenced example is an example, not a section.
 fresh()
@@ -448,7 +462,7 @@ _fenced = _body.replace('## Upstream',
 io.open(_tool, 'w', encoding='utf-8', newline=chr(10)).write(_fenced)
 rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: a required heading inside a code fence does not count',
-      rc != 0 and 'tooling:' in out and 'Upstream' in out, out)
+      rc != 0 and "has no '## Upstream' heading" in out, out)
 
 fresh()
 _orphan = os.path.join(WORK, 'docs', '06-tooling', 'orphan.md')
@@ -463,6 +477,54 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 # this can only fail on the linkage rule it names.
 check('hx-doc-check: a complete document nobody links to still fails',
       rc != 0 and 'orphan.md is not linked from the' in out, out)
+
+# A tilde fence is a fence. Only backticks were tracked, so a heading inside
+# ~~~ supplied a required section that is not there.
+fresh()
+_t = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_b = io.open(_t, encoding='utf-8').read()
+io.open(_t, 'w', encoding='utf-8', newline=chr(10)).write(
+    _b.replace('## Upstream', '~~~' + chr(10) + '## Upstream' + chr(10) + '~~~', 1))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a required heading inside a tilde fence does not count',
+      rc != 0 and "has no '## Upstream' heading" in out, out)
+
+# A table row inside a fenced example is an example, not an index entry.
+fresh()
+_idx = os.path.join(WORK, 'docs', '06-tooling', 'README.md')
+_txt = io.open(_idx, encoding='utf-8').read()
+_row = ('| OpenWiki | [openwiki.md](openwiki.md) |'
+        ' [openwiki-agents.md](openwiki-agents.md) | D-023 |')
+_txt = _txt.replace(_row, '| OpenWiki | not written yet | - | D-023 |', 1)
+_txt = (_txt.rstrip() + chr(10) * 2 + '```' + chr(10) + _row + chr(10) +
+        '```' + chr(10))
+io.open(_idx, 'w', encoding='utf-8', newline=chr(10)).write(_txt)
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: an index row inside a code fence is not an entry',
+      rc != 0 and 'openwiki.md is not linked from the' in out, out)
+
+# A scheme with no address. 'https:// yet' contains https:// and links nothing.
+fresh()
+_t = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_b = io.open(_t, encoding='utf-8').read()
+_w = (_b[:_b.index('## Upstream')] + '## Upstream' + chr(10) * 2 +
+      'No documentation is available at https:// yet.' + chr(10))
+io.open(_t, 'w', encoding='utf-8', newline=chr(10)).write(_w)
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a bare scheme is not an Upstream link',
+      rc != 0 and "has an 'Upstream' heading with no link" in out, out)
+
+# All five headings, wrong order. The index says 'in this order'.
+fresh()
+_t = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_b = io.open(_t, encoding='utf-8').read()
+_b = (_b.replace('## What it is', '@@SWAP@@', 1)
+        .replace('## Why we have it', '## What it is', 1)
+        .replace('@@SWAP@@', '## Why we have it', 1))
+io.open(_t, 'w', encoding='utf-8', newline=chr(10)).write(_b)
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: required headings out of order fail',
+      rc != 0 and 'out of order' in out, out)
 
 # ---- hx-version-pins: numeric sort ------------------------------------------
 # Exercise the shipped comparator, not a copy of it: a test that reimplements

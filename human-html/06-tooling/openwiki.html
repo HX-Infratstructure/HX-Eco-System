@@ -57,9 +57,9 @@ font-size:12.5px;color:var(--fg2)}
 </ul>
 <p>this repository work". Read the control Markdown instead when the question is "what are we allowed to do" - see <a href="openwiki-agents.html">openwiki-agents.md</a>.</p>
 <h2>How to use it</h2>
-<p><strong>Free, and the normal path.</strong> Inside Claude Code, in this repository:</p>
+<p><strong>The normal path, with no separate OpenWiki charge.</strong> Inside Claude Code, in this repository:</p>
 <blockquote>Update OpenWiki for this repository.</blockquote>
-<p>The Claude Code integration hands authoring to the session's model, so no provider key is used and nothing is billed. OpenWiki still owns the page queue, Claims validation and finalization.</p>
+<p>The Claude Code integration hands authoring to the session's model, so no OpenWiki provider key is used. The work is charged to whatever pays for that Claude Code session: a Claude plan's usage allowance, or metered API usage when Claude Code itself runs on a key such as <code>ANTHROPIC_API_KEY</code>. Check which before a large run. OpenWiki still owns the page queue, Claims validation and finalization.</p>
 <p><strong>Steering what it covers.</strong> <code>openwiki/INSTRUCTIONS.md</code> is owner-authored and OpenWiki never rewrites it, including across <code>--init</code>. Change coverage there, not by editing generated pages.</p>
 <p><strong>What it must not scan</strong> is listed in <code>.openwikiignore</code>: <code>archive/</code>, <code>human-html/</code>, <code>graft/</code>, <code>.claude/</code>.</p>
 <p><strong>Viewing it.</strong> OpenWiki ships its own viewer:</p>
@@ -67,12 +67,12 @@ font-size:12.5px;color:var(--fg2)}
 openwiki visualize --export ./out</code></pre>
 <p>This is separate from <code>graft viz</code>, which draws the code graph. Different tool, different graph.</p>
 <p><strong>Scheduled refresh.</strong> <code>.github/workflows/openwiki-update.yml</code> runs weekly, Sunday 08:00 UTC, and opens a pull request. It is not auto-merged.</p>
-<blockquote><strong>This one costs money.</strong> The scheduled job is headless, so it cannot borrow a Claude Code session. It uses <code>ANTHROPIC_API_KEY</code> from Actions secrets and bills on every run. A local <code>--update</code> costs nothing. Prefer local.</blockquote>
+<blockquote><strong>This one costs money.</strong> The scheduled job is headless, so it cannot borrow a Claude Code session. It uses <code>ANTHROPIC_API_KEY</code> from Actions secrets and bills on every run. A local <code>--update</code> adds no OpenWiki charge beyond the Claude Code session it runs in. Prefer local.</blockquote>
 <p><strong>Secrets in use:</strong> <code>OPENWIKI_PR_TOKEN</code> (Contents and Pull requests, read and write) and <code>ANTHROPIC_API_KEY</code>. Both recorded in D-023.</p>
 <p><strong>Telemetry</strong> is on by default and sends error categories to PostHog. Off with:</p>
 <pre><code class="lang-bash">echo "OPENWIKI_TELEMETRY_DISABLED=1" &gt;&gt; ~/.openwiki/.env</code></pre>
 <h3>Running it against the fleet's own model — VERIFICATION REQUIRED</h3>
-<p>A local run already costs nothing through the Claude Code integration, so this is only needed for a headless run without a Claude session. OpenWiki reaches a local Ollama through its <code>openai-compatible</code> provider, which is <strong>not</strong> the same as <code>openai</code>:</p>
+<p>A local run through the Claude Code integration already needs no provider key, so this is only needed for a headless run without a Claude session. OpenWiki reaches a local Ollama through its <code>openai-compatible</code> provider, which is <strong>not</strong> the same as <code>openai</code>:</p>
 <pre><code class="lang-bash">OPENWIKI_PROVIDER=openai-compatible
 OPENAI_COMPATIBLE_BASE_URL=http://192.168.50.202:11434/v1
 OPENAI_COMPATIBLE_API_KEY=unused

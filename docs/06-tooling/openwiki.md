@@ -41,12 +41,16 @@ secrets on a public repository.
 
 ## How to use it
 
-**Free, and the normal path.** Inside Claude Code, in this repository:
+**The normal path, with no separate OpenWiki charge.** Inside Claude Code, in
+this repository:
 
 > Update OpenWiki for this repository.
 
 The Claude Code integration hands authoring to the session's model, so no
-provider key is used and nothing is billed. OpenWiki still owns the page
+OpenWiki provider key is used. The work is charged to whatever pays for that
+Claude Code session: a Claude plan's usage allowance, or metered API usage
+when Claude Code itself runs on a key such as `ANTHROPIC_API_KEY`. Check which
+before a large run. OpenWiki still owns the page
 queue, Claims validation and finalization.
 
 **Steering what it covers.** `openwiki/INSTRUCTIONS.md` is owner-authored and
@@ -71,7 +75,8 @@ Sunday 08:00 UTC, and opens a pull request. It is not auto-merged.
 
 > **This one costs money.** The scheduled job is headless, so it cannot borrow
 > a Claude Code session. It uses `ANTHROPIC_API_KEY` from Actions secrets and
-> bills on every run. A local `--update` costs nothing. Prefer local.
+> bills on every run. A local `--update` adds no OpenWiki charge beyond the
+> Claude Code session it runs in. Prefer local.
 
 **Secrets in use:** `OPENWIKI_PR_TOKEN` (Contents and Pull requests, read and
 write) and `ANTHROPIC_API_KEY`. Both recorded in D-023.
@@ -85,7 +90,7 @@ echo "OPENWIKI_TELEMETRY_DISABLED=1" >> ~/.openwiki/.env
 
 ### Running it against the fleet's own model — VERIFICATION REQUIRED
 
-A local run already costs nothing through the Claude Code integration, so this
+A local run through the Claude Code integration already needs no provider key, so this
 is only needed for a headless run without a Claude session. OpenWiki reaches a
 local Ollama through its `openai-compatible` provider, which is **not** the
 same as `openai`:

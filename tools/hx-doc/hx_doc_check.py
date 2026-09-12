@@ -301,16 +301,44 @@ def check_generated_authority_claims() -> None:
     notes.append("authority: the generated AGENTS.md block keeps the truth order")
 
 
+def _outside_fences(text: str) -> list:
+    """Return the lines of text that are not inside a fenced code block.
+
+    Backtick and tilde fences both count. A heading or a table row inside an
+    example belongs to the example; letting it through makes these checks pass
+    on text that is neither a section nor an index entry.
+    """
+    kept, fence = [], None
+    for line in text.splitlines():
+        marker = line.lstrip()[:3]
+        if fence is None:
+            if marker in ("```", "~~~"):
+                fence = marker
+                continue
+            kept.append(line)
+        elif marker == fence:
+            fence = None
+    return kept
+
+
+# A Markdown link destination or an angle-bracket autolink, with a host that
+# has a dot in it. "https:// yet" contains a scheme and links nothing.
+_UPSTREAM_LINK = re.compile(
+    r"\]\(https?://[^\s)/]+\.[^\s)]+\)|<https?://[^\s>/]+\.[^\s>]+>")
+
+
 def check_tooling_docs() -> None:
-    """Every tooling document carries the five sections, and the index is true.
+    """Every tooling document is complete and ordered, and the index is true.
 
     CodeRabbit was adopted with its facts spread across three files and no
     document saying what it was. OpenWiki was then adopted the same way. This
     check makes the third repeat fail the build.
 
-    What it enforces: a document in docs/06-tooling/ has all five required
-    sections; an index row that names a file has that file; a document that
-    exists is linked from the index.
+    What it enforces: a document in docs/06-tooling/ has the five required
+    headings, in the order the index gives, with a real link under Upstream;
+    an index row that names a file has that file; a document that exists is
+    linked from a row of the index table. Fenced examples are ignored
+    throughout.
 
     What it cannot enforce, said plainly: nothing here knows that a tool was
     adopted. A row with no file is backlog and is reported, not failed, so the
@@ -328,23 +356,18 @@ def check_tooling_docs() -> None:
                 "How to use it", "Upstream")
     bad = 0
 
-    # Parse, do not match substrings. "wiki.md" is a substring of
-    # "openwiki.md", so a substring test would report an unlinked file as
-    # linked, and a heading inside a fenced example would count as a real
-    # section. Both would be this checker reporting success without checking.
-    # Only the Index table counts. A link in prose elsewhere in the README
-    # would otherwise mark a document as indexed without it ever appearing in
-    # the table a reader actually scans.
-    table, inside = [], False
-    for line in index_text.splitlines():
+    # Parse, do not match substrings, and read only rows of the Index table.
+    # "wiki.md" is a substring of "openwiki.md"; a link in prose, or in a
+    # fenced example, is not a row a reader scans.
+    table, found_index, inside = [], False, False
+    for line in _outside_fences(index_text):
         if line.startswith("## "):
             inside = line.strip() == "## Index"
+            found_index = found_index or inside
             continue
-        # Table rows only. Prose after the table is still inside the section,
-        # and a link there would count as an index entry again.
         if inside and line.lstrip().startswith("|"):
             table.append(line)
-    if not inside and not table:
+    if not found_index:
         failures.append(
             "tooling: docs/06-tooling/README.md has no '## Index' section")
         return
@@ -370,34 +393,38 @@ def check_tooling_docs() -> None:
         # five sections belong to the tool's own document.
         if md.name.endswith("-agents.md"):
             continue
-        headings, fenced, current, body = set(), False, None, {}
-        for line in md.read_text(encoding="utf-8").splitlines():
-            if line.lstrip().startswith("```"):
-                fenced = not fenced
-                continue
-            if not fenced and line.startswith("## "):
+        order, body, current = [], {}, None
+        for line in _outside_fences(md.read_text(encoding="utf-8")):
+            if line.startswith("## "):
                 current = line[3:].strip()
-                headings.add(current)
+                order.append(current)
                 body.setdefault(current, [])
-                continue
-            if current is not None:
+            elif current is not None:
                 body[current].append(line)
+        missing = [section for section in required if section not in order]
+        for section in missing:
+            failures.append(
+                f"tooling: docs/06-tooling/{md.name} has no "
+                f"'## {section}' heading")
+            bad += 1
+        # The index says "in this order". Membership alone let a shuffled
+        # document pass.
+        if not missing:
+            positions = [order.index(section) for section in required]
+            if positions != sorted(positions):
+                failures.append(
+                    f"tooling: docs/06-tooling/{md.name} has the required "
+                    "headings out of order; the index requires "
+                    + ", ".join(required))
+                bad += 1
         # The point of Upstream is that nobody has to search for the product's
-        # own documentation. A heading with no link does not do that.
-        # A real URL, not the word. "no http links here" passed before.
-        if "Upstream" in headings and not any(
-                "http://" in one or "https://" in one
-                for one in body["Upstream"]):
+        # own documentation. A heading without a real link does not do that.
+        if "Upstream" in body and not _UPSTREAM_LINK.search(
+                "\n".join(body["Upstream"])):
             failures.append(
                 f"tooling: docs/06-tooling/{md.name} has an 'Upstream' "
                 "heading with no link under it")
             bad += 1
-        for section in required:
-            if section not in headings:
-                failures.append(
-                    f"tooling: docs/06-tooling/{md.name} has no "
-                    f"'## {section}' heading")
-                bad += 1
 
     pending = len(re.findall(r"not written yet", index_text))
     if not bad:
