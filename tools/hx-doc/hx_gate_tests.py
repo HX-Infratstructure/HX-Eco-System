@@ -478,6 +478,32 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: a complete document nobody links to still fails',
       rc != 0 and 'orphan.md is not linked from the' in out, out)
 
+# Trailing text does not close a fence. Before, '```not-a-close' closed it, the
+# Upstream heading below leaked out as structure, and the next fence line
+# swallowed the rest - so the failure named the link, not the heading.
+fresh()
+_t = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_b = io.open(_t, encoding='utf-8').read()
+_f = chr(96) * 3
+io.open(_t, 'w', encoding='utf-8', newline=chr(10)).write(_b.replace(
+    '## Upstream',
+    _f + chr(10) + _f + 'not-a-close' + chr(10) + '## Upstream' + chr(10) + _f, 1))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a fence line with trailing text does not close the fence',
+      rc != 0 and "has no '## Upstream' heading" in out, out)
+
+# A shorter run does not close a longer fence.
+fresh()
+_t = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_b = io.open(_t, encoding='utf-8').read()
+io.open(_t, 'w', encoding='utf-8', newline=chr(10)).write(_b.replace(
+    '## Upstream',
+    chr(96) * 4 + chr(10) + chr(96) * 3 + chr(10) + '## Upstream' + chr(10) +
+    chr(96) * 4, 1))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a three-backtick line does not close a four-backtick fence',
+      rc != 0 and "has no '## Upstream' heading" in out, out)
+
 # A tilde fence is a fence. Only backticks were tracked, so a heading inside
 # ~~~ supplied a required section that is not there.
 fresh()

@@ -308,16 +308,24 @@ def _outside_fences(text: str) -> list:
     example belongs to the example; letting it through makes these checks pass
     on text that is neither a section nor an index entry.
     """
-    kept, fence = [], None
+    kept, fence_char, fence_len = [], None, 0
     for line in text.splitlines():
-        marker = line.lstrip()[:3]
-        if fence is None:
-            if marker in ("```", "~~~"):
-                fence = marker
+        stripped = line.lstrip()
+        char = stripped[:1]
+        run = len(stripped) - len(stripped.lstrip(char)) if char in ("`", "~") else 0
+        if fence_char is None:
+            if run >= 3:
+                fence_char, fence_len = char, run
                 continue
             kept.append(line)
-        elif marker == fence:
-            fence = None
+        # CommonMark closing rule: the same character, at least as many of it
+        # as opened the fence, and nothing after it but whitespace. Comparing
+        # only the first three characters let "```not-a-close" end a fence, and
+        # let a three-character run end a four-character one, so text inside
+        # an example leaked out and was read as structure.
+        elif (char == fence_char and run >= fence_len
+              and not stripped[run:].strip()):
+            fence_char, fence_len = None, 0
     return kept
 
 
