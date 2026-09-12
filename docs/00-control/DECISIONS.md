@@ -208,7 +208,7 @@ it is not recorded as one.
 host integration uses the session's model instead of a key. That stays the
 fallback.
 
-## D-024 — operational tooling is documented before it is adopted — RATIFIED on merge of PR #15
+## D-024 — operational tooling is documented before it is adopted — RATIFIED WHEN PR #15 MERGES
 
 The owner directed this on 2026-09-12, stating the requirement directly:
 every operational tool gets its own directory covering what it is, why we
@@ -216,10 +216,11 @@ have it, and how and when to use it. That direction is context, not the
 record. It was given in conversation, and a conversation is not an auditable
 reference.
 
-**The record is the merge.** This entry exists on `main` only because pull
-request #15 was merged there, and GitHub keeps that event immutably: the
-account that merged it, the merge commit and the time. Nothing else is claimed
-as the approval event, and the account in that record is the approver of
+**The record is the merge.** This entry reaches `main` only when pull
+request #15 is merged there, and GitHub keeps that event immutably: the
+account that merges it, the merge commit and the time. Until then it is a
+proposal on a branch and binds nothing. Once merged, that event is the only
+approval claimed, and the account in GitHub's record is the approver of
 record. To read it:
 
 ```bash
