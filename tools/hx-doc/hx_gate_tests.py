@@ -281,7 +281,7 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: naming a unit path without creating it still fails',
       rc != 0 and 'hx-crawl4ai' in out, out)
 
-# --------------------------------------- hx_version_pins: numeric sort ------
+# ---- hx-doc-check: the generated authority block ----------------------------
 # A generated block may not amend the truth order. OpenWiki's first run wrote
 # "Treat source code and tests as authoritative" into AGENTS.md, which
 # contradicts section 2. That block is rewritten on every scheduled run, so the
@@ -355,6 +355,7 @@ _setblock('The control Markdown in docs/ stays authoritative.')
 rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: a claim naming only docs/ is accepted', rc == 0, out)
 
+# ---- hx-version-pins: numeric sort ------------------------------------------
 # Exercise the shipped comparator, not a copy of it: a test that reimplements
 # the logic it is checking proves only that the test is self-consistent.
 vers = ['595.9.05-0ubuntu0.24.04.1', '595.71.05-0ubuntu0.24.04.1']
