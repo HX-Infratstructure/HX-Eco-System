@@ -35,10 +35,19 @@ def check(label, cond, detail=''):
         print('FAIL  %s\n%s' % (label, detail[:800]))
 
 def fresh():
-    """Replace the scratch copy with a clean one, so tests cannot affect each other."""
+    """Replace the scratch copy with a clean one, so tests cannot affect each other.
+
+    The copy is made a git work tree. hx_doc_check runs `git check-ignore`
+    against the repository root, and outside a work tree that exits 128, which
+    it correctly treats as a failure. Every earlier test here expected a
+    non-zero exit anyway, so the harness never noticed it was checking
+    documents in an environment where one check could not pass.
+    """
     if os.path.isdir(WORK):
         shutil.rmtree(WORK, ignore_errors=True)
     shutil.copytree(SRC, WORK, ignore=shutil.ignore_patterns('.git'))
+    subprocess.run(['git', 'init', '-q'], cwd=WORK,
+                   capture_output=True, check=True)
 
 def edit(rel, fn):
     """Rewrite one file in the scratch copy through fn."""
