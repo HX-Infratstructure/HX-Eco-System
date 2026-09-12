@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:a20fd5da1ea60bd5025d0d746bb356d164be8539cfd0ac0c286ca6cf80428a1f",
+  "claims": [
+    {
+      "id": "claim_650c3a16c8e74b81835a22af94381169",
+      "statement": "docs/00-control/DECISIONS.md is the single register of owner-approved decisions, numbered D-001 upward, and other documents, scripts and review rules cite the decision number instead of restating its reasoning.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L1-L25",
+          "version": "repo-lines-v1:sha256:84e1fff146d9eaddd1dead9bcf03427c32f11c2fd4334e8df68aa120b10a10b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjOTIxZGZjODE5ZTNlNjVjZDNkNmQwMGU1MTkyOWQ4MWM2YTJlYmZhMTc1ZmIyYzA4OGFjOWQ4NzgwMTZiYTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkMGRmMmZjZjI5ZTYxODg2ZDZjOTY5MDI2ZTliYjZlYzRiMjU3MjUwNWI0YWEyMjdkMzNlZTI0MjAyMzM5ZjgifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/hx-fleet.tsv#L8-L12",
+          "version": "repo-lines-v1:sha256:b855ec33805369a573d3f5fc03f494356ed5ac22c3789a20ff9d14d435d33935:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmM2NTk5MTE2ZjM2ZjhmYzAxMGI4Njk5OGRkNWI2ZDE4YTdmZWMxNzY1NDBmOGFmZmNjODQzOTYzNDZkNzdlZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTZiODJjODIxYzU0ZGEzYWZmMzIwN2UzODhmODdiMjllMmQ1ODkwMjhlNTBjYzkxOWM1OGNiZmFhZTg5ZGEwMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGYzZjNjNGE1N2Q2M2FhYjE5NjAxM2UwYmFiM2EzZjE1YWIzMjkyMjNlYzIxZjhiY2ZkY2M3NWM1ZDRjNzk5MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDc2ZTg2Mjg0YWFkYzUwZjkwNWVhZmYxNzM2YWFkODhlYzUyYzljNWE3M2VkMDcxNmU0MzRhMTdkNWNiNzkzMiJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/01-base-admin-network-updates.sh#L39-L41",
+          "version": "repo-lines-v1:sha256:aca8bc60cdbd365887fcdcbd241b5e229ff1de42e0cd776ca19c4e8f79a39f09:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjNiY2NkNjc4MzM5MzNkYjg5MTIzN2MzNGExMDhjMWMyODQ2OWFkMTRhMWJhNTlmOWE2MTY1NjBmZWRlYmY1YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjU2Y2IxM2U0Y2RmZjIxNzU1YWY4YzU4OGUzOGE4NjBlOGI5OWQwZDliMGE0Y2NjMTdiYjQ0NmMyMTM0NDY3NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDg5NThjNDExOThhMDUzN2YxN2IwMDRkY2QwNmRiZDQwMTE3ZTEwMDE3MjkzMTE1MzFhNWU2MjRiZGZlNWM0MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjY0ZGQyYzgzNzcyZDUxZGYwMzFkMjlkN2U1ZDU4ZmI4MzQ1ZTNmNWUyMmMxYzNlZWM0ZDM2YTBhMjZkNTEyZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_71c4b444e6384685b7149aa5aac71137",
+      "statement": "Later decision entries carry an explicit RATIFIED date and record what was decided, why the alternative was rejected, where the authoritative values live, the residual risk and how to reverse the decision.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L156-L209",
+          "version": "repo-lines-v1:sha256:e9b9d55386408ed760126a1e93f773e0c796819014617a5b92d80755293fb95f:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMGU1ZDBhZjUxYzY3ZDA4NWY1MmVlYTY4MDU2MDI4YjQ5ZThhNGI1N2Y4MzdkYTQxYWViNWI1NWY0M2ZjNGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1MjA2Njk4NDE3ZTNmNzMxYjc1YjY3Y2E3MGQ2MzU0Nzc5OWRlYmQ3ZWE5MWNlNWU4ZjNjZmNhMjM5ZjY3NTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2MTJmM2Q5OWMxYTk2OTQ1NjdkZmM5YTFlY2Y1ZTFmNjIwMGJlMzIxMDJhYzMxZDMzNDlmMGIwNjMxZDBjNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_059fd7e509c64256bcc8113c037454f5",
+      "statement": "A decision states its own accepted blast radius and distinguishes stated intent from surveyed fact: the firewall and listener entry spells out that any host reaching the LAN can call an inference endpoint without credentials, and notes that per-server records state the posture actually observed as each server closes.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L60-L86",
+          "version": "repo-lines-v1:sha256:f3eb39bb661f9737553e1a3896ad0803377cae14370a6c89c3fe599636e2ca14:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0ZTM2N2UzMTBhNTk5ZTAyMmRhNDFiNjI4MGRmZDdhY2ZjZjgzYjc5OTdmZDE1NTIzMGVkOWE2MWY1Y2Q5MzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2Mzc0M2ZmODFjZTc1OGEyMGZlM2VmMDA3YjQyMzc4ZDUwNjA4NzA5ZWI3YTc3MTAzYjNhYjBmOWJkMTBiMTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE3Yjk2ODY5OGIwOWMwYWIxYzA4NTNjZTc3NmI2MDUzMDJlNTdjMmFjMWIyNmY5YWVlZmEwOTA1ZmM3NWY1NTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYjI2NjQzMmNjZTE2YWE3ZDYxNjlkNjNkMTFjN2I3Zjk1OTI1MjYwODMwYjA2YTE4MWI5NjUzMWM2N2MwYjQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a9ea0f777f4549cba5e6708db50e31c3",
+      "statement": "A ratified decision can close a topic permanently, instructing reviewers not to re-raise it as a finding, which is how the repository prevents a decided position from being rediscovered as an objection in every review.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L98-L104",
+          "version": "repo-lines-v1:sha256:d7be234aaa413e9272e7b929a1239c45fb5ac7ed1e51a4783a4cafaeb0e70494:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWE4ZGU3ZDRhMmE1OWVmOWIwZDNkYmJjOGRmZGZhNTE5Y2IwMGFhMTZmMWRlODMyMWVlYzM0YmU2NjA0Zjg4YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWIxMjhmYTlkNzg1NmE5ZDQ5M2M3MGQ3NmM2NDhhZjA1MTJkNGRkMTAxZDFlZmNjMTNkNDk2ZTQ1OTFlNTI3YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2VjYzhhMGIxMTc1ZDQxMTlmMmZmZTg0NDUwYjQwYjU5ZDkzYzFiYTc0YzJmMTkzOTFkMzM5NDkwZGU3MGQzOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGYwYzBmYTJiYTAwZjc2ZTI2MGQ1MzhjMjNjZDcxZjhmNTg3MDc2YzVhODVlN2MyNmNjODdkMGUyOGRhMmM2MiJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L84-L86",
+          "version": "repo-lines-v1:sha256:5777e18cd2ec2962b28d1467039a060e2bc82e60893bca762f74622ed3075875:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzYzNzQzZmY4MWNlNzU4YTIwZmUzZWYwMDdiNDIzNzhkNTA2MDg3MDllYjdhNzcxMDNiM2FiMGY5YmQxMGIxNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGY4YmM1OTc1ZWM5YmU2YzkzYWQ2OTM4YmQ3NmMyMWUzMjYwMDUwMDk0ZDI1MDFmZmEzZTEyOWQ5NzcyMzI2YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2FiMjY2NDMyY2NlMTZhYTdkNjE2OWQ2M2QxMWM3YjdmOTU5MjUyNjA4MzBiMDZhMTgxYjk2NTMxYzY3YzBiNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_649d4c6fbbe44671b90d16426760e2f5",
+      "statement": "The decision register is used to resolve contradictions between two existing repository rules, and the losing rule is then changed in code and held in place by dedicated gate tests rather than left as prose.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L119-L136",
+          "version": "repo-lines-v1:sha256:13cde8ea6b0cb6f5b58ddbaceb8f897ad92131f99fde826a1d97e3e0352c1ee7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkMTVlZTYxOThkYzkyZjEwMmEwYWU5YmRiNTJiNjI0YWEwY2Y2NmNjNDFkYzJjOGVhYmY4ODI5NTdjM2QzYmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmZWY4N2EwNGViMTY1YWRjMWM0MjUyZTU1NjU1NmI2Y2I4OTIxODFhMzFhMmU4MjM3YzU2Yzc3ZTQwMWNlMjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlMmRjZjM4MjQ5ZTBlZDE5MzM3OGFjZjZhZjM2MTQ0Mzg1NGUzOTkzZDE4MTI5ZTMwMmMwNWExNGQ1OWZiNzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEwOTg1NWM4NDdmMGIwZThjYWFhNjI0MmM4NGQ0ZjdjZGJmMjJkNDgyODA1ZTFmNDEzZDc5NGY0Y2VkZTljMDAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2060ddd45f7a4d8c9e5f2177b42d29c0",
+      "statement": "A decision authorising something is recorded before that thing exists where possible, such as the Actions secrets entry minuted before the secrets were created.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L156-L162",
+          "version": "repo-lines-v1:sha256:593da7b1dc61bc9971e11486ccf502a80d1335e62b95945b5c33490a8fdff707:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzIwZTVkMGFmNTFjNjdkMDg1ZjUyZWVhNjgwNTYwMjhiNDllOGE0YjU3ZjgzN2RhNDFhZWI1YjU1ZjQzZmM0ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmQ0OWFiOWJhMmU0MmQ4M2VjZmE0YjNkZTNmOGNkMTRkZTVjNjZmMzFlNWUxNDlmZjc1ODAyZWZlYTlmY2E0YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTYxMmYzZDk5YzFhOTY5NDU2N2RmYzlhMWVjZjVlMWY2MjAwYmUzMjEwMmFjMzFkMzM0OWYwYjA2MzFkMGM0NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTk1MjJhZmU3ZWRjMjc1OWQ4Yjk5ZWQ5NWE1NzcyNmU2YzhjMzVmNjhjZWE2MzQyMDkzOTM5NWY4ZTljNWI0NCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b2530cd363a64689abfce7b4ed230d07",
+      "statement": "Exactly one current copy of a document may exist in the active tree, under a stable filename with no version or date, carrying document, status and date as frontmatter inside the file.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DOCUMENT-CONTROL.md#L12-L21",
+          "version": "repo-lines-v1:sha256:d1587820696278a31245f60a9beba36a8d5d07f4c67420afbd544568e5dc720f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmYjU2Mjg2NWE4ZjNmNjgyODZlZGM4ZWRlYWM5ZjgzYTAwOGFjOTUzMjYzOGMwNjYwYTczOTFhYTJlMzE5MzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1NjEyNzMwNTE2NWIzYzZmOTQwNDE5MTlhYWU0NjQ2NDk5ZWE5NzViYTkyMjA3MDYxODU0NDhiZDY0MWU1NDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQxMDY2Nzc3MWU1ODA1ZjI2ZjY4YjMxNzNiYWFlYjliMmFkMTBhNzRiNGViYTMwOGU2NmMwZDgzMWI1Yzg4NDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNmNzY5ZjlhZjJmM2I5YzQyZmNjNmQ2NTIxODdkMTJlODVjYzM0YzFiNWJjZGRiNDhmMWM4YzRkNThkYzg1NjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3722f0424ba2489b9b0ec48cd65c6b91",
+      "statement": "The duplicate-filename rule is enforced mechanically: hx-doc-check scans active Markdown filenames for version suffixes, parenthesised numbers, final-final and embedded dates and fails on a match, and separately requires control documents with frontmatter to carry document, status and date.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L140-L156",
+          "version": "repo-lines-v1:sha256:85973a74ef03262b446475a933eddcfbbc576895c30af075c783903999910f9a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExOGVhYzk4YzY5MTc1YjVhMjI2Nzk2Y2YwMTc3YmQ4MjUyN2NhNmYyNDM4NmQ1ZDNlYzZiNjI1OGJiYjRjZjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1YjYwZDIwNWM4NGQ1MzRmMWUwZjhhMjYwOGIyZmRlM2QzYWE4N2U1YTU5OTk3Y2ZkODNlM2Y4ZDkxNmVjNWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJlYTE0YmEwYTQzZDFkNTYzNjg0MDdmNjA5OTlkMmVjMjg2ZmYxMjY5ZjI2YjQwNWM5ODBhMWVlZWExMDFhNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxZmI2ZmE2YjAwOGRjN2VmMmIxMTY0ZjhlMDVmMjE5MTM2NGVkMzQyODU5OTVlMTZhMTAwYjI4MDlkNzU4NTgifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L159-L172",
+          "version": "repo-lines-v1:sha256:22cf160ad072baa42c404831210fd58a1c4317c9835cd40fce301e71b40d6f7f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0ZmJhOWY2ZTg1YTAzMDFkNDEwN2NlYjhlM2JhYTJjM2VlNjUzMTU5M2FiNzJhYTA2YzM5MjE5Mjk4ZmJmM2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhmNzg5NjE2NGEwMmRjYjYwYjc0MDIxNDZiZDk4MTEzNzRlNmZjNTYyMDFiNzI1MjRhYzY3ZDA1MGIxYjYzYWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkYTRhZjAzNTdmMmU0NmFlOWE5ZGQ1NWNlMDg3ZGY0ZjQ5MzM1YjE0ODlkNjU5OTM2M2ExNGQyYWQwMmUwNGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9bd3bd9090a74cf6a544b2e507fc6b3d",
+      "statement": "Documentation checks exclude the archive, human-html, graft and openwiki trees from the active document set, because nothing in a generated or superseded tree is authored and a finding there is not a finding against the repository.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L52-L68",
+          "version": "repo-lines-v1:sha256:7131fe6e5d00b9595e5969733ec16d3a00c78dae7156a7f4e6c4f7681e18541d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhODI1MjljY2Y3M2YwNGFkMmRlMjNmZjBmZmZlNmZkMmFiOTk5MmQ3NDIzMmQ3MWFhM2UyYzExZmNiYjY1ZjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljYTFkY2RkMTc0NjM4ZWJkYWQxYTlkMDYwNDhjOTc3MWEyZWU2NWNiYjc2N2IxMTViMzRlZmJkYmM1YTExMTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiOGU3ZjVlYWZkZWIzNWU0YmIxY2NjYTdkYjVjZjJkMjhlNmYyZGM2OWY4ZmNmNDVkNjI4ZDhmMzJhNDJlOGEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_dc48eb5ff4fc4ae1922b05ab15c81f5d",
+      "statement": "tools/hx-doc/hx-doc-supersede performs the six-step supersession procedure in one command: it creates archive/<today>/ mirroring the active path, copies the current Markdown there with a required --suffix, archives the committed HTML mirror, and deliberately leaves the active file in place to be edited.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DOCUMENT-CONTROL.md#L23-L29",
+          "version": "repo-lines-v1:sha256:83e32ef543022592703a4f9f851d6d57e77ddc771ec363b1ef356c4d3e25e721:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmIwZjY3MWYzZDY0MTBhMmVhNTk3MjM3OGQwMjg1ZTJkZjFhMDYzMTJlZWQ3MTI3NmVmNzFmZDEzZWMyMWE3OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjZhNDNmNjQ3MjFlMDUyOTQ3NTBhMTQ5NjhiMzkwODRiZWVlMzgwNzIzOWQ5MzJjZDM4ZWIzZWIyZWJkNjIzYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDFjYjdiZTJlYmJmODYwNmRkMTNjZjEyNjc0YjA4YjRhY2NiOTcwNDRhYWQwY2UwM2U0NTEwMDVjN2E2YWI4NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjRkNmIzMGY1NjczMzQyMDQ5NmU5Mzc4MGNjMGJhZTE0ZWE0MDUxMDRiYWRlMDU4YThmMDdkYTliZjQ1NzU3YyJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_supersede.py#L1-L18",
+          "version": "repo-lines-v1:sha256:821d2691d407a58b9ee763a824f273b009778533e31d47efd13aa623a2e3367b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ODJjYmRiNGM4YjA3NTE4YmY0ODZjNTg5OTBmYzM5MTc4M2FhMjBhOTE2YmZiMjdhZDIxMWViMWQ1YzM2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMDNlY2RkNGE0ZDEwZjE5YzczZmQ0MmZkMTI0MzdmZDMzNTRhODI2ODE2MDVkYTUyNTVhOTdhMzkwNjhkYmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxZjdjNDMxZTE5OWY2NWUxOGZkNTg1ZDYwYTUwYzk0NGY3MjBkY2M1N2ZiNmJiYTQ0MDVhMjc5MzIxOGE5OTQifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_supersede.py#L65-L111",
+          "version": "repo-lines-v1:sha256:2b0af13644bd5a6962f8dbe3697a6d6eac5ce0bec27cb8bea2ce6cc6364ff87a:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMTk5NDUzNTZiYTM0NDg0NzFmZmZjNDQ1ZDVhZGM2ZmRlYmViYzVhNTI1M2E1MTRiYTM0Y2RhOGQzZTk0YjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmMzQyZmFiYzA0OGU0OWM3NzI0NmUzZjMzNTljNGIzNTBjMWU1M2VhZjQzZmFjOWMzNzM4ODQ4YzJhMzkyOGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhmZjc1YmE0ZTlhNjdmMGEwNjMxMWNlNmM2NjljMzk3M2EyYTQwYTQyYzY4OWVjYTIxMThlODQ2ZDU1MmE3MzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA1NzIyYjhjNGYyODMxYTA4YTZmZjE2OGQxNjUxMTRiNmZkYmFjZjk4NDIxNTM2NjI3NzY5M2JkY2IzYmQwMjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1f1030b954d94a0996de2ce640ca21f1",
+      "statement": "The supersede tool refuses a path under archive/ or human-html/, a path outside the repository, and an archive target that already exists, so an archived copy is never silently overwritten; --dry-run prints the plan and writes nothing.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_supersede.py#L51-L72",
+          "version": "repo-lines-v1:sha256:4cb76b2619e1dc82f7d1a6213613f603d2bb29899fc7c866b0b13111ebc3b4da:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2YjFkYzA2ZDU0ODU3OTcxOTVhYTc4MzJkZDI5NDk1MDM0YmFjMTlkMGRiYmM1NWFmOGRlYTkxYTUzZmViMDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzMDg2NmUxYmNjNWFiNzZlM2VmNTkwMTJkMGFkMzlhNjg3YWJlMDAyM2I0MzhhY2IxMTMwYTE4ODI1ZTgxOTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViNzVhMGVlMzQ3ZGQyNTFkMGMyYmIzZmUwZTZlNmMxOTMwMGFhZTg3YWIwNTBiZjIwNDJiMDk5Mjc2MDYzMWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJkYTc5YTg4NTliOWVjN2ZmZmFjZmZiZjhhZTcxZjVmODk5YzAwYjYzNGZmNGQxMzU2ZTU5YzQ4ZmY3YjRjYmEifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_supersede.py#L93-L97",
+          "version": "repo-lines-v1:sha256:365baa430174313ee431986ee0b96055522e9d01edb1d4d1fc4b2a3cf069beb5:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmE3ZjNjODY1OThlMGQ2YzUxMjczZjQxMDRiZTJlNmRmYWY5ODVhYmZiNTQyMjU0MDI2ODNlMjM1NTM1ZGU5OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWExNjgwOWMwNzVkYjMwOWUwOWJiYzlhYjdlZmVlNjllZmI1ZjQxOWJkNGQ4OTMwZDAzODA2NjAyZGQwMmZkNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmE2MTZiOGIwZWQ0Y2EwZTJjM2UwZThjOTExZTU2NzA1Yjg2ZDY5OWJiMWZhMWU5YWMwMTZhYTdlODU5YThlMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2E3YjBlMGE5NjA5M2RlNGQwNDQ2NjIyMzMzOGRkZmNhY2MxMjg5YTI3MWVjMmRlNTc2NTcxZjdjMjAwZjRhMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4bfd9a575a5a4270a876d0112d94093d",
+      "statement": "Control documents record their own known gaps rather than presenting a clean summary, with an explicit intentional-limitations section that names what is missing and forbids fabricating the detail from historical material.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/REPOSITORY-STATUS.md#L42-L46",
+          "version": "repo-lines-v1:sha256:a2be55c6f83ba485dc2123ed980f1b1dfa6946f921a83b70030d2c660cfadf12:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzM2MjNkZWZjY2FhODkxMDA5NzY5ZTQ5NDU3NjI2NjdhMGRhZTljZmI0N2NmYTNlN2U5MjgyNzQ1MjU3ZTQ0NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDIzMGVhNzU5YzJmNWQzNTU1ZmUzMWExYmVlOTVlODNjNzQ3MGYxMTFjODA5NDA3NGM4YTNjY2JiOGJjOGY2MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjI5MmNlODNlMGZjYmM1ODY5NWU3YzM5MTg2YmFlYThkNmRmM2JmN2VlMWEyMjYzMTkxY2EyMjZmOGRhYTcwZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzY1YTI4MDgwY2NiZTRkZDk3NGZiZmY2OTNmMWZiMjU3MTk4NjFhMDM2YzAxOTFmY2EyZDMwNTZhN2U2N2YzYiJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T03:13:20.331Z"
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:aea75aa9950f44bacee3aa8cd047627db72db48669c3c0bfce0be899639ba694",
+  "claims": [
+    {
+      "id": "claim_1e8fd82e68404a969a18eaaa6acaef80",
+      "statement": "docs/00-control/hx-fleet.tsv is the single writable source for fleet facts, and tools/hx-doc/hx-fleet regenerates every marked fleet table in README.md and under docs/ and skills/ from it, so no document carries its own hand-typed copy of the server map.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L1-L30",
+          "version": "repo-lines-v1:sha256:f3683b4131655884c974c46bf8b664874f5da00ecf4346250b41784c8fe94326:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ODJjYmRiNGM4YjA3NTE4YmY0ODZjNTg5OTBmYzM5MTc4M2FhMjBhOTE2YmZiMjdhZDIxMWViMWQ1YzM2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5ZGE1NTU4YWEwOWEyZTg2OTQ5ZDdkMzhhZTAyNGM3YzEzYjMzN2I3MzRlZTZmOTg3N2JkZTllYWEyOWIwMjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUyMzU5Y2U5NDZlM2IzMWQwMGJlOGIyZjRjYTFjNmQ2NDMwODNlMzVkODE2ZTkxMGZjZWQ4YWU3ZTM5ZmNkYWQifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L117-L131",
+          "version": "repo-lines-v1:sha256:b664cd39e34ea3605351cbd3a415f726c4e2263e5da4e8aa87e46da81854d7ce:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxNGRlMDdkMGZkMzIzNGNhYTIyZGZlNDg3NjAwY2E1ODEyYmFiM2NmMTQzN2JiNWIxOWEzN2E5NTdiZDI3MTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjMTA5YTk1ZmJmYmNlNjA4ZjRmYTQwYTc5YWFhOTQ3NzM1MDNjNDhmOTIzODJlZTczODdlNGViZGY1MjBmNjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3NzBjZDc3Nzc3YjBiYWJjZWYzYmQ5YjZlZDRjMGVkZmQ2MTA3ZDBjMTYzMDIzOWU0MTY2ZTkzMjViN2NmMjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_288327c3f5584551bf51925b596d38bf",
+      "statement": "A document opts into fleet generation by carrying an HX-FLEET:TABLE marker pair that names the columns it wants, so different documents render different column subsets of the same rows.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L136-L147",
+          "version": "repo-lines-v1:sha256:287a5cc06e6ee97df48652081f43dd18fbb3cfd53ff09ee2c6c3b92372fd4bf9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2NjYxZjBlZjBlY2NhOTFlOGRhYjVjMDUyMWM0ZjRiN2U5NDNmYzhlNjI0MjRmZWUyMjIwZDAxZTdhOTRhYTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxZTliZDhkNDRjNGY3MDYzZjMxOTdhZjBlZmQwNTVlNjA4YTQxMzM3NDgwZDVlMDY1NDA5OTNjZDdiYjkyYzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk5YzFjMjJjODU3NGY5NzYwNWJmZjQ5ZTgyYjgwM2QzOTcyYzNmOWJmNGE1YmRiZGE2NzUwMzQ2NGJlYzk2YzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxZjAyNDUzNmIzMzYyNTZlODZjZjE4N2Q0YmQ1ZGUxYjY3ZjVhNmMyMTk2OGUxMDE1NmUyMmY0MzAwNzkwZWQifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L43-L47",
+          "version": "repo-lines-v1:sha256:a24420a89721b91a86b816cc444099c6a938c1ac15f83ade9103f44d588c586e:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTMzOTJmNGYzYzFkY2NjYWUyODYzNDM2NGY3NjY1NWI4YTA5YTdhZDg1NzNkZGRiNGU2NzllNDY4OTMzZmM4NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWRjNzIwYzFhNjkwZjBmMWJmN2UxYTc2OTE4NjA3MTNmOWQ3N2U0YjU5YjA3ZDRiNWZkODk2YjljNTM4YWZkZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2UyYjAxMDdiODNlOTg5NzUzYThjMWM3MzQ4NzZiMzljYTQ5NTI3OTM0YjU5OTkwNTdkNTY2ZGNhNjE1ZGY1MCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2d655d92ed504b5da7ce328a9af6c5ba",
+      "statement": "The same hx-fleet run generates docs/03-runbooks/common/hx-fleet-ips.env, a shell hx_ip_for function mapping each host to its address, which is how the build scripts resolve a host's IP without keeping their own copy of the fleet map.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L11-L14",
+          "version": "repo-lines-v1:sha256:2e7487713c58868a261739fa5deef143b1e0668b74511d98ff2d83107d336098:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGMxODQxMjhjMGQyMTQ4MzU3MjFmZDY5MzI2ZDYwNWUzN2JlNGIzZjcwZWViMmZkZDE3MDdlYjI5MTJkMDUzNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWEwNzA4ZjdlMmRlNWYxNmQ0MGUwY2U0NjkzZTFiYWZhZDZmNDFkNGQwMDE1OWViOTQ2YjZiMzA3YTM0MjJiYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmJjZDVhNDZkMTA1MGI5OWY2NWUzOTQxNDM4MjNlYWU0ZGZlMmJhMTA1ZjdlMzEyZGNkYmY1Mjg0YWIwYjM4NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWY4YTIwOTRhZTdhNjA1MWQyODkyMDE1MjA1ZGU4MmZhNzRiNDVlYjJjNTk4MmIzM2U1ZmYzODk4MWI1NTUzZSJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-fleet-ips.env#L1-L4",
+          "version": "repo-lines-v1:sha256:01306dd737bc7aa91755583fc752fa2a007ebb22709d49090d0c32208cbd0597:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmE2MWFkNGViMDQ3NWY1ZWVjODg0NzYzNzViY2VmY2M0MWU2Yjc0M2EwZjU1MDE1MDU5NjI0NzcwMWFjYzQ2MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTVlYmM0ZWRkNzczYzgzNDk2NDg2YzdmNDY1YmI4YjVmMmFiNzVjZDg3NGVmYTliYzg2MjllOTNhMzVjN2IwMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjFhYzhjYzczYTFjOGYzMjgxMjcyMzY0MDQ2Yjc1MDM1N2FmNTgzZWQ4Mzc4OGY4MzNkZjRhNDJmNTQ5NzhiYyJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L90-L107",
+          "version": "repo-lines-v1:sha256:d8d43cfbad64eae0915219891603c75965c748851e29544dc46e20b25863c09f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhMTQ0ZGIyYjVhZGJiMGJkYzMzZWNhM2E3YmY5MmVlMzgyNmZlOTg3ZDcxZGY1MjMyMjJjZmU1MGQ4MDA1ZmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEzZTdiYjMxNTZkZjFmNzcyOGY0NTMxOTM0NDlhYTc0NmQ3MWE1NDEzYTQ0M2FjZGVkMTZkYzcwNTI2Nzg0ODEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2YzgwNjU4NzA0YjhlZTc1MzZmZWU1OTk5MzM1ZmZjNzQzNDg5YzhmNDMyMDJiMjA3Njc1MmExYmM3YTU5ZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0OGQ3NDgzZDA2MGYxNzIyZTI0NTM2ODg4MzM0MjU2YjU0OTBlOGJiZTg2OTgyMDY3NmNhOWVhZjM1MDljYzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_570e61d121f7458a80b19e9739c25c46",
+      "statement": "hx-fleet counts opening markers, closing markers and complete pairs separately and fails when they disagree, because an unmatched marker substitutes nothing and would otherwise compare equal to the input and be reported as current.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L154-L157",
+          "version": "repo-lines-v1:sha256:415ce8bdc32cd00af509f0b44756814d83452b626dc7d1dd567e2f47360b14aa:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGI5OWEzNDFiNjkxYzY4NjdiNjVjNDExOTkyMDQ3OTUwNGRhODE0MjdlOWRiYjdjODA4MTY5YWU1N2FhZmI0NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjZhZDA1MmM0NGI5NTNmMGQ4MzI4NmEyZGRkZWMyMTg1ZTdmMTg5ZGIwZTRmNTAyYzZmMDZmMzQ3NTg0NTRhNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzRjNmI3ZDM1OGMxYjViZmUwNmFlYWI2YTBiOTdlYjk5ZmE4MmIxZThmYjM4OGM0YTMwYjQwMTZlZThkM2NmMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmI1NjI2M2U3NTM1ZjQ4NGY0ZjdjNjU4NTBmZGRhYzMzZTkxZjllYTRhZThlNDRjYTQzMzE3ZmRjM2Q4NDA0NyJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L49-L58",
+          "version": "repo-lines-v1:sha256:f92ff255f6c77c167a16c512b78abb52c68350050421688a9c42efcff11c77d0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5YTdiMDYyZGM5MmM4NWUwMDllNTc3YjA4MmE5MzcwNjU3NmQ2YmI3NGE0MDk2NTY5ZjczODdjY2U3YmY4NzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NjFhZDc0NjQwY2Y5OTk1ODQyNzFmODhkNjA0Y2M3OWFmZDFiYjBkNDEwZDA3YTQxM2Y1ODg5NTJlMzYyYjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5OGIwNjNkOWI0N2U2NTM3OTYyNTU3MmNjZTE5NzY2OWQ1NzY3ZTEyYzE4YmUwNzU2NTJiOGNkOTgxY2U4ZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4MDllZjgxZWE1NWZjYTM1ZTM4NzA1ODY5NGIwZjhmMmMzZGM4MzcwY2RlN2ZmYjExZTMxZWQ0YTlmYmU2YzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e8efdd958774447cac3a9ba3ade436ca",
+      "statement": "An unrecognised column name in a fleet marker is reported as a failure and the block is left unchanged, rather than rendering a heading of that name over em-dash cells that would match itself on the next check.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L140-L153",
+          "version": "repo-lines-v1:sha256:15e7198d6f48bcc1c0bc518de96d975bf2d298fb2095ff49ad3526c689790aad:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyMTdmYTQ3MWYxYjBkNGI5OTI3OWI4MzhhMTRiYThhNTQxOTk5MTRmYzBmMDA0M2M5OWE0M2Y1ZWFhM2EyMWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2YWQwNTJjNDRiOTUzZjBkODMyODZhMmRkZGVjMjE4NWU3ZjE4OWRiMGU0ZjUwMmM2ZjA2ZjM0NzU4NDU0YTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM2NTg5YzY2MWI1NzdmMTllMmRiMzQxNzA4ZDY3ZGJiMTFlMGU5Mzg4OThlNWUwMGZhNWUzNDhhYjE5YzdiNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2NzhmMjI3ZDI2Y2EwNzQ2NGE4OWMwOWI0M2ExOTA3ZjllZWI3N2VhODlkYWQ4YjczYzIwMDkyYjE2NjA0YjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d0441eab35314f4987b7c85e01f171ad",
+      "statement": "tools/hx-doc/hx-proof generates the smoke-test roadmap's per-phase tables and its whole dependency diagram from docs/00-control/hx-proof.tsv, replacing a hand-maintained diagram that carried 19 nodes against 30 TSV rows and silently omitted every MCP companion gate, both Web UI gates and the reranker.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L1-L20",
+          "version": "repo-lines-v1:sha256:b11efd5fcffb303e2876583d361b0b08192d275ba6a9d9c3d12f1a68c2e7cba1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ODJjYmRiNGM4YjA3NTE4YmY0ODZjNTg5OTBmYzM5MTc4M2FhMjBhOTE2YmZiMjdhZDIxMWViMWQ1YzM2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMDNlY2RkNGE0ZDEwZjE5YzczZmQ0MmZkMTI0MzdmZDMzNTRhODI2ODE2MDVkYTUyNTVhOTdhMzkwNjhkYmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE4ZGQxZmIyN2ExMWYwMGY2ZDdmZTExZmFmZWFjYWE0NjI0OTVlNTg3ZjJkYTc3YzMxNzNiY2MyYWY2NTc4YjAifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L250-L258",
+          "version": "repo-lines-v1:sha256:0da1466a5d86bc3662f78e5ec3bab6c95ac87bf97ea3230e970b56b11f1b18b4:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjcyMWRkOGVjNDljZGQwMWIxODAyMDZiOTcyYzgxNDZjYjUyOTA3NGQ1NzI5MmE4Yjc4MzBiYjFhMDNhZjQ2YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjM1NTkwOTFhNDQ1YThmZGY0MTVkY2ZmZTVjZTA3ZjIzYzFkZjVlMjliYzcwMzliM2NmYTY1YTIwMjc2ZTYwZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjgxZmY0NWIzNjYwYzlhNDJhNDQ1OTI5NzU4N2I1MWJlY2RiMDQ4OGI2NDM5NjliOTI2NDQwYWNjMTE3Y2JlMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTQ5ZDM4NTFhY2E1M2EwZDc2NGRmZTg4MzEzMzA4ZGY4ZTY2ODE3MWVlNDgzYTE1ZTZlZTE0NmUzYzcxYTJmZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ca8bac69ee7a4ea1affe1564057b232d",
+      "statement": "The proof generator validates the marker set itself, requiring exactly one table block for each phase that has steps, exactly one dependency-diagram block, and no table marker for a phase with no steps, because a deleted or duplicated marker leaves surrounding text unchanged and would pass a content-only comparison.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L279-L301",
+          "version": "repo-lines-v1:sha256:5870fd3c28b40c78561d902668695a40288cb7eaa09377635f9b5769d480ae87:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzZjI4YzIzYTVkMWQ3ZTdlMjVlMzQ1NWJjMGY0NjhhNDQxZDBhNGY1MThjYThkMjJjNTI0YjQ0OThjYzdkZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0MWU1MjQ2ZWE5NzNhMjdmNjEyMmU3MTg0ZjE2YTY3ZDU0NWQzMDg0MWFiMDBiYzZkZWM3OTM0MjcxYTQyZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjNTllZjg5NGIxNWZmNmNkZTQyOTFiZDAwZWVmZGRiNzc2YmJmNjI4ODE1YjI3Y2JlZTgxNjY1YTQ2ZGQ5NDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiYzUzNWQwZTc5NmI4Y2M1YmQ3NTQwYjY2ZjhhYjdhZGEzYmI4YWNlOWM5OGY4NjliNzY4Y2UwYmM2MWFlYzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5fa7ab483ccd49278a256a9a9a74c011",
+      "statement": "tools/hx-doc/hx-render-html generates the entire human-html/ tree from README.md, every non-template document under docs/, and the top-level and per-component skill READMEs, using a Markdown subset implemented with the standard library only.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_render_html.py#L1-L41",
+          "version": "repo-lines-v1:sha256:0086cb5137804f681edb1fa8933f95b6fa4ea1cce971b588858a0eb84d0ab1b9:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ODJjYmRiNGM4YjA3NTE4YmY0ODZjNTg5OTBmYzM5MTc4M2FhMjBhOTE2YmZiMjdhZDIxMWViMWQ1YzM2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM0YmRiZGQ1MDcyOWUwZjk3NjViZjYyYjgyOTJhMTk3M2ZiM2Y0N2RjMWNhNTUxOTkzY2I1ZDg4YjNhNDA1NTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliOGRiY2IxZDM0ZjU3NmNmMWZjMzYxYTgyMGQ3NGI4MGRjZWEzNjkzYWVlN2UyYTE4ZGQyYThjZDkxMGE0MmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bdab1dca721f436bbb24f2471062e59e",
+      "statement": "Each generated HTML mirror carries a banner naming its authoritative Markdown source path and stating that the page is not execution authority and must not be hand-edited.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_render_html.py#L287-L298",
+          "version": "repo-lines-v1:sha256:fa0024bffd50eda56d7f7f195a85d3920b840c98af1674e01ca4f71da88d3ce8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczNzZiY2ZlN2M4ZDdlZWM4NTVlMDE5NzJjOTUwYzIyZWJmMDg4Yjc0MzE4ZDQ1MTQwYzEwZWRjOGY0MzBjZjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdhYmMxNWFiOWZiZGVjZDUzZGRkMDg4NDY0OGQ5MDAwOGM3NDgyZTQzOTQ1NTEwM2Q0MGNkOWM2MzFkZjkzYmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0OGQ3NDgzZDA2MGYxNzIyZTI0NTM2ODg4MzM0MjU2YjU0OTBlOGJiZTg2OTgyMDY3NmNhOWVhZjM1MDljYzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3fc3b24eeee44e7c8e6c366b5ec480dc",
+      "statement": "The mirror check fails on orphaned HTML files that have no Markdown source, as well as on stale mirrors, so a page left behind by a renamed or deleted document cannot survive as plausible-looking documentation.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_render_html.py#L318-L336",
+          "version": "repo-lines-v1:sha256:b671c938734f13a9c032edb1f135a21663270df6bff90cbaecd6a4970cc9ccc4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlZDY4ZmRlMDE1Nzc3ODQ4YWY0ZmFiNDA2ZWFiODgzODQ1YWYwNTlmOTUwYzliNmVmYzFkYzY5MDYyZmE0M2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiZjVhZWFkYjY4ZWEzOGRlNTJlN2U2ZGRmMmUyNzNmMmI4ODBkNWRhN2Y5ZWJiZWYyNjFhYzBhNDIzMTJiMTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3NGYwMzA1MjFiNGVmZDAyNDlmNmM5Y2U5ZTlmMWI1ODA5MWNmMGRlZThjZGY4NjA1OTIyMWViYzI5ZjAxYTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYzZTRjNmRjYWU2NTdmNjRlYmQ1ZDAxOWY0NWEzOTEzZDY2NWFmODYzZmM0M2U4ZWExODYyZjZmODNjMjkwZmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0e47ee57f7cb43d5a6298de57c29d4f4",
+      "statement": "Every generator has a --check mode that prints the offending paths and the command to fix them and exits non-zero instead of rewriting, and continuous integration runs hx-fleet --check, hx-proof --check and hx-render-html --check on every pull request.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L33-L40",
+          "version": "repo-lines-v1:sha256:944a3d51159175264187be24e461a634edd60a459c81d5d685757342e92ff148:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODljZmFkMGI0MzgzNjUzMGZhNjlhNzk3ZjcxMjkzY2U0YzFlMGYxNmNjMmQ5MmU4N2ZlMWZmYTM4MGRhYjMzNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTkwMzc1MTg5N2NkODRkNjZiODIxNzcwOGY4ODY4MGFmODZiYTYzN2FjMDgxM2RkZDdkMDUzMTM1NzBiYTg1YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2VlZGRhYjhmZjQ0ZDI1YTU0ZGJiNTU4ZDczYjY1M2I3Zjk5YjM1MGVkZjcyMGM1NGIxZmEzMmQ4NTk1NTZmYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWZmNmQyYmQzYmYzZGU0YWM0NzYyZWYzOWM3MzYxNjQzZmZjODdlYzI5NWNiNjc4MWYzYWFlNTIwOGJhMmE4NSJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L177-L188",
+          "version": "repo-lines-v1:sha256:060123448544e52186d8500cf175634549bebe36c8b9b279d9887a2831c29ab9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZmI0NTk4YTcwYzM2ZTM2ZDM3ZmYyOTEwMjc4MDVhNjBkY2UzZjI2MWE3YzBkMmViN2FlMmEyY2M1ZWIwN2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmZTUxY2JhYzgxOGYyZTE2YTQ3Y2MwNzJhMjc4NTdkZTljODljYzU4MGY2ODNhNTk4YWRhMzJkOGI0MWFjNmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4MzE5MzQzY2I1YmQ0MDkwMmU0ZTljNDkxMTIxYmVmM2RiOTYyNmJiMWZiMDdmZWY1OWIxZDY4NzUzMzI1NWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ed920e7bf27f48889b18e88288334d87",
+      "statement": "A change appearing in human-html/ without a matching change to its Markdown source is defined as the review finding in itself, which is how the generated-output boundary is enforced during review rather than only stated in prose.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L118-L123",
+          "version": "repo-lines-v1:sha256:b76713fafb87d6a7b3f440e7f3574881128af147dca6ea7d959a0720babb6e1a:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmIwYmVlZDE0MzhjNjhiZTBiZjI5ZDMyOTY4ODdmMjJiYzIwZTU2NjU0ZjJkMjc3Zjk1Mjc4OWYzMWMxNjBmNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzlkMWM2NTNhZDIxM2I1YThlNDg5Yjg1NGU0YzAyMmVhMWFmZmVlZjliMTllYTYxM2JjMjExY2Y5ZmNlNzMxMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDQwM2UxZTk3M2JkYzJiYzZlNjYxYzBlMjU4NDhlZTNiZmVjNzA2MGFlYzk1N2FjNjZkYzhhMTQyOTk1YWI1MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGY4ZGI4ZTkzMDMyN2IyMWFiNzI4ZmZhNWNiYjY1ZjNlNTA1ZTc3OGM1N2NjYmU4N2M2NTNmNDkzYjI1Y2UxMCJ9"
+        },
+        {
+          "resource": "repo://AGENTS.md#L299-L302",
+          "version": "repo-lines-v1:sha256:78abd1c944ba75f9adb940e1d6a20ebaf8e194f6d1191f3b0f77a0dee148294a:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2FhZmY0OWEwZWM1MTY2NzEwYWRmYWE5ZWE1ZTA3ZGY3ZTVkYjczM2FkNzA1YTZlZjg5YmNjODFkNjM2NTAzZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQzNzI0NDcyMDBjMDQ0OTAyZWFlNGQzOTZjYTVmMWZmMjU3OWQ5YjljNzNjNWZjODQwNTNjZWRmYmQxMjg5MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTM4ZjEzZTJiODUzZTZkM2E4ZTRlYjI0OGM4MWI0NjUzMWU5YTU5MDA4ZDIxMmNkOWFjN2Y5MTQ3MjJmMDhmOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWE3YjEwMzVmOTI1YjJjMjg4NjVlNWM0ZWYxNWFmY2VkOTEyYjQyMmY2ZmRlZGUyYmMzNzBhNTFiNTU2YWI0YSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T03:13:20.331Z"
+  }
+}

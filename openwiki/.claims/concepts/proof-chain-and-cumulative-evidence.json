@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:24fe2d5cf419fa3e560955069ebba502c2d281d9a5c7766c298d7129074ec16f",
+  "claims": [
+    {
+      "id": "claim_5bcb0e588e924ab7a3870b6daa697884",
+      "statement": "docs/00-control/hx-proof.tsv is the sole record of the smoke-test dependency structure, holding one row per step with id, phase, system under test, component, acceptance authority, requires edges, permitted limited integration and status.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/hx-proof.tsv",
+          "version": "repo-file-v1:sha256:2da71e2f6f07d6f7247773024b0a1239c44eb2e8fe487e82be6b0c890285e4df"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L68-L72",
+          "version": "repo-lines-v1:sha256:a5f96b914e8be2a33480ccfc1f29d21d2413f923f292865670556f523513116b:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWNkZmNmZmNhMjUzY2EyYmY5Njc0ZjgxMmM5YTdkZTMzZjZhNDcwM2EyNWZjNmMzYjRlYTM5NDlhZmM4ZjgwNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDg0YjUzMGMzY2ZmNDMxZDA4ZGNjMjU0ODY1NzVmMWY0NWU4Y2I2MmJmZmI1ZjAyMDU5MDdiMGY3OTRkZjBkZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTk1MzM2OTZiNTllNDhiNTc3NWY0NDRhNzcwNGYzOGRkYmVmY2U3MDBiMGVlMDYzMzEyMTk1OTMxNmU0ZTI4OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmM3MDIxNDk5ZGE0MjRmYzUwMmYyYmJjYTRlZTY2MWUyZTM4NGI5MmYwNDc0NjIxOGU1NWM3N2Q3NmY5NzNkNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2df4bb30a2d043f1a43319aa84a4766d",
+      "statement": "The integration column bounds what temporary coupling a proof may create rather than describing production wiring, and most steps deliberately record none so that a failure isolates to the component under test.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md#L35-L50",
+          "version": "repo-lines-v1:sha256:3766518b9337d64812bc450bb5a09bc0ec4fcab2f810d17434417b50b4801df4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5MjcxODQxNmEyNmM1MzEwYTkyYWVkNTM5NzBjMjk3YmI4MjlmY2ZhNWMyNmE3YTFiMGZiYzY1NDBiNzEyOTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmZWVmZmU2MzA4NGMzMWM5NTBlZmY0YjMzMGIxYTIxZTU5NmI2YzQ4ODI4NTU5OGY5YmE0NjM0NTg5NjBiODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwZTI0N2FiMjFjY2U5YzNkYmNlN2Y0OTk4MWFjOTZiOTE2N2FiODJjMTM1NzYwMmJkOWQxZWJjZjNlNjZlYTQifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/hx-proof.tsv#L7-L14",
+          "version": "repo-lines-v1:sha256:a7253995ababf7b6ad69959c433b21597126ab26f0ef1563de4efc85ab8b39eb:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWNiYWE3OWFjODY1MGY1OGRjYjU1ZGRlZThhYjUzMGI3NTUwOTNmODlmNTFmZjM1ZjNmYTgxZmE3MDY5MDg0YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2QyNDhiYWZlNzhiYmEyMjQxNTkwY2U3NGJlMDVkOWViMDEyODhjODZkMTJkN2E4NDc5ZGYzOTk1Y2VhN2U5MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDM0OGFhODliNmJhNGIxZTBhODE0MDU3OWY5MTFiMTQyNjRiOWMyZjE4N2QyMDI5YjY3YjY3NDhiOWEwZTFjOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2VjODM5NmM3OTJkMjYxN2RmMDEwYjZlNzNhZjA5OTY2NzM3MDgxYTcwZGFlNWMzNmZkODRlMjY5M2JmMGE0YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f0f1d854793049f99241a19d4a22656d",
+      "statement": "The governing validation rule is cumulative proof with minimal live coupling: a downstream test reuses prior PASS evidence where an earlier capability is a real prerequisite and creates only the smallest temporary integration needed to prove its own contract, and temporary wiring never becomes production architecture.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md#L35-L50",
+          "version": "repo-lines-v1:sha256:3766518b9337d64812bc450bb5a09bc0ec4fcab2f810d17434417b50b4801df4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5MjcxODQxNmEyNmM1MzEwYTkyYWVkNTM5NzBjMjk3YmI4MjlmY2ZhNWMyNmE3YTFiMGZiYzY1NDBiNzEyOTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmZWVmZmU2MzA4NGMzMWM5NTBlZmY0YjMzMGIxYTIxZTU5NmI2YzQ4ODI4NTU5OGY5YmE0NjM0NTg5NjBiODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwZTI0N2FiMjFjY2U5YzNkYmNlN2Y0OTk4MWFjOTZiOTE2N2FiODJjMTM1NzYwMmJkOWQxZWJjZjNlNjZlYTQifQ"
+        },
+        {
+          "resource": "repo://docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md#L147-L169",
+          "version": "repo-lines-v1:sha256:d0c7f00c5bf297e9df8c72c1cd6294d36073df4f1ec9678b4ef9d79d5b6406e6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2MjUxYmNlZTQ3MDIxMmI1NGVkMzM3MjJhODZlM2ZiMjJlY2YxMWVhMGQ0NDA1OWY0ZjBmOTVkM2ExOWE0NTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlYjcwMjU3NTkzZGEwNmY2ODJhM2RkZGE1NGE5ZDI2MGQ0ZmM1MTRmNjQ1MjM3ZjVjYTc0YjA4ZjhkYTYxYTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMzZWFlMzIxNTU3YTI4MDU3YmJlMmQwNWU4MDBmODU1N2MxNDgwNjNhZTQzMWMwOGVjMDNjYjUzNTBkYzAzMDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgzMDkzODYwOGZmZDU3OWFhNTkwNWNlZTcyZThkODRkMzBlMzI5YzA2OTM1MjU2Mzg1NDYyYzczNmVhZDljN2UifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_96596634375941ed8d19bda0409028df",
+      "statement": "A product's Web UI and MCP companion are gated behind its parent core PASS, a companion PASS can never substitute for a failed parent, and companion tests avoid importing new dependencies by using the runner's own MCP client and the application's direct LAN endpoint rather than HX-15 FastMCP or HX-7 NGINX.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md#L300-L318",
+          "version": "repo-lines-v1:sha256:98d2d391fc654fe69259830cba5af7e778c2e05e0520eac4587a887de1d1234a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2YjMwMmE5N2UwM2M5ZGRhOGRiZTU5NjA2ZDY4MTY4Yzg0YmEzZTFjZjNiZGJmMTZlNzVlNzEwN2FkMjc5NTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2ZDA3OGU4OGVhMzI3ZjMxZjZiZmI5NDg4NWE5NjcwMTc4OTZkMGZjZGM3Yzc5YWMwNmQ5MzMwNWE4YzRmMjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MDU2OTNlNzNjMjk5NGZmYzcxZmM1MTc4YTczMjQ3NDFhYWUwNjgzYzg0NjY3NWUxM2UxMmNjNWExOTA1MjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkM2QwMzllNWVjMjc2YTk3M2YxZjhmNDM3OGNhNTUwYjg2NTY5N2RmZTkxYjBiNzdkZDJmZjM0MTc2MmFlOTAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ea62ab858eeb49fdaecbfc9c908b0ce8",
+      "statement": "hx-proof refuses a blank or duplicate step id, because either one silently overwrote an earlier row and dropped a proof step from the generated tables and diagram while validation still reported success.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L74-L85",
+          "version": "repo-lines-v1:sha256:028e5a6669a0025f01d34cb239952d797448b878833e4936442dcc126000dc2b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkNWMyY2UwMGEwNjg0NDJhYmUyNmIyYTkzZjkyN2MyMGVjYjQ2ZTc1NjQ5ZmNhYWI4YmM0NDcxNmIxYzI1ODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU0NTI2YWZkNzhlMmJiZGM0N2QwODZmNjliOTdhZjYwZTQ5MjAzZDNjNDlhMTAwMDNmNTQxNzEyODlmOTYxZTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZlYjMzNzJkN2QxZGY3ZWFmNDg1ZTFmMWI0OWViNGYxOTc3MzA2NmZjYWRmM2JmODM4Mzk5MDg1N2UyMDFjNzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI5MmI5MDRiOGY0MTY5NGI4OTBkNTMxYjM4MDY4NTMxMGI1YTgyNjM3OTg2ZWZiZmVmZGJmZjM2ZjNhMDI4ZDcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5c71c8fd89104228bab1a8707ad4adab",
+      "statement": "Validation rejects a dangling requires edge, an acceptance authority file that does not exist in the repository, a system under test that is not a host in hx-fleet.tsv, and an unrecognised status value.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L124-L139",
+          "version": "repo-lines-v1:sha256:7da181ed2e2cb40568647290b673490bbeadec6d9df4b83acc83ab1882605171:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkODEzN2ExMjM5MjU2NTc4MGU4NjZhN2I2ODMyODUxYmZlYjI0NDI2YzFlZDU2OTMyYzBiOGVjNTc0YzUwYjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExM2Q3Yjk4YmU3OTMxZTQ3ZTdlMjkxMjBhYmY2ODAyZjEzMTdhOTkyNTI1NzY4NDAwMzg1NGMyNTNhZTIxYTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3MDA0MTdlNzIwM2U4MzRhNTNjYTUxY2Y2NzA4M2FiMTMzMTc1YWIzNTBlNDNjZWY1MWFkZTI3YTk1ZGRmMjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjYTU1ZmM0NGE0ZGMwMDQ4MDNiZGVkZDc3MzAwZGQ0ZmY2OTI4MGM0Y2EzMzdlNTgyOGI3YzgxNjA1Y2RhZDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f3a7117909194e66a041e0c24ffda22c",
+      "statement": "An unreadable or empty fleet inventory is itself reported as a problem, because an empty host set previously skipped the host check entirely and let a misspelled system under test validate clean.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L109-L123",
+          "version": "repo-lines-v1:sha256:c81aed95375cf171c22c4557dd9a394a72ddb7bb20b7104cb18305cb9d64b69e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjZGQ1ZjIwYThjNDg1N2Y0YjA5OTJiNGVlMmY0NzE2MjkwZDU4OTk3MjVjZTIwNDMyZTI1M2VhY2YxOTk0OGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRmNTg5NzM5ZWUzYWQyMGJlYzk5OGUzZGQ0YjFjMTVjYzYzYzBkYTgzZjNmYzAzOGVmNTk2M2FlODFmZmU0YTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY3MDU1MmI0YjhjY2IzNjVhOWZlMzA4NWE1MTUxYTFiMDMzMjA5Y2QxOWQwYWNlZDljOWI4NzE4YzRjOGMzM2QifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1867c1d573fa4f6eb9ec27f58ebc4cea",
+      "statement": "A depth-first colouring detects cycles in the requires graph and reports the offending trail, since a proof chain that loops can never be satisfied.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L141-L161",
+          "version": "repo-lines-v1:sha256:2fe7885fbef61206df4d9c9c5b6aaceef09b39a85441aa6ab1a2b2210d28f694:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhMjJjOThiMjhmNzcxMTgxN2I2N2I4MmZiYTMzNTEwMjcxOTMxMTMzMzRiMWUwYjViZGU2ZjNkMTliNzVkZTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyMzRiMTc2NjE2MmIxYzk4YTYyNjkxNWVhODZiZTU4ZWQ5MmRmOWM5NmY1ZDU4OTA5NWQ5NjIwYjc1MTk2NmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3OTk4NDRkNzViODk0ODM1ODg2NjdlYThlMTYzNDhkMWQ2OTkzOGY2MTYxZGE2Y2YzZDlmZjhlNzk2ODIzOWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliOGRiY2IxZDM0ZjU3NmNmMWZjMzYxYTgyMGQ3NGI4MGRjZWEzNjkzYWVlN2UyYTE4ZGQyYThjZDkxMGE0MmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_56c6c4223ddc4ba89341e8623405a011",
+      "statement": "A step is runnable only when every required step has passed and the step itself is neither already passed nor marked NOT_EXECUTABLE, a state that means an implementation decision is still open regardless of dependency health.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L166-L191",
+          "version": "repo-lines-v1:sha256:ad3e54c8cac1a55fe2ad237088909cf0d6d587ab381ef4b4db5353256c991dbe:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiYTIxMzMyMjJjOWVjYmFhOWExNGFhMzQyYmUzOTEzNWYzNmZjOTBjYmE4YzYyZWYxZmNmYjc4Y2FlNDgwYTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiYTIxMzMyMjJjOWVjYmFhOWExNGFhMzQyYmUzOTEzNWYzNmZjOTBjYmE4YzYyZWYxZmNmYjc4Y2FlNDgwYTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ1YjM0NWE0NWViMGJhOGVkN2I0MTFiYzEzNjVhZTgyNTg5ZTczNTcwNzZmYTMwMjcxYzAzMWZiNzYxMmQyYjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA1OTc4NzRlZmZiMTlhZTI0MTAyOWMzNmY0NjFjZjBiYzZhOGJhNGRlODVlNGZjYTFmMjA3ODQyNDJhZWEwN2UifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4885a02afa744b36a5d5c971c9a74a6a",
+      "statement": "Promotion requires a proof_step in the manifest whenever hx-proof.tsv exists, and rebinds that step to the run by checking the step's host and authority match the manifest, so a hand-edited manifest cannot name a valid step belonging to another host and inherit its dependency set.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L111-L141",
+          "version": "repo-lines-v1:sha256:9e504518118f391436448137bc7130a2e939a4f0eeb9e52e34bd20c6fc1e79ba:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyOGIyMDdlNmU5YWIwMTc5MDY1YmFkNWZhMGFmYjAzYjlkNTZlYzI5YjY5ZjljZmNiMGQyMDJjMGJiNzgzMjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyZDVkZTI3MWU1ODNjNjVkNzcxYzk3MTZkYjJjOWY2YjdjNmY5NjNhMDU0MTQwOGRmMjJjMTQ1Y2Q5ODA2ZTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkNjg1MWVhMDg5Mzg5MTcwMzgxZDliZmI3ZjRjMDI5Y2EyZmRjMTg2NWYxYTI5ZmVjMmVjZTY0M2RlN2ZmNTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0NjA4NzJjMDE5MmYxZjE5YTYwNjg3NWY5OWNiNzE5NGY2M2RkMzk1NjUzZjc5ZDc5ZWYwYzRmZTQ0MDI0ZWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_287c23be5de0405f9bdc39073113f5c7",
+      "statement": "Promotion refuses a PASS when the step is NOT_EXECUTABLE, and refuses it when any step named in the requires column has a status other than PASS in hx-proof.tsv.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L143-L167",
+          "version": "repo-lines-v1:sha256:0cd637cd15726e2b0cb8b4f60c607090282a7e8031308cc94273eafda64761df:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1NTk2ODg4ZmMwZjQ5Mzg0YjdjMDI1ZjllYWEwYmJiYzhiZTZkYWI1NmU4ODBmOTQ5N2IxMTZhNWY5NDkwYTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5NTE0ZmU4NGFkY2Q1ODQxZjk5M2ExNmQwM2ZkMGUzOTcxYTU5YmYyODNlMGFlZTNiZTk2ZWM0NGFlYzhmMDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwMzZhNmEwMjdhNGEwMzFiNThhYWU2YmZiZTlkYzkxM2RlMjExMDc5YTZlMjNkZTBmNGFjYzMzM2E1Yzg5M2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEwYjllMGU0N2FmMTAyMDU3NTlmZGE2MTg1NTEzYTkwZGY5YTc0NTdhMjZkYzlmZTlmZGM3ZTdmZGU4YTkxMjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_17a3e03ebc7843a2aeb2031c2e0d9713",
+      "statement": "Beyond checking dependency status, promotion requires prior_pass_evidence to carry an explicit '<step-id> -> <evidence>' entry for every dependency on a single inline line, refusing a bare list of paths because a path alone cannot say which dependency it proves.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md#L70-L83",
+          "version": "repo-lines-v1:sha256:25a0acf0d9b75ef096ffe1a93f72ccdd0b09b74b089448c83737f42d5c95a180:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0N2I1YTIxYTQ4NWExNTM1ZjhhMzAxNzk0ZmQ2ZDhhMTBkYzA4NmI2MTQ3ODhkZmQwMDExOGZkNDlmZTg0ZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2MWQwZTg5N2Y4NGJiNzQxZTdmMTM4YzYzM2I0Y2MxZjViZThmZTUwZWVmYzAzZjFiOGMwMzY3ZGQ2N2U5MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI2OGM0Yjc4ZDY5M2RiZTY2YWYxNTRhYzE5ZTU3Nzc1YTdkY2Y3MDY1NGIzMzAxNzhlMjYzOWY4NmU3YTJmOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE0YzE1OGE0OGQzMWEwNmE3MGJmYWUyMjA5OTU1MDllM2Q2OTMwYjk0NWUyYmY2MzZhNDBlYmJmYTkwZTNlYzgifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L168-L193",
+          "version": "repo-lines-v1:sha256:dd05d7438bfa8722ca415fb0027d0da19549cd93fb5c15bffdfc87147a6c6274:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2OThlNjRlMWRjZjAzM2YxYzU2MGIxZDg5Yjg0NTk2YTJlN2NhNWUwNzQwYWZmMjNhZTgyYjE2MDExNTFiN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmNTBmMDEwNjJiZGI1MGNlZjUwMWUwYzJmZjk5ODNhNWVmMmFiNjA2YzNhNGM3MjE5YTBhNzc3MzljZmY0MjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNiYzFhNWY5MjQ3ZDZkODc2NjI0YWFmZTRmMjljM2VkMWRmMmFkYjE4NmQ2M2NlMDU4YmI4MjM1MzQyNjVjNjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjMTk1NDZjYmQxYTdhODM2NDk0ODI5YThmOWM4ZDhkNGJkYmYwZGY3ZjFiNTFhMWViNjRmMWVhODJhMDI5ZGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_81639674a37e4246ac3bdb52f6234ba3",
+      "statement": "Cited proof must be a current retained evidence path or a current accepted server record, and an archive document may never be referenced as current proof.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md#L70-L78",
+          "version": "repo-lines-v1:sha256:8d378fa7969fde967f1c58b6a509be320fdc98ca0149ac3defd97ce25bca83f4:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDQ3YjVhMjFhNDg1YTE1MzVmOGEzMDE3OTRmZDZkOGExMGRjMDg2YjYxNDc4OGRmZDAwMTE4ZmQ0OWZlODRmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGU2MTBiZWNhZGZhZDE4NjAwNjA0Y2ZhZmNjODcwOWVmMWFkZTFmYzM2MmViNmZiNzVhOTZlODAzYTcyMjhhMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjY4YzRiNzhkNjkzZGJlNjZhZjE1NGFjMTllNTc3NzVhN2RjZjcwNjU0YjMzMDE3OGUyNjM5Zjg2ZTdhMmY5MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjljNzc3MDc2YmJmMjc4NDJiMjIzZGU2Zjc5NzljNTkwMmQyZDllOTViZGRmZTdhNjhjODQwMDJhNzExYTdmZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_df5b9af8067f4d80957543a890e60e98",
+      "statement": "A prior PASS can become stale: a material change to a prerequisite such as an embedding model revision or dimension, a vector store upgrade, a model alias change, a major API or MCP contract change, or a rebuild of the system under test invalidates downstream reliance on the old evidence until the dependency is revalidated.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md#L320-L336",
+          "version": "repo-lines-v1:sha256:90bd6e1f3ca198541a2f9f2b7256b01d9adf4075baae21173bf66802d3b03251:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyZjIzMWU2ZDBlYWVjMTM1ZmE1NjQwNGYwMDZjOTM5ZDY3YTFjYTNmZDRlMjk1NzkyYWQyMTIwMTc0MGRjZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwODU5MzM4MmVjMjI1ODZhYzdlZDA3MWQ2ZDI5NTk3ODBiNDUwOWM2NTgwZDQxY2RmMjQwODhiYjA3NzBlOWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxMWIwNGUwNWZhMGM3MWQ4MWFlZTJiMDg4ZWYwN2RmMmEyMjBlZDY3ZjVmZDNhZjllNmI4NTFlODgzZGIzNTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3ed597d1d2cf490caf9057789090ceea",
+      "statement": "BASE PASS is a conjunction of service health, resolved prior PASS evidence, a known-answer test, any applicable companion gate, successful and verified cleanup, reboot persistence and reviewed retained evidence; only PASS, FAIL and NOT EXECUTABLE may be recorded, and cleanup failure keeps a run incomplete even when the functional action succeeded.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md#L326-L327",
+          "version": "repo-lines-v1:sha256:d0fb1318c500a0571a7b18366bff19b9059aa2346af5635e22878d5b809c443c:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGU2M2JiOTZiZWM4NzhiODcxNGUzOTVjNGNiYzIzNGNlMmJhYmM0MjFlOGE4OWJlYTM2MzQ5ODY5MzJjNDA4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjBiNjBiZTE5M2Y5Y2E2ZDBkZDY0NjUzY2M3ODFiODE3ZjFjNDIyOGNkOGY5YmE4ZGIyOWVkN2JkMTE0NWQ2NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzg0Yzc4YTE3N2M0MDI4YTEwZTEyNjZlY2U3MmQzZGY4MjEzOTAwNjY3ZTFkODBkNWUxMTk2NDY1MDQzOTA5NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGQwM2M5MjZhNzZhZWM1OTFlZWVhNGFhNGNlYzNhMTU4ODNhNWM3M2QxOTI4NmUwZTFkMDUwNzA4NWMxNGRhZSJ9"
+        },
+        {
+          "resource": "repo://docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md#L192-L229",
+          "version": "repo-lines-v1:sha256:8ce29ecf0fc2ca182567c0754bfd77307215902b888c90788fa8f574925fac44:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5ZGE3YmRlODM1NTcwYzEzMTZiMjJjZjI1MDZkODhhMjcxMzBiNWM5Y2VmYTI2YjFjMGJiZTNmNzIyNWY1YTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlYjcwMjU3NTkzZGEwNmY2ODJhM2RkZGE1NGE5ZDI2MGQ0ZmM1MTRmNjQ1MjM3ZjVjYTc0YjA4ZjhkYTYxYTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhOTc0MTM1ZWFjNTUxZWIyOWM2YjVlMTA0NmE4ZGU1NTM2Y2Y1YmI1YjRhYzE0ZmVhOGQzMDRmNWRmNjc3MTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc3NzRiNGFhMWMyMjBkNjZjYWMwOGFkZTJjOThkMWYxNzIyOGEzMjU5M2U1NGFiZjljMWNkNzY4YjA0YWIxN2MifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T03:13:20.331Z"
+  }
+}

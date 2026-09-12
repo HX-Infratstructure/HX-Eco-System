@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:1e3333204d2a912d5a4e875baf2667f3c417d01e617d564c840619a7f969fe49",
+  "claims": [
+    {
+      "id": "claim_6420ca6323f845869c88df916f6d1d29",
+      "statement": "Every third-party action used in this repository's workflows is pinned to a commit SHA, and every checkout sets persist-credentials: false so the job token is not written into .git/config before repository-controlled scripts run.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L19-L28",
+          "version": "repo-lines-v1:sha256:89a9480a31f38c0b769169a535e93070aaa1c5e599ecaa46108eafeca90e8e07:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4OTk5MTEwM2Y2YmE4ODhlM2RlNzY1MWM1YTMwNWM3N2U1NTQ3Njc3M2FiYTgzOTU5MWVjYzViZDBmMmFiMWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1YjllMThmNGIxZmZiOWQ4YzVjMmU2ZGNlZDEwMWMyMmM0ZDA3Y2E0YWUxNTllMTMyZjExOGQ0NTlhNTlkYWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMxZjcwYTJlMTU0OWFhYmE5NTRhYzA2M2QwMzRlMmE5NTk0NjRlNzY2OTJlODY5ZDljZjdkYzc4OTMxZDQ5YmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA3ZWZlZTYwZTQ5YTczZmMwOGM5YmY1MTM1MjVmNTUwYjY0NGQ3OTdlZTI2OGZjMTM0YWI3OTA0YzdlYzE2NzcifQ"
+        },
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L64-L91",
+          "version": "repo-lines-v1:sha256:fc87531df70d3caf6d07a3a063fb4f062888f9af08547466be277816f92e6fc8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4OTk5MTEwM2Y2YmE4ODhlM2RlNzY1MWM1YTMwNWM3N2U1NTQ3Njc3M2FiYTgzOTU5MWVjYzViZDBmMmFiMWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY3NDkyYzdhMDU2ZjdmMDQzNDcyYWMyZjJkYzEzOGY1ODVkMzljYzgwYzMyZmZmY2MyZTM4MWQ3NDZiZjU0YTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYwNGJiOTIzMzc1ZGE1MDJhNjI2OTg1Zjg1Y2VkM2RmNzNiY2ZmMDQ4ZWQ1ZDQ0YmJmZjNiNDBlYzE3MDVlODUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_08603d03908d4b2999fca19f6af31b4b",
+      "statement": "The per-change workflow runs the full hx-doc suite in one job — the link and vocabulary check, the fleet regeneration check, proof-DAG validation, mirror comparison, server-record completeness and smoke-authority completeness — and then runs hx-gate-tests so that a gate which has stopped catching anything is itself a failure.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L16-L52",
+          "version": "repo-lines-v1:sha256:e669cf769a84522a2f45481941b5f4b1635eea70b5375e61d1b56e6247764a18:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhmZDA0YzQ1OTdmMDA2NDVkOWY2N2NlODQ3NGI0MmJmZGE4MzAzNjU5ZTE2MTA0ODQ1NTJkNTJiOWU2YWRmODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4NDgyMjk3MDZlMzllMTczYjVkMGRhZTI1YjJkYzI5YjYwMDZjOTg4MTBhNzU4MjZmMGM5YzhkMzJmZTgyNmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJjZGRhZTRlN2E2MzZjMjBmNTUwYWNiNmE1NGYyNzA5YWUyY2I0Y2RhNDE1ZDNhN2U1MjQxZTM3MTg1Njg5MjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkYzk4NzdjOGEwMWEzYjllMDZlN2U1ODA3OWMyYzE4MzE2YTVjMTBhZGYxMjI3NmRlODU0ZmMxYjJlMGMyYTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7f68449afd03467eab5fa9e02d10c6d7",
+      "statement": "The execution-artifact job shellchecks the runbook blocks, wrappers, shared library and runner scripts at warning severity, filtering .py out of the hx-* globs because shellcheck cannot parse the Python bodies.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L65-L84",
+          "version": "repo-lines-v1:sha256:14829ea1aa66a1f7797ba25c572de0f19a1fb800fcaf72c0040cc9de80880411:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5NGU0MGM0YzBmOGMzODdjNGVkMDk2ZTk1NGQxNmI3ZmVlOTQ3MGEyN2ZmZGFmZTkwMGVhNjg2M2UwYzY0NjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5ZDg4MzM0YjVkZmJjMzNhNGI0ZGZiZDI3M2RkYjVmOGUwMzgzOWNkZGE0NWI5ZjVlODUyY2QwMWY4Mzc5NDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllNDRjMWVkYmZkYzNhZGZiN2EyNmQzYjJkMmU2ZjRiNjE1NGVmZDMwMDIxYzQzMzgzMDg1NGZjNGM1MDlhNTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ1ODNkNTRjOTJjYzkyMThmYTQ4MzRkOTA2OGU3YzE2OTAzMTdkNjczZTllNDAyYWRhMTI0OWM2ZGU5YTMwMzEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0020a39bae8c4290bea00025a7110503",
+      "statement": "Committed shell scripts are required to use LF line endings and carry the executable bit, and Python execution artifacts must compile, both checked on every change.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L86-L96",
+          "version": "repo-lines-v1:sha256:f8f10223b7d044e2ecab5fe462a1b228445717ef7062ccdaa8f0816636c659ca:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzNThmOTY0MzJmZWMzNmVkNDZmZTYxM2JkYmI3ZjY0MzI0MDc0MjdlM2M1OTBjYTBkNzkyZDM4MjllNzgzMmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0OWQwYzAxODhlZGE4NTU4MDQyNzZhNjUzOWY5NmQzZTYwNTc0YzVmNzQ5ODk3MmI3YmVjMWVmZTg2ZTdhMmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2NzEwYjZkY2M3OTE2NWNhNzlmYzMzYjhmODQ5ZDUzNjc2YzU5YzkwYzZlMDAyYWE4ZTVkMDZmYjE5NjUzMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjNmRjYTQ1NzM4ZWUzOTdiNTQ2MDVhOTk4NGQ2NmMzMGYyYTAyMDFmZTM0MDdjYzA1ODQxOGJmMTljZWUwMmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3ce6a247cb5f46e7ad4569633b671a71",
+      "statement": "The secret scan installs the MIT-licensed gitleaks binary rather than the gitleaks action, because that action requires a paid licence for organisation-owned repositories, and it pins the version, verifies the download against a SHA-256 and confirms the installed version before scanning.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L110-L126",
+          "version": "repo-lines-v1:sha256:3f229d9af76cd77d3f77b18ef8e25c1a40008b3ae8d71260825f5e9816eed12c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3ODU0YTJlZGU3NmVmMTBjODgwYTJmNGNmY2Q2YjdiMjA2ODkzYTM0MDJhOGYzZjk4OWYxZDMyOGFhZDMyMDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0NDIxZjZlMmQ1ZGJmMmZiYjYwOGM4YWJkNTgzYTExOGVkOTg5Yzk5NDMzNzRjM2U1NzQ1ZmViZGU3NDYzYjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1ZWExZjRiMzUwYmEzN2FmN2NmYjYxMGUyZWFlNmZlYzk4MjYyYzY5YzQyNGY5Nzk2YjJlYjMyNWVkZTk0YTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk3NWRiM2Y5MTU2ZmJjMzM4NTgzMzMxODUwNDNmNGU3ODc0YWMwOTk3ZDUyYzlhMTEzMmU3ODhkN2FjODU3MzEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8d78f90487084ace905a7a3b331aed3b",
+      "statement": "The secret scan covers both the working tree and the full git history, which is why that job checks out with fetch-depth: 0.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L102-L131",
+          "version": "repo-lines-v1:sha256:59cea0b515a5fa6e945d661e2893bdd21ac873af7647272ad39c2d890e86a9de:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVmN2Y2N2NmYTBhNjE4MmRkMjlkNmQ4MTEzOWVhNDU1NjU0MWI1ZWFkYzFhNjZhOTFhNDk1ZjBlN2Y2NGRkZDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjMTA2MGFkMjg1MDFjZGQzNDJhNGExYzIzNWJhYTMzN2Y3MzNhY2IyOTE3YmNlM2Y4NDNkZTcwMzgyMjJkMWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5OTQyNWExZDg3OGZmNzgwMTY2YWQ1MTAwYWM5MjU3MDIxMzEwYmMzNmNlZjM1MTcwMWFkM2M3YTQ3OWE3ZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e2ed29e9dd6f4701b87ebf9cd4036e72",
+      "statement": "The gitleaks allowlist for known-answer smoke-test tokens sets condition = \"AND\", requiring both the smoke-test path and the HX token pattern to match, because either condition alone disabled the generic API key rule for every smoke-test document and would have ignored a real credential pasted into one.",
+      "evidence": [
+        {
+          "resource": "repo://.gitleaks.toml",
+          "version": "repo-file-v1:sha256:e7c3df7eafc8e4530fbc698dabf3e37d48127c9306fcacd41883f3bff90a5449"
+        }
+      ]
+    },
+    {
+      "id": "claim_18b200b95d2d469c8fffd0386fd7dcb6",
+      "statement": "The weekly pin-currency workflow treats a drifted pin as information that opens or comments on a single issue, but fails the job outright when an upstream could not be reached, because in that case nothing was compared and a clean report would be a check that cannot fail.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-upstream-drift.yml#L34-L83",
+          "version": "repo-lines-v1:sha256:6f7adc09cfe01b01c96413ff4361619280956603d75898f642dd7e53f5527239:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhYTc4NjA4N2U4ZDI2MWExZGI0NzMyZDQ0NzRiMjI0ZjU3MWM4ZjA5OTQzMzU3MjU2NGI2OWM0OTQ2NjE4ZjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwMmU1MjIzODA3YWMzNThlYmE1YmYwYmZhN2EwMTI2NWVhMjNkYzg4YjZhNWMxMDI0N2Q4MzU2OWRiOWFhNTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_517882b2bac24bd08fe8cf28d288b69d",
+      "statement": "The wiki regeneration workflow runs weekly on a Sunday rather than daily because every run is billable, and uses a concurrency group so a manual dispatch cannot race the scheduled run on the same branch.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L24-L38",
+          "version": "repo-lines-v1:sha256:34f2974572a1ce2bcea5afc2bc34eddefc666494876a14b33c32c80001f92cdf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NmRjNDgxNDlmNWE4M2QxZWQ2ZGJiMzliYmM3ZTJiOTAyYWEzZDM0ZDZiZDVhZTRiMjkxYjY4ZGYwY2E3OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0YTAxZjI4YjZiMDRkNDVjYWQwZmU2Yjg2MmQxYTgwMmQ3YzFiYzVlNzdlYjg4NTgwMGI4ZDkxY2Y3ZjQ0ODEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJkMWNiMDEzYmE1NzBjYjQ1YjQxM2U1OTc3NTgyYmFjOGZlZWMwOWI0OTgxMjhmYmFiNTRiZWU2ZTI0YzM0NzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlhZGQ1ZTgyZTBmZGYyNDE0MjUwNTJiMmNmMzAxNDBhNjAzYjcyOWZjYmQzZTg4YTBhMTlmYzg1NjA2ZGFmMmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5db5e59f37304899bf32f4de4341a689",
+      "statement": "The wiki workflow's write scope is restricted to the generated tree alone, unlike the upstream example which also included the agent contract, its pointer file and the workflow file itself.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L109-L118",
+          "version": "repo-lines-v1:sha256:e4d893e181d62e84736e0fdf24a4506d45fc413c152a6bbbb05015daaa49a182:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyMzI5YmQxMGNlMjc3MzA0YjY4MjU3MWJhNTcyZDVlM2MxZTdjODEzMzJjZjFmOGRhMDhhYzgwYmE2YmNiYjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5YTdiOTgxMzVjYWFmNWEyMThhNjAyNmNkZWZlY2I4MzJkNDliOWM4MzE0NGQxMWM5MDU4ODZlZGNhYmQ2MjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVmZTVjYTdmYmJkMTk5YTZhZDgyZGU1MmY0ZWE2NDMxODVmNjM1MGE4MGJhNTJkNWFkN2VlYTMyNTY3NzUwYzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3ZGI2ZWNlYzJjMGRlODVmY2IwZjhlZWZjYmUzMzY2YzM5YmMyN2Q0YWExOTE3ZDVmZDBlNzRkYjI4Yzk1MjUifQ"
+        },
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L9-L15",
+          "version": "repo-lines-v1:sha256:d2d241580b105ad47a96b6d03302c4c5fe74a95300c2ccc335da7bd09bb8a666:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDA2ZWFmNDNjYmI5ZTljNzQzMDQ5NjcyNDU4YzkwYmI3NGQxNTJmYmU4ZWFhOGQ1ZjE5NTZmNGY1MWI2ZDViZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTUyZTgwNWM0ZTI5ODYwMDZhYWY3NmIzODE3MGU1ZDkzM2JlYTdkYTE1OWZmN2UxODFiZmRlMWU0Mjc3ZmE2OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODA0ZDM1NTAyZTg0M2FlMDQwZTgyZjQyYTJlNWM1NGMwZWVmN2EwOTJhODE2NDMxZTFjZjM4YTUwMDM0MzZiMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzBlNTI5YjhkNGEwZWQzOTQ5MTc0MWU1ZjZjNDQ5ZGJmMjUxMDE2YThkZDhkZGUzODM4ZDczYzU0NDMyMmY2NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e8c513522c2649b5919b14ed35670735",
+      "statement": "The wiki workflow opens its pull request with a separate fine-grained token rather than the default job token, because a pull request opened with the default token does not start pull_request workflows and the repository checks would never run on generated documentation.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L109-L115",
+          "version": "repo-lines-v1:sha256:bd4423af944278ba0aaacfd68ad10eb093edf5a63a0f30dec30b6b3e0cd6f7d8:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzIzMjliZDEwY2UyNzczMDRiNjgyNTcxYmE1NzJkNWUzYzFlN2M4MTMzMmNmMWY4ZGEwOGFjODBiYTZiY2JiNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzA5Y2U1ZWIyY2E2OTZiNjBhNWVmY2EwYWI4NTZkZmNlYzUyYzU1NmUyOWRjZTUyYmVjM2I3ZGJjZGU0ODU5ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWZlNWNhN2ZiYmQxOTlhNmFkODJkZTUyZjRlYTY0MzE4NWY2MzUwYTgwYmE1MmQ1YWQ3ZWVhMzI1Njc3NTBjNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDcyY2UyYmU0Nzc0MWY3Njk1MGRjMWRhYjE0NGYwNGMyOGZkYmY1NzdlZTkyMGRhYzY2NzI3NzExZGI4MjVjNyJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L175-L179",
+          "version": "repo-lines-v1:sha256:0a63c1cc953881b8fc0b626435aa1a654412c16bd8cb20325d42ca0e085feee4:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmM0Y2FjNzcxMzA4N2QxOTc2MjM2ZmQyYTNmYWI0ODNjYTg2MmI4ZmNmMzUzZGMzY2U1YjliYWRmODUxM2ZiOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmU4MGVmODcxYTQxZDkwM2JlODE4OWU2NWI3MzJmNGFiYTQ0YzQzMDBlM2Y0MzliOWFiYWNhNDgxN2FiY2E1YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2Q3ZTczMDU1MTI5Mzc5MjJjOTVjODcwZjg4MWYwNjYwN2QwOWI0OTY0OTE3OWZiZTM4NzA4ZGUzOWYzMWEzZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a53727093ce042fa834b43227be584e8",
+      "statement": "The secret presence check is a separate job that the main job depends on rather than a first step, because two later steps run under if: !cancelled() and would otherwise still open a pull request with an empty token after the check refused to start.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L40-L58",
+          "version": "repo-lines-v1:sha256:3195ed0421979f411be37c7642dfdf1866c5b011c37e404453c3e1fccd5b7980:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5ZDgwMTU0ZWQ0MmZjNWM3NzliMTMzMTU3OGI1OGI4OWM4MDFlYWNlNzRmMjRjZDQ4ZWI0YTIzNTc5NDBhOTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwOGYxYjA2MGVmN2M2MDZlMWY5ZTYyNTc4NGJlZmNkM2IwMmMzOTM2NmY3NTdhNmZlZDA5MjhlODZkMzFhNGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZlYzVmYTllMGVjZDFkY2FkZjJhYWM5N2I5Mjc3ZmUwMjY1YWUwMmFhMjVkMzgwYWI2MGY4ZjA4Yzg1ZjAzYTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1ZDI0YjhhZTJmMWQ0ZTZkZDFkMTJmZjBhOTQwNGNiZWE3YTdlNjUyZmQxMWUxNzczZDhiMzgzYzQzYTMyOTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4b725ef8fe5a437dae3962ccb467ab30",
+      "statement": "The wiki job checks out the default branch with full history, because the generator diffs HEAD against the commit it last documented and a shallow clone hides that commit, producing an empty change summary and documenting nothing.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L65-L80",
+          "version": "repo-lines-v1:sha256:74e2c31971c86ff12205b4e510dd542e63de1541146e98d0bbc735caebd2d80c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1ZDZjZjdkNDI4Y2E4MTE1ZmM0YmFiYjY4MDczOTAyMzMyN2E3YTlkOTE2M2Y3MDZhMjc2ODdkZDUxNmYzOTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzMDk3NWM3ZTIwZWJhODg1N2VmZDMxZTYyYjY2NWY3ODdlNTE2NDE5NTFhNjYwNzg5ZmJhOTMzYTYzNDcyMTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUxNGU5ZTczNDRlZmMxNmY2MTE1ZDJiMTE2OGFkZDVkMzVmNDlhMGYwNmFlZjg3YWNkZjc1YWQzMTE4MmM3YzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY1NmRkYjM1NzMyZmE2Y2EzN2RjOTU4ZWYxMWMyNDQyOTI1NzFlZjY0YTk1OGVmYjM0MmVkZGU5NzUwY2YzMzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e87de5988cee4ff8b3731e07aea7bed0",
+      "statement": "A partial generation run is treated as progress: the generation step continues on error, the transient run-state file is removed, the pull request is opened reporting the outcome, and the failure is propagated only afterwards, because completed pages are durable and become the baseline for the next run.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L92-L132",
+          "version": "repo-lines-v1:sha256:61f099e691d2dd4ad29bbb4e03517e36a287227493fbb0d87c0f0e63515a885e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwZThmOWZhNDBlN2JkMDQ5OWQxYzBkODNmZDc1OGFhODViMzA4NDJkYmQ2MWYwZWE2YjdhZTEwZWZlYzc2ZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2NzE4ZjA2N2I1ZTVjMWYwOTkxYTZlNzQ3MjZmZTJhMjNkMjY0MzQ1ZTA4ZTRlYWQwNGZhZjczYzI3ZWQ0NDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRiMTMyZjA2N2EyM2ZiM2QyYzkyNzA2MzBkZTdhYTZlNTAxZDU2OTllNzM4ZmMzYTZkNmNmMjEyM2IxYjhlNTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c1d96c550e564650bd8fa308949c0869",
+      "statement": "The repository registers the names and handling rules of automation secrets and variables without storing any values, requiring that secret values never appear in Markdown, scripts, manifests, evidence, workflow logs or environment examples, that a credential is never duplicated into a plaintext Actions variable, and that an exposed credential is rotated before further use.",
+      "evidence": [
+        {
+          "resource": "repo://docs/04-application-standards/GITHUB-ACTIONS-SECRET-AND-VARIABLE-REGISTRY.md#L29-L43",
+          "version": "repo-lines-v1:sha256:a3b911b24358ba81558f218480a601d736e3d98c231972fe34d156bd9d232f77:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBkMmNkMjkwMzA5OWE4OWQxNmI4MGQwZTNmYTUyNjQ1M2Y0MTc1ZGMzYTZlZDNiYTVlNDQxZDMyNWU4ODZhYjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4NWY0OWExMDNhNTYyM2RjODM4NDdmZGE0NDFmNTkxNjBhYmJhODU2M2IxMmE0NGUwNDBjNDQwZDM4MWI1OTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkODdkOTQ5MjJmOWUzNjE0OWUzOTNjZjZlM2I5YzljNWUyNTYyMmI0NGM4ZjM1OTAyMWY4MmM2OTZkYTU1NmMifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T03:13:20.331Z"
+  }
+}

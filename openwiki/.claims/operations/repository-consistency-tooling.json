@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:5a363d17b7ee8cddfa1fedcc19585762b5407e17c6e980af536a243bdd0212c6",
+  "claims": [
+    {
+      "id": "claim_fe0027fec0694e599bdfb93e04648b41",
+      "statement": "Each hx-doc tool is a pair of an extensionless bash wrapper and a Python body beside it, and the wrapper probes candidate interpreters for one that actually reports Python 3 rather than assuming python3 is an interpreter, because on Windows a python3 App Execution Alias sits on PATH and is not one.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L108-L116",
+          "version": "repo-lines-v1:sha256:7dc32beb9f4ec1d6ea01c08075101fdc464fb6f78eb94f21923607d828de3710:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDgyMmJlZWFhNWE1MDBkMGIyNGVmODNiNWEyOTYzNzM1ZjQ1YjhlY2M3ZDFiZTBiOWYxYTI0ZTU0MzYwMTYzNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDRlZmRiNWI0OGVhYWIzMThlODY2N2RiN2Y2YzI3NjU4NjMyZDUxYzY1YzVlZjk4OGIyNTI1YTdkYzFiNTZiZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGYwYzBmYTJiYTAwZjc2ZTI2MGQ1MzhjMjNjZDcxZjhmNTg3MDc2YzVhODVlN2MyNmNjODdkMGUyOGRhMmM2MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWViMmU0ZTNmNTdkOTQxOGFhYzVhN2JiZThhMjVmNjU4MzljZDkyMjRiZWQ3MTg1N2Q0NzM1MjkyNGY0YWY5NSJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx-doc-check",
+          "version": "repo-file-v1:sha256:423c42f78ff0e0ba17db3cb4a6794ce5344182e1acdca4ed6bd46468ecf48073"
+        }
+      ]
+    },
+    {
+      "id": "claim_48a9e702ab4b402f9b19194385dfdc2b",
+      "statement": "The hx-doc suite has no third-party dependencies and is restricted to the Python 3 standard library, with any new third-party import in tools/ treated as a review finding.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L108-L116",
+          "version": "repo-lines-v1:sha256:7dc32beb9f4ec1d6ea01c08075101fdc464fb6f78eb94f21923607d828de3710:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDgyMmJlZWFhNWE1MDBkMGIyNGVmODNiNWEyOTYzNzM1ZjQ1YjhlY2M3ZDFiZTBiOWYxYTI0ZTU0MzYwMTYzNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDRlZmRiNWI0OGVhYWIzMThlODY2N2RiN2Y2YzI3NjU4NjMyZDUxYzY1YzVlZjk4OGIyNTI1YTdkYzFiNTZiZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGYwYzBmYTJiYTAwZjc2ZTI2MGQ1MzhjMjNjZDcxZjhmNTg3MDc2YzVhODVlN2MyNmNjODdkMGUyOGRhMmM2MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWViMmU0ZTNmNTdkOTQxOGFhYzVhN2JiZThhMjVmNjU4MzljZDkyMjRiZWQ3MTg1N2Q0NzM1MjkyNGY0YWY5NSJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/README.md#L1-L6",
+          "version": "repo-lines-v1:sha256:a0523c11500f6d5cd4800924fd4ab725a372f21a10887f0440049d085f29824e:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmI4Nzk4ZTQ1OTZhOWU0Yjk0OTI5ZGNjMDQwYjgyMmU1YzE5MzZkZTBkMGM2YWM0NmZmYmRkMWYyMzExYWEyYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTFmYTAzMGQ4MzYzZmMzODNjZGQ1ZGYyZjU3NTM3OWVmODI5MjY2MDk2YzY2MGE2NjU0N2U3NjAwZDEzNmI2YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjI4YjkyNGZmNWZjODViODQ1ZGI2OWI2MWZiYjg0YzQ1MzdlMzIyYmVlNjMyZWRlNTYxNjI1ZTQ0YjE0NzhlYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9131cdb254884f64b1e4e477a0e483ae",
+      "statement": "hx-doc-check accepts an unresolved path reference only when the line or its nearest preceding heading declares it a forward reference, so a declared authority gap covers the bullets beneath it.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L27-L35",
+          "version": "repo-lines-v1:sha256:bd7756a5462f271391436f947bbc01768290f4136c6d7a6664be6f0c065dc012:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjk4ZjdkMTRlYjY5MTgzZWQyMDMxM2NlNjY0ZjdmNzBhNTVkZGNlYTQzMjRiMWIxNWQwMmYwMTc4YTFiMTJlNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmFmYmEwNTI3YzM5NTNjNGI2ZTBlNWI1NzM5YmE4MzYxMmY4MDUzYmNkYzk0NjY3MzAxOTNjZDFkNTkwYjQwOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiMDEwYzU2NGQxMGI0MzJlMzkwYTRkNGI2MWI3NWUzZWMzNTVmZGRmNWY2NmNmMzk2ZTMwNTQwMjM2MDQ4ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmI0ZDlmNzJjYTg1ZWI5NjZkNjc4M2Q0MGRkYjczMTU1OWU1NTBiNGExZjJiMDg0NTVlMWFhNzRkMDc2N2ZmOCJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L70-L101",
+          "version": "repo-lines-v1:sha256:63bdab894efb58f4edb0b4b72761b50da4fb4b54d3e5b42968c2f1378ad67f84:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiYjhlMzhlOTkwMWQwNzBiNTk0NTZhMjkwMmE5ODViNTM4Y2M5ODRmYjYxZjZhOWRiN2M2Y2NiMDQwZmE0YTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2N2UwYmMyNzc3YTNhNTBhNGJmYWMzNmZmYzBiYjcyYzVmMTAyZTYzZjI3ZjBlMzMxN2NmNWE5ZGY2ZWQyMzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBiNDY4YWQwYWJkNWRmODYyMGJiOTRiZGZmZTg1ZjQyMTEwZWNkYThhZjc2NGE0ZDVjM2JhMDZiYWE1Zjc3M2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4ZWRmYzg2ZjViMjhjZDNlZjhhZTFkMTJiYzQ2NmI0ZTk3NDRkY2FkODc5YzdkZWEyMWZlNDJlMDBiMmQ5NTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ceb5eae0b0a043edb53d50cc1569f711",
+      "statement": "A path reference that resolves outside the repository is rejected by the link check rather than being satisfied by whatever happens to exist on the machine running it.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L84-L93",
+          "version": "repo-lines-v1:sha256:06490e43e87982acc9fbb8048fc86ca7d6d017c182503cc13289bdf481ae462f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxY2ViNDgzMjQ3NDY0ZmE3YTQ4NDZmYjMyMDJlZmY5NmQwM2NmMzNjMjhhNDY3YjlmNDU1NTNlOTU0NDY4MGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhNmFiMTE4OTA0Nzk4Mjg2MmUzNjA5ZGRjZjFmOWQwNTc3MGU0ZTc4MzI5YmM2MDdmYTVlODRhOTVmMWEyZTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjMDExZGNkMzcwMGFkNGMzZWQ4Yzg0YzMxNmYyZDM1MWZlZGNmZGNiYTMyZWQyNTg1YjllNzkxMTc3YmI1YWMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f8f937d1af5f443bb235fa343cb8aeb5",
+      "statement": "The vocabulary check reads the allowed skill lifecycle states live from the governance document's registry-status section and fails outright if that section cannot be found, rather than comparing against a hard-coded list that could silently pass everything.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L113-L138",
+          "version": "repo-lines-v1:sha256:c9476e466cafb3d5ad1d96863c49913207c33debc78142d57b1bf7d28d8ea60c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU3NWZmYjZlNTU4ZWVjNDYxZjczNGFkMzY5MWMxODEyYWM3Zjc4ODVjYWFkNjViMWY0OWQyMTZjNjBlNTc2MTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFlMjRkZjRkMDA5ZGYxZGIwZmUxOWM1NWJkNzA3OWM3YzIyOTViNzcwODUxZTY1MzA0MjIwNjBiMGZiZjAwYjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg4YzBhMjM2MmE2ZmUxOTRiODI3NzEyODY2YTdiYzc3MjZhMjY1ZDg2ZWJjMzQ3ZDFhZjVkNmJkNzc1Y2E1NzAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ddc886854d624dba801e53828331d114",
+      "statement": "The evidence check reads git check-ignore's exit status precisely — 0 means ignored and fails, 1 means committable and passes, anything else is reported as an unchecked error — because treating any non-zero status as success once let a git failure report retained evidence as safe.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L174-L196",
+          "version": "repo-lines-v1:sha256:e6b97d2febb9c14dc99dd564df792e0d9b40c8bc703a4f581d83aed95e7ce791:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlZDBmMzE0MWVmMjVjNTc0NjA4ZjQ1ZTU4YzMyMDk4MjFhNjIyZGNjY2M2NmIxM2FlOGE5MWE1ZDU5OTJmNjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk0OWEzZjUxN2U2NTI3MGJiZjJkZjQxMzQ3ODBmMDE3NGQwM2VlNDJiMzUyMjJhMjkwYjI2OWFiMjMwMThiMWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYyODA0N2IxNjk4NzE0NThkMDdjYjkxOGZiZGFhZTkyYjY2MmRmZjNlNmY2ZjFmMjlhNWZlNzk0ZWQ2OWZkN2QifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4735b778b9214ab692ad3a81bb512b11",
+      "statement": "hx-doc-check verifies that a runbook block only tells the operator to check a systemd unit the block itself creates, stripping comment lines first so that a mention in a comment or an rm cannot satisfy the check, and requiring a real creation via the unit helper or a tee, cp, install or redirect to the unit path.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-app-lib.sh#L77-L96",
+          "version": "repo-lines-v1:sha256:527948bccd3536c9d655b92f58a5cae764670d5d18310f9213d1578e28e90f77:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmM2ViNDlmYTliYjQ2MTc2MDVkMTg3MjZmNGU0MWU2OTMzYzQ4OThjMWI4NGE2MGRmZjgzYmVlMmVlZGIxYjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1ZmM5MGZmOGE0NDE0YzU0NDFkMGY2NzdjNWNiZmRhMzhiNDc0ZTUxYmZkNTU5YTU1NTlkZTBmODc3MDU1MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwN2NjNDgwNTU2OGY2M2FkMDMwOTY3MWVkMzdlNjlhYzI0YzU3ZjYwZDg1ZWM2Yzg5NmI2YTg3YWJhNjUwM2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ4NTQyM2Q1MzBiYjFkMGMzOWZhMTUzMGJjZWIzMThkNzVkZTE1MDdhOWJiMjM2OGRjYThlOWZjMjBhNWY0NWIifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L198-L234",
+          "version": "repo-lines-v1:sha256:cd37984a3f5ec616a69f4f6368b63234b9864a045c24dfa7f7cb964d4d90a1e7:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwNjhiYmY2YWMzZWMxMmMxODAzNWU3MzgwNDQwNDgyOWVhZDQ1ODg1N2JhNGUwMWNjODMyOTAxNmUzNjQzMWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmYTVmZjgzYjA3Nzc5MjVjMGVjZDUxODQzNWQ0MmJhYWU4NzJjZDg5YjVkYTc2NWU2MzZiOGVjNGI3ZGExNDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzZGYyYWNmMDZlOGMzZjAzYzcxMzVjNmU4YWM1YTljYTU0MzJhYmUwNmE3NGFjYTBmZGQ5YTUzYTAwOGY5ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0OGQ3NDgzZDA2MGYxNzIyZTI0NTM2ODg4MzM0MjU2YjU0OTBlOGJiZTg2OTgyMDY3NmNhOWVhZjM1MDljYzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2895d373b57449b5aa01c44d3004fa09",
+      "statement": "hx-record-check classifies findings as MISSING, UNRESOLVED or DRIFT, treats UNRESOLVED fields as recorded gaps rather than errors unless --strict is passed, and allows a record to exempt genuinely inapplicable sections with a single declared line giving a reason.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_record_check.py#L1-L16",
+          "version": "repo-lines-v1:sha256:5079d89e530030d2d0981944d21d05cf82794cfc4647662e41e7fc9779d22b07:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ODJjYmRiNGM4YjA3NTE4YmY0ODZjNTg5OTBmYzM5MTc4M2FhMjBhOTE2YmZiMjdhZDIxMWViMWQ1YzM2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMDNlY2RkNGE0ZDEwZjE5YzczZmQ0MmZkMTI0MzdmZDMzNTRhODI2ODE2MDVkYTUyNTVhOTdhMzkwNjhkYmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE4ZGQxZmIyN2ExMWYwMGY2ZDdmZTExZmFmZWFjYWE0NjI0OTVlNTg3ZjJkYTc3YzMxNzNiY2MyYWY2NTc4YjAifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_record_check.py#L118-L124",
+          "version": "repo-lines-v1:sha256:7d752cd63b6689380a0f9369d3d1940b73166941d772fd1e6efa6747d1463634:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2E3NjhjZmQ4NDIxZDc4NWY2ODExNDU5MmU2YjAyNjgwOGY3YzZhNTI2ZTRmYzEzZDU1YmI3ODM1YzBkYmQ2ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzUwYTRiYmQyMTAzZGU3YTNhODQ1MjVkZWE5ZmNhNTEwZmM5ODYxZTAwYmI5MWZjM2JhYzhmYTI5MmMzZTYzZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzkxZDNiNzE3NGZmNGI0MTNhMWI1YzgxMGZkYWEwMjZhN2M4NjYwNDkyOWU5MWY5YmViNjJjMDk4YzUxZDlhYyJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_record_check.py#L62-L78",
+          "version": "repo-lines-v1:sha256:3fdfea6b464d7f1c2075c1577f3e8ad3f58e9f436aeef7a46a7f27174be81ec0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZhOTkyMzQzNDQwOGI5MjdkZTgxZjhjNzQwMWEyZTY2YmI2OTMyMzE1NGQ0NWEzZGMzNzUyNTQwZGQyMmVkZjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFlODFkNjQzMDkzMTY0NzJiNTEzNDg0ZDIzZjZkOWRlZDVjZGM5MWRhZjdlMGY1MGVlYjQ3MTY0ZTNjZGFiNzIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_886cd181cbae4f09a4db437ef036fa1c",
+      "statement": "The record-versus-fleet drift comparison normalises and compares the whole state value, because an earlier substring test on the first word let NOT STARTED be satisfied by NOT APPLICABLE and IN PROGRESS by INSTALLED.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_record_check.py#L82-L105",
+          "version": "repo-lines-v1:sha256:1d3a980678a70c4cdfd7817c567dd93835f530eda932342611693b570b1e8bc7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI0ZDk0MGM2M2Y2YzQyOWI2NjQ2Y2U3OGU0M2Q1NDQwYjAwOGFhOTdiMTE0MDg4Zjk0NTUzOGQxMjQ5MWY1YjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlODFkNjQzMDkzMTY0NzJiNTEzNDg0ZDIzZjZkOWRlZDVjZGM5MWRhZjdlMGY1MGVlYjQ3MTY0ZTNjZGFiNzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhiYWNkYmMzZTE0ZDAxYzVhMzI1YjFlOTYzZWVlMjRkOTdkMGQwMDAzYTQ4ODU4NGRiMmY0NjQzZTE4NjBmYzAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_19795caf09ed4bca9f5946f191a83e8f",
+      "statement": "hx-smoke-lint requires each smoke-test authority to carry six canonical sections plus a known-answer marker, because service health alone is not a smoke test.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_smoke_lint.py#L1-L45",
+          "version": "repo-lines-v1:sha256:15cfd9b4dfa11976bd0239993335ba17a88e710b196d308efbab97f85f9ffa42:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ODJjYmRiNGM4YjA3NTE4YmY0ODZjNTg5OTBmYzM5MTc4M2FhMjBhOTE2YmZiMjdhZDIxMWViMWQ1YzM2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0OGQ3NDgzZDA2MGYxNzIyZTI0NTM2ODg4MzM0MjU2YjU0OTBlOGJiZTg2OTgyMDY3NmNhOWVhZjM1MDljYzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8a6bd0951e0b44499ffc931788d0cd78",
+      "statement": "The evidence-retention anchor in hx-smoke-lint is the standard retained-bundle path matched against the heading-stripped body, because matching the word evidence was satisfied by a warning about evidence, matching retain was satisfied by \"do not retain credentials\", and an empty Evidence heading satisfied the check on its own.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_smoke_lint.py#L37-L45",
+          "version": "repo-lines-v1:sha256:bbf2f23fc9411272e138bcc841224896b4b45d9051d218271b2de1fa8499e22e:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjIyNGU0YjBmNWFhMTAwZTFhNDVjMDdhMjJlNTg5ODc4MGM0ODA0ZDcyZjAwYTRiY2E1NjA1ZDhiNzlhYmUxYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjk0MTZlMDlmNzhiYTMxNmMwMzI1NjgyMTNiODU1ZWU3NTZlNDE1NjVkOTE4ZjA5NTE5YzgxZmQ2MjBmNDA2MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2IzMjJhYTEwZTY4YzE3ZGFhYTM5MjU1NmJmMWYzODgxYTMzZTQyOTdkYmVkZWU0Nzc0NzdmNjAyNjcwZTlmZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTQ4ZDc0ODNkMDYwZjE3MjJlMjQ1MzY4ODgzMzQyNTZiNTQ5MGU4YmJlODY5ODIwNjc2Y2E5ZWFmMzUwOWNjOSJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_smoke_lint.py#L66-L74",
+          "version": "repo-lines-v1:sha256:37325b9c90842b75555734eeae956479a6dd1fd2bd1234c3f3afc7079fa2bc12:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWQwZmNmMzY2NDc5ZTUyYzU2ZDUwMzZkYzgxY2ExMTlmZDNmODZhOTFlMTIwNDRlODBkNTY5YzJmY2M3MzBmNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTUxN2UyZDg5NDAzNzcyNTU3OTI2MjI0Y2Y1MTIyODhjMTA1ZmY1ZTA5ZDM1MGFhNjE4ZTVkMDIzZTNkZTRhMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBlYTVhN2EwY2UyYzY1NWQ0N2IwOTJiMWFiMWIxZGUyYjFjZmU0MTAyODcwMzY1NGMwMjc2ZDMzMWNlMWVjOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2ViODcxNGVhYTYyNWUxZmRhYjljNDc4MGZjOGYwMzJkYjE3MTEzMDE0Mzc1NjlmNjQ0OGYxY2JmMWRlYzU4NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_79e59c0889ad4056869aad5e96013b0f",
+      "statement": "hx-new-server scaffolds a server's runbook wrappers, runbook README and server record from the fleet TSV and the record template, omitting the storage and Ollama block with --no-ollama and never overwriting existing files without --force.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_new_server.py#L1-L19",
+          "version": "repo-lines-v1:sha256:8b787de28876b6733d5ddc4c7cd6df63e85bedd13c398dd99b15b51707a42c42:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ODJjYmRiNGM4YjA3NTE4YmY0ODZjNTg5OTBmYzM5MTc4M2FhMjBhOTE2YmZiMjdhZDIxMWViMWQ1YzM2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMDNlY2RkNGE0ZDEwZjE5YzczZmQ0MmZkMTI0MzdmZDMzNTRhODI2ODE2MDVkYTUyNTVhOTdhMzkwNjhkYmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE4ZGQxZmIyN2ExMWYwMGY2ZDdmZTExZmFmZWFjYWE0NjI0OTVlNTg3ZjJkYTc3YzMxNzNiY2MyYWY2NTc4YjAifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_new_server.py#L145-L170",
+          "version": "repo-lines-v1:sha256:f3b5afa1a437b42aae0e26b01f5eb510f71d7657a298f67d77b3e14c03a685f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmMTllYjQwM2IzNTMxZmNmNDJiMjIzNzgwYjI4ZGY5ZWFjYmUzZTNkZDFiMmQ1MzUzMzA0ZjhlN2I4YWViYTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwNWNiZjE0MzA3MmQ2MGU2ZjgwNDI3NmQzMjAyMTdjOGM5MDViMzEwNGJjZjhiOThlOGIxMTkwYTg2YzE1MjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjOTk3MjI5ZTBjZDEzOGI1NmQ2MjA0NTVlNTFkYjdmMDgyNTYwZWQ5YjFkZjcxOGI5NTA4YzQyMjNmZDA3MDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRkMjM5NTRiM2ZkZjUzNzkwMjg5NzY5ZTcxY2FhMzlmMTY3YzliY2IzNmQ4NzkxMDBkZmU3MDdjZGQ0YmMzMzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c2d2b10eeb044eaeab857299609c8083",
+      "statement": "hx-new-server rejects unrecognised -- options instead of dropping them silently, builds and validates the server record before writing any file, and requires every template substitution to match exactly once so a template edit cannot ship a record still containing placeholders.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_new_server.py#L118-L131",
+          "version": "repo-lines-v1:sha256:3d53f0242a6e9126532359f2460cc75175185e6ac6cd458190eeea15fe75de3f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk5M2Y2ODdjY2FiMzE5NTkwOGMxZjVhYmVlY2I0MzJkODk0NzMxNDA2NTk2NDU3Y2Q4NjkzZTA3YjA3YWQzNGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQzMWFjNTM3N2I4NjAyZDVhOGQwZTFhMjg3MzJhNjJkYWI2YjllMzc4ZGEwYmY5ODIyZDM2YzRmM2ZlNWIyNzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1YzljYTRjNjZjODNlN2NkYjhlZmU1ZmQ5OWQxODAxNDFlYWU3ZmIzNTQ4NmM2OTdmNzFlMDU1ZDE3NzAxMTQifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_new_server.py#L89-L100",
+          "version": "repo-lines-v1:sha256:03fee0919b714ab005dcc29f350af8cfb9c359f6dd701f19b550750a66790067:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMzk3OTMzYTI0YTgwMWVlOTIzMzI3YmQ2OWEwMTA0OWMwNzc5MTUwMjFjZjJlYzM5ZGRhNGY4MWFhODM3ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxN2E0ZDczMzJiYzBmYzI1NTMyZjViYjk5NzA0MmEwZTM1YzZmMmJkMzA2M2JmMmI0M2ZiNzAyYjA2ZWFhNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc2NGU4YTJlOGZlMGRiNGMwZWI5YmFiODZjMzMzOWI2NWNhYzg5YTQzNDcxODc0NmZhNmIxNGEyMmI3NmQzYmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE5YjM0OTYwMTk3ZTY3MGMwNWM4NjA3MjMyZWQyMTg4ZTYwNGQ3OGQ4ZGNkNmNjZmU3ZGU0NDQ4NjQ2MmU2MTkifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T03:13:20.331Z"
+  }
+}

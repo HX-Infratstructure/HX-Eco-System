@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:0d7094bf72005e93cc5f88acb931c739c7a317fb736cde5596a6b996dd7bfeb7",
+  "claims": [
+    {
+      "id": "claim_88724e08210746908d05c600a8bc36b6",
+      "statement": "hx-gate-tests proves each repository gate still fails on the case it guards by breaking that thing and asserting a non-zero exit, on the principle that a check which cannot fail looks like coverage and is not.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L1-L11",
+          "version": "repo-lines-v1:sha256:867db1b5a55b027d3c321b980cf9078dbf9c93d3a1fdfd86d07c1e92aa66e4b3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0MWM1MTVlNTZlOGMxNzk4NWUzZTVjODgyNThlZWVkYTBlNDNlYjI3MjY0YzIxNDU5Y2I4YzRhNmFmYTZmMzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMDNlY2RkNGE0ZDEwZjE5YzczZmQ0MmZkMTI0MzdmZDMzNTRhODI2ODE2MDVkYTUyNTVhOTdhMzkwNjhkYmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNlZDJkZDMyYWIzYTU5YWIxZDhkODRlMGE4OTZlYjM2MDBhOWJiMGYzYjI5YmE1MjlmMDVlZjE1Zjk0MDcyMTAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5b560d36e1274014ad86eaa703df0b67",
+      "statement": "Every mutation runs against a throwaway copy of the repository refreshed before each test, never the working tree, so tests cannot affect one another.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L37-L50",
+          "version": "repo-lines-v1:sha256:02836a11484c82b0a792cbc7118d170b72cc670b092ae9b4e8e9f74b01833658:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlZjAxZjkwOTZiZmYxOTUzMTk4NjM3MzI1Yjk0ODMzNzU0MTU1MmYwNmI0ZTdiOGQ3NzE1NDRkMjNhZjJiZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmZDQyZTgwNDk4M2NkYjdkNzZmMmY0ZGFlMjA3YmEyYWY1OGYzOWY3ZmMzNDUzNDhjNjYxNmEyY2E2ZjczOWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNhNGRmNzYzNzM1OGUzNmJjNjhhODIyODI5YTBmNTljZTFhMDVjMGYzNGNkZGViNjc2YmQxNmU5ZjI4MWEzMWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE4M2MxZDg1NjFhYzRlYTc2YTk1OWY5YjdjNjYwMTU3ZGExMDNkZmY0Yjk2NWNmMzQyNDBiMDY4YThiMzdlM2YifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8c49b8f6bb7744da9e5e952a25868e3f",
+      "statement": "The scratch copy is initialised as a git work tree, because the documentation checker's git check-ignore probe exits 128 outside one and every test expected a non-zero exit anyway, so the harness had been running one check in an environment where it could not pass.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L38-L50",
+          "version": "repo-lines-v1:sha256:79cafc2f32ba65545d8cf60adf21cfc36246e86a3df66ad7cb90cef8633fb015:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmNTEyY2NhMDBkN2NkZmQzYzgyOTUyZDU1ZDgwNzk0NDA4Zjc1YjJjY2Q0ZjQyNTJhZDYwNzFlOTM0Y2IwNzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmZDQyZTgwNDk4M2NkYjdkNzZmMmY0ZGFlMjA3YmEyYWY1OGYzOWY3ZmMzNDUzNDhjNjYxNmEyY2E2ZjczOWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzMzYyYmQ1MGIxOThmZDAzNmIxY2YxNDhkZDI0ODkzMzdiNjUwYjhiZGZiM2I0NjQzYTlhMDM1OGQyYTNlMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE4M2MxZDg1NjFhYzRlYTc2YTk1OWY5YjdjNjYwMTU3ZGExMDNkZmY0Yjk2NWNmMzQyNDBiMDY4YThiMzdlM2YifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_33437a7428724218bb7dcac64156a5aa",
+      "statement": "A baseline test asserts that the fleet check passes on an unmodified copy before any mutation runs, so a scratch copy broken for an unrelated reason cannot make every mutation test look successful.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L58-L61",
+          "version": "repo-lines-v1:sha256:534bb402961dc35ad3157b58685c6f622b7037ace843a608607d6bc75a47be7d:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDlhYzU1N2RmZWZlMjMyZTlhNzRmM2QxNjAyMzE0Yzc4ZDE3MDNjMjYwMjBlYWI0ODY5ZmJhYjcyNmRiMjhiMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjcxMzkwZmE2NGM0NTdjZGVjNjdlNjlmNzRhZjg5Zjc3ZWU1YTRlNzJhNmQ4YzJhMTkzNTgwNzk0NzdmYTgyNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTQwNWZmY2FkMDMxMDVhNTU1YWYzNmI4NmZiNDcwZmM4NDA0YWFlOTU0NTgzZTFjN2ZmODRiMzEwYWE1NDAzYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWM4MDhlMjlmYjlkM2JhOTdjNmQ4OTdlY2VkMWVlZDA3MzFjMjM2MjA5OTI1MjE5ZTViNjMwYzViNWRlNzJmYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4ca6b2d7d00b48d09042c12459df8d91",
+      "statement": "Each assertion tests both the non-zero exit status and a distinctive fragment of the tool's output, so a tool failing for an unrelated reason does not count as the gate firing.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L63-L102",
+          "version": "repo-lines-v1:sha256:f4565b045c5f1017c72b4e0629b54c3c33c3e55b9a46e7fab66d817b51d28cd4:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlMWZjMDY0NmI5OGQ3YWM1ZTViYWNhYTdkNzRjM2JlN2IxOGU3NmU3YjA5M2IyODBmNmJlMGNkMTE4ODI3YzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiZmZkZWUxODgzMDdkNjkwN2U2M2FiMjNkZGRjM2NlYTVmMDJmMWQ3ODkxNjBlMzAwNmI0MmNiYzYzZWFkMWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRjOTY1MjI0ZjUyYmVkNjMxNmY2Yjc3NmUxNDI5YTEyMTUyYzZkNzExN2E3OGFkZjYyN2MzMTIyZDM0MmEyMDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg5MjFkNzk1Y2QwZGEwMjcyMGY1NTQ4OTYzYTZlMDcxNzMxMzk5NDNhZDFjOTY3YTYzMjJkYjk2ZTZiYWIyMGIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_dc5509cba2034ac99c07fefdff9ffd08",
+      "statement": "The smoke-test linter is covered by four separate mutations, including replacing the evidence section with \"Do not retain credentials in evidence, and do not retain secrets\", a sentence containing both anchor words, which must still fail because the check is anchored to the retained-bundle path.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L213-L262",
+          "version": "repo-lines-v1:sha256:3230ccb28483f33fe20f0ee38d7e03a0f83c5052cc15f02504ec645789904cc0:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyMjk5Njk1MTRkYjAyM2JkNTc0MTdlODkwNGU0ZDY0YzM5MDk2MjQ0YzhlMDMyZmZhYmMyMDY2NGI2MzkyYTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjYTQyZTAwZjEyNDhmY2IyYjU0MTY3YWQ2NWEyYjJlN2Q3MmZlYThlOWM0MzRkNDFjYWQ4YzEyYTBhMThiYzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0NzM4Mzc3NzZiNmM0YjIwNzlhZWEzNmUxNDZlZWEwMTljMmI2NDNhNWUzNmU2MjkzYjExZjBiODgxY2Y0NWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlkYzczZjk5NDJmZmUyMWNhMWI1ZTY3YTRhZmQ0OGIzN2ZmNzBmYTFlOTdlYjQyNTg5YTliM2QxYzE4N2FiMTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_234c848545c649d894ac49702a24db48",
+      "statement": "The unit-claim gate is tested twice: a block reporting a unit nothing creates must fail, and a block that merely mentions the unit path in an rm while reporting it must also fail, so a mention cannot pass as a creation.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L264-L282",
+          "version": "repo-lines-v1:sha256:33a0ef477b936738750e7a8586a04c9974427c9e3608b4235d3bbae760d6ce93:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhYzk3MjdiOGMzZTIxM2M3ZmU5ZTYwZmI2MjcyMmU5Y2M0ZmZkMmI0Nzc4OTNiZTU3MjI4MDVlODU1YmJkOGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiNTBmMGI0ZmY0ZDU0ZDI1ZTEyZDAwNDMyOTk1NzcxMmI1M2ZhNjRjOGQ4MWY3YTljZDJlMjBjMjkzOWUyMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMyZGExNmY3ZGU1MTFhOTI5NjM5OWIxZWE0ODlmY2U0ZDQwZDMxNzE3M2U3Y2NlOWYwNDY0ZWMwZDlmMDVmZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzMTliYWFmN2RhNmUxZTU5NTRmZWU0NzU5NWJmNDI2ZWYyZjhjMGU0YWNmZmQyZTc2OGRjZGRjMmVkZGQyNWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3c28a310a08646f59ead60276b7bbb1a",
+      "statement": "Two paired tests hold the generated-tree exclusion in place: a broken link inside the generated wiki must not be a finding and must not appear in the output, while the same broken link in an authored document must fail, proving the skip is a skip and not a hole.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L146-L169",
+          "version": "repo-lines-v1:sha256:b84d6c80e7b7d8b1702ef5445a3f91c0286be17b75cf39410c2eaf9dbb97989d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4NmRkNjNkMWU0NzI3NGEzMjM4M2EyNDBjMDA0MGFmNmE5ZDZiNWIxMTVhNGRiOWY2OTRlMWQ5MTZlZmJmNDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3OTExMjNlYzk3OGY0NzY3MmQ3NWUxZTZhZDNjOWEyMmQwODM4MTNjMjFiZmQ5YzkwMGE4MDY1YzhlYjVkNTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFhMDMyNzgwMGE1OTI3MjcyMmE4OWE0MDQ3ZTE5ODJjNDM1NzE3NTRkMjkzMTE5MzQzNzg4ZGNjNGNjMmU2YTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIwYzNjMGViZDI5NGM3NGU3NTE5ZjIwZWJjMjRmYzc4NDQ3YzVjZGQxYzQ5ZGExNzc4ZDgzYWZiYzhjMWE4MTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4a2d2e1a7f8a44538c2f19387ca6dec9",
+      "statement": "The package-source rule is exercised by importing the shipped function and calling it with five inputs — Snap application, Snap driver, Ubuntu-archive driver, Ubuntu-archive application and PyPI application — which needs no network access because the rule is factored out of the reporting loop.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L171-L188",
+          "version": "repo-lines-v1:sha256:15c0572a565220962033166f62ab7eb2e457af4416876dbd4bd2292a2022d281:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmY2NmZDI1N2YzYzcwMWY5NzY0OTdkZDZiZjcyZDg3MGIxYjhmNjViZTJjOTY5MGNjMjkwY2FlN2I5MTMxZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhMDAyYzAwNDEzYTlhM2M4MGNkODc3ZWZlMDkwMTU1OTkyNDNlNjBmZDkyMzgyYWMzMjczYzk5YmE5ZjBjNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2ZjI5ZDA2NTYwZDE0ZjE4N2VjMjdkOGZlNWFhOTgyZmFkNDI1MWY1YjAyZmY3YTIxNWNjOTdiYjZjNDVlZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmOGJhZGFhMmFjMzQ4OWE3OTQwZWI3YTllMjMyODE5ZWQ0OGQ0YzNhNzk2ZTA0Yzk3Zjc2ZWQ5OTlhNDk1MzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_baf6db102a8f40f0babc2d4329d34a50",
+      "statement": "The version comparator test extracts and executes the shipped comparator's own source rather than reimplementing the sort, asserting that 595.71.05 sorts above 595.9.05, on the grounds that a test reimplementing the logic it checks proves only that the test is self-consistent; failing to find the comparator is itself a recorded failure.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L284-L300",
+          "version": "repo-lines-v1:sha256:0b5e63b5d2ae4ad23b0f2108d6e7ee8557c6672595e0ab480a4a00be07d1e866:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1M2ZiMDc5MDIxODcyODBiNjczZDBmMzI5NmIxNmRlMTM2ZWNiYzA5M2YwMDM2YmY3MTg4NDgwYWI2N2NiMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1ODA5YjI4NzEyMWQ0NTRlYjllMTBiZjNkM2MyN2UyMzZmOGMyNmE2NDZlNzQxZjIzZDA5YzBiNWY2OTY2ZWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcxMDYzMjczMmQ4ZmZhODUxOTU4NmFiZTBlN2Q4OTU2ZTM0ZTAwZTRlYTY1Y2RjMDY3M2IwNjkwZjYzN2UwODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI5MGM2NTY2ZDI2NmIwOTE4YmQ0ZGU2Nzc1YTE0ZDA0NmE1M2U3ZmZiMmFlMjk5OGEwNzQ1OWFjM2U4ZDRjZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6ce2ec455e0641058728b99c80b45e73",
+      "statement": "hx-gate-tests runs as the final step of the documentation job on every pull request and push, immediately after the gates it tests.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L48-L52",
+          "version": "repo-lines-v1:sha256:167d21385f9e774dbb569f007ea08d2f43e3e71d007e47448686b6ea4b03b557:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWNhZTY0YjQ4ODA3NmZlNzk5NmY4NTgxNzc4NTczNmE0NDNiOGFhMmUwYTIyNzBiZTdiNmZhYmI0NDIyNDVjMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjg0ODIyOTcwNmUzOWUxNzNiNWQwZGFlMjViMmRjMjliNjAwNmM5ODgxMGE3NTgyNmYwYzljOGQzMmZlODI2ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGU3OTkzYzYzNDRkYWRmMDRkMWZlMmRkZTljMDEzNWRhMGE1NTllODUwNDU5YTNjODgzZTU3ZGIzNTM2MGM1MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWRjOTg3N2M4YTAxYTNiOWUwNmU3ZTU4MDc5YzJjMTgzMTZhNWMxMGFkZjEyMjc2ZGU4NTRmYzFiMmUwYzJhNiJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T03:13:20.331Z"
+  }
+}
