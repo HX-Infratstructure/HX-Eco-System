@@ -574,7 +574,7 @@ io.open(_idx, 'w', encoding='utf-8', newline=chr(10)).write(
     _txt.rstrip() + chr(10) * 2 + 'A tool that is not written yet is backlog.' + chr(10))
 rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: the backlog phrase in prose is not a pending tool',
-      rc == 0 and '(2 tool(s) still undocumented' in out, out)
+      rc == 0 and 'tooling: 2 tool(s) still undocumented' in out, out)
 
 # The index promises the documentation and the source. One real link used to
 # satisfy the Upstream rule, and so did the same URL written twice.
@@ -598,6 +598,18 @@ io.open(_t, 'w', encoding='utf-8', newline=chr(10)).write(_dup)
 rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: the same Upstream URL twice counts as one link',
       rc != 0 and "has only one link under 'Upstream'" in out, out)
+
+# D-024 says the backlog is reported on every run. The count rode on the
+# all-complete note, so a failure anywhere in this check made it disappear.
+fresh()
+_t = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_b = io.open(_t, encoding='utf-8').read()
+io.open(_t, 'w', encoding='utf-8', newline=chr(10)).write(
+    _b.replace('## Upstream', '## Somewhere else', 1))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: the backlog count is still reported when the check fails',
+      rc != 0 and "has no '## Upstream' heading" in out
+      and 'tooling: 2 tool(s) still undocumented' in out, out)
 
 # ---- hx-version-pins: numeric sort ------------------------------------------
 # Exercise the shipped comparator, not a copy of it: a test that reimplements

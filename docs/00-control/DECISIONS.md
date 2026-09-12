@@ -256,9 +256,18 @@ row is this decision's obligation, carried by the person adopting the tool.
 **The upstream-links section is not decoration.** Two capabilities upstream
 documents and this repository was not using are verifiable here: before the
 commit that carries this decision, neither `openwiki/INSTRUCTIONS.md` nor
-`.openwikiignore` existed, so wiki coverage was unsteered and the generator
-scanned `archive/`, `human-html/` and `graft/`. Both are documented upstream
-and neither was reachable from anything in this repository.
+`.openwikiignore` existed, so wiki coverage was unsteered and nothing in this
+repository's configuration excluded `archive/`, `human-html/` or `graft/`.
+Both files are documented upstream and neither was reachable from anything in
+this repository.
+
+Whether the first run actually read those trees is not established, and an
+earlier draft of this entry said it had. The run's own record points the other
+way: no evidence reference in `openwiki/.claims/` cites `archive/`,
+`human-html/` or `graft/`, and none appears in `openwiki/.page-manifest.json`;
+the evidence it did cite is all under `tools/`, `docs/`, `skills/` and
+`.github/`. The ignore file is a guard for later runs, not the repair of a
+demonstrated scan.
 
 The owner's account of how that happened - adoption driven by the README and
 the installed package while the product's own documentation went unread, with

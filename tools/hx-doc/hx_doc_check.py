@@ -455,10 +455,12 @@ def check_tooling_docs() -> None:
     # let a sentence of prose inflate the number of undocumented tools.
     pending = sum(1 for row in table if "not written yet" in row)
     if not bad:
-        note = "tooling: every tooling document is complete and indexed"
-        if pending:
-            note += f" ({pending} tool(s) still undocumented, listed in the index)"
-        notes.append(note)
+        notes.append("tooling: every tooling document is complete and indexed")
+    # D-024 says a backlog row is reported on every run. The count used to
+    # ride on the all-complete note, so any failure in this check hid it.
+    if pending:
+        notes.append(
+            f"tooling: {pending} tool(s) still undocumented, listed in the index")
 
 
 def main() -> int:
