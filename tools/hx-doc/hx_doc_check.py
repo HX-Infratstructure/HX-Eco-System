@@ -384,8 +384,10 @@ def check_tooling_docs() -> None:
                 body[current].append(line)
         # The point of Upstream is that nobody has to search for the product's
         # own documentation. A heading with no link does not do that.
+        # A real URL, not the word. "no http links here" passed before.
         if "Upstream" in headings and not any(
-                "http" in one for one in body["Upstream"]):
+                "http://" in one or "https://" in one
+                for one in body["Upstream"]):
             failures.append(
                 f"tooling: docs/06-tooling/{md.name} has an 'Upstream' "
                 "heading with no link under it")

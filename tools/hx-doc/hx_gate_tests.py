@@ -419,6 +419,17 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: an Upstream heading with no link fails',
       rc != 0 and 'tooling:' in out and 'Upstream' in out, out)
 
+# The word, not a URL. 'http' alone used to satisfy the Upstream rule.
+fresh()
+_t = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_b = io.open(_t, encoding='utf-8').read()
+_w = (_b[:_b.index('## Upstream')] + '## Upstream' + chr(10) * 2 +
+      'There are no http links for this tool.' + chr(10))
+io.open(_t, 'w', encoding='utf-8', newline=chr(10)).write(_w)
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: the word http is not an Upstream link',
+      rc != 0 and 'tooling:' in out and 'Upstream' in out, out)
+
 # Substring, not a link. 'wiki.md' occurs inside 'openwiki.md', so a
 # substring test would call this file linked when nothing links to it.
 fresh()
@@ -446,10 +457,12 @@ io.open(_orphan, 'w', encoding='utf-8', newline=chr(10)).write(
     '## Why we have it' + chr(10) * 2 + 'x' + chr(10) * 2 +
     '## When to use it' + chr(10) * 2 + 'x' + chr(10) * 2 +
     '## How to use it' + chr(10) * 2 + 'x' + chr(10) * 2 +
-    '## Upstream' + chr(10) * 2 + 'x' + chr(10))
+    '## Upstream' + chr(10) * 2 + '- <https://example.invalid/docs>' + chr(10))
 rc, out = run('tools/hx-doc/hx_doc_check.py')
+# The fixture is complete on purpose, including a real Upstream URL, so
+# this can only fail on the linkage rule it names.
 check('hx-doc-check: a complete document nobody links to still fails',
-      rc != 0 and 'tooling:' in out and 'orphan.md' in out, out)
+      rc != 0 and 'orphan.md is not linked from the' in out, out)
 
 # ---- hx-version-pins: numeric sort ------------------------------------------
 # Exercise the shipped comparator, not a copy of it: a test that reimplements
