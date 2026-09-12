@@ -261,11 +261,23 @@ def check_generated_authority_claims() -> None:
     # source code", which says the same wrong thing backwards. Naming docs/
     # does not license either: section 2 has no entry for source code at all.
     sentences = block.replace("!", ".").replace("?", ".").split(".")
-    claims_code = any(
-        "authoritative" in one.lower()
-        and ("source code" in one.lower() or "tests" in one.lower())
-        for one in sentences
-    )
+    claims_code = False
+    for one in sentences:
+        # smoke-tests/ is a directory name, not the word "tests". Leaving it in
+        # made section 2's own wording fail this check, because the sentence
+        # naming the acceptance authority in smoke-tests/ also says "authority".
+        low = one.lower().replace("smoke-tests", " ").replace("gate-tests", " ")
+        if "source code" not in low and "tests" not in low:
+            continue
+        # "authoritative" and "the authority" say the same thing in different
+        # parts of speech.
+        if "authorit" not in low:
+            continue
+        # A sentence that denies it is the correction, not the defect.
+        if "not authorit" in low or "never authorit" in low:
+            continue
+        claims_code = True
+        break
     if claims_code:
         failures.append(
             "authority: the generated AGENTS.md block calls source code or "

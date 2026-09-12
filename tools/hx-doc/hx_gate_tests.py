@@ -329,6 +329,19 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: a capitalised authority claim is still refused',
       rc != 0 and 'authority:' in out, out)
 
+# The noun form. 'authoritative' alone missed 'is the authority'.
+_setblock('Source code is the authority for this repository.')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: the noun form of the claim is refused',
+      rc != 0 and 'authority:' in out, out)
+
+# And the denial must survive, or the repository's own correct wording
+# would fail its own check.
+_setblock('Source code and tests are evidence, not authority. The control'
+          ' Markdown in docs/ is authoritative.')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: the negated wording is accepted', rc == 0, out)
+
 # And the check is not simply refusing every block: a claim that names only
 # the control Markdown passes.
 _setblock('The control Markdown in docs/ stays authoritative.')
