@@ -552,6 +552,28 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: required headings out of order fail',
       rc != 0 and 'out of order' in out, out)
 
+# Four spaces make an indented code block, not a fence. Before, a four-space
+# fence line opened a fence that never closed, hiding the Upstream heading and
+# everything after it, so this valid document failed.
+fresh()
+_t = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_b = io.open(_t, encoding='utf-8').read()
+io.open(_t, 'w', encoding='utf-8', newline=chr(10)).write(_b.replace(
+    '## Upstream', '    ' + chr(96) * 3 + chr(10) + chr(10) + '## Upstream', 1))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a four-space indented fence line does not open a fence',
+      rc == 0, out)
+
+# The pending count reads Index rows only. The phrase in prose used to add one.
+fresh()
+_idx = os.path.join(WORK, 'docs', '06-tooling', 'README.md')
+_txt = io.open(_idx, encoding='utf-8').read()
+io.open(_idx, 'w', encoding='utf-8', newline=chr(10)).write(
+    _txt.rstrip() + chr(10) * 2 + 'A tool that is not written yet is backlog.' + chr(10))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: the backlog phrase in prose is not a pending tool',
+      rc == 0 and '(2 tool(s) still undocumented' in out, out)
+
 # ---- hx-version-pins: numeric sort ------------------------------------------
 # Exercise the shipped comparator, not a copy of it: a test that reimplements
 # the logic it is checking proves only that the test is self-consistent.

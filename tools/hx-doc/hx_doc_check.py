@@ -310,9 +310,16 @@ def _outside_fences(text: str) -> list:
     """
     kept, fence_char, fence_len = [], None, 0
     for line in text.splitlines():
-        stripped = line.lstrip()
+        # Up to three leading spaces may precede a fence line. Four or more,
+        # or a tab, make an indented code block, so such a line neither opens
+        # nor closes a fence. Stripping all indentation let a four-space
+        # example line open a fence and hide everything after it.
+        indent = len(line) - len(line.lstrip(" "))
+        stripped = line.lstrip(" ")
         char = stripped[:1]
         run = len(stripped) - len(stripped.lstrip(char)) if char in ("`", "~") else 0
+        if indent > 3:
+            run = 0
         if fence_char is None:
             if run >= 3:
                 fence_char, fence_len = char, run
@@ -434,7 +441,9 @@ def check_tooling_docs() -> None:
                 "heading with no link under it")
             bad += 1
 
-    pending = len(re.findall(r"not written yet", index_text))
+    # Rows of the Index table only. Counting the phrase across the whole README
+    # let a sentence of prose inflate the number of undocumented tools.
+    pending = sum(1 for row in table if "not written yet" in row)
     if not bad:
         note = "tooling: every tooling document is complete and indexed"
         if pending:
