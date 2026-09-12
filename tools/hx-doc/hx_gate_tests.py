@@ -305,11 +305,20 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: a generated authority claim without docs/ is refused',
       rc != 0 and 'authority:' in out, out)
 
+# Naming docs/ does not license the claim. Section 2 has no entry for source
+# code, so this must still be refused - the first correction made here said
+# 'source code, tests, and the authoritative Markdown', and was still wrong.
 _setblock('Treat source code, tests and the control Markdown in docs/ as'
           ' authoritative.')
 rc, out = run('tools/hx-doc/hx_doc_check.py')
-check('hx-doc-check: the same claim naming docs/ is accepted',
-      rc == 0, out)
+check('hx-doc-check: naming docs/ does not license calling code authoritative',
+      rc != 0 and 'authority:' in out, out)
+
+# And the check is not simply refusing every block: a claim that names only
+# the control Markdown passes.
+_setblock('The control Markdown in docs/ stays authoritative.')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a claim naming only docs/ is accepted', rc == 0, out)
 
 # Exercise the shipped comparator, not a copy of it: a test that reimplements
 # the logic it is checking proves only that the test is self-consistent.

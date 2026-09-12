@@ -255,12 +255,23 @@ def check_generated_authority_claims() -> None:
     if not m:
         notes.append("authority: AGENTS.md carries no generated block")
         return
-    if "authoritative" in m.group(1) and "docs/" not in m.group(1):
+    block = m.group(1)
+    # Naming docs/ does not license the claim: section 2 has no entry for
+    # source code at all, so a block that calls it authoritative is wrong
+    # whatever else it also mentions.
+    if re.search(r"(source code|tests)[^.]*authoritative", block):
         failures.append(
-            "authority: the generated AGENTS.md block calls something "
-            "authoritative without naming the control Markdown in docs/; "
-            "section 2 defines the truth order and a generated block does not "
-            "amend it"
+            "authority: the generated AGENTS.md block calls source code or "
+            "tests authoritative; section 2 does not list them, it lists the "
+            "control Markdown in docs/, smoke-tests/, live evidence and the "
+            "approved runbook"
+        )
+        return
+    if "authoritative" in block and "docs/" not in block:
+        failures.append(
+            "authority: the generated AGENTS.md block makes an authority claim "
+            "without naming the control Markdown in docs/; section 2 defines "
+            "the truth order and a generated block does not amend it"
         )
         return
     notes.append("authority: the generated AGENTS.md block keeps the truth order")
