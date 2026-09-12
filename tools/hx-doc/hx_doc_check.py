@@ -256,10 +256,17 @@ def check_generated_authority_claims() -> None:
         notes.append("authority: AGENTS.md carries no generated block")
         return
     block = m.group(1)
-    # Naming docs/ does not license the claim: section 2 has no entry for
-    # source code at all, so a block that calls it authoritative is wrong
-    # whatever else it also mentions.
-    if re.search(r"(source code|tests)[^.]*authoritative", block):
+    # Sentence by sentence, and both word orders. A regex anchored on
+    # "source code ... authoritative" misses "authoritative sources include
+    # source code", which says the same wrong thing backwards. Naming docs/
+    # does not license either: section 2 has no entry for source code at all.
+    sentences = block.replace("!", ".").replace("?", ".").split(".")
+    claims_code = any(
+        "authoritative" in one.lower()
+        and ("source code" in one.lower() or "tests" in one.lower())
+        for one in sentences
+    )
+    if claims_code:
         failures.append(
             "authority: the generated AGENTS.md block calls source code or "
             "tests authoritative; section 2 does not list them, it lists the "

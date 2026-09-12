@@ -314,6 +314,14 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: naming docs/ does not license calling code authoritative',
       rc != 0 and 'authority:' in out, out)
 
+# The same wrong claim, backwards. A pattern anchored on 'source code ...'
+# authoritative' reads clean here, which is why the check works sentence by
+# sentence instead.
+_setblock('Authoritative sources include source code and tests.')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: the authority claim is refused in either word order',
+      rc != 0 and 'authority:' in out, out)
+
 # And the check is not simply refusing every block: a claim that names only
 # the control Markdown passes.
 _setblock('The control Markdown in docs/ stays authoritative.')
