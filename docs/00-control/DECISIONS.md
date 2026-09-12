@@ -208,18 +208,28 @@ it is not recorded as one.
 host integration uses the session's model instead of a key. That stays the
 fallback.
 
-## D-024 — operational tooling is documented before it is adopted — RATIFIED 2026-09-12
+## D-024 — operational tooling is documented before it is adopted — RATIFIED on merge of PR #15
 
-The owner approved this on 2026-09-12, in the same message that approved the
-rollout plan carrying it as step 7, after stating the requirement directly:
+The owner directed this on 2026-09-12, stating the requirement directly:
 every operational tool gets its own directory covering what it is, why we
-have it, and how and when to use it.
+have it, and how and when to use it. That direction is context, not the
+record. It was given in conversation, and a conversation is not an auditable
+reference.
 
-The auditable record is pull request #15, which carries this entry together
-with the plan and the checker it approves; its merge into `main` is the
-ratification of record. The approver is the infrastructure owner, the role
-section 2 of `AGENTS.md` ranks first. Like D-018 to D-023, this records the
-role and the date, not a personal identity, in a public repository.
+**The record is the merge.** This entry exists on `main` only because pull
+request #15 was merged there, and GitHub keeps that event immutably: the
+account that merged it, the merge commit and the time. Nothing else is claimed
+as the approval event, and the account in that record is the approver of
+record. To read it:
+
+```bash
+gh pr view 15 --repo HX-Infratstructure/HX-Eco-System --json mergedBy,mergeCommit,mergedAt
+```
+
+This repository has a single operator who merges their own pull requests, so
+the merge is the approval and there is no separate review step. Like D-018 to
+D-023, this entry names the role; the account is in GitHub's record rather
+than repeated here.
 
 An operational tool is something this repository depends on but does not
 contain: OpenWiki, CodeRabbit, graft. Each gets one document under
