@@ -35,10 +35,19 @@ def check(label, cond, detail=''):
         print('FAIL  %s\n%s' % (label, detail[:800]))
 
 def fresh():
-    """Replace the scratch copy with a clean one, so tests cannot affect each other."""
+    """Replace the scratch copy with a clean one, so tests cannot affect each other.
+
+    The copy is made a git work tree. hx_doc_check runs `git check-ignore`
+    against the repository root, and outside a work tree that exits 128, which
+    it correctly treats as a failure. Every earlier test here expected a
+    non-zero exit anyway, so the harness never noticed it was checking
+    documents in an environment where one check could not pass.
+    """
     if os.path.isdir(WORK):
         shutil.rmtree(WORK, ignore_errors=True)
     shutil.copytree(SRC, WORK, ignore=shutil.ignore_patterns('.git'))
+    subprocess.run(['git', 'init', '-q'], cwd=WORK,
+                   capture_output=True, check=True)
 
 def edit(rel, fn):
     """Rewrite one file in the scratch copy through fn."""
@@ -133,6 +142,31 @@ edit('docs/02-server-records/_TEMPLATE.md',
 rc, out = run('tools/hx-doc/hx_new_server.py', 'hx-17', '--force')
 check('hx-new-server: a missing template placeholder is refused',
       rc != 0 and 'placeholder' in out, out)
+
+# ----------------------- hx_doc_check: generated trees are not findings ------
+# openwiki/ is written by the OpenWiki CLI and replaced wholesale on --init.
+# A broken link there is a defect in the generator or the source it documents,
+# never something to fix in the generated page. The skip has to actually skip.
+fresh()
+import pathlib
+ow = pathlib.Path(WORK) / 'openwiki'
+ow.mkdir(parents=True, exist_ok=True)
+(ow / 'index.md').write_text(
+    '# Generated' + chr(10) * 2 +
+    'See [nothing](docs/this-does-not-exist.md).' + chr(10),
+    encoding='utf-8')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a broken link inside openwiki/ is not a finding',
+      rc == 0 and 'openwiki' not in out, out)
+
+# The same broken link outside a generated tree must still fail, so the skip
+# above is a skip and not a hole.
+fresh()
+edit('docs/03-runbooks/README.md',
+     lambda s: s + chr(10) + 'See [nothing](this-does-not-exist.md).' + chr(10))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: the same broken link outside a generated tree fails',
+      rc != 0 and 'broken' in out, out)
 
 # ------------------------------------- hx_version_pins: package sources -----
 # D-021: .coderabbit.yaml stands, so Snap is never permitted, driver included.
