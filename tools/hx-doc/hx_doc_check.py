@@ -370,13 +370,26 @@ def check_tooling_docs() -> None:
         # five sections belong to the tool's own document.
         if md.name.endswith("-agents.md"):
             continue
-        headings, fenced = set(), False
+        headings, fenced, current, body = set(), False, None, {}
         for line in md.read_text(encoding="utf-8").splitlines():
             if line.lstrip().startswith("```"):
                 fenced = not fenced
                 continue
             if not fenced and line.startswith("## "):
-                headings.add(line[3:].strip())
+                current = line[3:].strip()
+                headings.add(current)
+                body.setdefault(current, [])
+                continue
+            if current is not None:
+                body[current].append(line)
+        # The point of Upstream is that nobody has to search for the product's
+        # own documentation. A heading with no link does not do that.
+        if "Upstream" in headings and not any(
+                "http" in one for one in body["Upstream"]):
+            failures.append(
+                f"tooling: docs/06-tooling/{md.name} has an 'Upstream' "
+                "heading with no link under it")
+            bad += 1
         for section in required:
             if section not in headings:
                 failures.append(

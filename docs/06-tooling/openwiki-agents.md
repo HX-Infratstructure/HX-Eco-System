@@ -77,8 +77,12 @@ per page, then `openwiki_finish`. The host agent researches and writes each
 page with its own tools. If `openwiki_begin` returns `status=noop`, no update
 is required: report that and stop.
 
-Never run bare `openwiki --init` in a shell here. It defaults to a provider
-this repository does not use, and `--init` replaces the tree.
+Never run bare `openwiki --init` in a shell here. Two separate reasons.
+It opens an interactive setup that asks for an inference provider, a model
+and an API key - the CLI banner shows its defaults as OpenAI and
+`gpt-5.6-terra` - none of which this repository needs, because the host
+integration supplies the model. And `--init` replaces the wiki wholesale,
+where `--update` rewrites only what changed.
 
 ## After any run
 
