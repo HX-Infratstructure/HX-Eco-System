@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OpenWiki — agent operating guide</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/06-tooling/openwiki-agents.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>OpenWiki — agent operating guide</h1>
+<p>For an agent working in this repository. The human-facing document is <a href="openwiki.html">openwiki.md</a>; costs, secrets and the schedule live there and are not repeated here.</p>
+<h2>Read this first: which question goes where</h2>
+<p><code>openwiki/</code> answers "how does this repository work". It never answers "what am I allowed to do".</p>
+<div class="tw"><table><thead><tr><th>The question</th><th>The source</th><th>Authority?</th></tr></thead><tbody><tr><td>How does this repository work? Where does X live?</td><td><code>openwiki/quickstart.md</code>, then the section page</td><td>context</td></tr><tr><td>Where is this symbol, who calls it?</td><td>graft — <code>graft ask</code>, <code>graft callers</code></td><td>context</td></tr><tr><td>What is the fleet, host by host?</td><td><code>docs/00-control/hx-fleet.tsv</code></td><td><strong>authority</strong></td></tr><tr><td>Is this decided, or still open?</td><td><code>docs/00-control/DECISIONS.md</code></td><td><strong>authority</strong></td></tr><tr><td>What must this smoke step prove?</td><td>the <code>smoke-tests/</code> authority for that component</td><td><strong>authority</strong></td></tr><tr><td>May this proof step run yet?</td><td><code>tools/hx-doc/hx-proof --ready &lt;id&gt;</code></td><td><strong>authority</strong></td></tr><tr><td>What are the rules for agents here?</td><td><code>AGENTS.md</code>, section 2 for the truth order</td><td><strong>authority</strong></td></tr><tr><td>What is actually installed on a host?</td><td>the server record, plus live evidence</td><td><strong>authority</strong></td></tr></tbody></table></div>
+<p>Start at <code>openwiki/</code> to orient. Move to the authority column before changing anything or asserting a rule. Reading source is the last step, not the first; that is the whole reason the wiki exists.</p>
+<h2>Generated pages are never authority</h2>
+<p>Every page under <code>openwiki/</code> is written by a model from the code. It can be wrong, and it is always behind the working tree by at least one run.</p>
+<p>A Claim carries its evidence: <code>repo://&lt;path&gt;#L&lt;start&gt;-L&lt;end&gt;</code> and a hash of those exact lines. If a page states something load-bearing, open its Claim, open the cited lines, and trust the lines.</p>
+<p>A <strong>stale</strong> Claim means the cited lines changed. It is a signal to recheck the source, never a licence to delete the statement.</p>
+<h2>Never hand-edit these</h2>
+<div class="tw"><table><thead><tr><th>Path</th><th>Why</th></tr></thead><tbody><tr><td><code>openwiki/**/*.md</code> except <code>INSTRUCTIONS.md</code></td><td>regenerated; your edit is lost</td></tr><tr><td><code>openwiki/.claims/**</code></td><td>OpenWiki owns evidence reconciliation</td></tr><tr><td><code>openwiki/.page-manifest.json</code>, <code>.last-update.json</code>, <code>.run.json</code></td><td>run state</td></tr><tr><td>between <code>&lt;!-- OPENWIKI:START --&gt;</code> and <code>&lt;!-- OPENWIKI:END --&gt;</code> in <code>AGENTS.md</code> and <code>CLAUDE.md</code></td><td>regenerated every run</td></tr></tbody></table></div>
+<p><strong>Editable, and the supported way to change the wiki:</strong> <code>openwiki/INSTRUCTIONS.md</code>, <code>.openwikiignore</code>, and anything outside the OpenWiki markers — including <code>AGENTS.md</code> section 16, which is where this repository's authority statement lives precisely because it survives.</p>
+<h2>The block hazard, and what to do about it</h2>
+<p>OpenWiki's first run wrote "Treat source code and tests as authoritative" into the <code>AGENTS.md</code> block. <code>AGENTS.md</code> section 2 does not list source code at all. A regeneration on 2026-09-12 put it back, which proves it recurs.</p>
+<p><code>hx-doc-check</code> refuses it. If that check fails:</p>
+<ol>
+<li>Do not edit the block. The next run overwrites it.</li>
+<li>Fix <code>openwiki/INSTRUCTIONS.md</code>, which states the truth order and tells the</li>
+</ol>
+<p>generator not to contradict it.</p>
+<ol>
+<li>Re-run <code>--update</code> and confirm the check passes.</li>
+</ol>
+<p>Section 16 of <code>AGENTS.md</code> sits outside the markers and governs regardless.</p>
+<h2>Running it</h2>
+<p>Through the host integration, inside this repository:</p>
+<blockquote>Update OpenWiki for this repository.</blockquote>
+<p>OpenWiki drives a resumable page-job lifecycle — <code>openwiki_begin</code>, <code>openwiki_submit_plan</code>, then <code>openwiki_next_page</code> and <code>openwiki_submit_page</code> per page, then <code>openwiki_finish</code>. The host agent researches and writes each page with its own tools. If <code>openwiki_begin</code> returns <code>status=noop</code>, no update is required: report that and stop.</p>
+<p>Never run bare <code>openwiki --init</code> in a shell here. It defaults to a provider this repository does not use, and <code>--init</code> replaces the tree.</p>
+<h2>After any run</h2>
+<pre><code class="lang-bash">tools/hx-doc/hx-doc-check</code></pre>
+<p><code>openwiki/</code> is a skipped tree, so a broken link inside a generated page is not a finding — fix the generator or the source, not the page. A failure naming <code>authority:</code> is the block hazard above.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/06-tooling/openwiki-agents.md</code>.</footer></div></body></html>

@@ -18,6 +18,7 @@ validated and recorded before the next begins.
 | Building a server today | `docs/03-runbooks/RUN-SHEET.md` |
 | Looking for current state | `docs/00-control/hx-fleet.tsv` |
 | Deciding something | `docs/00-control/DECISIONS.md` |
+| Using OpenWiki, CodeRabbit or graft | `docs/06-tooling/` |
 | Reading as a human | `human-html/` — generated, never authority |
 
 ---

@@ -301,6 +301,69 @@ def check_generated_authority_claims() -> None:
     notes.append("authority: the generated AGENTS.md block keeps the truth order")
 
 
+def check_tooling_docs() -> None:
+    """Every tooling document carries the five sections, and the index is true.
+
+    CodeRabbit was adopted with its facts spread across three files and no
+    document saying what it was. OpenWiki was then adopted the same way. This
+    check makes the third repeat fail the build.
+
+    What it enforces: a document in docs/06-tooling/ has all five required
+    sections; an index row that names a file has that file; a document that
+    exists is linked from the index.
+
+    What it cannot enforce, said plainly: nothing here knows that a tool was
+    adopted. A row with no file is backlog and is reported, not failed, so the
+    gap stays visible instead of turning the build red forever. D-024 carries
+    the obligation to add the row.
+    """
+    home = REPO / "docs/06-tooling"
+    index = home / "README.md"
+    if not index.exists():
+        failures.append("tooling: docs/06-tooling/README.md is missing")
+        return
+    index_text = index.read_text(encoding="utf-8")
+
+    required = ("## What it is", "## Why we have it", "## When to use it",
+                "## How to use it", "## Upstream")
+    bad = 0
+
+    # A row that names a file must have that file.
+    for link in re.findall(r"\[[^\]]+\]\(([A-Za-z0-9._-]+\.md)\)", index_text):
+        if not (home / link).exists():
+            failures.append(
+                f"tooling: the index links {link} but docs/06-tooling/{link} "
+                "does not exist")
+            bad += 1
+
+    for md in sorted(home.glob("*.md")):
+        if md.name == "README.md":
+            continue
+        if md.name not in index_text:
+            failures.append(
+                f"tooling: docs/06-tooling/{md.name} is not linked from the "
+                "index, so nobody will find it")
+            bad += 1
+        # An -agents.md is an operating guide, not a tool description; the
+        # five sections belong to the tool's own document.
+        if md.name.endswith("-agents.md"):
+            continue
+        text = md.read_text(encoding="utf-8")
+        for section in required:
+            if section not in text:
+                failures.append(
+                    f"tooling: docs/06-tooling/{md.name} has no "
+                    f"'{section}' section")
+                bad += 1
+
+    pending = len(re.findall(r"not written yet", index_text))
+    if not bad:
+        note = "tooling: every tooling document is complete and indexed"
+        if pending:
+            note += f" ({pending} tool(s) still undocumented, listed in the index)"
+        notes.append(note)
+
+
 def main() -> int:
     """Run every check and report. Returns the process exit status."""
     quiet = "--quiet" in sys.argv
@@ -316,6 +379,7 @@ def main() -> int:
         check_evidence_not_ignored,
         check_unit_claims,
         check_generated_authority_claims,
+        check_tooling_docs,
     )
     for fn in checks:
         fn()

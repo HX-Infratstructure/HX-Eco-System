@@ -21,6 +21,8 @@ Before changing anything:
 13. If executing a component smoke test, the exact authority under `smoke-tests/`.
 14. If using the HX-5 runner, `tools/hx-smoke-runner/AGENTS.md`.
 
+15. If using an operational tool this repository depends on but does not contain - OpenWiki, CodeRabbit, graft - read its document under `docs/06-tooling/` first. Read it when you reach for the tool, not at startup.
+
 Do not read `archive/` or `human-html/` as current authority unless explicitly asked.
 
 ## 2. Truth order
@@ -306,6 +308,27 @@ show it. Run `tools/hx-doc/hx-graft-bash` once per install, and again after any
 - Stable active filenames are mandatory.
 
 Before declaring work complete, update the current server record, build state, and any affected decision/standard document. Do not mark planned tooling as installed until live evidence exists.
+
+## 16. Generated agent blocks
+
+`openwiki/` is generated. So is the block below, between the OpenWiki markers,
+and so is the matching block in `CLAUDE.md`. OpenWiki rewrites both on every
+run, weekly by schedule, and any edit made inside those markers is lost.
+
+**This section is outside the markers and therefore survives.** It governs.
+
+- Section 2 is the truth order. A generated block does not amend it. If the
+  block below disagrees with section 2, section 2 wins and the block is a
+  defect to fix, not an instruction to follow.
+- Source code and tests are evidence, not authority. They are not in section
+  2's list. Generated pages, the whole of `openwiki/` included, are context
+  and never authority.
+- `hx-doc-check` refuses a generated block that calls source code or tests
+  authoritative. A red build there means the generator regressed; correct
+  `openwiki/INSTRUCTIONS.md`, which steers what the block says, rather than
+  editing the block.
+- `openwiki/INSTRUCTIONS.md` is owner-authored and OpenWiki never rewrites it.
+  It is the supported way to change what the wiki covers.
 
 <!-- OPENWIKI:START -->
 

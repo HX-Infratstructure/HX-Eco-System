@@ -355,6 +355,39 @@ _setblock('The control Markdown in docs/ stays authoritative.')
 rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: a claim naming only docs/ is accepted', rc == 0, out)
 
+# ---- hx-doc-check: operational tooling documents ----------------------------
+# CodeRabbit was adopted undocumented, then OpenWiki was adopted the same way.
+# These three break the guard on purpose so a third repeat cannot pass quietly.
+fresh()
+_tool = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_body = io.open(_tool, encoding='utf-8').read()
+io.open(_tool, 'w', encoding='utf-8', newline=chr(10)).write(
+    _body.replace('## Upstream', '## Somewhere else', 1))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a tooling document missing a required section fails',
+      rc != 0 and 'Upstream' in out, out)
+
+fresh()
+_idx = os.path.join(WORK, 'docs', '06-tooling', 'README.md')
+_txt = io.open(_idx, encoding='utf-8').read()
+io.open(_idx, 'w', encoding='utf-8', newline=chr(10)).write(
+    _txt + chr(10) + '- [ghost](ghost-tool.md)' + chr(10))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: an index row naming a missing file fails',
+      rc != 0 and 'ghost-tool.md' in out, out)
+
+fresh()
+_orphan = os.path.join(WORK, 'docs', '06-tooling', 'orphan.md')
+io.open(_orphan, 'w', encoding='utf-8', newline=chr(10)).write(
+    '# Orphan' + chr(10) * 2 + '## What it is' + chr(10) * 2 + 'x' + chr(10) * 2 +
+    '## Why we have it' + chr(10) * 2 + 'x' + chr(10) * 2 +
+    '## When to use it' + chr(10) * 2 + 'x' + chr(10) * 2 +
+    '## How to use it' + chr(10) * 2 + 'x' + chr(10) * 2 +
+    '## Upstream' + chr(10) * 2 + 'x' + chr(10))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a complete document nobody links to still fails',
+      rc != 0 and 'orphan.md' in out, out)
+
 # ---- hx-version-pins: numeric sort ------------------------------------------
 # Exercise the shipped comparator, not a copy of it: a test that reimplements
 # the logic it is checking proves only that the test is self-consistent.

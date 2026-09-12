@@ -207,3 +207,38 @@ it is not recorded as one.
 `openwiki --update` by hand from inside Claude Code costs nothing, because the
 host integration uses the session's model instead of a key. That stays the
 fallback.
+
+## D-024 — operational tooling is documented before it is adopted — RATIFIED 2026-09-12
+
+An operational tool is something this repository depends on but does not
+contain: OpenWiki, CodeRabbit, graft. Each gets one document under
+`docs/06-tooling/` carrying five sections - what it is, why we have it, when
+to use it, how to use it, and upstream links - before it is relied on.
+
+**Why this is a decision and not a habit.** CodeRabbit was adopted with its
+facts spread across `DECISIONS.md`, `RUN-SHEET.md` and `AGENTS.md`, and
+nothing that said what it was or when to use it. OpenWiki was then adopted the
+same way: a decision entry, a block in `AGENTS.md`, a workflow file, and no
+document. The second occurrence is what makes it a pattern. A habit would fail
+a third time silently.
+
+`hx-doc-check` enforces what it can: a document present in `docs/06-tooling/`
+carries all five sections, an index row naming a file has that file, and a
+document nobody links to fails. Three gate tests break each of those on
+purpose.
+
+**The limit, stated rather than implied.** No check knows that a tool was
+adopted. A row with no document is backlog: reported on every run, not failed,
+so the gap stays visible instead of turning the build red forever. Adding the
+row is this decision's obligation, carried by the person adopting the tool.
+
+**The upstream-links section is not decoration.** The OpenWiki work ran for
+hours against the README and the installed package while the product's own
+documentation went unread, and the owner had to supply the URL. Eight pages of
+upstream documentation then produced seven findings, including two capabilities
+the repository was not using at all: `openwiki/INSTRUCTIONS.md`, which steers
+coverage, and `.openwikiignore`, which had been letting the generator scan
+`archive/` and `human-html/`. A missing link is how that happens.
+
+Backlog on ratification: CodeRabbit and graft are listed in the index with no
+document. Each is its own pull request.
