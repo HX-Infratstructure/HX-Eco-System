@@ -376,6 +376,22 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: an index row naming a missing file fails',
       rc != 0 and 'ghost-tool.md' in out, out)
 
+# A link in prose is not an index entry. Scanning the whole README would
+# let a document pass by being mentioned anywhere.
+fresh()
+_idx = os.path.join(WORK, 'docs', '06-tooling', 'README.md')
+_txt = io.open(_idx, encoding='utf-8').read()
+_prose = _txt.replace('## Index',
+    '## Aside' + chr(10) * 2 + 'See [openwiki](openwiki.md) and'
+    ' [agents](openwiki-agents.md).' + chr(10) * 2 + '## Index', 1)
+_prose = _prose.replace('| OpenWiki | [openwiki.md](openwiki.md) |'
+                        ' [openwiki-agents.md](openwiki-agents.md) | D-023 |',
+                        '| OpenWiki | not written yet | - | D-023 |', 1)
+io.open(_idx, 'w', encoding='utf-8', newline=chr(10)).write(_prose)
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a prose link outside the Index table is not an entry',
+      rc != 0 and 'openwiki.md' in out, out)
+
 # Substring, not a link. 'wiki.md' occurs inside 'openwiki.md', so a
 # substring test would call this file linked when nothing links to it.
 fresh()

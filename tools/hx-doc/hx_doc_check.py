@@ -332,7 +332,22 @@ def check_tooling_docs() -> None:
     # "openwiki.md", so a substring test would report an unlinked file as
     # linked, and a heading inside a fenced example would count as a real
     # section. Both would be this checker reporting success without checking.
-    linked = set(re.findall(r"\[[^\]]+\]\(([A-Za-z0-9._-]+\.md)\)", index_text))
+    # Only the Index table counts. A link in prose elsewhere in the README
+    # would otherwise mark a document as indexed without it ever appearing in
+    # the table a reader actually scans.
+    table, inside = [], False
+    for line in index_text.splitlines():
+        if line.startswith("## "):
+            inside = line.strip() == "## Index"
+            continue
+        if inside:
+            table.append(line)
+    if not inside and not table:
+        failures.append(
+            "tooling: docs/06-tooling/README.md has no '## Index' section")
+        return
+    linked = set(re.findall(r"\[[^\]]+\]\(([A-Za-z0-9._-]+\.md)\)",
+                            "\n".join(table)))
 
     for link in sorted(linked):
         if not (home / link).exists():
