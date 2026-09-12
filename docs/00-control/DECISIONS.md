@@ -207,3 +207,47 @@ it is not recorded as one.
 `openwiki --update` by hand from inside Claude Code costs nothing, because the
 host integration uses the session's model instead of a key. That stays the
 fallback.
+
+## D-024 — operational tooling is documented before it is adopted — RATIFIED 2026-09-12
+
+The owner approved this on 2026-09-12, in the same message that approved the
+rollout plan carrying it as step 7, after stating the requirement directly:
+every operational tool gets its own directory covering what it is, why we
+have it, and how and when to use it.
+
+An operational tool is something this repository depends on but does not
+contain: OpenWiki, CodeRabbit, graft. Each gets one document under
+`docs/06-tooling/` carrying five sections - what it is, why we have it, when
+to use it, how to use it, and upstream links - before it is relied on.
+
+**Why this is a decision and not a habit.** CodeRabbit was adopted with its
+facts spread across `DECISIONS.md`, `RUN-SHEET.md` and `AGENTS.md`, and
+nothing that said what it was or when to use it. OpenWiki was then adopted the
+same way: a decision entry, a block in `AGENTS.md`, a workflow file, and no
+document. The second occurrence is what makes it a pattern. A habit would fail
+a third time silently.
+
+`hx-doc-check` enforces what it can: a document present in `docs/06-tooling/`
+carries all five sections, an index row naming a file has that file, and a
+document nobody links to fails. Three gate tests break each of those on
+purpose.
+
+**The limit, stated rather than implied.** No check knows that a tool was
+adopted. A row with no document is backlog: reported on every run, not failed,
+so the gap stays visible instead of turning the build red forever. Adding the
+row is this decision's obligation, carried by the person adopting the tool.
+
+**The upstream-links section is not decoration.** Two capabilities upstream
+documents and this repository was not using are verifiable here: before the
+commit that carries this decision, neither `openwiki/INSTRUCTIONS.md` nor
+`.openwikiignore` existed, so wiki coverage was unsteered and the generator
+scanned `archive/`, `human-html/` and `graft/`. Both are documented upstream
+and neither was reachable from anything in this repository.
+
+The owner's account of how that happened - adoption driven by the README and
+the installed package while the product's own documentation went unread, with
+the owner supplying the URL - is recorded as the owner's account, not as
+measured evidence. The verifiable part is the absence of the two files.
+
+Backlog on ratification: CodeRabbit and graft are listed in the index with no
+document. Each is its own pull request.

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OpenWiki</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/06-tooling/openwiki.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>OpenWiki</h1>
+<h2>What it is</h2>
+<p>OpenWiki generates and maintains a Markdown wiki about this repository, under <code>openwiki/</code>. Upstream states the purpose plainly: coding agents "read a curated wiki first, then inspect source only where they need more detail". The primary audience is agents, not people.</p>
+<p>Every material statement it writes is a <strong>Claim</strong>, pinned to exact lines with a hash, for example <code>repo://tools/hx-doc/hx_gate_tests.py#L1-L11</code> at <code>repo-lines-v1:sha256:867db1b5...</code>. Change those lines and the Claim goes stale on the next run and must be reconciled. That is real drift detection between the wiki and the code.</p>
+<p>What it does not do: it cannot watch hand-written documents, and it cannot know why a tool was adopted. Intent is a decision, not something derivable from source. That is why this document exists and is not generated.</p>
+<h2>Why we have it</h2>
+<p>Without it, anyone arriving at this repository - person or agent - has to read the whole thing to gain context, and a README does not close that gap. The cost is paid again by every agent on every session.</p>
+<p>Adopted by <strong>D-023</strong>, which also records the accepted risk of the two Actions secrets on a public repository.</p>
+<h2>When to use it</h2>
+<ul>
+<li><strong>Run <code>--update</code></strong> after a change that alters how the repository works:</li>
+</ul>
+<p>a new gate, a changed runbook pattern, a new decision. Not after a typo.</p>
+<ul>
+<li><strong>Do not run <code>--init</code></strong> on this repository again. The wiki exists. <code>--init</code></li>
+</ul>
+<p>regenerates the tree wholesale; <code>--update</code> diffs against the last documented commit and rewrites only what changed.</p>
+<ul>
+<li><strong>Read <code>openwiki/</code> before reading source</strong> when the question is "how does</li>
+</ul>
+<p>this repository work". Read the control Markdown instead when the question is "what are we allowed to do" - see <a href="openwiki-agents.html">openwiki-agents.md</a>.</p>
+<h2>How to use it</h2>
+<p><strong>Free, and the normal path.</strong> Inside Claude Code, in this repository:</p>
+<blockquote>Update OpenWiki for this repository.</blockquote>
+<p>The Claude Code integration hands authoring to the session's model, so no provider key is used and nothing is billed. OpenWiki still owns the page queue, Claims validation and finalization.</p>
+<p><strong>Steering what it covers.</strong> <code>openwiki/INSTRUCTIONS.md</code> is owner-authored and OpenWiki never rewrites it, including across <code>--init</code>. Change coverage there, not by editing generated pages.</p>
+<p><strong>What it must not scan</strong> is listed in <code>.openwikiignore</code>: <code>archive/</code>, <code>human-html/</code>, <code>graft/</code>, <code>.claude/</code>.</p>
+<p><strong>Viewing it.</strong> OpenWiki ships its own viewer:</p>
+<pre><code class="lang-bash">openwiki visualize
+openwiki visualize --export ./out</code></pre>
+<p>This is separate from <code>graft viz</code>, which draws the code graph. Different tool, different graph.</p>
+<p><strong>Scheduled refresh.</strong> <code>.github/workflows/openwiki-update.yml</code> runs weekly, Sunday 08:00 UTC, and opens a pull request. It is not auto-merged.</p>
+<blockquote><strong>This one costs money.</strong> The scheduled job is headless, so it cannot borrow a Claude Code session. It uses <code>ANTHROPIC_API_KEY</code> from Actions secrets and bills on every run. A local <code>--update</code> costs nothing. Prefer local.</blockquote>
+<p><strong>Secrets in use:</strong> <code>OPENWIKI_PR_TOKEN</code> (Contents and Pull requests, read and write) and <code>ANTHROPIC_API_KEY</code>. Both recorded in D-023.</p>
+<p><strong>Telemetry</strong> is on by default and sends error categories to PostHog. Off with:</p>
+<pre><code class="lang-bash">echo "OPENWIKI_TELEMETRY_DISABLED=1" &gt;&gt; ~/.openwiki/.env</code></pre>
+<h3>Running it against the fleet's own model — VERIFICATION REQUIRED</h3>
+<p>A local run already costs nothing through the Claude Code integration, so this is only needed for a headless run without a Claude session. OpenWiki reaches a local Ollama through its <code>openai-compatible</code> provider, which is <strong>not</strong> the same as <code>openai</code>:</p>
+<pre><code class="lang-bash">OPENWIKI_PROVIDER=openai-compatible
+OPENAI_COMPATIBLE_BASE_URL=http://192.168.50.202:11434/v1
+OPENAI_COMPATIBLE_API_KEY=unused
+OPENWIKI_MODEL_ID=&lt;the model HX-2 serves&gt;</code></pre>
+<p>If OpenWiki is ever pointed at OpenRouter instead, pin the upstream provider with <code>OPENWIKI_OPENROUTER_PROVIDER_ONLY</code>. OpenRouter routes one model id to several upstream providers and they do not behave identically; pinning removes that variable. This repository uses Anthropic in CI, so the setting is unused today and recorded so the option is not rediscovered later.</p>
+<p>Some gateways accept only streaming; if so add <code>OPENWIKI_OPENAI_COMPATIBLE_STREAMING=true</code>.</p>
+<p><strong>This has never been run.</strong> HX-2 is not reachable from the workstation and the lab opens Saturday. The command is transcribed from upstream documentation, not observed working. Prove it before relying on it.</p>
+<p>Note this is OpenWiki's schema alone. graft uses different variable names and has no <code>openai-compatible</code> value at all.</p>
+<h3>Undoing it</h3>
+<p>Delete the workflow file and revoke both secrets. <code>openwiki/</code> can be removed with <code>git rm -r openwiki</code> and the blocks in <code>AGENTS.md</code> and <code>CLAUDE.md</code> deleted between their markers. Nothing else depends on it.</p>
+<h2>Upstream</h2>
+<ul>
+<li>Documentation: &lt;https://docs.langchain.com/oss/openwiki/overview&gt;</li>
+<li>Source: &lt;https://github.com/langchain-ai/openwiki&gt;</li>
+<li>Installed version: 0.5.1 (upstream tag <code>v0.5.1</code>, published 2026-09-10)</li>
+</ul>
+<p>Upstream also ships example CI for <strong>GitLab CI</strong> and <strong>Bitbucket Pipelines</strong> alongside GitHub Actions. This repository uses GitHub Actions; the others are recorded so nobody concludes OpenWiki is GitHub-only.</p>
+<p>OpenWiki also has a <strong>Personal mode</strong>, a separate local wiki in <code>~/.openwiki/wiki</code> built from Gmail, Notion, Slack, X, web search, Hacker News and local repositories. It is not used here and touches nothing in this repository. Its <code>cron</code> scheduling is macOS only.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/06-tooling/openwiki.md</code>.</footer></div></body></html>

@@ -301,6 +301,112 @@ def check_generated_authority_claims() -> None:
     notes.append("authority: the generated AGENTS.md block keeps the truth order")
 
 
+def check_tooling_docs() -> None:
+    """Every tooling document carries the five sections, and the index is true.
+
+    CodeRabbit was adopted with its facts spread across three files and no
+    document saying what it was. OpenWiki was then adopted the same way. This
+    check makes the third repeat fail the build.
+
+    What it enforces: a document in docs/06-tooling/ has all five required
+    sections; an index row that names a file has that file; a document that
+    exists is linked from the index.
+
+    What it cannot enforce, said plainly: nothing here knows that a tool was
+    adopted. A row with no file is backlog and is reported, not failed, so the
+    gap stays visible instead of turning the build red forever. D-024 carries
+    the obligation to add the row.
+    """
+    home = REPO / "docs/06-tooling"
+    index = home / "README.md"
+    if not index.exists():
+        failures.append("tooling: docs/06-tooling/README.md is missing")
+        return
+    index_text = index.read_text(encoding="utf-8")
+
+    required = ("What it is", "Why we have it", "When to use it",
+                "How to use it", "Upstream")
+    bad = 0
+
+    # Parse, do not match substrings. "wiki.md" is a substring of
+    # "openwiki.md", so a substring test would report an unlinked file as
+    # linked, and a heading inside a fenced example would count as a real
+    # section. Both would be this checker reporting success without checking.
+    # Only the Index table counts. A link in prose elsewhere in the README
+    # would otherwise mark a document as indexed without it ever appearing in
+    # the table a reader actually scans.
+    table, inside = [], False
+    for line in index_text.splitlines():
+        if line.startswith("## "):
+            inside = line.strip() == "## Index"
+            continue
+        # Table rows only. Prose after the table is still inside the section,
+        # and a link there would count as an index entry again.
+        if inside and line.lstrip().startswith("|"):
+            table.append(line)
+    if not inside and not table:
+        failures.append(
+            "tooling: docs/06-tooling/README.md has no '## Index' section")
+        return
+    linked = set(re.findall(r"\[[^\]]+\]\(([A-Za-z0-9._-]+\.md)\)",
+                            "\n".join(table)))
+
+    for link in sorted(linked):
+        if not (home / link).exists():
+            failures.append(
+                f"tooling: the index links {link} but docs/06-tooling/{link} "
+                "does not exist")
+            bad += 1
+
+    for md in sorted(home.glob("*.md")):
+        if md.name == "README.md":
+            continue
+        if md.name not in linked:
+            failures.append(
+                f"tooling: docs/06-tooling/{md.name} is not linked from the "
+                "index, so nobody will find it")
+            bad += 1
+        # An -agents.md is an operating guide, not a tool description; the
+        # five sections belong to the tool's own document.
+        if md.name.endswith("-agents.md"):
+            continue
+        headings, fenced, current, body = set(), False, None, {}
+        for line in md.read_text(encoding="utf-8").splitlines():
+            if line.lstrip().startswith("```"):
+                fenced = not fenced
+                continue
+            if not fenced and line.startswith("## "):
+                current = line[3:].strip()
+                headings.add(current)
+                body.setdefault(current, [])
+                continue
+            if current is not None:
+                body[current].append(line)
+        # The point of Upstream is that nobody has to search for the product's
+        # own documentation. A heading with no link does not do that.
+        # A real URL, not the word. "no http links here" passed before.
+        if "Upstream" in headings and not any(
+                "http://" in one or "https://" in one
+                for one in body["Upstream"]):
+            failures.append(
+                f"tooling: docs/06-tooling/{md.name} has an 'Upstream' "
+                "heading with no link under it")
+            bad += 1
+        for section in required:
+            if section not in headings:
+                failures.append(
+                    f"tooling: docs/06-tooling/{md.name} has no "
+                    f"'## {section}' heading")
+                bad += 1
+
+    pending = len(re.findall(r"not written yet", index_text))
+    if not bad:
+        note = "tooling: every tooling document is complete and indexed"
+        if pending:
+            note += f" ({pending} tool(s) still undocumented, listed in the index)"
+        notes.append(note)
+
+
 def main() -> int:
     """Run every check and report. Returns the process exit status."""
     quiet = "--quiet" in sys.argv
@@ -316,6 +422,7 @@ def main() -> int:
         check_evidence_not_ignored,
         check_unit_claims,
         check_generated_authority_claims,
+        check_tooling_docs,
     )
     for fn in checks:
         fn()

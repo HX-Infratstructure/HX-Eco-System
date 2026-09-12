@@ -355,6 +355,115 @@ _setblock('The control Markdown in docs/ stays authoritative.')
 rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: a claim naming only docs/ is accepted', rc == 0, out)
 
+# ---- hx-doc-check: operational tooling documents ----------------------------
+# CodeRabbit was adopted undocumented, then OpenWiki was adopted the same way.
+# These three break the guard on purpose so a third repeat cannot pass quietly.
+fresh()
+_tool = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_body = io.open(_tool, encoding='utf-8').read()
+io.open(_tool, 'w', encoding='utf-8', newline=chr(10)).write(
+    _body.replace('## Upstream', '## Somewhere else', 1))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a tooling document missing a required section fails',
+      rc != 0 and 'tooling:' in out and 'Upstream' in out, out)
+
+fresh()
+_idx = os.path.join(WORK, 'docs', '06-tooling', 'README.md')
+_txt = io.open(_idx, encoding='utf-8').read()
+# A table row, not prose. As prose the tooling check never saw it and
+# check_links flagged the broken link instead, so this passed on the
+# wrong gate entirely.
+io.open(_idx, 'w', encoding='utf-8', newline=chr(10)).write(
+    _txt.rstrip() + chr(10) +
+    '| ghost | [ghost-tool.md](ghost-tool.md) | - | - |' + chr(10))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: an index row naming a missing file fails',
+      rc != 0 and 'tooling:' in out and 'ghost-tool.md' in out, out)
+
+# Prose after the table is still inside the Index section. Only rows count.
+fresh()
+_idx = os.path.join(WORK, 'docs', '06-tooling', 'README.md')
+_txt = io.open(_idx, encoding='utf-8').read()
+io.open(_idx, 'w', encoding='utf-8', newline=chr(10)).write(
+    _txt.rstrip() + chr(10) * 2 + 'Also see [orphan](orphan.md).' + chr(10))
+_orph = os.path.join(WORK, 'docs', '06-tooling', 'orphan.md')
+io.open(_orph, 'w', encoding='utf-8', newline=chr(10)).write('# Orphan' + chr(10))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a prose link below the Index table is not an entry',
+      rc != 0 and 'tooling:' in out and 'orphan.md' in out, out)
+
+# A link in prose is not an index entry. Scanning the whole README would
+# let a document pass by being mentioned anywhere.
+fresh()
+_idx = os.path.join(WORK, 'docs', '06-tooling', 'README.md')
+_txt = io.open(_idx, encoding='utf-8').read()
+_prose = _txt.replace('## Index',
+    '## Aside' + chr(10) * 2 + 'See [openwiki](openwiki.md) and'
+    ' [agents](openwiki-agents.md).' + chr(10) * 2 + '## Index', 1)
+_prose = _prose.replace('| OpenWiki | [openwiki.md](openwiki.md) |'
+                        ' [openwiki-agents.md](openwiki-agents.md) | D-023 |',
+                        '| OpenWiki | not written yet | - | D-023 |', 1)
+io.open(_idx, 'w', encoding='utf-8', newline=chr(10)).write(_prose)
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a prose link outside the Index table is not an entry',
+      rc != 0 and 'tooling:' in out and 'openwiki.md' in out, out)
+
+# An Upstream heading with nothing under it is the heading without the
+# point of it: the reader still has to go and find the product's docs.
+fresh()
+_tool = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_body = io.open(_tool, encoding='utf-8').read()
+_cut = _body[:_body.index('## Upstream')] + '## Upstream' + chr(10) * 2 + 'None.' + chr(10)
+io.open(_tool, 'w', encoding='utf-8', newline=chr(10)).write(_cut)
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: an Upstream heading with no link fails',
+      rc != 0 and 'tooling:' in out and 'Upstream' in out, out)
+
+# The word, not a URL. 'http' alone used to satisfy the Upstream rule.
+fresh()
+_t = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_b = io.open(_t, encoding='utf-8').read()
+_w = (_b[:_b.index('## Upstream')] + '## Upstream' + chr(10) * 2 +
+      'There are no http links for this tool.' + chr(10))
+io.open(_t, 'w', encoding='utf-8', newline=chr(10)).write(_w)
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: the word http is not an Upstream link',
+      rc != 0 and 'tooling:' in out and 'Upstream' in out, out)
+
+# Substring, not a link. 'wiki.md' occurs inside 'openwiki.md', so a
+# substring test would call this file linked when nothing links to it.
+fresh()
+_sub = os.path.join(WORK, 'docs', '06-tooling', 'wiki.md')
+io.open(_sub, 'w', encoding='utf-8', newline=chr(10)).write('# Wiki' + chr(10))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a filename that is only a substring of a link is unlinked',
+      rc != 0 and 'tooling:' in out and 'wiki.md' in out, out)
+
+# A heading inside a fenced example is an example, not a section.
+fresh()
+_tool = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_body = io.open(_tool, encoding='utf-8').read()
+_fenced = _body.replace('## Upstream',
+                        '```' + chr(10) + '## Upstream' + chr(10) + '```', 1)
+io.open(_tool, 'w', encoding='utf-8', newline=chr(10)).write(_fenced)
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a required heading inside a code fence does not count',
+      rc != 0 and 'tooling:' in out and 'Upstream' in out, out)
+
+fresh()
+_orphan = os.path.join(WORK, 'docs', '06-tooling', 'orphan.md')
+io.open(_orphan, 'w', encoding='utf-8', newline=chr(10)).write(
+    '# Orphan' + chr(10) * 2 + '## What it is' + chr(10) * 2 + 'x' + chr(10) * 2 +
+    '## Why we have it' + chr(10) * 2 + 'x' + chr(10) * 2 +
+    '## When to use it' + chr(10) * 2 + 'x' + chr(10) * 2 +
+    '## How to use it' + chr(10) * 2 + 'x' + chr(10) * 2 +
+    '## Upstream' + chr(10) * 2 + '- <https://example.invalid/docs>' + chr(10))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+# The fixture is complete on purpose, including a real Upstream URL, so
+# this can only fail on the linkage rule it names.
+check('hx-doc-check: a complete document nobody links to still fails',
+      rc != 0 and 'orphan.md is not linked from the' in out, out)
+
 # ---- hx-version-pins: numeric sort ------------------------------------------
 # Exercise the shipped comparator, not a copy of it: a test that reimplements
 # the logic it is checking proves only that the test is self-consistent.

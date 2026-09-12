@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Operational tooling</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/06-tooling/README.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>Operational tooling</h1>
+<p>One document per tool that this repository depends on but does not contain. CodeRabbit, OpenWiki and graft are tools, not components of the fleet, so they do not belong in <code>01-architecture</code> or <code>04-application-standards</code>.</p>
+<h2>Why this directory exists</h2>
+<p>CodeRabbit was adopted with its facts spread across <code>DECISIONS.md</code>, <code>RUN-SHEET.md</code> and <code>AGENTS.md</code>, and nothing that said what it was or when to use it. OpenWiki was then adopted the same way. Twice is a pattern, so the rule is written down and checked instead of remembered. See <strong>D-024</strong>.</p>
+<h2>What a document here must contain</h2>
+<p>Five sections, in this order. <code>hx-doc-check</code> refuses a document that is missing one.</p>
+<div class="tw"><table><thead><tr><th>Section</th><th>Answers</th></tr></thead><tbody><tr><td><code>## What it is</code></td><td>One paragraph. What the tool does, and what it does not do.</td></tr><tr><td><code>## Why we have it</code></td><td>The problem in this repository that it solves. Cite the decision that adopted it.</td></tr><tr><td><code>## When to use it</code></td><td>The trigger. Also when not to.</td></tr><tr><td><code>## How to use it</code></td><td>Exact commands. Cost and irreversibility where they apply.</td></tr><tr><td><code>## Upstream</code></td><td>Canonical links: documentation and source. A reader must never have to search for the product's own docs.</td></tr></tbody></table></div>
+<p>A tool that carries a per-agent operating guide splits it into a second file, <code>&lt;tool&gt;-agents.md</code>, named in the index below. The human document carries the shared facts; the agent document links to them rather than repeating them.</p>
+<h2>Index</h2>
+<div class="tw"><table><thead><tr><th>Tool</th><th>Human</th><th>Agent</th><th>Adopted by</th></tr></thead><tbody><tr><td>OpenWiki</td><td><a href="openwiki.html">openwiki.md</a></td><td><a href="openwiki-agents.html">openwiki-agents.md</a></td><td>D-023</td></tr><tr><td>CodeRabbit</td><td>not written yet</td><td>—</td><td>—</td></tr><tr><td>graft</td><td>not written yet</td><td>—</td><td>—</td></tr></tbody></table></div>
+<p>The two unwritten rows are the backlog, kept visible on purpose.</p>
+<p><code>hx-doc-check</code> reports a row with no document on every run; it does not fail on one, because a permanently red build teaches people to ignore the colour. It <strong>fails</strong> on a document missing a required heading, an index row naming a file that is not there, and a document nothing links to. D-024, not the checker, carries the obligation to add the row in the first place.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/06-tooling/README.md</code>.</footer></div></body></html>
