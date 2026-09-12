@@ -22,7 +22,7 @@ missing one.
 | `## Why we have it` | The problem in this repository that it solves. Cite the decision that adopted it. |
 | `## When to use it` | The trigger. Also when not to. |
 | `## How to use it` | Exact commands. Cost and irreversibility where they apply. |
-| `## Upstream` | Canonical links: documentation and source. A reader must never have to search for the product's own docs. |
+| `## Upstream` | Two canonical links: the documentation and the source. `hx-doc-check` requires two distinct URLs. A reader must never have to search for the product's own docs. |
 
 A tool that carries a per-agent operating guide splits it into a second file,
 `<tool>-agents.md`, named in the index below. The human document carries the

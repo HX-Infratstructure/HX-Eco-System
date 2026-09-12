@@ -350,7 +350,8 @@ def check_tooling_docs() -> None:
     check makes the third repeat fail the build.
 
     What it enforces: a document in docs/06-tooling/ has the five required
-    headings, in the order the index gives, with a real link under Upstream;
+    headings, in the order the index gives, with two distinct real links under
+    Upstream, the documentation and the source;
     an index row that names a file has that file; a document that exists is
     linked from a row of the index table. Fenced examples are ignored
     throughout.
@@ -433,13 +434,22 @@ def check_tooling_docs() -> None:
                     + ", ".join(required))
                 bad += 1
         # The point of Upstream is that nobody has to search for the product's
-        # own documentation. A heading without a real link does not do that.
-        if "Upstream" in body and not _UPSTREAM_LINK.search(
-                "\n".join(body["Upstream"])):
-            failures.append(
-                f"tooling: docs/06-tooling/{md.name} has an 'Upstream' "
-                "heading with no link under it")
-            bad += 1
+        # documentation or its source. The index promises both, so a document
+        # needs two distinct real links: one link, or the same URL twice,
+        # leaves a reader searching for the other.
+        if "Upstream" in body:
+            urls = {found.lstrip("](<").rstrip(")>") for found in
+                    _UPSTREAM_LINK.findall("\n".join(body["Upstream"]))}
+            if not urls:
+                failures.append(
+                    f"tooling: docs/06-tooling/{md.name} has an 'Upstream' "
+                    "heading with no link under it")
+                bad += 1
+            elif len(urls) < 2:
+                failures.append(
+                    f"tooling: docs/06-tooling/{md.name} has only one link "
+                    "under 'Upstream'; it needs the documentation and the source")
+                bad += 1
 
     # Rows of the Index table only. Counting the phrase across the whole README
     # let a sentence of prose inflate the number of undocumented tools.

@@ -367,7 +367,8 @@ def _complete_doc(title):
     for heading in ('What it is', 'Why we have it', 'When to use it',
                     'How to use it'):
         parts += ['## ' + heading, '', 'Text.', '']
-    parts += ['## Upstream', '', '- <https://example.invalid/docs>', '']
+    parts += ['## Upstream', '', '- <https://example.invalid/docs>',
+              '- <https://example.invalid/source>', '']
     return chr(10).join(parts)
 
 # CodeRabbit was adopted undocumented, then OpenWiki was adopted the same way.
@@ -471,7 +472,8 @@ io.open(_orphan, 'w', encoding='utf-8', newline=chr(10)).write(
     '## Why we have it' + chr(10) * 2 + 'x' + chr(10) * 2 +
     '## When to use it' + chr(10) * 2 + 'x' + chr(10) * 2 +
     '## How to use it' + chr(10) * 2 + 'x' + chr(10) * 2 +
-    '## Upstream' + chr(10) * 2 + '- <https://example.invalid/docs>' + chr(10))
+    '## Upstream' + chr(10) * 2 + '- <https://example.invalid/docs>' + chr(10) +
+    '- <https://example.invalid/source>' + chr(10))
 rc, out = run('tools/hx-doc/hx_doc_check.py')
 # The fixture is complete on purpose, including a real Upstream URL, so
 # this can only fail on the linkage rule it names.
@@ -573,6 +575,29 @@ io.open(_idx, 'w', encoding='utf-8', newline=chr(10)).write(
 rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: the backlog phrase in prose is not a pending tool',
       rc == 0 and '(2 tool(s) still undocumented' in out, out)
+
+# The index promises the documentation and the source. One real link used to
+# satisfy the Upstream rule, and so did the same URL written twice.
+fresh()
+_t = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_b = io.open(_t, encoding='utf-8').read()
+_one = (_b[:_b.index('## Upstream')] + '## Upstream' + chr(10) * 2 +
+        '- <https://docs.langchain.com/oss/openwiki/overview>' + chr(10))
+io.open(_t, 'w', encoding='utf-8', newline=chr(10)).write(_one)
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: one Upstream link is not the documentation and the source',
+      rc != 0 and "has only one link under 'Upstream'" in out, out)
+
+fresh()
+_t = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_b = io.open(_t, encoding='utf-8').read()
+_dup = (_b[:_b.index('## Upstream')] + '## Upstream' + chr(10) * 2 +
+        '- <https://docs.langchain.com/oss/openwiki/overview>' + chr(10) +
+        '- [docs](https://docs.langchain.com/oss/openwiki/overview)' + chr(10))
+io.open(_t, 'w', encoding='utf-8', newline=chr(10)).write(_dup)
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: the same Upstream URL twice counts as one link',
+      rc != 0 and "has only one link under 'Upstream'" in out, out)
 
 # ---- hx-version-pins: numeric sort ------------------------------------------
 # Exercise the shipped comparator, not a copy of it: a test that reimplements
