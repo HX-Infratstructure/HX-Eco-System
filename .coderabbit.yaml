@@ -63,6 +63,9 @@ reviews:
     - "!human-html/**"
     # Superseded history. Never current authority; changing it is not a fix.
     - "!archive/**"
+    # Written by the OpenWiki CLI and replaced wholesale on --init. A finding
+    # here belongs in the source it documents, or in the generator, never here.
+    - "!openwiki/**"
     # Generated from docs/00-control/hx-fleet.tsv.
     - "!docs/03-runbooks/common/hx-fleet-ips.env"
     # CodeRabbit's own default filters exclude **/*.tsv, which silently kept

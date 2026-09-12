@@ -49,7 +49,11 @@ notes: list[str] = []
 #   human-html generated output; findings belong in the Markdown source
 #   .claude    agent tool wiring, written by the tools themselves
 #   graft      a gitignored local code-graph cache, absent in a clean checkout
-SKIP_TREES = (".git", "archive", "human-html", ".claude", "graft")
+# Generated or vendored trees. Nothing here is authored, so a link, a
+# heading or a filename inside one is not a finding against this repository.
+# openwiki/ is written by the OpenWiki CLI and replaced wholesale by
+# `openwiki --init`, the same class as human-html/.
+SKIP_TREES = (".git", "archive", "human-html", ".claude", "graft", "openwiki")
 
 
 def active_markdown() -> list[Path]:

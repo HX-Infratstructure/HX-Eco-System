@@ -134,6 +134,31 @@ rc, out = run('tools/hx-doc/hx_new_server.py', 'hx-17', '--force')
 check('hx-new-server: a missing template placeholder is refused',
       rc != 0 and 'placeholder' in out, out)
 
+# ----------------------- hx_doc_check: generated trees are not findings ------
+# openwiki/ is written by the OpenWiki CLI and replaced wholesale on --init.
+# A broken link there is a defect in the generator or the source it documents,
+# never something to fix in the generated page. The skip has to actually skip.
+fresh()
+import pathlib
+ow = pathlib.Path(WORK) / 'openwiki'
+ow.mkdir(parents=True, exist_ok=True)
+(ow / 'index.md').write_text(
+    '# Generated' + chr(10) * 2 +
+    'See [nothing](docs/this-does-not-exist.md).' + chr(10),
+    encoding='utf-8')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a broken link inside openwiki/ is not a finding',
+      rc == 0 and 'openwiki' not in out, out)
+
+# The same broken link outside a generated tree must still fail, so the skip
+# above is a skip and not a hole.
+fresh()
+edit('docs/03-runbooks/README.md',
+     lambda s: s + chr(10) + 'See [nothing](this-does-not-exist.md).' + chr(10))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: the same broken link outside a generated tree fails',
+      rc != 0 and 'broken' in out, out)
+
 # ------------------------------------- hx_version_pins: package sources -----
 # D-021: .coderabbit.yaml stands, so Snap is never permitted, driver included.
 # The Ubuntu archive stays available for the driver, build toolchains and
