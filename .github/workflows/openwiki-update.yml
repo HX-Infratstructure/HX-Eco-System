@@ -1,0 +1,132 @@
+name: OpenWiki update
+
+# OpenWiki regenerates openwiki/ from the code and opens a documentation pull
+# request. Adapted from the upstream example, which its own README contradicts
+# in three places:
+#
+#   1. The README says to create OPENWIKI_PR_TOKEN because pull requests opened
+#      with GITHUB_TOKEN do not start pull_request workflows. The example then
+#      never passes the token, so the required checks it exists to trigger
+#      still do not run. It is passed here.
+#   2. The README says "do not auto-merge changes to executable workflow
+#      files". The example's own add-paths includes this workflow file, plus
+#      AGENTS.md and CLAUDE.md. AGENTS.md is the contract every agent in this
+#      repository reads first. add-paths here is the generated tree, nothing
+#      else.
+#   3. The README says "pin every action and package version". The example
+#      installs OpenWiki unpinned. It is pinned here, as D-023 requires.
+#
+# LangSmith tracing is also removed. Nothing about this repository is sent to a
+# third-party trace store.
+#
+# This job costs money on every run. See D-023.
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Weekly, Sunday 08:00 UTC. Not daily: the fleet documentation does not
+    # change daily, and every run is a paid model run.
+    - cron: "0 8 * * 0"
+
+permissions:
+  contents: read
+
+# Two runs pushing the same openwiki/update branch would race. A manual
+# dispatch during the weekly run is the realistic way that happens.
+concurrency:
+  group: openwiki-update
+  cancel-in-progress: false
+
+jobs:
+  # A separate job, not a first step. Two steps below carry `if: !cancelled()`
+  # so that a partial OpenWiki run still opens a pull request, and that
+  # condition is also true when an earlier step failed. As a step, this check
+  # would refuse to start and the job would open a pull request anyway, with an
+  # empty token. `needs:` skips the whole job instead.
+  preflight:
+    name: Secrets are present
+    runs-on: ubuntu-latest
+    steps:
+      - name: Refuse to start without the secrets this job needs
+        env:
+          PR_TOKEN: ${{ secrets.OPENWIKI_PR_TOKEN }}
+          MODEL_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          rc=0
+          [ -n "$PR_TOKEN" ]  || { echo "STOP: OPENWIKI_PR_TOKEN is not set" >&2; rc=1; }
+          [ -n "$MODEL_KEY" ] || { echo "STOP: ANTHROPIC_API_KEY is not set" >&2; rc=1; }
+          exit $rc
+
+  update:
+    name: Regenerate openwiki/
+    needs: preflight
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Always document the default branch, never the ref a manual
+          # dispatch happened to pick. Read what this does not do in D-023:
+          # workflow_dispatch runs *this file* from the chosen ref, so a
+          # branch can still edit the steps below. Who holds write access is
+          # the control there, not a line in this file.
+          ref: ${{ github.event.repository.default_branch }}
+          # create-pull-request pushes with OPENWIKI_PR_TOKEN, so no job step
+          # needs GITHUB_TOKEN in .git/config.
+          persist-credentials: false
+          # Full history. openwiki --update diffs HEAD against the commit it
+          # last documented, and a shallow clone hides that commit, so the run
+          # sees an empty change summary and documents nothing.
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+
+      - name: Install OpenWiki
+        # mermaid and jsdom are optional. They give strict validation of the
+        # Mermaid diagrams OpenWiki writes, which this repository's pages use.
+        run: npm install --global openwiki@0.5.1 mermaid@11.16.0 jsdom@29.1.1
+
+      - name: Run OpenWiki
+        id: openwiki
+        # A partial run is still progress: the pages that finished are durable
+        # and become the baseline for the next run. The failure is propagated
+        # at the end of the job, after the pull request exists.
+        continue-on-error: true
+        run: openwiki code --update --print
+        env:
+          OPENWIKI_TELEMETRY_DISABLED: "1"
+          OPENWIKI_PROVIDER: anthropic
+          OPENWIKI_MODEL_ID: claude-sonnet-5
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Remove transient OpenWiki run state
+        if: ${{ !cancelled() }}
+        run: rm -f -- openwiki/.run.json
+
+      - name: Open the documentation pull request
+        if: ${{ !cancelled() }}
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          # A fine-grained token, not GITHUB_TOKEN, so that the repository
+          # checks in hx-checks.yml actually run on the pull request.
+          token: ${{ secrets.OPENWIKI_PR_TOKEN }}
+          add-paths: openwiki
+          branch: openwiki/update
+          commit-message: "docs: update OpenWiki"
+          title: "docs: update OpenWiki"
+          body: |
+            Automated OpenWiki documentation update. Read it before merging;
+            this pull request is not auto-merged, by decision D-023.
+
+            OpenWiki result: ${{ steps.openwiki.outcome }}
+
+            A result of `failure` means the run stopped part way. The pages
+            that completed are still correct and become the baseline for the
+            next run, so merging is the way to keep that progress.
+
+      - name: Propagate OpenWiki failure
+        if: ${{ steps.openwiki.outcome == 'failure' }}
+        run: exit 1

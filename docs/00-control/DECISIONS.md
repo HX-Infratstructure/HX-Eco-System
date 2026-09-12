@@ -152,3 +152,58 @@ checks them against upstream.
 This was recorded in the Model Placement and Embedding Standard as item 10 two
 days after that document was approved at v1.0, without a decision to point at.
 The standard is v1.1 now and cites this entry.
+
+## D-023 — a write-capable token in Actions secrets, for OpenWiki — RATIFIED 2026-09-11
+
+OpenWiki generates `openwiki/` from the code. PR #10 teaches the repository
+that the tree is generated. This entry covers refreshing it on a schedule.
+
+The owner directed this on 2026-09-11 after the cost and the exposure were put
+in writing. It is recorded before the secrets exist, not after.
+
+**What is accepted.** Two Actions secrets on a repository that is public:
+
+- `OPENWIKI_PR_TOKEN` — a fine-grained personal access token or GitHub App
+  token, scoped to this repository only, with **Contents: read and write** and
+  **Pull requests: read and write**;
+- `ANTHROPIC_API_KEY` — a model key. Every scheduled run is billable.
+
+The repository being public does not expose either secret. It does mean that a
+leak of `OPENWIKI_PR_TOKEN` gives write access to something the whole world can
+already read. That is the accepted risk.
+
+**Why the default token will not do.** A pull request opened with
+`GITHUB_TOKEN` does not start `pull_request` workflows, so the checks in
+`hx-checks.yml` would never run on generated documentation. The weak option is
+also the broken one.
+
+**The conditions, all of which `.github/workflows/openwiki-update.yml` meets.**
+
+1. `add-paths` is `openwiki` and nothing else. The upstream example also lists
+   `AGENTS.md`, `CLAUDE.md` and the workflow file itself. `AGENTS.md` is the
+   contract every agent reads first, and no job in this repository may rewrite
+   its own workflow.
+2. Every action is pinned to a commit, and every package to a version,
+   OpenWiki included. Upstream ships the install unpinned.
+3. OpenWiki pull requests are **not** auto-merged. A human reads the generated
+   documentation before it lands.
+4. The job refuses to start when either secret is missing, instead of spending
+   the model budget and failing at the last step.
+5. Weekly, not daily. Fleet documentation does not change daily and every run
+   is paid.
+6. Telemetry is off and LangSmith tracing is removed. Nothing about this
+   repository is sent to a third-party trace store.
+
+**The residual risk, stated plainly.** `workflow_dispatch` runs the workflow
+file from the ref the operator picks. A branch that edits that file can
+therefore read both secrets, and no line inside the file can prevent it,
+because the attacker would be editing that line too. The control is who holds
+write access to this repository, plus branch protection on the default branch.
+The checkout is pinned to the default branch so that generated documentation
+always describes `main`; that is a correctness measure, not a security one, and
+it is not recorded as one.
+
+**Reversal.** Delete the workflow file and revoke both secrets. Running
+`openwiki --update` by hand from inside Claude Code costs nothing, because the
+host integration uses the session's model instead of a key. That stays the
+fallback.
