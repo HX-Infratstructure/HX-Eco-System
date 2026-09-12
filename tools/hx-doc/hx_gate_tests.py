@@ -282,6 +282,35 @@ check('hx-doc-check: naming a unit path without creating it still fails',
       rc != 0 and 'hx-crawl4ai' in out, out)
 
 # --------------------------------------- hx_version_pins: numeric sort ------
+# A generated block may not amend the truth order. OpenWiki's first run wrote
+# "Treat source code and tests as authoritative" into AGENTS.md, which
+# contradicts section 2. That block is rewritten on every scheduled run, so the
+# rule needs a check, not a memory. Both directions: the bad wording fails, and
+# a claim that names the control Markdown passes.
+fresh()
+_ap = os.path.join(WORK, 'AGENTS.md')
+_txt = io.open(_ap, encoding='utf-8').read()
+_pat = r'<!-- OPENWIKI:START -->.*?<!-- OPENWIKI:END -->'
+def _setblock(body):
+    out = re.sub(_pat, '<!-- OPENWIKI:START -->' + chr(10) + body + chr(10) +
+                 '<!-- OPENWIKI:END -->', _txt, flags=re.S)
+    io.open(_ap, 'w', encoding='utf-8', newline=chr(10)).write(out)
+    return out
+
+check('gate-tests: the generated block was found in AGENTS.md',
+      _setblock('placeholder') != _txt, _txt[-400:])
+
+_setblock('Treat source code and tests as authoritative.')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a generated authority claim without docs/ is refused',
+      rc != 0 and 'authority:' in out, out)
+
+_setblock('Treat source code, tests and the control Markdown in docs/ as'
+          ' authoritative.')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: the same claim naming docs/ is accepted',
+      rc == 0, out)
+
 # Exercise the shipped comparator, not a copy of it: a test that reimplements
 # the logic it is checking proves only that the test is self-consistent.
 vers = ['595.9.05-0ubuntu0.24.04.1', '595.71.05-0ubuntu0.24.04.1']
