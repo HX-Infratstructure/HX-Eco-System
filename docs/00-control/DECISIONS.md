@@ -210,6 +210,11 @@ fallback.
 
 ## D-024 — operational tooling is documented before it is adopted — RATIFIED 2026-09-12
 
+The owner approved this on 2026-09-12, in the same message that approved the
+rollout plan carrying it as step 7, after stating the requirement directly:
+every operational tool gets its own directory covering what it is, why we
+have it, and how and when to use it.
+
 An operational tool is something this repository depends on but does not
 contain: OpenWiki, CodeRabbit, graft. Each gets one document under
 `docs/06-tooling/` carrying five sections - what it is, why we have it, when

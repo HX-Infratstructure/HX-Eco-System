@@ -324,12 +324,17 @@ def check_tooling_docs() -> None:
         return
     index_text = index.read_text(encoding="utf-8")
 
-    required = ("## What it is", "## Why we have it", "## When to use it",
-                "## How to use it", "## Upstream")
+    required = ("What it is", "Why we have it", "When to use it",
+                "How to use it", "Upstream")
     bad = 0
 
-    # A row that names a file must have that file.
-    for link in re.findall(r"\[[^\]]+\]\(([A-Za-z0-9._-]+\.md)\)", index_text):
+    # Parse, do not match substrings. "wiki.md" is a substring of
+    # "openwiki.md", so a substring test would report an unlinked file as
+    # linked, and a heading inside a fenced example would count as a real
+    # section. Both would be this checker reporting success without checking.
+    linked = set(re.findall(r"\[[^\]]+\]\(([A-Za-z0-9._-]+\.md)\)", index_text))
+
+    for link in sorted(linked):
         if not (home / link).exists():
             failures.append(
                 f"tooling: the index links {link} but docs/06-tooling/{link} "
@@ -339,7 +344,7 @@ def check_tooling_docs() -> None:
     for md in sorted(home.glob("*.md")):
         if md.name == "README.md":
             continue
-        if md.name not in index_text:
+        if md.name not in linked:
             failures.append(
                 f"tooling: docs/06-tooling/{md.name} is not linked from the "
                 "index, so nobody will find it")
@@ -348,12 +353,18 @@ def check_tooling_docs() -> None:
         # five sections belong to the tool's own document.
         if md.name.endswith("-agents.md"):
             continue
-        text = md.read_text(encoding="utf-8")
+        headings, fenced = set(), False
+        for line in md.read_text(encoding="utf-8").splitlines():
+            if line.lstrip().startswith("```"):
+                fenced = not fenced
+                continue
+            if not fenced and line.startswith("## "):
+                headings.add(line[3:].strip())
         for section in required:
-            if section not in text:
+            if section not in headings:
                 failures.append(
                     f"tooling: docs/06-tooling/{md.name} has no "
-                    f"'{section}' section")
+                    f"'## {section}' heading")
                 bad += 1
 
     pending = len(re.findall(r"not written yet", index_text))

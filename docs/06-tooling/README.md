@@ -36,5 +36,10 @@ shared facts; the agent document links to them rather than repeating them.
 | CodeRabbit | not written yet | — | — |
 | graft | not written yet | — | — |
 
-The two unwritten rows are the backlog, kept visible on purpose. A tool in
-this index without a document is the condition `hx-doc-check` fails on.
+The two unwritten rows are the backlog, kept visible on purpose.
+
+`hx-doc-check` reports a row with no document on every run; it does not
+fail on one, because a permanently red build teaches people to ignore the
+colour. It **fails** on a document missing a required heading, an index row
+naming a file that is not there, and a document nothing links to. D-024,
+not the checker, carries the obligation to add the row in the first place.

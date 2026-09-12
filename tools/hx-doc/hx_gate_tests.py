@@ -376,6 +376,26 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: an index row naming a missing file fails',
       rc != 0 and 'ghost-tool.md' in out, out)
 
+# Substring, not a link. 'wiki.md' occurs inside 'openwiki.md', so a
+# substring test would call this file linked when nothing links to it.
+fresh()
+_sub = os.path.join(WORK, 'docs', '06-tooling', 'wiki.md')
+io.open(_sub, 'w', encoding='utf-8', newline=chr(10)).write('# Wiki' + chr(10))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a filename that is only a substring of a link is unlinked',
+      rc != 0 and 'wiki.md' in out, out)
+
+# A heading inside a fenced example is an example, not a section.
+fresh()
+_tool = os.path.join(WORK, 'docs', '06-tooling', 'openwiki.md')
+_body = io.open(_tool, encoding='utf-8').read()
+_fenced = _body.replace('## Upstream',
+                        '```' + chr(10) + '## Upstream' + chr(10) + '```', 1)
+io.open(_tool, 'w', encoding='utf-8', newline=chr(10)).write(_fenced)
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a required heading inside a code fence does not count',
+      rc != 0 and 'Upstream' in out, out)
+
 fresh()
 _orphan = os.path.join(WORK, 'docs', '06-tooling', 'orphan.md')
 io.open(_orphan, 'w', encoding='utf-8', newline=chr(10)).write(
