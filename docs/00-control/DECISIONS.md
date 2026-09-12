@@ -237,13 +237,17 @@ adopted. A row with no document is backlog: reported on every run, not failed,
 so the gap stays visible instead of turning the build red forever. Adding the
 row is this decision's obligation, carried by the person adopting the tool.
 
-**The upstream-links section is not decoration.** The OpenWiki work ran for
-hours against the README and the installed package while the product's own
-documentation went unread, and the owner had to supply the URL. Eight pages of
-upstream documentation then produced seven findings, including two capabilities
-the repository was not using at all: `openwiki/INSTRUCTIONS.md`, which steers
-coverage, and `.openwikiignore`, which had been letting the generator scan
-`archive/` and `human-html/`. A missing link is how that happens.
+**The upstream-links section is not decoration.** Two capabilities upstream
+documents and this repository was not using are verifiable here: before the
+commit that carries this decision, neither `openwiki/INSTRUCTIONS.md` nor
+`.openwikiignore` existed, so wiki coverage was unsteered and the generator
+scanned `archive/`, `human-html/` and `graft/`. Both are documented upstream
+and neither was reachable from anything in this repository.
+
+The owner's account of how that happened - adoption driven by the README and
+the installed package while the product's own documentation went unread, with
+the owner supplying the URL - is recorded as the owner's account, not as
+measured evidence. The verifiable part is the absence of the two files.
 
 Backlog on ratification: CodeRabbit and graft are listed in the index with no
 document. Each is its own pull request.

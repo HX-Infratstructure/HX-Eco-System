@@ -376,6 +376,18 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: an index row naming a missing file fails',
       rc != 0 and 'ghost-tool.md' in out, out)
 
+# Prose after the table is still inside the Index section. Only rows count.
+fresh()
+_idx = os.path.join(WORK, 'docs', '06-tooling', 'README.md')
+_txt = io.open(_idx, encoding='utf-8').read()
+io.open(_idx, 'w', encoding='utf-8', newline=chr(10)).write(
+    _txt.rstrip() + chr(10) * 2 + 'Also see [orphan](orphan.md).' + chr(10))
+_orph = os.path.join(WORK, 'docs', '06-tooling', 'orphan.md')
+io.open(_orph, 'w', encoding='utf-8', newline=chr(10)).write('# Orphan' + chr(10))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a prose link below the Index table is not an entry',
+      rc != 0 and 'orphan.md' in out, out)
+
 # A link in prose is not an index entry. Scanning the whole README would
 # let a document pass by being mentioned anywhere.
 fresh()

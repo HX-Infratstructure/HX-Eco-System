@@ -340,7 +340,9 @@ def check_tooling_docs() -> None:
         if line.startswith("## "):
             inside = line.strip() == "## Index"
             continue
-        if inside:
+        # Table rows only. Prose after the table is still inside the section,
+        # and a link there would count as an index entry again.
+        if inside and line.lstrip().startswith("|"):
             table.append(line)
     if not inside and not table:
         failures.append(
