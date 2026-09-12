@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "pages": {
+    "/openwiki/architecture/hx-fleet-and-ecosystem-layout.md": {
+      "pageVersion": "sha256:40ab7f3acdfbc05dbeb737bdb1e67fda3dfbc1b1fd3ba6beef3c1d9cd4503a33",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    },
+    "/openwiki/architecture/repository-authority-model.md": {
+      "pageVersion": "sha256:cbd2320dfb9ea62cc9f8f75b6d35436f209a873594bd158ebc708162f49497de",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    },
+    "/openwiki/concepts/generated-artifacts-and-single-source-of-truth.md": {
+      "pageVersion": "sha256:aea75aa9950f44bacee3aa8cd047627db72db48669c3c0bfce0be899639ba694",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    },
+    "/openwiki/concepts/owner-decisions-and-document-lifecycle.md": {
+      "pageVersion": "sha256:a20fd5da1ea60bd5025d0d746bb356d164be8539cfd0ac0c286ca6cf80428a1f",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    },
+    "/openwiki/concepts/proof-chain-and-cumulative-evidence.md": {
+      "pageVersion": "sha256:24fe2d5cf419fa3e560955069ebba502c2d281d9a5c7766c298d7129074ec16f",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    },
+    "/openwiki/integrations/agent-tooling-and-code-graph.md": {
+      "pageVersion": "sha256:30c5e09f9c74e2722002b7242b17dee038b9136ae2e6051f1e700f8cf2a92849",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    },
+    "/openwiki/integrations/governed-agent-skills.md": {
+      "pageVersion": "sha256:87c3c232d754f15c677cabe46dfba20e8fa256e275b49ac1a94977c2f39d9b82",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    },
+    "/openwiki/operations/continuous-integration-workflows.md": {
+      "pageVersion": "sha256:1e3333204d2a912d5a4e875baf2667f3c417d01e617d564c840619a7f969fe49",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    },
+    "/openwiki/operations/repository-consistency-tooling.md": {
+      "pageVersion": "sha256:5a363d17b7ee8cddfa1fedcc19585762b5407e17c6e980af536a243bdd0212c6",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    },
+    "/openwiki/operations/server-records-and-evidence-retention.md": {
+      "pageVersion": "sha256:a3a7421a8239c9a2ec4e3d4645c815aa57cea5985ef7bfb700edbf293c1a3f96",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    },
+    "/openwiki/operations/version-pins-and-upstream-drift.md": {
+      "pageVersion": "sha256:a988b386dc9409bb4e1c8bf2e4f57c691af8b89ef8586936d9265f216f2faa2f",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    },
+    "/openwiki/quickstart.md": {
+      "pageVersion": "sha256:95e852d73d0d1199925f8c3d4e576fba793ca65c5282b61d08f5a3988f3eac39",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    },
+    "/openwiki/testing/enforcement-gate-tests.md": {
+      "pageVersion": "sha256:0d7094bf72005e93cc5f88acb931c739c7a317fb736cde5596a6b996dd7bfeb7",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    },
+    "/openwiki/workflows/contributing-and-review.md": {
+      "pageVersion": "sha256:2294fe4073e0e5f2f26ea34c4f0bc433a127fb127ccbaaac44cc913fdb0f0a05",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    },
+    "/openwiki/workflows/server-base-build-runbooks.md": {
+      "pageVersion": "sha256:aa34aa64fca97ea81cfdae29e22ea4fd3c44fa49e36e8c35993940e5f4f07e11",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    },
+    "/openwiki/workflows/smoke-test-run-lifecycle.md": {
+      "pageVersion": "sha256:48b8167e7bd0a27b138e53855aeef846867558dbb00bdda0ee8c64329b8d3a56",
+      "completedBy": "claude-code",
+      "completedRunId": "5e03320d-bfbb-498e-98f8-03d32a0513d1",
+      "gitHead": "50144ed86a07cdf94dfbc666baced837d4aaea91",
+      "sourceFingerprint": "sha256:c3c9c4bafb624195105d90c7912eaaa709b6e1222a6ae4142b2216291ed137ef"
+    }
+  }
+}

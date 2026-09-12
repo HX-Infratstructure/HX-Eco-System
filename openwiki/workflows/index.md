@@ -1,0 +1,5 @@
+# Files
+
+- [Contributing and review workflow](contributing-and-review.md) - The mandatory change path — branch off the default branch, regenerate derived artifacts, run the local checks, run the command-line reviewer before pushing, then open a pull request — plus the review configuration, its path-scoped instructions, and the size limit that silently skips a review.
+- [Server base-build runbooks](server-base-build-runbooks.md) - The executable path that stands a server up — one implementation of each numbered block with thin per-server wrappers, a host guard that refuses the wrong machine, pinned and checksum-verified downloads, shared helpers for users, venvs and units, and a validation contract of exactly two questions.
+- [Smoke-test run lifecycle](smoke-test-run-lifecycle.md) - How one component proof is executed and retained — the runner-host gate and its pre-CentCom escape, a disposable run workspace with a frozen procedure copy and a manifest, readiness checking, remote-first execution patterns, cleanup that must be verified, UI capture that needs a live marker, and the promotion gates.

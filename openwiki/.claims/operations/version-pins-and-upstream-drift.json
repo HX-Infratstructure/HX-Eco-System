@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:a988b386dc9409bb4e1c8bf2e4f57c691af8b89ef8586936d9265f216f2faa2f",
+  "claims": [
+    {
+      "id": "claim_321ab1a0d68e4b2a961285477c3f5ac5",
+      "statement": "Application software may come only from PyPI, npm, a GitHub release, an upstream source tarball, a direct binary or Hugging Face; the Ubuntu archive is permitted for the NVIDIA driver, build toolchains and library headers only; and Snap is never permitted for anything including the driver.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L119-L136",
+          "version": "repo-lines-v1:sha256:13cde8ea6b0cb6f5b58ddbaceb8f897ad92131f99fde826a1d97e3e0352c1ee7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkMTVlZTYxOThkYzkyZjEwMmEwYWU5YmRiNTJiNjI0YWEwY2Y2NmNjNDFkYzJjOGVhYmY4ODI5NTdjM2QzYmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmZWY4N2EwNGViMTY1YWRjMWM0MjUyZTU1NjU1NmI2Y2I4OTIxODFhMzFhMmU4MjM3YzU2Yzc3ZTQwMWNlMjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlMmRjZjM4MjQ5ZTBlZDE5MzM3OGFjZjZhZjM2MTQ0Mzg1NGUzOTkzZDE4MTI5ZTMwMmMwNWExNGQ1OWZiNzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEwOTg1NWM4NDdmMGIwZThjYWFhNjI0MmM4NGQ0ZjdjZGJmMjJkNDgyODA1ZTFmNDEzZDc5NGY0Y2VkZTljMDAifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_version_pins.py#L39-L49",
+          "version": "repo-lines-v1:sha256:266e5db93b8155fb78636de57803550c80c00044100f668a7ba61da519adadb2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0YmI3MDM3MWE3ZGU2MDlkYzVjZjNkYzZlYzBmMzliN2Q5ZDRiMzUwNDI2NjRjZDlhMGE3OTI4YzY3OWIzNmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MTgzMGE2ZDAxZTQzZTc5MzIwYjJjODc3Njk3ZmFmOWM0ZmVjYWU2MTI5OGM2N2Q2NTY4NjM4YmVlMzBlNDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRkNTRjNWI3M2IzNWY1NDczYjY5YjQ2OGEzMTdmMGNkZDZiYWEwOTViZGY4NTc1Mzg1OTcyZjU3YjQzMmJlNjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1YjIzODk4OGFiNDZhZTJlY2Q3NTQ4ZTZmMmEwMGJjNTI0NWMzZGUxYmRlNjRhNDA0ZTdhZmJlZWZhMDdjYWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0b3b4eb817534862b3f8469bb676cf0e",
+      "statement": "The pin auditor encodes the package-source rule as a standalone function separated from its reporting loop so the rule can be exercised without network access, and reports a violation as REVIEW with a migration note rather than a bare failure.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_version_pins.py#L52-L68",
+          "version": "repo-lines-v1:sha256:aa9d82774f85ce7e2277cc38d52ca4a757e334f1a1df2de9b1b2084345ef802e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5NjgyODE2MWExNWJkOWIzODlmZDNlZDliZjk0YmZhYTVjNGE0NGZmMDE4NWUxNzQ2MTZhOWQ5ZjQxZGJkNGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1MTIyZDNlYjdmZTA0NDM5YjJmYmJkZDU2MGZmZTc1OWM1OTFiZmNkYzhhYmY2YzNmOWFmMWViYWUyOTMwZmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwZTZmZGY3MzM0NDE2ZGM2NzNkMWY0MjkxMGQ5NjYxZjBhM2Y3YTllN2I5MzZkNzk2ZGIyMTZjZmY3M2FlMGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhM2NmNTE5MjM1NGY3MTYxNWFjNTEwMzRiM2U5N2MyMGVkYTk5NjQzZmNhZjViYmU2ZDQxYWQ1OWJkMTIxNjcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f27230188b1d430d9ff6de9c64817100",
+      "statement": "docs/03-runbooks/common/hx-base.env is the single place a version changes for every server not yet built, holding the Ollama version and archive hash, the NVIDIA branch and package version, the reranker checkpoint, runtime and port, and one pin per remaining fleet application.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L1-L8",
+          "version": "repo-lines-v1:sha256:48253e5d1118e3f76a2db93cfda25eaba4f0f3ce0836d6fd153c77b7c5f563c4:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTAyOTAwZGUxMTBlODhhMzNlNGY4OGE5MGYyOTliMGRhMzZlODk2ZmYyZTE3M2VkN2FmMzA4YjkzZDgwNzI0ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDk5NjdlYmM2NzdiYmU4OWUyMzgxMzNiZTlkZTAxODQyYjc0ODk5MjBiN2UwOTZhMmI1Y2I3NDQ5NzI0YjFmZSJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L185-L264",
+          "version": "repo-lines-v1:sha256:c72a7d0900219b14837e487ff8f366c35d0b5f22b68805f209ffdb31381b646d:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhMGMyMWFlYzI4ZTY2MjBmZWMyMjQ1ODllOWEwMjQ2OTllZjNiZThlZmNhZGRhYTE2YjQzNTNiZWFiMmU1NWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjZGE5MjgxOWIxZjAxODg4NjM4MTg4ZmI2NGI1ZDBiYmU5ZjdhZjA3N2UxMDNjYmIxMTZiODZmMWEyMDQzNTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxNDlkZGQwYjNiMmMwYzQ3MzU3NzA2ZjI3Mjk5M2Q1ZDAzMWJkYmFjMjQwZWZmZjJiZWMwMzMxODkxNDU3M2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2b88354f42764e2d89b5d057b6156242",
+      "statement": "Changing a pin does not retroactively change a closed server record; upgrading a closed server requires updating its record and re-validating it.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L5-L7",
+          "version": "repo-lines-v1:sha256:a353916fcead29e06f7ed43337d9fc2d28f058865629eb20b77a117608f343bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzJjNDg1OGUyMmNjMmM5NjdiNDIxNTBmYTU1MDU2MmEyYzgzOWMyY2ViY2FhYjkxY2FiZGY2ZjRkYTAyMDAyMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjY5ZGJmMGM3NTM1NGQ5NjcxNjZkOWM4NDI4ZTM3ZTY1YjYyNzJkYTNjOTdjNmMxZmNlNzU5MGEwNWJiZGUwNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTQyNDY4NjFlZGFhZDY1NGM5MjMyZDgzNjhlZGEyZjIxYWZjMmMzMDcwNzNlZGY3MTlkN2QyMTUyOTA2NDcwOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmJjZDVhNDZkMTA1MGI5OWY2NWUzOTQxNDM4MjNlYWU0ZGZlMmJhMTA1ZjdlMzEyZGNkYmY1Mjg0YWIwYjM4NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5ed4e915227247d5bf8f43628d47f91e",
+      "statement": "Pins that cannot mean the obvious thing carry a stated reason: the NGINX hash fixes the reviewed artifact because nginx.org publishes no checksum file, the Redis pin uses the published release tarball because a GitHub tag archive's bytes are not stable, and Playwright rather than Chromium is pinned because Playwright resolves and verifies the browser download itself.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L197-L202",
+          "version": "repo-lines-v1:sha256:3bf76af0fffbe0db2a91db52d9eb57cb13eb073bc3d40b0572a78e6de5e4ad24:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjNmOWNhODY1YzIzZGRmZjA3ZjMyZWZhMGZkM2IwOTA0MWE2NWQ0MjZkZmUxYzZlYzYyODI1Nzg1ZTUyZGZlOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjFmY2QxMDM3MWQ3MDQ1N2RjMDcyNDMzOTZjYjBmZjM5ZjNiNmExYjI4NGUyZTFlMGFmNzVjYjEyYmM4NmEzNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2U2YTg0ZjYwZDM2N2UyYmM4MWQ0NjIzZGRkYTRjYTdkMWMxMTFiMzFiYjhmMGQ0YWUxNWI2ODJmZTJiYzRmNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDBjNjZiOWFlMzg3NjkzY2M0ZDUwY2QxZDEzYjQ1NTY5OTc0MDA1MDQ0MTk2ZDA5NWJjMWRhYzgwNjcxYjNmMiJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L217-L222",
+          "version": "repo-lines-v1:sha256:7e28c705e8c80099697030d82a9d90f0ab78274118643ed5a742cd87846a43f0:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGIxYmEwNGUyMzZmZDljNzljOTQ3ZjhmZDJhYzM3ZWVmOTg0NjNlNTRjYWZlNmUzODczOTU0ZTYwM2Q0Y2Y5YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTFjOWE1MTVjM2NlNzkzNjk4NDdkMDIzODcwYTVkMjRlMzE1MWQyMDRlNWQwOWZjOWZhNzFmZDZlYTA4ZTZiZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTdjYThhNTMzMTQ0NWU0NjE4MWE2YjU0N2I3YWZjMzgzMWQxYTc0OGRjY2QzMWZmMmFlOTMyZjUyZDhhNGI3ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTlkOWIxMjRmMmQzMzEzMjFiMGI3YzIxMTFjN2IzM2YyZjRmMjk0YzRlYzMxZTE2ZTY1ZWFmODQ5YjczM2I5NCJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L250-L256",
+          "version": "repo-lines-v1:sha256:598133963b1a5d9d987b287d5904a568fb9d8273c3462b2942d6a42fc18372f6:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmE2MGYwODIzNWJlMDViMTQ5MTYyOTM2NThjYzI5NDNjN2I3NzlmN2ZjOWRjMGZlOWQ4N2NjZTFiZTcxYTQ3ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDcxODkxMDIzY2YzY2NjODg3NDM1Y2Q3ODA0N2Q1YjUyMzBhYjAyOGVlYTJlZmRmYWMxNTIwMzU5Y2MwNjJmMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTg3MTdjY2M1MzhmMTY1NjE3YzlmNTIwZTQ0MTUxNjY5YTRlNzgyYWYyNTNkZDE4NjQ3NDYzMTUyY2U2ZTg2OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjJhZDYzMTViYWU5YzY4OGI2NmNmYWRkOGQ0Zjg4M2FkZGU2MjYwZThlOGM0MjRjMzA5YzE2Y2I0MDFhZDc3YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e7086ed684c24c8f87c6ccea752eaa3b",
+      "statement": "Model pins use immutable commit revisions rather than tags so a later upstream edit cannot change the model under a stable name.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L138-L154",
+          "version": "repo-lines-v1:sha256:75e1045b28186f2802cba0d3c2148088797058754ed1d786d9e9df37b9ddf174:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4OGNmMThhZWQyYjc2ZmJjMGJhNjk2MWUyYjk5MGUwOWE5MzY2MTlmOGE0N2YxZmM5OGU5NWEzYTkzMmNkYzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2ZjA0MzU2NGJhMGU0MzA4ODI4NmY4YzkwZjFmZWMxZDIyNTlmOWE3ODBmOGNmNzExNzM1ZjI5ZGRkNzk1ZTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIxZmFjYTU2YTg4MTRkNTdlZTQ4M2EzNWViZDdhMDM0YTI4NDZhMWY4MjhjNWE5MWRkM2JjYWEwY2IzOTA3NTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmMjZlZjlhMjIzYmJiNjQzNTczN2QwNGEyZjA5YThkNDc5NjY3YzNjNmJjZjMwZTJkNmNiMGY0ZWJlNzM5N2EifQ"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L44-L48",
+          "version": "repo-lines-v1:sha256:eb9d058ee26fbcc3f930a781f4d9f92189dd45ad179ad30ac7e4f0c18a77aadc:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTAwYmQ4YjI3ZWNmNDljNjdiYzkzNjRlOGZhNGEzYWNiNDcwYWM1NGFmY2RkYmI5ZmFkZGU4YzRiNzg2MDFhZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGIwODUyN2IyNDY0ZWMxOTI0ODIzMmUxNGI0OTU4OTU2MTMwMDI0MzJmM2U0M2Y0Y2I1MTMwZWFmMmRmNWUxNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWZmODA5OTUyNjAwMjdhYzgzYmQ5NTUxYzJmMjgzMDkyMGVhYTJjMjE4ZWM4ZTMwOGNkYTNmZGYxNjY5NWYxYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTY3N2MxYjg0NzI1ZTZhNzFlY2M0ZTMwNTI4NzZhZDEwNzJjOGZkYTUyMzc0NjgwNTMyNDA5ZjNkYzIyODEyZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_34326d74edca4bba9f6e889ee7168e05",
+      "statement": "The pin auditor collects from three locations — hx-base.env, the smoke runner's requirements.txt, and inline pins in the HX-12 runbook — and probes PyPI, npm, GitHub releases, Hugging Face, the Ubuntu archive, PostgreSQL and the Node.js and NGINX release listings for what upstream currently ships.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_version_pins.py#L91-L169",
+          "version": "repo-lines-v1:sha256:0f63bcb71818ea2dc47b8a782d4ac80bce94ba5a55c1947f0242880e90377597:eyJzZWxlY3RlZExpbmVDb3VudCI6NzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmNzIwOTVlNjc5NDYyOGU4ZTFiMTY3MmQ2MTAzODI3YzQwZWNkMGUyY2U4NWRiOGQ0MDNkNTIwMWIyNzlmOTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiYTIxMzMyMjJjOWVjYmFhOWExNGFhMzQyYmUzOTEzNWYzNmZjOTBjYmE4YzYyZWYxZmNmYjc4Y2FlNDgwYTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhmNmZhODMyYzFiNjRlYjk3ZjZmNDlhMTI2OGE4MWNmNzY1MzkwNzZkMTY5YzUwNDJmMGExZTMzZGZjZWE5YWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJlMGJlNDFkZTM3NGZkYWZiZTQwNzE1NzI0ODVlOTgzY2M2NzBiNmRhM2IyMDNlMWM1NTJkZTZhYjI3MmZmNDIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_50b1736c34414808b80352fa73384726",
+      "statement": "The smoke runner's requirements file records only direct pins and documents the gap: it gives the exact command to generate a fully hashed lock, notes that the bootstrap installs from that lock with --require-hashes when it exists and warns loudly when it does not, and lists reference hashes for the two direct wheels.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-smoke-runner/requirements.txt",
+          "version": "repo-file-v1:sha256:d248a0c1f38f961665a917090cd00f5d2b3cbcaee154755d9c59d7389692287b"
+        }
+      ]
+    },
+    {
+      "id": "claim_723ea9d4878a4d6c9ff5da0db235a435",
+      "statement": "hx-preflight confirms from anywhere, without downloading anything, that every pinned artifact is still fetchable: direct download URLs, PyPI versions, npm versions, Hugging Face model revisions and the NVIDIA driver's publication for noble/amd64.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_preflight.py#L1-L18",
+          "version": "repo-lines-v1:sha256:9a9d3047aed95d92cfac8f3ec7b424c9870e38afb05db586ebd3d70717c0cbe3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ODJjYmRiNGM4YjA3NTE4YmY0ODZjNTg5OTBmYzM5MTc4M2FhMjBhOTE2YmZiMjdhZDIxMWViMWQ1YzM2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMDNlY2RkNGE0ZDEwZjE5YzczZmQ0MmZkMTI0MzdmZDMzNTRhODI2ODE2MDVkYTUyNTVhOTdhMzkwNjhkYmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBkYWQzNDI5YzAzZDRmMDJhMjE4MjdmMjY2MWZjZGFiZDk0YjA0ZTU5YTJmNTNhZDgwYzg0NzI3NDZjMWEwMDgifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_preflight.py#L163-L188",
+          "version": "repo-lines-v1:sha256:4a7802981bca11e9c3ee4297413bdae83ee1cc9a131e86ec0659b9a30a9b6cc3:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmMWJiZDEyNmRiOGExYzg3YjAwNmMwNTQzY2QxNmVjN2MwNDczYzcwZGJiNGYxYmY0MGZkYTk1MjFhZTc1MjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYwYmVjYmQ0M2NkMGVjMjAwYjlmZWU1MzBjMjFiOGY2MDhmZThjNDkzMDAyZTQ0NzdlMDZmOGY0MWQzYTg0ZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzNjA3MDQxNWQ3MWU3YmNlNzEzYjE1NjQ4OWMwMzNkZjgwYjIzOTc0M2NkZDllZDBmMDZmYzhiYTI0OWY1ODEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cd5fbad78c014dce9010b8564d7e1865",
+      "statement": "A pinned PyPI version that exists but has been yanked is reported as a failure, not a pass, alongside a version with no distribution files at all.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_preflight.py#L119-L136",
+          "version": "repo-lines-v1:sha256:e811cc27350e0fc538d1cd69ae6c9e1d359abcf917feaed8c103649566b15a08:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJhMGFmNzk3OWRiYTc5MmNjZjg0MWY1MmFiOTc2MmUyZjc4NWEzNzQ2MjAzMTYyYjc1YWZmZjQ5ZGJkOWU5MjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3OTdjZjhmZGYzNGQ1Yjc4ZTViODEzYjBhNTExNTFmOTIwMzI2MTlmY2U0ZGJmMTExNDUwNWFiYzQ3ZDMxNjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIyNTAyYjFjODM5N2FkOWFiZmRhYmE1ZjllY2ZlYmI3ZjA5MjE5YTYzNzc1ZDZhZjMzMzI3ZGU5YzNlOWNjOGUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0fae7d7584bf49a78272064d743af853",
+      "statement": "The URL check falls back to a one-byte ranged GET when a content delivery network refuses HEAD, so a refused method is not reported as a missing artifact.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_preflight.py#L42-L60",
+          "version": "repo-lines-v1:sha256:734723f3fc406be171ef890a627d2bbd8b0f4092a21e384745db97c20144c2ac:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlYzBhZWY1MWVhOTI2N2JiY2VlZjMyNzZjYzQ1YzYxMDhlMGFmNDVlYzMyMzIzZjIzYmMyODQ0YWI3OWZjNzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhMTY4MDljMDc1ZGIzMDllMDliYmM5YWI3ZWZlZTY5ZWZiNWY0MTliZDRkODkzMGQwMzgwNjYwMmRkMDJmZDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEyMWIwNzRhN2E4M2I0MGIyNmM5MmFhY2VmMmZiNTQ3NjVkZjc3ZjU1ODQ0MWMwYWJiZDQ4OWJlNTE3ZGEwMmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU2OTU1ZTk4Mjc3NzJhODBiMGQ5NGE0OTRiZDI1YjhmNDg3ODdlNDE0YTkwZDBhZDExNzU0NGE5YmUwZDFjYWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6d3b947b09144ee398eb48ac69af025a",
+      "statement": "hx-preflight guards its input rather than its output, failing when the environment file produces no values, because a guard on the result list could never fire while an empty environment would silently make every pin read as missing.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_preflight.py#L190-L200",
+          "version": "repo-lines-v1:sha256:454cc07d4925ac82ae50205f860d8421cf9a6208b597fa85240964b230574dee:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMzk3OTMzYTI0YTgwMWVlOTIzMzI3YmQ2OWEwMTA0OWMwNzc5MTUwMjFjZjJlYzM5ZGRhNGY4MWFhODM3ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzMDg2NmUxYmNjNWFiNzZlM2VmNTkwMTJkMGFkMzlhNjg3YWJlMDAyM2I0MzhhY2IxMTMwYTE4ODI1ZTgxOTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwMWIyZDYyYjk2ODQ4NDBlYWZmMDRmMjcwMzE1YjJkMDE0OTg2YmNiYmUwYjg2MDIyMTE0YzNkYjA1ODUxZDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE5NTE2YWNkMTE1ZDE2YTc4ZTVlMmM2YzJjZTU4NzNkYTYzNThiZWI3MDU3YWI3M2M5OWYxMWY5ZTJhMzYyYTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_469ef9a935b7429ba9c222bfb40ddbfd",
+      "statement": "hx-upstream-drift reads the reviewed commits out of SKILL-REGISTRY.md itself rather than keeping a second hard-coded list that could fall out of step with the registry.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_upstream_drift.py#L1-L16",
+          "version": "repo-lines-v1:sha256:12f4d47d8880104cf34684fb0259e4706a065bfd5732d7b14cccf3a5ff13ddd6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ODJjYmRiNGM4YjA3NTE4YmY0ODZjNTg5OTBmYzM5MTc4M2FhMjBhOTE2YmZiMjdhZDIxMWViMWQ1YzM2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3YTQ0MGU2NGIzMzFmY2MxYmQ0Zjc5NTBiODgwNWViZDQ3Y2JmZTU5ZTUwMmM1MDk2MjUwNmJkZGQyMGY3NmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJlY2U3ZjEzYjdiNmEzNTE2ZmNkNGI1NDMyZDg1OGU1ZjVhMjUyMDRlNjY3OGQ5MzEwZjA1MzNlOTU0NzlmNDUifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_upstream_drift.py#L56-L74",
+          "version": "repo-lines-v1:sha256:1c380f6b9b96a76e26054b5daf7a6fcb60b655a199663fa6e113c2465052e7b9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkNzI3NTk2MGQ5NDkxZjUwNDYxMTM2NGUzN2UwNzBlZTQ5ZTE3MjRhZDMyYTgwNzY4MGIxY2Y0MzVlYzA2OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1NzU3NGNmYzVjZTgxNGExYzM4NjdmMGE2NTNmZmUzMGJiZDU1ODI1YjVkOTc4OGJhY2QxNjViODhmNjUwOTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI2MzJlOGVkZDIyMGUwZDE1MmYwZWIzYzMzMDI4MWE5MGVhM2NkOWQ4MjNkYzRkY2Y5MmNiNzJjZjFkOTg5NDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0OGQ3NDgzZDA2MGYxNzIyZTI0NTM2ODg4MzM0MjU2YjU0OTBlOGJiZTg2OTgyMDY3NmNhOWVhZjM1MDljYzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d2357e8051614776a53490cb707963e3",
+      "statement": "The drift parser refuses a provenance block whose repository lines and reviewed-commit lines do not pair up, because zip() would silently drop the surplus and either skip a pin or compare a repository against another entry's commit.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_upstream_drift.py#L64-L73",
+          "version": "repo-lines-v1:sha256:e440788ccd44055d36105a1c21b58d75aac4b1bc9c00a6ea5f63ee90582b478b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFjNWFjZGQyYmIyYmZmNDE0NDE1ZGIxMzY4OGU0Mjk0NDU3ZGY1OGE1ZjNjZDdlZmNhYzA4NDk3MzBkYmYyNGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyMmE0NTkxMTg5M2U3Yzg1NTlhY2ViN2Y0ZjhjMjU3MGY0NGU5NWRjY2YzM2QwMGRmZjc0YWZhMjAyODI1NGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFjNWE4YmZmZTYxMzg1ZjI5OGYxMjJjNzE5ZDdjZjQzNGI0OTFjMjljMDk3ZGQ0MjlkMGE2ZTY2MjhjMmM3NmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUyZDY4ZDMwM2FlOGYwNWVhZTczYTA3YWExODg4ZmE1MTY3ZDY2YjJhNGQwOTRkMTlmYmIzNWM1MTE5ZmQ1OTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0f86d1288b254d8abaa429f53d6ec689",
+      "statement": "An unreachable upstream is not treated as a current pin: --fail-on-drift exits non-zero on errors as well as drift, because returning success for a network failure made the flag pass without comparing anything.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_upstream_drift.py#L112-L121",
+          "version": "repo-lines-v1:sha256:8e9ba8e7aa0353c3ceb7bbf7b0d5303ebb68386cbca4a9bc13c6f80f314eac27:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdhNzY4Y2ZkODQyMWQ3ODVmNjgxMTQ1OTJlNmIwMjY4MDhmN2M2YTUyNmU0ZmMxM2Q1NWJiNzgzNWMwZGJkNmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwODYxNWM5OGM1Y2U4ZjZkZGQ5MjRlMzIxZjA5NjI3OThlNThmNWE1YWY4OGJhNzRmNTU1N2UyNDM5MTZkZTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1ZGY4ZjlkNzViNDE1ZDY1MTNkYTMwYjdkMmNjZDVhODk4Njc5NTYxYzExODg2ZDFjZTEwMzgzODA2NTA1YmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T03:13:20.331Z"
+  }
+}

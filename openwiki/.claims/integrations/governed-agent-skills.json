@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:87c3c232d754f15c677cabe46dfba20e8fa256e275b49ac1a94977c2f39d9b82",
+  "claims": [
+    {
+      "id": "claim_8d652f96b786467eb31963336e12a2f8",
+      "statement": "skills/ is the canonical HX library of reusable agent expertise, positioned between HX architecture and execution so that current product knowledge can be applied without external skill content becoming a second architecture authority.",
+      "evidence": [
+        {
+          "resource": "repo://skills/README.md#L1-L31",
+          "version": "repo-lines-v1:sha256:589edc31cc86e7ee81395597e6d873024871c2f604354624d4b595931a38daae:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxNTAyODk2YTEwYWNhN2UwOWI1MzkxN2I2ZGY4N2MwMTU3YThkY2U5YTBlYjEwZGUwZTc3NGQ1YjJkMDEwNzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjNjg3OTZiNjc3MDdiMTQ3NzU2ZjFkNjU5OWY1YTRkMjgxNDE0NzVkMGU3MGQwMmMyODZmMGMzYzI4ZmE0NDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEwYjZjYzBkNTc4MDY5MDdiMjgwNjY0ZjBjM2JmNTdhODc1NGY4YTY1ZTA1ODFmOGRkMDgzZGU0OWU5OTJhZmIifQ"
+        },
+        {
+          "resource": "repo://skills/SKILL-GOVERNANCE.md#L11-L26",
+          "version": "repo-lines-v1:sha256:3fc2b2b406bcccd5af611c4cf849c30ac950744b503fbdc13f7133d1c087641c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0N2IxNTAyMzI5ODQ5MjE0NDBmYTM3N2FhMGQwNjhjYTg2OTM0OTA1NTJjMWFjMzNjZTRiYTdjZGJhYmVhNzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5NjkzYzNlMGIzYTRmNzZkZDc3ZDJhNzE2ZGUxZjgyZjIzNDNlMjNjYTc2N2ViYTEwMzFiOGY2NDViMTNjZmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxYjVkODBkOWMzMWYyM2FhOWRiMTgyMTQ4OWI2NzEyZWI1NTE1Yzk0YTkxZTNjZTJhNzM0ZDg5MjM5YjJjYTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1538ff396ac94bc8b186a99fb435ee5c",
+      "statement": "A component skill may assist with planning, native installation, configuration, troubleshooting, upgrades and migrations, diagnostics, validation preparation and interpreting a smoke-test failure, but grants no permission to change server assignments, networking, security policy, storage architecture, model placement, permanent integration or BASE PASS criteria.",
+      "evidence": [
+        {
+          "resource": "repo://skills/README.md#L33-L44",
+          "version": "repo-lines-v1:sha256:08fbd1c09f17193e885dd95414924453f4f0290d48af8d74196c98086df19a06:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0YjRiOWFjZmM0ZmZiNGJiNjhjMGQ3ZGM4MDA4NTg0YWUyM2I1NmE1Y2FmNDhmMmJkYjYxMzNiYTQyZWFjMjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZkNDQ4YjFlZGYwOGQ5NTFjYTQ1NWYzMGQwNDI4N2MyNzA5MTU0NGFlOGMzNTYyZGUzZjMyNjE1YjE3N2Y5MmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJlYmRhMGFkMGY2NzI0YWM5Yzc5N2M0NDJkY2QwZWIwNDg2NmIxNmRhNTFjNjA1MjZhYTIyNmRhMWQyYzJmMTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3NTkyNWY3MzMyZDg5MzI0Y2EwMmY4NWY3NWNjMTIyODRiMGFkNWE2ODlkNmExMTNkYzg2NDc3YWJlM2VhMDcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_79e5e2d4b7f1430286b59ab283759b4d",
+      "statement": "The architecture conflict rule enumerates what an external skill can never authorise, including moving a workload to another host, introducing a container platform, replacing native with vendor cloud or embedded deployment, changing gateway, DNS, domain, NTP, routing or topology, adding firewall or TLS restrictions without approval, repartitioning disks, changing shared model placement, changing permanent integration, and modifying PASS criteria during a run.",
+      "evidence": [
+        {
+          "resource": "repo://skills/SKILL-GOVERNANCE.md#L124-L138",
+          "version": "repo-lines-v1:sha256:3ba7a5abeee2b5192e87c295f0469fd06f6caa30f46221c840933ab588d25be2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJhNTg3ZDg3MjM0YTg2NTI4MWQzYTYwMTlhMTZkNmIxZjJiMWM3MjMxNWUyMDIxZjMxMTAwZTRlMzA2YzZmMzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjYmE5MGE3NGQwN2Y2ZTJhYTRlNGY1NTJhZmRiYjgxNTgwYjQxNTg1MTgyOTcyMzQ2MDI1ZTBiYmQ5NzRjOGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFhMjZlYWNjZGQ0MzQwNDM2OWNkMmJmMDgzZTdlM2NjNzZlMmQzYTc0M2Q3MzZmM2QzYjYxMWYxYmRjNDdkMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1OTI1ZDk0NzA4M2EzMjRiOGIyYzQzYjc1YzVhZjMyZTM1N2QzM2MwMTJhNTk3YjU4ZjM4YmUwMTU2MGFjMmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_526c09e3346f4541bb02d23f044438e0",
+      "statement": "Vendor guidance that conflicts with HX rules must be explicitly classified as OWNER_DECISION_REQUIRED or REJECT_FOR_HX according to current owner decisions, rather than being silently followed or silently dropped.",
+      "evidence": [
+        {
+          "resource": "repo://skills/SKILL-GOVERNANCE.md#L136-L138",
+          "version": "repo-lines-v1:sha256:f476f4a9a662f27eb3b3fee4275d47e6c9153795a56de9bad89fd655507103b2:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjIxZTQzMWUyNDY0OTg0NDcwZTE4ZTViOWQxZGIzZjA4MGUxZWMzNzE2MWYzZjk1YjVhMjZlNDY1YzY5NGJjMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWNiYTkwYTc0ZDA3ZjZlMmFhNGU0ZjU1MmFmZGJiODE1ODBiNDE1ODUxODI5NzIzNDYwMjVlMGJiZDk3NGM4YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2M4MGI1NzJhYmVkZWMwY2MyZmM0MTJkMTg1NmZmMGU0NzczODMyZGRiODhjNDUzNjQ3MTk4NmQ1MDFkZmFhMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjU5MjVkOTQ3MDgzYTMyNGI4YjJjNDNiNzVjNWFmMzJlMzU3ZDMzYzAxMmE1OTdiNThmMzhiZTAxNTYwYWMyYSJ9"
+        },
+        {
+          "resource": "repo://skills/qdrant/upstream/SOURCE.md#L18-L22",
+          "version": "repo-lines-v1:sha256:9e5660e9b0833151b9322612bf69cc6867b9c0aac3af15b80cd1da113a3cf201:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjBjODA3ODYxZDg0MDA2YTkyODhhOTlkNjgxYzY5MzdkMWIwNDM0ZjViMjU1YWEzNTY4YzAwM2I4ZTlmYzAxYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODlkMTE5M2M5NTIwM2RjYTU1NGI2NGYxMDM2YTliOWUxZjZhZTc5NmM5NzIyZjQwNzBlN2JlOTc5NDQ4N2M1YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjdjMDA4M2Q4ODg0NDM5ODA5ZDE2NWQ1OTU3YTg0ODM5ZGQ3YmY2ODkyYWY2YzZmNzFiODllOWIyZDY5ZmUzNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmIwYjJmYWQzMzk2MWZjMTljZGU0ZjMyNTNjMTg0NTliMzVmZmI2OTQ4NzcwMGJlODBjMjZlODJhYzE5Yzk3MyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_653fd42ac76e42be89d75ffc577360d3",
+      "statement": "A skill may identify a defect in a smoke test but cannot rewrite acceptance criteria during that run, and skill content may never contain passwords, PATs, API keys, bearer tokens, private keys, service-account secrets or sshpass passwords.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L92-L93",
+          "version": "repo-lines-v1:sha256:118095809194f5b5d546a673df733dc117e70a2f8ae43919c86a51d44c731a2b:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWM2ODkxMmNhZjlhOTMyZTdjM2YxYzlmNmNhMGYzYTYzODE5Y2UwYjFjYWFjODMzZjc2OWUzNjhhNzNlODUzYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTc1YThhOTM4NWEyNGE2ZDgwYTc1MjMxNTU2MzZlNGVmZjE0NDk0ZDFjZjVlYWIxZThkMTM0OWIyNjBkNGQxMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTI0NTI0NzgwNzVkYWY1MjkzZDBkNmYzZGExYzA4ODZjNDk2MDA2NGQ1MDUwNjcwODljYTllNGRhMTJiNGE0YSJ9"
+        },
+        {
+          "resource": "repo://skills/AGENTS.md#L28-L29",
+          "version": "repo-lines-v1:sha256:85f3bb770c66f3590470f6c3c52b78507542524ca022714903e3f2dc436bbd90:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGRiMWMyZWYyNWFkZjY4OThiZDliYTg1N2E2MjkyZWEwZGFiYWQ0NTQ2MzMyYjNmMGU2MWExODEwNmFjZjhmYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWRlZWZmMTY4NjMwOTMyZjMyNzVmMDY1M2ZmNzI5YjA1ZTJhODU5YzI2OGQ5N2I4YjkwZjEyN2Q2ZWRhYmM5NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzZkNGIyYzBjMTA3ZGE0MWM0YTM0NTQwYWEwM2EzMTY2YmNkZTlkZGNiMmYyMGZiMDJiNmNiZWJlNTUwNzU1NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzA5MDM3MzQwMDFlOTM4OGM3Y2M2OGY5NmJhY2QwZjk2ZGI1MDgyYWRiZGY2OWVlYWY5ZTAyNGRmNTM2YmFjNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_60db2af5ffc94aed8c7b5558140b432f",
+      "statement": "An HX wrapper must identify the component's host and architecture boundary, load HX authority before vendor advice, explain how to reach current vendor guidance, distinguish accepted from adapted from rejected recommendations, point to both execution and smoke-test authority, define explicit stop conditions, avoid embedded credentials, avoid deployment code that bypasses the runbooks, and stay concise enough for progressive loading.",
+      "evidence": [
+        {
+          "resource": "repo://skills/SKILL-GOVERNANCE.md#L109-L122",
+          "version": "repo-lines-v1:sha256:8d74b744e67d520b28cf5829a168ab4da27e31115bce6a0d273eb48e14c5d29a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiNTk2N2NkNjYyMjk5YzVmZjY2NTczZmQxMGJjODUxNGI4NjBhMmY0OGMyN2QzMmNiMjJlMjg4NDhlYWZhNmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlMzJmOTk3YzQ4MGQ2Y2ExZWJmNjNiMzViMTViZTVlY2EwZTE4Y2YxMjUwNmZlZjA3M2ZjZjM2NGI3Nzk1NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxMjkzYWIzNWFhMWUzZTAxNWM2NTc5N2IwNDM4ZmUzZWQwMDdjZjJiZTQ0NTAzZWU1NGEyYmM2NWI3NmEyNTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg3MTc3ZjYyMDFkOTY3ZDM1MWFiZGQ0MDExZmU4NWYxNDBkN2MyOTZmMGJjOGE5YTI2Y2RiZWE2ZTU3YTgzYWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ce8d0d2fc449488a87948e0dee7be6cd",
+      "statement": "Wrappers answer material decisions in a fixed response shape covering HX context, vendor guidance consulted, an explicit reconciliation verdict, execution authority, validation authority and stop conditions.",
+      "evidence": [
+        {
+          "resource": "repo://skills/AGENTS.md#L44-L55",
+          "version": "repo-lines-v1:sha256:c2b15506b353e69e10560cf89bcc53b0aa2b207c8c14dbf0ab4b5d727a06efb7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhMWRhNjc0ZWE5NzAwMTdhZWVlZGMxYjczNzM5YmJjNjAyYzg3ZTQwZTJhYTY1MWY5NWMzYjYwOGY2NzVlMmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlYzU2OGVhZGRjYzQ4NDAyNmYxZTMyYWYyMmM3NWYzODUzNjJjZjJjNWMxZGQ5NjhjMDU5MmY1NzE5NTgzMzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE3MWNlMGRmNDZlYzZjMjFlZjMyMDE1ODliY2FjNDYwZDVhNzBjZjRiMTAwMjY1NzgzZTYyNzIzYzQ4OWM1NWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE3YmM3ZjRmMzhlMDBkNjc1NDUxMjJiZTdlOWNmMjg0MzI0OTdlZTYxOTNiMzZhNmM1NjAwZDkzNzllZGVlNmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d5a01d6851844f49ba570908799f3753",
+      "statement": "Each component directory uses the same layout — a component README, an upstream/SOURCE.md provenance record, and a wrapper holding SKILL.md, an agent manifest and a references/ directory that carries the bulk of HX context so SKILL.md stays small.",
+      "evidence": [
+        {
+          "resource": "repo://skills/AGENTS.md#L32-L42",
+          "version": "repo-lines-v1:sha256:432a4f69750ba2bfb4b1d1a3b72c8bf8f57f58a600ff0ed3515e02f7b9764207:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkNWFkZWFjM2I1YjZmOWYzYjg0NzM0MWE2MDRmNGRiNGJiMDhmMGFiYjRiN2JiZjI2ZjUzNDdlMTlkY2M0MmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5MmM1M2I1Nzc0NGMxYzA1YjJjYzA1NmUzMGI5NTM2NWFmYTUzY2EwZDgyMzk5NGM1YWQxODIwNzIzNjI1YzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwZjNiYjJhZmI1MzAyZWQ0N2YxYjllMWRlOGM5NmRlMGI2MjI0YzQ3OWQ5OWQ3NTFlNjQ2YzVmNmJlZWIzZWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ2N2QzMDFjYjNmNWM1NzE4MzIzZWM5NDc5ODg5N2U2YWY3NGU5YWZkZmVmOWFlYTc4NGY3MjNkMzFlNjE1ZTgifQ"
+        },
+        {
+          "resource": "repo://skills/README.md#L46-L70",
+          "version": "repo-lines-v1:sha256:7cd3083dcf1095b24de0b60d2df3b06fb348886a7331411a6f856f15cf6a8b84:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4YWMyMGM0ZDE5MWFlOTgwNTJlNmMzNDRkZmM4MmYyZDc4ZDU3OWI3ZDE0NWQ3NDY5YzA0OTFkMGFkZWFiNmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5ZmJlYTg0YzJiZmQzMjUzZTFjYWU1ZmE0OTlhYmM5ZjdmMGFhOGIwMGFhNWE4OGMxZWMxNWIzZTA5YzAxMDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkMjg1ZGIyOWU5Mzc0YTYxYTZkMzI5Yjg1ODE2NzM1MWNiNmFlNmI0NzdiNmI2MmM4YzU5YTZhNWEwYzM2YTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY3MTA3OTU3ODEyNGNhNjI4NDQzYTRlOTgzNTYyM2ZlNDcyMjZkMGNiNTAzYTFkNmMzYjYwZDdlZmY1Mjc3ZTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_03d3949a1b30429690eb91495e606634",
+      "statement": "The Qdrant advisor is the reference wrapper implementation: it restates the repository truth order with vendor guidance ranked sixth, requires the agent to establish host, build state, companion services, deployment boundary, vector-space rules, dependencies and BASE PASS boundary before loading vendor guidance, and consumes the official advisor live rather than vendoring the upstream tree.",
+      "evidence": [
+        {
+          "resource": "repo://skills/qdrant/hx-qdrant-advisor/SKILL.md#L1-L50",
+          "version": "repo-lines-v1:sha256:2f2f7e09fe3edb12a74d4e8246c06050cce393f5a2d6821a8fdc96c6221ac670:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5Yzc4NDc4Yzk3MTg3YmVmZGYwZjNhZGI3YmFkYzUwMTgzY2QwMjliY2VhMzU5YmU3NjZkZGNhMGQ1MDgwZmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI0ZTkzMTRjN2Q3YzFiOGIyOTgwOGUxNzc1N2VhYWFmZjgxNGE1MjUwMWUzMzI2Y2M4Y2VkNWIzOTIyODZhODYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljYTRmYjQ0NGM3NDAzYzM0YzQ3YjFiOWYwZjNhNWQ1ZjVkNWIxNTVhYWE2NDFiZjExYzk5N2E5ODFiMzk1NjcifQ"
+        },
+        {
+          "resource": "repo://skills/qdrant/upstream/SOURCE.md#L1-L16",
+          "version": "repo-lines-v1:sha256:936670aa18dfb51200cf867a879ea7031f38b297747f9da259bce06d8f33b5a5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwZTZhYzY4YTNmZDhmNDI0Yzk3ODAyYzc5OTI0M2MxOWIxMGNiYmEzMDU5N2NlZjYwMDExM2EwZWVjZjY4YTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRhODgzZjIyYmY0NTFmNTRkZDU0Mjg3NTBiOTUzYTFhMDY2NDIxZDI5YWM4ZmFkMTVhNzRmMmJiNzMyMjc4NGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3NmMwNDZmOGYwNTlhYTlkYTUzYzFiYmE5MzNmMWIwZTY2NzRmODVjMGJjOGU5M2ZjNGVlMGUzMTQ1NjNhM2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_29f86f385228479b9e201c05dda7e9ed",
+      "statement": "Registry lifecycle states are a closed vocabulary of DISCOVERY, PILOT, APPROVED, BLOCKED and RETIRED, plus APPROVED_AS_REFERENCE and REFERENCE_ONLY for sources consulted but never installed as a second authority, and approval is scoped so a skill approved for troubleshooting is not approved to execute infrastructure changes.",
+      "evidence": [
+        {
+          "resource": "repo://skills/SKILL-GOVERNANCE.md#L56-L75",
+          "version": "repo-lines-v1:sha256:075cb9f7893af1fc164de126925fad76ada3854ba1f7d36ae62247dee3d3e421:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0MTdkYTcxZWZiZTIzZDU2OGJjYTVjMjNlY2EyM2M5MGZjNDg1ODVhMmFhZTJhODA3MGNkYWQzNDU5N2IwM2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5OTM1ZWFiN2ZiNjVlOTY5NGIwZjdhMzI5MTUzY2YwNzQ4YTA2MzRlY2I2YmNlOTg2MWFlYWE0YmZiYmMwNGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmMzgzZDg2YmFhOWY4MDBkNjQzYjFjMjdlMzZlZmY3MDBlN2ZiYzhiNTVjYjczNzAzNTgxYTdmM2U1YTYxOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZlZDBhMmI1YjNkZjI0M2IxZjRjZTMzNzU4ZTc1ZGQ5Njc5YWFjNTg3MzYzMTVlNzNlMWIyYzkxMTQzZGE5MzAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d65232acbbc546448fff724c528d9d42",
+      "statement": "A component stays in DISCOVERY with its upstream recorded as TBD until a real source is found and reviewed; inventing a plausible upstream source is prohibited.",
+      "evidence": [
+        {
+          "resource": "repo://skills/AGENTS.md#L25-L25",
+          "version": "repo-lines-v1:sha256:182a8117369cd1eb487818d5e4116c7eb73f7904d15035aa6988906304477e38:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTgyYTgxMTczNjljZDFlYjQ4NzgxOGQ1ZTQxMTZjN2ViNzNmNzkwNGQxNTAzNWFhNjk4ODkwNjMwNDQ3N2UzOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTgyYTgxMTczNjljZDFlYjQ4NzgxOGQ1ZTQxMTZjN2ViNzNmNzkwNGQxNTAzNWFhNjk4ODkwNjMwNDQ3N2UzOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjA5ZTUyNzA3MzE0NTA4ZTdmNjljMGYwOTY5ZWYyNTFjN2VhODBmYzBmYjFjNjJmMDFlYjg1MjRhNTZjNTQ1YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmIwMzAyNDA4ZTYwMGVhZGFhOThkMWRmN2IwNWJkYTIxZGFmYjFkYTNhNmM1ZTgxOWI4ZTUzZjBlMWNjZWQ2NiJ9"
+        },
+        {
+          "resource": "repo://skills/SKILL-REGISTRY.md#L47-L61",
+          "version": "repo-lines-v1:sha256:6a07ed0a338113c85360693027ed3c98bfaa1e5982fd2bfbe4fc7676df8271a6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiNDdlMTg2ZmVkY2U0ZDQ2N2NiOGFiMjU0MmUwZGY3NjMwNTUxMzM5NDU1ZTNiM2U2YzQ2NjY5MWQ0MzA0YTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhY2E0NmQwZTY4MDExMGJkYTM1MzQxYWFlZTMxNmQ4NGQ5OGI4YmY5NTk1ZjU4NWJhM2VhNmU2MDk1ZjBjMDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlMDU4MDIyYmI3N2MzYTE3OTdjMjcxMGIyYTViY2RkZmZjNmE5NWEzMTI2OGIwN2FlNDQxNjk3ODc1YmJlOTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUzYzc0OTZmOTJkMzA5ZWY2NDQzOGEyNWIxZmY3NzMxOTkzOGFhZjQyM2QwZDRlMjNlNjY0YmMxMjVkMjgzN2YifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c95b9afb2a4c4b868f1b8d1e1ed5a570",
+      "statement": "Admission of an external skill requires thirteen recorded facts, including the source repository, classification, exact reviewed version or commit, live-update behaviour, the associated runbook or standard, the associated smoke-test authority, known conflicts with HX architecture, and a wrapper validation result.",
+      "evidence": [
+        {
+          "resource": "repo://skills/SKILL-GOVERNANCE.md#L77-L93",
+          "version": "repo-lines-v1:sha256:58e1472a327f19b9b6d260c36517358c45889a969de493e81cc346a5e3837901:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmZTI3YWI0Yjc0NDE1NzkzNWJkZDQzMjI3MmUyMTU4YWE3MTUyYzcyODMxODNiZGEwNjA1ZjAyNjhhZjRhYTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0ZDM0YjMxNmEwMTUwNzEyOGNlMDZmMmFlZjQ5Y2I1MjhhYjczMjg0OGI3ZTliMWMyMDAxMWFiOTI1MTlhNDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzMDQ0ODM4OTJlOTI2OWY3MjhhMDZlMGNiZTJlOGI5NjBiNGM4NmU0Mjk2YzVmYjE2YzFmMTYxMzViNWVmODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRmNGIwZDk0NDIxODI0OTcwZjlkNjgxMTZiMjYyN2Q5M2UxNmY4NTRkZDYwMjM1MDQxOWRhY2Y5MDVmMDM2M2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4d7c99b086c548039984f19db13d01a8",
+      "statement": "The registry records execution and validation bindings for every approved component as explicit table fields — runbook directory, smoke-test authority, companion authority and wrapper validation result — and states that a wrapper validation attests only that the wrapper was reviewed, granting no HX execution authority and advancing no server's build state.",
+      "evidence": [
+        {
+          "resource": "repo://skills/SKILL-REGISTRY.md#L27-L45",
+          "version": "repo-lines-v1:sha256:fb34fe0fc8775a0b4591d05f1ce431ac26b0375f656f818c7a284d01dc5860e6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZDM1NDExNjk5ODM3ZWZjMmY1Njg5NjRiMjM5MjY2MGU1MTZiNWFiNmEzYmQwZjVkMDMwMGViOGQ5ODYzYmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhN2M0MzgzZTI5NzYxZDIzMGNhZGZlNmEwMDdkMDIwNTdhNGU1MzIxNzc5NGUyYmU2MzM4MzMzMzQxZmY1MTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVmMTFmZDRjNjM2OTQ2Nzk2ZTkxNmUyOWNiZDgzYzk1NDgxMTE3MzE2YmNhMDljMDZlYzdhODYzNjZhNzNjNGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjMDU0MGFhNmExNDA2MGNmZDY4NGNhYzkzZGUxZmNlNTY3OTc4ZGY2YzFiODU1YTJhMjdkZjY5MjBmOGRlYWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8c5afa2beb3d4cfca5e9a83cc39e63ee",
+      "statement": "Seven components are APPROVED — Qdrant, LightRAG, PostgreSQL, Redis, Mem0, Docling with Granite-Docling, and Crawl4AI — each with its host, wrapper path, upstream, reviewed upstream commit, approved scope, companion capability and last-reviewed date recorded.",
+      "evidence": [
+        {
+          "resource": "repo://skills/SKILL-REGISTRY.md#L15-L25",
+          "version": "repo-lines-v1:sha256:8e2d97533c87e7d404d2011d723cf028466186581cf98ca6b42472d582c166df:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJkOTQ2MDc0Nzg3YzY2ZGMwNGRiNjk3ZDY3MDJiMTk0ZDY5ZDFmMjFiZGNiZDU1NzFkNzY2MzA4OTM4YTQ4YmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyZTIyYjg3NDk3YTkyMGNiM2U1MDYzZDk0MWJhZjY0Mzg4MTBmOWE2N2IyYjliOGYyNzU5NjNjMzJlMmNjNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ5ZjA0Mzc0ODRlY2ZjNTBjZjE4MWRmMzgwNjkyNjgzNzE0MzMwMTQ1ZWMzYTY1Y2QzYTE4MzE3NmE3NTU1YTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI5OWJjNmU0MzNiNDA4ZDM1MGNjY2Q0ZDY2NDE0YzUyODQ0YzQ1ZTJjNGY5NDJmZjViYmVhMTNlZThjNDM1ZmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a6e73d7cbc8b45b0920d7e82012f46a9",
+      "statement": "The registry records unsettled items rather than smoothing them over: the Mem0 MCP implementation is not yet selected, and Crawl4AI's official MCP bridge is Docker-server-coupled so its native HX implementation remains unchosen.",
+      "evidence": [
+        {
+          "resource": "repo://skills/SKILL-REGISTRY.md#L21-L24",
+          "version": "repo-lines-v1:sha256:f9c6f2bc9e6fe1c5f6fe9a65c2be7f2b3ff81b840c8e98ae85769b392e8f2884:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjNjYWEzNDBiNjNkODVmOGZkMjZhYTAyMGVkYzBlZDc3ZjBkMDRkOWZiYjA4NmM4NDlmMzI4YWIwNTYwZTk5MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjY0NDU1MTYzMDRjODM5OTE1M2U3ZjljYTIzMjNiZGViMGQ2MzM2MzI3NDNjMDFhMDM1ZTA3OTIwNmM2ZWYyMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTFkZjc2MTBlZjBmMWJmZDFhMTI1OThlOTFjY2QwYmU2MjgwMzRkZjU1MjMxODY3NjhlYmNjZDAwZTA4NmY1YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzFlZGQwMjgwYTM2M2IzMjliOGE3ZDY4NjdjYzRhMjY4NmRkZjRkZTMzOWI5ZGNlZjY2OTE3OGVhYTI2ODIxZSJ9"
+        },
+        {
+          "resource": "repo://skills/SKILL-REGISTRY.md#L38-L41",
+          "version": "repo-lines-v1:sha256:52d22a7068ab5cc2594bace28c04af1e3980defc6b963da5f9fa16ee00e3760b:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzZlZjUzMWJkYWQ5OGRlZDE3NDA0YjBkM2IxYjkzZTExNmJlZjRmOTg1ZmY1MjgzNjU4NmYwZWY5YTdmM2NhZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWE2NTczN2MxY2I1MmEyNmE0YjNjNDg3MzkyNzc0ZTdkNDQ4NjIxYTE1NDE1MDljZGVkNmFmOTdhMmUzYzI3NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjgwYmFiYmM1ZjE1ZGQyNDcwOGYxZjA3NDBkODllNzg2ZDVhM2I5MTljMDg4Njc2NzBiMDgzZGVjYjBmYWZmZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmE0NTIzMTRkNzM4MjI3YjIzZDg4OTg4NDBhN2JhMTVjNDkxOTZhNzAyZjgxYTZkNGUyYzVmYThlMjgyZjQwMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2586325451c74ba68b88e0bc1b5d0dad",
+      "statement": "Agent-specific skill directories are derived deployments from this canonical source, and independently maintained hand-edited copies for a particular agent are prohibited.",
+      "evidence": [
+        {
+          "resource": "repo://skills/AGENTS.md#L21-L21",
+          "version": "repo-lines-v1:sha256:a16df724f9fc938cc1473aef614fe3aeba6b0664871adf818c8e5a48c55a33f9:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE2ZGY3MjRmOWZjOTM4Y2MxNDczYWVmNjE0ZmUzYWViYTZiMDY2NDg3MWFkZjgxOGM4ZTVhNDhjNTVhMzNmOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE2ZGY3MjRmOWZjOTM4Y2MxNDczYWVmNjE0ZmUzYWViYTZiMDY2NDg3MWFkZjgxOGM4ZTVhNDhjNTVhMzNmOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWQ2YzExMzcxYTM0ZWRjYTk0ZTBiOGMyZTI2YjVmMDRhMDBiNmE1YmZkZjI3M2UxMDJhNTI5ODE3MjRlN2NkMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjA5ZTUyNzA3MzE0NTA4ZTdmNjljMGYwOTY5ZWYyNTFjN2VhODBmYzBmYjFjNjJmMDFlYjg1MjRhNTZjNTQ1YyJ9"
+        },
+        {
+          "resource": "repo://skills/SKILL-GOVERNANCE.md#L27-L37",
+          "version": "repo-lines-v1:sha256:fc844a3e7471c8d0f715028c578beb6f197dd7e6d6ab1103525147d6614e2ab0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5MGViMjIyYWI1MWFiMTI2OTFhZjlkNDJmNGJiNGUzN2YyMWNmMDM1N2FlODM5ZTI1YWVhNWJkNGRlODZiOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4OGFiN2JkMGM1MzAzMjE4ZDhjMmIxN2MyNWQzZWQ5NzhmN2Q5YzNhNmZmNzZlYTA4YzgyYzc3NjhlZDFjMDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0NjJjYTMwMjYzNGUwMTU3N2JkZDM1OTNjOTM2ZDliM2VkMzU5MjYwMjQ1OWQ3ODFmYWFkYTAyODkwNDAwNzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc5ODI4YjVlNGE5NjgxMjUxMzBiYWY4MzdhNzQxM2NkZjI3NTI0MGU0YjJiZjE3YzQ1MzE0MzkxMGI5N2QzZTIifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T03:13:20.331Z"
+  }
+}

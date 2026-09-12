@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:40ab7f3acdfbc05dbeb737bdb1e67fda3dfbc1b1fd3ba6beef3c1d9cd4503a33",
+  "claims": [
+    {
+      "id": "claim_8a58f9f177ac46458966b327978e1674",
+      "statement": "The HX ecosystem is 17 servers, HX-1 through HX-17, addressed on the 192.168.50.0/24 LAN, and docs/00-control/hx-fleet.tsv is the single tab-separated record of each server's id, ip, role, state, gate and note.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/hx-fleet.tsv",
+          "version": "repo-file-v1:sha256:95a6f2b794461fa4bdf8dab0c4398e631a8150ef7f1a47328aa26a430ef6fad1"
+        }
+      ]
+    },
+    {
+      "id": "claim_aa177b1254344056afd7a653dea0496d",
+      "statement": "HX-1 is the fleet foundation, providing Samba Active Directory, DNS, Kerberos and NTP for the domain hx.local.arpa and realm HX.LOCAL.ARPA, with every other host joined as an SSSD/realmd/adcli domain client against HX-1 at 192.168.50.200.",
+      "evidence": [
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L57-L71",
+          "version": "repo-lines-v1:sha256:fd75b70d381f189aa81f543221c3ac2034d96a11424bc31136ab6a2542df55ba:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2MmFhNjU4MTJjMjE0NjM4NTU2OTJjZTUxZDhkYjQ3MDQ3ZmU1NzQ5ZGY2MzFiOTgzMDY5NWRiNDRhNDFiZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1ZDRmOTYyNmMxYTlhMTA1ZjgxOTRkZDIyNWRlMDE5ZTdjY2FiZGUzYTU2NWU0ZjU0ZjFiZmQ0MGU5OWE5ODAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM0OTdmNGIzYTMxYjg4MTE2MTFlYjNjZjA1MjhkZWE0YTNiYWQ2M2Y1MjFlNjBjMzZlYjExNTRkNDI4N2NhMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZGYxYzY5ZTQ0MzAyMWFmNjUyYWE0ZDgxMjZkNWUwMDc4NzQ5MzM3YWI3ODFiMjg5Y2YzYzJlMWQ1YTg4N2IifQ"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/02-domain-nvidia.sh#L12-L22",
+          "version": "repo-lines-v1:sha256:af8249e2b3a2710950e78f014991b45e48990e81426549afe063d8260f120514:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5NjMzZjRlOWRmYjkzOGYyNGM5MGU1YjEyNjMxYjEyMmFhNDg1NWU1OWJkNGRkYWQ0Y2JiZjU0MDhmNzlhNzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1MDE2ZTJkNDQ2OWQyZWRmMWM3YWQwOWU3MDM3NjY3MjUxYTVkYTRkNDMyNWMyNmQ3ODU0YTY5MmQzN2Y4ZjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczMThhZTMyYzMwODczZmFhM2VhYTdiMjU1Y2IzZjhjZTBlYWIwNDgzZjliOGQ1N2E4ZGFkZGM1YWM0MjIxY2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2ODIyMTAxNDFhZWI0NDQ3ZWE2NTg4MTlmOTUyOGMwYWE1Mjc2MzlkNzJjNTZhYjc4NWJmOGJkNzVkZGNjM2UifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1e49bf734af64fe98cf5e6bcd7f18a70",
+      "statement": "The base build block refuses to continue unless the host's own IP, default gateway and resolver match the recorded fleet baseline, so the network baseline is enforced at build time rather than assumed.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/01-base-admin-network-updates.sh#L14-L18",
+          "version": "repo-lines-v1:sha256:9c619cc6defa07050c414583b2ba00797bb3a755916e9dfb715ae7f4437d8717:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmQwMWE5YjkwMGFjMDA1Y2RiMGIwM2UyYzQ1NjcyZDkzNWM2ZmQwMTY2ZThmNzE0YzlkMTE2NTVjMTg4N2NlMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg1M2UwYTY2NDEwYjZiM2Y5MjZjZGIzMDc3NzRmMGMxZmY1ZDJjYTRlNTY3ZGZhNTRiMTQ2MzJjY2Y1MjlkYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTM3ZmFlYmQ0NTU1YjkzZWExMWE0ZjdiMTJiM2UxMWQ1MzEwYzQ0YTg4YmFiZjVkMTczMDdiMjA3ZDVkMjUzOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzcxYTllMTYwMzBlYjM3M2MwZjZhNDBkYmFjNDFhZmFmZDZiYjY0NjBhYzg2ZWYwZjg5YjQ0NjY3MmE2MjRiZSJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L64-L77",
+          "version": "repo-lines-v1:sha256:66c40ae40940951deb37f7f599f09d59fd01853a46958d4f553e2a28e7db72fd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyNTE0ODYwMWZmNzNiYTRlMDUxMzg5M2VhMTk0NTI3NGVjYTc4YjNiNmJlZDU1NTJjZWE2YzgzZWVjM2I3YTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNhZTg3YzRmOTgwZDNkMGU5NjMyYTE3MTVmMGMxMDY3Nzc5NTUyNTIxNWRjYzdmYjFlOGNhNmNhNjQ4ZDE4NzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE5YmYxYTY3ZjJhMzljODY2N2U3Y2QxM2RiYmZiZWM2YzNiZmYyNTg4YjdmNjViMzFmMzUyNjc3MGIzN2JmNGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_93df7cce464147bb9a004c252f39700a",
+      "statement": "The fleet runs with no host firewall and with Ollama listening on 0.0.0.0:11434 without authentication; this is a ratified owner decision treating the LAN as a trusted lab segment, not an unresolved hardening gap.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L60-L86",
+          "version": "repo-lines-v1:sha256:f3eb39bb661f9737553e1a3896ad0803377cae14370a6c89c3fe599636e2ca14:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0ZTM2N2UzMTBhNTk5ZTAyMmRhNDFiNjI4MGRmZDdhY2ZjZjgzYjc5OTdmZDE1NTIzMGVkOWE2MWY1Y2Q5MzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2Mzc0M2ZmODFjZTc1OGEyMGZlM2VmMDA3YjQyMzc4ZDUwNjA4NzA5ZWI3YTc3MTAzYjNhYjBmOWJkMTBiMTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE3Yjk2ODY5OGIwOWMwYWIxYzA4NTNjZTc3NmI2MDUzMDJlNTdjMmFjMWIyNmY5YWVlZmEwOTA1ZmM3NWY1NTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYjI2NjQzMmNjZTE2YWE3ZDYxNjlkNjNkMTFjN2I3Zjk1OTI1MjYwODMwYjA2YTE4MWI5NjUzMWM2N2MwYjQifQ"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/01-base-admin-network-updates.sh#L39-L47",
+          "version": "repo-lines-v1:sha256:9b8504b942e787201999bf12a720ebb2582ba25d87b6c38da5361dffc49194d1:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjNiY2NkNjc4MzM5MzNkYjg5MTIzN2MzNGExMDhjMWMyODQ2OWFkMTRhMWJhNTlmOWE2MTY1NjBmZWRlYmY1YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDljNTU0MDlkZTllY2Y0NzBiOWUwMzRhOWFhMGE2ZTcyNWQ5ODM5MmUyNzk3NDlhYTY0MDNkYjEyMDlkZDYxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDg5NThjNDExOThhMDUzN2YxN2IwMDRkY2QwNmRiZDQwMTE3ZTEwMDE3MjkzMTE1MzFhNWU2MjRiZGZlNWM0MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2E0OTEzMGRiZTI2OWExNjA0ZjIyOTMwYmJkZGM5YWM0OWJmNTQ0NjZmYmVmMjg2MzNjNjJiOWY1YmU2OGRlNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9b3974ec55e54e129cd0add07e759324",
+      "statement": "The build order is a dependency sequence for standing servers up one at a time, not a permanent integration topology; permanent routes, schemas, collections, agent bindings and end-to-end wiring are deferred to a later integration programme, and temporary validation wiring must be removed before a component closes.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L30-L49",
+          "version": "repo-lines-v1:sha256:e86aae2724eaa3589816a9350045ce2faa4adbd5cc949c783fb8baa1376b2d62:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjMzdkMjVlM2FiMDEzMDNhMDhjOTExNzJjYjQ1YjcxMjA0OWEyZmRhZDcxNjcyZDMzMWIyODUyOTIwMTE5OGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjYTdjMzY4OGRiZjdiMDM5MjA0ODBlYTgyNjcwZjZlYmQ1MDliZWY5ZGQ2NTQ2MDE3ODE5MWU3MTIyMzk4MDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZlZjM5ZjJhYmQyMTVjMDdlMmVkOWI2ZGJmZDRiYWQwYTg4NGYyOTcwMGMwNzIxMDYyOTZjOTBiMzE3OGNkYzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEifQ"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L195-L228",
+          "version": "repo-lines-v1:sha256:ebf0d6c20faeaf59357b09f822535cb650f96a332e90e2f8ddb67414b332837c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NTkyNWFmYjQ4ZTI2YjQ5ZjVhN2UyNjNlYTVkNjY5MTExNTU0NzZkNmM4NWU1OTc5YWM0MzM5ZGY1NDM2ZTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlYjcwMjU3NTkzZGEwNmY2ODJhM2RkZGE1NGE5ZDI2MGQ0ZmM1MTRmNjQ1MjM3ZjVjYTc0YjA4ZjhkYTYxYTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwNjVkODY4MjA3MGNhNDIwZmE0YzYzMjVjYjgzZmYyMmNhYzI1MGQzODUyYWU3NzA4YjQ0OGI5NjI4NjFkZTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJmNGU2MmRlNTg1YWVhZDVlZjg1NWM2MWIxYjJmNmI3ZDgyZTliMmQ0MjU3NjBkNDZhMTk4ZTNiOGQ2Y2NiNDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4b9ccf8b7a29446692c2f46c704d1a85",
+      "statement": "HX-4 owns the entire shared retrieval plane: BGE-M3 as the primary embedding model at 1024 dimensions, Nomic Embed Text v1.5 as the alternate at 768 dimensions, and a BGE-family reranker.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L21-L22",
+          "version": "repo-lines-v1:sha256:0e509aaea019c0d85738d81eefc5c94f18b36d02c172d82ed1a5fb46d348f2ea:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmNmNmIyYzFhZTZmNTc3NTliY2I3ZmMwODE1MmY2Mjc1ZmNlZTViMWQ2NDY5ZmFkYjdhNDM2ZGU0Yzc5ZmNmYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjlmMzA5OGZlMmIyMmNkOGE0YmJlNWNlNzY0YzFlMmMxM2JjNmM2OWVmZDIwYTBkNTkxZmZjYjA5YzFmODliYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjA3NGQ3YTdlMzI4Y2M2ZDkxNThmNTQxNGNmNGI2NTc0OTg4YTI3YjgzMTA2ZDFjMTU1Yzc5MGEzYzY4NWZhZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTEzYzU0MDBkZDY0MjhhNGNhNGY5Mzk4MGM1OWU1MGVhNTNhYmUxNjhhM2FiY2U5NTkyYzQ5NTY5MjQ5NTdmMCJ9"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L157-L165",
+          "version": "repo-lines-v1:sha256:bf609dc9abd336044ce692a47a5ebad0c8ca19f778bb255001808666b2361ece:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2Y2NGI5OTk1NDAyZWQzMDhhNjYxNjAzNDBkNWJhYjU2NmVkMGZkODkzYzlmMzQ2MWRlZjY3MzU1MTRjNGVlOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2VjNTY4ZWFkZGNjNDg0MDI2ZjFlMzJhZjIyYzc1ZjM4NTM2MmNmMmM1YzFkZDk2OGMwNTkyZjU3MTk1ODMzMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjQ3OTlkY2RkZDVjZTZjZWU4YWQ3ODI4NmFiZDhjMTU0ZDM4YzljNmQ1ODQ4ZDhiZDczMTM4NjQ3MTkxOTEyMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzZhY2IyMjk0NjY2ZDhjZTUzZjE5ZjQ5YzczZDUwYzM5NmE0MTkyYTcwNmJhOWEwMTU2ZTY4ZDkyZDEwOTg2ZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3409e6b76f4a4818867bef496b57b02c",
+      "statement": "Qdrant on HX-10 stores vectors without owning the embedding models, and embeddings from different model identities may never share a collection: changing the embedding model requires a new collection and re-embedding.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L21-L22",
+          "version": "repo-lines-v1:sha256:0e509aaea019c0d85738d81eefc5c94f18b36d02c172d82ed1a5fb46d348f2ea:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmNmNmIyYzFhZTZmNTc3NTliY2I3ZmMwODE1MmY2Mjc1ZmNlZTViMWQ2NDY5ZmFkYjdhNDM2ZGU0Yzc5ZmNmYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjlmMzA5OGZlMmIyMmNkOGE0YmJlNWNlNzY0YzFlMmMxM2JjNmM2OWVmZDIwYTBkNTkxZmZjYjA5YzFmODliYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjA3NGQ3YTdlMzI4Y2M2ZDkxNThmNTQxNGNmNGI2NTc0OTg4YTI3YjgzMTA2ZDFjMTU1Yzc5MGEzYzY4NWZhZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTEzYzU0MDBkZDY0MjhhNGNhNGY5Mzk4MGM1OWU1MGVhNTNhYmUxNjhhM2FiY2U5NTkyYzQ5NTY5MjQ5NTdmMCJ9"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L167-L171",
+          "version": "repo-lines-v1:sha256:8e8a5274c2e484a31ec83d41d16c2fb0ff10eb08716e8734a9ad274d25ef48fb:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTM2ZTlmYjZhYmJiZWUxYzM1MjdmZGIwYzAyYmNlNDEwZGM1MjNkOGZkOTViNTcxNjVlN2NjZWM0NjhkMjMwNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2ViNzNiZTExNjU2ZGI1YjA4Mzk5ODYwNGI2ODc5OGJjMWE2MGQ5NjZhMWE5MTNiNmIyOWU0MjYxNzY2Y2FjOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2ZlMjU4ZjdiNDA2NGVlZDkwMDIyMjc4NTk5NmY5Njc4MjhjZGJkY2Q0YzQzMTFjOTdmZjNiOTNmMTZmZjgyMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGQ4NWViZWE5Njk2NmNkNWVlN2U0ZTc2ODMwZjJhMzQ0ZGQwZGJiOWRhMDYyZWFmOTUzZDU0MDIzODNhOTI5NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f7a9f4cfeff04af2938d15bf9ea8e6a3",
+      "statement": "Granite-Docling 258M stays with Docling on HX-16 inside the Docling capability boundary and is validated CPU-first, with GPU acceleration considered only if a measured need later justifies it.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L24-L25",
+          "version": "repo-lines-v1:sha256:d1bd1a9d79c800a36c2cab71fba3e85479b74c24ff89950bf8bde0d6c303d564:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTRiMDM3ZWRlMjU2YThjNGE1MTIzN2Q0MDk0MDY4ZjdkYTVkM2U2MjNkZmE4NTA4OGMxNzBkYzJjNjk0ZGU4MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGM5MjFkZmM4MTllM2U2NWNkM2Q2ZDAwZTUxOTI5ZDgxYzZhMmViZmExNzVmYjJjMDg4YWM5ZDg3ODAxNmJhMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDkzNmZhNGQ5OTdjODgyZGQzMDhhYzc0NTdkNjU2MzcwNzY4Y2E2MjUyOGUyZjM0YjYwYjc5YmQwOGI0OWI3NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWQwZGYyZmNmMjllNjE4ODZkNmM5NjkwMjZlOWJiNmVjNGIyNTcyNTA1YjRhYTIyN2QzM2VlMjQyMDIzMzlmOCJ9"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L173-L175",
+          "version": "repo-lines-v1:sha256:28a1a3245eec5517159b2dd57acaa136e701b9bd4aa79912b1476983a73c23ca:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDM3ZWI5ZTIwYzZmY2IxMDcxNDRjYWUyMDA3MmRmYzkwZjI3ZGJlNmNkZWMxNDEzYzVkMDdhZGEzN2I4MzAxNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTE5NmIwNjcwMDk1ZjA4NTE4ZTk3NzI2ZjA4ZWUyNjAwZDdhMWU5MzIxNWZlMWQyMmUxMGI0MzQzNjc1YWUzMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGRjNzhkMTk1ZjJlYjdiOWY5MDY2OGJkNDc3YTlhMmVhYWJlN2VmYTkwOTc1YWZjMTFkZjA0MGQ3ZWFlYzI2ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWYzMDI5OTI0YmU0MTI5MzdkMDA0MDMwMzA5N2ZhMzEwMTQ1NTQzZGNiMjZiYTRmOGZhNjMxMDQxZWQ1YTQ0OCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b766af81ae0746f7b5467f5b75cc2c95",
+      "statement": "A product's own MCP server and native Web UI are part of that product's base build rather than separate projects, and HX-15 FastMCP is a shared host for custom MCP development that is not a prerequisite for any product-specific MCP companion.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L15-L16",
+          "version": "repo-lines-v1:sha256:83fa4fbd2554caca8c3030334aaa274fd827d414a542e28a25cc9b25628c0d80:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzgyNmNlYjc5MGQwNWNiNWU4MWY3NDE0Mjc0ZjBhMTBkOGYyNGNmZTAzNTcxYTBiOTMzYTY0YzI2NThmZmNmNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWNiYjU4YThkMTQ5OGNlN2UxMGQxNjBjNmNiNjRhMjZhNTkwODFkODlkOTg2M2RhNmU5MjM5ZmM4YjcyZGM2NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWE1N2M1Y2E3M2JhYmYyNmZmNTQ4YzI0YzZlZGYyYjI1MzUwYmU1MzZkYTgyMWJmM2Q2ZDBhNTlkMjQ5MmVjOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzU2YzU2NTJmN2JjNGI0NDE1MDc5OWE3ODUyZTZhZDQ0MzJiNTY3YTg4YTVkYjY2ODUxNWRiYTU1ZjcxMDhjOSJ9"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L179-L193",
+          "version": "repo-lines-v1:sha256:a0471011339a6e50dc6fc0700879662389f18db5e73fd3c57614a2beb5c832e2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyYmVjZGE3MzA1OGFmY2FlMDczZDNjYTc0ZmQ2YjYyNDA1MTBjYWUxYjUxYmM4NWRiNTlkOTk3MzU4YzQwODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlZjE4ODA4N2I5NDE1MDRkMDk1Yjc0MWEyOGVmZGMxNjI4OTI1MTRiNmEyYzVlZDA0ZGJlYTFlZmU4Y2MyY2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmMzAyOTkyNGJlNDEyOTM3ZDAwNDAzMDMwOTdmYTMxMDE0NTU0M2RjYjI2YmE0ZjhmYTYzMTA0MWVkNWE0NDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmZjM2YTUzNzBkOGFiYjY1NjZhZmMyYzA5Nzg2NWNmNTNlMDUwYTgyZjdkMDI3YjM1NjA1NmU1ZjgzZTZiNzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cfecab8e30a44cefa26844ec9be44638",
+      "statement": "A server reaches PASS / CLOSED only after its base, domain, workload, functional and reboot-persistence gates are all satisfied and its as-built server record has been updated; service health alone never closes a server.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L48-L48",
+          "version": "repo-lines-v1:sha256:293b058e7ca90349ecb80cc298170c9643617685ae04ae3b93fcfc7551eea93a:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjkzYjA1OGU3Y2E5MDM0OWVjYjgwY2MyOTgxNzBjOTY0MzYxNzY4NWFlMDRhZTNiOTNmY2ZjNzU1MWVlYTkzYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjkzYjA1OGU3Y2E5MDM0OWVjYjgwY2MyOTgxNzBjOTY0MzYxNzY4NWFlMDRhZTNiOTNmY2ZjNzU1MWVlYTkzYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjBmMzc1ZmI1YmIzMGM5NWRlNmI2YjhiYzNiM2Y4ODYxY2JkMTQxYWVkZjExNmRiZGVkMDk3MjQ5MDhiYjI2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTcyMGVhNjk4MmE5YjY1Yzc1NTRmNzRjMmI3NzI4MmVlNWQxNmZiYjA1YTAxMjIwMjI1MjBkYTcyM2ExOTAzYiJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/BUILD-STATE.md#L52-L54",
+          "version": "repo-lines-v1:sha256:5c15ed8f4da6b3d63d1ec86427061286ef151fc3b2dac9191eb57d9ee75f898a:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzI2M2FlOWVlYjk0YmZjYWMzY2YzZTQzMzM5YmVmNjQ4MWMyZDA1MDRlYjAyNmE0OTY5NDkwMzQyNTEwNzc2MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGM2MDI2MmU1MGVmYmE5ZmUzMWRkMTAwMDgxMTE1ZjkxNThmMjY3ZjQ2YjllZmNkYzAyZDViMzUwZTRmMzU0MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDgxZTJlNjJlZjQ2Yzk2Y2E2NmQ5MDA3N2M3NGNmYzc1YTFlYTk1MjhkOWIyYjJkOTNkMDQwNTI4NDJjOGI0ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_99962978e9cb42b8b3b88aa015971468",
+      "statement": "Only HX-1, HX-2 and HX-3 hold current as-built evidence; HX-4 is the next build and the remaining servers are documented but not started, so a pinned version or written runbook records design readiness rather than running state.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/hx-fleet.tsv#L2-L6",
+          "version": "repo-lines-v1:sha256:6208f5b7c07bc422cd9a9e8adfcad411156d138e0af6a4f6b643e658e3036589:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTU2NThhNWQzMjQzMDM3YjViOTQ4ZDJkMWE4MDI3MjA3NDk0OWEzMmMwNTI3OTFiMmIyMDg2ODljOGFhOTU1MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzFiZTYyYjJjMjlmOGQzNTkyMmYzMmVjMWRlNjVhM2Q5Njg5YTYxMDMyNDU2MjZkOTUxOWZmYzg3MTFjYjRhMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjEsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmU4MGFjMzhkZThmZTExNjRmYjNmNWVmNGRiYTg4MGE2ZWVhNjAwY2RhMjlkMWUxYjVlNGY3MzA5MjQyNmFmMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTVlMzFjMTVhODA0N2ZiYjk3NmQzYTAzNzgwN2M5NTkyZDc4MDcwZGY3OGFkYWFlZGUwMDVkZDA4OTAzNDZiZCJ9"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L253-L262",
+          "version": "repo-lines-v1:sha256:82ebd5f172564ef5dcbe441f147cc3419076766c5b0ed1f44da9970ba8be66a7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYTY0OGFkNTEzNDJjNzg2Yzg0ODQxMzQ1N2ZiZjQ1YjY3ZTEyMjI3ZjE2MzkxYTk4OWUwYWU0ZDIwZGYzMDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5YjkzMWE0YTU1YjM4MWQzNjU1YTkzMGRhYjNiNmM2ODhjMjcyMDdjMGEwYmRkYTJjNjgyZmM5MzE5MDM0MmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVhMzkxYzU5MTg4NzkyMmUwMjg2OTA4NTUzYWVhNzQyNzRiNGJiNTg3YWI4MmM5OWQxZmNlN2Y3NWEyOTg4ZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8aa15f721fc84e2e9bc76abf1ecb860c",
+      "statement": "HX-7's NGINX is bounded to development and test UI rendering and is explicitly not the reverse proxy or front door for HX ecosystem services.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L157-L163",
+          "version": "repo-lines-v1:sha256:ed97c25659d451f163a8053b7d0b6398d9e68841203e19315d0c557a1b2a68dd:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTQ0ZGRjNDFlNzVkMGVmODMyNmQ0ZGQ5ZmE0N2VlNTkwNTgxMzA0YmU5MTQyNDlkZTA0Mjg5NzM3YTYxOTAyMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGM0N2Y3YzM3NGM1YmM3NmJjYTE3NWM5ZjkyYzczNDBkMWI3ZjI2NmQzNDRjMTgyMDU3ZGU3NjRhYWUwMjhiMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGQxNzNiNzA2YzEzNjgwOGRkMzFkMDQxNDY4YzQ4NDcxYjRjNjdiYmJjZDE5ZmRmYWZkZDgxZGQ2NjFkZDk2NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzkzYzljNGYyOTNjOWYzMzkzZjQxNjJlMWJjODBjNDI5MzQ2YmIxMDRmNTBhZGQ1MWE0Y2MxMmI2OWQzZDlkNSJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L18-L19",
+          "version": "repo-lines-v1:sha256:13c93194398372e60e16ace32a2744fac37f8426be0e4f25efb82bf6fc4ff195:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2M3MTVkMGNlMWVjMDNhNDNiM2I0MDBiNTlhYjBjYzFiNzVhODhlNzljOTg3NjI2OGJhMDZmNzE4ZGY5NjVkMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTkzMzA2MDViNTAyMjAwMTI0YjhiMTk5YTc3MGU3ZDRkMjg2YjliNTgwY2MyMjgwZTA5ZTYzMjE2ZGQ5MzY1OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjU0MzE1NzdmNzZiNDQzZDFiMzkzZTFiYTc4NWQ2MTMxMWI5OGNjNDI5ZDNkOGM1Zjc5YjNhY2ZjYjRmNGE1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzM4ZmM4MDc4ZTYyYTgyNGY4ZTRlN2M2ZjRjNDY1ZTkyOWYxYjQyODc3NWM4YTVjZTEzMzVhYTA5NmFmZDNkZiJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T03:13:20.331Z"
+  }
+}

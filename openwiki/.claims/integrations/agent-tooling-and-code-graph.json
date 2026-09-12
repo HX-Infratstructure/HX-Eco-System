@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:30c5e09f9c74e2722002b7242b17dee038b9136ae2e6051f1e700f8cf2a92849",
+  "claims": [
+    {
+      "id": "claim_47a86fddf3d14e0ea269d4bad82ca9f3",
+      "statement": "A code graph is registered as an MCP server in .mcp.json, launched as `graft mcp`, so a session opened in this repository gets its query tools natively without any per-session setup.",
+      "evidence": [
+        {
+          "resource": "repo://.mcp.json",
+          "version": "repo-file-v1:sha256:f6f5e08e9cc6c48e322df7cedc76693e750033ac612fccdd5099ba81a5cf13bd"
+        },
+        {
+          "resource": "repo://tools/hx-doc/README.md#L78-L83",
+          "version": "repo-lines-v1:sha256:65d4bc563901f317e04ff4097051ffc6f65a00b28e213efe38e635ebe00301ec:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjU1MmFkOWU4YmE5NmE3YjIzYWUyYTkxOTFiMjQzZjlkN2I1NWRhZjcyYjc5NThiYjIzYzBiMWIwMzQ0YmU4YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWJmZmE3NjJkOGYxODhhNjIyZjFmYzc3MDFmYjU3OWRmYjJhMDRiYzMxNWU5OTJmNjA0ZjI4NDU4NThhOGI0OCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5054e0c7b5ac40718a2a2e4a616d849c",
+      "statement": "The repository records measured savings from graph queries over file reads: a file-API call on the shared runbook helper library returned all six helpers for 88 tokens against 942 to read the file whole, and one code-search query saved roughly 7,500 tokens.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/README.md#L84-L86",
+          "version": "repo-lines-v1:sha256:1bffa762d8f188a622f1fc7701fb579dfb2a04bc315e992f604f2845858a8b48:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjQ5MDk1OTJlYjI4MTg2NDIwMjUwODRkYThjNGQ5MzI4ZmFlNTdjNjZhMzVmNmRiMGJhYWFiZWU5MmQ2MTcwZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjJjNGY4MGFhYzUxN2U5MTdmMTgwNTY1NzA1ZmM3MTI1NTQwYWY0ZTlkOTdlNzgyNGI0NTY1NGFiMGM3M2MyNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWJmYjU5ZTJjYmJlODM2OWE2ZDJiOWMyYmYwYjhlNGJjZDk2MzI5MGFjYmJmZGI5MGNlOTAyYmU3ZWVlN2IzMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDgxYzg0MjEwYTU4OTdiYjVlN2MxMWM1YWI4NmQ2YWY1MDhmMzliNzYwM2IyYmIwNjdkY2Q2NDM1YWQwMTIyOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_93ea70c114dc48bfb58b7be3eea73e18",
+      "statement": "The graph deliberately excludes the Markdown authorities, provides no call edges for shell functions, and omits seventeen extensionless scripts comprising every tools/hx-doc wrapper and the four smoke-runner scripts, so an empty result means not in the graph rather than does not exist.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L271-L284",
+          "version": "repo-lines-v1:sha256:9c6415307968c2d64ac095fc5d4c102c7d056b438bf735ead9a420ba3428e021:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjOTA0NWRmZmQ2NTBkYWIyN2NmNTBlNDY5N2QzMzcwNDc1MjllODUyMjQwMTFiMDBjOGNkYjFiOTNkN2Q5MjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFlOTE2MzEwOTU3MGVlODA1MzE2YzczYmEyZTI0ZWEyNjRjMmY3ZjZmZDEwODQ4NDU2MTc5M2Y2ZjJmNmQ5Y2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJlM2YwNDA0ZGQxN2Q3N2FmNTdmZWIyMTE3Y2E1MzVlYzFkNzE3ZmM5OWVmOWFhMzI5MjE1YTY0MDA5ZjY0YWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b4aeb809ee5e49f8b1a3b7d44f67bb1f",
+      "statement": "tools/hx-doc/hx-graft-bash exists because graft ships a tree-sitter bash grammar registered as \"bash\" while graft's own language table has no bash entry, so .sh files are skipped entirely until the missing line is added.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx-graft-bash#L1-L14",
+          "version": "repo-lines-v1:sha256:43f475a95db4828a1eb58612db8b9fcfee9cc6607bb362fc89020f52370d9fd8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkOTVmYzA0YTgwYzk1MmY0OWNlNDE4ODYyN2M1M2IwZmJlOGM0NDA0MWI5NTJkNTkyYWNkMWRlOTk4NjE0NjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyYzQ4NThlMjJjYzJjOTY3YjQyMTUwZmE1NTA1NjJhMmM4MzljMmNlYmNhYWI5MWNhYmRmNmY0ZGEwMjAwMjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwNzdlNTg0NWEzYzhlNWY0MGJkMGVhM2Y2Y2Y5ZDJhZjU0YWI3NzU5MDExZWJjYThjYTVhMzRlNTZkMDI5NTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_dd155e8c4d03463a9d554c80c6c70a51",
+      "statement": "The inserted language entry covers .sh, .bash and .env, because docs/03-runbooks/common/hx-base.env is bash and holds the host guard, the fleet host lookup and every version pin.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx-graft-bash#L66-L69",
+          "version": "repo-lines-v1:sha256:fc45872afc5ae419d2dec4713b9432d18f9de12f1f0385625ce484795379cd4e:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODQ0YzI5NmZlOTVkMzk5ZDNmMzMyYWIwNGUwZDE1NjIyYTVmNmY5M2IxYWYzMzc0NWM3NGE5ZGRmZDYyMmRmNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGE5M2JkYzdhYTExZjIwYzU2N2FmZTliY2M2Njg1MzEyMzcxNjg2Y2QxNjdlNTZhNWQ5MzUzYzJjZWIzOTYxMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzE2MDU5ZWViMmI0Y2I5MjU3MTY5ODk0NTY5NmE0MDJhY2VmZTU1ODhkNjFhN2I0ZmIxNzFjYmRjNTQ0NzFjYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWY3ZTlmOWEwMjZjNDc0NDEzOWYwNmRiZjMxYzNlNjNiNmQ2NGM2NjUzZTUzNGE0NGE4M2ZkYTdlMzIyZTM5YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ef09e4e577c14d2ca87a1f7bc343c2f2",
+      "statement": "The patch script is written to fail safely on a third-party package: it is idempotent, backs the file up before editing, stops with an explanation when the expected anchor is absent rather than guessing, elevates with sudo only when the target is not already writable, uses a literal Python string replacement instead of sed, and supports --revert from the backup.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx-graft-bash#L37-L60",
+          "version": "repo-lines-v1:sha256:a43593b79c12c11436fa8dc1cc63a7e803cab71f0e4c1f892025e0196f392ac1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NDBmMGIyMTk3N2E0ZjU1NGMzMDgzZDU0NmI3MDQ5OTdkMDhkNmY1Y2I4OTM5ZTNjZWM5YzMxMGNhOGY0YjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0OGJjZTYxMzc3MzZkNDFlNDNkMTE5YzBhOTUyMzNiYmVhMmYwMGU0ODQ3ZGM1YWQ5OTYyM2VkYTcwM2UzYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5NmEwZTRlM2IxMGVlNjZlNzJhN2Q1ZjVjNThhZDI5NDdhN2I0ZDhiN2Q1OTRiMWIwYTNhMGUwYzhjZTRkNWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVhNTA0ZWQ3NjdhMmNiNzQzM2NiNzZmMTUwNzM5ZWEyNGE5OTdjYWRlZTEwYzM4YjEwMDI4Y2U4MThjZDAwNDAifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx-graft-bash#L71-L98",
+          "version": "repo-lines-v1:sha256:36cbea5a26ca5a541dff8b8c8986a6ca132975b82e1c74b17e818e221572e624:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ4YzQ1NzE1ZWIwNTgzYjc0NTJlZDJmMmQ4MjhlZDI2ZGZmY2I3YThkNzhiMDFlNWYwNzU5YWE5ZjU3NjBhZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxYjlhNTM4MmQ0ZjM5YmRhNzNkZjgxNjBhMWZlMmExYTdlNTA0ODA2NDg5M2JjNGQxOTE3NzU5NDA3NzBiNWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhlM2ViNjEyNDgxZTU0OGY0NzM0ZDU3Nzg3YzU4NWUwNWQ1YzNiOWYyMWE5MjVmNjIyYmFhN2I5N2RhZTQ2NGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRiZjJiZjlmYzE4NjEwMzIyZDU0ZWQ2YzZjMGQ3ZmIwNmYyM2ZiODY2MDYxYTI3Y2EzYTQwYzU3YzUzMWRlNWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_81df73a6fb5445fd9485d346fc4243eb",
+      "statement": "Every graft install that answers queries must be patched separately, because a workstation commonly has a native install and one inside WSL and whichever is on PATH answers; patching only one leaves live queries blind to shell while the cards on disk still list shell symbols, and any graft upgrade wipes the patch.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L285-L290",
+          "version": "repo-lines-v1:sha256:da75fcefe1309743467e28f9a395f5db7544767d6eab9ec172ec42818b392c8d:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDY2NTk1MTBlMzQyMTEyNDRmNWJkOTZlNGI1NjI2MjNiY2VhNDc4Y2QyMWI1MDMwMDBhMGQwYWQ0Njg5ZmVhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWYzOTc3ZDg0Nzc2NWE2NTY5ZDFlNDViNGJkZjQ0MmJmNzAzMTczNTlhYzNiNTYxY2U4N2QyMGQ4YWVhNWE4OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDI4ZTJkMDcwMDkxZjBkN2QzZTI3YzdhYTZiMGQzYzQ3NTgzMTY2ZTc3YTgwNDMwNmVhN2EzNDFlZDljNjA1MCJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx-graft-bash#L30-L36",
+          "version": "repo-lines-v1:sha256:9fb2184b2b9baa87e5f8d2bf1ebd864296444a0ea556836784a863c0b6b5da9c:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2ZiYzVjNzQyYTUwYTliYzA3ODY0ODYzZjgzYzg3MTdiODExNDk3YzRjZWRhZGFhZDIzMDg1YTM5Y2VhOTc4YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzQwNjk3NDhhZTcyMjcxMjZkOGQ5OWNhOGJiODVjOWJiYzljNTAwMjc4MTRlOTJiOTJhZTEyM2ZiZmNkOTc2YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDA2NzY5Y2VkNTU2OWFjZjBkMDJiMWMxNzRhZWE2ZmEwZjFjYTA2NTFmNDNlOGI3N2RlOTJhYWExMDlmOWYzMSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_720be30995554d77bac2017537db4f2f",
+      "statement": "The graph is treated as local and regenerable: /graft/ and /.graft/ are gitignored, while a .ignore file re-admits the card tree to ripgrep only, since ripgrep reads .ignore before .gitignore.",
+      "evidence": [
+        {
+          "resource": "repo://.gitignore#L34-L38",
+          "version": "repo-lines-v1:sha256:b4ebd93af8c8d413c2933d4012e7a8eac94610bc254ca7c03cc7183369bb5fa5:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg4ZTY5ZDY1YjE0MDM2M2NhOGY2OTMwZGMzYWYyMDhjMDY3ZGEzY2JkYjBmYzAwYzVmNDQwMzk4MjczZDhkNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzY1ZGQwZGM3Y2RlNGZjZGNiODNjYTZmMGYyOWYzMmI0MTUwYzIzNjE0ZWQ2ODg0NGUxMmZiY2YyNjdiNTc0NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmE5Y2YyMTU3N2ZkZjY0ZGM5YzAwMGYzZjk1ODkyMTQxZmQwMmRmYmUzOWY1Zjk2MGE3OTM2N2ZiZDA3ZjFjNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://.ignore",
+          "version": "repo-file-v1:sha256:5b345696ac9daf0b07ce5b9c56d5ec914815e395286f4c9f9ac3ec8ec83bf507"
+        }
+      ]
+    },
+    {
+      "id": "claim_998054a6c89d42779272ea1f6a43f2d7",
+      "statement": "The generated openwiki/ tree is declared optional just-in-time context rather than required startup reading, with source code and tests remaining authoritative over it, and hand-editing generated pages is prohibited in favour of updating the source and regenerating.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L310-L321",
+          "version": "repo-lines-v1:sha256:e196ae5aef70399b7f4cd655c0440c5c589dbecac5863d6178aa1c195d5a4325:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVmMTgwZjljMTI2OTAzYmNjMzMxYWE5NTQ1NmU0OTQ0NGE3ZDRkMDExZThhMmE4M2Y1ZGM4NzAyMzkxODEyZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5Zjc4NzE0ODkzYWE3Nzk0MmNlYTFjNGEyZTAyMzFkYmI3ZmEyYTQxYTcwYzgxNDYwYTNjNjc1NjJkYTNhYWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFmMzdlM2EyZWRkNzIzZjlkMDc5YWU0N2U0NTdmMjQwYzczZjQwZmM3OWU1ZjMyYjZlOTBlMjlmYWY2MjQ1NjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_26efef8d38ef4d3687392c4a06d0a9e7",
+      "statement": "The openwiki/ tree is excluded from CodeRabbit review filters and from the documentation checker's active document set, on the same basis as human-html/: nothing in it is authored, so a finding there belongs in the source it documents or in the generator.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L65-L68",
+          "version": "repo-lines-v1:sha256:15e948b90b295542c7b8be40accda530a654f8ac5f1b113298494ae2b7f6984a:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDg1ODdhYzk2NWYyYmM4NmE3NzM4YTFkODlhNzAyZDkwMGJiNWE3YmQ0ZTcxZjE2ZmE2NGNjMTZmMmZkZmE2NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTY4ZTIyNGQ2MzQxN2MzM2E5Nzg0NzA5YmNhYmYyNDAzYzNkMzMzOTAyZTcwM2Q2MmRkNzI5YTc2MzQ0OTUzOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDY1YjM1YTQ3ODNhOGYyNTNiOTExMjE2ZTQxMTgzMWU2NDM2YWM3MzA2N2I1ODdhZGYwMjRlODI2Mjc1YTljYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2I3YWFmOGZmNmM2MWQyZTU3ZmJkNDQ3ZjM0OGQ2NjBlM2ZjY2E2MzhiZjZhZjk2MzczY2M2OWFiNjM5YWRjMSJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L52-L56",
+          "version": "repo-lines-v1:sha256:7212bd6e27ef36f1dd748eed4aaa662b7633c8f522a34f35032349c5d330120f:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2E4MjUyOWNjZjczZjA0YWQyZGUyM2ZmMGZmZmU2ZmQyYWI5OTkyZDc0MjMyZDcxYWEzZTJjMTFmY2JiNjVmNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmM0NWFkZTA2MGVmY2MwOGU5M2ZkNzVkODc3MWIzMmMxOTNjNmUzZTc1M2Y3YzkzYWVlMzhlZTM5YWU3MGRiMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWNhMWRjZGQxNzQ2MzhlYmRhZDFhOWQwNjA0OGM5NzcxYTJlZTY1Y2JiNzY3YjExNWIzNGVmYmRiYzVhMTExNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTZmZDIzODgwOGY1ODY1YmQyMjRmNGZhOTY2M2NlMzE4MDJiNWIxOWY2MTA5Njc5ZjdmNTNmODYxNjY4ZDI2MSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T03:13:20.331Z"
+  }
+}

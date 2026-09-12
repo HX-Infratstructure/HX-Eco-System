@@ -282,6 +282,72 @@ check('hx-doc-check: naming a unit path without creating it still fails',
       rc != 0 and 'hx-crawl4ai' in out, out)
 
 # --------------------------------------- hx_version_pins: numeric sort ------
+# A generated block may not amend the truth order. OpenWiki's first run wrote
+# "Treat source code and tests as authoritative" into AGENTS.md, which
+# contradicts section 2. That block is rewritten on every scheduled run, so the
+# rule needs a check, not a memory. Both directions: the bad wording fails, and
+# a claim that names the control Markdown passes.
+fresh()
+_ap = os.path.join(WORK, 'AGENTS.md')
+_txt = io.open(_ap, encoding='utf-8').read()
+_pat = r'<!-- OPENWIKI:START -->.*?<!-- OPENWIKI:END -->'
+def _setblock(body):
+    out = re.sub(_pat, '<!-- OPENWIKI:START -->' + chr(10) + body + chr(10) +
+                 '<!-- OPENWIKI:END -->', _txt, flags=re.S)
+    io.open(_ap, 'w', encoding='utf-8', newline=chr(10)).write(out)
+    return out
+
+check('gate-tests: the generated block was found in AGENTS.md',
+      _setblock('placeholder') != _txt, _txt[-400:])
+
+_setblock('Treat source code and tests as authoritative.')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a generated authority claim without docs/ is refused',
+      rc != 0 and 'authority:' in out, out)
+
+# Naming docs/ does not license the claim. Section 2 has no entry for source
+# code, so this must still be refused - the first correction made here said
+# 'source code, tests, and the authoritative Markdown', and was still wrong.
+_setblock('Treat source code, tests and the control Markdown in docs/ as'
+          ' authoritative.')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: naming docs/ does not license calling code authoritative',
+      rc != 0 and 'authority:' in out, out)
+
+# The same wrong claim, backwards. A pattern anchored on 'source code ...'
+# authoritative' reads clean here, which is why the check works sentence by
+# sentence instead.
+_setblock('Authoritative sources include source code and tests.')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: the authority claim is refused in either word order',
+      rc != 0 and 'authority:' in out, out)
+
+# Capitalised, and with no mention of docs/. The second rule compared a
+# raw string, so 'Authoritative' read clean.
+_setblock('Authoritative material is listed in the run sheet.')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a capitalised authority claim is still refused',
+      rc != 0 and 'authority:' in out, out)
+
+# The noun form. 'authoritative' alone missed 'is the authority'.
+_setblock('Source code is the authority for this repository.')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: the noun form of the claim is refused',
+      rc != 0 and 'authority:' in out, out)
+
+# And the denial must survive, or the repository's own correct wording
+# would fail its own check.
+_setblock('Source code and tests are evidence, not authority. The control'
+          ' Markdown in docs/ is authoritative.')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: the negated wording is accepted', rc == 0, out)
+
+# And the check is not simply refusing every block: a claim that names only
+# the control Markdown passes.
+_setblock('The control Markdown in docs/ stays authoritative.')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a claim naming only docs/ is accepted', rc == 0, out)
+
 # Exercise the shipped comparator, not a copy of it: a test that reimplements
 # the logic it is checking proves only that the test is self-consistent.
 vers = ['595.9.05-0ubuntu0.24.04.1', '595.71.05-0ubuntu0.24.04.1']

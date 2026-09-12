@@ -234,6 +234,68 @@ def check_unit_claims() -> None:
         notes.append("units: every reported unit is created by its own block")
 
 
+def check_generated_authority_claims() -> None:
+    """A generated block may not restate who is authoritative.
+
+    OpenWiki appends a setup block to AGENTS.md and rewrites it on every run.
+    The first one said "Treat source code and tests as authoritative", which
+    contradicts section 2 of the same file: owner instruction, then the control
+    Markdown in docs/ and the acceptance authority in smoke-tests/, then live
+    evidence. Source code is not in that list at all.
+
+    A generated block that amends the contract every agent reads first is drift
+    with a schedule attached, so the rule is checked and not remembered.
+
+    The limit of this check, stated plainly: it catches the observed wording
+    class, an authority claim that never names the control Markdown. It cannot
+    prove that some future rewording agrees with section 2.
+    """
+    text = (REPO / "AGENTS.md").read_text(encoding="utf-8")
+    m = re.search(r"<!-- OPENWIKI:START -->(.*?)<!-- OPENWIKI:END -->", text, re.S)
+    if not m:
+        notes.append("authority: AGENTS.md carries no generated block")
+        return
+    block = m.group(1)
+    # Sentence by sentence, and both word orders. A regex anchored on
+    # "source code ... authoritative" misses "authoritative sources include
+    # source code", which says the same wrong thing backwards. Naming docs/
+    # does not license either: section 2 has no entry for source code at all.
+    sentences = block.replace("!", ".").replace("?", ".").split(".")
+    claims_code = False
+    for one in sentences:
+        # smoke-tests/ is a directory name, not the word "tests". Leaving it in
+        # made section 2's own wording fail this check, because the sentence
+        # naming the acceptance authority in smoke-tests/ also says "authority".
+        low = one.lower().replace("smoke-tests", " ").replace("gate-tests", " ")
+        if "source code" not in low and "tests" not in low:
+            continue
+        # "authoritative" and "the authority" say the same thing in different
+        # parts of speech.
+        if "authorit" not in low:
+            continue
+        # A sentence that denies it is the correction, not the defect.
+        if "not authorit" in low or "never authorit" in low:
+            continue
+        claims_code = True
+        break
+    if claims_code:
+        failures.append(
+            "authority: the generated AGENTS.md block calls source code or "
+            "tests authoritative; section 2 does not list them, it lists the "
+            "control Markdown in docs/, smoke-tests/, live evidence and the "
+            "approved runbook"
+        )
+        return
+    if "authoritative" in block.lower() and "docs/" not in block:
+        failures.append(
+            "authority: the generated AGENTS.md block makes an authority claim "
+            "without naming the control Markdown in docs/; section 2 defines "
+            "the truth order and a generated block does not amend it"
+        )
+        return
+    notes.append("authority: the generated AGENTS.md block keeps the truth order")
+
+
 def main() -> int:
     """Run every check and report. Returns the process exit status."""
     quiet = "--quiet" in sys.argv
@@ -244,6 +306,7 @@ def main() -> int:
         check_duplicates,
         check_evidence_not_ignored,
         check_unit_claims,
+        check_generated_authority_claims,
     ):
         fn()
 

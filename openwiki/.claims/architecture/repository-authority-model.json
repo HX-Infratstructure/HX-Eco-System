@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:cbd2320dfb9ea62cc9f8f75b6d35436f209a873594bd158ebc708162f49497de",
+  "claims": [
+    {
+      "id": "claim_19ec0e70287a42249d038a5cca73eb08",
+      "statement": "AGENTS.md is the authoritative agent operating contract for the repository, and CLAUDE.md deliberately contains no policy of its own, existing only to redirect to AGENTS.md so agent instructions cannot drift between the two files.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L1-L3",
+          "version": "repo-lines-v1:sha256:ec84db909245e6ee4135c4b826c07c6a674cde954be51ed6c0e72e92c88fa031:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzMwMDg1NDZhOWYxNzQ5Mjc3NThiOWNmNDAwMzQzZTRlYjdkNzAwNDBlMDUyODE5NjQwYmY5NWZjMjllMWU5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDc2ZDZlZjcyNTRjOWY1OTUyYjJkMDBmODk2MzY1NzhlY2MwOGI2MzRjZDBlNGFlMWM3MmYyOGI4Y2YwOGI5MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEwZmFjZTAwOGE5NTNhYjZmNTVmOWM0N2ZiMThiYzkzNDY2YzhkNjU2Njg0NWZhNjNjMDFmYmYzODZjMWU4ZiJ9"
+        },
+        {
+          "resource": "repo://CLAUDE.md",
+          "version": "repo-file-v1:sha256:d5ae631e8d1424510401ff02594088d90fa0aedf6cb0e2914614e4e509a18fe5"
+        }
+      ]
+    },
+    {
+      "id": "claim_b8e75eb26e7c4aeb83b685c44b88a618",
+      "statement": "The contract fixes a required reading order that starts with README, current state, build state, decisions and architecture orientation before any component-specific record, runbook or standard, and places validation material last.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L5-L22",
+          "version": "repo-lines-v1:sha256:f26a46b860922464db55abc236ea1cd9a0f7cdcae22f397a8716a2e49e875dcb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA0ODBkYzk2YzJjZjBiZWM1ZjlkODVjZDVmNjZhZDVjMWY1ZGVhMTE5ZjY4YTMyODUzMGY2OTMwZjI1ZjFkOTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5OTNjZTc3NjU2ZThhNWY3MzcwZTgzZjNlNGFiZmE5ZDE0YWVlNDBjNTQ1NzU1YmMwYzM5YThhOTY3N2IzNGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3MWIxYmEzMTg2ZDE3MTI3OWZiZGVkY2JlNmZiNGE0ZDkyNTgwYjg3ZjI5NGFkZTc4YTAyODMwM2I2ZWY4ZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNmZjNkMjE2M2MyZjJiNzM2YjNkOTZmNzU1OWZlODJlMDRlMGU0NmZlMTdkMjE1NjUyM2FjZTk2NGQ0ZGE5MGUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2b7bba7fc5ad46b9bb47f29b796ebc40",
+      "statement": "Conflicts between repository surfaces are resolved by an explicit seven-level truth order in which the owner's current instruction outranks active control documents, which outrank live server evidence, runbooks, governed skills, archive material and finally general model knowledge.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L26-L34",
+          "version": "repo-lines-v1:sha256:795596cca0a6f0007c23f867ce81fc297914d534d0e5c16c1da11db88b2d1b4b:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDk2ZTI3ZjlhZjcyMDQ4NWI1MzE3NWY5Y2FmOWE2MmNmZmQ3NjcxYjVkNTlhOWUxM2I5MDdjMDNmZWNiNTIxOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTJjYjg3NWMwYmFkMWE0ZTQ0YzM2NmIyMWNlZTA0ODg0YzdiODU1NzMwMmZmY2IwODQxZGFjMDliNDFlMjNiZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2ZmM2QyMTYzYzJmMmI3MzZiM2Q5NmY3NTU5ZmU4MmUwNGUwZTQ2ZmUxN2QyMTU2NTIzYWNlOTY0ZDRkYTkwZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTYxMTRkYWEwZWEwNjBmMGNlMmU3OWVhYzMyNTJiYTg5MzhkNjA5ZTI3YTg0OWE2YTU2ODEzNTM0ODgwMDc4YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_05c7c75e89774f46879f4efe09c3f492",
+      "statement": "When live server evidence or current official vendor guidance contradicts an active document, the required response is to stop treating that document as sufficient proof and report the contradiction rather than silently following either source.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L36-L36",
+          "version": "repo-lines-v1:sha256:88047b22c1549cd7d9ea4d38777f8c5e7116b610c5a54f72114d4435427a9d2a:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODgwNDdiMjJjMTU0OWNkN2Q5ZWE0ZDM4Nzc3ZjhjNWU3MTE2YjYxMGM1YTU0ZjcyMTE0ZDQ0MzU0MjdhOWQyYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODgwNDdiMjJjMTU0OWNkN2Q5ZWE0ZDM4Nzc3ZjhjNWU3MTE2YjYxMGM1YTU0ZjcyMTE0ZDQ0MzU0MjdhOWQyYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzE5OGFkNzFjNzFmYjU5ZWFhNjUzMDhkYjY5YzQ3NTdmNzgxZjU3OWJmZjQ5NDI3MTE2NjI2Y2I2NjZjYjlkYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTc2ODcxNjJjMWRlNWVmZTUyZGM2MmUzYzNmMzhlODJiMWI5YWY1YTRjYmM4NWFiZTI4NzY4NjcxYTRjNzY0ZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_98ea1ea08a6549cbbf3de244283d040a",
+      "statement": "An agent must be able to state a component's owner server, target IP, role, build state, applicable baseline, dependency boundaries, model-placement rules and BASE PASS boundary before designing or executing validation; being unable to answer is itself a stop condition.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L52-L68",
+          "version": "repo-lines-v1:sha256:bbc0115f79db833f5dab58c4f1b55b1e276ce3739e19b3eb6473e79011d5f5ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwNTgzYmJhODg2NWExZTA4ZWQ0YjcwMzgxNjdhMjE3NDU5MTcyNWEyZDY0Y2I4NTEzOGFmMmNhNTZiZmQ0NTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1NDA0OGEwM2Y4ZTJlYTczNWExOTBhMGQ0YjcyZDNlY2RhMDE1NWUxNTM4NzFmYWViZjM0NGNiNjA3OWVlNDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU3MjBlYTY5ODJhOWI2NWM3NTU0Zjc0YzJiNzcyODJlZTVkMTZmYmIwNWEwMTIyMDIyNTIwZGE3MjNhMTkwM2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMzQzMjIyNDhmMGJmZWRkMDZkM2UwM2ViMjc5YTNkYmNiOTNhYjVkNzJkNmIxYmRmYTRjMGFlODQ3YWZlZjkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d2c28304f8014b588928fb90913f91a3",
+      "statement": "The archive/ and human-html/ trees are excluded from normal agent context loading and are never current authority; human-html is a derived human view and archive is historical only.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L24-L24",
+          "version": "repo-lines-v1:sha256:70aace1c3d7292136c635f04ecd90d94caa1e16b7d2f5af16d0894e5620f9ae1:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzBhYWNlMWMzZDcyOTIxMzZjNjM1ZjA0ZWNkOTBkOTRjYWExZTE2YjdkMmY1YWYxNmQwODk0ZTU2MjBmOWFlMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzBhYWNlMWMzZDcyOTIxMzZjNjM1ZjA0ZWNkOTBkOTRjYWExZTE2YjdkMmY1YWYxNmQwODk0ZTU2MjBmOWFlMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGMzOTc1ZjY1ZGU5NzBmZjdlNjZmODA2NzZjNThlZTE1ZDdkZTk0NjNiZjFhYzdkNzY2ZTVlMjc1OTUzMWFkNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjNhMzY3YWJhZTEyYjg4ZWY0YzRkYjg4ODk5YTA3YmE1M2UxNzBiNmNkNzdmMTA5ODIwNjIwYTZmYWQ4YTIxNiJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/DOCUMENT-CONTROL.md#L31-L38",
+          "version": "repo-lines-v1:sha256:6a8ef4119f57dccff3d34c134184f6d87d3d2a7418c798a2509c7347fc38c5d0:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzZiODQ4MzU2MzFiMzQxYjI5NDhjMTYzY2IzODhjMzdjMTcxMWRhNmE5ZmE4OTlhNjJhNzdmNzM2ZjU1YWU4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTIwM2UyMWU3MDU2NGIxNjg1NjE2NDViZDVmYzI3MTI0YTg5MjNiMjNhZjY2MGY4ZmFjNzk5ZmVkNzQ5NjMyNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMThjNDlhNzJjMDM2MjlmYzkyNzY2MmJlZDA3MDdlZWUyMTM3MTFiMGIzYmZjNjMxYTViMDVhN2RhZDE1YzBmZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTVlMmVhNzYwODU1MjljOTExYjBiOWYyMTk1ZjYzMzE2YTJkMmMwMmZlOGFlZTE5ZjU1Mzc2MmZkNDM1ZjNlYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4c52073e356145a5b2d32f6d7fd72a8a",
+      "statement": "Each top-level tree has a declared authority class: docs/ holds current control, architecture, standards, runbooks, records and evidence; smoke-tests/ holds validation-only acceptance authorities; skills/ is subordinate governed expertise; and human-html/ is generated output that must never be hand-edited.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L291-L308",
+          "version": "repo-lines-v1:sha256:fb91c619b4dafb1ce31c860c08909b0f20fae47213b33207356247c69d6bc6fe:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhOGU5OGFhZDUxZDgwZDllZjVlYTNhZTJlMmMyZWJkNDM3MjcxNzZlNWE0MzlhNWZhMjg1ZDE1NmIxM2NkMTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFlZTdjZmYzZWE3YWM2NzMwNDYxMjc5ZmQ5MjQ5OGFhMWQwMzlmN2Q0NTQ1ODZmNWE4ZDY1YmY2NGFkMThjODAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0YjVlNzBiNmM4ZWEyYjNmZjZjZWRmNTlmZjAxMmY2ZDZhMjc2Mzc4MjgzNWE2MGVkNTg5MDVlNmM3ZWY2ZGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViMWJjNWJjNGEyMzdmNTc4ZTZhZjRhNDE1ZDA2NDdmOTkxMGIwM2IzNjRlMWUyN2MxZjFkYmFhNzQzZDAzYmEifQ"
+        },
+        {
+          "resource": "repo://README.md#L243-L256",
+          "version": "repo-lines-v1:sha256:f8da6257c137a96b6cea2b93f39b9592194952ffd2625792e24ceafec443211e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmZTdhODI5NTRiYzdlYWZmNGRhYWUwNmFlZGJmYjk1NjY4OWEyOWY0Y2JiOGNhYTJmYzhiZDUxZjFlMmQyNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4M2JiOTVkZDc2MjdkZTAyM2JjZTliYjAyZWIyYzljZGNkNWMxMWZlOWMwZjIxNzFkOGE0NTRhNTUxMGQ1YjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0N2NkMDE0NDRkYzk0YTUyNmRhNWE2ODAyNTM0YmRhOTgzMDc5MmM3YjkxYWQ1ZDBkYWI4N2JiODA3Y2JjZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4YThhNWUzOGVmZmI1ZWFlYjQzNmI5MWZjOGU3MDNjOGYyMTk4MjQwYjVlZDE1ZTA1ZjgyMjBhYzVmMmQ3YjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_417882951e764af399ce0e2432a8e269",
+      "statement": "Smoke-test authorities are bounded to defining what a component must prove and are prohibited from redefining ecosystem placement, server roles, permanent integration or network architecture.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L293-L295",
+          "version": "repo-lines-v1:sha256:a3520413aff20c9315cd2b45db623dad9cbf9df91dd6bdea44668d5ed35c9e13:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmZmNDdjODNiZThiMmUzMTAwMWNhNmY3NzU5OWZiNWVlODE2NzBkZTYyNDYzZjljM2MxY2M4ZTEyMWVjNmEzOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDg0ZWIyNjM4YTY1ZTI0ZTYyZGJhMmIxZDkxNmMyZDg1ZDQ5NzJkNGIyZTc5MDc4ZjRhNDQyYTk2MjUzMzBlOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTk1MGRkNWI2MzZlZDM0NDcyZDY2YWE1YWI3NGZiMzliZDY4NDU0ODBiMGJlMDU1ODk3NmMwOTFmOTZiOTJiYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTM4ZjEzZTJiODUzZTZkM2E4ZTRlYjI0OGM4MWI0NjUzMWU5YTU5MDA4ZDIxMmNkOWFjN2Y5MTQ3MjJmMDhmOCJ9"
+        },
+        {
+          "resource": "repo://AGENTS.md#L66-L68",
+          "version": "repo-lines-v1:sha256:636842506cf44a55479029b935beabf96190a86cf84d1634771db4ba7cddcc73:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzk3MTRkMDUzMWEwNmI3YTFiNTUwY2Y5Mzk5NmZkNTdkNzk5Nzg3YjhkMjQ4M2Q4MTAxZWY2ZjlhMTc1ZDk4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTU0MDQ4YTAzZjhlMmVhNzM1YTE5MGEwZDRiNzJkM2VjZGEwMTU1ZTE1Mzg3MWZhZWJmMzQ0Y2I2MDc5ZWU0NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjE0NDAyNjNjMDczYjM3NjkyMjgyNDdmYzUwMTAwMWNiOWQxNzRhNDQ1N2RjNTZjZmU5ODE3ODliZTMxNTkyMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDAzNDMyMjI0OGYwYmZlZGQwNmQzZTAzZWIyNzlhM2RiY2I5M2FiNWQ3MmQ2YjFiZGZhNGMwYWU4NDdhZmVmOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_8c04f5bc18394d3bace32fd45d4008c0",
+      "statement": "Governed skills may guide planning, native installation and configuration decisions, troubleshooting, upgrades and validation preparation, but cannot authorise host placement, container or cloud deployment, cluster topology, network, security or storage changes, model placement changes, permanent integration, or changes to PASS criteria.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L81-L93",
+          "version": "repo-lines-v1:sha256:8de4c2010ede3f7d81125af74a0b99df6b147080af8351c2fe2f1abd3715e419:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyM2Q3Mjk5NTRlZmZmZWY2ZDQ3MzEyOTNmODhmNDYzNDVjOWViNzNhNWE5MWIzYTNmNjdhOGQ4ZGNhNTYxNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjNjg5MTJjYWY5YTkzMmU3YzNmMWM5ZjZjYTBmM2E2MzgxOWNlMGIxY2FhYzgzM2Y3NjllMzY4YTczZTg1M2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM1NWNmYTk2OGM2MWMxYmFiMjE1NjY0ZmNjZDdiNDQxM2E0MmQyYWIyMWI1ZDRkMjE5ODU5Y2I0YTI1OTdmNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUyNDUyNDc4MDc1ZGFmNTI5M2QwZDZmM2RhMWMwODg2YzQ5NjAwNjRkNTA1MDY3MDg5Y2E5ZTRkYTEyYjRhNGEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c6126c4b757d4976b15b2b6f53939b22",
+      "statement": "Exactly one current copy of a document may exist in the active tree, using a stable filename with no version or date in the name and carrying version, date and status inside the document; superseded copies move under archive/YYYY-MM-DD/ mirroring their original path.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L303-L306",
+          "version": "repo-lines-v1:sha256:4bcc40f38718908b5cda315daab6cec11aa912d08866e5ceae4644ec32426b24:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWEwNGZiM2IzOGMyZGJjYWViYjM4NDgzNGZlN2I1MDAyMDU5ZDRkNGY5MzhmYmMzMTBiMDg1NjM1ZTc1N2ZmOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2UzODk1MTY1YjQzZGY0M2M2ZTU3NmJjYjFhYmQyYTZmZTQ2NmQyYjBiZDA1NTczZDFmYjk1MGJmZjlkMDhlNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGNkODIxZTk2ZmFiNWJmOGRkNWU0ZmNkYWZiNTFiODBjNzFhNjgzZjM2M2NjZmVkYzNhZmYzZTBiNmIyZGRiNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWYzN2UzYTJlZGQ3MjNmOWQwNzlhZTQ3ZTQ1N2YyNDBjNzNmNDBmYzc5ZTVmMzJiNmU5MGUyOWZhZjYyNDU2NyJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/DOCUMENT-CONTROL.md#L12-L29",
+          "version": "repo-lines-v1:sha256:4b5f4d74fba27cf65872ba0eee182d9c1ed14e25980f6418419623ad52692b8c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmYjU2Mjg2NWE4ZjNmNjgyODZlZGM4ZWRlYWM5ZjgzYTAwOGFjOTUzMjYzOGMwNjYwYTczOTFhYTJlMzE5MzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2YTQzZjY0NzIxZTA1Mjk0NzUwYTE0OTY4YjM5MDg0YmVlZTM4MDcyMzlkOTMyY2QzOGViM2ViMmViZDYyM2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQxMDY2Nzc3MWU1ODA1ZjI2ZjY4YjMxNzNiYWFlYjliMmFkMTBhNzRiNGViYTMwOGU2NmMwZDgzMWI1Yzg4NDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY0ZDZiMzBmNTY3MzM0MjA0OTZlOTM3ODBjYzBiYWUxNGVhNDA1MTA0YmFkZTA1OGE4ZjA3ZGE5YmY0NTc1N2MifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_178241f2c9e248be831b0c1999a8ea3b",
+      "statement": "The repository treats unenforced prose as guaranteed to drift, so its written rules are converted into tooling and a failing check is treated as a real defect that must be fixed rather than bypassed or weakened to let an existing document pass.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L215-L228",
+          "version": "repo-lines-v1:sha256:a0457fcb2303dd083d047d86556f4cb67f676d330917211298d8c83a6e0aa8e7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllNDNkYjVkNGU1ZjUzMGE0ODgxZmRkZTljM2U4ZDJjZjQ4ZGUyZGJhNDBkNTQ3YmY3MGU4MDQ3ZjhmMGFjNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhYTk1YTAyNTQ3OTFjMWU4MjA1YWQyMzQzOGIxZjkwMDU3NmM0ZmVhMjllMGM5ZmI2NmEwMWQzZTQ4ZTIxNzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlMjI1ZjI2OGVlOGI3ODY1MDY3Yzk0ZTJiNDRmN2Q0YjhkODQyMThjMjM1OWU0ODIwOWI0NmEwODg0ZTZlNzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5OTdlMDEwMDRiZDg5MGYyZmEzZmM0ODJiNTI1YTMzZWY3MzFkMTI2NzU2ODlmNjFlMjk1YTk1NzMwOGFjYWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b1815981a03a43afaff83b55af078486",
+      "statement": "Work is not complete until the current server record, build state and any affected decision or standard document have been updated, and planned tooling must not be recorded as installed until live evidence exists.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L309-L309",
+          "version": "repo-lines-v1:sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmI0MDc1Nzc5MThhZWVhODk3YzQ5YTExOGEwNTYwMjZjZjBlYjg2ODJjMGRhYjM5ZDE3YWY0OGY4YjQzMmFkOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTliNDhjMWM5M2FmNjMyZDBkNTRmMzc1ZjM0YmU2M2JmZTA4NGRhMjFkYmY5OGQ4OWYyYzUxNzRmNGY1NjZlYSJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/CURRENT-STATE.md#L80-L93",
+          "version": "repo-lines-v1:sha256:5944326760d6d9a5524fc472a2210c75b35c77991e7ade1a9ddc4d12e2377441:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiM2JkODFjYjQ5N2VmNTg3NGZjYzFjNGJkZGQ0N2RiMjVhZDhkMDQ1NDI3YWE2ODY1NTM0Yzc5MGM0NDY1YWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2NWRmNTEzMTA4NzUwYTM5ODViZWYzMTk4NTgxMjM5YmI2ZDUzZGZiMWM0NDJjNzcxYmUxNjYxNzc3MDdkM2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg0ZjZiMTA2MzRkNzk4NDFlNjAxN2NmNjZiZTU5MTNjODQ1OGQ0MzlhNzg3YWMzYWI1NmRiZWJlNDkxZTAyYzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T03:13:20.331Z"
+  }
+}

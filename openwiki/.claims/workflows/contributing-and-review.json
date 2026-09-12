@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:2294fe4073e0e5f2f26ea34c4f0bc433a127fb127ccbaaac44cc913fdb0f0a05",
+  "claims": [
+    {
+      "id": "claim_55a89948e12b4245a52a7ecddc45ddd8",
+      "statement": "The default branch is not a working branch: every change, including a one-line fix, must go through a pull request so it is reviewed, and the contract prescribes the exact sequence of branch, regenerate, check, commit, local review, push and open the pull request.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L165-L185",
+          "version": "repo-lines-v1:sha256:3ab0e73f8c6e252c2cf6d094c43511a684558c1f8d6f324526f69ec47a7e34a7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2NWYyZTdhOTg2Y2M3ZjNkNzEzMmU2MTRkOTlmMTBiNzc4NTMwNmMwYjAwYTc3NGUyZTM3NWYxMWFmZmY4MTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyMjQyNDQ0NWI3OWRlNGUwNTI0OWI4ZWYyNDYyYzA5NzJkYmFhZjBjMzY5ZDgyNzFhMDQ3ZGRkNWUyYjYzNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRhZWEwMmFjMTNmNTcwZWEzNzcxNmJmZGVkNGVkZTZkNmZmZGNlMjQzODM0MTZmNDIxMDc4OTNiZTc2NDllODIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_53ccf434c27848c1922cad49a10156cf",
+      "statement": "Running the command-line reviewer before every push is required rather than optional, because the hosted reviewer runs after the push, applies the configuration from the base branch rather than the branch under review, and can refuse for the day on a public repository once its review limit is reached.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L187-L201",
+          "version": "repo-lines-v1:sha256:2006441881582c798f100ed5e72089b35d2826590dd77a2a8e2dd4d01e954481:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1OTlhOTIzNTQ2ZmNhNGVkNTliZjI2ODFiM2JjMTNkYjlhM2RkOGI5NTE3MDU2ZjkyMzQzY2VjN2FhYzMyODAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkMjkzNDZiZDA0MTE0ZDU5MmU0YzRkMTZjOTE3NzIyMmE2ZjNjZDk0MTVkMDA2MzgxMjRiYmVlOGMxMGIwYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiNzA0M2E1N2I0NzIxZDdjZmI4YzgxODUxNTRlNWY1NDc3ZjkzYThkM2Q0YTgxZGQ5ZmI0MzM3OGZjMzlhMDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkwZWJhYzI2NzY0NjdmNWY2NGYzN2E4NTExNjBlNDQ3YzhiYjA0Yzk5YmQ3MDhlM2E3ZTgyM2Q1MWZkNzUwZDIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_102f988c900d4a069dd75db6d428b86a",
+      "statement": "The cost of skipping the local reviewer is recorded: one push shipped a duplicate with: key that stopped a workflow starting at all and a filter entry that would have excluded every file in the repository from review, both of which the local reviewer had reported.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L194-L198",
+          "version": "repo-lines-v1:sha256:d93432bfc2f8d27fda0b687e96309f912a7be89f701d45524b43bf99a7fdd1a3:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWY1ZmYwODczNTBkMmM3ZDViOTVhYzdhMjQwNTVlZjVhMzQ2MGIzODRmNjMxMTcyZTlkZGFiNGY3OWI4Mzk0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTAzN2RhNDlkZTBjNzhhNzhkYmUwODRmY2U2YjQxNmI2Y2M0NGNkM2U1ZjQzNGI5ODdmZWYwNzI4OTA3Zjc3MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTA0YTI2MWI5NGFhNDIxNWI4YzA3NDY0MzcyMjA5ZGFhNjc4NTQ4ZGI5YmE3MGQzYzZlZmVlNWE2ZGU5ODFjZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjE3MDFkYjI4OWNlYzdjMjBkMDlkMDkyYjMzMTQ2OWQyOTc1MjYwNDUxYmQxNDVmM2EyNDlhNmRhZWRlOTgwMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4f5b4e2a713a40f29acbfff8a7f9c889",
+      "statement": "A pull request must stay under 100 changed files because the reviewer skips anything larger and a skipped review is the same as no review, with generated output and the archive already filtered out of the count.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L207-L210",
+          "version": "repo-lines-v1:sha256:0611c96b82e675228b794a2856bcd96346d955bfa25ce0cae9fd61b73f28851f:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTgwOGU0ODQyMjczOWJjMmI3NzUwYzMwOWE1MmU2NGZmMWEzZGFmOWQ5ZDUxYzk5YjQ0ODVkNDllYmY2ZDNhMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDU0OGMyZWYxYWRjZDc5NDEyMGQzNTgzYjJlYTQ3YWQyNDJkYzJjM2Q4OTkyODY5ZmI1NWIyNmFlNjU5OTI3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzViN2I5MDdkMDE1Mzk4MmIzZjA2ZGJhNDAzNTNhY2ExNWJlZmM2ZTQ5ZDIyODRmZTMzOTMwMGY3Y2I4YjU4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzU2NDdjMWM3MzkzNjM0Y2I2OGE3ZjAxNGJhOWE0YjVmZTQ2MGI5MDEzNWRhZjhmZmYwMDFiYWE0OTA3Y2RkZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_400590625c83459ebbccd81de2926cc9",
+      "statement": "The review configuration matches every base branch rather than only the default one, because naming only the default branch skipped pull requests stacked on another branch, and the setting must reach the default branch to take effect since the decision is made from the pull request's base branch.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L30-L40",
+          "version": "repo-lines-v1:sha256:5623341d2b82a751e476bdb40d3a10b10d93c7407fede6d9ae700f6833c388c4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxMDdlOTNhM2UxMTdjMzI2OTBjYTU5NDA4MjRhYjA2MzRhZGI1Yzg5ZWJlNGJmYzliMzQyOWUzNmIyYWYzMTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmNTAwM2NiMTRkMzZhOGM0YmZkMDE0YmM0ZGI4MjA2OGI5NzE5ZDE2ZDhlY2U4ZDUwYzRiZjc4NTQ4YWZhZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ5OWZiOGRlNDc0YmQzNmViZjIxZTU1MGJhOGIxN2M5MmZkMGQ3Yzc1NDE4MTRhZWZhNDk1MDI0ZDg5MDk2MDMifQ"
+        },
+        {
+          "resource": "repo://AGENTS.md#L203-L205",
+          "version": "repo-lines-v1:sha256:f2ddb37ab15f153bc4613f49e4872b3795ff272ac70a95051eeb7ad9e6ea745e:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2E1YTUzYWUyNjRkODZjYjIyYTg2NDQ0OGEwZWM4NGRlMzI0NTU0MjAwN2Q3NGI1YWUwYTg0ZTc5MDlkYjhhMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzgxMDg4ZmFhN2JhMjkwMTc0NDk5YjU0Yjc4ZWM3NDBjYjMyMjI3YTkwNjBmZmUwMWM3NWQ4YmZiYjFlMDg1NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzRmMWQwZmU1N2FiMDBmNTE5ZDYzNjAxY2JmMWU5Njg4NjQ4MzE3ZjliMTlmNTk0YmJkNTE3YTUwMzhmZjQwOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmNmOWZkY2E0NWUzNzI5MGZjYjA3ZjJlYWE5MmM1MTVmNWFmMWRkNDU1MWM0NWI1YTUwZjJmYWY4NGFjYjhjYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_feffa0d7b8a542369679a21e10460f5a",
+      "statement": "The review path-filter list begins with ** because a positive entry turns the list into an allow list treated as a sparse-checkout include set, which had left every file outside the two named TSVs ignored.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L55-L62",
+          "version": "repo-lines-v1:sha256:49297998eb346a3939fe830752afc2338642c0c3c3f58f1c257b252930a45acd:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzA1MWIzZTdhMzdkZDU1YTQzYzA5YTAzNTliODE3MzFiODJkMGFiMzcyNzA2NTg2OTllNzMyMjE3OTdmZjlhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTVjZWRjZjZhMDU2NTEzYjEwOWJlMzUyYTM3NTBkMDFmM2Q4MTAzMjc3ZmJhNTNjZDE1NmViYTczZDY2NGViNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjY1OTcwOWUwZWVmN2VhNzcxNzg1ZjAxZjExOWVkMTU0MTRmYjAzY2JjODBhNzQ3NGFhMjk0MmUzMjRlNDM1NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2U1MjhlYzc1ZDA0ZmRjMDBmZTcyN2NhNzlhYjQzZGI2ZjAyOGJlMWEyZDEzNmNiMzY0Yzg4YzIyNWExMTQ3YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_74d149ee776a48189a4d1599c2d458df",
+      "statement": "The fleet and proof TSV files are re-included by name because the reviewer's own default filters exclude *.tsv, which had silently kept both source-of-truth files out of every review even though one of them gates every smoke-test PASS.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L71-L77",
+          "version": "repo-lines-v1:sha256:f0b9e448b54bea8b2e161b614a6dbfc8878b76ace5ec628a65b2fb8cf68b6f91:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGQ4YTk3NmIzMzM2ODk3YTQ4ODRkNDcwZTMxZDFkMmZjNWUwM2RmN2E4YjA2ZDRlYjllYmE3ZjRkOTczOWVlOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjcxN2NjMzFkZWU2ZTczMTM4NWUyYjcyZTYxZDM0NTM1ZjQzYmQ2YjZmZmNiNzUxZWE5NjA3ZTExNmNlZDRhNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2FjYThjYWJmN2ZmYTdkYTc5MmMxMmVhMDZjNWUxYzk0Y2Y0MzM5NWI1YWMxMzUxNmIwYjIxZGNmYmM4NjlmMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDU0NmZiYTk2YzQ4MzY2Y2Y2MTdjMTVhNjFlYjExYmU3MzkwZWQzMGIxYjg4YTFlZGIwZWIwNjcwYmJlZTFhOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d1e57cc0e7b2406db88020550bf74317",
+      "statement": "Every path instruction in the review configuration encodes a rule the repository already states in prose, so a reviewer enforces it on every change instead of the rule holding only as long as someone remembers it.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L1-L14",
+          "version": "repo-lines-v1:sha256:481d3dd6f6e1a76b6e11f1d42c31bd9a65654fbd1c73df5782eb7c059005b74c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhmNzE0MGUyMzE0MDI0M2Y3ODA0NGNjNWEzMTNjYjI4NTA5NzhlYmZlMDIyZGJiNzUzOTVmZjg0OTY5NjcwYzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2YzYxZDQyOGMyMGVmMmVhMWY2MzFhZDI5NzNiYjU1ZWMzYzNlZGVhMGQxOWFlMmI2YmRiMWEyYzdjOThhZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhjN2VkNGJkNjA1MDZjODJmMjE3Yjk1MmFhZmFlNzMwZmRkNjg5ZGNiNmRhYTQ5ZDNiYTNhMjJkYjIyMDdkMjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_830e6de9a41a42df94cf5da9e79e698e",
+      "statement": "Path-scoped review instructions cover runbook scripts, repository tooling, generated HTML, control documents, server records, smoke-test authorities, skills and workflow files, each with the specific requirements and prohibitions that apply to that tree.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L79-L157",
+          "version": "repo-lines-v1:sha256:0bdd89e94ff6e2ec0bb7397672babee880ab60647ba9f33860a60cb747125ab2:eyJzZWxlY3RlZExpbmVDb3VudCI6NzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmOGNmMDY3MGE5MGYyZGE4OGIyZTBiZDdlNjA1MTVmMmM3OThhNjVhYTFmZDVjMDVkMGU3NDY2N2Q3NmQxYzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3MDUzNDNlYjI1NWU0ZDk2MmJmYjdhZWY1OTE1NTY5M2JmYTg4YmY4YjRlMmZiNjNhYjMxZTY1Y2ZhMGI5MGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmNDYzNTFlNjhmZGJkOWIwMGJmYjQyY2JiYzAwM2YwYTQ0ZGU2YmNmYWU1NTlmZWQxNGIxNmJmMmQ2YTRkOGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc1NzEwZTQ5ZGRjN2I4Y2FlMDE2M2NkYmYwODU5YTFjYmVmOTZhNWNlZjI4ODhmOTI5ODMzZGQwZDIxZGM1MGIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_db324ded92164928ac4dc04f90ed66ae",
+      "statement": ".gitattributes forces LF line endings across the tree and explicitly for .sh, .py and the smoke-runner scripts, so an execution artifact runs on Linux regardless of the contributor's platform or local git configuration.",
+      "evidence": [
+        {
+          "resource": "repo://.gitattributes",
+          "version": "repo-file-v1:sha256:273b9276cbc2cf815f7dd6cc453e99b9ea54425e46e7c153817cee0912e8f381"
+        },
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L86-L93",
+          "version": "repo-lines-v1:sha256:af5a8158eaaed5b0abc6134c4d7cd802be4f3c4383182eca37d46c5ca3db110b:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDM1OGY5NjQzMmZlYzM2ZWQ0NmZlNjEzYmRiYjdmNjQzMjQwNzQyN2UzYzU5MGNhMGQ3OTJkMzgyOWU3ODMyYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGNiYTdjYzZhNDU1MzQ2N2RkM2JmODM1MTI0YmJjZjViMmZlZTBmNzIyNWVmZWRjYzM0NTgxMjc5ZjE0NTBkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDY3MTBiNmRjYzc5MTY1Y2E3OWZjMzNiOGY4NDlkNTM2NzZjNTljOTBjNmUwMDJhYThlNWQwNmZiMTk2NTMyMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWU2ZTQzODBkM2JkZDllYmRiMTA1NWM4YTIxNmM1OGU5OWYyMzE1YjA1MWZjMmRkNTMyMjUzZDk3MGFiZDAzZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f09aa993ba5b4973a911a2dc587d0e1a",
+      "statement": ".gitignore deliberately re-includes retained evidence logs against the blanket log-file rule, and the documentation checker independently probes that the ignore rules cannot swallow retained evidence.",
+      "evidence": [
+        {
+          "resource": "repo://.gitignore#L27-L32",
+          "version": "repo-lines-v1:sha256:4688ea7e4fd80512a19103e2ce9be83b0087997a4ef903de05607ae246a2abcb:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWE5YmExNDc5MzMxYzFlZTM1YWRkMDA5MTcxOThmYjQ3ZTJjNzVkZTJlMzllYWUyYzZlZDk5NjNmNGVjYTJjZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjRkZGZkYWZlMGY3MDI4MDNjM2UxZTBmMTQ1MzY2YjEzMDI2MzUzOGU1NTZiNzQwNGU0Y2M3ZmM4YmJmM2RkYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmU3NzdjZTkwZjk4NzQ0YjQ5NDNjOWQ2NGJiNjY4NGZjY2M1NzhjNTMwMzFmMjkyMmRhZTk0ZDkzMzc2M2QwMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzllZGVlYjI2ZGU5MDg2NTBlNTRmMTNmM2NkYmI3MTM1Y2I5NjFmN2VjOWYyMWRiYjZjZDZiYzBiM2Y5ZWUxNCJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L174-L196",
+          "version": "repo-lines-v1:sha256:e6b97d2febb9c14dc99dd564df792e0d9b40c8bc703a4f581d83aed95e7ce791:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlZDBmMzE0MWVmMjVjNTc0NjA4ZjQ1ZTU4YzMyMDk4MjFhNjIyZGNjY2M2NmIxM2FlOGE5MWE1ZDU5OTJmNjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk0OWEzZjUxN2U2NTI3MGJiZjJkZjQxMzQ3ODBmMDE3NGQwM2VlNDJiMzUyMjJhMjkwYjI2OWFiMjMwMThiMWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYyODA0N2IxNjk4NzE0NThkMDdjYjkxOGZiZGFhZTkyYjY2MmRmZjNlNmY2ZjFmMjlhNWZlNzk0ZWQ2OWZkN2QifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3312d57cdba84aeb8ed6ba55af3d91a1",
+      "statement": "When the reviewer raises a finding it must be fixed whatever its size, and a finding believed to be wrong must be answered on the thread rather than ignored.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L212-L213",
+          "version": "repo-lines-v1:sha256:b80ec7657ed49c2e1c768bbb61cbb4719403493f530519c7b7cf21a859408301:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTExYjIwZTA3NzdmMGY2MzQ4YWIwMzBkMTMxOWUwMjdkODljZjBlNjBkZjg5OWRhMmFhZDJmMTM4ZTU0NGFmNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDU5NDMxY2E1YTEyMWNhNjk5YWJlMjhiMjUxMmEyOTE4MjNlNjQ5MWQ2MTEwYjk3ZDcwZTY0NDIyNjIwMDk4NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzNjNjcyYTE2MDAwNGM0YTM0YmM2MzM4YzNjMDRjNGUxMTA2MTRkODhmMjY0YmIyYzFjYmNhOWMxNjQwYTE2ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjk0Mjc2MDVmMzA1Zjk5MGUxNDhiODJiNmM4M2FhZjYxZjdiNTJkYjFhNjM2MzMzMWViMGJhYmQyN2I4NDJlYSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T03:13:20.331Z"
+  }
+}

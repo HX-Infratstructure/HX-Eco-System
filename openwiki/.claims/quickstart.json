@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:95e852d73d0d1199925f8c3d4e576fba793ca65c5282b61d08f5a3988f3eac39",
+  "claims": [
+    {
+      "id": "claim_c92c0b0d2ab44d57901686ad8af83dfd",
+      "statement": "The repository is the authority for a clean-room rebuild of a 17-server native-Linux AI ecosystem built one server at a time, each validated and recorded before the next begins, and it contains the controlling documents, build scripts, acceptance procedures and enforcement tooling rather than ecosystem application code.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L1-L20",
+          "version": "repo-lines-v1:sha256:46122583b40cb28d674884ff88d0a5fd6eb565ad067e49c3c06c8f39add270bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1YTk1NWRlNTMzOGE1MjcyYTZkODE2MjE3ZmRkNDQ3OTFlNjIzZWMzZWJmMjc2MDBkMjMxOGQwYTUxOWY3NDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5MzRjNWEwZDA3NWFjZGVkZDk1ZTkwNDg1YmFkM2EyOGQwZWU3MDNjN2EyNDBkYmY4MTQ1Y2ViOGExZjM2ZTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg4ZWRmM2U1NmE5NWExZmJkZjk2OWUwOWU2OGI4NTc3NjRjZWZhOWYyNDY3N2RlYjliZDE5YTBkZDkwNTJjMGIifQ"
+        },
+        {
+          "resource": "repo://README.md#L243-L256",
+          "version": "repo-lines-v1:sha256:f8da6257c137a96b6cea2b93f39b9592194952ffd2625792e24ceafec443211e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmZTdhODI5NTRiYzdlYWZmNGRhYWUwNmFlZGJmYjk1NjY4OWEyOWY0Y2JiOGNhYTJmYzhiZDUxZjFlMmQyNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4M2JiOTVkZDc2MjdkZTAyM2JjZTliYjAyZWIyYzljZGNkNWMxMWZlOWMwZjIxNzFkOGE0NTRhNTUxMGQ1YjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0N2NkMDE0NDRkYzk0YTUyNmRhNWE2ODAyNTM0YmRhOTgzMDc5MmM3YjkxYWQ1ZDBkYWI4N2JiODA3Y2JjZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4YThhNWUzOGVmZmI1ZWFlYjQzNmI5MWZjOGU3MDNjOGYyMTk4MjQwYjVlZDE1ZTA1ZjgyMjBhYzVmMmQ3YjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5687d84ae9d94e10bf247053dd11fbf8",
+      "statement": "A build day starts with hx-preflight run from anywhere, then the numbered common blocks invoked with the target host name, each of which refuses to run on any other host.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L176-L196",
+          "version": "repo-lines-v1:sha256:0de4410c525482114e3ebc21436ee5dde7d9b0e3f6da7db50c0b89eb5682638e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMwYWVmODM1MjFlZjY0ZDhlMWM4Zjk2ZDgxOWM5YjJkZjNkMGNkNmQxMmFlZWMwMTI0MzE0ODEwNWEwYjRhMzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIyMDZmNmZlOTFkZWM0NTM4ODY2ODJlNWYyMGRkM2VlYzdlZTBiOWVlYTY2ZWI0Yjg0ZmQzMGY0M2I1Y2EwZmYifQ"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/RUN-SHEET.md#L18-L32",
+          "version": "repo-lines-v1:sha256:3866fc0c726e92ec1443392d9f6165bb6f7fdf82282cbab8e97f8fae19ed1ad8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMDY1MTlhN2ViMmUzZDJmMmFlNDk3N2EzYjFlMzlhZDBiMmY5NjkyMDk0ZTJlMzNmYThmMzU5YWY1NGQ0ZjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI4MTQ2ZWE0MTZjZTI1ZWM1ZjRjYTBhOGMxN2YxMWE0NjJjMDMwYmYzMTRmOGRkZTkyZjViZGUzMjc3OWFkMWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ba666c545ba6470689ac1424fc5f49ad",
+      "statement": "Whether a proof step may run is answered by `tools/hx-doc/hx-proof --ready <id>`, and the same dependency chain is enforced again at promotion time so a PASS is refused when a required prior step has not passed and been cited.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L230-L242",
+          "version": "repo-lines-v1:sha256:435bb371d877ce0c57337b0ad9cc0d72b11f629e5f99e9f9c8b82f87da420041:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhMWZiOTU3MDg4ODM2MGQ4ZTRkNTQ1MmY3YjBjMzVkNTI2YTVmZGNmNzJmYmFlOGU1NmQwY2UzM2M0NDhiNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0ZjQyNzJmNGM2NWM0N2RiMTg3Nzg2OTNlY2YzYWYxNTg2ODAyNWM4ZDNkNmJmODg4Y2FhMzcwMjYzODRkNDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3M2I3MjNjOWM5MjdmY2M4YTg4OTZhNDkzYzlhMTc5YjRlYzdkY2I1ODBhNDVhNGUzNzIxMDc1OWI2YmNlZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxYTMwY2NhM2M5NmViNGQzMjQ0YzdkOGZjZTY4N2ZkNzM3NjVlMWZhZjRlMjEzOTc0YmZmMzY5YTU2YjFjMzQifQ"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/RUN-SHEET.md#L34-L49",
+          "version": "repo-lines-v1:sha256:8017cd631c13e5b8cb21bf7ed407d7f9a0a1ee500306581c2bc16732cbf5b2af:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0Zjc0MDRmMjgzM2RkMDM0MDg4YzIxZjY0ZDI2Y2Q0NzQ2YzFkYWQ3NDU4Y2M3YzhiZWU4NTY2Mjg4M2I2YjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkNGIwNzAzM2Y2MzUzYjE3ODBiYjk5MWE2ZDhiMDZjZmZiOTZiYzIzMWFmZDdiYjE5OWI0MWM3MTIyMWVjMTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljNDYxMjQ0YWM3NTYzYTA2MzhlZWU4ZDg0NGMxMDFmNmQ2NmVmM2Q5YjM2NmFhNjM2MWU5MmVjYWYzODUxZGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1bc577011744409f9e5d39cc908c10e8",
+      "statement": "A single component proof is executed from HX-5 CentCom with hx-smoke-doctor, hx-smoke-new and hx-smoke-promote, in that order.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-smoke-runner/AGENTS.md#L78-L93",
+          "version": "repo-lines-v1:sha256:f92e670216f32d130e96683d6a036c821d851e64316dc5186a06ceb660010dde:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ZWY2YjY0ZTAxNDdjNGY4NTdmY2RiYjU5NWU0NWYxNWJhN2MzZWMzMjMxMTQyOTBkOTI4OTM2MDllOThjZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc5NGEyMTVkOTA1MzkzMDNhMTM5N2UyMGI3ZTQyMjI1YjI5YTBiMzcxYjFhNzU1MzI2M2ZkMmMzOGJlM2FiMGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUwNjY2ODQ0OGYzNmQ0NTUyZjA5YzdlNjhhYjgzMjUzZjE0YjU2ZWQ5ZjY0N2I2YzE0NDA0MDlhZTYxNzdiMWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e0a596bcc89a45dfb0605776bec799bd",
+      "statement": "Any repository change runs the generators and the documentation check, then the local reviewer, then a pull request — the default branch is not a working branch even for a one-line fix.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L165-L187",
+          "version": "repo-lines-v1:sha256:a74632ad03646d9d714282911693e25d85ecf6d17e9f98d038b01ac8ecb0f639:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2NWYyZTdhOTg2Y2M3ZjNkNzEzMmU2MTRkOTlmMTBiNzc4NTMwNmMwYjAwYTc3NGUyZTM3NWYxMWFmZmY4MTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1OTlhOTIzNTQ2ZmNhNGVkNTliZjI2ODFiM2JjMTNkYjlhM2RkOGI5NTE3MDU2ZjkyMzQzY2VjN2FhYzMyODAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyMjQyNDQ0NWI3OWRlNGUwNTI0OWI4ZWYyNDYyYzA5NzJkYmFhZjBjMzY5ZDgyNzFhMDQ3ZGRkNWUyYjYzNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkyNTM5MGFmZmViNDhhYzYwZGJjM2ZiZjllOGY0NTRiYWRmYmYyZGFkNjU5ZjU3MzY0ODc3ZDI5ZDYxNjAzNGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e7bd428919d34939acf7f5226f98456c",
+      "statement": "The commands most used day to day are documented as a short set: regenerate after editing the fleet TSV, re-render after editing any Markdown, and run the documentation check before committing.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L219-L226",
+          "version": "repo-lines-v1:sha256:d93e28db33bff378f9749c3a7ef77715fdadf3b1e29bdeef07f22b67374366ff:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDZmNzA2YzAwYTZmMWFlNWFkNzUzNzYzMGViNmJkMmFmN2FjOWNiZGRiNDZhNzlkMjNhYmEwOWIxN2RlNTg1MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDdjMDZjNTYxZDVjMzI3MzQzNjg1MjY4YTQ2YjMzOTFmMzk5OGVlZTg5MGQyYmU1MWYwZDIxY2M0YTUzYWU2ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzk1MDQ0YjExYmQ5OWNhNDgyZWFiMmY2Y2NmNjgyODg2YWVkNmE1ZTUzZjM5NGU4M2U0YzIxN2E4NTUwYmI4ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzQ5ZDJmNzk1NjkxZGI2ODBiNmU0NGJlNmFiMGEwM2I0ZjgyMDM2ZGJjN2YxY2E5YjYxNmUxMzQzZDQ0MjVjMSJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/README.md#L44-L52",
+          "version": "repo-lines-v1:sha256:76753b1310999d7132920fe42b72c890c790fa1aacfbe253624c799e81d721d2:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGEyYjBhY2ZlYzlkOThjMjc1NzE4ZDZlY2Q0YzEwNjg5NDliMjFlMjAxODM3ZmM1Mjc5ZjdkZTc1MDQ5NzUyMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjYyZjkzMzJjZWNmNGRmODA0ZWVkMDMyNTk3YTA4MDJjNGM2NjQyZDExZjA2NWEwNWQ0OTJjMDVlZTZlNjg3MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODk1OTk3MWE2NjlmY2YyNGQ0OGZlOTIyOWRhNWEwNWU0NDk3Y2MwZmM3M2I2NjFiN2JjNmFhYjJhYjFiOTZmZSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T03:13:20.331Z"
+  }
+}
