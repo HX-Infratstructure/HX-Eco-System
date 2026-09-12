@@ -304,7 +304,11 @@ def check_generated_authority_claims() -> None:
 def main() -> int:
     """Run every check and report. Returns the process exit status."""
     quiet = "--quiet" in sys.argv
-    for fn in (
+    # Named, because the summary used to print len(notes). check_frontmatter
+    # appends two notes, so the count was one higher than the number of checks
+    # that ran - a tool whose whole job is catching a number reported against
+    # the wrong thing, doing exactly that.
+    checks = (
         check_links,
         check_vocabulary,
         check_frontmatter,
@@ -312,7 +316,8 @@ def main() -> int:
         check_evidence_not_ignored,
         check_unit_claims,
         check_generated_authority_claims,
-    ):
+    )
+    for fn in checks:
         fn()
 
     if not quiet:
@@ -325,7 +330,7 @@ def main() -> int:
     if failures:
         print(f"hx-doc-check: {len(failures)} problem(s) found.")
         return 1
-    print(f"hx-doc-check: PASS ({len(notes)} checks).")
+    print(f"hx-doc-check: PASS ({len(checks)} checks).")
     return 0
 
 
