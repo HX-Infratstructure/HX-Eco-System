@@ -322,6 +322,13 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: the authority claim is refused in either word order',
       rc != 0 and 'authority:' in out, out)
 
+# Capitalised, and with no mention of docs/. The second rule compared a
+# raw string, so 'Authoritative' read clean.
+_setblock('Authoritative material is listed in the run sheet.')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a capitalised authority claim is still refused',
+      rc != 0 and 'authority:' in out, out)
+
 # And the check is not simply refusing every block: a claim that names only
 # the control Markdown passes.
 _setblock('The control Markdown in docs/ stays authoritative.')

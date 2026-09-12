@@ -274,7 +274,7 @@ def check_generated_authority_claims() -> None:
             "approved runbook"
         )
         return
-    if "authoritative" in block and "docs/" not in block:
+    if "authoritative" in block.lower() and "docs/" not in block:
         failures.append(
             "authority: the generated AGENTS.md block makes an authority claim "
             "without naming the control Markdown in docs/; section 2 defines "
