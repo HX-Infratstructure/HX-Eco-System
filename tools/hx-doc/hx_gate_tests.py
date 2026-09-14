@@ -187,6 +187,23 @@ check('hx-version-pins: the Ubuntu archive is refused for an application',
 check('hx-version-pins: PyPI is accepted',
       _pins.source_problem({'source': 'pypi', 'kind': 'app'}) == '')
 
+# The remediation messages must name every member of APP_SOURCES. They are
+# derived from the set, so this fails only if that derivation itself breaks -
+# which is exactly the drift this test exists to catch.
+def _message_names(msg):
+    """Every approved source appears in the remediation message."""
+    phrases = {'pypi': 'PyPI', 'npm': 'npm', 'github': 'GitHub',
+               'source': 'source tarball', 'binary': 'binary',
+               'huggingface': 'Hugging Face'}
+    return all(v in msg for v in phrases.values())
+
+_snap_msg = _pins.source_problem({'source': 'snap', 'kind': 'app'})
+_ubuntu_msg = _pins.source_problem({'source': 'ubuntu-archive', 'kind': 'app'})
+check('hx-version-pins: the Snap message names all six approved sources',
+      _message_names(_snap_msg), _snap_msg)
+check('hx-version-pins: the Ubuntu-archive message names all six approved sources',
+      _message_names(_ubuntu_msg), _ubuntu_msg)
+
 # ------------------------------------------ hx_proof: duplicate marker ------
 fresh()
 edit('docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md',
