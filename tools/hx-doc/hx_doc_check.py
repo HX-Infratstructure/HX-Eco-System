@@ -301,6 +301,168 @@ def check_generated_authority_claims() -> None:
     notes.append("authority: the generated AGENTS.md block keeps the truth order")
 
 
+def _outside_fences(text: str) -> list:
+    """Return the lines of text that are not inside a fenced code block.
+
+    Backtick and tilde fences both count. A heading or a table row inside an
+    example belongs to the example; letting it through makes these checks pass
+    on text that is neither a section nor an index entry.
+    """
+    kept, fence_char, fence_len = [], None, 0
+    for line in text.splitlines():
+        # Up to three leading spaces may precede a fence line. Four or more,
+        # or a tab, make an indented code block, so such a line neither opens
+        # nor closes a fence. Stripping all indentation let a four-space
+        # example line open a fence and hide everything after it.
+        indent = len(line) - len(line.lstrip(" "))
+        stripped = line.lstrip(" ")
+        char = stripped[:1]
+        run = len(stripped) - len(stripped.lstrip(char)) if char in ("`", "~") else 0
+        if indent > 3:
+            run = 0
+        if fence_char is None:
+            if run >= 3:
+                fence_char, fence_len = char, run
+                continue
+            kept.append(line)
+        # CommonMark closing rule: the same character, at least as many of it
+        # as opened the fence, and nothing after it but whitespace. Comparing
+        # only the first three characters let "```not-a-close" end a fence, and
+        # let a three-character run end a four-character one, so text inside
+        # an example leaked out and was read as structure.
+        elif (char == fence_char and run >= fence_len
+              and not stripped[run:].strip()):
+            fence_char, fence_len = None, 0
+    return kept
+
+
+# A Markdown link destination or an angle-bracket autolink, with a host that
+# has a dot in it. "https:// yet" contains a scheme and links nothing.
+_UPSTREAM_LINK = re.compile(
+    r"\]\(https?://[^\s)/]+\.[^\s)]+\)|<https?://[^\s>/]+\.[^\s>]+>")
+
+
+def check_tooling_docs() -> None:
+    """Every tooling document is complete and ordered, and the index is true.
+
+    CodeRabbit was adopted with its facts spread across three files and no
+    document saying what it was. OpenWiki was then adopted the same way. This
+    check makes the third repeat fail the build.
+
+    What it enforces: a document in docs/06-tooling/ has the five required
+    headings, in the order the index gives, with two distinct real links under
+    Upstream, the documentation and the source;
+    an index row that names a file has that file; a document that exists is
+    linked from a row of the index table. Fenced examples are ignored
+    throughout.
+
+    What it cannot enforce, said plainly: nothing here knows that a tool was
+    adopted. A row with no file is backlog and is reported, not failed, so the
+    gap stays visible instead of turning the build red forever. D-024 carries
+    the obligation to add the row.
+    """
+    home = REPO / "docs/06-tooling"
+    index = home / "README.md"
+    if not index.exists():
+        failures.append("tooling: docs/06-tooling/README.md is missing")
+        return
+    index_text = index.read_text(encoding="utf-8")
+
+    required = ("What it is", "Why we have it", "When to use it",
+                "How to use it", "Upstream")
+    bad = 0
+
+    # Parse, do not match substrings, and read only rows of the Index table.
+    # "wiki.md" is a substring of "openwiki.md"; a link in prose, or in a
+    # fenced example, is not a row a reader scans.
+    table, found_index, inside = [], False, False
+    for line in _outside_fences(index_text):
+        if line.startswith("## "):
+            inside = line.strip() == "## Index"
+            found_index = found_index or inside
+            continue
+        if inside and line.lstrip().startswith("|"):
+            table.append(line)
+    if not found_index:
+        failures.append(
+            "tooling: docs/06-tooling/README.md has no '## Index' section")
+        return
+    linked = set(re.findall(r"\[[^\]]+\]\(([A-Za-z0-9._-]+\.md)\)",
+                            "\n".join(table)))
+
+    for link in sorted(linked):
+        if not (home / link).exists():
+            failures.append(
+                f"tooling: the index links {link} but docs/06-tooling/{link} "
+                "does not exist")
+            bad += 1
+
+    for md in sorted(home.glob("*.md")):
+        if md.name == "README.md":
+            continue
+        if md.name not in linked:
+            failures.append(
+                f"tooling: docs/06-tooling/{md.name} is not linked from the "
+                "index, so nobody will find it")
+            bad += 1
+        # An -agents.md is an operating guide, not a tool description; the
+        # five sections belong to the tool's own document.
+        if md.name.endswith("-agents.md"):
+            continue
+        order, body, current = [], {}, None
+        for line in _outside_fences(md.read_text(encoding="utf-8")):
+            if line.startswith("## "):
+                current = line[3:].strip()
+                order.append(current)
+                body.setdefault(current, [])
+            elif current is not None:
+                body[current].append(line)
+        missing = [section for section in required if section not in order]
+        for section in missing:
+            failures.append(
+                f"tooling: docs/06-tooling/{md.name} has no "
+                f"'## {section}' heading")
+            bad += 1
+        # The index says "in this order". Membership alone let a shuffled
+        # document pass.
+        if not missing:
+            positions = [order.index(section) for section in required]
+            if positions != sorted(positions):
+                failures.append(
+                    f"tooling: docs/06-tooling/{md.name} has the required "
+                    "headings out of order; the index requires "
+                    + ", ".join(required))
+                bad += 1
+        # The point of Upstream is that nobody has to search for the product's
+        # documentation or its source. The index promises both, so a document
+        # needs two distinct real links: one link, or the same URL twice,
+        # leaves a reader searching for the other.
+        if "Upstream" in body:
+            urls = {found.lstrip("](<").rstrip(")>") for found in
+                    _UPSTREAM_LINK.findall("\n".join(body["Upstream"]))}
+            if not urls:
+                failures.append(
+                    f"tooling: docs/06-tooling/{md.name} has an 'Upstream' "
+                    "heading with no link under it")
+                bad += 1
+            elif len(urls) < 2:
+                failures.append(
+                    f"tooling: docs/06-tooling/{md.name} has only one link "
+                    "under 'Upstream'; it needs the documentation and the source")
+                bad += 1
+
+    # Rows of the Index table only. Counting the phrase across the whole README
+    # let a sentence of prose inflate the number of undocumented tools.
+    pending = sum(1 for row in table if "not written yet" in row)
+    if not bad:
+        notes.append("tooling: every tooling document is complete and indexed")
+    # D-024 says a backlog row is reported on every run. The count used to
+    # ride on the all-complete note, so any failure in this check hid it.
+    if pending:
+        notes.append(
+            f"tooling: {pending} tool(s) still undocumented, listed in the index")
+
+
 def main() -> int:
     """Run every check and report. Returns the process exit status."""
     quiet = "--quiet" in sys.argv
@@ -316,6 +478,7 @@ def main() -> int:
         check_evidence_not_ignored,
         check_unit_claims,
         check_generated_authority_claims,
+        check_tooling_docs,
     )
     for fn in checks:
         fn()
