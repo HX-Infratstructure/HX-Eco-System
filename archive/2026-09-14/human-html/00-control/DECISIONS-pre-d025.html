@@ -35,7 +35,7 @@ a{color:var(--accent)}
 .mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
-</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/00-control/DECISIONS.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: current &middot; status: 2026-09-14</div><h1>HX Eco-System — Owner-Approved Decisions</h1>
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/00-control/DECISIONS.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: current &middot; status: 2026-09-09</div><h1>HX Eco-System — Owner-Approved Decisions</h1>
 <h2>D-001 — Clean-room rebuild</h2>
 <p>HX-1 clean Samba foundation is retained. HX-2 through HX-17 are rebuilt from scratch. Old HX-Infrastructure configuration and closure claims are reference-only.</p>
 <h2>D-002 — Native deployment</h2>
@@ -101,8 +101,7 @@ font-size:12.5px;color:var(--fg2)}
 </ul>
 <p>The revision is an immutable commit, so a later upstream edit cannot change the model under a stable name. The authoritative pins are in <code>docs/03-runbooks/common/hx-base.env</code>, and <code>tools/hx-doc/hx-version-pins</code> checks them against upstream.</p>
 <p>This was recorded in the Model Placement and Embedding Standard as item 10 two days after that document was approved at v1.0, without a decision to point at. The standard is v1.1 now and cites this entry.</p>
-<h2>D-023 — a write-capable token in Actions secrets, for OpenWiki — SUPERSEDED BY D-024 on 2026-09-14</h2>
-<p>Withdrawn: the scheduled OpenWiki workflow is deleted and generation is manual from a host-agent session, the fallback this entry itself recorded. The conditions and risk analysis below stay as the historical record and as the conditions any reversal must re-establish.</p>
+<h2>D-023 — a write-capable token in Actions secrets, for OpenWiki — RATIFIED 2026-09-11</h2>
 <p>OpenWiki generates <code>openwiki/</code> from the code. PR #10 teaches the repository that the tree is generated. This entry covers refreshing it on a schedule.</p>
 <p>The owner directed this on 2026-09-11 after the cost and the exposure were put in writing. It is recorded before the secrets exist, not after.</p>
 <p><strong>What is accepted.</strong> Two Actions secrets on a repository that is public:</p>
@@ -141,13 +140,4 @@ font-size:12.5px;color:var(--fg2)}
 </ol>
 <p>repository is sent to a third-party trace store.</p>
 <p><strong>The residual risk, stated plainly.</strong> <code>workflow_dispatch</code> runs the workflow file from the ref the operator picks. A branch that edits that file can therefore read both secrets, and no line inside the file can prevent it, because the attacker would be editing that line too. The control is who holds write access to this repository, plus branch protection on the default branch. The checkout is pinned to the default branch so that generated documentation always describes <code>main</code>; that is a correctness measure, not a security one, and it is not recorded as one.</p>
-<p><strong>Reversal.</strong> Delete the workflow file and revoke both secrets. Running <code>openwiki --update</code> by hand from inside Claude Code costs nothing, because the host integration uses the session's model instead of a key. That stays the fallback.</p>
-<h2>D-024 — OpenWiki generation is manual, not scheduled — RATIFIED 2026-09-14</h2>
-<p>Replaces D-023.</p>
-<p>D-023 authorised two Actions secrets so a weekly workflow could regenerate <code>openwiki/</code> with a paid model run. That posture is withdrawn.</p>
-<p><strong>What changes.</strong> <code>.github/workflows/openwiki-update.yml</code> is deleted. <code>OPENWIKI_PR_TOKEN</code> and <code>ANTHROPIC_API_KEY</code> are not held as repository secrets; if they were created, they are revoked.</p>
-<p><strong>How openwiki/ is generated now.</strong> By hand, from a host-agent session, using that session's model rather than an API key — the fallback D-023 already recorded. Each run records the provider, model and commit it was produced from in <code>openwiki/.last-update.json</code>, and that record is what makes a tree auditable.</p>
-<p><strong>Why.</strong> Three problems close at once: the repository no longer holds a write-capable token; no scheduled job spends model budget unattended; and the <code>workflow_dispatch</code> residual risk D-023 documented — a branch that edits the workflow file can read both secrets, and no line inside the file can prevent it — goes away with the file.</p>
-<p><strong>What this costs.</strong> Refresh becomes a matter of discipline rather than a cron, and a generated tree nobody regenerates goes stale silently. Any decision to make <code>openwiki/</code> required agent reading must therefore carry an explicit freshness condition. That is a separate decision and is not granted here.</p>
-<p><strong>Provider.</strong> No provider is pinned; the run records what produced it. The tree of record as of this entry was generated by <code>z-ai/glm-5.2</code> at commit 0aa14e3.</p>
-<p><strong>Reversal.</strong> Restore the workflow file from <code>archive/</code>, recreate both secrets, and re-ratify D-023's conditions.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/00-control/DECISIONS.md</code>.</footer></div></body></html>
+<p><strong>Reversal.</strong> Delete the workflow file and revoke both secrets. Running <code>openwiki --update</code> by hand from inside Claude Code costs nothing, because the host integration uses the session's model instead of a key. That stays the fallback.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/00-control/DECISIONS.md</code>.</footer></div></body></html>
