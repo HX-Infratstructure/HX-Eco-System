@@ -313,7 +313,8 @@ Before declaring work complete, update the current server record, build state, a
 
 `openwiki/` is generated. So is the block below, between the OpenWiki markers,
 and so is the matching block in `CLAUDE.md`. OpenWiki rewrites both on every
-run, weekly by schedule, and any edit made inside those markers is lost.
+run, which is manual per D-025, and any edit made inside those markers is
+lost.
 
 **This section is outside the markers and therefore survives.** It governs.
 

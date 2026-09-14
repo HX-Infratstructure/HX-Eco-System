@@ -432,8 +432,8 @@ _prose = _txt.replace('## Index',
     '## Aside' + chr(10) * 2 + 'See [openwiki](openwiki.md) and'
     ' [agents](openwiki-agents.md).' + chr(10) * 2 + '## Index', 1)
 _prose = _prose.replace('| OpenWiki | [openwiki.md](openwiki.md) |'
-                        ' [openwiki-agents.md](openwiki-agents.md) | D-023 |',
-                        '| OpenWiki | not written yet | - | D-023 |', 1)
+                        ' [openwiki-agents.md](openwiki-agents.md) | D-025 |',
+                        '| OpenWiki | not written yet | - | D-025 |', 1)
 io.open(_idx, 'w', encoding='utf-8', newline=chr(10)).write(_prose)
 rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: a prose link outside the Index table is not an entry',
@@ -538,8 +538,8 @@ fresh()
 _idx = os.path.join(WORK, 'docs', '06-tooling', 'README.md')
 _txt = io.open(_idx, encoding='utf-8').read()
 _row = ('| OpenWiki | [openwiki.md](openwiki.md) |'
-        ' [openwiki-agents.md](openwiki-agents.md) | D-023 |')
-_txt = _txt.replace(_row, '| OpenWiki | not written yet | - | D-023 |', 1)
+        ' [openwiki-agents.md](openwiki-agents.md) | D-025 |')
+_txt = _txt.replace(_row, '| OpenWiki | not written yet | - | D-025 |', 1)
 _txt = (_txt.rstrip() + chr(10) * 2 + '```' + chr(10) + _row + chr(10) +
         '```' + chr(10))
 io.open(_idx, 'w', encoding='utf-8', newline=chr(10)).write(_txt)

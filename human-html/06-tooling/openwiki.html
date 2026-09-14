@@ -42,7 +42,7 @@ font-size:12.5px;color:var(--fg2)}
 <p>What it does not do: it cannot watch hand-written documents, and it cannot know why a tool was adopted. Intent is a decision, not something derivable from source. That is why this document exists and is not generated.</p>
 <h2>Why we have it</h2>
 <p>Without it, anyone arriving at this repository - person or agent - has to read the whole thing to gain context, and a README does not close that gap. The cost is paid again by every agent on every session.</p>
-<p>Adopted by <strong>D-023</strong>, which also records the accepted risk of the two Actions secrets on a public repository.</p>
+<p>Adopted by <strong>D-023</strong>, which also records the accepted risk of the two Actions secrets on a public repository. D-023 was superseded by <strong>D-025</strong> on 2026-09-14, which withdrew the scheduled workflow; D-025 is the current decision for how <code>openwiki/</code> is generated.</p>
 <h2>When to use it</h2>
 <ul>
 <li><strong>Run <code>--update</code></strong> after a change that alters how the repository works:</li>
@@ -66,9 +66,7 @@ font-size:12.5px;color:var(--fg2)}
 <pre><code class="lang-bash">openwiki visualize
 openwiki visualize --export ./out</code></pre>
 <p>This is separate from <code>graft viz</code>, which draws the code graph. Different tool, different graph.</p>
-<p><strong>Scheduled refresh.</strong> <code>.github/workflows/openwiki-update.yml</code> runs weekly, Sunday 08:00 UTC, and opens a pull request. It is not auto-merged.</p>
-<blockquote><strong>This one costs money.</strong> The scheduled job is headless, so it cannot borrow a Claude Code session. It uses <code>ANTHROPIC_API_KEY</code> from Actions secrets and bills on every run. A local <code>--update</code> adds no OpenWiki charge beyond the Claude Code session it runs in. Prefer local.</blockquote>
-<p><strong>Secrets in use:</strong> <code>OPENWIKI_PR_TOKEN</code> (Contents and Pull requests, read and write) and <code>ANTHROPIC_API_KEY</code>. Both recorded in D-023.</p>
+<p><strong>Refresh is manual.</strong> There is no scheduled workflow; the former <code>.github/workflows/openwiki-update.yml</code> was deleted by D-025. Regeneration happens from a host-agent session using that session's model, and each run records the provider, model and commit it was produced from in <code>openwiki/.last-update.json</code>.</p>
 <p><strong>Telemetry</strong> is on by default and sends error categories to PostHog. Off with:</p>
 <pre><code class="lang-bash">echo "OPENWIKI_TELEMETRY_DISABLED=1" &gt;&gt; ~/.openwiki/.env</code></pre>
 <h3>Running it against the fleet's own model — VERIFICATION REQUIRED</h3>
@@ -81,8 +79,8 @@ OPENWIKI_MODEL_ID=&lt;the model HX-2 serves&gt;</code></pre>
 <p>Some gateways accept only streaming; if so add <code>OPENWIKI_OPENAI_COMPATIBLE_STREAMING=true</code>.</p>
 <p><strong>This has never been run.</strong> HX-2 is not reachable from the workstation and the lab opens Saturday. The command is transcribed from upstream documentation, not observed working. Prove it before relying on it.</p>
 <p>Note this is OpenWiki's schema alone. graft uses different variable names and has no <code>openai-compatible</code> value at all.</p>
-<h3>Undoing it</h3>
-<p>Delete the workflow file and revoke both secrets. <code>openwiki/</code> can be removed with <code>git rm -r openwiki</code> and the blocks in <code>AGENTS.md</code> and <code>CLAUDE.md</code> deleted between their markers. Nothing else depends on it.</p>
+<h3>Undoing it — the reversal of D-025</h3>
+<p>D-025 withdrew the scheduled workflow. Reversing it means: restore <code>.github/workflows/openwiki-update.yml</code> from <code>archive/</code>, recreate both <code>OPENWIKI_PR_TOKEN</code> and <code>ANTHROPIC_API_KEY</code> as repository secrets, and re-ratify D-023's conditions. Removing the tool entirely is otherwise unchanged: <code>openwiki/</code> can be removed with <code>git rm -r openwiki</code> and the blocks in <code>AGENTS.md</code> and <code>CLAUDE.md</code> deleted between their markers. Nothing else depends on it.</p>
 <h2>Upstream</h2>
 <ul>
 <li>Documentation: &lt;https://docs.langchain.com/oss/openwiki/overview&gt;</li>

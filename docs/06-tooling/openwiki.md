@@ -25,7 +25,9 @@ the whole thing to gain context, and a README does not close that gap. The
 cost is paid again by every agent on every session.
 
 Adopted by **D-023**, which also records the accepted risk of the two Actions
-secrets on a public repository.
+secrets on a public repository. D-023 was superseded by **D-025** on
+2026-09-14, which withdrew the scheduled workflow; D-025 is the current
+decision for how `openwiki/` is generated.
 
 ## When to use it
 
@@ -70,16 +72,11 @@ openwiki visualize --export ./out
 This is separate from `graft viz`, which draws the code graph. Different tool,
 different graph.
 
-**Scheduled refresh.** `.github/workflows/openwiki-update.yml` runs weekly,
-Sunday 08:00 UTC, and opens a pull request. It is not auto-merged.
-
-> **This one costs money.** The scheduled job is headless, so it cannot borrow
-> a Claude Code session. It uses `ANTHROPIC_API_KEY` from Actions secrets and
-> bills on every run. A local `--update` adds no OpenWiki charge beyond the
-> Claude Code session it runs in. Prefer local.
-
-**Secrets in use:** `OPENWIKI_PR_TOKEN` (Contents and Pull requests, read and
-write) and `ANTHROPIC_API_KEY`. Both recorded in D-023.
+**Refresh is manual.** There is no scheduled workflow; the former
+`.github/workflows/openwiki-update.yml` was deleted by D-025. Regeneration
+happens from a host-agent session using that session's model, and each run
+records the provider, model and commit it was produced from in
+`openwiki/.last-update.json`.
 
 **Telemetry** is on by default and sends error categories to PostHog. Off
 with:
@@ -118,11 +115,15 @@ documentation, not observed working. Prove it before relying on it.
 Note this is OpenWiki's schema alone. graft uses different variable names and
 has no `openai-compatible` value at all.
 
-### Undoing it
+### Undoing it — the reversal of D-025
 
-Delete the workflow file and revoke both secrets. `openwiki/` can be removed
-with `git rm -r openwiki` and the blocks in `AGENTS.md` and `CLAUDE.md`
-deleted between their markers. Nothing else depends on it.
+D-025 withdrew the scheduled workflow. Reversing it means: restore
+`.github/workflows/openwiki-update.yml` from `archive/`, recreate both
+`OPENWIKI_PR_TOKEN` and `ANTHROPIC_API_KEY` as repository secrets, and
+re-ratify D-023's conditions. Removing the tool entirely is otherwise
+unchanged: `openwiki/` can be removed with `git rm -r openwiki` and the
+blocks in `AGENTS.md` and `CLAUDE.md` deleted between their markers.
+Nothing else depends on it.
 
 ## Upstream
 
