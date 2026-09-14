@@ -49,6 +49,40 @@ NEVER_SOURCES = {"snap"}
 VENDOR_REPO_SOURCES = {"npm", "source"}
 
 
+# "PyPI, npm, a GitHub release, an upstream source tarball, a direct binary,
+# or Hugging Face" - the wording README section 5 uses, derived from
+# APP_SOURCES so the message cannot drift from the set it enforces.
+_SOURCE_PHRASES = {
+    "pypi": "PyPI",
+    "npm": "npm",
+    "github": "a GitHub release",
+    "source": "an upstream source tarball",
+    "binary": "a direct binary",
+    "huggingface": "Hugging Face",
+}
+if set(_SOURCE_PHRASES) != APP_SOURCES:
+    raise RuntimeError("package-source display phrases and APP_SOURCES have "
+                       "drifted apart; every approved source needs a phrase")
+
+def _join_sources() -> str:
+    """'A, B, or C' in README section 5 word order, derived from the set.
+
+    The set itself has no order, so the display order is pinned here. The
+    check is a raise, not an assert: python -O strips asserts and the
+    invariant would go silently unchecked under it.
+    """
+    order = ["pypi", "npm", "github", "source", "binary", "huggingface"]
+    if set(order) != APP_SOURCES:
+        raise RuntimeError("package-source display order and APP_SOURCES "
+                           "have drifted apart")
+    parts = [_SOURCE_PHRASES[s] for s in order]
+    if len(parts) > 1:
+        return ", ".join(parts[:-1]) + ", or " + parts[-1]
+    return parts[0]
+
+APP_SOURCE_LIST = _join_sources()
+
+
 def source_problem(pin: dict) -> str:
     """The package-source problem with this pin, or "" when there is none.
 
@@ -56,15 +90,14 @@ def source_problem(pin: dict) -> str:
     near the network, which is the only reason the rest of this tool is slow.
     """
     if pin["source"] in NEVER_SOURCES:
-        return ("Snap is never permitted; migrate to PyPI, a GitHub release, "
-                "or a direct binary")
+        return ("Snap is never permitted; migrate to " + APP_SOURCE_LIST)
     # collect() produces exactly three kinds: app, driver and model. Build
     # toolchains and library headers are apt-installed inside the runbook
     # blocks and are not pins, so they never reach here. Widening this test to
     # kinds nothing produces would be guesswork, not coverage.
     if pin["source"] in DRIVER_ONLY_SOURCES and pin["kind"] != "driver":
-        return (f"application from {pin['source']}; migrate to PyPI, "
-                "a GitHub release, or a direct binary")
+        return (f"application from {pin['source']}; migrate to "
+                + APP_SOURCE_LIST)
     return ""
 
 

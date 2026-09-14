@@ -187,6 +187,22 @@ check('hx-version-pins: the Ubuntu archive is refused for an application',
 check('hx-version-pins: PyPI is accepted',
       _pins.source_problem({'source': 'pypi', 'kind': 'app'}) == '')
 
+# The remediation messages must name every approved source. The expected
+# phrases come from the module under test (_SOURCE_PHRASES), not a second
+# copy here, so a legitimate policy change that keeps set, phrases and
+# rendering in agreement still passes. What this catches is a phrase that
+# exists but never reaches the message through the join rendering.
+def _message_names(msg):
+    """Every approved source's display phrase appears in the message."""
+    return all(v in msg for v in _pins._SOURCE_PHRASES.values())
+
+_snap_msg = _pins.source_problem({'source': 'snap', 'kind': 'app'})
+_ubuntu_msg = _pins.source_problem({'source': 'ubuntu-archive', 'kind': 'app'})
+check('hx-version-pins: the Snap message names every approved source',
+      _message_names(_snap_msg), _snap_msg)
+check('hx-version-pins: the Ubuntu-archive message names every approved source',
+      _message_names(_ubuntu_msg), _ubuntu_msg)
+
 # ------------------------------------------ hx_proof: duplicate marker ------
 fresh()
 edit('docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md',
