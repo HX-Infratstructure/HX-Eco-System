@@ -225,8 +225,11 @@ D-023 authorised two Actions secrets so a weekly workflow could regenerate
 secrets and the workflow ran at least once: the scheduled run of 2026-09-13
 passed its secrets preflight, spent model budget, and pushed branch
 `openwiki/update` (commit 5b20167, produced with `claude-sonnet-5`), which is
-open as PR #16. Revoking both secrets is a required owner action, not a
-hypothetical.
+open as PR #16. As of this entry, both secrets remain in repository settings;
+revoking both is a required owner action, not a hypothetical. The token was
+granted Contents: read and write and Pull requests: read and write, so it had
+repository write access for as long as it existed; the preflight that proved
+the secrets present is Actions run 34759222774 on the same date.
 
 **How openwiki/ is generated now.** By hand, from a host-agent session, using
 that session's model rather than an API key â€” the fallback D-023 already
