@@ -1,0 +1,16 @@
+# Trees OpenWiki must not scan. Each is either superseded, generated, or a
+# local cache, so documenting it would describe something that is not the
+# current state of this repository.
+
+# Superseded documents, kept as evidence only.
+archive/**
+
+# Generated HTML mirrors of docs/. hx-render-html owns them; they carry no
+# information the Markdown does not.
+human-html/**
+
+# Local code-graph cache. Git-ignored, rebuilt per machine.
+graft/**
+
+# Harness configuration, not repository content.
+.claude/**
