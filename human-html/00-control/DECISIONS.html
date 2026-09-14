@@ -35,62 +35,62 @@ a{color:var(--accent)}
 .mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
-</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/00-control/DECISIONS.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: current &middot; status: 2026-09-14</div><h1>HX Eco-System — Owner-Approved Decisions</h1>
-<h2>D-001 — Clean-room rebuild</h2>
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/00-control/DECISIONS.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: current &middot; status: 2026-09-14</div><h1>HX Eco-System â€” Owner-Approved Decisions</h1>
+<h2>D-001 â€” Clean-room rebuild</h2>
 <p>HX-1 clean Samba foundation is retained. HX-2 through HX-17 are rebuilt from scratch. Old HX-Infrastructure configuration and closure claims are reference-only.</p>
-<h2>D-002 — Native deployment</h2>
+<h2>D-002 â€” Native deployment</h2>
 <p>Native Linux + systemd. No Docker, Podman, or Kubernetes unless explicitly changed by the owner.</p>
-<h2>D-003 — Application companion services</h2>
+<h2>D-003 â€” Application companion services</h2>
 <p>Product-specific MCP servers and native Web UIs are part of the parent application's base build where applicable.</p>
-<h2>D-004 — NGINX</h2>
+<h2>D-004 â€” NGINX</h2>
 <p>HX-7 NGINX is limited to dev/test application rendering. It is not the common reverse proxy for HX ecosystem services.</p>
-<h2>D-005 — Embedding/reranking placement</h2>
+<h2>D-005 â€” Embedding/reranking placement</h2>
 <p>HX-4 Meta-X hosts BGE-M3 as primary/default embedding model, Nomic Embed Text v1.5 as alternate benchmark/fallback, and a BGE-family reranker. Never mix embedding-model vector spaces in one Qdrant collection.</p>
-<h2>D-006 — Granite-Docling placement</h2>
+<h2>D-006 â€” Granite-Docling placement</h2>
 <p>Granite-Docling 258M stays with Docling on HX-16. Base validation is CPU-first. GPU acceleration is considered only if measured need later justifies it.</p>
-<h2>D-007 — HX-5 headroom</h2>
+<h2>D-007 â€” HX-5 headroom</h2>
 <p>Even if HX-5 is upgraded to 2 x 16 GB GPUs, shared embedding/reranking remains on HX-4. HX-5 headroom is reserved for CentCom, Ornith, DeepSeek Harness, and dev/test work.</p>
-<h2>D-008 — Open WebUI base functional test</h2>
+<h2>D-008 â€” Open WebUI base functional test</h2>
 <p>HX-8 Open WebUI BASE PASS includes a temporary direct connection to one already-proven Ollama endpoint, one prompt, one model response in the UI, evidence capture, and cleanup/removal of the temporary connection.</p>
-<h2>D-009 — OmniRoute base functional test</h2>
+<h2>D-009 â€” OmniRoute base functional test</h2>
 <p>HX-6 OmniRoute BASE PASS includes one temporary route to one already-proven Ollama endpoint, direct-versus-routed known-answer validation, evidence capture, and cleanup/removal of the temporary test route.</p>
-<h2>D-010 — OmniRoute provider/model catalog</h2>
+<h2>D-010 â€” OmniRoute provider/model catalog</h2>
 <p>OmniRoute maintains an explicit approved-provider allowlist and an explicit approved-model allowlist. Discovery/support does not equal approval. Approving a provider does not approve its entire model catalog.</p>
-<h2>D-011 — Active document rule</h2>
+<h2>D-011 â€” Active document rule</h2>
 <p>Only the latest version of a document remains active. Superseded versions go under <code>archive/</code>. Active Markdown is agent authority; HTML is a human mirror.</p>
-<h2>D-012 — DeepSeek Harness meta-agent role</h2>
+<h2>D-012 â€” DeepSeek Harness meta-agent role</h2>
 <p>DeepSeek Harness on HX-5 is the HX meta-agent/orchestration layer for AI-agent and AI-solution construction. Worker agents invoked beneath the Harness are sub-agents that receive bounded application-building work packages. Harness BASE PASS requires more than runtime health: it must complete a bounded multi-agent solution-building smoke test that proves task decomposition, sub-agent delegation, artifact handoff, creation of a runnable AI application, independent validation, and Harness-level synthesis of the final PASS/FAIL result. Detailed authority: <code>HX-ECO-SYSTEM-DEEPSEEK-HARNESS-IMPLEMENTATION-ADDENDUM.md</code>.</p>
-<h2>D-013 — Deep Agents LOB agent factory role</h2>
+<h2>D-013 â€” Deep Agents LOB agent factory role</h2>
 <p>Deep Agents by LangChain on HX-12 is the HX line-of-business agent factory/application-agent harness. It is complementary to, not a replacement for, the HX-5 DeepSeek Harness meta-agent. Deep Agents BASE PASS requires an explicit tool-calling-capable HX model plus a bounded LOB Agent Factory smoke test that proves real filesystem artifact creation, creation/configuration of domain sub-agents, actual <code>task</code> delegation, business-rule/tool use, correct execution of a generated LOB agent package, short-lived thread continuity, independent validation, evidence capture, and reboot persistence. A package import or plain LLM response is not sufficient. Detailed authority: <code>HX-ECO-SYSTEM-DEEP-AGENTS-IMPLEMENTATION-ADDENDUM.md</code>.</p>
-<h2>D-014 — HX-5 CentCom smoke-test runner role</h2>
+<h2>D-014 â€” HX-5 CentCom smoke-test runner role</h2>
 <p>After HX-5 closes its own base inference foundation, CentCom becomes the standard remote execution station for subsequent HX component smoke tests. Disposable test projects, runner/client tooling, synthetic fixtures, manifests, logs, and cleanup verification live on HX-5 rather than on the application host. The system under test keeps only its installed application, approved configuration, and explicitly smoke-namespaced temporary data required by the test. Remote API/protocol/client execution is preferred; approved SSH is used only when the component's primary contract genuinely requires local execution. Cleanup and cleanup verification are mandatory parts of PASS. DeepSeek Harness is not a prerequisite for enabling the CentCom smoke-runner role. Detailed authority: <code>../04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md</code>.</p>
-<h2>D-015 — Ecosystem architecture is the cornerstone</h2>
+<h2>D-015 â€” Ecosystem architecture is the cornerstone</h2>
 <p>The HX ecosystem architecture and current configuration context must be understood before validation is designed or executed. Validation sits on top of the ecosystem; it does not define the ecosystem. Agents must establish server ownership, target IP, current state, foundational network/domain/deployment rules, model/data placement, dependency boundaries, and BASE PASS expectations before selecting or running a smoke test. <code>../01-architecture/ARCHITECTURE-ORIENTATION.md</code> is the foundational orientation authority; smoke-test documents must inherit rather than redefine that architecture.</p>
-<h2>D-016 — Ordered smoke-test proof roadmap</h2>
+<h2>D-016 â€” Ordered smoke-test proof roadmap</h2>
 <p>HX maintains a separate evergreen smoke-test roadmap in addition to the base implementation roadmap. The implementation roadmap defines deployment/build order; <code>HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md</code> defines proof order, required prior PASS evidence, companion gates, and the minimum temporary integrations permitted during validation. Downstream smoke tests must reference current prior PASS evidence when they rely on earlier capabilities. HX favors cumulative proof with minimal live coupling: do not force unnecessary cross-service integration merely to make tests sequential. Temporary smoke-test dependencies do not automatically become permanent production architecture.</p>
-<h2>D-017 — Governed HX skills capability layer</h2>
+<h2>D-017 â€” Governed HX skills capability layer</h2>
 <p>HX maintains a canonical <code>skills/</code> library as an AI-agent expertise layer between ecosystem context and execution. Component skills may combine HX-native instructions with current vendor-official expertise, but skills do not supersede owner decisions, active HX architecture, live evidence, runbooks, or smoke-test acceptance criteria. Agent-specific skill installations are derived deployments from the canonical repository source, not independently maintained authorities. External skills are classified and registered before operational use; vendor-official sources are preferred over community sources. Skills never store actual credentials, PATs, API keys, private keys, service-account secrets, or sshpass passwords. Qdrant is the first approved reference implementation through <code>skills/qdrant/hx-qdrant-advisor/</code>, which preserves HX-10/native-systemd/vector-space/smoke-test rules while consuming the current official Qdrant Advisor guidance live.</p>
-<h2>D-018 — Host firewall and inference listener posture — RATIFIED 2026-09-11</h2>
+<h2>D-018 â€” Host firewall and inference listener posture â€” RATIFIED 2026-09-11</h2>
 <p>The HX LAN is treated as a trusted lab segment.</p>
 <p><strong>No UFW is used anywhere on the fleet.</strong> The common base runbook disables it on every server, and that is the intended posture, not a gap. Ollama listens on <code>0.0.0.0:11434</code> with no authentication, and that listener posture stands as stated.</p>
 <p>This is consistent with the standing rule that firewall, segmentation and TLS changes are not imposed without owner approval, and with KISS.</p>
 <p>Intended blast radius: on a built HX host, any host that can reach the HX LAN can call its inference endpoint without credentials and reach the service ports it exposes. That is accepted, and it is what the build scripts produce. It is a statement of intent, not a survey: three of seventeen servers are built, and each server record states the posture actually observed as that server closes.</p>
 <p>Where these statements come from: they are read from <code>docs/03-runbooks/common/01-base-admin-network-updates.sh</code>, which disables <code>ufw</code>, and from <code>docs/03-runbooks/common/03-storage-ollama.sh</code>, which sets <code>OLLAMA_HOST=0.0.0.0:11434</code>. They describe what the build scripts do. HX-1 to HX-3 are the only servers built so far, so a server record states the observed posture as each server closes; the decision itself does not wait on that.</p>
 <p>This entry closes. Do not re-raise UFW or listener hardening as a finding against this repository: it is a decided posture, not an open item.</p>
-<h2>D-019 — OmniRoute product identity — RATIFIED 2026-09-10</h2>
+<h2>D-019 â€” OmniRoute product identity â€” RATIFIED 2026-09-10</h2>
 <p>HX-6 OmniRoute is <code>https://github.com/diegosouzapw/OmniRoute.git</code>, confirmed by the infrastructure owner. MIT licence. The headless server installs from the npm package <code>omniroute</code>, pinned in <code>docs/03-runbooks/common/hx-base.env</code>.</p>
 <p>The project's GitHub release assets are desktop application builds, and its documented container path is not used. HX installs from npm onto Node.js taken from the official nodejs.org binary tarball.</p>
 <p>D-010 applies in full and is the reason this server exists: the product discovers hundreds of providers by default, and discovery is not approval. Build the explicit provider allowlist and the explicit model allowlist before HX-6 closes.</p>
-<h2>D-020 — PostgreSQL install source — RATIFIED 2026-09-10</h2>
+<h2>D-020 â€” PostgreSQL install source â€” RATIFIED 2026-09-10</h2>
 <p>HX-9 PostgreSQL is built from the official source tarball at <code>https://www.postgresql.org/ftp/source/v18.6/</code>, not from the PGDG repository. The owner chose the source build so no application software on the fleet comes from an apt repository.</p>
 <p><code>docs/03-runbooks/common/10-postgresql.sh</code> downloads <code>postgresql-18.6.tar.bz2</code>, verifies it against the SHA-256 published beside it and pinned in <code>hx-base.env</code>, builds with <code>./configure --prefix=/srv/postgresql</code>, runs <code>initdb</code>, and installs the <code>hx-postgresql</code> unit.</p>
 <p>Every application on the fleet now comes from PyPI, npm, a GitHub release, an upstream source tarball, a direct binary, or Hugging Face. The Ubuntu archive is used only for the NVIDIA driver and for build toolchains and library headers.</p>
-<h2>D-021 — Snap is never a package source — RATIFIED 2026-09-11</h2>
+<h2>D-021 â€” Snap is never a package source â€” RATIFIED 2026-09-11</h2>
 <p>Two rules in the repository disagreed. <code>.coderabbit.yaml</code> told the reviewer "Snap is never permitted". <code>hx-base.env</code> and <code>tools/hx-doc/hx_version_pins.py</code> said the Ubuntu archive and Snap were both acceptable for drivers.</p>
 <p>The owner ratified the <code>.coderabbit.yaml</code> wording: <strong>Snap is never permitted, for anything, the NVIDIA driver included.</strong></p>
 <p>The Ubuntu archive is unchanged by this. It stays available for the NVIDIA driver, for build toolchains and for library headers, and nothing else, as D-020 records.</p>
 <p><code>hx_version_pins.py</code> reports a Snap pin as REVIEW whatever it is for. <code>tools/hx-doc/hx-gate-tests</code> holds five checks on that rule: a Snap application is refused, a Snap driver is refused, the Ubuntu archive is allowed for a driver, the Ubuntu archive is refused for an application, and PyPI is accepted.</p>
-<h2>D-022 — BGE reranker checkpoint and runtime — RATIFIED 2026-09-10</h2>
+<h2>D-022 â€” BGE reranker checkpoint and runtime â€” RATIFIED 2026-09-10</h2>
 <p>D-005 placed a BGE-family reranker on HX-4 without naming one. The owner directed the exact checkpoint and runtime on 2026-09-10:</p>
 <ul>
 <li><code>BAAI/bge-reranker-v2-m3</code> at revision</li>
@@ -101,17 +101,17 @@ font-size:12.5px;color:var(--fg2)}
 </ul>
 <p>The revision is an immutable commit, so a later upstream edit cannot change the model under a stable name. The authoritative pins are in <code>docs/03-runbooks/common/hx-base.env</code>, and <code>tools/hx-doc/hx-version-pins</code> checks them against upstream.</p>
 <p>This was recorded in the Model Placement and Embedding Standard as item 10 two days after that document was approved at v1.0, without a decision to point at. The standard is v1.1 now and cites this entry.</p>
-<h2>D-023 — a write-capable token in Actions secrets, for OpenWiki — SUPERSEDED BY D-024 on 2026-09-14</h2>
+<h2>D-023 â€” a write-capable token in Actions secrets, for OpenWiki â€” SUPERSEDED BY D-025 on 2026-09-14</h2>
 <p>Withdrawn: the scheduled OpenWiki workflow is deleted and generation is manual from a host-agent session, the fallback this entry itself recorded. The conditions and risk analysis below stay as the historical record and as the conditions any reversal must re-establish.</p>
 <p>OpenWiki generates <code>openwiki/</code> from the code. PR #10 teaches the repository that the tree is generated. This entry covers refreshing it on a schedule.</p>
 <p>The owner directed this on 2026-09-11 after the cost and the exposure were put in writing. It is recorded before the secrets exist, not after.</p>
 <p><strong>What is accepted.</strong> Two Actions secrets on a repository that is public:</p>
 <ul>
-<li><code>OPENWIKI_PR_TOKEN</code> — a fine-grained personal access token or GitHub App</li>
+<li><code>OPENWIKI_PR_TOKEN</code> â€” a fine-grained personal access token or GitHub App</li>
 </ul>
 <p>token, scoped to this repository only, with <strong>Contents: read and write</strong> and <strong>Pull requests: read and write</strong>;</p>
 <ul>
-<li><code>ANTHROPIC_API_KEY</code> — a model key. Every scheduled run is billable.</li>
+<li><code>ANTHROPIC_API_KEY</code> â€” a model key. Every scheduled run is billable.</li>
 </ul>
 <p>The repository being public does not expose either secret. It does mean that a leak of <code>OPENWIKI_PR_TOKEN</code> gives write access to something the whole world can already read. That is the accepted risk.</p>
 <p><strong>Why the default token will not do.</strong> A pull request opened with <code>GITHUB_TOKEN</code> does not start <code>pull_request</code> workflows, so the checks in <code>hx-checks.yml</code> would never run on generated documentation. The weak option is also the broken one.</p>
@@ -142,12 +142,12 @@ font-size:12.5px;color:var(--fg2)}
 <p>repository is sent to a third-party trace store.</p>
 <p><strong>The residual risk, stated plainly.</strong> <code>workflow_dispatch</code> runs the workflow file from the ref the operator picks. A branch that edits that file can therefore read both secrets, and no line inside the file can prevent it, because the attacker would be editing that line too. The control is who holds write access to this repository, plus branch protection on the default branch. The checkout is pinned to the default branch so that generated documentation always describes <code>main</code>; that is a correctness measure, not a security one, and it is not recorded as one.</p>
 <p><strong>Reversal.</strong> Delete the workflow file and revoke both secrets. Running <code>openwiki --update</code> by hand from inside Claude Code costs nothing, because the host integration uses the session's model instead of a key. That stays the fallback.</p>
-<h2>D-024 — OpenWiki generation is manual, not scheduled — RATIFIED 2026-09-14</h2>
+<h2>D-025 â€” OpenWiki generation is manual, not scheduled â€” RATIFIED 2026-09-14</h2>
 <p>Replaces D-023.</p>
 <p>D-023 authorised two Actions secrets so a weekly workflow could regenerate <code>openwiki/</code> with a paid model run. That posture is withdrawn.</p>
-<p><strong>What changes.</strong> <code>.github/workflows/openwiki-update.yml</code> is deleted. <code>OPENWIKI_PR_TOKEN</code> and <code>ANTHROPIC_API_KEY</code> are not held as repository secrets; if they were created, they are revoked.</p>
-<p><strong>How openwiki/ is generated now.</strong> By hand, from a host-agent session, using that session's model rather than an API key — the fallback D-023 already recorded. Each run records the provider, model and commit it was produced from in <code>openwiki/.last-update.json</code>, and that record is what makes a tree auditable.</p>
-<p><strong>Why.</strong> Three problems close at once: the repository no longer holds a write-capable token; no scheduled job spends model budget unattended; and the <code>workflow_dispatch</code> residual risk D-023 documented — a branch that edits the workflow file can read both secrets, and no line inside the file can prevent it — goes away with the file.</p>
+<p><strong>What changes.</strong> <code>.github/workflows/openwiki-update.yml</code> is deleted. <code>OPENWIKI_PR_TOKEN</code> and <code>ANTHROPIC_API_KEY</code> were both created as repository secrets and the workflow ran at least once: the scheduled run of 2026-09-13 passed its secrets preflight, spent model budget, and pushed branch <code>openwiki/update</code> (commit 5b20167, produced with <code>claude-sonnet-5</code>), which is open as PR #16. Revoking both secrets is a required owner action, not a hypothetical.</p>
+<p><strong>How openwiki/ is generated now.</strong> By hand, from a host-agent session, using that session's model rather than an API key â€” the fallback D-023 already recorded. Each run records the provider, model and commit it was produced from in <code>openwiki/.last-update.json</code>, and that record is what makes a tree auditable.</p>
+<p><strong>Why.</strong> Three problems close at once: the repository no longer needs to hold a write-capable token; no scheduled job spends model budget unattended again; and the <code>workflow_dispatch</code> residual risk D-023 documented â€” a branch that edits the workflow file can read both secrets, and no line inside the file can prevent it â€” goes away with the file.</p>
 <p><strong>What this costs.</strong> Refresh becomes a matter of discipline rather than a cron, and a generated tree nobody regenerates goes stale silently. Any decision to make <code>openwiki/</code> required agent reading must therefore carry an explicit freshness condition. That is a separate decision and is not granted here.</p>
 <p><strong>Provider.</strong> No provider is pinned; the run records what produced it. The tree of record as of this entry was generated by <code>z-ai/glm-5.2</code> at commit 0aa14e3.</p>
 <p><strong>Reversal.</strong> Restore the workflow file from <code>archive/</code>, recreate both secrets, and re-ratify D-023's conditions.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/00-control/DECISIONS.md</code>.</footer></div></body></html>
