@@ -60,19 +60,21 @@ _SOURCE_PHRASES = {
     "binary": "a direct binary",
     "huggingface": "Hugging Face",
 }
-_sorted = sorted(APP_SOURCES)
-assert set(_SOURCE_PHRASES) == APP_SOURCES, (
-    "every approved source needs a display phrase")
+if set(_SOURCE_PHRASES) != APP_SOURCES:
+    raise RuntimeError("package-source display phrases and APP_SOURCES have "
+                       "drifted apart; every approved source needs a phrase")
 
 def _join_sources() -> str:
     """'A, B, or C' in README section 5 word order, derived from the set.
 
-    The set itself has no order, so the display order is pinned here and the
-    assert guarantees no member of APP_SOURCES is left out of the message.
+    The set itself has no order, so the display order is pinned here. The
+    check is a raise, not an assert: python -O strips asserts and the
+    invariant would go silently unchecked under it.
     """
     order = ["pypi", "npm", "github", "source", "binary", "huggingface"]
-    assert set(order) == APP_SOURCES, (
-        "source display order and APP_SOURCES have drifted apart")
+    if set(order) != APP_SOURCES:
+        raise RuntimeError("package-source display order and APP_SOURCES "
+                           "have drifted apart")
     parts = [_SOURCE_PHRASES[s] for s in order]
     if len(parts) > 1:
         return ", ".join(parts[:-1]) + ", or " + parts[-1]
