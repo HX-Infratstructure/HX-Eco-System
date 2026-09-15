@@ -23,37 +23,13 @@ The shared base-build runbook validated IP address, default route, and DNS using
 command | grep -q "value"
 ```
 
-The script executes with `set -euo pipefail`.
+The script executes with `set -euo pipefail`. When `grep -q` finds a match, it can exit before the producer finishes writing, producing SIGPIPE/141 in the producer and a false pipeline failure under `pipefail`.
 
-When `grep -q` finds a match, it exits immediately and closes the pipe. If the producer still has output to write, the producer receives SIGPIPE and exits with status 141. Under `pipefail`, the pipeline therefore reports failure even though `grep` successfully matched the expected value.
-
-HX-4 exposed the defect because `resolvectl status` continued emitting data for `wlp5s0` after the valid HX-1 DNS address had already been matched.
-
-Observed evidence:
-
-```text
-Current DNS Server: 192.168.50.200
-       DNS Servers: 192.168.50.200
-STOP: expected HX-1 DNS 192.168.50.200 not found
-```
-
-```text
-PIPESTATUS=141 0
-```
-
-`grep` returned 0; the producer returned 141.
+HX-4 exposed the defect on `resolvectl status` even though HX-1 DNS was present.
 
 ### Resolution
 
-The three checks were changed to capture command output completely before applying `grep`.
-
-Original affected checks:
-
-- IPv4 address
-- default gateway
-- HX-1 DNS
-
-Existing exit codes 11, 12, and 13 were preserved.
+The three checks were changed to capture command output completely before applying `grep`. Existing exit codes 11, 12, and 13 were preserved.
 
 ### Verification
 
@@ -71,17 +47,11 @@ Existing exit codes 11, 12, and 13 were preserved.
 - PR head commit: `c4e61a048d109199219e956a1e968f328b72d369`
 - Merged commit: `f402ad0d1a43a02167c5f1cf7d3985f0e1b37f44`
 
-The merged commit on `main` is the authoritative reference.
-
 ### Disposition
 
 CLOSED.
 
-The correction is now part of the shared runbook and must be used for HX-5 through HX-17.
-
-"Fleet-wide" describes the block this finding names. One instance of the same
-pattern remains elsewhere and is tracked separately as HX4-F05, where it is
-measured and does not fire.
+The correction is part of the shared runbook. One remaining instance of the same pattern is tracked separately as HX4-F05.
 
 ## HX4-F02 — SSSD responder and socket-activation conflict
 
@@ -93,50 +63,11 @@ measured and does not fire.
 
 ### Finding
 
-After the HX-4 domain-join and NVIDIA block completed and the server rebooted, three systemd socket units were failed:
-
-```text
-sssd-nss.socket
-sssd-pam-priv.socket
-sssd-pam.socket
-```
-
-Host logs reported:
-
-```text
-The nss responder has been configured to be socket-activated but it's still
-mentioned in the services' line in /etc/sssd/sssd.conf.
-```
-
-The SSSD configuration file contains:
-
-```text
-services = nss, pam
-```
-
-The NSS and PAM responders are therefore configured for startup by `sssd.service` while their systemd socket units also attempt socket activation.
-
-### Functional impact
-
-No domain-join failure was observed.
-
-Domain identity resolution succeeds:
-
-```text
-getent passwd jarvisr@hx.local.arpa
-```
-
-returned the expected domain identity.
-
-Therefore:
-
-- DOMAIN JOIN: PASS
-- IDENTITY RESOLUTION: PASS
-- SSSD RESPONDER/SOCKET CLEANLINESS: FAIL
+HX-4 showed failed SSSD responder socket units while core SSSD/domain behavior remained functional. The configuration includes direct responder startup while systemd socket activation is also present.
 
 ### HX-5 recurrence — 2026-09-15
 
-The same three failed socket units were observed on the freshly rebuilt HX-5:
+HX-5 initially showed:
 
 ```text
 sssd-nss.socket
@@ -144,7 +75,7 @@ sssd-pam-priv.socket
 sssd-pam.socket
 ```
 
-At the same time HX-5 passed all core domain checks:
+while all core domain checks passed:
 
 ```text
 adcli testjoin -D hx.local.arpa       PASS
@@ -152,25 +83,40 @@ systemctl is-active sssd              active
 getent passwd jarvisr@hx.local.arpa   PASS
 ```
 
-This confirms the issue is not isolated to HX-4 and supports treating it as a
-fleet domain-client configuration finding rather than an HX-4-specific build
-failure.
+After the final HX-5 reconciliation reboot, two failed sockets remained:
+
+```text
+sssd-nss.socket
+sssd-pam-priv.socket
+```
+
+`sssd-pam.socket` no longer remained failed.
+
+### Functional impact
+
+No domain-join or identity-resolution failure is observed.
+
+Therefore:
+
+- DOMAIN JOIN: PASS
+- MACHINE TRUST: PASS
+- IDENTITY RESOLUTION: PASS
+- SSSD CORE SERVICE: PASS
+- RESPONDER/SOCKET CLEANLINESS: FAIL / DEFERRED
 
 ### Disposition
 
-DEFERRED.
+DEFERRED / NON-BLOCKING.
 
-No configuration change is made during the active server build because core
-domain function is intact and correcting the responder activation model is a
-separate fleet-standard decision.
+Do not redesign SSSD inline during active server builds. Resolve as a separate fleet-standard change.
 
 ### Required follow-up
 
 1. Inspect SSSD responder configuration on existing joined hosts.
 2. Determine whether HX standardizes on direct responder startup or socket activation.
-3. Update the common domain-join runbook if the issue is fleet-wide.
+3. Update the common domain-join runbook if fleet-wide.
 4. Correct affected hosts under a separate approved change.
-5. Close this finding with validation evidence.
+5. Close with validation evidence.
 
 ## HX4-F03 — Provenance artifact hash could be written blank or as a path
 
@@ -183,40 +129,11 @@ separate fleet-standard decision.
 
 ### Finding
 
-`hx_ollama_provenance` emitted the Artifact SHA-256 field with a single
-parameter expansion:
-
-```bash
-Artifact SHA-256:  ${blob##*/sha256-}
-```
-
-That expansion has no fallback. It fails in two ways:
-
-- when `blob` is empty, it expands to an empty string, so the field is omitted
-  rather than written `UNRESOLVED`;
-- when `blob` is set but contains no `sha256-` segment, `##` finds no match and
-  returns the whole value, so a filesystem path is printed under the
-  `Artifact SHA-256:` label.
-
-The second is the worse of the two. A blank field is visibly missing. A path
-looks like evidence.
-
-The helper's own contract states that an unknown value is recorded as
-`UNRESOLVED`, never omitted. The record treats this field as evidence of which
-artifact is running.
+`hx_ollama_provenance` could emit an empty artifact hash or a filesystem path under the `Artifact SHA-256` label when the blob reference was missing or malformed.
 
 ### Resolution
 
-The digest is resolved explicitly before the here-document, and falls back to
-`UNRESOLVED` in both failure cases.
-
-### Verification
-
-```text
-blob="/usr/share/ollama/.ollama/models/blobs/sha256-abc123def" -> abc123def
-blob=""                                                        -> UNRESOLVED
-blob="/some/path/with-no-digest"                               -> UNRESOLVED
-```
+The digest is now resolved explicitly and falls back to `UNRESOLVED` when it cannot be extracted safely.
 
 ### Repository references
 
@@ -224,12 +141,9 @@ blob="/some/path/with-no-digest"                               -> UNRESOLVED
 - Fix commit: `e649490e7763a1b6cb5bae033e4b58336aaee235`
 - Merged commit: `509566c8bfc2cc13b2ab38573a03175a1b7da43b`
 
-The merged commit on `main` is the authoritative reference.
-
 ### Disposition
 
-CLOSED. Caught in review; no server record was written from the defective
-helper.
+CLOSED. Caught in review; no server record was written from the defective helper.
 
 ## HX4-F04 — A floating model reference was accepted as a pin
 
@@ -237,51 +151,15 @@ helper.
 **Severity:** Medium  
 **Scope:** Fleet-wide, for every Ollama model reference  
 **Discovered on:** HX-4  
-**Discovered during:** Owner review of PR #20, before merge  
-**Affected files:** `docs/03-runbooks/common/hx-base.env`,
-`docs/03-runbooks/common/05-gpt-oss.sh`,
-`docs/03-runbooks/common/06-embeddings.sh`
+**Discovered during:** Owner review of PR #20, before merge
 
 ### Finding
 
-`HX_EMBED_PRIMARY_MODEL` was `bge-m3:latest`. `latest` is a name, not a pin: a
-re-pull after upstream moves returns a different artifact under the same name.
-
-The blocks checked only that a reference was non-empty, so a floating reference
-satisfied a rule written to prevent exactly this.
-
-The embedding dimension probe does not cover the gap. It proves the vector
-length, and a same-dimension BGE-M3 revision has the same length. A later
-revision could therefore replace the model a closed HX-4 record names, with
-nothing in the build able to notice.
+A floating `latest` reference could satisfy a non-empty model check even though it did not identify a stable reviewed source reference.
 
 ### Resolution
 
-`hx_require_pinned_ref` refuses a reference that does not identify one
-artifact, and treats a bare name with no tag as `:latest`, because they are the
-same defect spelled two ways. Blocks 05 and 06 both call it in place of their
-own non-empty checks. New exit code 31.
-
-`HX_EMBED_PRIMARY_MODEL` was first left at `bge-m3:latest` so block 06 would
-exit 31 rather than install a mutable artifact, then resolved to the explicit
-variant tag `bge-m3:567m`, which passes the gate.
-
-The tag is where the resolution stops. A tag names a reviewed source reference,
-not an artifact, and `567m` is not guaranteed immutable either. The artifact
-identity is the resolved Ollama model ID and blob SHA-256 that
-`hx_ollama_provenance` captures at installation and writes into the server
-record. That hash is the immutable truth; the tag is provenance context. A
-closed record is never silently re-pulled or re-baselined against a later
-artifact under the same tag.
-
-### Verification
-
-```text
-rc=0   "gpt-oss:20b"     pinned tag
-rc=31  "bge-m3:latest"   floating :latest
-rc=31  "bge-m3"          no tag at all
-rc=30  ""                empty
-```
+`hx_require_pinned_ref` rejects missing tags and `:latest`. Artifact-level identity is still established by the resolved Ollama model ID and blob SHA-256 captured at install time.
 
 ### Repository references
 
@@ -289,111 +167,160 @@ rc=30  ""                empty
 - Fix commit: `e649490e7763a1b6cb5bae033e4b58336aaee235`
 - Merged commit: `509566c8bfc2cc13b2ab38573a03175a1b7da43b`
 
-The merged commit on `main` is the authoritative reference.
-
 ### Disposition
 
-CLOSED. The gate is in place and proven, and the pin is resolved to
-`bge-m3:567m`. HX-4 steps 4 and 5 are both runnable.
-
-At the time of resolution `bge-m3:latest`, `bge-m3:567m` and `bge-m3:567m-fp16`
-all resolved to the same registry manifest, `7907646426070047...`, pushed
-2024-08-07. The Ollama registry does not serve manifests by digest, so a fixed
-tag is the strongest reference the pin itself can carry; artifact-level
-identity comes from the install-time capture described above.
+CLOSED.
 
 ## HX4-F05 — The HX4-F01 pattern survives in the domain-join block
 
 **Status:** OPEN / MONITOR  
 **Severity:** Low  
 **Scope:** `docs/03-runbooks/common/02-domain-nvidia.sh`  
-**Discovered on:** HX-4  
-**Discovered during:** Post-fix sweep for other instances of HX4-F01
+**Discovered on:** HX-4
 
 ### Finding
 
-HX4-F01 is recorded as fixed fleet-wide. That is true of the base block it
-names, but one instance of the same pattern remains in the domain-join block:
+The domain-join idempotency guard still uses:
 
 ```bash
 if realm list | grep -q 'configured: kerberos-member'; then
 ```
 
-This is the idempotency guard that decides whether to run `realm join`. A false
-negative would re-run an interactive join on an already-joined host.
-
-### Measured behaviour
-
-Tested on HX-4, which is joined:
-
-```text
-run 1: rc=0 pipestatus=0 0
-run 2: rc=0 pipestatus=0 0
-run 3: rc=0 pipestatus=0 0
-run 4: rc=0 pipestatus=0 0
-run 5: rc=0 pipestatus=0 0
-```
-
-The guard works. `realm list` is not killed, so the defect does not fire here.
-
-The discriminator is write cadence, not output size. `realm list` writes its
-output in one go, so it has finished writing before `grep -q` leaves.
-`resolvectl status`, which did fire, writes per link with a bus round trip
-between, which leaves output pending when the match is found. Both outputs are
-under 550 bytes, so size does not predict this.
+Measured on HX-4, the pipeline returned `0 0` five times and did not reproduce HX4-F01 because `realm list` finishes writing before `grep -q` exits.
 
 ### Disposition
 
-DEFERRED, monitored rather than changed.
+DEFERRED / MONITOR.
 
-Recorded so that HX4-F01's fleet-wide wording is not read as "no instances
-remain", and so a future change to `realm list` output or ordering is
-recognised as able to trip it.
+Convert the guard to captured-output form when Block 2 is next touched for another reason. Do not open a change solely for this while the measured behavior holds.
 
-### Required follow-up
-
-1. Convert the guard to the captured-output form when that block is next
-   touched for another reason.
-2. Do not open a change solely for this while the measurement above holds.
-
-## HX5-F01 — Fresh-install fstab comments name the wrong NVMe device
+## HX5-F01 — NVMe device names are not stable storage authority
 
 **Status:** OPEN / NON-BLOCKING  
 **Severity:** Low  
-**Scope:** HX-5 documentation hygiene only  
+**Scope:** HX-5 documentation/configuration hygiene  
 **Discovered on:** HX-5  
 **Discovered during:** 2026-09-15 post-rebuild storage validation
 
 ### Finding
 
-The active `/etc/fstab` entries use filesystem UUIDs and mount the correct
-filesystems, but the installer-generated comments say the filesystems were on
-`/dev/nvme0n1p*` while current enumeration shows those UUIDs on
-`/dev/nvme1n1p*`.
-
-Observed active mapping:
+The active `/etc/fstab` entries use filesystem UUIDs and mount the correct filesystems. Installer-generated comments reference `/dev/nvme0n1p*`, but live Linux device enumeration changed across reboots:
 
 ```text
-/dev/nvme1n1p1  UUID=6DA4-AE41                             /boot/efi
-/dev/nvme1n1p2  UUID=3e04ca1a-ccd0-4cc8-9bce-1d6e8f5bb532 /
-/dev/nvme1n1p3  UUID=68d0e365-212c-456f-b42e-d908b445ae77 /srv/ollama
+Observed before one reboot: /srv/ollama -> /dev/nvme0n1p3
+Observed after next reboot: /srv/ollama -> /dev/nvme1n1p3
 ```
 
-Observed stale comments:
+The authoritative `/srv/ollama` filesystem UUID remained:
 
 ```text
-# / was on /dev/nvme0n1p2 during curtin installation
-# /srv/ollama was on /dev/nvme0n1p3 during curtin installation
-# /boot/efi was on /dev/nvme0n1p1 during curtin installation
+68d0e365-212c-456f-b42e-d908b445ae77
 ```
+
+and the mount remained correct and read-write.
 
 ### Functional impact
 
-None. UUID-based mounts are correct and `/srv/ollama` is mounted read-write on
-the intended 810.5 GB ext4 partition. The separate 476.9 GB `nvme0n1` device is
-unmounted and is not authorized for build use.
+None. This is direct evidence that `/dev/nvmeXnY` naming must not be treated as persistent storage identity.
+
+The installed Ornith model remained present after reboot on `/srv/ollama`, confirming the UUID-backed mount is functioning correctly.
 
 ### Disposition
 
-NON-BLOCKING. Do not interrupt the HX-5 build to edit descriptive comments.
-Correct the comments during a documentation/configuration hygiene pass if desired.
+NON-BLOCKING.
+
+Do not interrupt the build to rewrite descriptive installer comments. Correct comments during a future hygiene pass if desired, but keep UUID as the only storage authority.
+
+## HX5-F02 — Layer 0/1 evidence standard drift across inference hosts
+
+**Status:** OPEN / PLANNED AUDIT  
+**Severity:** Medium  
+**Scope:** HX-2, HX-3, HX-4 retrospective foundation evidence  
+**Discovered on:** HX-5  
+**Discovered during:** 2026-09-15 clean-rebuild Layer 0/1 reconciliation
+
+### Finding
+
+HX-5 exposed that successful completion of the shared Blocks 1 and 2 does not by itself prove the complete HX Layer 0/1 foundation. The reconciled HX-5 standard now explicitly proves controls that are not consistently retained in the older HX-2/HX-3/HX-4 records.
+
+The evidence gap includes some combination of:
+
+- HX-1 NTP source selection;
+- persistent Netplan/IP/gateway/DNS proof;
+- fleet SSH-key proof;
+- SSH reboot persistence mechanism;
+- `adcli testjoin` machine-trust proof;
+- Samba DNS A record;
+- AD `dNSHostName` and required SPNs;
+- failed systemd-unit classification;
+- final foundation reboot proof.
+
+This is an **evidence-standard gap**, not evidence that HX-2, HX-3, or HX-4 are presently malfunctioning.
+
+### Owner direction
+
+Complete HX-5 first. After the current HX-5 closeout boundary, perform a **read-only retrospective Layer 0/1 audit of HX-2, HX-3, and HX-4** against the reconciled HX-5 foundation standard.
+
+Do not rebuild working servers or change configuration merely to make records look symmetrical.
+
+### Acceptance method
+
+For each host, capture and classify:
+
+```text
+hostname / FQDN
+persistent IP / gateway / HX-1 DNS
+HX-1 NTP
+NOPASSWD sudo
+fleet SSH key
+SSH persistence
+D-018 UFW state
+realm / SSSD core
+machine trust
+Samba DNS / dNSHostName / SPNs
+failed units
+GPU runtime where applicable
+approved storage mounts
+OS maintenance state
+final reboot persistence
+```
+
+### Disposition
+
+OPEN / PLANNED AUDIT.
+
+This finding closes when HX-2, HX-3, and HX-4 each have a retained audit result against the reconciled standard and their server records are backfilled accordingly.
+
+## HX5-F03 — Shared Block 2 NVIDIA pin diverges from accepted HX-5 driver
+
+**Status:** OPEN / NON-BLOCKING  
+**Severity:** Medium  
+**Scope:** HX-5 rerun safety / shared Block 2 applicability  
+**Discovered on:** HX-5  
+**Discovered during:** 2026-09-15 clean rebuild
+
+### Finding
+
+The accepted HX-5 NVIDIA runtime is:
+
+```text
+595.99.02
+```
+
+The shared Block 2 pin remains:
+
+```text
+595.71.05-0ubuntu0.24.04.1
+```
+
+Therefore rerunning Block 2 on HX-5 would attempt to impose a different driver baseline from the accepted as-built server state.
+
+### Functional impact
+
+None on the current HX-5 build. GPU runtime, dual-GPU visibility, Ornith inference, and post-reboot GPU placement all pass with 595.99.02.
+
+### Disposition
+
+NON-BLOCKING FOR CURRENT HX-5; RERUN GUARD REQUIRED OPERATIONALLY.
+
+Do not rerun Block 2 on HX-5 merely for confirmation. A future fleet decision should determine whether the shared NVIDIA pin is changed, host-specific exceptions are encoded, or the driver-install phase is separated from reusable domain validation.
