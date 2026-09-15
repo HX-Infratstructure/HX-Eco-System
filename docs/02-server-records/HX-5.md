@@ -1,6 +1,6 @@
 # HX-5 — CentCom / Ornith / DeepSeek Harness / dev-test Server Configuration
 
-**Build state:** IN PROGRESS — Layer 0/1 closed; Ollama runtime complete; Ornith/model build pending  
+**Build state:** IN PROGRESS — Layer 0/1 closed; Ollama runtime complete; Ornith 35B model build pending  
 **Gate:** LAYER 0/1 PASS / CLOSED; DOMAIN / ADMIN / GPU / STORAGE / OLLAMA RUNTIME PASS  
 **IP:** `192.168.50.205`  
 **FQDN:** `hx-5.hx.local.arpa`  
@@ -182,20 +182,21 @@ Authoritative filesystem identities are UUID-based. Linux NVMe enumeration chang
 | OS/root | ext4 | `3e04ca1a-ccd0-4cc8-9bce-1d6e8f5bb532` | `/` |
 | Ollama/model storage | ext4 | `68d0e365-212c-456f-b42e-d908b445ae77` | `/srv/ollama` |
 
-Pre-reboot `/srv/ollama` source was observed as `/dev/nvme1n1p3`; post-reboot it enumerated as `/dev/nvme0n1p3`:
+Post-reboot and Block 3 storage proof:
 
 ```text
 TARGET      SOURCE         FSTYPE OPTIONS
 /srv/ollama /dev/nvme0n1p3 ext4   rw,relatime,stripe=128
-```
-
-Filesystem utilization at post-reboot proof:
-
-```text
 /dev/nvme0n1p3 ext4 797G 28K 757G 1% /srv/ollama
 ```
 
-The UUID and mount remained correct across reboot. The separate approximately 476.9 GB NVMe device remains outside HX-5 build authority and must not be formatted, partitioned, mounted, or repurposed without explicit owner approval.
+The UUID and mount remained correct across reboot. Block 3 then configured Ollama to use:
+
+```text
+OLLAMA_MODELS=/srv/ollama/models
+```
+
+Therefore the Ornith model will be stored on the dedicated `/srv/ollama` filesystem rather than the root filesystem. The separate approximately 476.9 GB ADATA NVMe remains outside the current HX-5 build scope.
 
 **Storage gate: PASS**
 
@@ -269,21 +270,35 @@ The existing two failed SSSD responder sockets remained visible during Block 3 a
 
 **OLLAMA RUNTIME GATE: PASS**
 
-## 7. Model / Application Provenance
+## 7. Ornith Model Authority and Provenance
 
-Pending Ornith installation.
-
-The current repository defines the next HX-5 workload step as installation and BASE PASS of the Ornith model, but the current `main` runbook does not yet encode a pinned Ornith model reference or model-install script. Do not invent the upstream model identity from the role name alone.
-
-Required fields at install time:
+Current owner-approved HX-5 model for this build:
 
 ```text
-HX alias:              <ollama name or service identifier>
-Upstream identity:     <official model/product name and version>
-Source URI:            <exact source reference>
-Artifact SHA-256:      <resolved immutable artifact hash>
-Import method:         <pull | GGUF import | other approved method>
+ornith-1.5:35b
 ```
+
+Operational invocation:
+
+```bash
+ollama run ornith-1.5:35b
+```
+
+The earlier `ornith-1.5:9b` assignment is stale and is not valid for the current HX-5 build.
+
+Current pre-install provenance state:
+
+```text
+HX operational reference: ornith-1.5:35b
+Runtime:                  Ollama 0.34.0
+Model storage:            /srv/ollama/models
+Install state:            PENDING
+Ollama model ID:          PENDING RESOLUTION
+Artifact SHA-256:         PENDING RESOLUTION
+Import method:            native Ollama pull/run
+```
+
+The resolved model ID and blob SHA-256 must be captured immediately after installation before the Ornith model gate is closed.
 
 ## 8. Functional Validation
 
@@ -311,6 +326,7 @@ Ollama 0.34.0 archive verification         PASS
 Ollama service active/enabled              PASS
 Ollama localhost API                       PASS
 Ollama LAN API                             PASS
+Ornith 1.5 35B                             PENDING INSTALL / VALIDATION
 ```
 
 ## 9. Layer 0/1 Closure State
@@ -345,7 +361,7 @@ Layer 0/1 closed on 2026-09-15 after the clean-rebuild reconciliation and post-r
 |---|---|
 | Layer 0/1 foundation | PASS / CLOSED |
 | Ollama runtime / Block 3 | PASS |
-| Ornith model installed | PENDING |
+| Ornith `ornith-1.5:35b` installed | PENDING |
 | Ornith CLI inference | PENDING |
 | Ornith HTTP/LAN inference | PENDING |
 | Workload GPU-placement validation | PENDING |
@@ -362,4 +378,4 @@ docs/00-control/HX-BASE-BLOCKS-1-2-CONFIGURATION-AUDIT.md
 docs/05-evidence/hx-5/layer0-1/2026-09-15-closure.md
 ```
 
-Block 3 evidence is recorded in this server record from the 2026-09-15 execution transcript. The current HX-5 runbook sequence is `docs/03-runbooks/HX-5/README.md`.
+Block 3 evidence is recorded in this server record from the 2026-09-15 execution transcript. The current HX-5 runbook sequence and model authority are in `docs/03-runbooks/HX-5/README.md`.
