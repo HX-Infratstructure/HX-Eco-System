@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX Infrastructure Findings</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/00-control/FINDINGS.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>. &middot; status: current &middot; status: 2026-09-15</div><h1>HX Infrastructure Findings</h1>
+<h2>HX4-F01 — Shared base-block network validation false failure</h2>
+<p><strong>Status:</strong> CLOSED <strong>Severity:</strong> High <strong>Scope:</strong> Fleet-wide <strong>Discovered on:</strong> HX-4 <strong>Discovered during:</strong> Block 1 — Base / Admin / Network / Updates <strong>Affected file:</strong> <code>docs/03-runbooks/common/01-base-admin-network-updates.sh</code></p>
+<h3>Finding</h3>
+<p>The shared base-build runbook validated IP address, default route, and DNS using pipelines of the form:</p>
+<pre><code class="lang-bash">command | grep -q "value"</code></pre>
+<p>The script executes with <code>set -euo pipefail</code>.</p>
+<p>When <code>grep -q</code> finds a match, it exits immediately and closes the pipe. If the producer still has output to write, the producer receives SIGPIPE and exits with status 141. Under <code>pipefail</code>, the pipeline therefore reports failure even though <code>grep</code> successfully matched the expected value.</p>
+<p>HX-4 exposed the defect because <code>resolvectl status</code> continued emitting data for <code>wlp5s0</code> after the valid HX-1 DNS address had already been matched.</p>
+<p>Observed evidence:</p>
+<pre><code class="lang-text">Current DNS Server: 192.168.50.200
+       DNS Servers: 192.168.50.200
+STOP: expected HX-1 DNS 192.168.50.200 not found</code></pre>
+<pre><code class="lang-text">PIPESTATUS=141 0</code></pre>
+<p><code>grep</code> returned 0; the producer returned 141.</p>
+<h3>Resolution</h3>
+<p>The three checks were changed to capture command output completely before applying <code>grep</code>.</p>
+<p>Original affected checks:</p>
+<ul>
+<li>IPv4 address</li>
+<li>default gateway</li>
+<li>HX-1 DNS</li>
+</ul>
+<p>Existing exit codes 11, 12, and 13 were preserved.</p>
+<h3>Verification</h3>
+<ul>
+<li>Reproduced on HX-4: 5/5 occurrences before fix</li>
+<li>HX-4 Block 1 rerun: <code>SCRIPT_RC=0</code></li>
+<li>No <code>STOP:</code> conditions</li>
+<li>Reboot completed successfully</li>
+<li>Post-reboot network state validated</li>
+<li>Repository gate tests: PASS</li>
+<li>CI: PASS</li>
+</ul>
+<h3>Repository references</h3>
+<ul>
+<li>PR: #21</li>
+<li>PR head commit: <code>c4e61a048d109199219e956a1e968f328b72d369</code></li>
+<li>Merged commit: <code>f402ad0d1a43a02167c5f1cf7d3985f0e1b37f44</code></li>
+</ul>
+<p>The merged commit on <code>main</code> is the authoritative reference.</p>
+<h3>Disposition</h3>
+<p>CLOSED.</p>
+<p>The correction is now part of the shared runbook and must be used for HX-5 through HX-17.</p>
+<h2>HX4-F02 — SSSD responder and socket-activation conflict</h2>
+<p><strong>Status:</strong> OPEN / DEFERRED <strong>Severity:</strong> Low <strong>Scope:</strong> Domain-client configuration; fleet applicability to be assessed <strong>Discovered on:</strong> HX-4 <strong>Discovered during:</strong> Post-Block-2 validation</p>
+<h3>Finding</h3>
+<p>After the HX-4 domain-join and NVIDIA block completed and the server rebooted, three systemd socket units were failed:</p>
+<pre><code class="lang-text">sssd-nss.socket
+sssd-pam-priv.socket
+sssd-pam.socket</code></pre>
+<p>Host logs reported:</p>
+<pre><code class="lang-text">The nss responder has been configured to be socket-activated but it's still
+mentioned in the services' line in /etc/sssd/sssd.conf.</code></pre>
+<p>The SSSD configuration file contains:</p>
+<pre><code class="lang-text">services = nss, pam</code></pre>
+<p>The NSS and PAM responders are therefore configured for startup by <code>sssd.service</code> while their systemd socket units also attempt socket activation.</p>
+<h3>Functional impact</h3>
+<p>No domain-join failure was observed.</p>
+<p>Domain identity resolution succeeds:</p>
+<pre><code class="lang-text">getent passwd jarvisr@hx.local.arpa</code></pre>
+<p>returned the expected domain identity.</p>
+<p>Therefore:</p>
+<ul>
+<li>DOMAIN JOIN: PASS</li>
+<li>IDENTITY RESOLUTION: PASS</li>
+<li>SSSD RESPONDER/SOCKET CLEANLINESS: FAIL</li>
+</ul>
+<h3>Disposition</h3>
+<p>DEFERRED.</p>
+<p>No configuration change was made during HX-4 Blocks 1-3 because correcting the responder activation model was outside the approved build scope.</p>
+<p>Before changing HX-4, compare the SSSD configuration and socket state across the existing domain-joined fleet and establish the intended HX-wide responder model.</p>
+<h3>Required follow-up</h3>
+<ol>
+<li>Inspect SSSD responder configuration on existing joined hosts.</li>
+<li>Determine whether HX standardizes on direct responder startup or socket activation.</li>
+<li>Update the common domain-join runbook if the issue is fleet-wide.</li>
+<li>Correct affected hosts under a separate approved change.</li>
+<li>Close this finding with validation evidence.</li>
+</ol><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/00-control/FINDINGS.md</code>.</footer></div></body></html>

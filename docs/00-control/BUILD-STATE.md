@@ -3,6 +3,9 @@
 **Date:** 2026-09-09  
 **Owner:** Jarvis Richardson  
 **Method:** KISS / one server at a time
+
+Outstanding infrastructure findings are tracked in `docs/00-control/FINDINGS.md`.
+
 <!-- HX-FLEET:TABLE columns=id,role,state,gate,note -->
 | Server | Assignment | State | Gate | Notes |
 |---|---|---|---|---|
