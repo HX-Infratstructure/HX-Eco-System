@@ -1,7 +1,7 @@
 # HX-5 — CentCom / Ornith / DeepSeek Harness / dev-test Server Configuration
 
-**Build state:** IN PROGRESS — Layer 0/1 closed; Ollama runtime complete; Ornith 35B model build pending  
-**Gate:** LAYER 0/1 PASS / CLOSED; DOMAIN / ADMIN / GPU / STORAGE / OLLAMA RUNTIME PASS  
+**Build state:** IN PROGRESS — foundation and Ornith BASE PASS complete; CentCom smoke-runner activation next  
+**Gate:** LAYER 0/1 CLOSED; OLLAMA / ORNITH BASE PASS; CENTCOM RUNNER PENDING  
 **IP:** `192.168.50.205`  
 **FQDN:** `hx-5.hx.local.arpa`  
 **Record updated:** 2026-09-15
@@ -15,9 +15,6 @@
 - Default gateway: `192.168.50.1`
 - DNS: HX-1 `192.168.50.200`
 - Persistent network file: `/etc/netplan/50-cloud-init.yaml`
-- Netplan IPv4: `192.168.50.205/24`
-- Netplan default route: `192.168.50.1`
-- Netplan DNS: `192.168.50.200`
 - AD DNS zone: `hx.local.arpa`
 - Kerberos realm: `HX.LOCAL.ARPA`
 - Samba computer object: `HX-5$`
@@ -29,17 +26,12 @@
   - `RestrictedKrbHost/HX-5`
   - `RestrictedKrbHost/hx-5.hx.local.arpa`
 - `adcli testjoin -D hx.local.arpa`: PASS
-- SSSD service state: `active`
-- SSSD realm configuration: `kerberos-member`
+- SSSD service: active
 - Domain user resolution: `jarvisr@hx.local.arpa` PASS
-
-**Domain join gate: PASS**
 
 ### Time synchronization
 
-The clean OS initially used `systemd-timesyncd` and `ntp.ubuntu.com`. That was a Layer 0/1 rebuild gap because HX-1 is the fleet NTP source.
-
-Corrected state:
+HX-1 is the accepted fleet NTP source.
 
 ```text
 chrony: active / enabled
@@ -50,32 +42,21 @@ HX-5 local stratum: 4
 Leap status: Normal
 ```
 
-Post-reboot proof showed HX-1 remained the selected source and the system clock remained synchronized.
+Post-reboot validation confirmed HX-1 remained selected.
 
 **HX-1 NTP client gate: PASS**
 
-### Post-rebuild SSH / administration access
-
-The clean OS rebuild changed the HX-5 SSH host key. The stale Windows `known_hosts` entry was removed and the rebuilt host fingerprint was accepted after local verification.
+### SSH / administration access
 
 Authoritative Windows fleet identity:
 
 ```text
 Private key: C:\Users\JarvisRichardson\.ssh\hx_fleet_ed25519
 Public key:  C:\Users\JarvisRichardson\.ssh\hx_fleet_ed25519.pub
+Fingerprint: SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk hx-fleet-20260810
 ```
 
-`hx_fleet_admin` is not the fleet-key filename.
-
-Fleet public-key authentication is installed in `hxsa`'s `~/.ssh/authorized_keys`.
-
-Fleet public-key fingerprint:
-
-```text
-SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk hx-fleet-20260810
-```
-
-Key-only proof from the Windows control workstation:
+Key-only external proof:
 
 ```text
 hx-5
@@ -91,18 +72,13 @@ ssh.socket: enabled
 port: 22
 ```
 
-Ubuntu is using socket activation for persistence. SSH survived the Layer 0/1 reboot and remote access remained functional.
-
 - Passwordless fleet-key SSH: PASS
 - `hxsa` non-interactive sudo: PASS
-- SSH runtime: PASS
 - SSH reboot persistence: PASS
 
 ### Firewall posture
 
-D-018 defines the HX LAN as a trusted lab segment with UFW disabled.
-
-Corrected and post-reboot state:
+D-018 trusted-LAN posture:
 
 ```text
 ufw status: inactive
@@ -110,8 +86,6 @@ ufw.service: disabled
 ufw.service: inactive
 firewalld: inactive / not found
 ```
-
-No new firewall restrictions were introduced.
 
 **D-018 host-firewall posture: PASS**
 
@@ -126,55 +100,35 @@ No new firewall restrictions were introduced.
 | Hardware model | Intel Core i7-14700F system |
 | Firmware version | BIOS 1836 |
 | Firmware date | 2026-04-17 |
-| sudo policy | `hxsa ALL=(ALL:ALL) NOPASSWD: ALL`; validated with `sudo -n true` |
+| sudo policy | `hxsa ALL=(ALL:ALL) NOPASSWD: ALL` |
 
-`apt update` / `apt upgrade -y` were executed during Layer 0/1 reconciliation.
+Layer 0/1 maintenance completed with no immediately applicable updates after final reboot.
 
-Four Netplan packages remain listed as upgradeable:
+Four Netplan packages were previously shown as upgradeable but both `apt-get -s upgrade` and `apt-get -s dist-upgrade` proved they were deferred solely by Ubuntu phased updates. No packages were held.
 
-```text
-libnetplan1
-netplan-generator
-netplan.io
-python3-netplan
-```
-
-Both simulated upgrade paths proved they are deferred solely by Ubuntu phased updates:
-
-```text
-The following upgrades have been deferred due to phasing:
-  libnetplan1 netplan-generator netplan.io python3-netplan
-0 upgraded, 0 newly installed, 0 to remove and 4 not upgraded.
-```
-
-`apt-mark showhold` returned no held packages. These phased updates are therefore **not a failed maintenance gate and are not blocking Layer 0/1 closure**.
-
-**Base OS update/upgrade gate: PASS WITH NORMAL PHASED-UPDATES EXCEPTION**
+**Base OS maintenance gate: PASS WITH NORMAL PHASED-UPDATES EXCEPTION**
 
 ## 3. GPU Configuration
 
-Current post-rebuild evidence:
+Accepted HX-5 mixed-GPU configuration:
 
-- NVIDIA driver version: `595.99.02`
-- CUDA version reported by `nvidia-smi`: `13.2`
-- Kernel module: `/lib/modules/7.0.0-31-generic/kernel/drivers/video/nvidia.ko`
-- Kernel module version: `595.99.02`
-- Kernel module license: `Dual MIT/GPL`
+- NVIDIA driver: `595.99.02`
+- CUDA reported by `nvidia-smi`: `13.2`
 - GPU 0: NVIDIA GeForce RTX 5060, `8151 MiB`, PCI `00000000:01:00.0`
 - GPU 0 UUID: `GPU-cc758e31-d23b-3c53-bee6-dae3299a6f11`
 - GPU 1: NVIDIA GeForce RTX 5060 Ti, `16311 MiB`, PCI `00000000:07:00.0`
 - GPU 1 UUID: `GPU-11b1a30e-8c11-001b-7b8b-7b1e15ab6978`
 - Combined physical VRAM: approximately 24 GB
-- `nvidia-smi`: PASS before and after reboot
-- PCI enumeration: PASS
+
+`nvidia-smi` passed before and after reboot.
+
+The shared Block 2 NVIDIA package pin is not the accepted HX-5 driver state; Block 2 must not be rerun on HX-5 merely for confirmation.
 
 **GPU gate: PASS**
 
-The current driver is intentionally `595.99.02`. The shared Block 2 pin still targets `nvidia-driver-595-server-open=595.71.05-0ubuntu0.24.04.1`, so Block 2 must not be rerun on HX-5 as written.
-
 ## 4. Storage Layout
 
-Authoritative filesystem identities are UUID-based. Linux NVMe enumeration changed across reboot, which is expected and demonstrates why device names are not storage authority.
+Filesystem identity is UUID-authoritative.
 
 | Purpose | Filesystem | UUID | Mount |
 |---|---|---|---|
@@ -182,29 +136,28 @@ Authoritative filesystem identities are UUID-based. Linux NVMe enumeration chang
 | OS/root | ext4 | `3e04ca1a-ccd0-4cc8-9bce-1d6e8f5bb532` | `/` |
 | Ollama/model storage | ext4 | `68d0e365-212c-456f-b42e-d908b445ae77` | `/srv/ollama` |
 
-Post-reboot and Block 3 storage proof:
+Observed before one reboot:
 
 ```text
-TARGET      SOURCE         FSTYPE OPTIONS
-/srv/ollama /dev/nvme0n1p3 ext4   rw,relatime,stripe=128
-/dev/nvme0n1p3 ext4 797G 28K 757G 1% /srv/ollama
+/srv/ollama /dev/nvme0n1p3 ext4 rw,relatime,stripe=128
 ```
 
-The UUID and mount remained correct across reboot. Block 3 then configured Ollama to use:
+Observed after the next reboot:
 
 ```text
-OLLAMA_MODELS=/srv/ollama/models
+/srv/ollama /dev/nvme1n1p3 ext4 rw,relatime,stripe=128
+/dev/nvme1n1p3 797G 22G 736G 3% /srv/ollama
 ```
 
-Therefore the Ornith model will be stored on the dedicated `/srv/ollama` filesystem rather than the root filesystem. The separate approximately 476.9 GB ADATA NVMe remains outside the current HX-5 build scope.
+The device-name renumbering confirms why UUID, not `/dev/nvmeXnY`, is authority. The mount persisted correctly and contains the installed 22 GB Ornith model data.
+
+The separate approximately 476.9 GB ADATA NVMe remains outside the current HX-5 build scope.
 
 **Storage gate: PASS**
 
-Installer-generated `/etc/fstab` comments naming old NVMe device paths remain descriptive-only and are tracked as HX5-F01. Active UUID mappings are correct.
-
 ## 5. Domain / SSSD Deferred Condition
 
-Core domain function remains healthy:
+Core domain function:
 
 ```text
 adcli testjoin: PASS
@@ -212,24 +165,16 @@ sssd.service: active
 domain user resolution: PASS
 ```
 
-The known responder/socket conflict remains non-blocking. Initial audit showed:
-
-```text
-sssd-nss.socket
-sssd-pam-priv.socket
-sssd-pam.socket
-```
-
-After reboot, two failed units remained:
+After final reboot two failed responder sockets remained:
 
 ```text
 sssd-nss.socket
 sssd-pam-priv.socket
 ```
 
-This is the existing HX4-F02 fleet-pattern finding and remains **DEFERRED / NON-BLOCKING**. Do not redesign SSSD inline during the HX-5 application build.
+This is tracked under HX4-F02 and remains **DEFERRED / NON-BLOCKING** because machine trust, SSSD service, and domain identity resolution all pass.
 
-## 6. Runtime
+## 6. Ollama Runtime
 
 Block 3 completed successfully on 2026-09-15.
 
@@ -242,7 +187,8 @@ Block 3 completed successfully on 2026-09-15.
 | Service | `ollama.service` |
 | Service state | active |
 | Startup state | enabled |
-| API listener | `*:11434` |
+| API binding | `0.0.0.0:11434` |
+| Live listener | `*:11434` |
 | LAN endpoint | `http://192.168.50.205:11434` |
 | Model storage | `/srv/ollama/models` |
 | Cloud state | disabled for current base build |
@@ -255,79 +201,132 @@ OLLAMA_HOST=0.0.0.0:11434
 OLLAMA_NO_CLOUD=1
 ```
 
-Block 3 validation returned:
+Local and LAN `/api/version` checks returned Ollama `0.34.0`.
+
+After reboot:
 
 ```text
-ollama --version: 0.34.0
-ollama.service: active
-autostart: enabled
-listener: *:11434
-localhost /api/version: {"version":"0.34.0"}
-LAN /api/version:       {"version":"0.34.0"}
+systemctl is-enabled ollama -> enabled
+systemctl is-active ollama  -> active
+ss -ltn                    -> *:11434
 ```
-
-The existing two failed SSSD responder sockets remained visible during Block 3 and were accepted under HX4-F02; they did not block domain resolution, GPU validation, storage validation, Ollama installation, or API startup.
 
 **OLLAMA RUNTIME GATE: PASS**
 
-## 7. Ornith Model Authority and Provenance
+## 7. Ornith 1.5 35B — Model Authority and Provenance
 
-Current owner-approved HX-5 model for this build:
+Current owner-approved HX-5 inference model:
 
 ```text
 ornith-1.5:35b
 ```
 
-Operational invocation:
+The prior `ornith-1.5:9b` assignment is stale and invalid for this build.
 
-```bash
-ollama run ornith-1.5:35b
-```
-
-The earlier `ornith-1.5:9b` assignment is stale and is not valid for the current HX-5 build.
-
-Current pre-install provenance state:
+Installed model facts:
 
 ```text
-HX operational reference: ornith-1.5:35b
-Runtime:                  Ollama 0.34.0
-Model storage:            /srv/ollama/models
-Install state:            PENDING
-Ollama model ID:          PENDING RESOLUTION
-Artifact SHA-256:         PENDING RESOLUTION
-Import method:            native Ollama pull/run
+Ollama reference:      ornith-1.5:35b
+Ollama model ID:       9f3b89b25219
+Reported size:         22 GB
+Runtime loaded size:   23 GB
+Architecture:          qwen35moe
+Parameters:            35.5B
+Quantization:          Q4_K_M
+Advertised context:    262144
+Validated run context: 32768
+Embedding length:      2048
+Capabilities:          tools, thinking, completion, vision
+Import method:         native Ollama pull
 ```
 
-The resolved model ID and blob SHA-256 must be captured immediately after installation before the Ornith model gate is closed.
+Artifact identities:
+
+```text
+Model blob SHA-256:
+aaeb640f98a892980ef54876024293cc8d6987a86523aa1b947ffa9274ef800a
+
+Vision projector SHA-256:
+d9ce31026d1cb1f3f8d5152e2e2a014d9d2b302b6c93a7dc07bb0a0487f52837
+```
+
+Pull transcript included:
+
+```text
+verifying sha256 digest
+writing manifest
+success
+```
+
+**ORNITH INSTALL / PROVENANCE GATE: PASS**
 
 ## 8. Functional Validation
 
-Current proof:
+### CLI inference
+
+Known-answer prompt produced:
 
 ```text
-hostname: hx-5                              PASS
-hostname -f: hx-5.hx.local.arpa           PASS
-persistent IPv4/gateway/DNS               PASS
-live IPv4/gateway/HX-1 DNS                PASS
-HX-1 NTP / chrony                          PASS
-AD machine trust                           PASS
-SSSD core function                         PASS
-Samba DNS/dNSHostName/SPNs                 PASS after repair
-NOPASSWD sudo                              PASS
-passwordless fleet-key SSH                 PASS
-SSH reboot persistence via ssh.socket      PASS
-D-018 UFW disabled/inactive                PASS
-NVIDIA driver 595.99.02                    PASS
-RTX 5060 visibility                        PASS
-RTX 5060 Ti visibility                     PASS
-/srv/ollama dedicated mount                PASS after reboot
-OS maintenance                             PASS; Netplan updates phased normally
-Ollama 0.34.0 archive verification         PASS
-Ollama service active/enabled              PASS
-Ollama localhost API                       PASS
-Ollama LAN API                             PASS
-Ornith 1.5 35B                             PENDING INSTALL / VALIDATION
+HX-5 ORNITH PASS
 ```
+
+**CLI inference: PASS**
+
+### HTTP API inference
+
+Local API:
+
+```text
+http://127.0.0.1:11434/api/generate
+HX-5 ORNITH API PASS
+```
+
+LAN API:
+
+```text
+http://192.168.50.205:11434/api/generate
+HX-5 ORNITH LAN PASS
+```
+
+**Local HTTP API inference: PASS**  
+**LAN HTTP API inference: PASS**
+
+### GPU placement
+
+`ollama ps`:
+
+```text
+ornith-1.5:35b  9f3b89b25219  23 GB  17%/83% CPU/GPU  32768
+```
+
+During inference:
+
+```text
+RTX 5060     ~4.7 GB VRAM in use
+RTX 5060 Ti  ~15.0 GB VRAM in use
+llama-server active on both GPUs
+```
+
+This confirms the mixed-GPU workload is functioning as accepted. CPU offload is expected because the loaded model plus runtime overhead exceeds the available approximately 24 GB VRAM.
+
+**GPU-placement gate: PASS**
+
+### Reboot persistence
+
+After reboot:
+
+```text
+hostname: hx-5
+ollama.service: enabled / active
+listener: *:11434
+/srv/ollama: mounted by correct UUID
+ornith-1.5:35b: present, same model ID 9f3b89b25219
+post-reboot known-answer: HX-5 ORNITH REBOOT PASS
+post-reboot placement: 17% CPU / 83% GPU
+both GPUs active
+```
+
+**OLLAMA + ORNITH REBOOT PERSISTENCE: PASS**
 
 ## 9. Layer 0/1 Closure State
 
@@ -340,42 +339,56 @@ Ornith 1.5 35B                             PENDING INSTALL / VALIDATION
 | NOPASSWD sudo | PASS |
 | Fleet SSH key | PASS |
 | SSH runtime / port 22 | PASS |
-| SSH reboot persistence | PASS — `ssh.socket` active/enabled |
+| SSH reboot persistence | PASS |
 | D-018 UFW disabled/stopped | PASS |
 | Domain join / SSSD core function | PASS |
 | Machine trust | PASS |
-| Samba DNS / FQDN / SPNs | PASS after repair |
+| Samba DNS / FQDN / SPNs | PASS |
 | SSSD socket cleanliness | DEFERRED / HX4-F02 |
 | GPU driver and visibility | PASS |
 | Dedicated storage | PASS |
-| Base OS maintenance | PASS — only Ubuntu phased updates remain |
+| Base OS maintenance | PASS |
 | Final post-reboot proof | PASS |
 
 **HX-5 LAYER 0/1 STATUS: PASS / CLOSED**
 
-Layer 0/1 closed on 2026-09-15 after the clean-rebuild reconciliation and post-reboot proof. HX4-F02 remains the sole known deferred Layer 0/1 condition and does not block the HX-5 application/runtime build.
-
-## 10. HX-5 Workload Progress
+## 10. Workload Progress and Remaining HX-5 Work
 
 | Workload gate | Result |
 |---|---|
 | Layer 0/1 foundation | PASS / CLOSED |
 | Ollama runtime / Block 3 | PASS |
-| Ornith `ornith-1.5:35b` installed | PENDING |
-| Ornith CLI inference | PENDING |
-| Ornith HTTP/LAN inference | PENDING |
-| Workload GPU-placement validation | PENDING |
-| Ollama + Ornith reboot persistence | PENDING |
-| CentCom smoke-runner activation | BLOCKED on Ornith + reboot persistence |
-| DeepSeek Harness | FUTURE SCHEDULED WORK |
+| `ornith-1.5:35b` install / provenance | PASS |
+| Ornith CLI inference | PASS |
+| Ornith localhost HTTP API | PASS |
+| Ornith LAN HTTP API | PASS |
+| Workload GPU placement | PASS |
+| Ollama + Ornith reboot persistence | PASS |
+| CentCom smoke-runner bootstrap | **PENDING / NEXT** |
+| `hx-smoke-doctor` | **PENDING** |
+| `hx-smoke-doctor --remote` | **PENDING** |
+| CentCom client-version capture | **PENDING** |
+| CentCom smoke-runner capability | **NOT YET ACTIVE** |
+| DeepSeek Harness | FUTURE SCHEDULED WORK; not a prerequisite for current runner activation |
+
+Current closeout boundary:
+
+```text
+FOUNDATION + ORNITH BASE PASS = CLOSED
+CENTCOM SMOKE-RUNNER          = NEXT
+HX-5 SERVER                   = IN PROGRESS until runner activation evidence is accepted
+```
+
+After the CentCom runner current closeout, the owner-approved next housekeeping activity is a read-only reconciled Layer 0/1 audit of HX-2, HX-3, and HX-4 against the stronger standard proven on HX-5.
 
 ## 11. Evidence References
-
-Primary Layer 0/1 evidence is recorded in:
 
 ```text
 docs/00-control/HX-BASE-BLOCKS-1-2-CONFIGURATION-AUDIT.md
 docs/05-evidence/hx-5/layer0-1/2026-09-15-closure.md
+docs/05-evidence/hx-5/ornith/2026-09-15-ornith-35b-pull-and-provenance.md
+docs/05-evidence/hx-5/ornith/2026-09-15-ornith-35b-inference-and-gpu-placement.md
+docs/05-evidence/hx-5/ornith/2026-09-15-ornith-35b-api-validation.md
 ```
 
-Block 3 evidence is recorded in this server record from the 2026-09-15 execution transcript. The current HX-5 runbook sequence and model authority are in `docs/03-runbooks/HX-5/README.md`.
+The runtime evidence from the final reboot is incorporated into this as-built record and should be retained in a dedicated reboot-persistence evidence artifact during the documentation finalization pass.
