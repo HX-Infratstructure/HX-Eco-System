@@ -87,7 +87,7 @@ measured and does not fire.
 
 **Status:** OPEN / DEFERRED  
 **Severity:** Low  
-**Scope:** Domain-client configuration; fleet applicability to be assessed  
+**Scope:** Domain-client configuration; confirmed on HX-4 and HX-5  
 **Discovered on:** HX-4  
 **Discovered during:** Post-Block-2 validation
 
@@ -134,13 +134,35 @@ Therefore:
 - IDENTITY RESOLUTION: PASS
 - SSSD RESPONDER/SOCKET CLEANLINESS: FAIL
 
+### HX-5 recurrence — 2026-09-15
+
+The same three failed socket units were observed on the freshly rebuilt HX-5:
+
+```text
+sssd-nss.socket
+sssd-pam-priv.socket
+sssd-pam.socket
+```
+
+At the same time HX-5 passed all core domain checks:
+
+```text
+adcli testjoin -D hx.local.arpa       PASS
+systemctl is-active sssd              active
+getent passwd jarvisr@hx.local.arpa   PASS
+```
+
+This confirms the issue is not isolated to HX-4 and supports treating it as a
+fleet domain-client configuration finding rather than an HX-4-specific build
+failure.
+
 ### Disposition
 
 DEFERRED.
 
-No configuration change was made during HX-4 Blocks 1-3 because correcting the responder activation model was outside the approved build scope.
-
-Before changing HX-4, compare the SSSD configuration and socket state across the existing domain-joined fleet and establish the intended HX-wide responder model.
+No configuration change is made during the active server build because core
+domain function is intact and correcting the responder activation model is a
+separate fleet-standard decision.
 
 ### Required follow-up
 
@@ -333,3 +355,45 @@ recognised as able to trip it.
 1. Convert the guard to the captured-output form when that block is next
    touched for another reason.
 2. Do not open a change solely for this while the measurement above holds.
+
+## HX5-F01 — Fresh-install fstab comments name the wrong NVMe device
+
+**Status:** OPEN / NON-BLOCKING  
+**Severity:** Low  
+**Scope:** HX-5 documentation hygiene only  
+**Discovered on:** HX-5  
+**Discovered during:** 2026-09-15 post-rebuild storage validation
+
+### Finding
+
+The active `/etc/fstab` entries use filesystem UUIDs and mount the correct
+filesystems, but the installer-generated comments say the filesystems were on
+`/dev/nvme0n1p*` while current enumeration shows those UUIDs on
+`/dev/nvme1n1p*`.
+
+Observed active mapping:
+
+```text
+/dev/nvme1n1p1  UUID=6DA4-AE41                             /boot/efi
+/dev/nvme1n1p2  UUID=3e04ca1a-ccd0-4cc8-9bce-1d6e8f5bb532 /
+/dev/nvme1n1p3  UUID=68d0e365-212c-456f-b42e-d908b445ae77 /srv/ollama
+```
+
+Observed stale comments:
+
+```text
+# / was on /dev/nvme0n1p2 during curtin installation
+# /srv/ollama was on /dev/nvme0n1p3 during curtin installation
+# /boot/efi was on /dev/nvme0n1p1 during curtin installation
+```
+
+### Functional impact
+
+None. UUID-based mounts are correct and `/srv/ollama` is mounted read-write on
+the intended 810.5 GB ext4 partition. The separate 476.9 GB `nvme0n1` device is
+unmounted and is not authorized for build use.
+
+### Disposition
+
+NON-BLOCKING. Do not interrupt the HX-5 build to edit descriptive comments.
+Correct the comments during a documentation/configuration hygiene pass if desired.
