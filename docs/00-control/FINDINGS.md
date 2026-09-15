@@ -495,3 +495,55 @@ DEFERRED by owner decision, recorded rather than fixed during a server build.
    refuse it outright once a station exists.
 3. Re-run A1-A3 from HX-5 after CentCom activation if a remote LAN proof is
    required for HX-4 closure to stand.
+
+## HX4-F09 — The secret-scan gate rejected the evidence it exists to protect
+
+**Status:** CLOSED
+**Severity:** Medium
+**Scope:** Repository gate; every server closed on run-bundle evidence
+**Discovered on:** HX-4
+**Discovered during:** Step 8 — opening the closure PR
+
+### Finding
+
+CI's secret scan failed the HX-4 closure with `leaks found: 3`.
+
+Every smoke test is a known-answer test: it sends a fixed string and requires it
+back verbatim. `.gitleaks.toml` already allowlisted those tokens, but only on
+the path `^smoke-tests/.*\.md$`.
+
+The token does not stay in the procedure. A passing run has to show the token it
+got back, so the same string lands in the retained bundle, in the server record
+that quotes the proof, and in the generated mirror of both:
+
+```text
+docs/02-server-records/HX-4.md
+docs/05-evidence/hx-4/ollama-inference/<run-id>/result.txt
+docs/05-evidence/hx-4/ollama-inference/<run-id>/supporting/smoke_stdout.txt
+human-html/02-server-records/HX-4.html
+```
+
+Evidence model 2 came in for HX-4 onward, and HX-4 is the first server to
+retain bundles, so nothing had exercised this before. The gate rejected the
+first evidence it was ever shown.
+
+### Resolution
+
+The allowlist paths now include the retained evidence tree, server records, and
+the generated mirrors.
+
+The `condition = "AND"` is what makes that safe and it is unchanged. A finding
+is allowed only when the file is on the paths list **and** the string matches
+the HX known-answer token pattern. A real credential in a retained bundle does
+not match that pattern and is still reported.
+
+### Disposition
+
+CLOSED. The rule is not weakened; its path list now matches where evidence
+actually lands.
+
+### Note
+
+The alternative — redacting the token out of retained evidence — was rejected.
+The token appearing in the response is the proof. Removing it would leave a
+bundle that cannot demonstrate what it claims.
