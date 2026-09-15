@@ -28,7 +28,8 @@ sudo chown -R reranker:reranker "$HX_RERANKER_HOME"
 sudo -u reranker python3 -m venv "$HX_RERANKER_VENV"
 sudo -u reranker "$HX_RERANKER_VENV/bin/python" -m pip install --upgrade pip
 sudo -u reranker "$HX_RERANKER_VENV/bin/python" -m pip install \
-  "infinity-emb[${HX_RERANKER_EXTRAS}]==${HX_RERANKER_RUNTIME_VERSION}"
+  "infinity-emb[${HX_RERANKER_EXTRAS}]==${HX_RERANKER_RUNTIME_VERSION}" \
+  "${HX_RERANKER_CLICK_PIN}"
 
 "$HX_RERANKER_VENV/bin/infinity_emb" --version || true
 
@@ -43,6 +44,7 @@ Type=simple
 User=reranker
 Group=reranker
 Environment="HF_HOME=${HX_RERANKER_HOME}/hf"
+Environment="INFINITY_BETTERTRANSFORMER=${HX_RERANKER_BETTERTRANSFORMER}"
 ExecStart=${HX_RERANKER_VENV}/bin/infinity_emb v2 \
   --model-id ${HX_RERANKER_MODEL} \
   --revision ${HX_RERANKER_REVISION} \
