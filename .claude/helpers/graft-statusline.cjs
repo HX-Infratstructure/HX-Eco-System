@@ -4,7 +4,8 @@ const fs = require('fs');
 const { pathToFileURL } = require('url');
 const { execFileSync } = require('child_process');
 const dir = process.env.CLAUDE_PROJECT_DIR || process.cwd();
-const BAKED = "/usr/local/lib/node_modules/@nanonets/graft/dist/claude";
+// Fast-path candidate: npm's Windows global node_modules derived from %APPDATA% (null if unset).
+const BAKED = process.env.APPDATA ? path.join(process.env.APPDATA, 'npm', 'node_modules', '@nanonets', 'graft', 'dist', 'claude') : null;
 
 // The dist/claude dir of @nanonets/graft resolved from a base whose node_modules is searched.
 function fromPkg(base) {
