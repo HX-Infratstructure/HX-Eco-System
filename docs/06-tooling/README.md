@@ -32,7 +32,7 @@ shared facts; the agent document links to them rather than repeating them.
 
 | Tool | Human | Agent | Adopted by |
 |---|---|---|---|
-| OpenWiki | [openwiki.md](openwiki.md) | [openwiki-agents.md](openwiki-agents.md) | D-023 |
+| OpenWiki | [openwiki.md](openwiki.md) | [openwiki-agents.md](openwiki-agents.md) | D-025 |
 | CodeRabbit | not written yet | — | in use before D-024; `AGENTS.md` section 13 |
 | graft | not written yet | — | in use before D-024; `AGENTS.md` section 14 |
 

@@ -313,7 +313,8 @@ Before declaring work complete, update the current server record, build state, a
 
 `openwiki/` is generated. So is the block below, between the OpenWiki markers,
 and so is the matching block in `CLAUDE.md`. OpenWiki rewrites both on every
-run, weekly by schedule, and any edit made inside those markers is lost.
+run, which is manual per D-025, and any edit made inside those markers is
+lost.
 
 **This section is outside the markers and therefore survives.** It governs.
 
@@ -339,6 +340,6 @@ This repository has a generated `openwiki/` evidence index. It is optional just-
 - Authority follows section 2: owner instruction, then the control Markdown in `docs/` and the acceptance authority in `smoke-tests/`, then live evidence, then the approved runbook. Source code and tests are evidence, not authority, and generated OpenWiki pages are context only. A brief's unknowns and review items are verification gaps, not automatic requirements.
 - Prefer the narrowest quiet validation that proves the changed behavior. Preserve complete failure output.
 
-The scheduled OpenWiki GitHub Actions workflow refreshes the repository wiki. Do not hand-edit generated OpenWiki pages unless explicitly asked; prefer updating source code/docs and letting OpenWiki regenerate.
+`openwiki/` is regenerated manually from a host-agent session per D-025; there is no scheduled workflow. Do not hand-edit generated OpenWiki pages unless explicitly asked; prefer updating source code/docs and letting OpenWiki regenerate.
 
 <!-- OPENWIKI:END -->

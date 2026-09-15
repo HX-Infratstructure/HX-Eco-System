@@ -1,8 +1,8 @@
 ---
 document: HX Eco-System GitHub Actions Secret and Variable Registry
 status: current
-version: 1.0
-date: 2026-09-09
+version: 1.2
+date: 2026-09-14
 scope: HX-Eco-System repository automation identifiers
 authority: HX-Eco-System clean rebuild
 ---
@@ -15,16 +15,24 @@ Record the approved **names and intended use** of repository automation secrets 
 
 ## Current automation status
 
-Two workflows are active as of 2026-09-10:
+Two workflows are active as of 2026-09-14:
 
 | Workflow | Trigger | Secrets used |
 |---|---|---|
 | `.github/workflows/hx-checks.yml` | push, pull request | `GITHUB_TOKEN` only (automatic) |
 | `.github/workflows/hx-upstream-drift.yml` | weekly schedule, manual | `GITHUB_TOKEN` only (automatic) |
 
-Neither consumes `HXES_SECRET` or `HXES_VARIABLE` yet. Those identifiers stay
-reserved with their handling rules fixed in advance, so a value is never
-introduced ad hoc. Add a row above when a workflow starts using one.
+Correction of record: this table never recorded
+`.github/workflows/openwiki-update.yml` or the two secrets D-023 authorised
+for it (`OPENWIKI_PR_TOKEN`, `ANTHROPIC_API_KEY`), despite the rule below
+requiring a row when a workflow starts using one. Both secrets **were**
+created and the workflow **did** run: its scheduled run of 2026-09-13 passed
+the secrets preflight, generated documentation with a paid model
+(`claude-sonnet-5`), pushed branch `openwiki/update` (commit 5b20167), and
+that branch is open as PR #16. The workflow was withdrawn by D-025 on
+2026-09-14 and its file is deleted. Both secrets remain in repository
+settings until revoked; revoking them is a required owner action. The gap is
+recorded here rather than erased.
 
 ## Registered identifiers
 
