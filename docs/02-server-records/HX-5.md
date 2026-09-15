@@ -1,7 +1,7 @@
 # HX-5 — CentCom / Ornith / DeepSeek Harness / dev-test Server Configuration
 
 **Build state:** IN PROGRESS
-**Gate:** DOMAIN / ADMIN ACCESS PASS
+**Gate:** DOMAIN / ADMIN / GPU / STORAGE PASS
 **IP:** `192.168.50.205`
 **FQDN:** `hx-5.hx.local.arpa`
 **Record updated:** 2026-09-15
@@ -12,7 +12,8 @@
 
 - Static hostname: `hx-5`
 - FQDN: `hx-5.hx.local.arpa`
-- IPv4: `192.168.50.205`
+- IPv4: `192.168.50.205/24` on `eno1`
+- Default gateway: `192.168.50.1`
 - AD DNS zone: `hx.local.arpa`
 - Kerberos realm: `HX.LOCAL.ARPA`
 - Samba computer object: `HX-5$`
@@ -24,6 +25,7 @@
   - `RestrictedKrbHost/HX-5`
   - `RestrictedKrbHost/hx-5.hx.local.arpa`
 - `adcli testjoin -D hx.local.arpa`: PASS
+- SSSD service state: `active`
 - SSSD realm configuration: `kerberos-member`
 - Domain user resolution proof: `jarvisr@hx.local.arpa` resolved by `getent passwd`.
 
@@ -69,35 +71,77 @@ Therefore:
 
 | Item | Value |
 |---|---|
-| Distribution / release | Fresh Ubuntu installation; exact release proof pending current baseline capture |
-| Kernel | Pending current baseline capture |
+| Distribution / release | Ubuntu 24.04.5 LTS |
+| Kernel | `7.0.0-31-generic` |
 | Firmware version | BIOS 1836 |
 | sudo policy | `hxsa ALL=(ALL:ALL) NOPASSWD: ALL`; validated with `sudo -n true` |
 
 ## 3. GPU Configuration
 
-Driver package **and exact version**, GPU models and count, `nvidia-smi` proof.
-State the gate result: **GPU gate: PASS/FAIL**.
+Current post-rebuild evidence captured 2026-09-15:
 
-Known post-rebuild target/observed state prior to formal gate capture:
-
-- NVIDIA driver: `595.99.02`
-- GPU 0: NVIDIA GeForce RTX 5060, approximately 8 GB VRAM
-- GPU 1: NVIDIA GeForce RTX 5060 Ti, approximately 16 GB VRAM
+- NVIDIA driver version: `595.99.02`
+- CUDA version reported by `nvidia-smi`: `13.2`
+- Kernel module: `/lib/modules/7.0.0-31-generic/kernel/drivers/video/nvidia.ko`
+- Kernel module version: `595.99.02`
+- Kernel module license: `Dual MIT/GPL`
+- GPU 0: NVIDIA GeForce RTX 5060, `8151 MiB`, PCI `00000000:01:00.0`
+- GPU 0 UUID: `GPU-cc758e31-d23b-3c53-bee6-dae3299a6f11`
+- GPU 1: NVIDIA GeForce RTX 5060 Ti, `16311 MiB`, PCI `00000000:07:00.0`
+- GPU 1 UUID: `GPU-11b1a30e-8c11-001b-7b8b-7b1e15ab6978`
 - Combined physical VRAM: approximately 24 GB
+- `nvidia-smi`: PASS; both GPUs visible and idle
+- PCI enumeration:
+  - RTX 5060 device `10de:2d05`, audio `10de:22eb`
+  - RTX 5060 Ti device `10de:2d04`, audio `10de:22eb`
 
-Formal current `nvidia-smi`, PCI, and module evidence remains to be captured in
-this build pass before the GPU gate is closed.
+**GPU gate: PASS**
+
+The current driver is intentionally `595.99.02`, installed during the clean-OS
+rebuild after hardware troubleshooting. Do not replace it with the older shared
+runbook package baseline merely to make HX-5 match a historical fleet pin.
 
 ## 4. Storage Layout
 
-Devices, filesystems, mount points, and the dedicated application path.
-State the gate result: **Storage gate: PASS/FAIL**.
+Current storage evidence captured 2026-09-15:
+
+| Device | Size | Filesystem | UUID | Mount | Purpose |
+|---|---:|---|---|---|---|
+| `nvme1n1p1` | 1 GB | vfat | `6DA4-AE41` | `/boot/efi` | EFI system partition |
+| `nvme1n1p2` | 120 GB | ext4 | `3e04ca1a-ccd0-4cc8-9bce-1d6e8f5bb532` | `/` | OS/root |
+| `nvme1n1p3` | 810.5 GB | ext4 | `68d0e365-212c-456f-b42e-d908b445ae77` | `/srv/ollama` | Dedicated Ollama/model storage |
+| `nvme0n1` | 476.9 GB | none observed | — | unmounted | Not authorized for HX-5 build use; leave untouched |
+
+`/srv/ollama` proof:
+
+```text
+TARGET      SOURCE         FSTYPE OPTIONS
+/srv/ollama /dev/nvme1n1p3 ext4   rw,relatime,stripe=128
+```
+
+Filesystem utilization at capture:
+
+```text
+/dev/nvme1n1p3 ext4 797G 28K 757G 1% /srv/ollama
+```
+
+The dedicated application filesystem is therefore mounted, writable, and
+essentially empty. No formatting, repartitioning, or disk reassignment is
+required before the Ollama installation block.
+
+**Storage gate: PASS**
+
+Note: `/etc/fstab` UUID entries are correct and resolve to the current devices,
+but installer-generated comments still say the filesystems were on
+`/dev/nvme0n1p*`. Those comments are stale descriptive text only; the active
+UUID-based mounts are correct. This is tracked as a non-blocking finding.
 
 ## 5. Runtime
 
 Package source, **exact installed version**, service unit, systemd overrides,
 listener address and port.
+
+Pending Ollama installation.
 
 ## 6. Model / Application Provenance
 
@@ -127,14 +171,43 @@ alone establishes provenance.
 Known-answer CLI proof, HTTP/API proof, LAN proof, reboot persistence. Include
 the exact command and the exact response for each.
 
+Current infrastructure proof:
+
+```text
+hostname: hx-5
+hostname -f: hx-5.hx.local.arpa
+IPv4: 192.168.50.205/24
+AD machine trust: PASS
+SSSD service: active
+Domain user resolution: PASS
+NOPASSWD sudo: PASS
+Passwordless fleet-key SSH: PASS
+NVIDIA driver 595.99.02: PASS
+RTX 5060 visibility: PASS
+RTX 5060 Ti visibility: PASS
+/srv/ollama dedicated mount: PASS
+```
+
+Three failed SSSD responder socket units remain visible:
+
+```text
+sssd-nss.socket
+sssd-pam-priv.socket
+sssd-pam.socket
+```
+
+This reproduces the already-deferred HX4-F02 responder/socket conflict while
+core domain identity functions remain operational. It is non-blocking for the
+HX-5 build and must not trigger an in-line redesign of SSSD during this build.
+
 ## 8. Final State
 
 | Gate | Result |
 |---|---|
-| Clean base build | IN PROGRESS |
-| Domain join / SSSD | PASS |
-| GPU driver and visibility | PENDING FORMAL CAPTURE |
-| Dedicated storage | PENDING |
+| Clean base build | PASS WITH DEFERRED SSSD SOCKET FINDING |
+| Domain join / SSSD core function | PASS |
+| GPU driver and visibility | PASS |
+| Dedicated storage | PASS |
 | Runtime version | PENDING |
 | Service active / enabled | PENDING |
 | Model / application loaded | PENDING |
@@ -143,10 +216,10 @@ the exact command and the exact response for each.
 
 ## 9. Evidence References
 
-Either a retained bundle path under `docs/05-evidence/<server>/<component>/<run-id>/`,
-or an explicit statement that the proof is recorded inline in section 7 of this
-record. See `docs/05-evidence/README.md` for which model applies.
+Current evidence is recorded inline in this server record from the 2026-09-15
+post-rebuild validation pass. It covers identity/network, domain trust, SSSD
+core function, Windows fleet-key/passwordless-sudo access, OS/kernel, NVIDIA
+module/driver, dual-GPU PCI/runtime visibility, and dedicated Ollama storage.
 
-Current inline evidence in this record covers the 2026-09-15 domain repair and
-fleet-key/passwordless-sudo validation. GPU, storage, runtime, model, functional,
+Runtime, model provenance, model functional proof, multi-GPU inference proof,
 and reboot-persistence evidence remain open.
