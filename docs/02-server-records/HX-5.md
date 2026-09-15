@@ -1,19 +1,23 @@
 # HX-5 — CentCom / Ornith / DeepSeek Harness / dev-test Server Configuration
 
 **Build state:** IN PROGRESS
-**Gate:** DOMAIN / ADMIN / GPU / STORAGE PASS
+**Gate:** DOMAIN / ADMIN / GPU / STORAGE PASS; LAYER 0/1 RECONCILIATION OPEN
 **IP:** `192.168.50.205`
 **FQDN:** `hx-5.hx.local.arpa`
 **Record updated:** 2026-09-15
-> Scaffolded by `tools/hx-doc/hx-new-server hx-5`. Fill every section as the
-> build proceeds. `tools/hx-doc/hx-record-check` reports what is still open.
 
 ## 1. Identity and Network
 
 - Static hostname: `hx-5`
 - FQDN: `hx-5.hx.local.arpa`
+- `/etc/hosts`: `127.0.1.1 hx-5.hx.local.arpa hx-5`
 - IPv4: `192.168.50.205/24` on `eno1`
 - Default gateway: `192.168.50.1`
+- DNS: HX-1 `192.168.50.200`
+- Persistent network file: `/etc/netplan/50-cloud-init.yaml`
+- Netplan IPv4: `192.168.50.205/24`
+- Netplan default route: `192.168.50.1`
+- Netplan DNS: `192.168.50.200`
 - AD DNS zone: `hx.local.arpa`
 - Kerberos realm: `HX.LOCAL.ARPA`
 - Samba computer object: `HX-5$`
@@ -27,15 +31,34 @@
 - `adcli testjoin -D hx.local.arpa`: PASS
 - SSSD service state: `active`
 - SSSD realm configuration: `kerberos-member`
-- Domain user resolution proof: `jarvisr@hx.local.arpa` resolved by `getent passwd`.
+- Domain user resolution: `jarvisr@hx.local.arpa` PASS
 
 **Domain join gate: PASS**
 
+### Time synchronization — OPEN
+
+Current live state after the clean OS reinstall:
+
+```text
+System clock synchronized: yes
+NTP service: active
+chrony: not installed
+systemd-timesyncd: active / enabled
+Current NTP server: ntp.ubuntu.com / 91.189.91.157
+```
+
+HX architecture assigns **HX-1 (`192.168.50.200`) as the fleet NTP source**.
+HX-5 is therefore synchronized, but not to the approved HX fleet source.
+
+**HX-1 NTP client gate: FAIL / CONFIGURATION MISSING**
+
+Layer 0/1 must not be closed until the HX-1 NTP client baseline is restored and
+proven.
+
 ### Post-rebuild SSH / administration access
 
-The 2026-09-15 clean OS rebuild changed the HX-5 SSH host key, so the stale
-Windows `known_hosts` entry was removed and the rebuilt host fingerprint was
-accepted after local verification.
+The clean OS rebuild changed the HX-5 SSH host key, so the stale Windows
+`known_hosts` entry was removed and the rebuilt host fingerprint was accepted.
 
 Authoritative Windows fleet identity:
 
@@ -44,17 +67,18 @@ Private key: C:\Users\JarvisRichardson\.ssh\hx_fleet_ed25519
 Public key:  C:\Users\JarvisRichardson\.ssh\hx_fleet_ed25519.pub
 ```
 
-`hx_fleet_admin` is not the fleet-key filename and must not be used in HX-5
-operator instructions.
+`hx_fleet_admin` is not the fleet-key filename.
 
 Fleet public-key authentication was installed into `hxsa`'s
-`~/.ssh/authorized_keys`. Key-only proof from the Windows control workstation:
+`~/.ssh/authorized_keys`.
 
-```powershell
-ssh -o PasswordAuthentication=no -i $env:USERPROFILE\.ssh\hx_fleet_ed25519 hxsa@192.168.50.205 "hostname; sudo -n true && echo KEY+SUDO-PASS"
+Current fleet key fingerprint:
+
+```text
+SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk hx-fleet-20260810
 ```
 
-Observed result:
+Key-only remote proof:
 
 ```text
 hx-5
@@ -67,14 +91,63 @@ Therefore:
 - `hxsa` non-interactive sudo: PASS
 - Windows operator key identity: `hx_fleet_ed25519`
 
+SSH runtime audit:
+
+```text
+ssh.service: active
+ssh.service enabled state: disabled
+port: 22
+```
+
+Remote SSH works now, but reboot/startup persistence remains to be explicitly
+proved. The current audit did not capture `ssh.socket`, so the persistence
+mechanism is not yet established.
+
+**SSH runtime: PASS**
+**SSH reboot persistence: VERIFICATION REQUIRED**
+
+### Firewall posture
+
+Observed:
+
+```text
+ufw status: inactive
+ufw.service: enabled
+ufw.service: active
+nftables ruleset: empty
+firewalld: inactive / not found
+```
+
+Effective traffic filtering is absent, which matches the intended trusted-LAN
+posture. However D-018 and Block 1 explicitly call for UFW to be disabled and
+stopped.
+
+**Effective no-firewall posture: PASS**
+**UFW service-state compliance: FAIL / DRIFT**
+
 ## 2. Operating System
 
 | Item | Value |
 |---|---|
 | Distribution / release | Ubuntu 24.04.5 LTS |
 | Kernel | `7.0.0-31-generic` |
+| Architecture | x86-64 |
+| Hardware vendor | iBUYPOWER |
+| Hardware model | Intel Core i7-14700F system |
 | Firmware version | BIOS 1836 |
+| Firmware date | 2026-04-17 |
 | sudo policy | `hxsa ALL=(ALL:ALL) NOPASSWD: ALL`; validated with `sudo -n true` |
+
+Current package audit shows four Netplan-related updates still pending:
+
+```text
+libnetplan1
+netplan-generator
+netplan.io
+python3-netplan
+```
+
+**Base OS update/upgrade gate: OPEN — package updates pending.**
 
 ## 3. GPU Configuration
 
@@ -90,20 +163,16 @@ Current post-rebuild evidence captured 2026-09-15:
 - GPU 1: NVIDIA GeForce RTX 5060 Ti, `16311 MiB`, PCI `00000000:07:00.0`
 - GPU 1 UUID: `GPU-11b1a30e-8c11-001b-7b8b-7b1e15ab6978`
 - Combined physical VRAM: approximately 24 GB
-- `nvidia-smi`: PASS; both GPUs visible and idle
-- PCI enumeration:
-  - RTX 5060 device `10de:2d05`, audio `10de:22eb`
-  - RTX 5060 Ti device `10de:2d04`, audio `10de:22eb`
+- `nvidia-smi`: PASS
+- PCI enumeration: PASS
 
 **GPU gate: PASS**
 
-The current driver is intentionally `595.99.02`, installed during the clean-OS
-rebuild after hardware troubleshooting. Do not replace it with the older shared
-runbook package baseline merely to make HX-5 match a historical fleet pin.
+The current driver is intentionally `595.99.02`. The shared Block 2 pin still
+targets `nvidia-driver-595-server-open=595.71.05-0ubuntu0.24.04.1`, so Block 2
+must not be rerun on HX-5 as written.
 
 ## 4. Storage Layout
-
-Current storage evidence captured 2026-09-15:
 
 | Device | Size | Filesystem | UUID | Mount | Purpose |
 |---|---:|---|---|---|---|
@@ -119,76 +188,21 @@ TARGET      SOURCE         FSTYPE OPTIONS
 /srv/ollama /dev/nvme1n1p3 ext4   rw,relatime,stripe=128
 ```
 
-Filesystem utilization at capture:
+Filesystem utilization:
 
 ```text
 /dev/nvme1n1p3 ext4 797G 28K 757G 1% /srv/ollama
 ```
 
-The dedicated application filesystem is therefore mounted, writable, and
-essentially empty. No formatting, repartitioning, or disk reassignment is
-required before the Ollama installation block.
-
 **Storage gate: PASS**
 
-Note: `/etc/fstab` UUID entries are correct and resolve to the current devices,
-but installer-generated comments still say the filesystems were on
-`/dev/nvme0n1p*`. Those comments are stale descriptive text only; the active
-UUID-based mounts are correct. This is tracked as a non-blocking finding.
+`/etc/fstab` UUID mappings are correct. Installer-generated comments refer to
+`nvme0n1p*`; those comments are stale descriptive text only and are tracked as
+a non-blocking finding.
 
-## 5. Runtime
+## 5. Domain / SSSD Deferred Condition
 
-Package source, **exact installed version**, service unit, systemd overrides,
-listener address and port.
-
-Pending Ollama installation.
-
-## 6. Model / Application Provenance
-
-Required for every server that hosts a model or a downloaded artifact. All
-five fields are mandatory — an unknown value is recorded as `UNRESOLVED`, never
-omitted, because a missing field cannot be told apart from a forgotten one.
-
-```text
-HX alias:              <ollama name or service identifier>
-Upstream identity:     <official model/product name and version>
-Source URI:            <exact hf.co/... repo:file, package URL, or registry ref>
-Artifact SHA-256:      <full 64-character hash of the downloaded artifact>
-Import method:         <pull | GGUF import | package install | build from source>
-```
-
-If the artifact was imported rather than pulled, also record the Modelfile or
-build definition verbatim, including any template, parameter, or stop-token
-settings. If none were set, say so explicitly.
-
-Why both Source URI and SHA-256 are required: the hash proves what is running,
-and the URI proves where it came from. Public model registries carry modified
-community rebuilds under names close to the official ones, so neither field
-alone establishes provenance.
-
-## 7. Functional Validation
-
-Known-answer CLI proof, HTTP/API proof, LAN proof, reboot persistence. Include
-the exact command and the exact response for each.
-
-Current infrastructure proof:
-
-```text
-hostname: hx-5
-hostname -f: hx-5.hx.local.arpa
-IPv4: 192.168.50.205/24
-AD machine trust: PASS
-SSSD service: active
-Domain user resolution: PASS
-NOPASSWD sudo: PASS
-Passwordless fleet-key SSH: PASS
-NVIDIA driver 595.99.02: PASS
-RTX 5060 visibility: PASS
-RTX 5060 Ti visibility: PASS
-/srv/ollama dedicated mount: PASS
-```
-
-Three failed SSSD responder socket units remain visible:
+Three failed responder sockets remain:
 
 ```text
 sssd-nss.socket
@@ -196,30 +210,105 @@ sssd-pam-priv.socket
 sssd-pam.socket
 ```
 
-This reproduces the already-deferred HX4-F02 responder/socket conflict while
-core domain identity functions remain operational. It is non-blocking for the
-HX-5 build and must not trigger an in-line redesign of SSSD during this build.
+At the same time:
 
-## 8. Final State
+```text
+adcli testjoin: PASS
+sssd.service: active
+domain user resolution: PASS
+```
+
+This reproduces HX4-F02 and remains **DEFERRED / NON-BLOCKING** under the
+existing disposition.
+
+## 6. Runtime
+
+Pending Ollama installation.
+
+No Block 3/Ollama action is authorized until Layer 0/1 reconciliation is
+completed.
+
+## 7. Model / Application Provenance
+
+Pending Ornith installation.
+
+Required fields at install time:
+
+```text
+HX alias:              <ollama name or service identifier>
+Upstream identity:     <official model/product name and version>
+Source URI:            <exact source reference>
+Artifact SHA-256:      <resolved immutable artifact hash>
+Import method:         <pull | GGUF import | other approved method>
+```
+
+## 8. Functional Validation
+
+Current infrastructure proof:
+
+```text
+hostname: hx-5                              PASS
+hostname -f: hx-5.hx.local.arpa           PASS
+persistent IPv4/gateway/DNS               PASS
+live IPv4/gateway/HX-1 DNS                PASS
+AD machine trust                           PASS
+SSSD core function                         PASS
+Samba DNS/dNSHostName/SPNs                 PASS after repair
+NOPASSWD sudo                              PASS
+passwordless fleet-key SSH                 PASS
+NVIDIA driver 595.99.02                    PASS
+RTX 5060 visibility                        PASS
+RTX 5060 Ti visibility                     PASS
+/srv/ollama dedicated mount                PASS
+HX-1 NTP source                            FAIL / missing
+UFW service disabled/stopped               FAIL / drift
+OS package-current state                   FAIL / updates pending
+SSH reboot persistence                     VERIFICATION REQUIRED
+```
+
+## 9. Layer 0/1 Closure State
 
 | Gate | Result |
 |---|---|
-| Clean base build | PASS WITH DEFERRED SSSD SOCKET FINDING |
+| Hostname / FQDN | PASS |
+| Persistent IPv4 / gateway / DNS | PASS |
+| Live network / HX-1 DNS | PASS |
+| HX-1 NTP client | **FAIL — MISSING** |
+| NOPASSWD sudo | PASS |
+| Fleet SSH key | PASS |
+| SSH runtime / port 22 | PASS |
+| SSH reboot persistence | **VERIFICATION REQUIRED** |
+| Effective no-firewall posture | PASS |
+| UFW disabled/stopped | **FAIL — DRIFT** |
 | Domain join / SSSD core function | PASS |
+| Machine trust | PASS |
+| Samba DNS / FQDN / SPNs | PASS after repair |
+| SSSD socket cleanliness | DEFERRED / HX4-F02 |
 | GPU driver and visibility | PASS |
 | Dedicated storage | PASS |
-| Runtime version | PENDING |
-| Service active / enabled | PENDING |
-| Model / application loaded | PENDING |
-| Known-answer functional proof | PENDING |
-| Reboot persistence | PENDING |
+| Base OS updates current | **FAIL — 4 UPDATES PENDING** |
+| Final post-reboot proof | PENDING |
 
-## 9. Evidence References
+**HX-5 LAYER 0/1 STATUS: NOT CLOSED**
 
-Current evidence is recorded inline in this server record from the 2026-09-15
-post-rebuild validation pass. It covers identity/network, domain trust, SSSD
-core function, Windows fleet-key/passwordless-sudo access, OS/kernel, NVIDIA
-module/driver, dual-GPU PCI/runtime visibility, and dedicated Ollama storage.
+Remaining closure work:
 
-Runtime, model provenance, model functional proof, multi-GPU inference proof,
-and reboot-persistence evidence remain open.
+1. Restore the approved HX-1 NTP client configuration.
+2. Reconcile UFW service state to D-018 / Block 1: disabled and stopped.
+3. Apply/resolve approved pending OS updates.
+4. Verify the SSH startup mechanism and reboot persistence.
+5. Reboot and perform final Layer 0/1 validation.
+
+Only after those items pass should HX-5 proceed to Block 3 / Ollama.
+
+## 10. Evidence References
+
+Runtime evidence for the 2026-09-15 audit is recorded inline in this server
+record and in:
+
+```text
+docs/00-control/HX-BASE-BLOCKS-1-2-CONFIGURATION-AUDIT.md
+```
+
+The detailed audit is the authority for Block 1/2 coverage gaps and the
+corrected clean-build process shape.
