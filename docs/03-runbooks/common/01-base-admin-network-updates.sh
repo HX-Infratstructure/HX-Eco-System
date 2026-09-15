@@ -12,10 +12,18 @@ hx_require_host "$1"
 hostnamectl
 ip -br addr
 ip route
-ip -4 -br addr | grep -q "$HX_IP/24" || { echo "STOP: expected IP $HX_IP/24 not found"; exit 11; }
-ip route | grep -q "^default via $HX_GATEWAY " || { echo "STOP: expected gateway $HX_GATEWAY not found"; exit 12; }
-resolvectl status
-resolvectl status | grep -q "$HX_DC_IP" || { echo "STOP: expected HX-1 DNS $HX_DC_IP not found"; exit 13; }
+# `cmd | grep -q` makes grep close the pipe at its first match, which kills the
+# writer with SIGPIPE (141). Under `set -o pipefail` that fails the pipeline
+# even though the match succeeded, so match on captured output instead.
+# HX-4 lists a third link after eno1, which is enough for resolvectl to still
+# be writing when grep leaves.
+ADDRS="$(ip -4 -br addr)"
+ROUTES="$(ip route)"
+grep -q "$HX_IP/24" <<<"$ADDRS" || { echo "STOP: expected IP $HX_IP/24 not found"; exit 11; }
+grep -q "^default via $HX_GATEWAY " <<<"$ROUTES" || { echo "STOP: expected gateway $HX_GATEWAY not found"; exit 12; }
+RESOLV="$(resolvectl status)"
+printf '%s\n' "$RESOLV"
+grep -q "$HX_DC_IP" <<<"$RESOLV" || { echo "STOP: expected HX-1 DNS $HX_DC_IP not found"; exit 13; }
 
 sudo sh -c 'set -e
 tmp=/etc/sudoers.d/90-hx-admin.tmp
