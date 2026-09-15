@@ -52,12 +52,18 @@ Do not mount/wipe unrelated disks. Do not import prior application state.
 unpinned model, on the same rule block 3 applies to Ollama itself: "whatever
 was current that day" is not a baseline a server record can state.
 
-Two gaps to close before build day:
+A reference must identify one artifact. `hx_require_pinned_ref` rejects both
+`:latest` and a bare name with no tag, because those are the same defect
+spelled two ways.
 
-- `HX_EMBED_PRIMARY_MODEL` is `bge-m3:latest`, and `latest` is a floating tag,
-  not a pin. Replace it with the fixed tag once the digest recorded at install
-  is known.
-- `tools/hx-doc/hx-preflight` cannot resolve an Ollama model tag. It checks
-  downloads, PyPI, npm, Hugging Face and apt. These three pins are proved by
-  the blocks themselves — 05 by a known-answer prompt, 06 by embedding
-  dimension — not by preflight.
+**Block 06 will not run today.** `HX_EMBED_PRIMARY_MODEL` is `bge-m3:latest`,
+so the block exits 31. That is deliberate. The dimension probe proves the
+family and the vector length, not the revision, so a later same-dimension
+BGE-M3 revision could replace the model a closed HX-4 record names, with
+nothing in the build to notice it. Replace `latest` with the fixed tag actually
+reviewed, then the block runs. Do not remove the gate to get past it.
+
+`tools/hx-doc/hx-preflight` cannot resolve an Ollama model tag. It checks
+downloads, PyPI, npm, Hugging Face and apt. These three pins are proved by the
+blocks themselves — 05 by a known-answer prompt, 06 by embedding dimension —
+and gated by `hx_require_pinned_ref`, not by preflight.

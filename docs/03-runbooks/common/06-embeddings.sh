@@ -18,11 +18,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 hx_require_host "$1"
 
 for v in HX_EMBED_PRIMARY_MODEL HX_EMBED_ALT_MODEL; do
-  [ -n "${!v:-}" ] || {
-    echo "STOP: $v is not set in hx-base.env." >&2
-    echo "      Record the verified upstream reference before build day." >&2
-    exit 30
-  }
+  hx_require_pinned_ref "$v"
 done
 
 systemctl is-active ollama >/dev/null || {

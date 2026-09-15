@@ -15,11 +15,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 [ $# -eq 1 ] || { echo "Usage: ${0##*/} <hx-host>   (hx-4)" >&2; exit 2; }
 hx_require_host "$1"
 
-[ -n "${HX_GPT_OSS_MODEL:-}" ] || {
-  echo "STOP: HX_GPT_OSS_MODEL is not set in hx-base.env." >&2
-  echo "      Record the verified upstream reference before build day." >&2
-  exit 30
-}
+hx_require_pinned_ref HX_GPT_OSS_MODEL
 
 # Ollama must already be serving; this block adds a model, it does not install
 # a runtime.
