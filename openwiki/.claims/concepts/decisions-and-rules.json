@@ -1,0 +1,308 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:4ebc6e528ee48b046d84cee26d16e8df3864da05c6274b519b24891eb8718c4e",
+  "claims": [
+    {
+      "id": "claim_2a1b97c39c264b238eca78662a714ecb",
+      "statement": "The non-negotiable operating rules require native Linux + systemd with no Docker/Podman/Kubernetes containerized deployment unless explicitly approved by the owner, KISS one-server-at-a-time, no unapproved firewall/access/TLS/segmentation/network/disk changes, no import of old HX-Infrastructure config, reverification of historical hardware facts, no PASS/CLOSED until workload+functional+cleanup+reboot gates and record update, and no diagnosis of HX-3 boot time unless asked.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L38-L50",
+          "version": "repo-lines-v1:sha256:6e6b6a10454cbe109d65f4fca796506a7eb1595fb7354eaa3767f2fe09e7ea36:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiNDE0ZDA0Zjk1NjRhMmQ4NmYxYWI2ZmJjNGI2NDQxZTE1OTVhMzkxZmI3NzQwOWI3YzM2Mzc4NzA5NjA2ZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiZjVlNTlhNGJhNzQzOTk3MjRhZTFiNWE5NzRkZWQ2Y2JjMTZjYzU1MjI3YThjMzNmMTFiZDdkYTcwMDZjMTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE2MTE0ZGFhMGVhMDYwZjBjZTJlNzllYWMzMjUyYmE4OTM4ZDYwOWUyN2E4NDlhNmE1NjgxMzUzNDg4MDA3OGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxYTM3NTI2Nzc5NzY2OTg2ODRmMTE3ZjY1Njg1ZDJlZWU0MGNmMTUwMjU4ZDY0YzRkYTM0YTczYjRiN2U2MTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_41fca6f7387d4abe86b4bb85ec3d8ad1",
+      "statement": "D-001 retains HX-1's clean Samba foundation and rebuilds HX-2 through HX-17 from scratch, with old HX-Infrastructure configuration and closure claims reference-only.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L9-L10",
+          "version": "repo-lines-v1:sha256:256e7123a815600dfb03df6aaaeec6bf38744a5371d13e3fa37eb6e08b3d9ae2:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmJlOTFhYjgwZDM0ZGU3OTU2ODZjODcxMzEyNDQ4YzllMjRkZWUyM2ViYWZlNzcwOTc5MzljNmRkOGFjZWY3NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDNlYzg1NWE3ZWYxOTI5ZjJlMGI0NjI2NmFmZGY2NTU0M2M5NGJkZmNkNWI4ZTdmOGRkYjgwYTE4MjZkYzZkOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODM5OTcxNTYzY2UyZTAzYzkyM2I5YWI2YmZkNzhkYTJlNmVhZDExOWM4MWQ1MTYwMjAxOWVmOTBlNmE0MDBjMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGYzNzgwNDUzZDU2NDMwN2MxNmY5N2EzZDI5NGJhZjkxNzhiMzQ5YWU2N2EyMDE1NjI2ZWNkNTBhNDhhMjlkNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_269b32f9ad7b4a3980c945768b00be92",
+      "statement": "D-018 ratifies that no UFW is used anywhere on the fleet (the base runbook disables it) and Ollama listens on 0.0.0.0:11434 with no authentication, treating the HX LAN as a trusted lab segment; this closes UFW/listener hardening as a decided posture not to be re-raised as a finding.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L60-L86",
+          "version": "repo-lines-v1:sha256:f3eb39bb661f9737553e1a3896ad0803377cae14370a6c89c3fe599636e2ca14:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0ZTM2N2UzMTBhNTk5ZTAyMmRhNDFiNjI4MGRmZDdhY2ZjZjgzYjc5OTdmZDE1NTIzMGVkOWE2MWY1Y2Q5MzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2Mzc0M2ZmODFjZTc1OGEyMGZlM2VmMDA3YjQyMzc4ZDUwNjA4NzA5ZWI3YTc3MTAzYjNhYjBmOWJkMTBiMTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE3Yjk2ODY5OGIwOWMwYWIxYzA4NTNjZTc3NmI2MDUzMDJlNTdjMmFjMWIyNmY5YWVlZmEwOTA1ZmM3NWY1NTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYjI2NjQzMmNjZTE2YWE3ZDYxNjlkNjNkMTFjN2I3Zjk1OTI1MjYwODMwYjA2YTE4MWI5NjUzMWM2N2MwYjQifQ"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/01-base-admin-network-updates.sh#L41-L45",
+          "version": "repo-lines-v1:sha256:415e9d4b11bfba3dc6c5059cfe775383fd07434dfe9a8e75e4c519af603de05d:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjU2Y2IxM2U0Y2RmZjIxNzU1YWY4YzU4OGUzOGE4NjBlOGI5OWQwZDliMGE0Y2NjMTdiYjQ0NmMyMTM0NDY3NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWU2MjgzNTc2NDY3NmI3Zjc5ZWY2ODFmYzE2OTBiODI5ZjAyNzUzZGJmYmFiMTlmNzg2NmExMTMyZjczN2U0YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGUzYWM2YTRlNjFiYTFmMDA5NWIxMjA2MzkyNThlNGYyZTRmZDMwMWJjMzY5NDRmOThhNWY1MDAwZmNlODhkOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWY4YjA4NzczZGUyYTZiMjliOTEyNTQzZmRlMDIyZGYzZTQzN2IwZWVlNWNiNmE3ZWVhYTQ1Y2U0Nzk5YTI4MCJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/03-storage-ollama.sh#L45-L45",
+          "version": "repo-lines-v1:sha256:4e905820c40f0e4d59d50ac4f2ff9e5a8c520afd2e83d7b327df0aa393d5c731:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGU5MDU4MjBjNDBmMGU0ZDU5ZDUwYWM0ZjJmZjllNWE4YzUyMGFmZDJlODNkN2IzMjdkZjBhYTM5M2Q1YzczMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGU5MDU4MjBjNDBmMGU0ZDU5ZDUwYWM0ZjJmZjllNWE4YzUyMGFmZDJlODNkN2IzMjdkZjBhYTM5M2Q1YzczMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2Q3ZTAyNmQ2YzkxN2JlOWM1MGI2OGMwNmU1ZWRmYzUyN2YyMjg2YjRjY2E5ZjU3NjdiMTczN2Q4ZjM3MjEzNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjkwNGUzMDk5NjU5NzZlZmYzY2RhM2UzNmIyYWFmZmMzNDQyMWU4NTQyNDJkZDNkNmU0NWQ3ZmE5MGUxYjc4MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_af30af87fe9845c188a0d57f78ee71f0",
+      "statement": "Approved application package sources are PyPI, npm, GitHub release, upstream source tarball, direct binary, or Hugging Face; the Ubuntu archive is permitted only for the NVIDIA driver and build toolchains/library headers; Snap is never permitted for anything including drivers (D-020/D-021).",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L103-L136",
+          "version": "repo-lines-v1:sha256:bc57f54e05c48012d55b7125c1111a5be3e519acbaff590e6d5f8d9d0cd8fbf7:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5Mjc1ODFlMmY1YzcyMDBmYjVjZWMwOGVlZTM0MjE3OTFhZDUzOThiYzBmMjE3ZDE4MmI1MzFkMjc3YjA2ZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmZWY4N2EwNGViMTY1YWRjMWM0MjUyZTU1NjU1NmI2Y2I4OTIxODFhMzFhMmU4MjM3YzU2Yzc3ZTQwMWNlMjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlZWRiMWM5NTZlMjUyMjgxZGUxNzkzNTI4MDJmOGIyZDBiZjRlMGFmZmY4OGZmMjc5Yjc4ZjY0MTBkMDNiZjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEwOTg1NWM4NDdmMGIwZThjYWFhNjI0MmM4NGQ0ZjdjZGJmMjJkNDgyODA1ZTFmNDEzZDc5NGY0Y2VkZTljMDAifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_version_pins.py#L40-L47",
+          "version": "repo-lines-v1:sha256:6dea3040de0bbb5bc23a367c1c71d6c17c59b853b42adf46706e3d8e13b8e4d9:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODk5MTViODQxNzE4OWVjYmI2ZDc3YWUzNDMwOWI4NjE2YWFlYmEzYzU2YjhkMjgzNDQyNTlkMjU4NGE1MzY3NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjY1NmM2MWQxOTczYTI0YWNlMTFlYThjNmFiNTRkZmVhNjk0ZTg3NmI3MDk3N2YwNTE1Y2Q5ZmY1NTZiNGQ3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTZiN2JlZGY0YzFiNWE3ODA0YjY4MGE0NWZkN2MyNWMzMGM4NGNhYjM1NzRiMTY3MWU0MzUwMGQ1YTBmZGM5MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODY3OWYxNTQ5NzFhNzM3MWQxNTY0N2Y0M2IzNzkyNDcxM2MzNDFmYWU5NTI4M2VmYjI4M2NjMjQ2NjE2YzJiYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_20fc1692fd894ed58cca24f673e997d9",
+      "statement": "tools/hx-doc/hx_version_pins.py source_problem() reports a Snap pin as 'never permitted' for both app and driver kinds, accepts ubuntu-archive only for kind=='driver', reports an ubuntu-archive application with a migration note, and accepts PyPI; hx_gate_tests.py proves each branch fails on the case it guards.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L171-L188",
+          "version": "repo-lines-v1:sha256:15c0572a565220962033166f62ab7eb2e457af4416876dbd4bd2292a2022d281:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmY2NmZDI1N2YzYzcwMWY5NzY0OTdkZDZiZjcyZDg3MGIxYjhmNjViZTJjOTY5MGNjMjkwY2FlN2I5MTMxZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhMDAyYzAwNDEzYTlhM2M4MGNkODc3ZWZlMDkwMTU1OTkyNDNlNjBmZDkyMzgyYWMzMjczYzk5YmE5ZjBjNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2ZjI5ZDA2NTYwZDE0ZjE4N2VjMjdkOGZlNWFhOTgyZmFkNDI1MWY1YjAyZmY3YTIxNWNjOTdiYjZjNDVlZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmOGJhZGFhMmFjMzQ4OWE3OTQwZWI3YTllMjMyODE5ZWQ0OGQ0YzNhNzk2ZTA0Yzk3Zjc2ZWQ5OTlhNDk1MzUifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_version_pins.py#L52-L68",
+          "version": "repo-lines-v1:sha256:aa9d82774f85ce7e2277cc38d52ca4a757e334f1a1df2de9b1b2084345ef802e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5NjgyODE2MWExNWJkOWIzODlmZDNlZDliZjk0YmZhYTVjNGE0NGZmMDE4NWUxNzQ2MTZhOWQ5ZjQxZGJkNGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1MTIyZDNlYjdmZTA0NDM5YjJmYmJkZDU2MGZmZTc1OWM1OTFiZmNkYzhhYmY2YzNmOWFmMWViYWUyOTMwZmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwZTZmZGY3MzM0NDE2ZGM2NzNkMWY0MjkxMGQ5NjYxZjBhM2Y3YTllN2I5MzZkNzk2ZGIyMTZjZmY3M2FlMGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhM2NmNTE5MjM1NGY3MTYxNWFjNTEwMzRiM2U5N2MyMGVkYTk5NjQzZmNhZjViYmU2ZDQxYWQ1OWJkMTIxNjcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_356e11c3744640eb8ef8b33727bb39f6",
+      "statement": "D-005 places BGE-M3 as the primary/default embedding model, Nomic Embed Text v1.5 as alternate benchmark/fallback, and a BGE-family reranker on HX-4 Meta-X; embeddings from different models are never mixed in one Qdrant collection and a model change requires a new collection and re-embedding.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L21-L22",
+          "version": "repo-lines-v1:sha256:0e509aaea019c0d85738d81eefc5c94f18b36d02c172d82ed1a5fb46d348f2ea:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmNmNmIyYzFhZTZmNTc3NTliY2I3ZmMwODE1MmY2Mjc1ZmNlZTViMWQ2NDY5ZmFkYjdhNDM2ZGU0Yzc5ZmNmYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjlmMzA5OGZlMmIyMmNkOGE0YmJlNWNlNzY0YzFlMmMxM2JjNmM2OWVmZDIwYTBkNTkxZmZjYjA5YzFmODliYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjA3NGQ3YTdlMzI4Y2M2ZDkxNThmNTQxNGNmNGI2NTc0OTg4YTI3YjgzMTA2ZDFjMTU1Yzc5MGEzYzY4NWZhZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTEzYzU0MDBkZDY0MjhhNGNhNGY5Mzk4MGM1OWU1MGVhNTNhYmUxNjhhM2FiY2U5NTkyYzQ5NTY5MjQ5NTdmMCJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-MODEL-PLACEMENT-AND-EMBEDDING-STANDARD.md#L122-L170",
+          "version": "repo-lines-v1:sha256:5ce05834623ab8b27d04b2aa7aad8fea859cdf7b5a569fe483bab5583d1ead02:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1ODUyNDYxODJkNTczOTFiZWI1NWQwODEwNGQ2YmI3OGI0ZGMwMzk2OTNhNWEyN2M0NTc2YTcwODQzNjY0YjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjOGQyNDZlYzU3Y2RlYmIwZDZjZTEzNDBlOWNmMjA2Nzk5MTQ4MjRhNTI5NjNlNzUyMjg5NDFlMzljMWM4MzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk1MWFlYTQ4NDQyZmU2NjI4N2ExZWMwYjk1NDNmNzkwODBmY2I2Zjk2MTAwZWI3MTIxZDY4NmNlMmZhYWE1YmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0Y2JlYWY1NzhiYjQ5YTNkNDE4OTdjYzFmZWQyOGNmMmEwOWE1ZWQwZDhkNzUwN2RiNTg2NmIxNzRkM2Q3NzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_92fc2ff22a764070a9f33287b4782c0a",
+      "statement": "D-006 keeps Granite-Docling 258M with Docling on HX-16 as an embedded document-understanding VLM (not the general embedding model), with CPU-first base validation and GPU acceleration only if measured need later justifies it.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L24-L25",
+          "version": "repo-lines-v1:sha256:d1bd1a9d79c800a36c2cab71fba3e85479b74c24ff89950bf8bde0d6c303d564:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTRiMDM3ZWRlMjU2YThjNGE1MTIzN2Q0MDk0MDY4ZjdkYTVkM2U2MjNkZmE4NTA4OGMxNzBkYzJjNjk0ZGU4MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGM5MjFkZmM4MTllM2U2NWNkM2Q2ZDAwZTUxOTI5ZDgxYzZhMmViZmExNzVmYjJjMDg4YWM5ZDg3ODAxNmJhMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDkzNmZhNGQ5OTdjODgyZGQzMDhhYzc0NTdkNjU2MzcwNzY4Y2E2MjUyOGUyZjM0YjYwYjc5YmQwOGI0OWI3NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWQwZGYyZmNmMjllNjE4ODZkNmM5NjkwMjZlOWJiNmVjNGIyNTcyNTA1YjRhYTIyN2QzM2VlMjQyMDIzMzlmOCJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-MODEL-PLACEMENT-AND-EMBEDDING-STANDARD.md#L18-L26",
+          "version": "repo-lines-v1:sha256:48f64de81993db754d9a074637c742ceacb5da5e6c32cb0ce5e8cac4eb627b4c:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTQ1NGU1YjA4ODE5MDhhY2QzODZkMDRmODFlZjg3NzgwYmY4MGM0NWE4OGYzMjI4N2QxZDExN2FiODI4NjA1MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTU5MjA3MDJlNThlMWU2YTMzY2U5OGI0MWYyZWY0NDQ4MTA3YWZjZGNjODFhMTBkNTZhYTk0OWNmM2ZlYWM5MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjQyMjkzNjU4NDM1ZWQ3MjlmODg2MTU0ZTA5OGFhNzdkNDliODhmNTJhYmQyMjJjMGYzNjljYmZkMWNkM2M3MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODI2ZjU1YmI2YmM3MTI4ZTQxZTA5MTVjMzM5Njk4NjAyZWRmODdjZDY2ZWRmMDdlZWZmMjU1MjkwYzFmOGM4NCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2519eb0546114045980b5a6eb970c5b1",
+      "statement": "D-007 reserves HX-5 headroom for CentCom, Ornith, DeepSeek Harness, and dev/test work; shared embedding/reranking remains on HX-4 even if HX-5 is upgraded to 2x16GB GPUs, and moving the embedding plane to HX-5 requires an explicit architecture decision based on measured contention or capacity.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L27-L28",
+          "version": "repo-lines-v1:sha256:485e4b2ac4ba33fb9cea19fb1f300716194374aa6a95ac2a0a27b46edb824fa4:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTk3MTM0ZTA3OTU5MmE5NTVlODM1YzAyYzdmMzZlNmM3NGExNGEwMTFlOGY3M2Y0OTBlNmNjNGZiM2IzMzBjNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWMwM2M5MDJlZWFhNmMyYWIwY2U2YTM4MTA4NzA1YjIwNDc5M2M1ODk5YThlOGUwOWRhY2EyN2M4ZWEzZDcxMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTcyMzM1NGQzMjFiZTdmOTBlMDI4ZjNhNTlmMjI0MjhkZDBhYzRiY2VmNDk4Y2E4NDRjNzlkZDVlMjA3YjhlMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTM2NThmNTg0MDg4YzYxYTZmZTJiZGZkMmE5ZmQxMTQyMTE3ZDUwODgwMjBhN2U2YWVjZWU2NjE2MmE2NzgxNSJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-MODEL-PLACEMENT-AND-EMBEDDING-STANDARD.md#L198-L212",
+          "version": "repo-lines-v1:sha256:a2985d6efdae4c211d6be77584ca4ea63b7fdd601139231b211a1489a5a6ed9e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyM2ZiODNkZDdmYTkyNDFlMWM5YWQwMDllYmZkOTBiNDAzMzk4MGY4OGY3MTcwNDhmZjNjNWU1ZjlhMTg4YzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3NTc5ZDM5NzY3ZWFlYWM0M2JjZDM1MGUyYWNhNDJkMDdkN2MwNDE4ZTA0MzBiMzFjNzgyNzViMzE2OTk4M2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVhNmMzMjU2NTlkNmJkYmJhNjdiOGQ1MzQ5NjNkZDgxNjFhNjc5MzM0YzFkNjVhOTdkZWZlNjBiZjc1N2I5YTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIyMTQ3ODY5Y2M3ODk1Y2NmNThlMjY2ZWRiMmZmZjNhN2U1ZjUwYmE2YTY5N2NhOWM3YWRjNjVhODJkNTkyYTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9a1df2f98120453eb914a81a5f718e5c",
+      "statement": "D-022 pins the BGE reranker to BAAI/bge-reranker-v2-m3 at immutable revision 953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e, served by infinity-emb 0.0.77 from PyPI under systemd on port 7997; authoritative pins are in hx-base.env and checked by hx-version-pins.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L138-L154",
+          "version": "repo-lines-v1:sha256:75e1045b28186f2802cba0d3c2148088797058754ed1d786d9e9df37b9ddf174:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4OGNmMThhZWQyYjc2ZmJjMGJhNjk2MWUyYjk5MGUwOWE5MzY2MTlmOGE0N2YxZmM5OGU5NWEzYTkzMmNkYzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2ZjA0MzU2NGJhMGU0MzA4ODI4NmY4YzkwZjFmZWMxZDIyNTlmOWE3ODBmOGNmNzExNzM1ZjI5ZGRkNzk1ZTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIxZmFjYTU2YTg4MTRkNTdlZTQ4M2EzNWViZDdhMDM0YTI4NDZhMWY4MjhjNWE5MWRkM2JjYWEwY2IzOTA3NTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmMjZlZjlhMjIzYmJiNjQzNTczN2QwNGEyZjA5YThkNDc5NjY3YzNjNmJjZjMwZTJkNmNiMGY0ZWJlNzM5N2EifQ"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L44-L59",
+          "version": "repo-lines-v1:sha256:69adb9f8de6a1e12c95729e72ab19f67cd6c917499cec8620113f1e9f609789f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMGJkOGIyN2VjZjQ5YzY3YmM5MzY0ZThmYTRhM2FjYjQ3MGFjNTRhZmNkZGJiOWZhZGRlOGM0Yjc4NjAxYWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiZDYwYjg0YmMzY2UwZmJkOWViNDJkNWU3Yjk3MGUyNDE2MDAxMGE1YmIyOTcxMTg2ODFlNDQ3ODU0NTEwNTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlmZjgwOTk1MjYwMDI3YWM4M2JkOTU1MWMyZjI4MzA5MjBlYWEyYzIxOGVjOGUzMDhjZGEzZmRmMTY2OTVmMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNhYjE2MGZkZjg1NWNhYjQzMmZmYWVjMzE4NWRkNGI1MzdiNDJhMzhhMWVkZjRhMTY3NzM0NmFjYmQwNjUyMGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b2ca978903274a02b5962831b352b333",
+      "statement": "D-010 requires OmniRoute to maintain an explicit approved-provider allowlist and an explicit approved-model allowlist; discovery/support does not equal approval and approving a provider does not approve its entire model catalog, and free/no-auth/discovered providers are not automatically active.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L147-L155",
+          "version": "repo-lines-v1:sha256:a9d08bb308f14025a19e2bb26895d488a8ad9101284606f05bc03805572e11f5:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDMxYWI1ZWIwZmI2MDg0MDA1ODM1NjM4OWJiY2Q4YThjZGRiODk0MTk4M2NiMGNiN2NiM2ZiNzBlMjExYzZkYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGYzYTczMDhkZmQ4OTU4MzExM2M1NjZiM2VlNzJlNTAwNDFiYTRjNTY0NDIxY2MzOWU2MWMxMzg5MTAzZDZhNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWUxZTdmMTg3MGMyOGUwOTQ3OWU3MmI0ZTgzOGI1ZmU3NmQxNjI4YzIxZDcyZmMzOWE0NzljZTNmNTRmMGM5ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjI3MDRiNDE2YmI5YmJlYTQ3NDE0NzgxNGY1MTdhNjA4MWUxNTlhOTBjYjI1ODlmY2FkZGVkYjMzYTMzZWI4OSJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L36-L37",
+          "version": "repo-lines-v1:sha256:a12763545f00fa1bdf4bc1ba189d8394d5e35734ee9adc82f96a6bdbcf206aad:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmNhYTE5NzllOTgxYjIzZGIzOTAzYTljNzRlNzE1OGJlNGI3ZDRlOTY3YjllM2UxMDYxNDZiYWMxMjM2NGE1MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTEyZmY2OGNjMDk3MmM4NzAyYThiMWI3ZGMwMGUzNGM4ZWYzY2NjOGYwYzU5M2RlMmY3N2EwM2RhZmM5NzRmOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGNmNjk1Zjg2MjhkNDMzYjczODg3YmNhMGUwZjZjYjgxMzA4YzI0MmNlODVlNDgyNzY4NGI5YjM3M2UxMDJiOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjEwYWNlZTRiYjVkNDc2MzFiODU3MDA3Yjg5ZjUyNzM3MzhhMjU1NWNiYjRiM2Y2OTZlYmMzZjZkZTdkODAxZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_32cd06ca3e1d4a1ca083a38ff24712fb",
+      "statement": "D-019 fixes HX-6 OmniRoute as https://github.com/diegosouzapw/OmniRoute.git (MIT), installed from the npm package omniroute onto Node.js from the official nodejs.org binary tarball; GitHub release assets are desktop builds and the documented container path is not used.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L88-L101",
+          "version": "repo-lines-v1:sha256:fb50a983ea843fde6aea775ae47e0cdf4b860988066e7784b513c545cf0a2fc2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1YzMxOWRmZTZlZTIyNmVlMmZmZWU2ZGJlMTE4ZDI5ZmM4OWU0ZWM4YzZkMmUyMzk3MDI1NjVkNzkyNjdlNWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzZGI1MDI1ZjczYzBhNzgxYTc5ZDRlMTVkNmJkODExMjFjMTJiMGExYzAyYzg4YjAyMGMzNzUwZTc4ZGQzNGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI2ZDIwZjVmZTE3MDczNzk0N2Y1NGZhYjdlMDAwN2RhNzk2MmJjZTVmNTMyZWFjM2ExOWFhZWJjOTI0NzIxYmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3OTgxNjIxMDc0YzA3YjhlNWQ2MmRkZTBjOTE0ZGRmYzE2MzlmYTA5YzQxMzYzOTVkNzA2NWJjMDQxNjlhMjgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_78baee6d001c4adbb73f69f82a78fdee",
+      "statement": "D-014 makes HX-5 CentCom the standard remote execution station for subsequent component smoke tests after HX-5 closes its base inference foundation; disposable test projects/fixtures/logs/cleanup verification live on HX-5, the SUT keeps only installed app/approved config/smoke-namespaced data, remote execution is preferred over SSH, cleanup is mandatory, and DeepSeek Harness is not a prerequisite for enabling the runner role.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L48-L49",
+          "version": "repo-lines-v1:sha256:89fffd5c5470377b169f20610bad8adee14497248c55a79263d5351e4e076b7f:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTEzYjVjYmU4MjE5ZDVmMjViZWEzMWI1ZTE0NmQ2MGZmMjYxN2MyYTczMmIzM2JlZTA1MTk4ZmVmMzRkMzgzMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTljNGZhMzUzMmU3NGEzNWIyYzkxZmM2OTkxYTQ5ZmU3ZGI1MmY0NWE3ZjNkZWZkNjAzYjI1ZDAxNDUyNTEwMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTBiNmY5ZDYyYzdiYTU0OGRjZTMyODM5NjkwZTE1Mzc5Njg5OTk2Njc4ZjEwYzczNzgxNjY5MzMxNzUzYTNjNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTEyNmJmZDVmNzEwNmNiNzJkYTdmYThjODljOWJlMGFjMjYyYTM2MWJhMDNjYmExZDMwMzNjYjkwNDNhNjg5OSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_44ac595d5fcb4485abcf410f2b05baba",
+      "statement": "D-012 makes DeepSeek Harness on HX-5 the meta-agent/orchestration layer requiring a bounded multi-agent solution-building smoke test for BASE PASS; D-013 makes Deep Agents by LangChain on HX-12 the LOB agent factory requiring a tool-calling-capable HX model plus a bounded LOB Agent Factory smoke test proving real artifact creation, sub-agent delegation, task delegation, correct execution, validation, evidence, and reboot persistence.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L42-L46",
+          "version": "repo-lines-v1:sha256:f95025547644c26fec200e9cad6c7584a62818116689458696528777c83ac8d3:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWNiMmQxOGIzMzI4NjY4NThjNzNlMTkyYjEzN2NiN2MwMDc5OGZhNDE3YjQ3NDdlZWZmNDA0M2QyMGU4NWYyYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDU3ODNlOTg1ZWZhYTdiMzFiZjY3OGRmNTIzNzQwYWNlODJlMzMxZTViNjlmMjY2MGM5OTI3ZWE4Nzk5ODMyNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzI2ODM5YjY3ZmI0ODA3MjA4MTI5ZGExNDZhYjY4NzdiZDI0YjI0N2YwYzRhNDZlMmM4YTI5YmRmNDQyNzk2NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTc2MDFkNmVkMmE3YzJhYjgyZjc3YTgyMjJkZTU5OTZmZmI3MDRmMGRhM2RkNjI3ZDc0NGMzNjc1NTA5ZDg5OSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a5ad5d4f13e14d6f9a8c55594d13642c",
+      "statement": "D-017 establishes skills/ as the canonical governed HX capability layer subordinate to owner decisions, active architecture, live evidence, runbooks, and smoke-test acceptance criteria; external skills cannot authorize host-placement/container/network/security/model-placement/permanent-integration/PASS-criteria changes; agent-specific installs are derived from canonical source; and skills never store credentials.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L82-L92",
+          "version": "repo-lines-v1:sha256:ce2e623e5c6d839a7d5b29955e4af055e3c49dd16fb0bd044fb3d2f88c2889df:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk5ZmIyMDcxNmZhYzQyMTdiMTdiMTI5MjAzMjNjM2ZhZjQzOTQxZDMwYWM4NmZkOGMyOTU4N2I3MzIyN2YzYzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMyMWZiMjQ4MGE0NGFlZDAxMWZlMGRiZjRhN2I2ZDAxNjg1MDg3MzQxOTk1NWFhZTJjZTNmODZmMDY1ODc2YzUifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L57-L58",
+          "version": "repo-lines-v1:sha256:b4aff08e68ac2abc1802f384dbf95c5cda3a3838fa525433f3332e92994771fb:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWYxOTBkNjNmNThjMTQ2ZTU3YmI4YmI4OTlhZTlmOWY5NTRiZTYxZDZlZGY1ODVjMzY5NjBlZTMyN2ZiZjkzMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWZlZWY3NDg1NDU5MjhjNDZhOWUwMGJjMzk4N2U1NDE0ZDc4YWI5MjFlNzAxODVmZGNiMmM3MWQzMDRjZTgxMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2VlMTcwNzM3Zjk5MTlhM2Y2M2MwNTU3OWZhZWNlYTZjOWQ5OWFjNDBkNWMyMGRiMmIzMTc4OGY4M2Q0OGYzNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGJhNWQ4MjljMmZlMTE5YWZkMTNiNDI5OGY3ZTM3ODc3NjI2ZjViYmE2YjRiOGRjZDk2ODY4N2I3Y2EyNGE2MyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3f63bf5b262149f4a4533477a7212be2",
+      "statement": "D-016 defines the ordered smoke-test proof roadmap with cumulative proof and minimal live coupling; the proof DAG is enforced by tools/hx-doc/hx-proof and hx-smoke-promote, which refuse a PASS when a required prior step has not passed and been cited in prior_pass_evidence, with no bypass flag.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L230-L243",
+          "version": "repo-lines-v1:sha256:6a5180c32ac14fc1bb807c59bb1af56e602dfbef5e91465591ecd4acabf42806:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhMWZiOTU3MDg4ODM2MGQ4ZTRkNTQ1MmY3YjBjMzVkNTI2YTVmZGNmNzJmYmFlOGU1NmQwY2UzM2M0NDhiNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3M2I3MjNjOWM5MjdmY2M4YTg4OTZhNDkzYzlhMTc5YjRlYzdkY2I1ODBhNDVhNGUzNzIxMDc1OWI2YmNlZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhZTNlMzEyMDU1MTE5MzQ5ZTA0MmZkYzBjNjFlNTQwNTViZDFjOWQwNGFkMDExZjAyMzg2ZWUzNDg4NzJkNDcifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L54-L55",
+          "version": "repo-lines-v1:sha256:f1a887417dec28f2a53c1b09c643fb9a5368b133890ed343547db9cd098706d3:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGU3ZjUyOTRiYjIxYmE0N2U5NTYxYWZkMGQyYjZkZGE1ZDU1YzkwNGNkZGEyYWYxMTUxNmNlZDc1M2JhMGQ4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTliMDMwMWI1YjcyYjAwODVjZTQ5ZTE4N2M1YTYyZmFiOGM5MjFjN2IzZGU2MTBhN2M1YzQ1MTZjZjA5MmFhOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGVkOWU0ZjcxODBhNDJiYzMwM2NlMTVlZDk2MDVmZTliYjQzZWY2ZjE2MjAwMzRiZmQ4ZWRkZjBiYzE3MTJhMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmU0MGFkZTFlZDdhMTQyZmYwOTdlNDJhMGUxODNmYjg0ZGE1NGZlNjQxOGJiYjk1ZDk1ZmQ4MWYxMzUwMjU2NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2c70daafb55e4ec4845faae24f523f4c",
+      "statement": "The change rule requires every change to go through a pull request (main is not a working branch) with coderabbit review --agent run before every push; .coderabbit.yaml matches every base branch so stacked branches are reviewed; PRs must stay under 100 changed files or CodeRabbit skips review; and findings must be fixed or answered on the thread.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L165-L213",
+          "version": "repo-lines-v1:sha256:78ff7b39b1ee3033de800e87420ebcedc1977ae6bf7f0f4493717df63c0527c3:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2NWYyZTdhOTg2Y2M3ZjNkNzEzMmU2MTRkOTlmMTBiNzc4NTMwNmMwYjAwYTc3NGUyZTM3NWYxMWFmZmY4MTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1OTQzMWNhNWExMjFjYTY5OWFiZTI4YjI1MTJhMjkxODIzZTY0OTFkNjExMGI5N2Q3MGU2NDQyMjYyMDA5ODUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyMjQyNDQ0NWI3OWRlNGUwNTI0OWI4ZWYyNDYyYzA5NzJkYmFhZjBjMzY5ZDgyNzFhMDQ3ZGRkNWUyYjYzNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY5NDI3NjA1ZjMwNWY5OTBlMTQ4YjgyYjZjODNhYWY2MWY3YjUyZGIxYTYzNjMzMzFlYjBiYWJkMjdiODQyZWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_595f49a390f746cd97146e0cdbaba9cd",
+      "statement": "D-023 accepts two Actions secrets on the public repository (OPENWIKI_PR_TOKEN with Contents+Pull-requests read/write scoped to this repo, and ANTHROPIC_API_KEY) because GITHUB_TOKEN-opened PRs do not start pull_request workflows; openwiki-update.yml meets six conditions (add-paths is openwiki only, all actions/packages pinned including OpenWiki 0.5.1, no auto-merge, preflight job refuses to start without secrets, weekly schedule, telemetry off/LangSmith removed).",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L24-L98",
+          "version": "repo-lines-v1:sha256:e0faae9d201e98c4e3f9df2018d1e4548751898657be0ef1befa3bd20056d430:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NmRjNDgxNDlmNWE4M2QxZWQ2ZGJiMzliYmM3ZTJiOTAyYWEzZDM0ZDZiZDVhZTRiMjkxYjY4ZGYwY2E3OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0MWM2MGQ4MzU5N2M3NmNjYTY5NmFhYzc0ZGZiN2FjNWRjMzM2MmZlNjUxZjhjYWI1YTMwNDk5NjMwMTdkNDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJkMWNiMDEzYmE1NzBjYjQ1YjQxM2U1OTc3NTgyYmFjOGZlZWMwOWI0OTgxMjhmYmFiNTRiZWU2ZTI0YzM0NzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4M2MwNzc3OWUwYmNjZWY2YjRmOGY1NjkxYzdkZWE1N2U0ZjMyNzQ1NjI3OWI3Y2JjMDg4NDA1MDk2OTZmYTMifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L156-L208",
+          "version": "repo-lines-v1:sha256:026cf14f4e2125f3157f81d718e6ed33124075242883b3e0cf1185a2ac33f39f:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMGU1ZDBhZjUxYzY3ZDA4NWY1MmVlYTY4MDU2MDI4YjQ5ZThhNGI1N2Y4MzdkYTQxYWViNWI1NWY0M2ZjNGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2YzcxZDA2ZGI0MWYwNjg5NjFiNGJkM2NkMTdlMzBmYTNjMzBhOTIwZDRmZTQzZWY4YTc1OWNmMWVlODUyOWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2MTJmM2Q5OWMxYTk2OTQ1NjdkZmM5YTFlY2Y1ZTFmNjIwMGJlMzIxMDJhYzMxZDMzNDlmMGIwNjMxZDBjNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU1MjA2Njk4NDE3ZTNmNzMxYjc1YjY3Y2E3MGQ2MzU0Nzc5OWRlYmQ3ZWE5MWNlNWU4ZjNjZmNhMjM5ZjY3NTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c214bbc379db4b8083a64b03c01a8f4e",
+      "statement": "D-023 states the residual risk that workflow_dispatch runs the workflow file from the chosen ref so a branch editing that file can read both secrets, controlled by who holds write access plus default-branch protection; the checkout pins to the default branch as a correctness measure; and reversal is deleting the workflow and revoking secrets, with manual openwiki --update via the session model as the free fallback.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L66-L80",
+          "version": "repo-lines-v1:sha256:7900017a164c8bc33f8fc1846302bec51e5a56229a8b71221927ce98394b7545:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MWYxMDA4MGMzNjZmZTFjMmFlNjFiMzJmZWY4MjM1M2U1NmY4MTIyNzBmYTIzMTNjOWI0M2Q4YmYyNWY3ZGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzMDk3NWM3ZTIwZWJhODg1N2VmZDMxZTYyYjY2NWY3ODdlNTE2NDE5NTFhNjYwNzg5ZmJhOTMzYTYzNDcyMTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI2NDA0YjA4ZmU2MzJkNjIxYmI4OWFmNTIxZDJhNDBlOTA1N2M0ZmVlMWJiNzA5MjIyNjM4YzQzOGM3ODNlZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY1NmRkYjM1NzMyZmE2Y2EzN2RjOTU4ZWYxMWMyNDQyOTI1NzFlZjY0YTk1OGVmYjM0MmVkZGU5NzUwY2YzMzQifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L197-L208",
+          "version": "repo-lines-v1:sha256:21951c21e401d6a00861b50871a9f3e2c2f97abd5425c1f7ae62ae437b4c27c4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliYzEwOWMzNDMxMGIzYmJjNDJhN2YxNjk3MDkwMjQxZmJkOGU3OTYzYTQ5YWVmZGJhNTRmOWVlMTEyNWM3MzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2YzcxZDA2ZGI0MWYwNjg5NjFiNGJkM2NkMTdlMzBmYTNjMzBhOTIwZDRmZTQzZWY4YTc1OWNmMWVlODUyOWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMxMDIzZWY1YTlkYzVkY2ZlMmVmMTA4ODQyMjVkZTM2MDVhYTNhYzE1ZTIzNjU2ZGY3NmEyZmE4ZDE1MzM5MDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU1MjA2Njk4NDE3ZTNmNzMxYjc1YjY3Y2E3MGQ2MzU0Nzc5OWRlYmQ3ZWE5MWNlNWU4ZjNjZmNhMjM5ZjY3NTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d8365dd8fff24cd78770368f948e4419",
+      "statement": "D-003 makes product-specific MCP servers and native Web UIs part of the parent application's base build; D-004 limits HX-7 NGINX to dev/test application rendering and forbids using it as a common reverse proxy for Qdrant, LightRAG, n8n, Open WebUI, databases, MCP servers, or normal ecosystem services.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L123-L163",
+          "version": "repo-lines-v1:sha256:0274c0606e57ed63aea620facb618a3c461381b06b3b6550badd90b7b65fc110:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhmYTU5MDZhM2YyN2UzODcxZjM5NDBmNjljNWQ5ZjA3OTllZjM4MTJjZTZjMzM1MDllMjEyNDk0ODQ4OGM4OTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjNDdmN2MzNzRjNWJjNzZiY2ExNzVjOWY5MmM3MzQwZDFiN2YyNjZkMzQ0YzE4MjA1N2RlNzY0YWFlMDI4YjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU0MTk1MzUxMjk2NmFmZWFmNGE4ODY1YzBjOGNhYmJiMjVjZjQ0MTkzZDlhMjkxODBiMTM3MDQ5NTI5NDRkOTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM5M2M5YzRmMjkzYzlmMzM5M2Y0MTYyZTFiYzgwYzQyOTM0NmJiMTA0ZjUwYWRkNTFhNGNjMTJiNjlkM2Q5ZDUifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L15-L19",
+          "version": "repo-lines-v1:sha256:ee21dfc709265699c685bda4d82765791d049b4e9c5d52afe590e4e064a9714a:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzgyNmNlYjc5MGQwNWNiNWU4MWY3NDE0Mjc0ZjBhMTBkOGYyNGNmZTAzNTcxYTBiOTMzYTY0YzI2NThmZmNmNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTkzMzA2MDViNTAyMjAwMTI0YjhiMTk5YTc3MGU3ZDRkMjg2YjliNTgwY2MyMjgwZTA5ZTYzMjE2ZGQ5MzY1OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWE1N2M1Y2E3M2JhYmYyNmZmNTQ4YzI0YzZlZGYyYjI1MzUwYmU1MzZkYTgyMWJmM2Q2ZDBhNTlkMjQ5MmVjOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzM4ZmM4MDc4ZTYyYTgyNGY4ZTRlN2M2ZjRjNDY1ZTkyOWYxYjQyODc3NWM4YTVjZTEzMzVhYTA5NmFmZDNkZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9f801093693d415582de9664528ee8ca",
+      "statement": "D-008 (Open WebUI BASE PASS) and D-009 (OmniRoute BASE PASS) each permit a single temporary connection/route to one already-proven Ollama endpoint with known-answer validation, evidence capture, and cleanup/removal of the temporary wiring; temporary validation wiring must be recorded and removed before closure unless explicitly approved as permanent architecture.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L101-L106",
+          "version": "repo-lines-v1:sha256:4907365ced1fdff9780cb3c83f8f15f81abc345cf3be2c248d2c5fa0a4891eee:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWEzZmU0M2UwMWJiYzk2YmFlN2QyNGI1NWY0NDIzZDA4MGViY2Q0NGZkZGY1NzZhZTI4YmQwNTFkNTdiNjMzOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGRjNDU5YTdjNzYzYzdlMDZlZWU1NTViZWIyYjNlM2Y1YTkyMmRkYTUyNzFlNzlmNWFhYWNkNGU1NDEyZmY1ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmE5ZTNlODBkY2E2YWFiNzEwMGU2ODYwNzRjYjdmMmE5ZjI4YzQ1MmMyNDJiYzVhNTNiODY0NGExMWIwZjVjMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTNiZTc1MWE2Y2YzOTVjM2FkOTdmNWFkMjc0NDQ5YTZiOGY4NDM2NmYxMDJhNWMxZDhlZjNkNTljM2I4ZTk0MyJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L30-L34",
+          "version": "repo-lines-v1:sha256:32507110b1c30ce07e520940482e1f3ba87d753f2ff9cfe5d542c7128fc76f2b:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFiMTFmYWJlZDJkMTJmYWZiZmZlZDU4ZmFhMDc4M2Y1YTNkMDcxNTM3NWJlM2IyMGMwMTJiMDkxYjQyYmU2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWUxOGYyNjE0MzZkNmYyOGMyNmNmYTBmMTA3ZjkxZWM5MzNhODYzNDczMTUxMWVkNjdjNzFiZDk5YjI0OTBlZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2Q1NTNiOTc3NDYyZDQwMDQzMWI3ZGU0Nzc2M2JjMDU5ZjM3YTc3MzUzN2E1OTIwMGEwMjg5NTliNjVmMGRjMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWNiYzg5ZjMyYWEyNWY5MzVlNDZhZmRmYTM4ZTUyNzJjM2I2OWRiNDQ1YmFhNmJlNzA0ZTY1MzY0YTAxMzMwNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c8f605f05029404b946474f6cb48e782",
+      "statement": "D-011 keeps only the latest version of a document active with superseded versions under archive/, active Markdown as agent authority and HTML as a human mirror, forbidding duplicate active documents with timestamps/(1)/final-final/model-name prefixes and requiring stable active filenames.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L291-L306",
+          "version": "repo-lines-v1:sha256:1ca976b945e091c51b0fbf2806eb33d93a409068d0032b55945844323f11b5c3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhOGU5OGFhZDUxZDgwZDllZjVlYTNhZTJlMmMyZWJkNDM3MjcxNzZlNWE0MzlhNWZhMjg1ZDE1NmIxM2NkMTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlMzg5NTE2NWI0M2RmNDNjNmU1NzZiY2IxYWJkMmE2ZmU0NjZkMmIwYmQwNTU3M2QxZmI5NTBiZmY5ZDA4ZTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0YjVlNzBiNmM4ZWEyYjNmZjZjZWRmNTlmZjAxMmY2ZDZhMjc2Mzc4MjgzNWE2MGVkNTg5MDVlNmM3ZWY2ZGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFmMzdlM2EyZWRkNzIzZjlkMDc5YWU0N2U0NTdmMjQwYzczZjQwZmM3OWU1ZjMyYjZlOTBlMjlmYWY2MjQ1NjcifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L39-L40",
+          "version": "repo-lines-v1:sha256:ab408150598657641074093f9d923be984c5f6ec31acfb3a42f0396c32d328c3:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzVkNzA1YTk5ZDFiM2M4YjI2MGFiYTcwNjdmMzM2NzM5MjEzODNlNzU4YzQ2M2U4ZDI0MzJjMjI2MjVkM2ExNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjkwMzlmYWQwNmQ5N2Y1MzliNDNiNTM0OGZlOTAxODZlNmJkMTNmMGE2YTI2MTQyZGZlYTMwNjgzZTQyMTJkMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTFkZDA1ODA3NTY0NWVmZDJhMGI4MjE4Zjg3NmZjZDRjMzg0ZTEzMDM4MTNlMzg0MjU5YWVjYjRlMzg4YjQzYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGJkNTZjZDVkODQ0MjMxOTMwZmZlYzg2MmRlOWM5ODYxYTkyNTA2OTllNDZiNmQyNTc0MjMyMDMxY2RjNzA5NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9906d64b25444effa2aded926d1d8625",
+      "statement": "D-015 makes the HX ecosystem architecture the cornerstone that must be understood before validation is designed or executed; validation sits on top of the ecosystem and does not define it, and ARCHITECTURE-ORIENTATION.md is the foundational orientation authority that smoke-test documents must inherit rather than redefine.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L52-L68",
+          "version": "repo-lines-v1:sha256:bbc0115f79db833f5dab58c4f1b55b1e276ce3739e19b3eb6473e79011d5f5ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwNTgzYmJhODg2NWExZTA4ZWQ0YjcwMzgxNjdhMjE3NDU5MTcyNWEyZDY0Y2I4NTEzOGFmMmNhNTZiZmQ0NTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1NDA0OGEwM2Y4ZTJlYTczNWExOTBhMGQ0YjcyZDNlY2RhMDE1NWUxNTM4NzFmYWViZjM0NGNiNjA3OWVlNDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU3MjBlYTY5ODJhOWI2NWM3NTU0Zjc0YzJiNzcyODJlZTVkMTZmYmIwNWEwMTIyMDIyNTIwZGE3MjNhMTkwM2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMzQzMjIyNDhmMGJmZWRkMDZkM2UwM2ViMjc5YTNkYmNiOTNhYjVkNzJkNmIxYmRmYTRjMGFlODQ3YWZlZjkifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L51-L52",
+          "version": "repo-lines-v1:sha256:c6448088d5274d2090227db9f0fce14389c29847e934ebfb2f2979cf8e9180b8:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDIwOTI4Y2JhY2M3ZTJmZTM0N2M1MzhjN2E3MTQzNGYzN2UxMDRiMjJiNWUxN2Y3MmNlZGNkOTU3NzhlY2RhMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg2ZmRhNWQ0OTM0NDkyNTYxZTcxMzY2MjAwMTYwZDkyZDlhYTM2NzA1MTVhOWMxMWE4NjM3MjI0Zjg0OWUxMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGQ5OGQ2NzM4ZDI1ZjVhNTUzZTZmYjk3NzFmNGViZjE3NmUyMzM1OThhMzVhMjE2OWIzYWE1ZGI1ZjVjYzBmZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjQ1Mjc1ZThhNDZhYWQwZjE0MjBkZGEwZTM1ZjJmMmViMzlmMTgwMTVhOWRhZDUzYzA0MzBiYzQ5ZjA5NGI3YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0ba594bfbd6e427688482f6632e42bd8",
+      "statement": "Each Qdrant collection must be pinned to one embedding model/revision/dimension with required metadata (embedding_model, embedding_model_revision, embedding_dimension, embedding_normalization, embedding_service_version, chunking_profile, created_utc); there is no in-place vector-model switch, only a create-new-collection/re-embed/retest procedure.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-MODEL-PLACEMENT-AND-EMBEDDING-STANDARD.md#L122-L170",
+          "version": "repo-lines-v1:sha256:5ce05834623ab8b27d04b2aa7aad8fea859cdf7b5a569fe483bab5583d1ead02:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1ODUyNDYxODJkNTczOTFiZWI1NWQwODEwNGQ2YmI3OGI0ZGMwMzk2OTNhNWEyN2M0NTc2YTcwODQzNjY0YjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjOGQyNDZlYzU3Y2RlYmIwZDZjZTEzNDBlOWNmMjA2Nzk5MTQ4MjRhNTI5NjNlNzUyMjg5NDFlMzljMWM4MzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk1MWFlYTQ4NDQyZmU2NjI4N2ExZWMwYjk1NDNmNzkwODBmY2I2Zjk2MTAwZWI3MTIxZDY4NmNlMmZhYWE1YmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0Y2JlYWY1NzhiYjQ5YTNkNDE4OTdjYzFmZWQyOGNmMmEwOWE1ZWQwZDhkNzUwN2RiNTg2NmIxNzRkM2Q3NzYifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-14T19:05:42.087Z"
+  }
+}

@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:4fdcf7d420269ffe1bba545a82871b684791e55363cdd2aeb5bf18cb9363e37a",
+  "claims": [
+    {
+      "id": "claim_af101e804db7433fb8539fd349635dd0",
+      "statement": "main is not a working branch; every change including a one-line fix goes through a pull request so CodeRabbit reviews it, and review is not optional.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L165-L168",
+          "version": "repo-lines-v1:sha256:fcc5790fa1023193881578331f058bc88972505d1c0a1feaa553806b218b6ddd:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTY1ZjJlN2E5ODZjYzdmM2Q3MTMyZTYxNGQ5OWYxMGI3Nzg1MzA2YzBiMDBhNzc0ZTJlMzc1ZjExYWZmZjgxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzA0N2I0ODZkYWRiOTcyYjcxZjFiZWY1NzdmYWQ3MzljMjA5ZjUyNDA5MmFiZmY0YmEyN2VmNWI2ZjY5M2IzYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjIyNDI0NDQ1Yjc5ZGU0ZTA1MjQ5YjhlZjI0NjJjMDk3MmRiYWFmMGMzNjlkODI3MWEwNDdkZGQ1ZTJiNjM0MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWY3NTdkYmJhMDBlOTA0YmE2YmEwMjI3NjQ4YTRiYWZiMjU5YjlmOTBmYWQwMmJhNmFmYzZmOTk3OThhMTZkYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_60fdb48ad9fa4859aa56634a85f671fe",
+      "statement": "coderabbit review --agent before every push is required, not a convenience: the hosted reviewer runs after push, applies base-branch config rather than the branch under review, and on a public repo can refuse for the day once the review limit is reached; the CLI has none of those limits.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L187-L198",
+          "version": "repo-lines-v1:sha256:8b7f49ebe91aa526ddae60bb6c195b098c42c7a9279e8630b5af17d6e31e43b3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1OTlhOTIzNTQ2ZmNhNGVkNTliZjI2ODFiM2JjMTNkYjlhM2RkOGI5NTE3MDU2ZjkyMzQzY2VjN2FhYzMyODAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwMzdkYTQ5ZGUwYzc4YTc4ZGJlMDg0ZmNlNmI0MTZiNmNjNDRjZDNlNWY0MzRiOTg3ZmVmMDcyODkwN2Y3NzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiNzA0M2E1N2I0NzIxZDdjZmI4YzgxODUxNTRlNWY1NDc3ZjkzYThkM2Q0YTgxZGQ5ZmI0MzM3OGZjMzlhMDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxNzAxZGIyODljZWM3YzIwZDA5ZDA5MmIzMzE0NjlkMjk3NTI2MDQ1MWJkMTQ1ZjNhMjQ5YTZkYWVkZTk4MDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a56ce0850f6f41609d24791a3e06b3cd",
+      "statement": "The first push that skipped the CLI review shipped two defects: a duplicate with: key that stopped a workflow from starting, and a path_filters entry that turned the filter list into an allow list excluding every file from review; the CLI reported both before they reached the branch.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L194-L198",
+          "version": "repo-lines-v1:sha256:d93432bfc2f8d27fda0b687e96309f912a7be89f701d45524b43bf99a7fdd1a3:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWY1ZmYwODczNTBkMmM3ZDViOTVhYzdhMjQwNTVlZjVhMzQ2MGIzODRmNjMxMTcyZTlkZGFiNGY3OWI4Mzk0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTAzN2RhNDlkZTBjNzhhNzhkYmUwODRmY2U2YjQxNmI2Y2M0NGNkM2U1ZjQzNGI5ODdmZWYwNzI4OTA3Zjc3MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTA0YTI2MWI5NGFhNDIxNWI4YzA3NDY0MzcyMjA5ZGFhNjc4NTQ4ZGI5YmE3MGQzYzZlZmVlNWE2ZGU5ODFjZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjE3MDFkYjI4OWNlYzdjMjBkMDlkMDkyYjMzMTQ2OWQyOTc1MjYwNDUxYmQxNDVmM2EyNDlhNmRhZWRlOTgwMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_aeb8fbb74ed84fd6bd579d4b59583fed",
+      "statement": "Pull requests must stay under 100 changed files or CodeRabbit skips review; generated output and archive are filtered out in .coderabbit.yaml, which is what usually pushes a change over the line.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L55-L77",
+          "version": "repo-lines-v1:sha256:2f096697e1dca51f454cf335a125a3baf6ae25d80b8743492eb8a7d80294dd7f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwNTFiM2U3YTM3ZGQ1NWE0M2MwOWEwMzU5YjgxNzMxYjgyZDBhYjM3MjcwNjU4Njk5ZTczMjIxNzk3ZmY5YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3MTdjYzMxZGVlNmU3MzEzODVlMmI3MmU2MWQzNDUzNWY0M2JkNmI2ZmZjYjc1MWVhOTYwN2UxMTZjZWQ0YTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI2NTk3MDllMGVlZjdlYTc3MTc4NWYwMWYxMTllZDE1NDE0ZmIwM2NiYzgwYTc0NzRhYTI5NDJlMzI0ZTQzNTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ1NDZmYmE5NmM0ODM2NmNmNjE3YzE1YTYxZWIxMWJlNzM5MGVkMzBiMWI4OGExZWRiMGViMDY3MGJiZWUxYTkifQ"
+        },
+        {
+          "resource": "repo://AGENTS.md#L207-L210",
+          "version": "repo-lines-v1:sha256:0611c96b82e675228b794a2856bcd96346d955bfa25ce0cae9fd61b73f28851f:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTgwOGU0ODQyMjczOWJjMmI3NzUwYzMwOWE1MmU2NGZmMWEzZGFmOWQ5ZDUxYzk5YjQ0ODVkNDllYmY2ZDNhMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDU0OGMyZWYxYWRjZDc5NDEyMGQzNTgzYjJlYTQ3YWQyNDJkYzJjM2Q4OTkyODY5ZmI1NWIyNmFlNjU5OTI3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzViN2I5MDdkMDE1Mzk4MmIzZjA2ZGJhNDAzNTNhY2ExNWJlZmM2ZTQ5ZDIyODRmZTMzOTMwMGY3Y2I4YjU4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzU2NDdjMWM3MzkzNjM0Y2I2OGE3ZjAxNGJhOWE0YjVmZTQ2MGI5MDEzNWRhZjhmZmYwMDFiYWE0OTA3Y2RkZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_62f4f87d53184b35af8b5a15ccf6e4c0",
+      "statement": "auto_review.base_branches lists .* because the list is branches other than the default; naming only main excluded stacked PRs from review, and the decision is made from the PR's base branch so the fix must reach main to take effect.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L25-L39",
+          "version": "repo-lines-v1:sha256:6d43cd9c226500d2387df64162b2de7018cfdc8f35017340d837eef0fda7a8bc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiNmFmMjUyODZiOWVmZjM2NjNhOTU2MzY1MTA5MjQwOGJkOTU3Y2Q4MzMwNTk2NWM0MDZlM2I2MjQ3ZGEwOWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkNzc1ZDQ3ZWJlMTU4NzNmMWRlMmYzMzhlZGNkN2UzOGZkMjEzNjczNWFhYWNjMWU1ZWFiYTdjZmRmYWE0ZTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU2MGRhZTVhNTUzY2YzNjQ1OGVlYTM5MjBhMWYyNzZmNDI2ZmQ5NTZiNjQwM2FjZTRjMWY0ODZkZWM5NDRiMjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjYmIzNTY3ZGY2OTg0NTc5ZmVlMGE0NWFiMDE0OWFlY2QwNzI5NjA2OGUwNDYyYTg4ZDFjZDc5ZGU1ODk4OTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e41aa976ddef4dbf99a090e258163745",
+      "statement": "path_filters uses ** (keep whole tree) with subtractive ! entries for generated/archive/openwiki output; a positive entry turns the list into an allow list that excludes everything, the bug that shipped two defects. The two source-of-truth TSVs are re-included by name because CodeRabbit's default filters exclude *.tsv.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L55-L77",
+          "version": "repo-lines-v1:sha256:2f096697e1dca51f454cf335a125a3baf6ae25d80b8743492eb8a7d80294dd7f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwNTFiM2U3YTM3ZGQ1NWE0M2MwOWEwMzU5YjgxNzMxYjgyZDBhYjM3MjcwNjU4Njk5ZTczMjIxNzk3ZmY5YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3MTdjYzMxZGVlNmU3MzEzODVlMmI3MmU2MWQzNDUzNWY0M2JkNmI2ZmZjYjc1MWVhOTYwN2UxMTZjZWQ0YTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI2NTk3MDllMGVlZjdlYTc3MTc4NWYwMWYxMTllZDE1NDE0ZmIwM2NiYzgwYTc0NzRhYTI5NDJlMzI0ZTQzNTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ1NDZmYmE5NmM0ODM2NmNmNjE3YzE1YTYxZWIxMWJlNzM5MGVkMzBiMWI4OGExZWRiMGViMDY3MGJiZWUxYTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e2e3dfdf0ece4916b50ad097b74c031b",
+      "statement": "The CodeRabbit profile is assertive; path_instructions encode repository rules as reviewer findings including that Snap is never permitted, application software must come from PyPI/npm/GitHub release/source tarball/binary/Hugging Face, apt is only for the NVIDIA driver and build toolchains/library headers, and D-018's no-UFW/Ollama-0.0.0.0 posture is decided and not a finding.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L14-L22",
+          "version": "repo-lines-v1:sha256:95e3f5660a16ea6f2f5cc43481baf78c9069739a4e1221ee9ee901550d47da79:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjZjNjFkNDI4YzIwZWYyZWExZjYzMWFkMjk3M2JiNTVlYzNjM2VkZWEwZDE5YWUyYjZiZGIxYTJjN2M5OGFkNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzBkMTExYzNmNmQwZWYyNTE2ZTQzNGE3MTJjYWViNDg4NjcyYmVkODU0MGUzZmQzNjVjYTkxMzlkYmIzMmZlMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjA2N2NhODRjNjU3YzQyOTRhOGNiYWZiYWM5Y2E1NTcxMzdmMTJkOTUxMTA4YjBjYTliYzNiYTBjZDdkNGE0OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTVmMTU1OTk3ZWFhNTJkOTU2YjgyZWIxODFlNzVkMTdiYzUzYjg2MmViYWEzOTdiZDRmYzUzNGI1NzQ4Mjc3YyJ9"
+        },
+        {
+          "resource": "repo://.coderabbit.yaml#L79-L148",
+          "version": "repo-lines-v1:sha256:c11339d6701244a90b8891fc081aec180c7bee7535a3c9da6ebdcb3fd4620fa2:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmOGNmMDY3MGE5MGYyZGE4OGIyZTBiZDdlNjA1MTVmMmM3OThhNjVhYTFmZDVjMDVkMGU3NDY2N2Q3NmQxYzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmNDYzNTFlNjhmZGJkOWIwMGJmYjQyY2JiYzAwM2YwYTQ0ZGU2YmNmYWU1NTlmZWQxNGIxNmJmMmQ2YTRkOGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI5OTkyYjUzYjU1Mjc1Y2FjN2Y0OWMxZDk5ZDM1NjVmN2YyNmFhNmUyYWZmZjQ2N2I2NWMzNThkOWU0ZjVlOGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c785a26f9f3c4528af9b3ef6e2605001",
+      "statement": "hx-checks.yml runs on push to main, pull request, and workflow_dispatch with contents:read only; all jobs set persist-credentials:false because checkout writes GITHUB_TOKEN into .git/config and these jobs run repository-controlled scripts needing no authenticated git.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L102-L107",
+          "version": "repo-lines-v1:sha256:f14813c3eb9db7682d1794a10c867791f9cca40d8e1d06c35e1f43644d6c54f0:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWY3ZjY3Y2ZhMGE2MTgyZGQyOWQ2ZDgxMTM5ZWE0NTU2NTQxYjVlYWRjMWE2NmE5MWE0OTVmMGU3ZjY0ZGRkMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDgyYzA4ZWM4ZmUzZjg2MWRlNjUyNjQxMzE2ZjkyMWZmYTg3NmE0ZTNhNDkyNGVkYjZjMDg3ODg2NmZiMDFiZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODk5NDI1YTFkODc4ZmY3ODAxNjZhZDUxMDBhYzkyNTcwMjEzMTBiYzM2Y2VmMzUxNzAxYWQzYzdhNDc5YTdkMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDdlNTg3NDFiMzkyMjA0NzA1MzEyNjE0NWY1ZDFjZmQ1YzJlZjllODQ3Y2Y5NzY0NmYwOWFkYzg5MjY2ZDA2ZCJ9"
+        },
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L58-L63",
+          "version": "repo-lines-v1:sha256:f14813c3eb9db7682d1794a10c867791f9cca40d8e1d06c35e1f43644d6c54f0:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWY3ZjY3Y2ZhMGE2MTgyZGQyOWQ2ZDgxMTM5ZWE0NTU2NTQxYjVlYWRjMWE2NmE5MWE0OTVmMGU3ZjY0ZGRkMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDgyYzA4ZWM4ZmUzZjg2MWRlNjUyNjQxMzE2ZjkyMWZmYTg3NmE0ZTNhNDkyNGVkYjZjMDg3ODg2NmZiMDFiZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTQ2ZjBmZDNlN2MyMWM5ZTYyMTMzYTVmMjUxY2RmZWU3ODA1YTRkODFkZTE2ODU1OTliZDljMDQzODdkZmFjMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzE1Zjk1NDkzZWVjMTU2NWZlN2U4Y2MyMDk0NGM1MDIwODk1NTRiMmFiM2NmMTAwNGE2NDU4YjE1NDJlNGE3MiJ9"
+        },
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L6-L25",
+          "version": "repo-lines-v1:sha256:1222b13bda1d6de86b2212a2bc8f19b26d3afcb3b8de86e730e7366e469347bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NmRjNDgxNDlmNWE4M2QxZWQ2ZGJiMzliYmM3ZTJiOTAyYWEzZDM0ZDZiZDVhZTRiMjkxYjY4ZGYwY2E3OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4MmMwOGVjOGZlM2Y4NjFkZTY1MjY0MTMxNmY5MjFmZmE4NzZhNGUzYTQ5MjRlZGI2YzA4Nzg4NjZmYjAxYmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRiYTdkYjJhOGM1YWZkZjI3NjY5ODQzNWExZGMxMDU0YjE0OWM2MTM4ZmIwZGEzOWI5MDE0YmZmZjQwMTJjZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmZDFjYzc4MWU5NzExM2U4ZWRiNzdhYjgxOTY5MDE1YzczODYxMTdkMGNiYmI1N2ZiNzYzMzNhNzJmZDdkNDIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_40d832bede61437db053a585a9118843",
+      "statement": "The documentation job runs hx-doc-check, hx-fleet --check, hx-proof --check, hx-render-html --check, hx-record-check, hx-smoke-lint --quiet, then hx-gate-tests in order on Python 3.12.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L16-L52",
+          "version": "repo-lines-v1:sha256:e669cf769a84522a2f45481941b5f4b1635eea70b5375e61d1b56e6247764a18:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhmZDA0YzQ1OTdmMDA2NDVkOWY2N2NlODQ3NGI0MmJmZGE4MzAzNjU5ZTE2MTA0ODQ1NTJkNTJiOWU2YWRmODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4NDgyMjk3MDZlMzllMTczYjVkMGRhZTI1YjJkYzI5YjYwMDZjOTg4MTBhNzU4MjZmMGM5YzhkMzJmZTgyNmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJjZGRhZTRlN2E2MzZjMjBmNTUwYWNiNmE1NGYyNzA5YWUyY2I0Y2RhNDE1ZDNhN2U1MjQxZTM3MTg1Njg5MjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkYzk4NzdjOGEwMWEzYjllMDZlN2U1ODA3OWMyYzE4MzE2YTVjMTBhZGYxMjI3NmRlODU0ZmMxYjJlMGMyYTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_76c65cab056b48ed8b68888173864974",
+      "statement": "The scripts job runs shellcheck (severity warning, shell bash) over runbook common/HX-*/shell scripts and hx-* wrappers with .py filtered out, checks shell scripts are LF and executable, and compiles Python artifacts under tools/.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L65-L96",
+          "version": "repo-lines-v1:sha256:b463410fec511ef4d06f53a2cd96f48940fb40d47ef11f1ee1bc97db64b99901:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5NGU0MGM0YzBmOGMzODdjNGVkMDk2ZTk1NGQxNmI3ZmVlOTQ3MGEyN2ZmZGFmZTkwMGVhNjg2M2UwYzY0NjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0OWQwYzAxODhlZGE4NTU4MDQyNzZhNjUzOWY5NmQzZTYwNTc0YzVmNzQ5ODk3MmI3YmVjMWVmZTg2ZTdhMmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllNDRjMWVkYmZkYzNhZGZiN2EyNmQzYjJkMmU2ZjRiNjE1NGVmZDMwMDIxYzQzMzgzMDg1NGZjNGM1MDlhNTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjNmRjYTQ1NzM4ZWUzOTdiNTQ2MDVhOTk4NGQ2NmMzMGYyYTAyMDFmZTM0MDdjYzA1ODQxOGJmMTljZWUwMmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0455634b506f45158acc073a36477ae6",
+      "statement": "The secrets job installs the gitleaks binary pinned to 8.30.1 with a SHA-256 checksum verification (the action requires a paid licence for org repos), uses fetch-depth:0, and runs gitleaks dir and gitleaks git scans with --redact --no-banner.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L98-L131",
+          "version": "repo-lines-v1:sha256:6649c31fc2850c8b51629d8d7a5bed8900e5381504abc70d97a8c7275ce1f4c8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFlYmI5MjU0OGEwN2Q3ZDQyYzAzY2VlZGE1MGE1MjU1YmFhMGFlYTNkODExNGYwODA0MjNiMGM4NjkwNzc3MjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjMTA2MGFkMjg1MDFjZGQzNDJhNGExYzIzNWJhYTMzN2Y3MzNhY2IyOTE3YmNlM2Y4NDNkZTcwMzgyMjJkMWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxN2NjMjFhNzE2MTllYzYxZmE4ZGM1NmE2OGY3M2E4NjFlYWE5MWVlOTY0YWY0ZTRmN2VmMTAzZjFhZDllYTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_43e06cc7ab2f448692f3b4df52e89517",
+      "statement": "hx-gate-tests runs against a throwaway git-initialized copy of the repo, never the working tree; each test calls fresh() before mutating so tests cannot affect each other; git init is required because hx_doc_check runs git check-ignore which exits 128 outside a work tree.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L1-L56",
+          "version": "repo-lines-v1:sha256:0ed9d239c07f82430344e06165e0239bac977de1030531f0b5c03cbeb91ab7da:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0MWM1MTVlNTZlOGMxNzk4NWUzZTVjODgyNThlZWVkYTBlNDNlYjI3MjY0YzIxNDU5Y2I4YzRhNmFmYTZmMzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiZjg3M2EzY2NhZjcyY2RlZTEyNThjOGQxNzBhZWE3NjA2YmU0Y2YzN2M3MjVlZTVhMWUxNmM0ODlmNzgzNzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE0N2ZhYmY4ZThjNmU5YjkwMDlmMWY1OGIwMDA5ZWQ5NzdmN2IyNjMwZTljMDlkOGFhM2MzYjNlMmYyYzVkNWMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cb2e8a44b2334b7aab220345a5181cb8",
+      "statement": "hx-gate-tests proves each gate fails on the case it guards and requires non-zero exit; a check that cannot fail looks like coverage and is a defect. It exits 1 if any test failed.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L1-L35",
+          "version": "repo-lines-v1:sha256:95b0d62053bfe4e9328fd156c73cf031964cce2cf4c93470f78e6e7313d51617:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0MWM1MTVlNTZlOGMxNzk4NWUzZTVjODgyNThlZWVkYTBlNDNlYjI3MjY0YzIxNDU5Y2I4YzRhNmFmYTZmMzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5N2NlNzE5ZmQwN2U4MWM0NzU3NGE4NWViZjY5NzIwYjhlNDY3NGIxOTVmMGQ2MThiNjFjZDIyOGM0YTUxODIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM1MGI1ZDAxNjZhYWI5YzEyNzA2MDM2OTdmN2FlMDBmZDZhMDhkNTBjZmQ2YzllMjRmODNhNjMwZmM0ODAyNDYifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L376-L383",
+          "version": "repo-lines-v1:sha256:2f962f9c535228a04e67271489b1062f4e0d9f07829f2a72f7154b6a9c8c95dc:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWEzZjJlMTVjYTc0Y2NiMDg4YmU3YTI1MDExZjVjOGNmNzQ1NzEzMGQzYzcwMzk3OTBhZjNiOGEwM2RkNzlkZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjYwMThmMzJjNDY0ZTZiMzY4NGYzNDk5YWJiZTkzNDQ2YjYwNTAxNjc5NTE5MGFmZTkxMTBiMzA4NjI5NjcyNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWMzM2I1MGEwZTk3YTYyZDg4MzkwYTlhMjkyMTY0ZDcwNWNkOWNjMTEzMDFiMjg1M2IzNzAwZWFkZmRkZjUzYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0e3988c9b7324baea8ca7bb6ddac830a",
+      "statement": "D-021 ratified that Snap is never permitted for anything including the NVIDIA driver, resolving a contradiction between .coderabbit.yaml and hx-base.env/hx_version_pins.py; hx_version_pins.py reports a Snap pin as REVIEW regardless of kind. The five gate-test checks exercise the shipped source_problem() directly: Snap app refused, Snap driver refused, Ubuntu archive allowed for driver, Ubuntu archive refused for app, PyPI accepted.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L119-L136",
+          "version": "repo-lines-v1:sha256:13cde8ea6b0cb6f5b58ddbaceb8f897ad92131f99fde826a1d97e3e0352c1ee7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkMTVlZTYxOThkYzkyZjEwMmEwYWU5YmRiNTJiNjI0YWEwY2Y2NmNjNDFkYzJjOGVhYmY4ODI5NTdjM2QzYmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmZWY4N2EwNGViMTY1YWRjMWM0MjUyZTU1NjU1NmI2Y2I4OTIxODFhMzFhMmU4MjM3YzU2Yzc3ZTQwMWNlMjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlMmRjZjM4MjQ5ZTBlZDE5MzM3OGFjZjZhZjM2MTQ0Mzg1NGUzOTkzZDE4MTI5ZTMwMmMwNWExNGQ1OWZiNzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEwOTg1NWM4NDdmMGIwZThjYWFhNjI0MmM4NGQ0ZjdjZGJmMjJkNDgyODA1ZTFmNDEzZDc5NGY0Y2VkZTljMDAifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L171-L188",
+          "version": "repo-lines-v1:sha256:15c0572a565220962033166f62ab7eb2e457af4416876dbd4bd2292a2022d281:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmY2NmZDI1N2YzYzcwMWY5NzY0OTdkZDZiZjcyZDg3MGIxYjhmNjViZTJjOTY5MGNjMjkwY2FlN2I5MTMxZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhMDAyYzAwNDEzYTlhM2M4MGNkODc3ZWZlMDkwMTU1OTkyNDNlNjBmZDkyMzgyYWMzMjczYzk5YmE5ZjBjNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2ZjI5ZDA2NTYwZDE0ZjE4N2VjMjdkOGZlNWFhOTgyZmFkNDI1MWY1YjAyZmY3YTIxNWNjOTdiYjZjNDVlZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmOGJhZGFhMmFjMzQ4OWE3OTQwZWI3YTllMjMyODE5ZWQ0OGQ0YzNhNzk2ZTA0Yzk3Zjc2ZWQ5OTlhNDk1MzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9b2b31d811254b4c8f8a66e74dcb47c0",
+      "statement": "hx-gate-tests guards the OpenWiki-generated AGENTS.md authority block sentence-by-sentence: claiming source code/tests as authoritative is refused in either word order, capitalised or lowercased, as noun or adjective, and even when docs/ is named alongside; the negated correct wording is accepted and a word merely containing 'tests' (attests) is not flagged.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L284-L356",
+          "version": "repo-lines-v1:sha256:6e03b2b2442b08bd752015c2bce2e6e87b58ef6f6e7b3a3e8920c972839154fb:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxNmMxNjJiMTY1ODE1OTBjM2U0OTRkZGE3MTIyY2IyMjE4ZDdlOTAwY2RlZmUxZjE5NjVhMGVjYmRmZWI4ZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjMTA4NGM4OGY0YmI4NTUzY2MxOTA0Y2I1YjlmMjQ0MmY5MGRkYTJiMTk5ZWFkZTMzMDI0ZGFjYzg1MGViZDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcxMDYzMjczMmQ4ZmZhODUxOTU4NmFiZTBlN2Q4OTU2ZTM0ZTAwZTRlYTY1Y2RjMDY3M2IwNjkwZjYzN2UwODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxNzc5YTc2ZDEwY2NmNWRjZTEyMjAxNjA2Nzc3YTJiNDdjMmEzYmYzOTcxMjkzYmE0MjA1YzA0Zjk2MDA2ZjYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_832152a2522c48bbbb26390a42107d65",
+      "statement": "hx-upstream-drift.yml runs weekly (Mondays 06:17 UTC) and manual; drift is information not failure so a drifted pin opens/comments on one issue rather than failing; but an unreachable upstream exits 1 because reporting an unchecked run as clean is a check that cannot fail.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-upstream-drift.yml#L1-L62",
+          "version": "repo-lines-v1:sha256:464491a81ca997e10bb8c18d44dd1c64671003586be5b3979d6f242baf975c14:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFiNDEyMjM0OWM5NWE0ZTZmOTgxOWIxZjM0MGExYjhhMTU4MjRmYTY4NTU0OWE4OWFkN2ZiNTI2ZDQ4OThmNDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxZmYyNjhlMjU3MWI3MzcxY2YwZDZlMzkwNWM3YWZiMDZlN2ExYTdhNWI5YjUzZDY5NGQ1ZjJiZDU5ZmYzZjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_798c72723c4e479ba314f9b8db44cdcc",
+      "statement": "openwiki-update.yml is governed by D-023: two secrets (OPENWIKI_PR_TOKEN fine-grained PAT with Contents+PR read/write, and ANTHROPIC_API_KEY) are accepted on the public repo; GITHUB_TOKEN is insufficient because PRs opened with it do not start pull_request workflows so hx-checks would never run on generated docs.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L1-L58",
+          "version": "repo-lines-v1:sha256:28280c9655634ad13b2a765808b3b405671436f50b90e301966e6aeacc6662f4:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzNjU3NGNlMjIyNzI5YzRmYzVmNDkzMmFjOWI5OGQzMTgzOWFjZDQyZDM1NmU4YjY0M2Q3MzBlYmFiNGI4ZDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwOGYxYjA2MGVmN2M2MDZlMWY5ZTYyNTc4NGJlZmNkM2IwMmMzOTM2NmY3NTdhNmZlZDA5MjhlODZkMzFhNGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1ZDI0YjhhZTJmMWQ0ZTZkZDFkMTJmZjBhOTQwNGNiZWE3YTdlNjUyZmQxMWUxNzczZDhiMzgzYzQzYTMyOTEifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L156-L178",
+          "version": "repo-lines-v1:sha256:f2f906978e57eaf32ec04abdb6f63c7449bfe6940b8a535f3cd8ecdc3e848d76:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMGU1ZDBhZjUxYzY3ZDA4NWY1MmVlYTY4MDU2MDI4YjQ5ZThhNGI1N2Y4MzdkYTQxYWViNWI1NWY0M2ZjNGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5NDgwZjBjMGM1Yzc0OGYxYTM5YmNmOTdjYWNjMzBkNWJiZDIxMTRmYjZkY2U1OTExZGRjZTE2NGQzODM1MTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2MTJmM2Q5OWMxYTk2OTQ1NjdkZmM5YTFlY2Y1ZTFmNjIwMGJlMzIxMDJhYzMxZDMzNDlmMGIwNjMxZDBjNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4ODg4NjYxMTIzMjM1YWY3ZDM3ZjY5ZGY5ZjkwZDIyZDQzYTAwZmFhNWU0ZDYwZGUwMTg0MWIzNmMxYWVkZTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_11820d09df4543c8be4d9645460cbde0",
+      "statement": "Secrets presence in openwiki-update.yml is a separate preflight job (not a first step) because the downstream PR steps carry if: !cancelled() which is also true on earlier failure; needs: preflight skips the whole job instead of opening a PR with an empty token.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L40-L58",
+          "version": "repo-lines-v1:sha256:3195ed0421979f411be37c7642dfdf1866c5b011c37e404453c3e1fccd5b7980:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5ZDgwMTU0ZWQ0MmZjNWM3NzliMTMzMTU3OGI1OGI4OWM4MDFlYWNlNzRmMjRjZDQ4ZWI0YTIzNTc5NDBhOTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwOGYxYjA2MGVmN2M2MDZlMWY5ZTYyNTc4NGJlZmNkM2IwMmMzOTM2NmY3NTdhNmZlZDA5MjhlODZkMzFhNGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZlYzVmYTllMGVjZDFkY2FkZjJhYWM5N2I5Mjc3ZmUwMjY1YWUwMmFhMjVkMzgwYWI2MGY4ZjA4Yzg1ZjAzYTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1ZDI0YjhhZTJmMWQ0ZTZkZDFkMTJmZjBhOTQwNGNiZWE3YTdlNjUyZmQxMWUxNzczZDhiMzgzYzQzYTMyOTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7b5f58b8491b430db9a2ae54898a87ba",
+      "statement": "openwiki-update.yml checkout is pinned to the default branch with fetch-depth:0 (so openwiki --update can diff HEAD against the last-documented commit; a shallow clone hides it and documents nothing) and persist-credentials:false; OpenWiki is installed pinned (openwiki@0.5.1, mermaid@11.16.0, jsdom@29.1.1); telemetry is off and LangSmith tracing removed.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L65-L103",
+          "version": "repo-lines-v1:sha256:a5249884f96f94110ca6c26e973d1acb5abcc2f8f643e71096f7251cf41f03fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1ZDZjZjdkNDI4Y2E4MTE1ZmM0YmFiYjY4MDczOTAyMzMyN2E3YTlkOTE2M2Y3MDZhMjc2ODdkZDUxNmYzOTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzNjcwNDc5MjY3NjE1NjY3ZjJlZTllMjkzOTg2NmMxZTQ5ZGFkYjA5N2ViZjEzMjI5MzU0MmFlNjRlMmU1Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUxNGU5ZTczNDRlZmMxNmY2MTE1ZDJiMTE2OGFkZDVkMzVmNDlhMGYwNmFlZjg3YWNkZjc1YWQzMTE4MmM3YzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0ZTc5NGRkZjMyYTNlMmRhYWFkODgyNjMxM2MyNGY0ZTRjZGE2ZjYxYWJmNDE3ZTQ4OWJlMzlkNWI5OGE1NTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5f3f26d932ad434d9a7d5d6ae3fbeee3",
+      "statement": "openwiki-update.yml add-paths is openwiki only (not AGENTS.md/CLAUDE.md/the workflow file itself), PRs are not auto-merged, and a final step propagates OpenWiki failure (exit 1) after the PR exists because partial runs still produce durable baseline pages.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L109-L132",
+          "version": "repo-lines-v1:sha256:94de265c5b24ebcf49bbe707b23f9a8330a679c740687e9570e365c2f449c288:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyMzI5YmQxMGNlMjc3MzA0YjY4MjU3MWJhNTcyZDVlM2MxZTdjODEzMzJjZjFmOGRhMDhhYzgwYmE2YmNiYjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2NzE4ZjA2N2I1ZTVjMWYwOTkxYTZlNzQ3MjZmZTJhMjNkMjY0MzQ1ZTA4ZTRlYWQwNGZhZjczYzI3ZWQ0NDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVmZTVjYTdmYmJkMTk5YTZhZDgyZGU1MmY0ZWE2NDMxODVmNjM1MGE4MGJhNTJkNWFkN2VlYTMyNTY3NzUwYzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L180-L189",
+          "version": "repo-lines-v1:sha256:818d780f1fb90bc0858bf8d58bf67e8ffa374c4d86e7ec9e1fc7f43907512760:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3ZjRlZTkwYzI1OWEyYTkxNTcwMDg1ZmVjZGVkZjhjMTU5Yzc3NjczYzE5OWRjYzRlOTRkMzBmYzgyNGNhMTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhMzY2YWJkNzQ1ODI4YmU0OWI5YzEwMGE1ZDU3OTc2MjYwYzRmM2M2MGNjM2ZmZDU3ZWM5ODM1ZDNiNDA2ZTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllYTU2NTU2ZDkwODY0YzU1ZTY3ODNjNGNjZDI3YTU3OTVhOTY5MDAzYTAxNGQxYTQ5MTljZjIyNmIxODY1YmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU4YWU2NWZlOTVmMGFhM2ZjODQ4ZDQ2YzQxZWE0ODhiZTY1NjAzODg3ZTE0ZThmNmZjYjU0OTg5MTFmZTY1N2UifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_218d45a48b9f4d6f9b35f4a54245b58c",
+      "statement": "Reversal of OpenWiki automation: delete the workflow file and revoke both secrets; running openwiki --update by hand from Claude Code costs nothing because the host integration uses the session's model instead of a key.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L206-L209",
+          "version": "repo-lines-v1:sha256:31e0c50f2c742a9e176359e58c6a8bc405085a6c1b2469ee08930aaf3e029bdf:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBkZDk0ZDQ4MGQzODdhOTJlMjA5MjkyN2VhZTVjYjM0MDVkZmE2Zjk0ZWI1MzkwODk4YTExOTY2ZmExMDY0MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTUyMDY2OTg0MTdlM2Y3MzFiNzViNjdjYTcwZDYzNTQ3Nzk5ZGViZDdlYTkxY2U1ZThmM2NmY2EyMzlmNjc1NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTY4ZjFlNzdkYTM1NTZiNzRhMTljN2EzMmY1Y2RhYjQ0MTBlZmU2MjU3YzJjMDA4MWI2N2ZiZjc5NGY1ZjE4MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5eb593a5d6724e4dbd1e11fe171cdf00",
+      "statement": "The GitHub Actions secret/variable registry at docs/04-application-standards/GITHUB-ACTIONS-SECRET-AND-VARIABLE-REGISTRY.md records approved identifier names and handling rules without storing values; HXES_SECRET and HXES_VARIABLE are reserved with rules fixed in advance; hx-checks.yml and hx-upstream-drift.yml use GITHUB_TOKEN only.",
+      "evidence": [
+        {
+          "resource": "repo://docs/04-application-standards/GITHUB-ACTIONS-SECRET-AND-VARIABLE-REGISTRY.md#L16-L46",
+          "version": "repo-lines-v1:sha256:5bc0cb3f61864b8db96243f59fe35e0aed140f72a4346e39491c507728a45675:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4OTI4NzZjNzVhYmNiMjRlYjllNWI0OTFhMjQ0ZjExNWExNDZjNzVjOGJmOWUxYmQwZjJiNWFkNzRhNTdmZTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzNTA2MTkzZDE1OWYxN2Q0YzIxNzMwOTBjYzdiODQ3ZjU4NWE1YjNkZTU2ZWQ5ZDRhNmZhNzIzMjlmODRiZDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ3MjVjNmM3OGVhZmNmMjE0N2MyNjU1YTUwYmI3MWMwNzIxNTEzZThhMDIzYzJmZWUyZmY2ZGE5MDEyNTFiZDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-14T19:05:42.087Z"
+  }
+}

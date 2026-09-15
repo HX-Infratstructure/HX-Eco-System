@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:d779bcfcf510a97592d6990412b17df92ab9381be043ee59b1f3d8e15a4456b2",
+  "claims": [
+    {
+      "id": "claim_8047c18e21084514b7297710df19bf29",
+      "statement": "Before a smoke run, `tools/hx-doc/hx-proof --ready <id>` gates whether a step may run: it reports READY only when every required prior step is PASS and the step itself is not NOT_EXECUTABLE or already PASS; NOT READY lists the blocking steps; a NOT_EXECUTABLE step reports NOT RUNNABLE because an implementation decision is still open. `hx-smoke-promote` enforces the same DAG at promotion, so there is no bypass flag.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/RUN-SHEET.md#L34-L49",
+          "version": "repo-lines-v1:sha256:8017cd631c13e5b8cb21bf7ed407d7f9a0a1ee500306581c2bc16732cbf5b2af:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0Zjc0MDRmMjgzM2RkMDM0MDg4YzIxZjY0ZDI2Y2Q0NzQ2YzFkYWQ3NDU4Y2M3YzhiZWU4NTY2Mjg4M2I2YjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkNGIwNzAzM2Y2MzUzYjE3ODBiYjk5MWE2ZDhiMDZjZmZiOTZiYzIzMWFmZDdiYjE5OWI0MWM3MTIyMWVjMTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljNDYxMjQ0YWM3NTYzYTA2MzhlZWU4ZDg0NGMxMDFmNmQ2NmVmM2Q5YjM2NmFhNjM2MWU5MmVjYWYzODUxZGMifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L294-L325",
+          "version": "repo-lines-v1:sha256:4bf86b9eeb5f32ff9b44eb62fc0fe2aa164d31354b9212822674dd2c94d297ad:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjNlYzVkMWI2YzczZWRhZmYxZmFmOGE2ZTliYWZlNTEzNDUwYzU0NmJhMDdmNmU2NjM4ZjYxNzhiYWU4NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzMDg2NmUxYmNjNWFiNzZlM2VmNTkwMTJkMGFkMzlhNjg3YWJlMDAyM2I0MzhhY2IxMTMwYTE4ODI1ZTgxOTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllMmVmNGY5NDUxYzExZmJiZTE4NWY3OTA2ZTMwZDQwNjVkYjA5ZjQ5MjA2MDZmZGE4NGFkOTZhMGU0ZTZiNmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk0NmI2ZjI4OGJlYzc1MjM1NmUyNzI0NDhjMzBiZjVkNGI5ODQxMzY3MzNkZjRiMGExODFiOTI2ZmQ3ZWQ4MTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_10ee95fe58904e689e52b9350d41f981",
+      "statement": "hx-smoke-new creates a disposable run, derives/binds the proof step from hx-proof.tsv against the SUT host and smoke-test authority (requiring an explicit step when multiple rows share one companion authority), refuses an untracked or uncommitted-modified authority, and writes a manifest recording run_id, sut_host, component, proof_step, smoke_test_sha256, and TO_RECORD placeholders for prior_pass_evidence and limited_integration_plan.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-new#L105-L158",
+          "version": "repo-lines-v1:sha256:02e1c3d21975abf925ca4be41ff493e46feb4ece1ed7479116a0e08c5a350af4:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmNjYzYzRmYmU0YTExNjEwZGI1N2E4MWMyMGM1YmY4MWRiOWEwNzhiNDllNzJkMGI0NmRlMDBiNTQwNTQxOTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwN2I4NGQ5YTI0NDY5ZjZlNzUyNzUzNDIzN2FmN2M4ZjI3NzVjOGMxOTIxNmI5YWUyOTI0MzI4Njc2ODE1NDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5OTFkNzcyNjEwYmRkODg1NzQzZDUyYWFlMzI0Zjg5ODNlNDdhOTA1OWNjZmE3ZmQ4ZjcyY2FhNzg3YzlkODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3YmEwZTQ3MDJjY2YwOTJiMDJmYjdhMGQ2ZDZiOTA2MTcxZDE5NGU3MTk5Y2IwNzNkZDg0MzlmMzE0YWZjZWEifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-new#L65-L103",
+          "version": "repo-lines-v1:sha256:06903fe0e5ce2baabec4a508b9463025ba01a760031297a4dae7368146b70dc1:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5ODlkYmJjNGFlM2VhOGZlMzIzMDllMDI4NGZlOTA5ZjFkY2E2OTVmZWIyNGI1NTBiZGFjZTIxOGE3NzQ1YmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3NjlkMjM3Y2Q0MjBiOWQzOGI5ODFhMGE0ZjY3NzAxOTBhNGE4M2RjYTFmZTU2YzRmNWJhMWUyY2JjMGVmNzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc0MDY5NzQ4YWU3MjI3MTI2ZDhkOTljYThiYjg1YzliYmM5YzUwMDI3ODE0ZTkyYjkyYWUxMjNmYmZjZDk3NmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYxNzBlYTM2ODA5M2UwNDYwMzA1ZWFjZjRkZWMxYWIzZTU3NDdhNTUxYmFjYzgyZmU4NzZhMTFlZDk1MGI4MGEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_66445ca753f64d89b5600e1483983fb7",
+      "statement": "The proof-chain contract requires prior_pass_evidence as one inline line of `<step-id> -> <evidence>` entries separated by `;` (or NONE), one entry per required step, and limited_integration_plan as a brief temporary plan or NONE; hx-smoke-promote reads only the inline value and refuses a bare list of paths because a path alone does not say which dependency it proves.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-smoke-runner/AGENTS.md#L47-L61",
+          "version": "repo-lines-v1:sha256:12ab78ec41e773edc8e16cfe2ff0831239e2fb5e3eb2eab8574879aa65415aa4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwYTFhMGE4ODMzMDA4YTFhZGFmZWE4ZWNlODY5Mjk3ODU5NDc0NjU5NWI0OGZhMDk4NWYyNmY0MWEwYjgyOTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliMDIxOGNjMDBhNDVjNmVmMGI1NDMxNjVlN2Q1YTRjNmNlZjc3MmY1NGQ2ODk0NTdlYWNiM2VmMzEwMmNhNDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI2ODQ0ZDliZjlmNmU4NTAwNDM1ZDAwOWM3ZjI0Y2FiMTIzODRjZDZlZTQ5NDk3NjU1Yzk1Y2U4NTU4Zjg0ZWMifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-new#L140-L158",
+          "version": "repo-lines-v1:sha256:bb0bce10c20398ec1eb81806ba36f2051e6bff8bbab9f0eae799dc90d6edff8c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwN2I4NGQ5YTI0NDY5ZjZlNzUyNzUzNDIzN2FmN2M4ZjI3NzVjOGMxOTIxNmI5YWUyOTI0MzI4Njc2ODE1NDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJiOTNjYmE2NWFhNjBmOWRhMzQ5Zjk4Y2I5MjFhNDMxOGY2M2I2ZjM4YzhkZDA4NjRiZmIxMDAxNWI1ZDY4ZGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3YmEwZTQ3MDJjY2YwOTJiMDJmYjdhMGQ2ZDZiOTA2MTcxZDE5NGU3MTk5Y2IwNzNkZDg0MzlmMzE0YWZjZWEifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L61-L62",
+          "version": "repo-lines-v1:sha256:9d90c7a7ee80d90446b4bd76f1844339d072b97a257332aa70875dea6ed09b0d:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjhjY2MwNjc3YzY5OTUyN2FkZmY4ZTU0NmMzNjI1ODY0ZDc0YzE5ZmE5MWJkNTk5ZDI2MDI2Zjc0ZDJlZmQ0YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDc3MjY1NmQ3MmE2ZTc5ZGI2MzUzYzNhOTJhN2QwM2M5NWI4Nzc4YjQ1N2IxNTg2MTYyNjczODI5Njk3ODFkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDIyMzg5MGRmNWVhYjczMDY2ZDMxZmE0YmQyMjlmYzI5OWRiOWZiMGIwYjQ4NDAxYzBkOGQxODUyNzE4ZTBhNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjg3N2RjZjZmYjBlN2YxYmNiNGM5Yzg1MzA3ZjE0NmVmOGQxMGU0NWJjNGRlYjBmYTA0MDAwZDBkNjcwNzhiMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1be492d4aa0844179362275fdf8d372b",
+      "statement": "PASS promotion requires FUNCTIONAL=PASS plus CLEANUP=PASS or NOT_APPLICABLE, prior_pass_evidence and limited_integration_plan recorded, proof_step present and re-bound to the SUT+authority in hx-proof.tsv, the step not NOT_EXECUTABLE, every required prior step at PASS status and explicitly cited, and component identity fields (component_version_or_revision, transport_or_endpoint, sut_ip) recorded.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L155-L195",
+          "version": "repo-lines-v1:sha256:80be569ce1658158469e3e91a772109a5f8d598ff03a9cbc59d062e32b3c7639:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjNTNhYzEwMjFjMTJmMDEyYjIxNDJmNGVkN2Y5YjNhYmYyMWZmODdmOTY5YTExZmJiNmI0N2UwZGQyMTFiOGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1ZmM5MGZmOGE0NDE0YzU0NDFkMGY2NzdjNWNiZmRhMzhiNDc0ZTUxYmZkNTU5YTU1NTlkZTBmODc3MDU1MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczMWI0ZTQyNTBiYTQ2NzEyN2Q0NWY2NmVhODYwMTZhNDkwODFhMjE4MzFmY2YyNjI0MzNkMDQxMzE3OTE0ODUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZjMzRiZTgwNDUzNDIzZjMxMjkxYzA4ODA4MDU5N2QyNzFlNWQ2NTJkNDIwNWEyNGM3YTlhYmUxODE5ZTdkNTQifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L90-L101",
+          "version": "repo-lines-v1:sha256:e4b6135ed10cfb17512cf71cec09b251811961bf8f8171e91d480eb0f7a85597:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZmM0MzNlYTIwNWJkMTk0Y2RlOWRkOWVlMDM3OWM4NjJkN2RlMjVlOTk1Yzg3ODRmNmI1MGRkYmNkNDY1NDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxY2M5NTJiNzdlY2RhOWVjMDJhODQxMDRjMDZhOWI3YjBlM2YyM2UzMjczMmQ0ZjIwNmU0NTYxYWI4Nzk0OTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc0MDY5NzQ4YWU3MjI3MTI2ZDhkOTljYThiYjg1YzliYmM5YzUwMDI3ODE0ZTkyYjkyYWUxMjNmYmZjZDk3NmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhkYzBlODMxZDc4ZGM4Mzg2ZGE5NWY0MTQ0MmE1Njk3MjA0M2FlNzJmYzQ5ZmU5YmFmNDU5MjJkMzQ5NzAyYzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_38bba6168bf64bc9a2883a270e280dab",
+      "statement": "hx-smoke-promote re-hashes the procedure copy and refuses promotion when it does not match the smoke_test_sha256 recorded by hx-smoke-new, rejecting in-run authority drift and requiring the authority be corrected in a reviewed commit before starting a new run id.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-new#L114-L132",
+          "version": "repo-lines-v1:sha256:e5a65725e3ae654dccb0e094faee1699e4ac2f1a24d254bfb42f99f131df5a48:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiYmQwNzI5YmM0YTFiODZkMzE5YjNiZWZiNTIxMDQ3NjQ0ODJmNWVlZmE3YmMyOWJjNmY0ZmZiMmY0ZGRjMGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1OGE2OWRhNWY5NGU5YjNlOTE4M2JiMzZhYzhhMzU0NGUxZTBiYjhmMDIzMzMwZTYzNTNmZDQ2NWFmNjFmMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRiNTNmYmMxODBjMmQ0YzI5NWY2MDc0NDdiNjdjYjViMDJiMDU4NDVhNTJmZWQxYjMzNjM3YjA0OTA1MjliMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNlODYwODE0MWU3ZjFkMjFmNzkzZWI0Y2ZiOGViZDcxN2VjYjlkODY0MDliN2ZkZjVmMDQ0ZWViYmRhNzY0NjcifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L69-L89",
+          "version": "repo-lines-v1:sha256:a429e5a55f8d5069b35c70bc08d2be37076c5ff2f9bf874dca09e0455be27340:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3OGZjMWE2YzlhZDAyNTJlY2UzZGI5ZDdmNjJkYTI2NjMwY2JlNDBmNTBjNWNmNjU3NTZmZGFiMmJhOGUyYTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc0MDY5NzQ4YWU3MjI3MTI2ZDhkOTljYThiYjg1YzliYmM5YzUwMDI3ODE0ZTkyYjkyYWUxMjNmYmZjZDk3NmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUyODIxNDU3ZWFhNDZlNDRmNTVhYzZlMDBhMGYwMmY2ZmI3YWI1NjI5YWIwNDFmOGQ1YjdmNDljYWY2MDIwZjYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bc878099ad764c15be5ec3b4b6b61ff3",
+      "statement": "hx-smoke-new and hx-smoke-promote run on HX-5 CentCom (D-014); for pre-CentCom steps A1-A4 an operator station is authorized via HX_SMOKE_ALLOW_HOST=$(hostname -s), the station used is recorded as runner_host in the manifest, and after A5 passes that variable must be unset so a later run cannot inherit stale authorization.",
+      "evidence": [
+        {
+          "resource": "repo://docs/05-evidence/README.md#L21-L43",
+          "version": "repo-lines-v1:sha256:c144d8fc6c338a76672db78e65e96e613911a4e2a7c723c058127414b2b902e5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczNWQ2YzQ5ODQwMjFhOGM4ZjFkMzEyNjE1MzA4MmZkM2MwNWQ5NWJmYzYwMjNlOWRiODEyNTJhYmEwZGUzM2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJhNzUzZDkzYzUyMjMwNmE4ZWU5MzBlMDZmOWJjYWU2ZDI1NmE5Y2QzMDI3NGJiMGNhNzgxN2Y0ZjQ2NmNiNjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5Yzg5NTFkNTY3MzBjODEwMTBiNzZlNWI0Y2M1YWVhOWY1YWQyNjQwZWE1M2IyZjc3ZjQ1YzVkZjdmMTI0ODMifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-new#L22-L33",
+          "version": "repo-lines-v1:sha256:efaeb5918f7d61af636ed4f336087ca69c7c6237db2b5f8154eb50b39f40793e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzN2EwOWQyZDMyZTVhY2EyNzdkZDc5NTM2YTc1NWU2OTJlNjkxOGJiMDExMzgxM2JkYmU0OTg2YzdjYjZjNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3NjlkMjM3Y2Q0MjBiOWQzOGI5ODFhMGE0ZjY3NzAxOTBhNGE4M2RjYTFmZTU2YzRmNWJhMWUyY2JjMGVmNzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdjZDkxMThhMjU5YTc4ZmY1ZTlkYjYyNGI5OTc4NmM3ZmYxMTI5OTg5OGViMzk2NGE2NDY2ZTRjYzM0ZDhkYmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3Yjk0YTE5NWZiZWZlMWU0ZGNmYmY3NmI5NTVjNzk2NzhhM2VjMTRiODA5MTZhZTA1NzMyMTNlZTQ3ZTI5NTYifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L25-L36",
+          "version": "repo-lines-v1:sha256:efaeb5918f7d61af636ed4f336087ca69c7c6237db2b5f8154eb50b39f40793e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzN2EwOWQyZDMyZTVhY2EyNzdkZDc5NTM2YTc1NWU2OTJlNjkxOGJiMDExMzgxM2JkYmU0OTg2YzdjYjZjNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3NjlkMjM3Y2Q0MjBiOWQzOGI5ODFhMGE0ZjY3NzAxOTBhNGE4M2RjYTFmZTU2YzRmNWJhMWUyY2JjMGVmNzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmMmNmNTZjZDEzNDVjYzRmMWE5NWQ1YjE4OWQ1MDk5ZmZhN2NjMGVhYTI0NThkYTBjY2EwMWM1MTAyNjEyNzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxOWRjNzAxZDU5OTZmNTA3NjhlMzVhMmY3NmJkMTVjNDQwZWVmM2RkYjM1YTY1ZGMxNTk3ZDYyYmRiZjM2NzEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c4009fc0b70942d4817a4e900eb17800",
+      "statement": "HX has two current evidence shapes: inline record evidence for HX-1/HX-2/HX-3 recorded in docs/02-server-records (which hx-smoke-promote accepts as prior_pass_evidence), and run-bundle evidence for HX-4 onward created by hx-smoke-new and retained under docs/05-evidence/<server>/<component>/<run-id>/; failed evidence is not overwritten and retries get new run ids.",
+      "evidence": [
+        {
+          "resource": "repo://docs/05-evidence/README.md#L6-L20",
+          "version": "repo-lines-v1:sha256:0a2be5e99c008e6cb82b4cc453dab83fe45a74b6bae7356aaad68aa1c838dcb5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJkMzM0NmY5NDcwNzg4MDQ4ZmViNjVhYjk2MGZkZGE4YTUxYTQ4OWIzZjcxYzIyMTBhMzEyZGUyZGQ1MTY2YzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJjZTY3OWQwZDMzNGFlNGNhZDc0NDE4OTlhN2I5ZjRmMTI3M2RiZDNhOTViZjBjZjdlM2IxMGY5Mzc4YzhlN2UifQ"
+        },
+        {
+          "resource": "repo://docs/05-evidence/README.md#L68-L69",
+          "version": "repo-lines-v1:sha256:784b8c5fbad13c1d957e272af88c9b443c9a8f5a5034acdce052ac8f4aa059b4:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTA4MDFhYmY5MWViZTRmYmUwMmUxZjZiMzgwMWExOTliODY2YjUwN2Y0MWMwNzA5MjQ1NWI1ZWFkOTBmNGI5YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmY5YjAxM2QxMjcyYmZhNDg3YzJiODdhMzI3ZWU3ZjYyNDkwNTEyM2U5YzgyOGFmYjA2OTRlOWViMjQ0OGQ2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGJjNDI1YzUzY2M2ZTQyNzEzZGU1ZGYwMzdiZDdhYjM0N2E5MDY4OTIwZjI3MDU5Y2JkY2RkMzJjNmI3YjBiZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_dc9d8d091d77438299b3682d0d26d57f",
+      "statement": "The smoke status vocabulary is exactly PASS, FAIL, NOT_EXECUTABLE; NOT_EXECUTABLE is narrated as 'NOT EXECUTABLE — PREREQUISITE OR OWNER DECISION REQUIRED' and is used when a prerequisite or implementation decision is genuinely not established, not as a substitute for a failing result.",
+      "evidence": [
+        {
+          "resource": "repo://docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md#L283-L311",
+          "version": "repo-lines-v1:sha256:d973c07d96ac2acd8b01232a65add7feda3754b216fe26d29a39e951ff33ded0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2Njg0NjQ1ZWNlY2YzNjJiNzY2NjY3YTI0YzJmZGY0OWM2ODNlOWI3NzRiY2NjYzdhMmY1YWUwODRiZWUxYjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyNWQ1ODJmOGIxZDE2Yzc5ZTJlNTBiYjM3NjA5ODA5YzczMTU4YjdhMmNlZGM1Zjk0YjMzMzZjOGNlYTc5YjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE0MzViNTc4MDBjOWE5MTRlNjE2N2Y1ZDI3YWFkNGM0NDRiNTU5YjFhZjUwMjFlYzQzOTVmYzkxNWIxNTE4MjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxYWFlMjgxMTAwNTUwOTE1NjU3YjIzYWI3NjI5OWI3NGYzODUyNjNjNTVkOTc2MDUyNDVjZGFlMjg4NDA3YmIifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/AGENTS.md#L118-L131",
+          "version": "repo-lines-v1:sha256:38537b8351087903bc8b99818b0b0ab25e89d1060b06dad543ccf55e447b8ee1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMjY2YWU2YTNkY2Y0NGY3ZDkzZmY1MDBjMjNhYWJiMDM3ZjQwODE0N2Q1ZTI0ZTIxMTU5NjBiMzhjYzNmMGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFjZTU2NWNjMWJjMTM3NjA4N2E1NTNhN2Q4NWY2ZDBiMjI1ZjA3ZmFlYzViMTA1MjI5NzMyYjc0NmVjNjc5MjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4YTNkMTNkNjlhYTZhN2Q5OGM0ZmYwZjExZjg1NmRhNDkxNWQzZGIyODViOTEyN2Y4M2RhMGZkMjA1M2ZkOTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_36fd97252ca84aa1abc70e51a7838631",
+      "statement": "Before a run the agent must state SUT host+IP, component role, current build state, architectural layer, domain/network/deployment baseline, required vs validation-only dependencies, BASE PASS boundary, and required prior PASS evidence; if any is unclear the agent must stop and resolve ecosystem context rather than improvise validation.",
+      "evidence": [
+        {
+          "resource": "repo://docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md#L17-L57",
+          "version": "repo-lines-v1:sha256:3898445460f6cfac23ba16387dcc7a00d24e7fcbff8f31451007d5ab759c6d4f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4MGQ0OGI1NDQ1NWE5YjQxNDc0M2IwNWIwYzQzNmFhZTRhNmJiYjJkNTUwZTRhYjBkYjU2N2ZkMzExYWQ4YjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiODQ2NzQ5ZDE0ODhiODYzMDA0ODA1NjgxNTQxNmY5YWZhN2E0NDdiM2U3YzI4MDE1ZGViNzViM2RjMTkzYTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU4MGJlNGUzODVlMTc1ZWZiOTM3ZTg5YzkyMjU5MjQ4ZTczMzE2NmI3NTU5ZmUyZDAxYWJiNjcwZWQzMDgxYWQifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/AGENTS.md#L11-L44",
+          "version": "repo-lines-v1:sha256:7a72673f6b26eaf66b79ac5450ca0c897b3fd2ece0566598f39142d18cdfad9f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxYjBiM2EwMGUwZGJkMjVmMzk3ODQ2YjFlMThiMmU3YzEwMTgyNGM2YWI3ZmI3ODc4MDJiYjBlM2VkNmUzMmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlMzE4NDM0MGZiNDQ0MmIxMTFhNzlhMWRjZTA5MzZmM2JjOTY5MzcyYzQ2Yzc5ZGQwOTcwZGY1Y2YzYjY4ZTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxM2I3ODkwZWRmZWMwZjFiNmM3NGE3M2VmMDQ1MWU4MTZmNGFiYTQ0NDFlMDQyOGFjOWNkNDNlMWQ1ODM5NDYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_21aabd64de4449b99805977cf73161dd",
+      "statement": "The runner stop conditions require stopping and reporting rather than improvising when: ecosystem architecture/ownership is unclear, required prior PASS evidence is missing or stale, live behavior contradicts authority, the model/checkpoint/runtime is still TBD, unapproved permanent integration would be required, a harness would be copied onto the SUT, cleanup risks non-smoke data, a credential is unavailable, or a workaround changes network/security/storage architecture.",
+      "evidence": [
+        {
+          "resource": "repo://docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md#L249-L281",
+          "version": "repo-lines-v1:sha256:cd7b525bcaaba64ffa60ba87f6e12356f604762ba84d50346b62a562d76b505b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxZTQ0MDVmNzY2ZTNkZTg2YWVlMTA1MzFiNzhkMTE0MTU3YzkyMzg0MzA5ZmJkODJkMTc1ZWU5ZWRhZDlhMzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkMTJhZGExMTk3NThlYTY2ZmM4Yzc4OGEyYTcyZjU1ZTgwNTA1NzQwZDExMmYzMDYxN2I4OGRlMDc0YTdjOWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAyY2ZlYzkwYjIwNGY2YjIxNDA4ZmMxZDFjM2U0OTgxOGE4Nzc4ZTFjODVkNDMxYWU3OGQyYTYwZWM3NDk1ZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI4Yzc1YmU4Y2NkZmUzYjVhYTEzMjVmYzkzNTM1ZmVmOTZmZDdhNzkzZGM5OGQ1ODVlODY4NmFhMGYxZWVhYjYifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/AGENTS.md#L118-L131",
+          "version": "repo-lines-v1:sha256:38537b8351087903bc8b99818b0b0ab25e89d1060b06dad543ccf55e447b8ee1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMjY2YWU2YTNkY2Y0NGY3ZDkzZmY1MDBjMjNhYWJiMDM3ZjQwODE0N2Q1ZTI0ZTIxMTU5NjBiMzhjYzNmMGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFjZTU2NWNjMWJjMTM3NjA4N2E1NTNhN2Q4NWY2ZDBiMjI1ZjA3ZmFlYzViMTA1MjI5NzMyYjc0NmVjNjc5MjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4YTNkMTNkNjlhYTZhN2Q5OGM0ZmYwZjExZjg1NmRhNDkxNWQzZGIyODViOTEyN2Y4M2RhMGZkMjA1M2ZkOTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6b9f7f76236e4f59bb163372479a23f4",
+      "statement": "hx-smoke-new seeds evidence/result.txt with FUNCTIONAL=IN_PROGRESS and cleanup/cleanup.txt with CLEANUP=IN_PROGRESS; the operator normalizes them to FUNCTIONAL=PASS|FAIL|NOT_EXECUTABLE and CLEANUP=PASS|NOT_APPLICABLE|FAIL, which hx-smoke-promote reads as the functional and cleanup gates.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-new#L160-L171",
+          "version": "repo-lines-v1:sha256:26abfa363652e1a9398a2159dd31ebafd1aa605b2294a328baf588ec03247977:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiMWQyN2Y4YjYxZGVjYWMyNWNkMzEwODdhMTRiNjcxMGQ0ZWJlZGEwZmVhNDI4NWY4MWM1YTQ3ZDJmNmY1NjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmMGVkNjJjY2Y4ZmQ0MDcwYTAyM2NmYTg2MTFiMDA1ZDcxNTgwYjRkYTc1YjM1MTFjMjZkMjE3YTI3OThmNTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3NzA3MWJkOGNkNGY4YWUwZTFkOTYzMzhmNzVjMjE4ZjE1NjA3ZjJmNDllNzdjMDY5YWE0MjgwYTkyYTk1Y2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L53-L55",
+          "version": "repo-lines-v1:sha256:18296eed0008a6b6c1c12678f5e911f9d23ad20c5e0f72aa61360e3bdf180b89:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjA4Y2FjZmY5NDIwNmJjZDkwODExYjBhNzEzNjYxNTgyOWE1NDI5OWMzYTAxYjBiMzJlODNhODkzYzRmMDRjMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjExNjQ5NzczYTQ3ZmEwOGJlYzQ5ZmUyNjE2MmY2ODM3OWM1NjNkNTFkOGIyMDdmMTE4MmZjNjBiMGFhZTk2NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiNTVlMThkZDg5YjFiYjc2OTI2ZDk5OWVhZTk1MjhlNjIxZjc2YjY2MGFlNWU0OTQ1N2VjY2U2OGVjMmM0YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzc4Y2UxZmI4ZTUzZTdlNWQ1MWRiZjk4Mjg2NjYyY2IxZGUwNzYzZjNhNTJhZGZkM2U2ODUzNzNiZDdjNmY3ZiJ9"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L90-L91",
+          "version": "repo-lines-v1:sha256:b87575f5430bf5f70241d3f443f76f250332cd43c45e79a5a71fc0d26f788580:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmYzQzM2VhMjA1YmQxOTRjZGU5ZGQ5ZWUwMzc5Yzg2MmQ3ZGUyNWU5OTVjODc4NGY2YjUwZGRiY2Q0NjU0NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTZlNDc0ZmFhZDM5Yzk5MTcxZjRmNzM4NTIyNDUxYjBhNGM2NjY2YWM5NzAyZDQ0ZGY5NTExYWQwZjNlZjM1OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzQwNjk3NDhhZTcyMjcxMjZkOGQ5OWNhOGJiODVjOWJiYzljNTAwMjc4MTRlOTJiOTJhZTEyM2ZiZmNkOTc2YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjQ1YmJhYmEzYTUxYWM0OTY1MzY4Y2I2NmNiMDhkNDQxMGQ2NDIwOTJmY2M1M2FlMDNhYTFjN2EwNTI3MjIyZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c1313aafb1ed4680894a7135a8ae7a5d",
+      "statement": "After the status gates pass, hx-smoke-promote scans the manifest, evidence, and cleanup trees (excluding images) for obvious credential patterns and refuses promotion if any are found; it then stamps status and UTC end, copies the bundle to docs/05-evidence/<sut>/<component>/<run-id>/ (refusing to overwrite an existing destination), and never auto-commits.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L208-L248",
+          "version": "repo-lines-v1:sha256:435401b5af93eb9161a8c8f08c13f4d914c6fb89034701756100732c6a265696:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0MjRjZjM2MTQ4ZDY2NjY4NTFkNDA1OTQwNDIzMGM4NTE0ODNkODBmZjRjM2VmZmU5NDI1ZmM4ZTU5ZmZjZjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5MzEyZjNiMGNkYTdkYmUxN2NkNmQ2NDE0YTk2NmI0OWRlMTc2ZDJlZTU2ZjJhYmEzYTU4Njg0ZjA5NWQ0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM4ZDA2ZTEyOGM0MjcwNjFlYmJmZjUyYjhkOThiMzFmYjQ0ZjE3M2M0Mzc1OWQ2N2RhMmYxZDJlMmEwNjA5NjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwNGM2NjM3NTllMTJlMjZlZTEzODk0NTU5MGY4N2UwZGE0ZDZkN2YzMzI2MzgyMTM3YzI1MGMxYTIwYmFhMDQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1c144853a6e74de19349e0cc8ef06739",
+      "statement": "Server-record and proof-step closure after promotion requires setting the step to PASS in hx-proof.tsv, updating the server record and hx-fleet.tsv, and regenerating derived artifacts with hx-proof and hx-fleet; BASE PASS/CLOSED requires service health, resolved prior PASS evidence, the component smoke test, companion MCP/UI gate where assigned, cleanup plus verification, reboot-persistence proof, retained evidence, and the record/BUILD-STATE update.",
+      "evidence": [
+        {
+          "resource": "repo://docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md#L113-L133",
+          "version": "repo-lines-v1:sha256:30e3cede972a7db0671dad7fc77d543fd5e85b7817ff16be9336476ac2d52c7b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1ZGQ2ZDgyY2Q1ZDU2N2MzZDQ4NDg2ZmM2NjQyNDRjYTNiMjZmNmU5ODI5OGY4OGM3ZGQxYzI1NWQxMGY5ZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI2NjhjODRlMWUzYmMyM2Q5OTBjYTM0OGQ0MzM5ZGJhOGEzODRkNGY0OGMyZmZlMDEyZjUwMjBmOGJlNjc2N2MifQ"
+        },
+        {
+          "resource": "repo://docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md#L473-L495",
+          "version": "repo-lines-v1:sha256:14b6ff21b3cf15131b4490b937e1219de0481e6f22898aa468350eb0c3abde96:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwNmYwZWZmMDI2MTM1Y2NkNTA1OGZiZDI0NzAxNWM3Yzg3OTUzNTRlZTJiYTQ0YjE3YmIwMmE4YjRlOGNmMWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRmZWY4NGM1ZjI4ODRlYTc3YjhhY2M3MzdlODRlNWRiNjE5YTRkMjI3YTM1MDg5NmYxYmU1ZWM3YjZiYzMyNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY3ZDEzYTNiY2I2NDA1MTcwNDU2NGUyN2ZlN2U2MmNjZWIyZmQwMTdjNDQ4ZWZlOGI1ZjQyNTI5NDEwY2RmODcifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-14T19:05:42.087Z"
+  }
+}

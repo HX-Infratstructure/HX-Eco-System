@@ -1,3 +1,4 @@
 # Files
 
-- [Enforcement gate tests](enforcement-gate-tests.md) - The meta-check that proves the repository's own gates still fail on what they guard — a throwaway copy of the tree, one deliberate corruption per gate, and an asserted non-zero exit, including tests that a skip is a skip and not a hole.
+- [Proof DAG, Cumulative Evidence, and Closure Gates](proof-dag-and-evidence.md) - The smoke-test proof dependency graph (hx-proof.tsv), its phases and dependency types, the cumulative-proof-minimal-coupling rule, the two evidence shapes, and the closure gates the runner and tools enforce for BASE PASS.
+- [Component Smoke-Test Authorities](smoke-test-authorities.md) - How the per-component smoke-test authorities under smoke-tests/*.md are structured, what hx-smoke-lint enforces, the known-answer model, the companion-gate pattern, and the reusable MCP and Web UI shared authorities.

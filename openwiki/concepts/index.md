@@ -1,5 +1,4 @@
 # Files
 
-- [Generated artifacts and single sources of truth](generated-artifacts-and-single-source-of-truth.md) - How the repository stops duplicated facts from disagreeing — two TSV control files that drive every fleet table, the runbook host lookup and the proof roadmap, a marker-block protocol for injecting generated content into authored documents, HTML mirrors rendered from Markdown, and check modes that fail on stale output.
-- [Owner decisions and document lifecycle](owner-decisions-and-document-lifecycle.md) - How binding choices become durable in this repository — a numbered decision register with ratification dates and stated blast radius, one active copy of every document under a stable filename, and a scripted supersession into a dated archive that keeps history without leaving a second plausible current version.
-- [Proof chain and cumulative evidence](proof-chain-and-cumulative-evidence.md) - The dependency graph that decides which smoke test may run next — how steps, phases and requires edges are recorded in one TSV, what the validator refuses, how readiness is queried, and how promotion enforces that a downstream PASS names the prior proof it rests on.
+- [Owner Decisions and Non-Negotiable Rules](decisions-and-rules.md)
+- [Truth Order, Authority Layers, and Document Control](truth-order-and-authority.md) - How the HX ecosystem decides what to trust when sources conflict — the seven-level truth order, the one-question-per-layer authority model, and the document-control rules that keep exactly one active version of each authority.

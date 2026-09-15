@@ -1,0 +1,298 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:b4cbf0eeb91cc040196ebcc69e7a69f4c40193c351af30d35d5267093744101e",
+  "claims": [
+    {
+      "id": "claim_d15bf26d874f4d2ba7f5523ea10e0bd5",
+      "statement": "The HX Eco-System is a 17-server native-Linux AI platform whose architecture is the cornerstone; validation proves the ecosystem and never defines it, so the correct dependency direction is FOUNDATION -> ECOSYSTEM SERVICES -> APPLICATION CAPABILITY -> VALIDATION and must not be inverted.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L1-L9",
+          "version": "repo-lines-v1:sha256:5ba492f4e6d4c4cc78f9fd462ca6333e2d3f467abec1a00cdf4893153d0b06f2:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzVhOTU1ZGU1MzM4YTUyNzJhNmQ4MTYyMTdmZGQ0NDc5MWU2MjNlYzNlYmYyNzYwMGQyMzE4ZDBhNTE5Zjc0NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTM5Yjc0OTUwZTRmZmIyMDRiZjRlZjQ4MDZhZjZiMDJmYmQ4YWE3NjcwNmIwZjc2ZDgzOTljYmM1MmZhMThiMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDAxZjJlYzE3NTkzYzEwNTRlYjQ2MzY3ZDg0NTNlZjI0YTE3M2NlOTZiNzExN2Q5MWY5YTY4ZDQ0ZmVmOGIwMSJ9"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L10-L51",
+          "version": "repo-lines-v1:sha256:f99c847180bfd425c0dc2a4a006c368e71fb34e8983f10b78ac58d3456fba9d7:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4ZmNiMjhjMzQzODI1ZTM4M2RiOWEzMzNlNjljNjdiZDYzNjE4ZTczNWZmYmY4OWRjMTEwNmNjMjRmYTBlOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyZGQ3ODVkYmQ1YWU1M2Q2YTQ5MjUwNjcxZTE3MzdmM2Y4MjY0OWI4MjI1NmFhZDM1Nzc1OTdjMWZhZTUwY2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjZjQ4ZTQ0YzA5NzRjNzA1NWFhZjM5NGJhNWU4ZWUwYzU0N2U1OWNiZGNkNTM1ZTI2ZGE3YTVmMTlhMzBmMDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxNmYwZWIyOGFjNmJjOGMyYzcyMzZhZTM4ZjRiNTE0MmJmNmMxNzVkNTM1Yjc0NTYzYTdiNzFjZWY4YmNiYzIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4b47715281434ba095599577a5360121",
+      "statement": "The accepted HX baseline is LAN 192.168.50.0/24, gateway 192.168.50.1, infrastructure DNS/AD on HX-1 at 192.168.50.200, domain hx.local.arpa, realm HX.LOCAL.ARPA, SSSD/realmd/adcli membership, native Ubuntu + systemd with no Docker/Podman/Kubernetes unless explicitly approved, and direct native application endpoints rather than a reverse proxy.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L85-L99",
+          "version": "repo-lines-v1:sha256:292b9253b346a022de45c8116a32e6184f96be34742259364ef2172c216a8755:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2ODMwNDMxOWE0NTE4NGQ2MWUwZDM4MDYxNTVkYTkzOTYzNDlmMjE2ZjllNGEyNDQ4MjI0YjUwYjBlYTg2NjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUxYjNhMTk0YTUyN2RjOWE4OWM0NDdiNmFkZDdkYTJjNDNlYzZhZjc4NzU3OWYyMzgxMTM2ZWM5MDFjYjM5YWIifQ"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L53-L73",
+          "version": "repo-lines-v1:sha256:c9398f1ab6a86e28f37a0f388c63086db1e1b1e800265ebc18cbfaeb652ab34a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2YTE0YTc4MmU3M2FiOTkyMGZlNTUyODdmMzdiNjY5YjFkZjg2YmQ0NTU2YjI3ZDVkMGE1MjkxN2JjNTQwOTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzYjFjYzA0NDI3NjZmNTk4ZjkzODA2MmQ2NWE3ZDQyMTM0Njk5ZDY1MTcyNzhiYTEzMmNiZDlkNjdkOTFhMDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2NzExM2NmYjAwMTE1MzA1NjFjZTI1Y2JjNWNmZmM2ZmRmYTFmZWQ5MGE2YWE5M2MxNDgyN2Y0Nzk3MzE0YzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkMmFiN2IzZjRjNmZkOGJiYzg4NTMzMThlNWUxMTQ3OTY1YTA5YzA1MTEzMzg3ZGE1ZjBhZTlmOGIzYjFkM2UifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_df25051d260146a1ab9b6bfe1f50f34a",
+      "statement": "The HX LAN is treated as a trusted lab segment: the common base runbook disables ufw on every server and Ollama listens on 0.0.0.0:11434 with no authentication, and firewall/segmentation/TLS changes are not imposed without owner approval.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L60-L86",
+          "version": "repo-lines-v1:sha256:f3eb39bb661f9737553e1a3896ad0803377cae14370a6c89c3fe599636e2ca14:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0ZTM2N2UzMTBhNTk5ZTAyMmRhNDFiNjI4MGRmZDdhY2ZjZjgzYjc5OTdmZDE1NTIzMGVkOWE2MWY1Y2Q5MzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2Mzc0M2ZmODFjZTc1OGEyMGZlM2VmMDA3YjQyMzc4ZDUwNjA4NzA5ZWI3YTc3MTAzYjNhYjBmOWJkMTBiMTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE3Yjk2ODY5OGIwOWMwYWIxYzA4NTNjZTc3NmI2MDUzMDJlNTdjMmFjMWIyNmY5YWVlZmEwOTA1ZmM3NWY1NTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYjI2NjQzMmNjZTE2YWE3ZDYxNjlkNjNkMTFjN2I3Zjk1OTI1MjYwODMwYjA2YTE4MWI5NjUzMWM2N2MwYjQifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L53-L56",
+          "version": "repo-lines-v1:sha256:0e47996f38d906d95514676a9f46f6bd58b27f98ef9ff6629bca40813a8eeb28:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWVhMjgyYjk2ZjdjNzY4MTk5NDA1ZjZiNjZmMjMzNmEzODkwNWFmYTE5OWViYzc3OWJmMzY5YTIxZTFhYzU0ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2JhN2U2N2JlZDgxYWMwYWZkYTI3YzBiNDMxMDJkYTE5ZTQyNjUwNTVkMGI4YzlkYmEyMmU1N2FmZjM5NWIzMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDhiNmE5NTIzZDM0Y2M1NzI0NWJkMThlOTRlNzIwNGQ3MDViYjM5ZDgxMDViMGI0MmQ1M2Y2ZDA4MDE5NGYyZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b3b6e8df31e645fc85e845c41f2d7fd7",
+      "statement": "The ecosystem is organized into capability planes — Foundation, Inference, State/Retrieval, Knowledge/RAG/Memory, Control/Routing/MCP, Agent/Workflow/UI, and Validation — where higher planes depend on lower planes and the Validation layer validates each plane rather than defining it; governed skills and validation cut across every plane but are not architecture layers of their own.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L25-L49",
+          "version": "repo-lines-v1:sha256:1198c15d7d84de45123bb3ad52243619f7a52c3fa4ae6e7051922609528119fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2OGQyNTJmMTJiNzE1YjYwMzgyODlkMDI2YzQ0MWNlZWQzNWNlNjBhZTkzOGIxYmFkOWNhNTlhMzZhNzJhOWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjYTdjMzY4OGRiZjdiMDM5MjA0ODBlYTgyNjcwZjZlYmQ1MDliZWY5ZGQ2NTQ2MDE3ODE5MWU3MTIyMzk4MDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEifQ"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L75-L118",
+          "version": "repo-lines-v1:sha256:3364cdf4c59e13f442719b54a723b44bb5f46a762231331025af021dddaf6365:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlYmE5MWRmZDY1ZWIzNTE2NjMyMGQ3ZmVkYjQ4OTgyZjEzNzM4YWFhN2JlNzVmNjY0MmFjMjU4OTFkOGVjOTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4Y2JmYWZlYTE5ZTdiYzIxMzMwNzU1ODBlZmRjYWI3YjUxMmI0OWQwNzU2MjZiMzNlZmRmNGM0OTQzZDQ4OGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI2MmViZjM5NGE2YzFlMGE4M2ExYjBhYzIzNTY4NzY5Zjg4YTI3NTY1ZTQ1NThmYWFhZGFhNjc5MzZlNGU1YmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdhYTg3NGFiYTU4YzFiN2ZkNDY4NThjNGU4YjhmZjA4OTM4YzRiNjk0MGIzMzI2NmI0NTQ5NTVmYTAxYTMwOGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0d9f99051cdf40e1b4328bfeabbaaabb",
+      "statement": "The owner-approved target assignments map each of HX-1 through HX-17 to a specific IP and workload, with HX-1/HX-2/HX-3 PASS/CLOSED, HX-4 NEXT, and HX-5 through HX-17 NOT STARTED; the single source of truth is docs/00-control/hx-fleet.tsv and design readiness is not as-built completion.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L302-L323",
+          "version": "repo-lines-v1:sha256:00565015d1fbe9aa560b15fc0782ffdf4219d82ec278d8b12d5b047fe4e8e241:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiNzZiODNjY2YzM2E5M2YxYzE4ZWEzYzA5ZjI2YjcyZDI0MDA0MDhhN2JlOTRmNTE4ZTMzYmY5Njk1NTgwYjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwZWI1NTlmMTZlZGUyNDhlOTM4YTRlYTg0M2U3YTFjZWEwYjEwZmI2MWMxNzg1YzAzYzIxYWIzMzczZGY0ZGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgwNzg3OWE4YWRjYmIyODA3MDQ3ZmFiZjVjZmJkNzQxZTk1NTNkNzUzMjhkM2RlYzY1OTUyMzJiODViNzljYmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY2NjI2ZWM4NDYyOGQxOTUwY2YzY2NiMTYyMjNhNjg5YmQ4ODYxN2U5NWMwOWEwYzZkMzlmMWFmMDA4M2JkYmMifQ"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L120-L144",
+          "version": "repo-lines-v1:sha256:5883ef96bfe177dce1f52eef8a2e4c9be1da734eece80372dcb8ca67882325e5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmNzdmNWRhZTBjNjY0NGRmNDFiMjAwNjM5ZjhkMzdiYzNkNzczZWE0Yzc5ZGVlOTRkZTE3MGJhMWE5Y2YyMGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlZTA1Yzc0ZWU2MjRmY2FmMmU2OWJmNTczYzZlZGVmMjEwNDI5ZTRjNDIyODNkNTVhOWY4YmZlODYzYjJhZDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNhNzIwNjM3YmM0NTAyYmRkNzI1YzVkYTgyNGJhOTk1MDgzYjMyZTgwY2ZjODc4ZmM2ZmJmM2E5NDM2NjUxM2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI5MzMzNjA1OGExNjFhYTQzODZiMDkzM2Q3MmQ5NjhmYTA2MTUxOWUyNzA4NDAxZTNiMDk0YzVjNjZlOTA1MDAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9d3bb1e35a954663b2a9fed8c74829d0",
+      "statement": "The base program builds in seven dependency-driven waves: Inference (HX-4/HX-5), State/Retrieval (HX-9/HX-10), Routing/MCP/Control (HX-6/HX-15/HX-5 Harness/HX-7), Knowledge (HX-16/HX-17), RAG/Memory (HX-11/HX-13), Agents/Workflow (HX-12/HX-14), and UI (HX-8); this is dependency sequencing, not authorization for permanent cross-service integration during base installation.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L110-L155",
+          "version": "repo-lines-v1:sha256:e5b48059c3810d4644010b19459e8807c9110ff92abdec37a5ffa7b4de3af70f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwYTcyODBhNTFlZjQ0OGIxNWJmY2ZkNDBjNjA4YmI4ZjY3MmY3NmI2MTMzMWJiMWQ2ZWVlY2NkODI5ZjNlZDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc5MmExZDZhOTJjMzY5YWVhYmUzNzdmZmNhYjJjY2JhZTUzMTIwYTRlYWUwNzdkZTA0MTdjNDRkYWUzYjJjN2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYzNDRlZDJhMzM1YTM5NWY5NWRjM2ZhMzFkNTMwZTY1NGY1ZDI3YTEyYTJlNWY4MmM3YjUwMzAyNDE0YjU4MTMifQ"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L195-L207",
+          "version": "repo-lines-v1:sha256:2265c58e5c526e4767a3efa20a6de64f11a46333e032988d6582e72d52760e85:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwMDNiN2MwMjVjYzUyY2JhYWE2NThhYjhmY2ZlM2E3ODUyODc2NmMxZWE0OTM4NmQ5MTcwMWQyZjMwMjUzOTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NWUzZmU3ZThkNWYyYWNiYWUyY2I4MDM2MmYyNzI3NmZmMTc3N2I0Mjc1MmQzZWRjMjIwNzAyNzNmYWY5YWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBlMmFlMjI5OWM3MmFjYTM4Nzc5MDBhMjM0NzlmMWI5NzY1MzNkNzE1MjAxNzJhMDhmZmE0NzQzNDQ0NTc2NTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUzOTc5NTAzZGYzMzYxYTQ1NjZmODY2MjgwZGUzZTdiYjc0OTA3Yjg3MTY3ZmZkZTc2ZmVmYWRkNWYxNDJjOGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_61f595dd3e4d478497fa30f95eb0ab83",
+      "statement": "The flat deployment order interleaved across the build waves is HX-4, HX-5, HX-9 PostgreSQL, HX-9 Redis, HX-10, HX-6, HX-15, HX-5 DeepSeek Harness, HX-7, HX-16, HX-17, HX-11, HX-13, HX-12, HX-14, HX-8.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/CURRENT-STATE.md#L46-L62",
+          "version": "repo-lines-v1:sha256:859af13a4d23ee9816dd643a48da334b414eedd37e91d527d6a8fe815432bbd3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlZWVmNjZkNDI3MzQ3YTllMmJmYWU4NWZkNGUyMmJlZTU2ZWFlMjZhMjBhMzFmMTRkMzNlZDY4Zjk4MjI4Y2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjNTI5NDNmZjE4Mzc3NWQxOWM1MjQwNjJlNjM4YWNmNmZiYTRjMzRmNDg2MGJhZjJiYTJkNDI5NDAyZDM5OWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjExZWFhMGVhNjFlMWU0NjNlNzdjMGZlN2YxZGNlOWVlZGU0YjgxMzQwYTNlMDZiMzBmZjM4ZTQ4MDhmODg4NjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg2ODk3NjNkZmJhODhlMzA0YjA1N2IzMzhkZmZkNTUwM2NkNTJlZDhlMDEyYzhhZWVhNWY5MmE5Y2RiNDZhNDMifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L89-L108",
+          "version": "repo-lines-v1:sha256:a78a1e4b6790511a4bf6de5b65110ceca71513084188d5dd43e0cc69c93b4457:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjNjQ0YjRhZjdhMjVhNjk3NjVkMjFmZDViZTE2Zjk5YzYwMTMzNGJhNjIxNTIyNzA5Y2U4MzBiZDVkYThhOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4NWRhZjRjOWU1ZjdiYjlhOGYyMzNhMTQ5MzE3YWZhMTY5MTljM2YyYmRiMjA0ZTlmNzBjYjQzN2ZkOTk4NzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg4MjAyNzI2NGRhNGJhMzkwYTg4OTJlZTZkMDg4MTdlY2FlOWU5MjFmODYyYjViZDM3ZDY5ODIyNDExNTkzN2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRkYzFkNmQ3Yzg2NDhlMTVhZmU1OTZmNjAwNmFhMDI4NjkyNWEyZjIzZjI0OTQzMTA0OGMxNjVlMzFhMjAxMTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fe99c1fd15284b1ea21e6224c138c225",
+      "statement": "HX-4 owns the shared retrieval-inference models: BGE-M3 as the primary/default embedding model at 1024 dimensions, Nomic Embed Text v1.5 as the alternate/fallback at 768 dimensions, and a BGE-family reranker whose exact checkpoint/runtime must be pinned; Qdrant on HX-10 stores vectors but does not own the embedding models.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L185-L205",
+          "version": "repo-lines-v1:sha256:a5ff7225e50398782efa117b68dd420495939c7a57cdc78d69183981555ddd8e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkMjlkZDZjN2Q2ZmE5YTM2MTM0NzZhMmZkYjFiMzg3ZDllMjgzZjVhNmZiOGVjOTJhNmMwZmFhNmViOTc3ZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1NzQ5MDFjNzE4NDI1MDI0NjcxYmFjY2M0ZTM2MTg1ZjE3YzRjNWYxYzE1YmRjN2VhMDBhYmQ2Y2U0OGRjNjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2NDIwOTE1NmEzY2NjMTU1NWY5YTE5MTgzNDJiNDAyYzJlNTkxNzk3NDk3YzFhYTgxYTZjNWFkNTQ4ZGRkYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg5NGY3YjdjODZjN2ZjOTk1MzRiYWIxYjJmZGMzZTEwMjdjNGQ1Y2M3ZjdlOGMzNTY4MDMzYWRjZGJiM2E1ZjAifQ"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L157-L171",
+          "version": "repo-lines-v1:sha256:d9a7859ed08bbe7b4049d6a3b7433b44d70a7af43453fe02d8002b02afaa5517:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiZDVlZWE4NDE5MjE0ZDc0MDE1NWVlMjRhYmNiYzUyYzg4ZDVlNTVlZTY5YTE3YWE0ZjBkNjYyMGZhMzMwYTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxODg5YTVjZjg4Y2I3YTNmZmJjOWM5NGUwN2Q0NDBkNDFhMDhiYmIxN2NhNTE5OGU0NTJjNDI5YzJkNmIyOTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEyMGJmZmUzNGY3YTVlYTgyZGU2NTkyZDdkOWJhNTk4M2ViYWRiN2RiMTM3MWRlZjAyNjk0YWU3OTI4ZjlmM2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkM2U3MTgzZDQyNjA0NTY0NDg4NTVhZTA4OGUxZGYzMDVjOGQ5MTMwNTc0NzA3YmRiOTNjYmQ3YTdhZDEyYjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1127101df47049b0ad0e7af499beb266",
+      "statement": "Embeddings from different model identities must never be mixed in one Qdrant collection; a model change requires a new collection and complete re-embedding.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L118-L122",
+          "version": "repo-lines-v1:sha256:7b4b80ee5324f4631062e1a3968851018173c298af930246c28f61073ccebc9b:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzFlMWM1MzQ4MDVlOTk2MjAxNmFjOGY0MTViZTU4MDUwN2JiMTlmMTY2ZmIyMzFiNGUwY2VhZjQ4MjI3NzMzMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjc4OTFlMWZkYWQzZDNjZGU2MTI5MzVkNjk2ZTVhZTIwM2RhY2EyMjY4ODc2ZjE1MzI5ODQzMDc5NjYyYWE1NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTYzZmE2MTk4MzY5MjlmNmI3NDY4Mjg0Yjg2MDAxZDFkMzA0YTY3NDM5MDk5OGYyYTM2NjQ3YWE1NzZmNTAyYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzg3NDI3NGQ0N2U5OThhMWZiMzRmNDBlNDc4MThjZmQxZGU5NGQzZWQ3ODczNTNiOGE3Y2RlYjFlMDIxZjYzNyJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L201-L201",
+          "version": "repo-lines-v1:sha256:3e8816303c456fed349ea060bce131667ae5ad829d17feea9e5005840187dc25:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2U4ODE2MzAzYzQ1NmZlZDM0OWVhMDYwYmNlMTMxNjY3YWU1YWQ4MjlkMTdmZWVhOWU1MDA1ODQwMTg3ZGMyNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2U4ODE2MzAzYzQ1NmZlZDM0OWVhMDYwYmNlMTMxNjY3YWU1YWQ4MjlkMTdmZWVhOWU1MDA1ODQwMTg3ZGMyNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTM5ODg5MTYwMWZjYTVmMjM1YmYzZmVhMTAyOTgzMGI4OGVlNDJhZmI3MzRiZDViNzc0YjJhOTkwNzA3ODgwYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGFkOGFkNjUxNDkxY2JiYjA3OTU2ODIyMDA2N2Q0MGYzYWRlMWY4MWEyZDZmNjBiM2QwNTc5OTQzYTg0ZTkzZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b3d75f161f15482ba79522e6f84e6944",
+      "statement": "Granite-Docling 258M stays with Docling on HX-16, base validation is CPU-first, it is a document-understanding VLM rather than a general shared embedding or conversational model, and routine Granite-Docling inference must not be routed through OmniRoute.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L176-L184",
+          "version": "repo-lines-v1:sha256:e8faf3daf982753ed7f0371a1eee4346ec4389dfdf7aafa05e9ecfb5c9aff5c6:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWNlNmRiMDRkOTFiMzdhZmExOWRlMDVlODUxMGFhOGIyNzU4MDE4ZGM3ZmM2Mzk5YmM2MzcwY2I3ZWM4NDcyNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTE2NTdiYThlNzExMWE5OTk4ZWRkOTljZGRmMjcwNjBlMTUzYjM2ZWVlMmU1MjUxMDFjNjVmMDMyMzI2Nzk4YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmM5ODc5YjM3MjNjODMwNmU3YTI4MzQzYTczNmU3MmUxMTI3NmFhMjllNmJmOTExZGVkMmJiZDA4ZTQzMjRmNiJ9"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L173-L177",
+          "version": "repo-lines-v1:sha256:cd93dbcdfd6d1704ccd556233653a1c17ac44d492293fe818d2870366635cedb:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDQ1MmUwYTlhNDYyZGM1YWIzZWQzNGJiYzJhY2RiMmIyZWYwNGRmODgzYzM5MGJlNmExMDc5ZDZiMzg2MmU4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDE2YzZlMzBkYmNiNjNmZTU0N2FlN2ZhY2RmNTdkNDAxNzllMjM3ODhjOTQyZTk3NjFmNzQ1OWQ2ODA5NDYwZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjNhY2UwMzdmZmEyYTMyN2JlOTFhNTYwMDE3NGIwNDZkN2QxNzM0MTlkZWVmMzQ3NTI4MmU5ZGE5MjVkY2I4OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGQ0ZGE5NmE5OGRhOTIwZGFhYjk1YzkyMGRjZWQ4ZWFkOTRhZTA2Y2ZlNTI3MzViZWViYzA2M2NjNjQ3ZTM3ZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_08e6e5f099844ce68f9e623adffc8aa8",
+      "statement": "Product-specific MCP servers and native Web UIs are part of the parent application's base build where assigned (PostgreSQL MCP, Redis MCP, Qdrant+WebUI+MCP, LightRAG MCP, Docling+Granite-Docling MCP, Crawl4AI MCP, n8n MCP, Mem0 MCP); HX-15 FastMCP is the shared/custom MCP development host and is not a prerequisite for these product-specific MCP servers.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L57-L74",
+          "version": "repo-lines-v1:sha256:0c69a01fc104994471aaf75c2f0e42bbd2af6fb17198cf563b45bb1f8b148032:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiY2MxZTA1NmYzZGJjYTJlMjQyOTk1NGNkYjEyYWYzYWU5NzI0NDc0YjdmNjljMDYzNTc5NDU0ZDJiZmI0YTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI1NGE0MDQ3YzRkNjg0NTAwZTYwOWYyNzZjNTEzMTVmZTdhN2I0NDU5ZTYwNjY4NGY2NzA0NzA4MzgzODI2ZGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM1YTliMzllMTRmY2QwOTg3YmVhZjhiNTBkZWNhMTk5YmQxNmE3ZjQ4Y2M4YzM5ZGU2NTMxZDU4YjEzMjYzM2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdjYWQ3MjBjNWZkNGNhZTRjODViZmQ0ZDE4ZDA5MjYxZDU1NWJmMmNkMDA1MGFjMDc4ODVkZTY1ZGMzMzcxNWMifQ"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L179-L194",
+          "version": "repo-lines-v1:sha256:85d74978b52dc1695fd9b1e20c618dd0a47e61b65769732ab6944c6552a38a8a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzN2M1Y2RhODhmMmY2YWEzY2IzYjE1NzFjYmRhZGM2Yzk0ZjlhOWZjYzg2NTcxYTE3NmFmNGUyNjliOTg1NGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM5YTFkYmQzMGQ2NGI1NDRiOTFkNjYxMGNkYWNhZGYxYmVjZGE1ZDcwOGQ2YjdiYTUwODQyZmVkYjQ0ZjMxNDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ1YzBmYTllNmUwMWUzZTBiNTgwNzVhZmU0ZDA5ZGY5NGJiZGE5MzM5NzdkZTVjNzliMGE2ZDliMjdhMTM5ZWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a8bd52c0b52e4a8ead5a2cd388eee8bd",
+      "statement": "The current program is base stand-up: each component is installed natively, proven independently, reboot-validated, documented, and closed, using only minimal temporary reversible validation-only integration; permanent routes, production schemas/collections, RAG ingestion, MCP client registrations, agent bindings, Open WebUI permanent backends, workflows, observability, and end-to-end tests belong to the later integration program, so smoke-test wiring is never permanent architecture.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L19-L55",
+          "version": "repo-lines-v1:sha256:5f9d9ca4860ee527cf0f447ca5a2b15f94dc7dc6afec3be54f24bbd8b8007fbb:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkMWQ4NTZkZmMzYTU4YTU0MDZkZmE5ZTVhMzBkZTRkZWIzZmY0NDZhMDQ4YTYzZTZlYzNjODE1YmY4MjNlMjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM4NzU3NDMwMDdiZjY3Y2E3NjhkOGNjMDhjNjdmNDYyNDg1MzVkY2M4ZmQ3NWVjMjdhNjQwNTk4M2M2YTE0ZDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBiMjBlMmZmMGE3NWYxNTA0ODU0ODk3ZGJjZjJmYzZhNDUzZDQ4ZmQ1MDY5NTNlMTY0ZmYxMDg4OGJkZThlZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzZTQ3OTczMDdjZWMzMzcwN2Q1YWMyYjQ4ODFkODlmZjgwZTU4M2FmZGE4Y2Q2OTAxNzAyODdlYTdjM2I0ODgifQ"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L209-L222",
+          "version": "repo-lines-v1:sha256:6bc7a8d69a63b1cbc7c512456dfdbe6a2807efb00f4df8dee45b52f3e71151b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwYWEyMzgyZWM5MTU5NTYzOWIwMWI5MDk1MjYwYmRiNDU0MTFkY2YxMjg0MTk0MDhkZTU5MDc2YmIyYjM2NmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiYTM3NWNkNDIwOTc3MWIxMzM2MzcxMDAyY2VmMWUyYjdlN2QxMTM0NDg0YTAwYjFmNDJkZDA4ZWNjMzlkYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzMjQwMzk3ZGFlYjliMThlYzUzNGIzNThlYzgxZjMzM2I2NmE3NDhmMGMxNjUwMzJmMzQ0YmJlOTRlMjY1NTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_26f5027949cc476aac1e419b60539e6d",
+      "statement": "A component reaches BASE PASS only when the host is cleanly rebuilt and joined to hx.local.arpa, required OS packages are installed, the application runs natively under systemd where applicable, local/LAN health endpoints respond, required storage is mounted and persistent, any native Web UI is validated on its direct endpoint, any assigned MCP server is independently smoke-tested, the component smoke test passes with only minimum temporary integration, validation-only state is removed afterward, and reboot persistence is proven.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L19-L48",
+          "version": "repo-lines-v1:sha256:0b2c78a0d3d0668dfb25beff07f6a8ded24c6f2c17983d351334dcc9fa7b2d18:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkMWQ4NTZkZmMzYTU4YTU0MDZkZmE5ZTVhMzBkZTRkZWIzZmY0NDZhMDQ4YTYzZTZlYzNjODE1YmY4MjNlMjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBiMjBlMmZmMGE3NWYxNTA0ODU0ODk3ZGJjZjJmYzZhNDUzZDQ4ZmQ1MDY5NTNlMTY0ZmYxMDg4OGJkZThlZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEyMDMwNWE2MzFlYzVkMGI2MTllMDY2ZDllNzVkMTE2ODU4ZGIzMTI1OGRkMTQyMWU1MDUwZWQxNDMwZTAyNDUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_16f352cee624409faf749b67a9e5f284",
+      "statement": "The validation layer sits on top of the cornerstone and must inherit rather than redefine server placement, network, model placement, or component ownership; the smoke roadmap is subordinate to deployment readiness and a component cannot be smoke-tested before its system under test is installed and ready.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L51-L55",
+          "version": "repo-lines-v1:sha256:c8fefb1a765f784aa40afdf3d097b3122152bb4741720ca02d7b7ba1185ffb99:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDIwOTI4Y2JhY2M3ZTJmZTM0N2M1MzhjN2E3MTQzNGYzN2UxMDRiMjJiNWUxN2Y3MmNlZGNkOTU3NzhlY2RhMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTliMDMwMWI1YjcyYjAwODVjZTQ5ZTE4N2M1YTYyZmFiOGM5MjFjN2IzZGU2MTBhN2M1YzQ1MTZjZjA5MmFhOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGQ5OGQ2NzM4ZDI1ZjVhNTUzZTZmYjk3NzFmNGViZjE3NmUyMzM1OThhMzVhMjE2OWIzYWE1ZGI1ZjVjYzBmZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmU0MGFkZTFlZDdhMTQyZmYwOTdlNDJhMGUxODNmYjg0ZGE1NGZlNjQxOGJiYjk1ZDk1ZmQ4MWYxMzUwMjU2NiJ9"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L223-L236",
+          "version": "repo-lines-v1:sha256:88c5d9fa898bb78c197cfbfa49cf7a1b4891d84e8c6feeabfd847591ae8b3f9c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxMmUyZWE1OTc0NTBkNjI0Zjg4N2UwZjU0YjA4NmUzY2ZiODJmYTIxMDgxMzU0MjAxYTUwODc4OWI3M2YwZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUzZDBmNmUzYTQ4NzQ2YWMxYzhjNjcxNDAxNDgwMjlkOWQ2YzljZmYzOWFlZjRmMDA5ODQ2YzU0YjU5NWM2YjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc0MWMzOTNlNTMzMTJhOTMyODFlODFkYzU3NmM0MDhlNjkyNTliNGVhYjQwZjJkMTFhMWZmN2VhOGY1MDM0NGEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9d6c7ff1f82d4a91b9c09b59e634a7a9",
+      "statement": "After HX-5 closes its own base inference foundation, CentCom becomes the standard remote execution station for subsequent component smoke tests, with disposable test projects, runner tooling, fixtures, logs, and cleanup verification living on HX-5; DeepSeek Harness is not a prerequisite for enabling the CentCom smoke-runner role.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/CURRENT-STATE.md#L64-L78",
+          "version": "repo-lines-v1:sha256:80d5aa8763d393af9b6eb22a21141e97b5eb52bea69e7be7a1edd979d6d4b84c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyNDI1NmIxY2UzY2ZlZDczY2Y5NjIxYjNlMDYwZmMxZTc3NDY4NDdmYjRjYzczN2JkODFjMTFhYTY4OTQxMDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2YTM1OTY3NDQzOGE5OWYyMjhjMjczZGZiMjBjNTcxYzNmZTk1YmNiMWQxZDdhNGEzNWRmZGMxMjJmZjJlYjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVkNDI0ZTM0NjE2ZDVjNDg4NGEyMDM0MGQwYTAzYWM0NmJlYjZhNGU1Njc0ZjI2MTM0YTUyMTlkM2E0ZTA1MTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYyNDdmZmM0MTEzMDczY2VmZjdiMzgyNjk4OTMxZWJmNWE5NWFjMzdlOTNmMDljYmI0MmNkYjgxZTkzZmY1NzgifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L48-L49",
+          "version": "repo-lines-v1:sha256:89fffd5c5470377b169f20610bad8adee14497248c55a79263d5351e4e076b7f:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTEzYjVjYmU4MjE5ZDVmMjViZWEzMWI1ZTE0NmQ2MGZmMjYxN2MyYTczMmIzM2JlZTA1MTk4ZmVmMzRkMzgzMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTljNGZhMzUzMmU3NGEzNWIyYzkxZmM2OTkxYTQ5ZmU3ZGI1MmY0NWE3ZjNkZWZkNjAzYjI1ZDAxNDUyNTEwMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTBiNmY5ZDYyYzdiYTU0OGRjZTMyODM5NjkwZTE1Mzc5Njg5OTk2Njc4ZjEwYzczNzgxNjY5MzMxNzUzYTNjNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTEyNmJmZDVmNzEwNmNiNzJkYTdmYThjODljOWJlMGFjMjYyYTM2MWJhMDNjYmExZDMwMzNjYjkwNDNhNjg5OSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_73bbfcdfa0974dd382cfd3e9d02a91bd",
+      "statement": "Only models from servers that have passed their own BASE PASS may enter the active HX routing/model catalog; even if HX-5 is upgraded to 2x16 GB GPUs, shared embedding/reranking remains on HX-4 and HX-5 headroom is reserved for CentCom, Ornith, DeepSeek Harness, and dev/test.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L27-L29",
+          "version": "repo-lines-v1:sha256:7d553b977462d400431b7de47763bc059f37a773537a59200a028959b65f0dc1:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTk3MTM0ZTA3OTU5MmE5NTVlODM1YzAyYzdmMzZlNmM3NGExNGEwMTFlOGY3M2Y0OTBlNmNjNGZiM2IzMzBjNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTcyMzM1NGQzMjFiZTdmOTBlMDI4ZjNhNTlmMjI0MjhkZDBhYzRiY2VmNDk4Y2E4NDRjNzlkZDVlMjA3YjhlMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2JmNGRmYzUzZWViMzI2MGJmZDE1YWY1Y2U5NDE4YWQwOTc4NjI5YzkwZGRiMDhiNzdlZGZmMDljOGZlZTM1MSJ9"
+        },
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L149-L156",
+          "version": "repo-lines-v1:sha256:085a8aa247cf34b5fbdcafd6be7233a0fb1d3958561724cdc40da3fbb1001203:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzIyY2I1MTc4YTkwYTY4ZjAyZDVhMzIzOTQ2MDVhZmI5NjY2NjcwOTVhZWUxN2MxNDkzZWE3NmVkY2U2ZTI5ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzBhYzRkMDUxYWMyYjQzZjczM2Q1MDgwZWI3YTMxNWJhNTMxNTdkN2Q3YTFkNGZlNThlZTlhM2RhYzU5ZjI0NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7749631d7c944b3fa94f7dbb83861dac",
+      "statement": "OmniRoute on HX-6 maintains an explicit approved-provider allowlist and an explicit approved-model allowlist; discovery or support of a provider/model does not equal approval, approving a provider does not approve its entire catalog, and free/no-auth/discovered providers are not automatically active.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L36-L37",
+          "version": "repo-lines-v1:sha256:a12763545f00fa1bdf4bc1ba189d8394d5e35734ee9adc82f96a6bdbcf206aad:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmNhYTE5NzllOTgxYjIzZGIzOTAzYTljNzRlNzE1OGJlNGI3ZDRlOTY3YjllM2UxMDYxNDZiYWMxMjM2NGE1MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTEyZmY2OGNjMDk3MmM4NzAyYThiMWI3ZGMwMGUzNGM4ZWYzY2NjOGYwYzU5M2RlMmY3N2EwM2RhZmM5NzRmOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGNmNjk1Zjg2MjhkNDMzYjczODg3YmNhMGUwZjZjYjgxMzA4YzI0MmNlODVlNDgyNzY4NGI5YjM3M2UxMDJiOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjEwYWNlZTRiYjVkNDc2MzFiODU3MDA3Yjg5ZjUyNzM3MzhhMjU1NWNiYjRiM2Y2OTZlYmMzZjZkZTdkODAxZiJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L253-L286",
+          "version": "repo-lines-v1:sha256:8da5aaf86c7c3c9ced51b44200788d9b94ca8bb5549616019e2b054a25e772db:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1MTIxMTkxOGFlNmJhYzI4NGFmYjBmMzdlM2NiOGFlNGFmZmQwYTE4MzlhMWZkODg1NTY0NGRlMTgzODliYjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxYTRhODQwMTZmZDhmY2UxM2M3NDQwYzI1MmQ4ZDNlNmZhM2RmNjE4YjU5ZWVmMzRkYmJmZjk2ZDBiYmY5MjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM4NzUwMDZmZDQ4ZDE0N2Q0ZGNkMTAyZWU3NzlkMmMxYmUwMDc2MmFiYzY0YzBkMDRkNmVkYTcxZWE4N2IyNzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk5OTQzNTFkNDczZTkxYzQ2ZWY2ZTEwNTkyNTIyNTJiZjc1YzRkYTRiMmFlYjQxZjk3NzVlOTM3OTVmZTgzM2UifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c23502fdbea94d8283b15fb063b8c354",
+      "statement": "HX-7 NGINX is limited to development/test UI rendering only and is not the ecosystem reverse proxy; normal application UIs remain directly accessible on their own native server/port.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L18-L19",
+          "version": "repo-lines-v1:sha256:13c93194398372e60e16ace32a2744fac37f8426be0e4f25efb82bf6fc4ff195:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2M3MTVkMGNlMWVjMDNhNDNiM2I0MDBiNTlhYjBjYzFiNzVhODhlNzljOTg3NjI2OGJhMDZmNzE4ZGY5NjVkMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTkzMzA2MDViNTAyMjAwMTI0YjhiMTk5YTc3MGU3ZDRkMjg2YjliNTgwY2MyMjgwZTA5ZTYzMjE2ZGQ5MzY1OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjU0MzE1NzdmNzZiNDQzZDFiMzkzZTFiYTc4NWQ2MTMxMWI5OGNjNDI5ZDNkOGM1Zjc5YjNhY2ZjYjRmNGE1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzM4ZmM4MDc4ZTYyYTgyNGY4ZTRlN2M2ZjRjNDY1ZTkyOWYxYjQyODc3NWM4YTVjZTEzMzVhYTA5NmFmZDNkZiJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L288-L300",
+          "version": "repo-lines-v1:sha256:07c7a0acc826dc70b7c1ade7758e2c7822510289c062da9110febddbc2840645:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyMGQ0M2M2OTJlMjhiZGMxYjhjMDAzZWM0NGM5ODk0NDBhZTIyYjBkZTBjNDY4NjFlMWRiZTFmMzhhNGI1ZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2NWI0YTA1OTM2NDQ1MDNmZjgyZTc0NmQ0MGJhMjMxYTZiZWM2MWNmMDFkOTJlODY5NDU1ODZkMzE5ZWUyZWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY2Mzk0MTIxN2U0OWI1MTc0N2MzNzVhMmMxNjVhMTg1NDIzMjE1OTg2OWU1OGMxN2Q1Y2ZlMTY1OWYwZDNkNzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE2YjIxNjczYWYxYWIzZWE3YmMwZGJmNTdhNWE3OTEwOGZlMDIyYzU1YTUwYjcyNmJiMWI1NzAzZDBhYWY2ZTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_95354abc15b3438aae33c9f48d27d9d4",
+      "statement": "Application software comes from PyPI, npm, a GitHub release, an upstream source tarball, a direct binary, or Hugging Face; the Ubuntu archive is used only for the NVIDIA driver and build toolchains and library headers, and Snap is never used.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L105-L124",
+          "version": "repo-lines-v1:sha256:75cca5761391ca3a0e380d11fde970d3c0658f6a70dda71bac6b977f1ba1ba58:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmNzBhYTA3ZTc2MDc1NTBjOWU4ZDUyOWJhNjdjN2NmZTA1MDFhODY2ZTczYzcyZDI3ZjgzNWUzYTUwOTRhYTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3ODVkMzljNTYxZjFlZTQwNjBmYWZkM2QxZGVlM2ZiNmIzODc0OTlhYjUyOTg5ZDJlMWZkNWExOWIzODQ4NTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY3MzYxNjFkZTgxNDcwNzE5YTY4MTE4MjM3NDIzMzkzMjJmNjkyN2MxNjNmNDAwYWIzMjY3OWU3MWZmNjM0NmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_986dd35cb9c7438986f6c5b1a908aedd",
+      "statement": "Before changing or validating a component, an agent must be able to answer nine orientation questions covering layer, owner server and IP, current state, foundation rules, architectural vs validation-only dependencies, model/data placement, build priority and BASE PASS boundary, required prior PASS evidence, exact smoke test, and evidence/cleanup/closure; if it cannot answer questions 1-7 it is not ready to execute validation.",
+      "evidence": [
+        {
+          "resource": "repo://docs/01-architecture/ARCHITECTURE-ORIENTATION.md#L237-L252",
+          "version": "repo-lines-v1:sha256:1a5735261af873ff4c85a73e6fb1d87f3edc4a888c312fa3ae5f2591b474902e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyNTRjZjhmYTA1Mzc3MTkwYTg1ZmRlNmZhZTZiMGU1YzEyZWRjZGEyNzg3YWRkNzM5MGY2NDYxOGM0M2JjMWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRlZmNiZWQwMDdjM2NiZmNiNTA2MmRkMjkwNDgzZDUwMTYwOGMzZmM3NGZhMGM3MDc5ZmNiZDdmMTRkZmEwOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNkMWYxYmQxZDc4MGU5MGZmY2I5OGJkOGEyZDI3NzRhNWQ1MTFhZDU1OTk1ODJlNzViOWZhNzBkZTI0NDY0NDgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f9d4609468ef4b3dad447e5363b716f5",
+      "statement": "The RAG stack dependency priority is PostgreSQL+MCP and Redis+MCP, then Qdrant+WebUI+MCP, then Docling+MCP and Crawl4AI+MCP, then LightRAG+MCP, then Mem0+MCP, then Deep Agents/n8n consumers; no production corpus is ingested during base installation and synthetic/throwaway objects suffice for smoke testing.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L156-L174",
+          "version": "repo-lines-v1:sha256:fdf81dbb10b33649976858e8e15fdcd963046a9bebe0b94a2b51085cc7a7c527:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlMzJmZTEzYmNlOTk5YmU2ZmE3NWQ4OTIwN2FjMDk2MjRlZDExNzUwOWE4OGE4NjAwMzM2YzM4NWI3ZjAyNWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlYzE0M2VhYzIyNjdiMzQzZmZhNmYwYWM5ZWI4NDk4ZWUwNjA0NmYxOTQwMmFlNTkwYjBkODBkZWI3MDczNmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllYmJjZTI0MTA0ZWQ4OTY0MDQyNWI4MzdlYmJkZWYxZmJlZDg0ZWJiMjhlOGRjYzY0Zjk3MzA0NGRlYmI0ZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwN2I0ZTkwYmE2MDI1MzQ5MzVlZDRmZjE5OTRiOThhMDYyM2UxMTBlZWExOTk5MWNlMGI2Yjk4YWYzNzEwMTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e323dd342ff04d95a957245a1e1e84ee",
+      "statement": "The integration-readiness gate requires current server records for HX-1 through HX-17 and independent proof of every assigned service, native Web UI, product-specific MCP endpoint, component smoke test, cleanup requirement, and reboot-persistence gate before the program moves to permanent ecosystem integration and end-to-end validation.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L353-L361",
+          "version": "repo-lines-v1:sha256:a46129dcf524b4c03720bcd0df317cb72bbf003a6dc5b70e18710b5d8181738d:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWNkMDJkZWYzMWMxMzhmMWRjMDYzYWUzMWVmMzRlOGE1ZTgxNzgxZjc3ODEzMmUzOGVlMDUwODliY2Q3OGE5YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTc2N2JlNDg4MDU0MGJmYTIxZjk2NzEyZjdjNTgyMDViNjM3MWE0OGRjNWJhMzNiZDNmMjNmODI5OWJiMGNlZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTFmZTU2ODAzMDMxNTUxNGQ0OWYwN2ZiZDQyODBjOWJiYTIzODg4MTViYTYwZmY3MTVlYzBlMDAxODEyZWQxNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-14T19:05:42.087Z"
+  }
+}
