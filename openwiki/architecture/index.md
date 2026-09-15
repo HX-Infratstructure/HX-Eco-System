@@ -1,4 +1,4 @@
 # Files
 
-- [HX fleet and ecosystem layout](hx-fleet-and-ecosystem-layout.md) - The 17-server native-Linux AI ecosystem this repository governs — server roles and addresses, the dependency layers they are built in, the shared network and domain baseline, model and retrieval placement rules, and why a written plan is not an as-built server.
-- [Repository authority model](repository-authority-model.md) - What this repository is and how its parts rank against each other — the agent operating contract, the truth order that settles conflicts, the ownership boundary of each top-level tree, and which surfaces are authored versus generated.
+- [Ecosystem Architecture — The Cornerstone](ecosystem-orientation.md)
+- [Server Fleet Map and Build State](server-fleet-and-states.md) - How the 17-server HX fleet is defined in hx-fleet.tsv, how that single source flows through generated tables and the runbook IP map into per-server records and the BASE PASS / CLOSED build-state progression.

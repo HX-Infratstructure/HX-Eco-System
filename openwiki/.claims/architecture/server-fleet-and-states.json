@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:a576f8d1148d9028561a7bea56b04dffe546dc5ee73f541849eee68550b44eee",
+  "claims": [
+    {
+      "id": "claim_f26582ba2bf54409a80272c01c867d57",
+      "statement": "docs/00-control/hx-fleet.tsv is the single source of truth for the 17-server fleet map with columns id, ip, role, state, gate, note; editing it and running tools/hx-doc/hx-fleet regenerates every marked HX-FLEET:TABLE block across README.md and docs/ + skills/ plus docs/03-runbooks/common/hx-fleet-ips.env, and --check exits 1 on stale blocks (CI mode). Generated tables must not be hand-edited.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/hx-fleet.tsv",
+          "version": "repo-file-v1:sha256:95a6f2b794461fa4bdf8dab0c4398e631a8150ef7f1a47328aa26a430ef6fad1"
+        },
+        {
+          "resource": "repo://tools/hx-doc/README.md#L24-L45",
+          "version": "repo-lines-v1:sha256:72edb01df310f2d689877847058e1a89eba2bf34b21a1b16a98ba8dbc5fe515c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwMDQ4YjZiMzRiN2RiZjJiMmJkM2NjY2ZhMjY1Y2YxYjA3OGUyMmNkYjk1MDFjNzM4MDQ2ZjM4ZGM4NmVhYTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNmVlOGFlYmNkZmQ0MDJkM2NlZjYyN2VlNmI2MTJhYTBjMDE5NjYyZjU0OWU4OWE3MmMwZTE2OWM2YTM3MWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmMjJmYTg1YzZkMDgwODQzNTM1MzEyNDdlZGMwMmU5YmJmMGVkMWQ2N2E1ZTA2OTBjM2MyYTY3YjA3NWY1ZTEifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L1-L47",
+          "version": "repo-lines-v1:sha256:258519ac36eadfe451e0b0d21e89fe667f89e9dd8b7a9c0cf326da935b96646d:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ODJjYmRiNGM4YjA3NTE4YmY0ODZjNTg5OTBmYzM5MTc4M2FhMjBhOTE2YmZiMjdhZDIxMWViMWQ1YzM2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlMmIwMTA3YjgzZTk4OTc1M2E4YzFjNzM0ODc2YjM5Y2E0OTUyNzkzNGI1OTk5MDU3ZDU2NmRjYTYxNWRmNTAifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L110-L199",
+          "version": "repo-lines-v1:sha256:6ad74f67345063a32b222f9b2e2724e3fc35c5c347e12a27d4885dd7392af552:eyJzZWxlY3RlZExpbmVDb3VudCI6OTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMzk3OTMzYTI0YTgwMWVlOTIzMzI3YmQ2OWEwMTA0OWMwNzc5MTUwMjFjZjJlYzM5ZGRhNGY4MWFhODM3ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MjMzYjNmZmVhMzJhMjNkZjUzMDY1MzQzNDhmMmRlZTc3NmE1YTZmNzRmYjUzMzE3NWRkYzUzOWE4ZmU0NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMxMWQ3YjQ3ODQ0NjA2YTI0OGYzOWE1Y2EwNzg4YTIzOTcyNmJhMzQ1ZTJlMWE1ZTUxYTBhYjllNWZmYjMyNDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_53c829f4bab04395bf2ce3060ae27263",
+      "statement": "A document opts into fleet-table generation by carrying a marker pair whose columns= attribute selects which TSV columns appear; recognized column names are id, ip, role, state, gate, note. The generator renders state/gate bold, ip as code, and missing cells as em dashes, and different documents request different column subsets (e.g. BUILD-STATE.md uses id,role,state,gate,note while CURRENT-STATE.md uses id,role,state).",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/BUILD-STATE.md#L6-L26",
+          "version": "repo-lines-v1:sha256:b8d1fe38245ec95bf299c71afc75abef5f3acd09b466ac46cc40ff5d1a6b0f39:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljNDgwZTdhMWU2NzNjOGZiYTdjMWE1NjE2MjE5NGIwMzMwZmNmMjQ2ODQ3MzhkNmU0ZGU2MGEyNTUwZjBhNGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwZWI1NTlmMTZlZGUyNDhlOTM4YTRlYTg0M2U3YTFjZWEwYjEwZmI2MWMxNzg1YzAzYzIxYWIzMzczZGY0ZGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwZTdmYjdkNDNmYWEzOWUzMmEzYTg4MDliMTkzYzE0ZTcxYTRlMTkyZmU0MmRlYWNlZDg4YjhjZTIyM2JkZjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRhYTA5MThmYzcyYTZlN2IxNzQzNjZkYWU5OTE1NDYxMDE2YWY4ZTQyNzE3MmEzOTEyZTYyM2EzNzUyMDFkMzEifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/CURRENT-STATE.md#L17-L37",
+          "version": "repo-lines-v1:sha256:b0ba85aa34459bdbadd3dad6dc749edda4bb410a7f1aab4b15fb67f5de434573:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViZTMzOTdiOGVhNmM0YThhZTdiZTY2YTU2NDYxMTBlNmQ2OGFlODc5YjgwMTNlODMxNDM5Yjg4ZWJmMWRhZDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwZWI1NTlmMTZlZGUyNDhlOTM4YTRlYTg0M2U3YTFjZWEwYjEwZmI2MWMxNzg1YzAzYzIxYWIzMzczZGY0ZGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxMmZhNzBmYThiNDE2YmRlNzcyMzg4ZDcxMTA3ZTZhYmNjYTg5NTEwMTdlY2NhMzhkODI2ZWE1YjJjNDBlOTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIyNTA1Mzk3YTUwMDQ1NmE0MzMxZjY5Zjg1YzAwODA3Nzk1ZmNlMzE3NjVjOGVkYmUwZmIwZThhNzQ0YTZkNDkifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L32-L87",
+          "version": "repo-lines-v1:sha256:c6cc749fc745fa01b43dbbbbc1642fc779a6461d78e2d8dd350434039ffeb9f1:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwMjcyNjMxMzIzZTJmYmE4YTcwMjZkNTU1MTVlODQ2MTI4ZjFlZWEyN2Q5MGI1ZDIxMDFhM2ZhNDQ2NTRjZTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiNDg4ZDE0ZTA4ZmZjZWZjYzJmNGFmZDYwODk3YjgxZDIyYTQ4NzA4MjJmNWFiYzE3MzA3ZWU4ZTg5YzBkOTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4NjU5NWVjYzBlNGIzZjlhZDdhNjg4ZThmNDJkZWU5NzZkMzY0NWZmMDg4NjE3MWMwYTgxNzMwNjgyYmFlYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkMDJjNjIyZTg4MDBiOWE0MWEzODZlNjAyZDI1YmIzYmEwMTkyMzYxMmZiNWY2MzZiNGExYTE2NGJkNTEzYTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9d0ecc62bc2f4424b81c56ec5124fa2d",
+      "statement": "The fleet generator defends against malformed markers: it counts opening, closing, and complete regex-pair markers and requires all three to agree (an unclosed block is reported as drift, not silently left current); an unknown column name is reported and that document is skipped rather than rendering a junk column. tools/ is excluded as a target so the marker-syntax example in its README is not injected with a table.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L116-L164",
+          "version": "repo-lines-v1:sha256:ba3117e722c643f1a2d0cadf2d580c73d8238fcdaad627e07bee2395f4647ff1:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3NDAxNDZhN2VmMWZmMDM5NTMzZDRhZDhjNjEwNDQyYjhiOTQ0MDdhZTIwYzIyMjFlZmY1MzRjOGNjNDY3ZGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxZDkzZjZlNzBlYTI0ODNiMTI3MjdkODc2NGRhOTRjMjRmOTYzMGI4M2NjNWJmYzYwMmZjZTBlZjFiNTI3YmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMzYjg5NmJkYTJhNjk2Y2IzZDlmNGY4ZDY2MTYxYTBhMDIxYzRkZjA1YjU1YzM5MmNiZjFjNzdjMzYwYTVjY2UifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L49-L58",
+          "version": "repo-lines-v1:sha256:f92ff255f6c77c167a16c512b78abb52c68350050421688a9c42efcff11c77d0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5YTdiMDYyZGM5MmM4NWUwMDllNTc3YjA4MmE5MzcwNjU3NmQ2YmI3NGE0MDk2NTY5ZjczODdjY2U3YmY4NzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NjFhZDc0NjQwY2Y5OTk1ODQyNzFmODhkNjA0Y2M3OWFmZDFiYjBkNDEwZDA3YTQxM2Y1ODg5NTJlMzYyYjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5OGIwNjNkOWI0N2U2NTM3OTYyNTU3MmNjZTE5NzY2OWQ1NzY3ZTEyYzE4YmUwNzU2NTJiOGNkOTgxY2U4ZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4MDllZjgxZWE1NWZjYTM1ZTM4NzA1ODY5NGIwZjhmMmMzZGM4MzcwY2RlN2ZmYjExZTMxZWQ0YTlmYmU2YzYifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L63-L76",
+          "version": "repo-lines-v1:sha256:e2e66092a4fbccca34d7a01a5172067b755aa3d51d791bdaf08f4af670d9bcbd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlMWZjMDY0NmI5OGQ3YWM1ZTViYWNhYTdkNzRjM2JlN2IxOGU3NmU3YjA5M2IyODBmNmJlMGNkMTE4ODI3YzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyMzJkMGZjOGMzYjQ5Zjk3NWE4NWEyMmQ0MTZlOGFkYzU3M2ViYTBmMzk3YzRkOTc4ODQyYjliM2Y4NDU3NjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRjOTY1MjI0ZjUyYmVkNjMxNmY2Yjc3NmUxNDI5YTEyMTUyYzZkNzExN2E3OGFkZjYyN2MzMTIyZDM0MmEyMDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRiNGZlMjlhNmY5ODgyOTJhYTNiOTU3NGE2MDEwZDA4NDBjYWVhZDBkMzc4NzBmODVlMzE5MGQ5ZjUyMjE5OWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f09ee444dcb443e18b5dc6067832c160",
+      "statement": "The generator also writes docs/03-runbooks/common/hx-fleet-ips.env as a shell function hx_ip_for() whose case statement maps each lowercased host (hx-1 .. hx-17) to its IP from the TSV and returns 1 for an unknown host, so runbooks source one generated host-to-IP map instead of carrying their own copy.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-fleet-ips.env",
+          "version": "repo-file-v1:sha256:3b8162130d144413015feae15e2e8d004eb9d1e5793b66ee38063a804353a5b3"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L90-L107",
+          "version": "repo-lines-v1:sha256:d8d43cfbad64eae0915219891603c75965c748851e29544dc46e20b25863c09f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhMTQ0ZGIyYjVhZGJiMGJkYzMzZWNhM2E3YmY5MmVlMzgyNmZlOTg3ZDcxZGY1MjMyMjJjZmU1MGQ4MDA1ZmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEzZTdiYjMxNTZkZjFmNzcyOGY0NTMxOTM0NDlhYTc0NmQ3MWE1NDEzYTQ0M2FjZGVkMTZkYzcwNTI2Nzg0ODEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2YzgwNjU4NzA0YjhlZTc1MzZmZWU1OTk5MzM1ZmZjNzQzNDg5YzhmNDMyMDJiMjA3Njc1MmExYmM3YTU5ZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0OGQ3NDgzZDA2MGYxNzIyZTI0NTM2ODg4MzM0MjU2YjU0OTBlOGJiZTg2OTgyMDY3NmNhOWVhZjM1MDljYzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_da9424be5e5f44f58d26a65e8f859a0c",
+      "statement": "Current fleet state from the TSV: HX-1/HX-2/HX-3 are PASS/CLOSED; HX-4 is NOT_STARTED/NEXT; HX-5 through HX-17 are NOT_STARTED with gate '-'. IPs run 192.168.50.200 through 192.168.50.217, and HX-2's note records model source URI UNRESOLVED while HX-3's note records full artifact hash UNRESOLVED.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/hx-fleet.tsv#L2-L18",
+          "version": "repo-lines-v1:sha256:b50898cc6fb0ab1988104d59217a45d8232ead47be174eb6d292c2f1afc113d2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1NjU4YTVkMzI0MzAzN2I1Yjk0OGQyZDFhODAyNzIwNzQ5NDlhMzJjMDUyNzkxYjJiMjA4Njg5YzhhYTk1NTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlZGJjMjM5ODI5N2U0MzZiN2I0NDA0ZTYxZWM4MjBmNGIwMTNlMGRlZmMzYWViZDIwOWRkYjg5ZTg2YjU5NjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJlODBhYzM4ZGU4ZmUxMTY0ZmIzZjVlZjRkYmE4ODBhNmVlYTYwMGNkYTI5ZDFlMWI1ZTRmNzMwOTI0MjZhZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bb5814555fc444d7a3c36d8392ec1ff7",
+      "statement": "HX-9 is a shared host carrying two applications (PostgreSQL + MCP and Redis + MCP) that the dependency-driven build order treats as two separate BASE PASS closure steps, even though the fleet TSV collapses them into a single state/gate row.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L91-L97",
+          "version": "repo-lines-v1:sha256:c5089fa1e3375c5fbf2434f8ad1b209d10f4f940104eca492062abe630765856:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmZhYmUxZWM4MmE5MDJhY2VlYmNiZTY0NGJjZWZjYTk0ZDUxZjA2NzMyYzA4OGIyYTllN2YwYzQ5Nzc2YWNmMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzk2MzI5OTMyMzhmYzBjOTUzN2VhMWFlNWUxOTQ2NjcxMThiNmYwZWZhMmZjOTdiOTJiY2JlZDYxYTkzZjMyZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTdiNTA0M2I1OTc1YjUyMzk0ZmM0ZDJiMDQxZmQxMjEyYjk0YTk2NTg2ZmJkNzhiMDIxZDJjMGQ2ZTBiODIxYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjcxOWFiZmQwYTNmNjgwMDQ1MDdkNzU4NzBjNDM4NDVhZGM1NzdmOTRkZGQ2NjEyMzYxOTAyNjIwMDBlOGUyOSJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/hx-fleet.tsv#L10-L10",
+          "version": "repo-lines-v1:sha256:76f3a43ef486ba5c285ec0d8155f55bd237b144dd7c0ae361a35f6a09bbc514e:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzZmM2E0M2VmNDg2YmE1YzI4NWVjMGQ4MTU1ZjU1YmQyMzdiMTQ0ZGQ3YzBhZTM2MWEzNWY2YTA5YmJjNTE0ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzZmM2E0M2VmNDg2YmE1YzI4NWVjMGQ4MTU1ZjU1YmQyMzdiMTQ0ZGQ3YzBhZTM2MWEzNWY2YTA5YmJjNTE0ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTVlMzFjMTVhODA0N2ZiYjk3NmQzYTAzNzgwN2M5NTkyZDc4MDcwZGY3OGFkYWFlZGUwMDVkZDA4OTAzNDZiZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzMyZGE1MjhlYWIyNWJiYjBkMjg3OTgwMzVmZGQxNWU3ODk0ZDhjNGFlNDYzYzdkYzAwMmM5ZDBlZTgyOTNmNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_23cacd0b663745a4a997c4cc371e6efc",
+      "statement": "BASE PASS requires all fourteen closure gates from the base implementation priority doc: clean rebuild + domain join to hx.local.arpa; OS packages installed; native Linux install; systemd for long-running services; service active and enabled; local/LAN health endpoints respond; required storage mounted and persistent; native Web UI validated where applicable; assigned MCP server installed and independently smoke-tested where applicable; component smoke test passes with only minimum temporary integration; validation-only temporary state removed unless approved permanent; reboot persistence proven; server record and BUILD-STATE.md updated; no unapproved network/storage/security/cross-service architecture changes.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/BUILD-STATE.md#L52-L54",
+          "version": "repo-lines-v1:sha256:5c15ed8f4da6b3d63d1ec86427061286ef151fc3b2dac9191eb57d9ee75f898a:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzI2M2FlOWVlYjk0YmZjYWMzY2YzZTQzMzM5YmVmNjQ4MWMyZDA1MDRlYjAyNmE0OTY5NDkwMzQyNTEwNzc2MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGM2MDI2MmU1MGVmYmE5ZmUzMWRkMTAwMDgxMTE1ZjkxNThmMjY3ZjQ2YjllZmNkYzAyZDViMzUwZTRmMzU0MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDgxZTJlNjJlZjQ2Yzk2Y2E2NmQ5MDA3N2M3NGNmYzc1YTFlYTk1MjhkOWIyYjJkOTNkMDQwNTI4NDJjOGI0ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L19-L47",
+          "version": "repo-lines-v1:sha256:cda397572b346c630445ed9b545fa283b3f88822e7297df0a1108b162129dc02:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkMWQ4NTZkZmMzYTU4YTU0MDZkZmE5ZTVhMzBkZTRkZWIzZmY0NDZhMDQ4YTYzZTZlYzNjODE1YmY4MjNlMjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMyZDI4N2QwZGNhYzU0NTM0ZTc0ZmIwMTNkYTQ0ZTNmM2MwMGM4ZmQ2MjliYzg0NDFmNWFjNGE2ZTFjZDE4NGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBiMjBlMmZmMGE3NWYxNTA0ODU0ODk3ZGJjZjJmYzZhNDUzZDQ4ZmQ1MDY5NTNlMTY0ZmYxMDg4OGJkZThlZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhiYjI0MWJjYzQzNmRhYTc5M2IyOTUwZGRlMjQ3ZGJkMmM3OTE3ODhkZGNmYTRmMTgzYzQzYzgyMTM3ZWNjMGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_569d6682fe254fc7a1b86ff833f2bf07",
+      "statement": "The clean-room boundary makes historical HX-Infrastructure material reference evidence only (not current configuration or completion), and the native deployment boundary mandates native Linux + systemd with no Docker/Podman/Kubernetes/containerized deployment unless the infrastructure owner explicitly changes the rule.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L49-L55",
+          "version": "repo-lines-v1:sha256:acaa78dc6011fb18af544b321724986caaf3527e23b277e3d5639d24bcc06395:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ3NGY5ZmRmMWYwMmUxNmY0YTk0NmEwMDZlODc2MzU2OTU2MTcyNDBiZDEyMGM5NDM1NjgyMDg0YWQ0ZDVlOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzg3NTc0MzAwN2JmNjdjYTc2OGQ4Y2MwOGM2N2Y0NjI0ODUzNWRjYzhmZDc1ZWMyN2E2NDA1OTgzYzZhMTRkOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjVmMGMzYzg5NWExYWYzMDhjMzgwZGQzMTU1MmY0ZWIzM2E3ZGE5OGNlNTZiMzg5ODAzNGJlOWE3ZWI5MGUzMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDNlNDc5NzMwN2NlYzMzNzA3ZDVhYzJiNDg4MWQ4OWZmODBlNTgzYWZkYThjZDY5MDE3MDI4N2VhN2MzYjQ4OCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_21db7269a9d54e05b2afea9b0116e68c",
+      "statement": "BUILD-STATE.md and CURRENT-STATE.md both carry generated HX-FLEET:TABLE fleet summaries sourced from the TSV (so they cannot drift from it), with BUILD-STATE.md requesting id,role,state,gate,note and holding per-server closed-server notes, and CURRENT-STATE.md requesting id,role,state and holding deployment/validation order pointers and current constraints.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/BUILD-STATE.md#L6-L54",
+          "version": "repo-lines-v1:sha256:9efd7acdfc21ba9685f3869c8cbeb74e9f04d4e4404d06b8f19d3a9fe91ce39b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljNDgwZTdhMWU2NzNjOGZiYTdjMWE1NjE2MjE5NGIwMzMwZmNmMjQ2ODQ3MzhkNmU0ZGU2MGEyNTUwZjBhNGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjNjAyNjJlNTBlZmJhOWZlMzFkZDEwMDA4MTExNWY5MTU4ZjI2N2Y0NmI5ZWZjZGMwMmQ1YjM1MGU0ZjM1NDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwZTdmYjdkNDNmYWEzOWUzMmEzYTg4MDliMTkzYzE0ZTcxYTRlMTkyZmU0MmRlYWNlZDg4YjhjZTIyM2JkZjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/CURRENT-STATE.md#L17-L93",
+          "version": "repo-lines-v1:sha256:076b076be2bf5619345758eae4b0887b5a71e280c51121fd69fc1b609809aa2c:eyJzZWxlY3RlZExpbmVDb3VudCI6NzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViZTMzOTdiOGVhNmM0YThhZTdiZTY2YTU2NDYxMTBlNmQ2OGFlODc5YjgwMTNlODMxNDM5Yjg4ZWJmMWRhZDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2NWRmNTEzMTA4NzUwYTM5ODViZWYzMTk4NTgxMjM5YmI2ZDUzZGZiMWM0NDJjNzcxYmUxNjYxNzc3MDdkM2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxMmZhNzBmYThiNDE2YmRlNzcyMzg4ZDcxMTA3ZTZhYmNjYTg5NTEwMTdlY2NhMzhkODI2ZWE1YjJjNDBlOTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4be1a59413fd41d0af182022c78d5af6",
+      "statement": "Design/runbook readiness is not as-built completion: staged runbooks do not imply PASS, and the fleet state/gate lags documentation readiness by design until the closure gates are performed on the actual host and recorded in its server record. HX-4 and HX-5 are marked 'runbooks staged' in the priority doc while the TSV still records them NOT_STARTED.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/CURRENT-STATE.md#L93-L93",
+          "version": "repo-lines-v1:sha256:a65df513108750a3985bef3198581239bb6d53dfb1c442c771be166177707d3e:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTY1ZGY1MTMxMDg3NTBhMzk4NWJlZjMxOTg1ODEyMzliYjZkNTNkZmIxYzQ0MmM3NzFiZTE2NjE3NzcwN2QzZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTY1ZGY1MTMxMDg3NTBhMzk4NWJlZjMxOTg1ODEyMzliYjZkNTNkZmIxYzQ0MmM3NzFiZTE2NjE3NzcwN2QzZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTRiOTk0MDA5NDcwMDJhMTQ4NmY3MTE5YTJhZmNjMzVmMTU5MDljNDFhYWZhYWM5NTIwM2IxYTZhMGIxOTc2YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md#L78-L85",
+          "version": "repo-lines-v1:sha256:f3b3c405dac3e60ade1dcfe27901ffdad84f528c84271442523f4187e1f6bda5:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjg0MjVkN2ViMTIwMjQ0MDM1YjJmNmMzOWIwZTZlZTVlNzU2Mzg5NWE4NTcwOTJlMTY2ODQwNDZiMmE5OWU1NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2Q2OTk2ZjM3NmQ2OWU1NTliOTU2ODlkMzk2MmQ1OGYxMWMxY2Y5MzM4MjNhMmI3NzY2Y2JiNGE5NDZlYzU3NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2NhZDcyMGM1ZmQ0Y2FlNGM4NWJmZDRkMThkMDkyNjFkNTU1YmYyY2QwMDUwYWMwNzg4NWRlNjVkYzMzNzE1YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODgyMDI3MjY0ZGE0YmEzOTBhODg5MmVlNmQwODgxN2VjYWU5ZTkyMWY4NjJiNWJkMzdkNjk4MjI0MTE1OTM3YSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a40bec5112f44806a930e1ad73d7c375",
+      "statement": "docs/02-server-records/_TEMPLATE.md defines the required server-record sections (Identity and Network, Operating System, GPU Configuration, Storage Layout, Runtime, Model/Application Provenance, Functional Validation, Final State, Evidence References); sections may be deleted only with a one-line reason, and records are scaffolded from the template (e.g. by tools/hx-doc/hx-new-server) when a build starts.",
+      "evidence": [
+        {
+          "resource": "repo://docs/02-server-records/HX-9.md#L1-L9",
+          "version": "repo-lines-v1:sha256:2b9b3ca9baeb1163891f914a5cec68ce5c4c2b56dc0ff937db42f81848976c68:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDk2ZjlmMzg4ZjA4MjAwNjc5MjE4ZmQ5ODhkMGZiYjhjZDMwNjNlMGQwMjIyNWVlNjlkNjFiNDYwNDUxN2QxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTlmZjUyZDVmMmFmMjhkY2Y0YmVkNzFmNDdlNmM5ZmY5NmY0YTRiZjUzZjlhOTdlNTFhNjNhNjAyZDM2ZDc3MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmEyZGI3MzQ1MDBiNjIyZmE4ZWU3NzUxMGYyNzEyNTBlNTA5M2RkMTUyYTY3OTUzN2E4YmY4NDM5YWIwMjQ4ZSJ9"
+        },
+        {
+          "resource": "repo://docs/02-server-records/_TEMPLATE.md#L1-L88",
+          "version": "repo-lines-v1:sha256:10fe3d59d92b6e353d3b9c06bf375c462cfdfa7009b4ea931670423962c8069e:eyJzZWxlY3RlZExpbmVDb3VudCI6ODgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiNGYwNmNhZjZjMTk4MjU4MTMxNWE4ZjMwNzFlNzI4NWIyMGFlZGEyYjcxMWY2NjYxNGY2NTM0NDQxNzA3N2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgzMWNhZjljMGZhMGQ4NTE3OTc3M2NmMWI5YTg1MzM2ZDVkNDU2ZGI2ODVmNTBjMjJjMDY3MzUyMTkxOGIwNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8895dd11a6bc4befad59a7f636b75b7d",
+      "statement": "Template section 6 requires five mandatory provenance fields (HX alias, upstream identity, Source URI, Artifact SHA-256, import method) for any host carrying a model or downloaded artifact; an unknown value is recorded as UNRESOLVED, never blank or omitted, because a missing field cannot be told apart from a forgotten one. Both Source URI and SHA-256 are required since the hash proves what is running and the URI proves where it came from.",
+      "evidence": [
+        {
+          "resource": "repo://docs/02-server-records/_TEMPLATE.md#L42-L63",
+          "version": "repo-lines-v1:sha256:15a854409d12aa89690d5fcc9169f6ad4b69e1ec6278c2678cf5ba0235e7730b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwMzNhODE1ZTk4NTEzMDdkMzRjZjc1MDJjNTcyZGI0MmY0NmExOGMyNWQ3MmEzMDJjYzI5ZWZlYWVlYmYzZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4NzYzNzdlODNjMDhhZGQ3NTQ5Njc4YTQyMmM0NjBjY2QyNTJhZGU0OGRkMjA4MWIxNjE0M2U0OGNhMzZkNzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFiYmI1Njg0OWVkYzg3ZGY5YWIyMjE3NTUxNWJkNjIzM2JkMzQ1ZjE2MzRmNGU5Y2Q4Y2RmMDZkZmJiNWU4M2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjM2I2ZmRiMDNjMDQxNmMwMTA2Y2VjMDA1ZmU2MDE2NmNiN2E5YzhkNGY1MmUyZDM0YWJkYTJiMzM5MGVmNGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bc443dd1b7c741628bf88da416bf72b0",
+      "statement": "HX-2 (Qwen-X) is PASS/CLOSED but carries an UNRESOLVED Source URI: the exact Hugging Face repository that supplied the GGUF blob was not recorded at build time, while the artifact SHA-256 (7d590099...36ed) is known; the record instructs recovering the source repository and replacing UNRESOLVED.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/hx-fleet.tsv#L3-L3",
+          "version": "repo-lines-v1:sha256:e019805aa22ed5e55ffed32a6d62795d975eae8e8bd73fb950abbb0d8328ac34:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTAxOTgwNWFhMjJlZDVlNTVmZmVkMzJhNmQ2Mjc5NWQ5NzVlYWU4ZThiZDczZmI5NTBhYmJiMGQ4MzI4YWMzNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTAxOTgwNWFhMjJlZDVlNTVmZmVkMzJhNmQ2Mjc5NWQ5NzVlYWU4ZThiZDczZmI5NTBhYmJiMGQ4MzI4YWMzNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjMwYmM1MzJkOGZkOTllZWI5YmZlOGI3MTJkNzM0NDkyZjRlNjY5YjhkZDdmMGNkMDgyOTE4MjRkNWY2YzM0ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGJkZjFiM2U4MTE0NTdhY2MyOWJiNDJjMjI4NjhmYWU1NWU4NGJlM2VjZWIyMzhjYTEwNzliMDc5ZWEwMzdhNiJ9"
+        },
+        {
+          "resource": "repo://docs/02-server-records/HX-2.md#L222-L239",
+          "version": "repo-lines-v1:sha256:c3ab398543a1a3578ca95c68ebb2a71f5473375d27c061c666d26e8f163de134:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ZjFmYTdiNTczMzdhZmJiNjY3NTRmMmVkMWU3ZWI3YzFhZmI4MzBlOWVmZWY1MGIzMzgxMDViZjk0OGJhYzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5MGVjMThlMmZhNTljY2NkNTdlNDU4YjUwMDI1NmMzM2ZiZmNjMmY3Y2M4MjNlZGI0YTE1MDI4NTFkNGQ1OWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNlMTlhNDMwZWMyMGEyZjlmNzYwMDMxOGY4YzEwMGQxN2VjNGRiNzM5NDJiZWMyNjM5N2EzMTEyZDlkNWU4NmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4ZDc0ZDQ5ZjI4YzU3YzIxNTI1MjU1YjdhYzIyMzk5MjY4NzU5YzE0Y2QzMWIzYzk3MWE1MTQyYTEzNWFkNmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fb2c0cc91a6749c4ad2bcf5efb4527db",
+      "statement": "HX-3 (Coder-X) is PASS/CLOSED but carries an UNRESOLVED Artifact SHA-256: only the 12-character layer prefix 72a9b20a19c7 from the pull transcript was recorded, while the Source URI (hf.co/lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-GGUF:Q6_K) is known; the record notes lmstudio-community is a third-party requantiser and instructs recovering the full hash via ollama show and the blob path under /srv/ollama/models/blobs/.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/hx-fleet.tsv#L4-L4",
+          "version": "repo-lines-v1:sha256:dce7dc0aed2f637661aa096ecd113f49de8c990315d605081a1fcb437c888cf9:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGNlN2RjMGFlZDJmNjM3NjYxYWEwOTZlY2QxMTNmNDlkZThjOTkwMzE1ZDYwNTA4MWExZmNiNDM3Yzg4OGNmOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGNlN2RjMGFlZDJmNjM3NjYxYWEwOTZlY2QxMTNmNDlkZThjOTkwMzE1ZDYwNTA4MWExZmNiNDM3Yzg4OGNmOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTlkMTE2NGQ0Mjg2NzkzNjQ1Nzk3NmViZDgwNTI4ZGRjMzE2YzFlOWEzYWZiZjRjZTg4MDQwMThkYTc4OWZmMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGYzZjNjNGE1N2Q2M2FhYjE5NjAxM2UwYmFiM2EzZjE1YWIzMjkyMjNlYzIxZjhiY2ZkY2M3NWM1ZDRjNzk5MyJ9"
+        },
+        {
+          "resource": "repo://docs/02-server-records/HX-3.md#L224-L243",
+          "version": "repo-lines-v1:sha256:48eba2e142cba31ae417f6c7a99783c0e028475187a7af284f56ac1d93e5f142:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0Nzc3OTQ4NzI1YjFkNWE0YzNjNWE5YWI5M2ExZTkxMWEyYzNlODA0ODFkZDE5NTY5ZDkwOGFiYzhkNzIwMmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1NTI5ODJkNzM4NWZkNDZiZmE0OWVkMmRlODQyZGQyMWNkYTA5MmZjMGI5NzRkZjU4NTk1MzE0ZTk4ZjNmNDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI1NTA5ZDNkYWUyMTE0MzAwYzkxMDhmNmI1NWU0YzM0NDcxNTMwNjIxMWRhNDE1NTNmMmYxODg5MGUzMGUxZjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRjM2I0ZTZhOGRiMDhlMGY4ODExZmNhOWNiZWZhYTJlMWNkMDkyY2EyY2JiOTcwZTgzNzExNzYyNzkzM2E3MjgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_935103fcaaae4355af4dbeed1087bfee",
+      "statement": "tools/hx-doc/hx-record-check (hx_record_check.py) enforces the template as a gate, reporting MISSING (absent required section), UNRESOLVED (a field recorded as not yet known), and DRIFT (the record's declared state disagrees with hx-fleet.tsv after normalizing and splitting off any /CLOSED gate suffix). By default UNRESOLVED fields do not fail the check; --strict fails the build on them too.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/README.md#L16-L16",
+          "version": "repo-lines-v1:sha256:b292e29ecaa645d70e6d2be79b23fc05c944c1af244567d9b0f5c6d2e62bab1d:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjI5MmUyOWVjYWE2NDVkNzBlNmQyYmU3OWIyM2ZjMDVjOTQ0YzFhZjI0NDU2N2Q5YjBmNWM2ZDJlNjJiYWIxZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjI5MmUyOWVjYWE2NDVkNzBlNmQyYmU3OWIyM2ZjMDVjOTQ0YzFhZjI0NDU2N2Q5YjBmNWM2ZDJlNjJiYWIxZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDhkNmVmYzcyMmViMDZiZTJhYjZjMmZlZGUyNzJmNGE0ZjM4OWY4M2FkZjNjNDBjOTc3YWJlYTExNjQzMjA2MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTFlYjE3NjNiYjhkYmZlNmY2OGNiOGVlOGNkYjZkMzc0ZjU0MWY0ODc0MzdiYzg5ZWMxZjBkYTc1YTU3Yjk4ZCJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_record_check.py#L1-L124",
+          "version": "repo-lines-v1:sha256:324513f08874a0dd8ed551757f43887d0a20edbbe66fa7488d8ed4936a0a15b1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTI0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkNjgyY2JkYjRjOGIwNzUxOGJmNDg2YzU4OTkwZmMzOTE3ODNhYTIwYTkxNmJmYjI3YWQyMTFlYjFkNWMzNjQyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3OTFkM2I3MTc0ZmY0YjQxM2ExYjVjODEwZmRhYTAyNmE3Yzg2NjA0OTI5ZTkxZjliZWI2MmMwOThjNTFkOWFjIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_ebb6eae268924f41b6ad927d86c430c5",
+      "statement": "hx-record-check compares the record's state to the TSV exactly after normalization: a near-miss like NOT APPLICABLE no longer satisfies NOT STARTED, a missing State line is itself drift, a template option list (NOT STARTED | IN PROGRESS | PASS) left in a record is drift, and a record whose HX-N stem is absent from the TSV is drift. Records may exempt genuinely inapplicable sections via a 'Not applicable:' line.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L78-L102",
+          "version": "repo-lines-v1:sha256:73ff3995db6c3c5642b789b264ff124a0b25fad7605bd03b0542dfaf2a56b7aa:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkMDhhZjNiNDJhNmZkOGYzYTk2MDI1NGJkNDRmMWVlYzI0NzQyMjE5ZDllOWYyNjk1MTZlNzMxYWY4MmVkNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiZmZkZWUxODgzMDdkNjkwN2U2M2FiMjNkZGRjM2NlYTVmMDJmMWQ3ODkxNjBlMzAwNmI0MmNiYzYzZWFkMWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ2MGY5NmQ5NjJkOWUxZjU1Y2ZjZWQyZmUxOGYzZDdhOWJhMWNmNzJmYmYzMDUyNDk1MmQ5YTYxYjZhODdkMDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg5MjFkNzk1Y2QwZGEwMjcyMGY1NTQ4OTYzYTZlMDcxNzMxMzk5NDNhZDFjOTY3YTYzMjJkYjk2ZTZiYWIyMGIifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_record_check.py#L63-L104",
+          "version": "repo-lines-v1:sha256:e61724c354f5c943268a44b12d5c2fc745d17d0278049aee2c9534ec670ab3a6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3YzdjNjNmOGE5OGE0NzAzMGI5YWZmMTg5NDUzNjRkYzA5YTQ4ZWE2MmE2NWM1ZGQ5ZGI0ZDVhOTYyOGFmOTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiM2FmMDliMzRkNjVjMzdmN2RkYTc5ZDU2ZmQ5MTllMDg4YzQ4MmFlMzVlYmUwYTA3MTFkZDgwODI4NWI5ZWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA4NmM4ZjZlNDViZDQxMjNlMzg5ZGQ4OWMyNmI5Zjg0YmQwYWZiODBkNmI1YTYwNWM2MDNiOThkMDAyNGQyNjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjZjJjMzJkMTVhMWJmOWEzNzU2OWRlNDE1ZWJlMjMwMzhiOGI0YzFiMGNjNzA5MDZhZmQ0OWM3MTY3ZDA0OTAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e4d715b1cd324006b3c3e8ee7b829eac",
+      "statement": "tools/hx-doc/hx-gate-tests proves each repository check fails on the case it is meant to catch, against a throwaway copy of the repo; for the fleet machinery it asserts that an unclosed HX-FLEET:TABLE marker, an unknown fleet column, a template option list in a record, a NOT APPLICABLE near-miss state, and a missing State line are all reported as drift/non-zero exit.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L1-L102",
+          "version": "repo-lines-v1:sha256:8147c0b431ff814326d052eb02027e135a2b2388155cc7e3e4afc282bf7d9fa2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxNDFjNTE1ZTU2ZThjMTc5ODVlM2U1Yzg4MjU4ZWVlZGEwZTQzZWIyNzI2NGMyMTQ1OWNiOGM0YTZhZmE2ZjMxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI3YmZmZGVlMTg4MzA3ZDY5MDdlNjNhYjIzZGRkYzNjZWE1ZjAyZjFkNzg5MTYwZTMwMDZiNDJjYmM2M2VhZDFjIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI4OTIxZDc5NWNkMGRhMDI3MjBmNTU0ODk2M2E2ZTA3MTczMTM5OTQzYWQxYzk2N2E2MzIyZGI5NmU2YmFiMjBiIn0"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-14T19:05:42.087Z"
+  }
+}

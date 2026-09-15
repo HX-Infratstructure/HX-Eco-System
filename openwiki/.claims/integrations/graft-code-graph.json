@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:19dbb5e2c47491e823f7e5e127fce474d49447c0fd63695f160f42b2cb801e0b",
+  "claims": [
+    {
+      "id": "claim_7873c34812da42f1b72f1ecaff1ee0da",
+      "statement": "Graft is registered as an MCP server in .mcp.json under the key \"graft\", launched via `npx -y @nanonets/graft@0.18.0 mcp`; a session in this repo therefore gets graft_find_code, graft_find_all, graft_trace_calls, graft_file_api, graft_repo_map, and graft_check_freshness as native tools.",
+      "evidence": [
+        {
+          "resource": "repo://.mcp.json",
+          "version": "repo-file-v1:sha256:ed79de23d16582b6103f7ab4911845280ec0b9ccc64e9678083937a31b69206c"
+        }
+      ]
+    },
+    {
+      "id": "claim_e07317e168cc4d90b8f5740fd514c640",
+      "statement": "Graft indexes the executable surface by file extension: 57 .sh runbook blocks/helpers, 13 .py tool bodies, and 2 .env files; the .env files are included because hx-base.env holds bash host-guard helpers (hx_require_host, hx_ip_for) and version pins.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/README.md#L70-L76",
+          "version": "repo-lines-v1:sha256:26f82ada6ac2689f14509f9a96fdc20249bbf88d02662af59b85c4881f03f108:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTQ5YzU2MWViYzYyZjA5YWI5ZTQ2YjcwMjhhODgwYjY5ZGUzMGQ3YjdhNDZiNGUyYWIyMTBjODllMjMzOGFkOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzM2YTg4NTdhOWE3MjgwZGIyMjQ1ZGI3YzlmMzMzNzgyOGE0MDFiY2I1YTJiN2RjMDBmM2VjYTZhYjc2NDI4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzk4ZWRiZmNiYzNlMWNlOTk1MjMwNzk3YzA1MzM3MGFkOGNiNWVlZDgzMjA4NTQ2YWI5ZTIzYzc2ZTg3ZGU1ZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9ab6a7f22e0f4fc0ba04baabcbd26ba2",
+      "statement": "Graft does not index the Markdown authorities (smoke-tests/, roadmaps, control docs) or the 17 extensionless scripts (every tools/hx-doc/hx-* wrapper plus the four hx-smoke-runner scripts); wrappers exec the indexed .py body, but the smoke-runner scripts are unindexed and must be read directly.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/RUN-SHEET.md#L222-L224",
+          "version": "repo-lines-v1:sha256:b5d4ec47bc0f64b9718dbd530f2488a0688fe322a912aee40dd4b01b03023e50:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2E1NGE3M2RiMTc4MDg4NWRmOTk5MzY5YThjMDhhZGJiZTg2MTAzMDgyYTY4YTY0ZjBlZGU2YWFhODlhOTViYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTk5ZTUzNzhlMjY0ZmIwNTZlOTU5MGVlNzFhYzg3YzRiZDdiNDA1OTJjMGZmMmI1MmU5MTFiZTMyN2ZhOTYyOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjIyMTI3MTU4MzVkMjJhYzE5ZTYyMTg1Y2Y1OTNhZWRkOGVjNDliNjZlYTk4MzczMGJjY2IzNTNmYmQzZTMyZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDA5NDJhN2VkODgyODhlNjI4OTA3OTgxN2FkNjY4MWRiNDFiZWJmNDc1OTMxMjNkMGNjMTdiNzhmMGJjMmU5OSJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/README.md#L70-L76",
+          "version": "repo-lines-v1:sha256:26f82ada6ac2689f14509f9a96fdc20249bbf88d02662af59b85c4881f03f108:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTQ5YzU2MWViYzYyZjA5YWI5ZTQ2YjcwMjhhODgwYjY5ZGUzMGQ3YjdhNDZiNGUyYWIyMTBjODllMjMzOGFkOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzM2YTg4NTdhOWE3MjgwZGIyMjQ1ZGI3YzlmMzMzNzgyOGE0MDFiY2I1YTJiN2RjMDBmM2VjYTZhYjc2NDI4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzk4ZWRiZmNiYzNlMWNlOTk1MjMwNzk3YzA1MzM3MGFkOGNiNWVlZDgzMjA4NTQ2YWI5ZTIzYzc2ZTg3ZGU1ZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9e170238e4b149109c6e2ca618d8f7b0",
+      "statement": "Graft ships tree-sitter-bash.wasm with the grammar registered as \"bash\", but its language table in dist/graph/generic.js has no bash entry, so .sh files are skipped entirely; tools/hx-doc/hx-graft-bash patches this by inserting one entry after the zig entry, backing up the shipped file first.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx-graft-bash#L1-L13",
+          "version": "repo-lines-v1:sha256:237b66f1f2730dfa56fd8a7b46984bc1c5935d4e52aac3c14e440d4071b07ace:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkOTVmYzA0YTgwYzk1MmY0OWNlNDE4ODYyN2M1M2IwZmJlOGM0NDA0MWI5NTJkNTkyYWNkMWRlOTk4NjE0NjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjM2VlMThmMTM2YTc1YTIwOGQ2YjMzOTlmNGVlOGJiNTZmODQxMjA4ZmI3MTQzYzg4NDI5ZTFjNjQ0NGRjYTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZjY2Y0YjIwNzJkMDA0Y2EyYTBmNWVjZThlYmYxNzhlMTYzMDAwZTU2Zjk2ZThhNWFiZWViMjhkMGIwM2QyOTEifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx-graft-bash#L66-L96",
+          "version": "repo-lines-v1:sha256:24a531ea7110f703d414459db87505714081e6b67ca1c5cb91579408c34c5a6a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0NGMyOTZmZTk1ZDM5OWQzZjMzMmFiMDRlMGQxNTYyMmE1ZjZmOTNiMWFmMzM3NDVjNzRhOWRkZmQ2MjJkZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZDA5MWUyZGZmY2RjNzkyOTkwMDg5NWU0NjlmNDNhZTkzNDJhMmFiNzE2NmM1ZjY0ZGNlNTM4NDQ4OTM1MjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcxNjA1OWVlYjJiNGNiOTI1NzE2OTg5NDU2OTZhNDAyYWNlZmU1NTg4ZDYxYTdiNGZiMTcxY2JkYzU0NDcxY2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMxNTcxMGMwYWQ0NDgwNjI0YTcxNjRmYjIxNDJlYzYxYjgxNTdlYTJiMzYwOTVjZTM2MDEwN2RiNTkyOGM1NjQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_60186063a62346f1b428c55467222289",
+      "statement": "The bash-registration patch is a local edit to a third-party package; `graft upgrade` or any reinstall wipes it, so tools/hx-doc/hx-graft-bash must be re-run after every upgrade followed by `graft build --no-reuse`.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx-graft-bash#L100-L100",
+          "version": "repo-lines-v1:sha256:d9af79912862be57ae39c38e1a6c8e8005bbb097c93b056708b10a10fb80d8db:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDlhZjc5OTEyODYyYmU1N2FlMzljMzhlMWE2YzhlODAwNWJiYjA5N2M5M2IwNTY3MDhiMTBhMTBmYjgwZDhkYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDlhZjc5OTEyODYyYmU1N2FlMzljMzhlMWE2YzhlODAwNWJiYjA5N2M5M2IwNTY3MDhiMTBhMTBmYjgwZDhkYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzE1NzEwYzBhZDQ0ODA2MjRhNzE2NGZiMjE0MmVjNjFiODE1N2VhMmIzNjA5NWNlMzYwMTA3ZGI1OTI4YzU2NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx-graft-bash#L8-L10",
+          "version": "repo-lines-v1:sha256:96455a546736faf184e1b1a850326ceafad6034718b133fbff579d6a97a47598:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDllZGExNmJhMGQxZWQxZDJmOTRlZThkZDdjOTQ0YWJjNjI3OWMxNDg1NWQ1YTcyYzVkOTJjMGQ5NWEzZGY4ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTFmYjA3OTljZGQyMGRlZjQzMWM1MWI0ZDRjMGM4M2EzZTZiZjMxOGRjYmRiNGZkMmUxYjIxODVmYTJmZmU2MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWNlNzc3YWQ4NWIzMmI2ZTY4NDA5YWZhYmU5MWMwNDcxNmRjMDhmMWFiMjE5MzFkYTZjYjUxMmMwMTliNDk0ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTYyZjc5YzZjYzA4YTEwYzgzNWUwNmJiMDgxNjg4OWNiNzAxODZjMzcyMWIyNDUxZmViNGNkNGRmZGY0YjdmNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_83da837bf68045c18b5a1d162f98e88f",
+      "statement": "A workstation commonly has two graft installs (native and WSL); whichever is on PATH answers queries and the MCP server launches the host's, so if only one install carries the bash patch, live queries come back blind to shell while cards on disk still list shell symbols; the remedy is to run tools/hx-doc/hx-graft-bash once per install pointing GRAFT_ROOT at each, and again after any upgrade.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/README.md#L88-L101",
+          "version": "repo-lines-v1:sha256:93f35c00bf3d40a815b3cf2af2014a31db1bcf963379f5d1798faa13855c5a8f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyMzFhZjliOTYwMGExYjA4MzE3YWVjNmI0NzQ2ZWVjYTJlYmU5ODk4NzQ1ZjhlZjFjZjcwZDc3ZDgxZjNkMTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjYmJmNWU5ZjU3NjY2ODA2MjQ1NTQ2NGE5NDE3NzhjZDc5NjFlNGMxMTZjZTMzY2UyMTZhODc0MDcwMGJhZDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU5MTFkYzBmOWJhZmI4Zjc4NjJjZmVlYzdlOTIwMGZkM2U4OTQ2ZDM4ZDYxMjMwOWQwZGFhODRjM2VhYTlhNjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMyNzUwNDQ2MTUyNzhmMTVhMmU1OWJmZDY1ZmM5NzRiOTA4OWRjNjYxYzk3NWViOTBiMjFhNzkwMTg4MzBhMzgifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx-graft-bash#L30-L36",
+          "version": "repo-lines-v1:sha256:9fb2184b2b9baa87e5f8d2bf1ebd864296444a0ea556836784a863c0b6b5da9c:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2ZiYzVjNzQyYTUwYTliYzA3ODY0ODYzZjgzYzg3MTdiODExNDk3YzRjZWRhZGFhZDIzMDg1YTM5Y2VhOTc4YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzQwNjk3NDhhZTcyMjcxMjZkOGQ5OWNhOGJiODVjOWJiYzljNTAwMjc4MTRlOTJiOTJhZTEyM2ZiZmNkOTc2YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDA2NzY5Y2VkNTU2OWFjZjBkMDJiMWMxNzRhZWE2ZmEwZjFjYTA2NTFmNDNlOGI3N2RlOTJhYWExMDlmOWYzMSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_51a648b36cff4639b25dbec652c848e4",
+      "statement": "graft build --deep adds concept nodes and per-symbol summaries, requires a model, speaks OpenAI-compatible endpoints so it can run on the fleet's own inference (HX-2 Qwen-X at 192.168.50.202:11434) with nothing leaving the LAN, but has not yet been run and must be treated as untested.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/README.md#L103-L113",
+          "version": "repo-lines-v1:sha256:f54d76781e4b890afba427419dc53c297334ccdcceae63b4c53eefc906b82f80:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiNzc2MTM3ZGFkYjg3ZGFkOTc4NzY0MDVlN2MwNDFkODNmMzA2Y2VhNjU1NTY2NTUxYzBmYjE3ZDZlYjU3M2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlN2M3MWQ3ZTQ5NzgyZDI2NDM5NjYzNTFiNDJlN2I5MmFmOGE4NmVmNzkxMDE4NmYxZWUyYTBhOGI1NGE0YTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjNDczODRhYjNjODM5YWY1MGUxNzBkYzIzOGQwNjFlNmI4MWRmMDUxZTRkNjlhMGJmOWMzNGJlNDk5MzY1YzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRiNjMwYjU4NzQ3YzFkYjU3ZDBmYWJhMWE0MjE4NTE0N2Y3ZmQ2M2QwZWNkY2I0YjQ4ODBlYzQ3ZGFiMzE4ZWMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_eeacf5720a3b42f6a4074dcb3e27f663",
+      "statement": "graft brain mines rules from repository history but requires `brain connect <brainId>:<token>` against a hosted service with no local mode, which conflicts with the fleet's self-hosted posture, so it was not pursued.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/README.md#L115-L121",
+          "version": "repo-lines-v1:sha256:55fbd9d604632f6ba144489037d495cbbb2bbd31039d0e8a24513becde2b3630:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzM5MmE2YjA5MTk2Y2EzN2I4YTk1MDdmNmZkNTU5ZDRjMmQ1MzY3ZWViM2ExYmE1ZTUzODhmYzYzZWM3M2NhYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWEzNmE3ZWFlNDQ4MGM3OWQ3NTNmODZlNzljNTZkMTQ5OTUwYzY1MWFlODdkZDYyOTAzYzcyYzc0ZTQyMmE2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTVmNWNhZDRhMjhiMmFlMGQ4OGJkMTI4YjYwMWJiZmYxMDllYjZlYTU5NDdjOTI3ODMxNjU0OGE1MTk0MzA3MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2ExMjM2N2M1MGJhZWI0ZDQxM2E3ODBiZDkzZmJjYmI4ZWQ4MmM5ZGFiZTU4ZTAwYWI2MDNlOTEzMDdkOWVlNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_22c0f998338648b3ad1cc31d605a2a59",
+      "statement": "graft_trace_calls on a shell function returns nothing because the bash parser records shell definitions but builds no call edges; an empty result is a parser limit, not a measurement of blast radius, so grep for the name before changing a function in common/.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/RUN-SHEET.md#L216-L224",
+          "version": "repo-lines-v1:sha256:4aa7a74ce241798849e3133145d5101c8cb11193d207fe156d9a3ba9ff585054:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjRiMTU4YWRjOTNjZjc1YTA4Nzk4OTQ3NjI0MTY1OWVmMzkwNTJjMThkNzY1ZDllYjVhNDgxMGRmOTlkZmM2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTk5ZTUzNzhlMjY0ZmIwNTZlOTU5MGVlNzFhYzg3YzRiZDdiNDA1OTJjMGZmMmI1MmU5MTFiZTMyN2ZhOTYyOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWUyNzJkZDMzOTAwOWRhMWNiN2E1MzA0ZGEzMjg2NTE0MThhMTA2MzhjNzVmNTk1Y2MxMThiZjAxOWI5YjlmMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDA5NDJhN2VkODgyODhlNjI4OTA3OTgxN2FkNjY4MWRiNDFiZWJmNDc1OTMxMjNkMGNjMTdiNzhmMGJjMmU5OSJ9"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/AGENTS.md#L150-L166",
+          "version": "repo-lines-v1:sha256:8b29db6b90ea3f6190e8db4e96470486d897d0ddff68a34c0ca432d33a625758:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwNGJiZjhiMmYwOWZkZWUwNDJlMmQ0MDU0OGUyZDQ2ZDg5YTNjYjA0NTM3MTNiYmUyNGZkNDMzOThlZTM5NzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmYzRkYjJkMjE1Y2FiOTliMmMzZjM5ZmUyN2JiODY3M2ZlMDY3NWRkMGI4Nzc4MWQ1ZmI5MzE1NzEyMTJjZGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAxMmYwMjQ2NmZiNDQ3YTU0ZDliOThkODNkMTk2ZTE3YmMwYjU1YTg3NmVmMjNjZTU3NTE3MzUxNzg3NjFiMTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMxYzI2MjFkNGI4YTdkOWVkZDY2MzVlMWMzYjYyMjI0MDY3YzIxNzQ3MTMzZDY3MDc1NjczNTc0YTM5Y2ZlODYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7369fb2c4f644e4ba76b96944244f958",
+      "statement": "Question-to-source routing: where the code is → graft; whether a proof step may run → tools/hx-doc/hx-proof --ready <id> (checking docs/00-control/hx-proof.tsv, enforced at promotion by hx-smoke-promote); what a step must prove → the smoke-tests/ authority read directly; graft does not index those authorities so an empty graft result means not in the graph, never does not exist.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/RUN-SHEET.md#L212-L224",
+          "version": "repo-lines-v1:sha256:8fa8bec7b662b46e58c90ce3e4859fe71afda1d5d964e5da20347e9f30b4f70d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyYjM2ZTI0OTg0Y2E0OTE5OGJhMzA2MjM3ZGNiY2Y4NWExYTQ5NDNkOGQ4NThhZmRlZGRhNDUxYjJiMjBhM2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5OWU1Mzc4ZTI2NGZiMDU2ZTk1OTBlZTcxYWM4N2M0YmQ3YjQwNTkyYzBmZjJiNTJlOTExYmUzMjdmYTk2MjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIxZjk0ODY4ZDA3MjQzMzc4ZTk0ZWNiNjI4NTZlYzRlMWQzNWViYTdlMzE2ZjljMmYyMDhmODA3ZDJhM2JiYWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQwOTQyYTdlZDg4Mjg4ZTYyODkwNzk4MTdhZDY2ODFkYjQxYmViZjQ3NTkzMTIzZDBjYzE3Yjc4ZjBiYzJlOTkifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/AGENTS.md#L160-L168",
+          "version": "repo-lines-v1:sha256:dfa83a10e7a863508543c6f90fb210e912c78f3d3c09756d7a3f4d303c494da7:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmM4NTgwMzRmMzg3YmRlYzc0ZTU5NjgwMjg0NzlhODkzNTlkOGIzZDViN2ZlNzgwMTlkMzhlNmY4NWM1Mzk4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzc3ZWU0YzVjNThhMWNlNTllMGU0ZjlkODViZjA2YTdjMTQ1YmFmNzhlYzQ2NjU2YjNhMGI3MDMwNTc3YzBjZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDVhNjEzM2Y4ZjJkNjhmMDliNjhmMGVhOGEwYzZmNzc0YWE3OTg5N2JhYmQ1ODgwOTc1NTI3YWJiZjRhNjA2MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmY3ZTk1NzhjYzdlMDc0OGYwNThlOGNmMTYyYjBmZDU5ZmI4YTE2Njc0YTg0ODEzYmQ5YzFiZjMyN2M0M2U1NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_96225868c9af4186b94034687ba8616a",
+      "statement": "Measured on this repo, a graft_file_api call on hx-app-lib.sh returned all six helpers for 88 tokens versus 942 to read the file whole (a 91% saving), and a graft_find_code query saved ~7,500 tokens on one call.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/README.md#L84-L86",
+          "version": "repo-lines-v1:sha256:1bffa762d8f188a622f1fc7701fb579dfb2a04bc315e992f604f2845858a8b48:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjQ5MDk1OTJlYjI4MTg2NDIwMjUwODRkYThjNGQ5MzI4ZmFlNTdjNjZhMzVmNmRiMGJhYWFiZWU5MmQ2MTcwZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjJjNGY4MGFhYzUxN2U5MTdmMTgwNTY1NzA1ZmM3MTI1NTQwYWY0ZTlkOTdlNzgyNGI0NTY1NGFiMGM3M2MyNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWJmYjU5ZTJjYmJlODM2OWE2ZDJiOWMyYmYwYjhlNGJjZDk2MzI5MGFjYmJmZGI5MGNlOTAyYmU3ZWVlN2IzMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDgxYzg0MjEwYTU4OTdiYjVlN2MxMWM1YWI4NmQ2YWY1MDhmMzliNzYwM2IyYmIwNjdkY2Q2NDM1YWQwMTIyOSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-14T19:05:42.087Z"
+  }
+}

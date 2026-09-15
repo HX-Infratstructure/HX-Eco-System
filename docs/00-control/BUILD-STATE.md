@@ -1,6 +1,6 @@
 # HX-Eco-System Build State
 
-**Date:** 2026-09-09  
+**Date:** 2026-09-15  
 **Owner:** Jarvis Richardson  
 **Method:** KISS / one server at a time
 
@@ -11,7 +11,7 @@ Outstanding infrastructure findings are tracked in `docs/00-control/FINDINGS.md`
 |---|---|---|---|---|
 | HX-1 | Samba AD / DNS / Kerberos / NTP | **PASS** | **CLOSED** | Clean base retained; foundation for the whole fleet |
 | HX-2 | Qwen-X / Ollama | **PASS** | **CLOSED** | Qwen3.8-27B Q6_K; 2 x RTX 4070 Ti SUPER 16GB; model source URI UNRESOLVED |
-| HX-3 | Coder-X / Ollama | **PASS** | **CLOSED** | Qwen3-Coder-30B-A3B-Instruct Q6_K; 2 x RTX 5060 Ti 16GB; full artifact hash UNRESOLVED |
+| HX-3 | Coder-X / Ollama | **PASS** | **CLOSED** | GLM-4.7-Flash Q5_K_M (bartowski GGUF) primary + Qwen3-Coder-30B-A3B-Instruct Q6_K retained rollback; 2 x RTX 5060 Ti 16GB |
 | HX-4 | Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker | **NOT STARTED** | **NEXT** | Shared embedding/reranking plane; reranker pinned in common/hx-base.env |
 | HX-5 | CentCom / Ornith / DeepSeek Harness / dev-test | **NOT STARTED** | — | Becomes the smoke-test runner station after its own base closes |
 | HX-6 | OmniRoute | **NOT STARTED** | — | Provider and model allowlists required (D-010) |
@@ -36,7 +36,7 @@ Outstanding infrastructure findings are tracked in `docs/00-control/FINDINGS.md`
 - NVIDIA 595.71.05: PASS
 - 2 x GeForce RTX 4070 Ti SUPER 16 GB: PASS
 - Dedicated `/srv/ollama` storage: PASS
-- Ollama 0.33.3: PASS
+- Ollama 0.34.0: PASS
 - Qwen3.8-27B Q6_K: PASS
 - CLI/API/LAN/reboot persistence: PASS
 - Current Ollama cloud state is temporary local-only configuration.
@@ -47,8 +47,9 @@ Outstanding infrastructure findings are tracked in `docs/00-control/FINDINGS.md`
 - NVIDIA 595.71.05: PASS
 - 2 x RTX 5060 Ti 16 GB: PASS
 - Dedicated `/srv/ollama` storage: PASS
-- Ollama 0.33.3: PASS
-- `coder-x:qwen3-coder-30b-q6_k`: PASS
+- Ollama 0.34.0: PASS
+- `Coder-X-GLM-Flash` (primary): PASS
+- `coder-x:qwen3-coder-30b-q6_k` (retained rollback, still installed): PASS
 - CLI/API/LAN/reboot persistence: PASS
 - Longer boot time is informational only; do not diagnose/remediate unless explicitly asked.
 

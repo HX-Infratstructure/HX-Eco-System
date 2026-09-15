@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:b7be214211851c4b055549b58d5abf902c08a5ac0ad495984a9d58b3001e6ecb",
+  "claims": [
+    {
+      "id": "claim_eb7f3b280b0a4f708bd06982f41bc4ce",
+      "statement": "AGENTS.md section 2 defines a seven-level truth order from highest to lowest: explicit current owner instruction; current active control/architecture Markdown in docs/ plus the exact current smoke-tests acceptance authority when testing; current live evidence from the server; current approved runbook/execution artifact; governed HX wrapper skill plus current vendor guidance; historical/archive material; general model knowledge.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L26-L34",
+          "version": "repo-lines-v1:sha256:795596cca0a6f0007c23f867ce81fc297914d534d0e5c16c1da11db88b2d1b4b:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDk2ZTI3ZjlhZjcyMDQ4NWI1MzE3NWY5Y2FmOWE2MmNmZmQ3NjcxYjVkNTlhOWUxM2I5MDdjMDNmZWNiNTIxOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTJjYjg3NWMwYmFkMWE0ZTQ0YzM2NmIyMWNlZTA0ODg0YzdiODU1NzMwMmZmY2IwODQxZGFjMDliNDFlMjNiZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2ZmM2QyMTYzYzJmMmI3MzZiM2Q5NmY3NTU5ZmU4MmUwNGUwZTQ2ZmUxN2QyMTU2NTIzYWNlOTY0ZDRkYTkwZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTYxMTRkYWEwZWEwNjBmMGNlMmU3OWVhYzMyNTJiYTg5MzhkNjA5ZTI3YTg0OWE2YTU2ODEzNTM0ODgwMDc4YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b8a3bcdc7cea4fcfbb6b3532082e32d8",
+      "statement": "If current live evidence or current official vendor requirements contradict an active document, the agent must stop treating the document as sufficient proof and report the contradiction, and must not silently let a vendor skill redesign HX.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L36-L36",
+          "version": "repo-lines-v1:sha256:88047b22c1549cd7d9ea4d38777f8c5e7116b610c5a54f72114d4435427a9d2a:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODgwNDdiMjJjMTU0OWNkN2Q5ZWE0ZDM4Nzc3ZjhjNWU3MTE2YjYxMGM1YTU0ZjcyMTE0ZDQ0MzU0MjdhOWQyYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODgwNDdiMjJjMTU0OWNkN2Q5ZWE0ZDM4Nzc3ZjhjNWU3MTE2YjYxMGM1YTU0ZjcyMTE0ZDQ0MzU0MjdhOWQyYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzE5OGFkNzFjNzFmYjU5ZWFhNjUzMDhkYjY5YzQ3NTdmNzgxZjU3OWJmZjQ5NDI3MTE2NjI2Y2I2NjZjYjlkYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTc2ODcxNjJjMWRlNWVmZTUyZGM2MmUzYzNmMzhlODJiMWI5YWY1YTRjYmM4NWFiZTI4NzY4NjcxYTRjNzY0ZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_90c2fe4d845c4b259d469562e8ac7bbb",
+      "statement": "Agents must not read archive/ or human-html/ as current authority unless explicitly asked; archive/ holds historical reference and human-html/ is a derived human view, not authority.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L24-L24",
+          "version": "repo-lines-v1:sha256:70aace1c3d7292136c635f04ecd90d94caa1e16b7d2f5af16d0894e5620f9ae1:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzBhYWNlMWMzZDcyOTIxMzZjNjM1ZjA0ZWNkOTBkOTRjYWExZTE2YjdkMmY1YWYxNmQwODk0ZTU2MjBmOWFlMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzBhYWNlMWMzZDcyOTIxMzZjNjM1ZjA0ZWNkOTBkOTRjYWExZTE2YjdkMmY1YWYxNmQwODk0ZTU2MjBmOWFlMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGMzOTc1ZjY1ZGU5NzBmZjdlNjZmODA2NzZjNThlZTE1ZDdkZTk0NjNiZjFhYzdkNzY2ZTVlMjc1OTUzMWFkNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjNhMzY3YWJhZTEyYjg4ZWY0YzRkYjg4ODk5YTA3YmE1M2UxNzBiNmNkNzdmMTA5ODIwNjIwYTZmYWQ4YTIxNiJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/DOCUMENT-CONTROL.md#L38-L38",
+          "version": "repo-lines-v1:sha256:a203e21e70564b168561645bd5fc27124a8923b23af660f8fac799fed7496324:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTIwM2UyMWU3MDU2NGIxNjg1NjE2NDViZDVmYzI3MTI0YTg5MjNiMjNhZjY2MGY4ZmFjNzk5ZmVkNzQ5NjMyNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTIwM2UyMWU3MDU2NGIxNjg1NjE2NDViZDVmYzI3MTI0YTg5MjNiMjNhZjY2MGY4ZmFjNzk5ZmVkNzQ5NjMyNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDBlOGZiYzYxYTU3NzFmNGNjNzAyNDIxYTU1YWMwNThhNjNmOGEyN2JmYzEwNTZkNWM5NmZiYzliMTY0OWExYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTVlMmVhNzYwODU1MjljOTExYjBiOWYyMTk1ZjYzMzE2YTJkMmMwMmZlOGFlZTE5ZjU1Mzc2MmZkNDM1ZjNlYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_692a6e10147240058735f33b4e3bbc8b",
+      "statement": "The smoke-testing operating model is a validation-layer architecture map, not an ecosystem definition: ecosystem placement, server roles, and network architecture are owned by ARCHITECTURE-ORIENTATION.md, which sits above it and must be established first.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L51-L52",
+          "version": "repo-lines-v1:sha256:c6448088d5274d2090227db9f0fce14389c29847e934ebfb2f2979cf8e9180b8:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDIwOTI4Y2JhY2M3ZTJmZTM0N2M1MzhjN2E3MTQzNGYzN2UxMDRiMjJiNWUxN2Y3MmNlZGNkOTU3NzhlY2RhMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg2ZmRhNWQ0OTM0NDkyNTYxZTcxMzY2MjAwMTYwZDkyZDlhYTM2NzA1MTVhOWMxMWE4NjM3MjI0Zjg0OWUxMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGQ5OGQ2NzM4ZDI1ZjVhNTUzZTZmYjk3NzFmNGViZjE3NmUyMzM1OThhMzVhMjE2OWIzYWE1ZGI1ZjVjYzBmZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjQ1Mjc1ZThhNDZhYWQwZjE0MjBkZGEwZTM1ZjJmMmViMzlmMTgwMTVhOWRhZDUzYzA0MzBiYzQ5ZjA5NGI3YyJ9"
+        },
+        {
+          "resource": "repo://docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md#L16-L25",
+          "version": "repo-lines-v1:sha256:badc6a62b22b9a46ed7171b7cc1491120d47777d3a165dfc03db0a099b1eaf31:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI2M2I1MzIzMTBiZmM3MjY4MGE2ZDkwYTQ4OWQ2ZWUzMzM0YTM5MmFiYTA5NzM4ZDE3OTdkYWE1MzJjY2NmOTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzNzFmYzBmODk2NGZjMmQyZmJmNjc5ODI5ODU1ZDI3MmI4MDcwMDEzODI2NWM0MTBiMTYyNTEzNGRjNTA4ZmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMwOTQ5YWY5YmFmOGYxNDk2Y2ZhNjc0MGJkN2VhYTgyMWEzYjMzMjc4YWJkNmQwMjQ0MTk1ZTM3NTFmZmNjMGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3NzlkNzE5MGM3ZjVlNDExODg0ZTAyNDcxNDlhZWU4NjUxZTdkZmVjMWQ2NjJiODdkMGZhNThmYzlkNzQ1NjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b91523e32dd844169c0a57a8f684eef5",
+      "statement": "The layered authority model assigns exactly one question to each layer: ARCHITECTURE-ORIENTATION = what is the ecosystem; BASE-IMPLEMENTATION-PRIORITY = build order + BASE PASS boundary; SMOKE-TEST-ROADMAP = which proof runs next + prior evidence; smoke-tests/<component> = what it must prove; HX-5-SMOKE-TEST-PROCESS = how HX executes/retains proof; HX-5-CENTCOM-TOOLSET = permanent client toolset; tools/hx-smoke-runner = helper implementation; 05-evidence = observed proof; server record + BUILD-STATE = accepted as-built state.",
+      "evidence": [
+        {
+          "resource": "repo://docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md#L84-L100",
+          "version": "repo-lines-v1:sha256:19afdb156a351aee10971669d3659e28bdf5e921d39b0241ae415df419a1c059:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NDQ5Njc2OTVhYmRmNGMyZWExOTRhMDRmNjdkMWEwZTYyYmE4YjEyNzc1ZTQ2NTFkOTY3Njg3MzljMzYxY2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Njc4ZWVmNjE0OWZmOTE5ZjQ5MDQ0NWJmMmFkNGQxN2RhNzU4ZWNjZWEyNDZlMTE3ZWI4OGRkMWQ4ZmExNjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyNzEwYmE1ZDA4OGYxYjg1MDc2ODViYjg0NTU4MDQ5ZTVkYTA0NDlmMjczZjM1ZGFkYjE3NzY4MjkwNDJjYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkyMDlkNzY0ZTQxZDBmZmE5ZDdlMmYzN2NiOTg3YWUzN2UxNTBlNmYyZDk0MTUxYWQ3MGMyZGQ1MWI2M2Q4YjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_dc982ba292a94de69c45dbb765f1db4c",
+      "statement": "No authority layer silently replaces another: the deployment roadmap is not the smoke roadmap, the smoke roadmap is not the component procedure, and validation evidence is not architecture authority.",
+      "evidence": [
+        {
+          "resource": "repo://docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md#L100-L100",
+          "version": "repo-lines-v1:sha256:f9678eef6149ff919f490445bf2ad4d17da758eccea246e117eb88dd1d8fa169:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjk2NzhlZWY2MTQ5ZmY5MTlmNDkwNDQ1YmYyYWQ0ZDE3ZGE3NThlY2NlYTI0NmUxMTdlYjg4ZGQxZDhmYTE2OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjk2NzhlZWY2MTQ5ZmY5MTlmNDkwNDQ1YmYyYWQ0ZDE3ZGE3NThlY2NlYTI0NmUxMTdlYjg4ZGQxZDhmYTE2OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzc5YjY4MDgyODRiYmJkYmRkM2YzOTIwMWZiYzBjNDY1NTdiOWNlM2M5YjU0NWY2MTdlZDFkZWYwNzY2MjJkNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTIwOWQ3NjRlNDFkMGZmYTlkN2UyZjM3Y2I5ODdhZTM3ZTE1MGU2ZjJkOTQxNTFhZDcwYzJkZDUxYjYzZDhiMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ff8a0aa804ec48b8bfd86ebb292ff1f2",
+      "statement": "The smoke roadmap inherits the deployment roadmap and never authorizes testing a component before the SUT is installed and ready; HX uses cumulative proof with minimal live coupling and does not force unnecessary cross-service integration to make tests appear connected.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L77-L79",
+          "version": "repo-lines-v1:sha256:57e34cdc4c72605969be3b501e239578074c0be341c16393edde2270864e0b56:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWNmMmM2ZDU5Y2NlMjU4N2U4OWYwNTM5ZGZiMzczYzIwZDE3NWY3NGEwMmYwMjYzMDA4NjMzNDg2ZjJiMzczOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmE5YzFiOWRkMDI3YjNjZGUyMDM1NGZhZjI4Yzk2MmY1ZTJmNmFkYjU1YzRkODEwYWJiYTkyNzllNDAzMjAyMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjhlMjJlODc1NGJjZmNmNDJlZWRlOGM0NzJmN2NhMTdjODUyODU2MDhhZjNlOGI2MWZhM2ZlODQ5MTkwMGYzMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTJkNGI1NGRhY2VkMTAwN2FmNmJhZGY3NmU4ZWJjOTIzN2Y5MTdiYjlkNjVjZjY0NDkxYTcxMWViMzZmNWJmNyJ9"
+        },
+        {
+          "resource": "repo://docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md#L149-L168",
+          "version": "repo-lines-v1:sha256:07cb5467b44f5b4bfb33fb1ae135a733bd85d7a256f7b79745a49f35c961996b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2NjA4OWExYjNkMTBiZDIwNzk4ZTAzMmYwNTQ5OWQ3Y2I0NGRhZGFjNDY3OWFkNTY2YjQzYjNiYzE2OTg2MDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4OGQ4NTgwNWI2NmFjNzZhNThkNzA0OTBjNDAzN2Q1YzdkNjI2YTNjMWU2NzNiOGZkYWIxNTZjMmU4MTNmYmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRlYmY1NzdiY2EzMmJlMmRmYmNmZTkwMDMwOTBhOTdmOWM2YWMyNzk5ODMzM2M5ZjY3NWE0MGNiNmE1MWU3ZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM1MWNhMGFmMTAyZjdkMDY2ZDhiZTUyNDZiMGQ0MGM5NTA0YzE1OGQ1NjQ3NTE0YTI4YWM1ODM2ZDcxYzQ0YTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4e208f977658431eb75570dceaa9b143",
+      "statement": "Decision D-011 establishes the active-document rule: only the latest version of a document remains active, superseded versions go under archive/, active Markdown is agent authority, and HTML is a human mirror.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L39-L40",
+          "version": "repo-lines-v1:sha256:ab408150598657641074093f9d923be984c5f6ec31acfb3a42f0396c32d328c3:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzVkNzA1YTk5ZDFiM2M4YjI2MGFiYTcwNjdmMzM2NzM5MjEzODNlNzU4YzQ2M2U4ZDI0MzJjMjI2MjVkM2ExNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjkwMzlmYWQwNmQ5N2Y1MzliNDNiNTM0OGZlOTAxODZlNmJkMTNmMGE2YTI2MTQyZGZlYTMwNjgzZTQyMTJkMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTFkZDA1ODA3NTY0NWVmZDJhMGI4MjE4Zjg3NmZjZDRjMzg0ZTEzMDM4MTNlMzg0MjU5YWVjYjRlMzg4YjQzYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGJkNTZjZDVkODQ0MjMxOTMwZmZlYzg2MmRlOWM5ODYxYTkyNTA2OTllNDZiNmQyNTc0MjMyMDMxY2RjNzA5NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3d42614fc7bc4900b78b6e63f713a737",
+      "statement": "The Document Control Standard requires exactly one current copy of a document in the active tree under docs/, with stable filenames that omit version numbers, dates, (1), final-final, or model-name prefixes, carrying version/date/status inside the document instead.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DOCUMENT-CONTROL.md#L12-L21",
+          "version": "repo-lines-v1:sha256:d1587820696278a31245f60a9beba36a8d5d07f4c67420afbd544568e5dc720f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmYjU2Mjg2NWE4ZjNmNjgyODZlZGM4ZWRlYWM5ZjgzYTAwOGFjOTUzMjYzOGMwNjYwYTczOTFhYTJlMzE5MzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1NjEyNzMwNTE2NWIzYzZmOTQwNDE5MTlhYWU0NjQ2NDk5ZWE5NzViYTkyMjA3MDYxODU0NDhiZDY0MWU1NDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQxMDY2Nzc3MWU1ODA1ZjI2ZjY4YjMxNzNiYWFlYjliMmFkMTBhNzRiNGViYTMwOGU2NmMwZDgzMWI1Yzg4NDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNmNzY5ZjlhZjJmM2I5YzQyZmNjNmQ2NTIxODdkMTJlODVjYzM0YzFiNWJjZGRiNDhmMWM4YzRkNThkYzg1NjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_52607718e7a64d3c87ddbcf65692a123",
+      "statement": "The document-control authority split is: docs/**/*.md is authoritative current content, human-html/**/*.html is a derived human view that is never hand-edited, and archive/** is historical only; evidence documents observations and does not independently override explicit owner decisions.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DOCUMENT-CONTROL.md#L31-L35",
+          "version": "repo-lines-v1:sha256:bef2d4273c1064931205989336f5824b0d74a36d044f0b4418a7ab58288f3e83:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzZiODQ4MzU2MzFiMzQxYjI5NDhjMTYzY2IzODhjMzdjMTcxMWRhNmE5ZmE4OTlhNjJhNzdmNzM2ZjU1YWU4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODZjZGQ0MmNlODU0OWRkYjMzNTYyNTFjNmZkYjNkNmJlMTA0NWMyZmNlOGQwY2M1ZjZkOGU1NmM2N2Y0NDBhZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMThjNDlhNzJjMDM2MjlmYzkyNzY2MmJlZDA3MDdlZWUyMTM3MTFiMGIzYmZjNjMxYTViMDVhN2RhZDE1YzBmZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDdmY2ZjOGMwMzE3NjZhNjk1OWE0OTg1ZWEzMTZiY2Q0NDNkMmVhNGI5NTcxYjNmN2ZkY2U4ZGIzZmFkOTNhMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_20dc770f8fd6439098f40157704a5acc",
+      "statement": "Active documents carry producer-defined document-control frontmatter fields: document (title), status (lifecycle state), version, date, scope, and authority (authorizing source), as observed across DECISIONS.md, DOCUMENT-CONTROL.md, and HX-SMOKE-TESTING-OPERATING-MODEL.md.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L1-L5",
+          "version": "repo-lines-v1:sha256:9a43a098081385d06ff2a3ca4c7bf9ad91d5f08ac4b7383c1902b7c07833bd53:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODM5OTcxNTYzY2UyZTAzYzkyM2I5YWI2YmZkNzhkYTJlNmVhZDExOWM4MWQ1MTYwMjAxOWVmOTBlNmE0MDBjMiJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/DOCUMENT-CONTROL.md#L1-L5",
+          "version": "repo-lines-v1:sha256:5ff6ad21a5d21cc71683e44e69c666a6444a711256d4bb1a52f7b44d5747a881:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzljNzg0NzhjOTcxODdiZWZkZjBmM2FkYjdiYWRjNTAxODNjZDAyOWJjZWEzNTliZTc2NmRkY2EwZDUwODBmZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzljNzg0NzhjOTcxODdiZWZkZjBmM2FkYjdiYWRjNTAxODNjZDAyOWJjZWEzNTliZTc2NmRkY2EwZDUwODBmZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjBmMjk4NWI0OWE2MzUxMmMyZjUwMzI4NzcxNjAxZTQ0MDU0NmYyYTM0M2I4YTRjNjUxMTBlM2Q5YmI5MDY2ZCJ9"
+        },
+        {
+          "resource": "repo://docs/01-architecture/HX-SMOKE-TESTING-OPERATING-MODEL.md#L1-L8",
+          "version": "repo-lines-v1:sha256:a5633c56d2ea39a03c39462ae522d2dd346e2544aae4e7dcf46c830caabdecac:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTM2YTE2ZjliNjdjMWI3NmM5Mjk3MjQ4OGY3ZDcxYzAyM2QzMDRkOWE3ZDFmOTBhMDk0NzE4YTNlZDg0YzYxYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c8ced0de2ece4175acae11713e88ce7a",
+      "statement": "The supersession procedure has six manual steps: create archive/YYYY-MM-DD/<same-active-path>/, move/copy prior Markdown there with a version suffix, archive the matching prior HTML mirror, replace active Markdown at the stable path, replace the human HTML mirror, and verify only one active version remains.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DOCUMENT-CONTROL.md#L23-L29",
+          "version": "repo-lines-v1:sha256:83e32ef543022592703a4f9f851d6d57e77ddc771ec363b1ef356c4d3e25e721:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmIwZjY3MWYzZDY0MTBhMmVhNTk3MjM3OGQwMjg1ZTJkZjFhMDYzMTJlZWQ3MTI3NmVmNzFmZDEzZWMyMWE3OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjZhNDNmNjQ3MjFlMDUyOTQ3NTBhMTQ5NjhiMzkwODRiZWVlMzgwNzIzOWQ5MzJjZDM4ZWIzZWIyZWJkNjIzYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDFjYjdiZTJlYmJmODYwNmRkMTNjZjEyNjc0YjA4YjRhY2NiOTcwNDRhYWQwY2UwM2U0NTEwMDVjN2E2YWI4NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjRkNmIzMGY1NjczMzQyMDQ5NmU5Mzc4MGNjMGJhZTE0ZWE0MDUxMDRiYWRlMDU4YThmMDdkYTliZjQ1NzU3YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_80ee8e288ae8452b87ae8ddcb2004df9",
+      "statement": "tools/hx-doc/hx_doc_supersede.py automates the archive half of supersession: it creates archive/<today>/<same-parent-path>/, copies the current Markdown there as <stem>-<suffix><ext>, archives the matching generated HTML mirror when committed, leaves the active file untouched for editing, and reminds the operator to re-render the mirror and run hx-doc-check before committing the edit and archive copy together.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_supersede.py#L1-L17",
+          "version": "repo-lines-v1:sha256:a4f342972557aeb5e13b0819ec2765874b4182bf2bb62453e74cd3fe30b6f9b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ODJjYmRiNGM4YjA3NTE4YmY0ODZjNTg5OTBmYzM5MTc4M2FhMjBhOTE2YmZiMjdhZDIxMWViMWQ1YzM2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzNTVjZDdmYjYwNTJjZjhjMmUwMGU4OGUxZDEzOTY2ZmFmZjcwYWFjMDJmYWFjMmU4OTZjYmFhNWFmYjE1ODEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJlY2U3ZjEzYjdiNmEzNTE2ZmNkNGI1NDMyZDg1OGU1ZjVhMjUyMDRlNjY3OGQ5MzEwZjA1MzNlOTU0NzlmNDUifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_supersede.py#L99-L112",
+          "version": "repo-lines-v1:sha256:d99947201d7c8941ded5bbbfbb8ccb73941e07ebe5519ee0694a5481708d575d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkZmNiYjg1ZjQzMDA3NDczZTcxY2JkODEyMWQzY2NlODVkZmU5ODVkYTIyODU5NWFmNmQxNzA5N2YyOTIzMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MjMzYjNmZmVhMzJhMjNkZjUzMDY1MzQzNDhmMmRlZTc3NmE1YTZmNzRmYjUzMzE3NWRkYzUzOWE4ZmU0NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNlOTEzZTIxNTY0NDJiYmQ0OGNhNDZhYmU3ZDEzYTBlY2RlZTg1OWM0MGMyMmJmNjdmODE4MDA4OWRmY2FkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9c4141cf759d472cb3a5540df923007f",
+      "statement": "hx_doc_supersede refuses paths under archive/ or human-html/ (they are not active documents), errors if the archived name already exists to force a distinct suffix, supports a --dry-run that prints planned archive paths without writing, and maps docs/ mirrors to human-html/, skills/ mirrors to human-html/skills/, and README.md to human-html/README.html.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_supersede.py#L60-L87",
+          "version": "repo-lines-v1:sha256:625e965296037a96275d2ce98d6504c9d999f2599cd36380ea2c9c5f404c97a1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhYTMxYTlhMDEzM2MzYzRhNGYxMjFmNDM4YTc4NWE4YmIzMDJiNzlmNzk4Y2U1ZGIwYWFiZDk2MjVhMmZhNjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlNDJlNzYwNmJlNmE1MjFkMDc4MGY0ZjQxMjcxYjI1YjUyMDVmN2YyNmJlOWYwZjc2NDMxNjQ5OGJlNDRhYTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmODM5M2NkYTc0NGJjOThkNGNiYmQ5NDc2NGQzOTFhMTE4ODU2YjkxMGViNGNiOWJiY2Q5Y2Y3YmY2YWE4ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViZjhhYWFhYTQ5ZWE5YzA1MTUwYzVmOTZlZTUyMjQ4Y2Q3NjIyZDQxNTU3MDkzODNlYjU3NDdhNmEzNTg3YjIifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_supersede.py#L69-L72",
+          "version": "repo-lines-v1:sha256:20abe4fd0ca9b1efe1b66b663977c3c2298df7cb6b214589fc877f5659000769:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTM5NGU2Njg0YzUyYjhjOTVlZTk4YTUwY2VkZDI5NDc1MjUxOWM4ZTAwNWRjYjIyMjA4ZDkxMDY5MjAwN2ViNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjMwODY2ZTFiY2M1YWI3NmUzZWY1OTAxMmQwYWQzOWE2ODdhYmUwMDIzYjQzOGFjYjExMzBhMTg4MjVlODE5MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmMwMTNmNmZhOGY1MmU1ODdkNmYwYjJjMmM0Y2M0ZmJiY2NhZDFhYjU0OWY0M2M5N2YyYmQ5ZWI0OGY3OWM1OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmRhNzlhODg1OWI5ZWM3ZmZmYWNmZmJmOGFlNzFmNWY4OTljMDBiNjM0ZmY0ZDEzNTZlNTljNDhmZjdiNGNiYSJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_supersede.py#L93-L97",
+          "version": "repo-lines-v1:sha256:365baa430174313ee431986ee0b96055522e9d01edb1d4d1fc4b2a3cf069beb5:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmE3ZjNjODY1OThlMGQ2YzUxMjczZjQxMDRiZTJlNmRmYWY5ODVhYmZiNTQyMjU0MDI2ODNlMjM1NTM1ZGU5OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWExNjgwOWMwNzVkYjMwOWUwOWJiYzlhYjdlZmVlNjllZmI1ZjQxOWJkNGQ4OTMwZDAzODA2NjAyZGQwMmZkNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmE2MTZiOGIwZWQ0Y2EwZTJjM2UwZThjOTExZTU2NzA1Yjg2ZDY5OWJiMWZhMWU5YWMwMTZhYTdlODU5YThlMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2E3YjBlMGE5NjA5M2RlNGQwNDQ2NjIyMzMzOGRkZmNhY2MxMjg5YTI3MWVjMmRlNTc2NTcxZjdjMjAwZjRhMyJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-14T19:05:42.087Z"
+  }
+}

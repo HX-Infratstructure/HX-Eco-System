@@ -1,86 +1,86 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:95e852d73d0d1199925f8c3d4e576fba793ca65c5282b61d08f5a3988f3eac39",
+  "pageVersion": "sha256:b8679e95f35f157ad2740d7cbb2987f2087d2feb1bf4b9f5c7331c121cd5bce5",
   "claims": [
     {
-      "id": "claim_c92c0b0d2ab44d57901686ad8af83dfd",
-      "statement": "The repository is the authority for a clean-room rebuild of a 17-server native-Linux AI ecosystem built one server at a time, each validated and recorded before the next begins, and it contains the controlling documents, build scripts, acceptance procedures and enforcement tooling rather than ecosystem application code.",
+      "id": "claim_19a38e80d78645f3afaa7269d17fd13e",
+      "statement": "This repository is the authoritative control plane for a clean-room 17-server native-Linux AI ecosystem rebuild, not a typical application codebase; its executable surface is shell runbook blocks, Python consistency tools, shell smoke-runner scripts, TSV data sources, and CI workflows, with Markdown in docs/ and smoke-tests/ as machine/agent authority and human-html/ as a generated mirror.",
       "evidence": [
         {
-          "resource": "repo://README.md#L1-L20",
-          "version": "repo-lines-v1:sha256:46122583b40cb28d674884ff88d0a5fd6eb565ad067e49c3c06c8f39add270bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1YTk1NWRlNTMzOGE1MjcyYTZkODE2MjE3ZmRkNDQ3OTFlNjIzZWMzZWJmMjc2MDBkMjMxOGQwYTUxOWY3NDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5MzRjNWEwZDA3NWFjZGVkZDk1ZTkwNDg1YmFkM2EyOGQwZWU3MDNjN2EyNDBkYmY4MTQ1Y2ViOGExZjM2ZTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg4ZWRmM2U1NmE5NWExZmJkZjk2OWUwOWU2OGI4NTc3NjRjZWZhOWYyNDY3N2RlYjliZDE5YTBkZDkwNTJjMGIifQ"
+          "resource": "repo://README.md#L1-L11",
+          "version": "repo-lines-v1:sha256:c59aecc664cbea81ec0ffccfd804ef25467f12e81238c3fe63fc106c4248ec90:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1YTk1NWRlNTMzOGE1MjcyYTZkODE2MjE3ZmRkNDQ3OTFlNjIzZWMzZWJmMjc2MDBkMjMxOGQwYTUxOWY3NDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQyOWI2NTQ1MWRmNWU3NjNhMmUwMDM3NDZiNzAxYTI4NmU5ZDc3NjJjZmI1MjZkNTYyNzc0M2I1NmRlMjdjMDMifQ"
         },
         {
-          "resource": "repo://README.md#L243-L256",
-          "version": "repo-lines-v1:sha256:f8da6257c137a96b6cea2b93f39b9592194952ffd2625792e24ceafec443211e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmZTdhODI5NTRiYzdlYWZmNGRhYWUwNmFlZGJmYjk1NjY4OWEyOWY0Y2JiOGNhYTJmYzhiZDUxZjFlMmQyNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4M2JiOTVkZDc2MjdkZTAyM2JjZTliYjAyZWIyYzljZGNkNWMxMWZlOWMwZjIxNzFkOGE0NTRhNTUxMGQ1YjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0N2NkMDE0NDRkYzk0YTUyNmRhNWE2ODAyNTM0YmRhOTgzMDc5MmM3YjkxYWQ1ZDBkYWI4N2JiODA3Y2JjZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4YThhNWUzOGVmZmI1ZWFlYjQzNmI5MWZjOGU3MDNjOGYyMTk4MjQwYjVlZDE1ZTA1ZjgyMjBhYzVmMmQ3YjMifQ"
+          "resource": "repo://README.md#L236-L249",
+          "version": "repo-lines-v1:sha256:97549b21706b8604e13d110484af8d38c6f208e6b3b5da47bad17630a0882d58:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyZDkwYWYyZDQ4ODYwY2I2MzA1ZDc0NTQ0YjEzY2U0N2MwN2M5ZTdmZWJmZWNmNmEwOWQ2YmJhZDgyZGE2MTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1MDFmMzk0NDc2ZTRlNmY2NzRiZjQzNDI3YTg3NDg4NzUxNWRlMjg2N2UwZmM0ZDc3ZjdiNzE2Njk4M2MxZjkifQ"
         }
       ]
     },
     {
-      "id": "claim_5687d84ae9d94e10bf247053dd11fbf8",
-      "statement": "A build day starts with hx-preflight run from anywhere, then the numbered common blocks invoked with the target host name, each of which refuses to run on any other host.",
+      "id": "claim_16fd9f863279422684c118b9063e8daf",
+      "statement": "AGENTS.md section 1 defines a mandatory reading order before any change: README -> CURRENT-STATE -> BUILD-STATE -> DECISIONS -> ARCHITECTURE-ORIENTATION -> BASE-IMPLEMENTATION-PRIORITY -> server record -> runbook -> standard -> (validating only) smoke-test roadmap -> smoke testing operating model -> component smoke authority -> runner AGENTS.md; archive/ and human-html/ are not current authority.",
       "evidence": [
         {
-          "resource": "repo://README.md#L176-L196",
-          "version": "repo-lines-v1:sha256:0de4410c525482114e3ebc21436ee5dde7d9b0e3f6da7db50c0b89eb5682638e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMwYWVmODM1MjFlZjY0ZDhlMWM4Zjk2ZDgxOWM5YjJkZjNkMGNkNmQxMmFlZWMwMTI0MzE0ODEwNWEwYjRhMzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIyMDZmNmZlOTFkZWM0NTM4ODY2ODJlNWYyMGRkM2VlYzdlZTBiOWVlYTY2ZWI0Yjg0ZmQzMGY0M2I1Y2EwZmYifQ"
+          "resource": "repo://AGENTS.md#L5-L24",
+          "version": "repo-lines-v1:sha256:cb79d03c57aac75f2292bdd667a58ed11ec398d25168195d132b30f1be9f2eff:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA0ODBkYzk2YzJjZjBiZWM1ZjlkODVjZDVmNjZhZDVjMWY1ZGVhMTE5ZjY4YTMyODUzMGY2OTMwZjI1ZjFkOTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwYWFjZTFjM2Q3MjkyMTM2YzYzNWYwNGVjZDkwZDk0Y2FhMWUxNmI3ZDJmNWFmMTZkMDg5NGU1NjIwZjlhZTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3MWIxYmEzMTg2ZDE3MTI3OWZiZGVkY2JlNmZiNGE0ZDkyNTgwYjg3ZjI5NGFkZTc4YTAyODMwM2I2ZWY4ZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIzYTM2N2FiYWUxMmI4OGVmNGM0ZGI4ODg5OWEwN2JhNTNlMTcwYjZjZDc3ZjEwOTgyMDYyMGE2ZmFkOGEyMTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_378d8d43173240179e6ea5c0e751d574",
+      "statement": "Truth-order precedence is: explicit current owner instruction > current active docs/ and smoke-tests/ authority (when testing) > current live evidence from the server > current approved runbook/execution artifact > governed HX skill + current vendor guidance > historical/archive material > general model knowledge; contradictions between live evidence/vendor guidance and an active document must be reported, not silently resolved, and a vendor skill cannot redesign HX architecture.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L26-L36",
+          "version": "repo-lines-v1:sha256:6d285dc7917533b9daaf6c2be651a7497ed9c5c650fa4a383399509d40993098:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5NmUyN2Y5YWY3MjA0ODViNTMxNzVmOWNhZjlhNjJjZmZkNzY3MWI1ZDU5YTllMTNiOTA3YzAzZmVjYjUyMTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4MDQ3YjIyYzE1NDljZDdkOWVhNGQzODc3N2Y4YzVlNzExNmI2MTBjNWE1NGY3MjExNGQ0NDM1NDI3YTlkMmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmZjNkMjE2M2MyZjJiNzM2YjNkOTZmNzU1OWZlODJlMDRlMGU0NmZlMTdkMjE1NjUyM2FjZTk2NGQ0ZGE5MGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE3Njg3MTYyYzFkZTVlZmU1MmRjNjJlM2MzZjM4ZTgyYjFiOWFmNWE0Y2JjODVhYmUyODc2ODY3MWE0Yzc2NGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a3f3df9aab3d4c038a8d25ce9bc8ed38",
+      "statement": "Standing constraints gating every change: native Linux + systemd with no containers unless owner-approved (D-002); KISS one-server-at-a-time; every change goes through a PR with CodeRabbit review (`coderabbit review --agent`) before push; run tools/hx-doc/hx-doc-check and hx-render-html before committing; do not hand-edit generated human-html/ or openwiki/ output.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L165-L200",
+          "version": "repo-lines-v1:sha256:989dfef62a1bb4dcc74b91bc6178325bbcf9adcb9722ece797f8d65220add300:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2NWYyZTdhOTg2Y2M3ZjNkNzEzMmU2MTRkOTlmMTBiNzc4NTMwNmMwYjAwYTc3NGUyZTM3NWYxMWFmZmY4MTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkOGI1MTljY2VkZWI3OTA5OGI0MDY5OTllNTI2OWM2MDBjYWU0ZDI4ZWJkMjhhNGVlMmQ4MTgxZGE1ZWQ1MDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyMjQyNDQ0NWI3OWRlNGUwNTI0OWI4ZWYyNDYyYzA5NzJkYmFhZjBjMzY5ZDgyNzFhMDQ3ZGRkNWUyYjYzNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY2NjE2YjU5YWNmMTY3MTkxMzQ5ZDFjMGI0ZGUwMjIyYzAzZTQ5YTAzYzVkMmJjMzlkZmQwODA1MGUwOGM4ODgifQ"
         },
         {
-          "resource": "repo://docs/03-runbooks/RUN-SHEET.md#L18-L32",
-          "version": "repo-lines-v1:sha256:3866fc0c726e92ec1443392d9f6165bb6f7fdf82282cbab8e97f8fae19ed1ad8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMDY1MTlhN2ViMmUzZDJmMmFlNDk3N2EzYjFlMzlhZDBiMmY5NjkyMDk0ZTJlMzNmYThmMzU5YWY1NGQ0ZjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI4MTQ2ZWE0MTZjZTI1ZWM1ZjRjYTBhOGMxN2YxMWE0NjJjMDMwYmYzMTRmOGRkZTkyZjViZGUzMjc3OWFkMWEifQ"
+          "resource": "repo://AGENTS.md#L38-L50",
+          "version": "repo-lines-v1:sha256:6e6b6a10454cbe109d65f4fca796506a7eb1595fb7354eaa3767f2fe09e7ea36:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiNDE0ZDA0Zjk1NjRhMmQ4NmYxYWI2ZmJjNGI2NDQxZTE1OTVhMzkxZmI3NzQwOWI3YzM2Mzc4NzA5NjA2ZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiZjVlNTlhNGJhNzQzOTk3MjRhZTFiNWE5NzRkZWQ2Y2JjMTZjYzU1MjI3YThjMzNmMTFiZDdkYTcwMDZjMTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE2MTE0ZGFhMGVhMDYwZjBjZTJlNzllYWMzMjUyYmE4OTM4ZDYwOWUyN2E4NDlhNmE1NjgxMzUzNDg4MDA3OGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxYTM3NTI2Nzc5NzY2OTg2ODRmMTE3ZjY1Njg1ZDJlZWU0MGNmMTUwMjU4ZDY0YzRkYTM0YTczYjRiN2U2MTUifQ"
         }
       ]
     },
     {
-      "id": "claim_ba666c545ba6470689ac1424fc5f49ad",
-      "statement": "Whether a proof step may run is answered by `tools/hx-doc/hx-proof --ready <id>`, and the same dependency chain is enforced again at promotion time so a PASS is refused when a required prior step has not passed and been cited.",
+      "id": "claim_bb15025a3d88453ebb63a1402b2b2c39",
+      "statement": "docs/00-control/hx-fleet.tsv is the single source of truth for the fleet; generated fleet tables, the runbook IP map, and server records derive from it, and the fleet table is regenerated via tools/hx-doc/hx-fleet rather than hand-edited.",
       "evidence": [
         {
-          "resource": "repo://AGENTS.md#L230-L242",
-          "version": "repo-lines-v1:sha256:435bb371d877ce0c57337b0ad9cc0d72b11f629e5f99e9f9c8b82f87da420041:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhMWZiOTU3MDg4ODM2MGQ4ZTRkNTQ1MmY3YjBjMzVkNTI2YTVmZGNmNzJmYmFlOGU1NmQwY2UzM2M0NDhiNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0ZjQyNzJmNGM2NWM0N2RiMTg3Nzg2OTNlY2YzYWYxNTg2ODAyNWM4ZDNkNmJmODg4Y2FhMzcwMjYzODRkNDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3M2I3MjNjOWM5MjdmY2M4YTg4OTZhNDkzYzlhMTc5YjRlYzdkY2I1ODBhNDVhNGUzNzIxMDc1OWI2YmNlZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxYTMwY2NhM2M5NmViNGQzMjQ0YzdkOGZjZTY4N2ZkNzM3NjVlMWZhZjRlMjEzOTc0YmZmMzY5YTU2YjFjMzQifQ"
+          "resource": "repo://README.md#L240-L249",
+          "version": "repo-lines-v1:sha256:81b298cf678b88317877792089898f496bc273d3d475211008788a76f6247511:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjOTJkMWIwOTFiMjVhZmNlZDQyNjVhYjhjYzJmNDBhZjBhZDhmZmExM2QzYmE1NjA3MTBhMWNhYTE0YmZhMDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwM2NmNTk2ZjNjZDcyMzkzNTM3YTI1Y2JiMGU2MmFmMzRkNGYxMDI5YWQ5M2E2MDJhNDliYzM0OTgxODNjMGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1MDFmMzk0NDc2ZTRlNmY2NzRiZjQzNDI3YTg3NDg4NzUxNWRlMjg2N2UwZmM0ZDc3ZjdiNzE2Njk4M2MxZjkifQ"
         },
         {
-          "resource": "repo://docs/03-runbooks/RUN-SHEET.md#L34-L49",
-          "version": "repo-lines-v1:sha256:8017cd631c13e5b8cb21bf7ed407d7f9a0a1ee500306581c2bc16732cbf5b2af:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0Zjc0MDRmMjgzM2RkMDM0MDg4YzIxZjY0ZDI2Y2Q0NzQ2YzFkYWQ3NDU4Y2M3YzhiZWU4NTY2Mjg4M2I2YjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkNGIwNzAzM2Y2MzUzYjE3ODBiYjk5MWE2ZDhiMDZjZmZiOTZiYzIzMWFmZDdiYjE5OWI0MWM3MTIyMWVjMTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljNDYxMjQ0YWM3NTYzYTA2MzhlZWU4ZDg0NGMxMDFmNmQ2NmVmM2Q5YjM2NmFhNjM2MWU5MmVjYWYzODUxZGMifQ"
+          "resource": "repo://README.md#L77-L78",
+          "version": "repo-lines-v1:sha256:93aa82d89359d18ca77338c703494cdc74fca9b3f3d176bdea72aabc17fc2046:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjJmZWRiZWM1NjhhMGZiY2UwNjMwYTY4ZmFmNmJjODRlZDkyMDRlOTM0NzE3MDdlNTdjZDQ1YjVkNDMwMzYwYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmJiNmRlMTMzYjI0MGVhY2QzOTNlN2U0ZjAyM2FkMTgyMTBlNjAyYzU3MGJhOGJmYWEyMWYzMTQ3NGI0MTk5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmQ0ODdiNmFjNWI0NzA4NGExZmY5ZGY0ODIwMzMzNGNiOTc3ZWQzZjhhODZlNDQ5OTMxMjRkMGUxOTYxZmQ5MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjlhOWY3YmU2NTJkZGZiZWRlYjAzOGIxNjA1NzUwODM5ZWVlMWMxNTQ1NjY0ZTk3ZTlmOTM2MGQzZmRlZWIyYSJ9"
         }
       ]
     },
     {
-      "id": "claim_1bc577011744409f9e5d39cc908c10e8",
-      "statement": "A single component proof is executed from HX-5 CentCom with hx-smoke-doctor, hx-smoke-new and hx-smoke-promote, in that order.",
+      "id": "claim_b03f222a21d3467e925c35822e1dd69a",
+      "statement": "tools/hx-doc holds Python consistency tools (standard library only) that regenerate derived artifacts and enforce written rules as failing checks — hx-fleet, hx-proof, hx-render-html, hx-doc-check, hx-version-pins, hx-upstream-drift, hx-record-check, hx-smoke-lint, hx-new-server, hx-doc-supersede, hx-preflight — while tools/hx-smoke-runner holds the repository-owned smoke-runner helpers and smoke-tests/*.md are the component acceptance authorities run from HX-5 CentCom.",
       "evidence": [
         {
-          "resource": "repo://tools/hx-smoke-runner/AGENTS.md#L78-L93",
-          "version": "repo-lines-v1:sha256:f92e670216f32d130e96683d6a036c821d851e64316dc5186a06ceb660010dde:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ZWY2YjY0ZTAxNDdjNGY4NTdmY2RiYjU5NWU0NWYxNWJhN2MzZWMzMjMxMTQyOTBkOTI4OTM2MDllOThjZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc5NGEyMTVkOTA1MzkzMDNhMTM5N2UyMGI3ZTQyMjI1YjI5YTBiMzcxYjFhNzU1MzI2M2ZkMmMzOGJlM2FiMGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUwNjY2ODQ0OGYzNmQ0NTUyZjA5YzdlNjhhYjgzMjUzZjE0YjU2ZWQ5ZjY0N2I2YzE0NDA0MDlhZTYxNzdiMWQifQ"
-        }
-      ]
-    },
-    {
-      "id": "claim_e0a596bcc89a45dfb0605776bec799bd",
-      "statement": "Any repository change runs the generators and the documentation check, then the local reviewer, then a pull request — the default branch is not a working branch even for a one-line fix.",
-      "evidence": [
-        {
-          "resource": "repo://AGENTS.md#L165-L187",
-          "version": "repo-lines-v1:sha256:a74632ad03646d9d714282911693e25d85ecf6d17e9f98d038b01ac8ecb0f639:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2NWYyZTdhOTg2Y2M3ZjNkNzEzMmU2MTRkOTlmMTBiNzc4NTMwNmMwYjAwYTc3NGUyZTM3NWYxMWFmZmY4MTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1OTlhOTIzNTQ2ZmNhNGVkNTliZjI2ODFiM2JjMTNkYjlhM2RkOGI5NTE3MDU2ZjkyMzQzY2VjN2FhYzMyODAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyMjQyNDQ0NWI3OWRlNGUwNTI0OWI4ZWYyNDYyYzA5NzJkYmFhZjBjMzY5ZDgyNzFhMDQ3ZGRkNWUyYjYzNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkyNTM5MGFmZmViNDhhYzYwZGJjM2ZiZjllOGY0NTRiYWRmYmYyZGFkNjU5ZjU3MzY0ODc3ZDI5ZDYxNjAzNGYifQ"
-        }
-      ]
-    },
-    {
-      "id": "claim_e7bd428919d34939acf7f5226f98456c",
-      "statement": "The commands most used day to day are documented as a short set: regenerate after editing the fleet TSV, re-render after editing any Markdown, and run the documentation check before committing.",
-      "evidence": [
-        {
-          "resource": "repo://README.md#L219-L226",
-          "version": "repo-lines-v1:sha256:d93e28db33bff378f9749c3a7ef77715fdadf3b1e29bdeef07f22b67374366ff:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDZmNzA2YzAwYTZmMWFlNWFkNzUzNzYzMGViNmJkMmFmN2FjOWNiZGRiNDZhNzlkMjNhYmEwOWIxN2RlNTg1MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDdjMDZjNTYxZDVjMzI3MzQzNjg1MjY4YTQ2YjMzOTFmMzk5OGVlZTg5MGQyYmU1MWYwZDIxY2M0YTUzYWU2ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzk1MDQ0YjExYmQ5OWNhNDgyZWFiMmY2Y2NmNjgyODg2YWVkNmE1ZTUzZjM5NGU4M2U0YzIxN2E4NTUwYmI4ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzQ5ZDJmNzk1NjkxZGI2ODBiNmU0NGJlNmFiMGEwM2I0ZjgyMDM2ZGJjN2YxY2E5YjYxNmUxMzQzZDQ0MjVjMSJ9"
+          "resource": "repo://README.md#L204-L229",
+          "version": "repo-lines-v1:sha256:e13273a61d8f21f724461954ab4e5ab678e61aa029ec986633d897cbdcd43a1f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxNDRmNTVhOTY1ZTBkZWE1ZDFjMzRiOGJmZDZmZTI1NDY5ODg2OWE1ZGFmY2Y4NGRkMmRmNDdkOTBhODg1N2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzNTI3NTllOTYxOGUxY2IzOTVkYjVmMDViZmFhY2I2N2Q5ZTE0ZjYxM2MyZWU3NzAzNTFhN2I4ZWEyMDhlZjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU3MTc3NjVjOWNlMjVlM2EyYWU2YzVjZGU0OWRlNzEyOGIzYjQ1N2JjMmM3NTkyNDFhZmI1M2QwYzA0ZTkzYTYifQ"
         },
         {
-          "resource": "repo://tools/hx-doc/README.md#L44-L52",
-          "version": "repo-lines-v1:sha256:76753b1310999d7132920fe42b72c890c790fa1aacfbe253624c799e81d721d2:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGEyYjBhY2ZlYzlkOThjMjc1NzE4ZDZlY2Q0YzEwNjg5NDliMjFlMjAxODM3ZmM1Mjc5ZjdkZTc1MDQ5NzUyMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjYyZjkzMzJjZWNmNGRmODA0ZWVkMDMyNTk3YTA4MDJjNGM2NjQyZDExZjA2NWEwNWQ0OTJjMDVlZTZlNjg3MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODk1OTk3MWE2NjlmY2YyNGQ0OGZlOTIyOWRhNWEwNWU0NDk3Y2MwZmM3M2I2NjFiN2JjNmFhYjJhYjFiOTZmZSJ9"
+          "resource": "repo://README.md#L236-L249",
+          "version": "repo-lines-v1:sha256:97549b21706b8604e13d110484af8d38c6f208e6b3b5da47bad17630a0882d58:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyZDkwYWYyZDQ4ODYwY2I2MzA1ZDc0NTQ0YjEzY2U0N2MwN2M5ZTdmZWJmZWNmNmEwOWQ2YmJhZDgyZGE2MTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1MDFmMzk0NDc2ZTRlNmY2NzRiZjQzNDI3YTg3NDg4NzUxNWRlMjg2N2UwZmM0ZDc3ZjdiNzE2Njk4M2MxZjkifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.1",
-    "at": "2026-09-12T03:13:20.331Z"
+    "at": "2026-09-14T19:05:42.087Z"
   }
 }

@@ -146,7 +146,7 @@ This keeps large model blobs off the 120 GB root filesystem.
 
 | Item | Configuration |
 |---|---|
-| Ollama version | `0.33.3` |
+| Ollama version | `0.34.0` |
 | Service | `ollama.service` |
 | Service state | active |
 | Startup state | enabled |
@@ -157,7 +157,7 @@ This keeps large model blobs off the 120 GB root filesystem.
 Verified API response:
 
 ```json
-{"version":"0.33.3"}
+{"version":"0.34.0"}
 ```
 
 ### systemd override
@@ -322,7 +322,7 @@ http://192.168.50.202:11434/api/version
 Response:
 
 ```json
-{"version":"0.33.3"}
+{"version":"0.34.0"}
 ```
 
 **LAN API: PASS**
@@ -353,7 +353,7 @@ LAN API: responding
 | NVIDIA 595 driver | PASS |
 | Dual GPU visibility | PASS |
 | Dedicated Ollama storage | PASS |
-| Ollama 0.33.3 | PASS |
+| Ollama 0.34.0 | PASS |
 | Ollama service active/enabled | PASS |
 | Qwen3.8-27B Q6_K | PASS |
 | CLI inference | PASS |

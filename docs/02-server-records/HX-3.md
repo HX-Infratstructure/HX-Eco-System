@@ -157,7 +157,7 @@ The dedicated 3.5 TB NVMe partition is used for Ollama rather than the 120 GB ro
 
 | Item | As-built configuration |
 |---|---|
-| Ollama version | `0.33.3` |
+| Ollama version | `0.34.0` |
 | Service | `ollama.service` |
 | Service state | active |
 | Startup state | enabled |
@@ -189,7 +189,7 @@ OLLAMA_HOST=0.0.0.0:11434
 OLLAMA_NO_CLOUD=1
 ```
 
-LAN API version validation returned Ollama `0.33.3` before final reboot. Ollama also confirmed:
+LAN API version validation returned Ollama `0.34.0` before final reboot. Ollama also confirmed:
 
 ```text
 ollama cloud is disabled: web search is unavailable
@@ -211,38 +211,106 @@ No cloud change is part of this server closeout.
 
 ## 7. Coder-X Model
 
+### Primary model — Coder-X-GLM-Flash
+
 Installed model:
 
 ```text
-HX alias: coder-x:qwen3-coder-30b-q6_k
-Base model: Qwen3-Coder-30B-A3B-Instruct
-Quantization: Q6_K
-Ollama model ID: efcb36ee7419
-Size: 25 GB
+HX alias: Coder-X-GLM-Flash
+Base model: GLM-4.7-Flash
+Quantization: Q5_K_M
 ```
 
-Source model reference used during installation:
+Provenance (all five fields per `docs/02-server-records/_TEMPLATE.md` section 6):
 
 ```text
-HX alias:          coder-x:qwen3-coder-30b-q6_k
-Upstream identity: Qwen3-Coder-30B-A3B-Instruct (Q6_K quantisation)
-Source URI:        hf.co/lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-GGUF:Q6_K
-Artifact SHA-256:  UNRESOLVED — see provenance gap below
-Import method:     ollama pull, then `ollama cp` to the HX alias
+HX alias:           Coder-X-GLM-Flash
+Upstream identity:  zai-org/GLM-4.7-Flash (Q5_K_M quantisation)
+Source URI:         hf.co/bartowski/zai-org_GLM-4.7-Flash-GGUF:Q5_K_M
+Artifact SHA-256:   9e0156957bd07760644aa2a3b6d6791ac8796f2c1bc9c75a2cb07cef5ccb5764
+Import method:      ollama pull of the GGUF, tagged coder-x-glm:glm47flash-q5km,
+                    then GGUF import via Modelfile
 ```
 
-> **Provenance gap — backfill required.** Only the 12-character layer prefix
-> `72a9b20a19c7` from the pull transcript was recorded, not the full artifact
-> hash. Recover it on HX-3 with
-> `ollama show --modelfile coder-x:qwen3-coder-30b-q6_k` and the blob path
-> under `/srv/ollama/models/blobs/`, then replace `UNRESOLVED`. Required by
-> `docs/02-server-records/_TEMPLATE.md` section 6.
+**Artifact provenance.** The artifact is a community GGUF requant produced by
+`bartowski` of zai-org's GLM-4.7-Flash. It is not weights published by
+zai-org. Both facts are recorded separately because public model registries
+carry community rebuilds under names close to the official ones: the Source
+URI names where the blob came from, and the SHA-256 names exactly what is
+running. Neither field alone establishes provenance.
+
+Authored Modelfile (`~/Modelfile.coder-x-glm64k`):
+
+```text
+FROM coder-x-glm:glm47flash-q5km
+PARSER glm-4.7
+RENDERER glm-4.7
+PARAMETER temperature 1
+PARAMETER top_p 0.95
+PARAMETER min_p 0.01
+PARAMETER repeat_penalty 1
+PARAMETER num_ctx 65536
+```
+
+What Ollama resolved after
+`ollama create Coder-X-GLM-Flash -f ~/Modelfile.coder-x-glm64k`:
+
+```text
+FROM /srv/ollama/models/blobs/sha256-9e0156957bd07760644aa2a3b6d6791ac8796f2c1bc9c75a2cb07cef5ccb5764
+TEMPLATE "[gMASK]<sop>{{ if .System }}<|system|>
+{{ .System }}{{ end }}{{ if .Prompt }}<|user|>
+{{ .Prompt }}{{ end }}<|assistant|>
+{{ .Response }}"
+RENDERER glm-4.7
+PARSER glm-4.7
+PARAMETER repeat_penalty 1
+PARAMETER stop <|user|>
+PARAMETER temperature 1
+PARAMETER top_p 0.95
+PARAMETER min_p 0.01
+PARAMETER num_ctx 65536
+```
+
+The `stop` token `<|user|>` and the `TEMPLATE` block were **inherited from the
+GGUF metadata**, not authored — the authored Modelfile above sets neither.
+(HX-2's record makes the equivalent statement about having set no template or
+parameter directives; both servers rely on GGUF metadata, but HX-3's import
+shows exactly what was inherited.)
+
+Context is recorded as two distinct facts:
+
+```text
+Default context:              65,536 (num_ctx in the Modelfile)
+Extended validated context:   131,072, at 98% GPU / 2% CPU placement
+```
+
+131,072 is **validated, not the default**. The default remains 65,536.
+
+### Retained rollback model — coder-x:qwen3-coder-30b-q6_k
+
+The previous primary model is retained as the rollback path and is still
+installed on disk.
+
+```text
+HX alias:           coder-x:qwen3-coder-30b-q6_k
+Upstream identity:  Qwen3-Coder-30B-A3B-Instruct (Q6_K quantisation)
+Source URI:         hf.co/lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-GGUF:Q6_K
+Artifact SHA-256:   72a9b20a19c70db56e1ccd01fb35b0f0842d67d28e7c3bdff762df860120b769
+Import method:      ollama pull, then `ollama cp` to the HX alias
+```
+
+> **Provenance gap — CLOSED on 2026-09-15.** The full artifact hash was
+> recovered on HX-3 via `ollama show --modelfile coder-x:qwen3-coder-30b-q6_k`
+> and recorded above. It matches the 12-character layer prefix `72a9b20a19c7`
+> from the original pull transcript, confirming the blob on disk is the pulled
+> artifact.
 >
 > Note: `lmstudio-community` is a third-party requantiser, not the Qwen
 > project. That is an accepted choice, recorded here so it is a decision rather
-> than an assumption.
+> than an assumption. This is the precedent mirrored by the primary model's
+> bartowski provenance statement above.
 
-The model download completed successfully:
+The model download for the retained rollback model completed successfully:
 
 ```text
 pulling 72a9b20a19c7: 100%
@@ -251,7 +319,7 @@ writing manifest
 success
 ```
 
-CLI inference validation:
+CLI inference validation for the rollback model:
 
 ```text
 HX-3 CODER-X PASS
@@ -265,7 +333,7 @@ After validation, the long Hugging Face manifest name was removed. The retained 
 coder-x:qwen3-coder-30b-q6_k
 ```
 
-**Coder-X CLI inference: PASS**
+**Rollback model CLI inference: PASS**
 
 ## 8. API and Reboot Validation
 
@@ -281,12 +349,12 @@ After reboot, directly observed:
 
 ```text
 ollama.service: active
-coder-x:qwen3-coder-30b-q6_k: present
-model ID: efcb36ee7419
-model size: 25 GB
+Coder-X-GLM-Flash: present
+coder-x:qwen3-coder-30b-q6_k: present (retained rollback)
 ```
 
-This proves Ollama service startup and Coder-X model persistence across reboot.
+This proves Ollama service startup and persistence of both the primary
+Coder-X-GLM-Flash model and the retained rollback model across reboot.
 
 **Reboot persistence: PASS**
 
@@ -319,10 +387,11 @@ No causal claim is made in this record. The observation remains available for a 
 | NVIDIA 595 driver | PASS |
 | Dual RTX 5060 Ti detection | PASS |
 | Dedicated Ollama NVMe storage | PASS |
-| Ollama 0.33.3 | PASS |
+| Ollama 0.34.0 | PASS |
 | Ollama active / enabled | PASS |
 | LAN API | PASS |
-| Coder-X Q6_K model | PASS |
+| Coder-X-GLM-Flash primary model | PASS |
+| coder-x:qwen3-coder-30b-q6_k retained rollback | PASS |
 | CLI inference | PASS |
 | Final API generation | PASS — owner confirmed |
 | Reboot persistence | PASS |
@@ -341,7 +410,8 @@ http://192.168.50.203:11434
 Operational model:
 
 ```text
-coder-x:qwen3-coder-30b-q6_k
+Coder-X-GLM-Flash (primary)
+coder-x:qwen3-coder-30b-q6_k (retained rollback)
 ```
 
 Future work such as Ollama Cloud enablement or investigation of the longer boot time is explicitly outside this closeout and must be treated as a separate owner-directed task.
