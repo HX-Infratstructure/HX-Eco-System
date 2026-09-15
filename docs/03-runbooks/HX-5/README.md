@@ -20,12 +20,42 @@ in `../common/hx-base.env`. Ollama and the NVIDIA driver are pinned to the
 fleet baseline, and block 3 stops if the installed Ollama does not match the
 pin. See `../README.md` before changing a pin.
 
+## HX-5 Ornith workload authority
+
+Current owner-approved HX-5 model:
+
+```text
+ornith-1.5:35b
+```
+
+Operational invocation:
+
+```bash
+ollama run ornith-1.5:35b
+```
+
+The earlier `ornith-1.5:9b` assignment is stale and is not valid for this build.
+After installation, capture the resolved Ollama model ID and artifact/blob
+SHA-256 in the HX-5 server record before closing the model gate.
+
+Authoritative Ollama model path:
+
+```text
+/srv/ollama/models
+```
+
+The Ollama service is configured with:
+
+```text
+OLLAMA_MODELS=/srv/ollama/models
+```
+
 ## Sequence
 1. Base/admin/network validation; apt update + upgrade; reboot.
 2. Join `hx.local.arpa`; validate SSSD/domain user; install the pinned `nvidia-driver-595-server-open`; reboot.
 3. Validate GPU/storage; require inspected `/srv/ollama`; install/configure Ollama; reboot/health validation.
 4. Resolve/accept current GPU symmetry decision before workload placement assumptions.
-5. Install Ornith model and close its model/inference BASE PASS.
+5. Install `ornith-1.5:35b`; capture its resolved model ID/blob SHA-256; close Ornith CLI, HTTP/LAN inference, GPU-placement, and reboot-persistence BASE PASS.
 6. Activate the CentCom smoke-test runner role before moving into HX-9 and later component builds:
    - verify the authenticated `HX-Infratstructure/HX-Eco-System` checkout on HX-5;
    - read `../../04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md`;
@@ -54,7 +84,7 @@ pin. See `../README.md` before changing a pin.
 ```text
 HX-5 base/domain/GPU state accepted
               AND
-Ollama + Ornith inference PASS
+Ollama + Ornith 35B inference PASS
               AND
 HX-5 reboot persistence PASS
               AND
@@ -81,4 +111,4 @@ Harness meta-agent solution-building smoke test = PASS
 
 The Harness does not close BASE PASS from process health alone.
 
-Do not mount/wipe unrelated disks. Keep HX-5 headroom for CentCom/Harness/dev-test rather than moving shared embedding infrastructure here. Do not turn HX-5 into a second deployment/control plane; its smoke-test role is remote execution, evidence capture, and cleanup verification.
+Keep HX-5 headroom for CentCom/Harness/dev-test rather than moving shared embedding infrastructure here. Do not turn HX-5 into a second deployment/control plane; its smoke-test role is remote execution, evidence capture, and cleanup verification.
