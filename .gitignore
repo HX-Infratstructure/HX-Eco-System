@@ -36,3 +36,6 @@ temp/
 
 # graft's local repository settings — not committed.
 /.graft/
+
+# Claude Code per-machine overrides
+.claude/settings.local.json
