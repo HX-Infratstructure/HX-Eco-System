@@ -94,9 +94,9 @@ ollama:ollama /srv/ollama/models</code></pre>
 <p><strong>Storage gate: PASS</strong></p>
 <hr/>
 <h2>5. Ollama Runtime</h2>
-<div class="tw"><table><thead><tr><th>Item</th><th>Configuration</th></tr></thead><tbody><tr><td>Ollama version</td><td><code>0.33.3</code></td></tr><tr><td>Service</td><td><code>ollama.service</code></td></tr><tr><td>Service state</td><td>active</td></tr><tr><td>Startup state</td><td>enabled</td></tr><tr><td>API port</td><td><code>11434</code></td></tr><tr><td>Network listener</td><td>all interfaces (<code>*:11434</code>)</td></tr><tr><td>LAN API</td><td><code>http://192.168.50.202:11434</code></td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Item</th><th>Configuration</th></tr></thead><tbody><tr><td>Ollama version</td><td><code>0.34.0</code></td></tr><tr><td>Service</td><td><code>ollama.service</code></td></tr><tr><td>Service state</td><td>active</td></tr><tr><td>Startup state</td><td>enabled</td></tr><tr><td>API port</td><td><code>11434</code></td></tr><tr><td>Network listener</td><td>all interfaces (<code>*:11434</code>)</td></tr><tr><td>LAN API</td><td><code>http://192.168.50.202:11434</code></td></tr></tbody></table></div>
 <p>Verified API response:</p>
-<pre><code class="lang-json">{"version":"0.33.3"}</code></pre>
+<pre><code class="lang-json">{"version":"0.34.0"}</code></pre>
 <h3>systemd override</h3>
 <p>File:</p>
 <pre><code class="lang-text">/etc/systemd/system/ollama.service.d/storage.conf</code></pre>
@@ -177,7 +177,7 @@ success</code></pre>
 <p>Validated:</p>
 <pre><code class="lang-text">http://192.168.50.202:11434/api/version</code></pre>
 <p>Response:</p>
-<pre><code class="lang-json">{"version":"0.33.3"}</code></pre>
+<pre><code class="lang-json">{"version":"0.34.0"}</code></pre>
 <p><strong>LAN API: PASS</strong></p>
 <h3>Reboot persistence</h3>
 <p>After reboot:</p>
@@ -187,7 +187,7 @@ LAN API: responding</code></pre>
 <p><strong>Reboot persistence: PASS</strong></p>
 <hr/>
 <h2>8. Final HX-2 State</h2>
-<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean Ubuntu rebuild</td><td>PASS</td></tr><tr><td>Base OS update/upgrade</td><td>PASS</td></tr><tr><td>Samba domain join</td><td>PASS</td></tr><tr><td>SSSD</td><td>PASS</td></tr><tr><td>Domain user resolution</td><td>PASS</td></tr><tr><td>NVIDIA 595 driver</td><td>PASS</td></tr><tr><td>Dual GPU visibility</td><td>PASS</td></tr><tr><td>Dedicated Ollama storage</td><td>PASS</td></tr><tr><td>Ollama 0.33.3</td><td>PASS</td></tr><tr><td>Ollama service active/enabled</td><td>PASS</td></tr><tr><td>Qwen3.8-27B Q6_K</td><td>PASS</td></tr><tr><td>CLI inference</td><td>PASS</td></tr><tr><td>HTTP API inference</td><td>PASS</td></tr><tr><td>LAN API exposure</td><td>PASS</td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean Ubuntu rebuild</td><td>PASS</td></tr><tr><td>Base OS update/upgrade</td><td>PASS</td></tr><tr><td>Samba domain join</td><td>PASS</td></tr><tr><td>SSSD</td><td>PASS</td></tr><tr><td>Domain user resolution</td><td>PASS</td></tr><tr><td>NVIDIA 595 driver</td><td>PASS</td></tr><tr><td>Dual GPU visibility</td><td>PASS</td></tr><tr><td>Dedicated Ollama storage</td><td>PASS</td></tr><tr><td>Ollama 0.34.0</td><td>PASS</td></tr><tr><td>Ollama service active/enabled</td><td>PASS</td></tr><tr><td>Qwen3.8-27B Q6_K</td><td>PASS</td></tr><tr><td>CLI inference</td><td>PASS</td></tr><tr><td>HTTP API inference</td><td>PASS</td></tr><tr><td>LAN API exposure</td><td>PASS</td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr></tbody></table></div>
 <h1>HX-2 FINAL STATUS: PASS</h1>
 <p>HX-2 is complete for the current clean-build scope.</p>
 <p>The server is ready to provide local Qwen-X inference through:</p>

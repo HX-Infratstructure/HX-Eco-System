@@ -104,7 +104,7 @@ GPU 1: NVIDIA GeForce RTX 5060 Ti — 16,311 MiB</code></pre>
 <p>The dedicated 3.5 TB NVMe partition is used for Ollama rather than the 120 GB root filesystem.</p>
 <p><strong>Storage gate: PASS</strong></p>
 <h2>6. Ollama Runtime</h2>
-<div class="tw"><table><thead><tr><th>Item</th><th>As-built configuration</th></tr></thead><tbody><tr><td>Ollama version</td><td><code>0.33.3</code></td></tr><tr><td>Service</td><td><code>ollama.service</code></td></tr><tr><td>Service state</td><td>active</td></tr><tr><td>Startup state</td><td>enabled</td></tr><tr><td>API port</td><td><code>11434</code></td></tr><tr><td>LAN endpoint</td><td><code>http://192.168.50.203:11434</code></td></tr><tr><td>Model storage</td><td><code>/srv/ollama/models</code></td></tr><tr><td>Cloud state</td><td>disabled for current base build</td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Item</th><th>As-built configuration</th></tr></thead><tbody><tr><td>Ollama version</td><td><code>0.34.0</code></td></tr><tr><td>Service</td><td><code>ollama.service</code></td></tr><tr><td>Service state</td><td>active</td></tr><tr><td>Startup state</td><td>enabled</td></tr><tr><td>API port</td><td><code>11434</code></td></tr><tr><td>LAN endpoint</td><td><code>http://192.168.50.203:11434</code></td></tr><tr><td>Model storage</td><td><code>/srv/ollama/models</code></td></tr><tr><td>Cloud state</td><td>disabled for current base build</td></tr></tbody></table></div>
 <p>Systemd override:</p>
 <pre><code class="lang-text">/etc/systemd/system/ollama.service.d/storage.conf</code></pre>
 <p>Current configuration:</p>
@@ -116,7 +116,7 @@ Environment="OLLAMA_NO_CLOUD=1"</code></pre>
 <pre><code class="lang-text">OLLAMA_MODELS=/srv/ollama/models
 OLLAMA_HOST=0.0.0.0:11434
 OLLAMA_NO_CLOUD=1</code></pre>
-<p>LAN API version validation returned Ollama <code>0.33.3</code> before final reboot. Ollama also confirmed:</p>
+<p>LAN API version validation returned Ollama <code>0.34.0</code> before final reboot. Ollama also confirmed:</p>
 <pre><code class="lang-text">ollama cloud is disabled: web search is unavailable</code></pre>
 <h3>Future cloud enablement</h3>
 <p><code>OLLAMA_NO_CLOUD=1</code> is a <strong>current operational setting</strong>, not a permanent architecture restriction. HX-3 is expected to gain cloud capability later when that integration is intentionally enabled.</p>
@@ -130,40 +130,76 @@ OLLAMA_NO_CLOUD=1</code></pre>
 </ol>
 <p>No cloud change is part of this server closeout.</p>
 <h2>7. Coder-X Model</h2>
+<h3>Primary model — Coder-X-GLM-Flash</h3>
 <p>Installed model:</p>
-<pre><code class="lang-text">HX alias: coder-x:qwen3-coder-30b-q6_k
-Base model: Qwen3-Coder-30B-A3B-Instruct
-Quantization: Q6_K
-Ollama model ID: efcb36ee7419
-Size: 25 GB</code></pre>
-<p>Source model reference used during installation:</p>
-<pre><code class="lang-text">HX alias:          coder-x:qwen3-coder-30b-q6_k
-Upstream identity: Qwen3-Coder-30B-A3B-Instruct (Q6_K quantisation)
-Source URI:        hf.co/lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-GGUF:Q6_K
-Artifact SHA-256:  UNRESOLVED — see provenance gap below
-Import method:     ollama pull, then `ollama cp` to the HX alias</code></pre>
-<blockquote><strong>Provenance gap — backfill required.</strong> Only the 12-character layer prefix <code>72a9b20a19c7</code> from the pull transcript was recorded, not the full artifact hash. Recover it on HX-3 with <code>ollama show --modelfile coder-x:qwen3-coder-30b-q6_k</code> and the blob path under <code>/srv/ollama/models/blobs/</code>, then replace <code>UNRESOLVED</code>. Required by <code>docs/02-server-records/_TEMPLATE.md</code> section 6. Note: <code>lmstudio-community</code> is a third-party requantiser, not the Qwen project. That is an accepted choice, recorded here so it is a decision rather than an assumption.</blockquote>
-<p>The model download completed successfully:</p>
+<pre><code class="lang-text">HX alias: Coder-X-GLM-Flash
+Base model: GLM-4.7-Flash
+Quantization: Q5_K_M</code></pre>
+<p>Provenance (all five fields per <code>docs/02-server-records/_TEMPLATE.md</code> section 6):</p>
+<pre><code class="lang-text">HX alias:           Coder-X-GLM-Flash
+Upstream identity:  zai-org/GLM-4.7-Flash (Q5_K_M quantisation)
+Source URI:         hf.co/bartowski/zai-org_GLM-4.7-Flash-GGUF:Q5_K_M
+Artifact SHA-256:   9e0156957bd07760644aa2a3b6d6791ac8796f2c1bc9c75a2cb07cef5ccb5764
+Import method:      ollama pull of the GGUF, tagged coder-x-glm:glm47flash-q5km,
+                    then GGUF import via Modelfile</code></pre>
+<p><strong>Artifact provenance.</strong> The artifact is a community GGUF requant produced by <code>bartowski</code> of zai-org's GLM-4.7-Flash. It is not weights published by zai-org. Both facts are recorded separately because public model registries carry community rebuilds under names close to the official ones: the Source URI names where the blob came from, and the SHA-256 names exactly what is running. Neither field alone establishes provenance.</p>
+<p>Authored Modelfile (<code>~/Modelfile.coder-x-glm64k</code>):</p>
+<pre><code class="lang-text">FROM coder-x-glm:glm47flash-q5km
+PARSER glm-4.7
+RENDERER glm-4.7
+PARAMETER temperature 1
+PARAMETER top_p 0.95
+PARAMETER min_p 0.01
+PARAMETER repeat_penalty 1
+PARAMETER num_ctx 65536</code></pre>
+<p>What Ollama resolved after <code>ollama create Coder-X-GLM-Flash -f ~/Modelfile.coder-x-glm64k</code>:</p>
+<pre><code class="lang-text">FROM /srv/ollama/models/blobs/sha256-9e0156957bd07760644aa2a3b6d6791ac8796f2c1bc9c75a2cb07cef5ccb5764
+TEMPLATE "[gMASK]&lt;sop&gt;{{ if .System }}&lt;|system|&gt;
+{{ .System }}{{ end }}{{ if .Prompt }}&lt;|user|&gt;
+{{ .Prompt }}{{ end }}&lt;|assistant|&gt;
+{{ .Response }}"
+RENDERER glm-4.7
+PARSER glm-4.7
+PARAMETER repeat_penalty 1
+PARAMETER stop &lt;|user|&gt;
+PARAMETER temperature 1
+PARAMETER top_p 0.95
+PARAMETER min_p 0.01
+PARAMETER num_ctx 65536</code></pre>
+<p>The <code>stop</code> token <code>&lt;|user|&gt;</code> and the <code>TEMPLATE</code> block were **inherited from the</p>
+<p>GGUF metadata**, not authored — the authored Modelfile above sets neither. (HX-2's record makes the equivalent statement about having set no template or parameter directives; both servers rely on GGUF metadata, but HX-3's import shows exactly what was inherited.)</p>
+<p>Context is recorded as two distinct facts:</p>
+<pre><code class="lang-text">Default context:              65,536 (num_ctx in the Modelfile)
+Extended validated context:   131,072, at 98% GPU / 2% CPU placement</code></pre>
+<p>131,072 is <strong>validated, not the default</strong>. The default remains 65,536.</p>
+<h3>Retained rollback model — coder-x:qwen3-coder-30b-q6_k</h3>
+<p>The previous primary model is retained as the rollback path and is still installed on disk.</p>
+<pre><code class="lang-text">HX alias:           coder-x:qwen3-coder-30b-q6_k
+Upstream identity:  Qwen3-Coder-30B-A3B-Instruct (Q6_K quantisation)
+Source URI:         hf.co/lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-GGUF:Q6_K
+Artifact SHA-256:   72a9b20a19c70db56e1ccd01fb35b0f0842d67d28e7c3bdff762df860120b769
+Import method:      ollama pull, then `ollama cp` to the HX alias</code></pre>
+<blockquote><strong>Provenance gap — CLOSED on 2026-09-15.</strong> The full artifact hash was recovered on HX-3 via <code>ollama show --modelfile coder-x:qwen3-coder-30b-q6_k</code> and recorded above. It matches the 12-character layer prefix <code>72a9b20a19c7</code> from the original pull transcript, confirming the blob on disk is the pulled artifact. Note: <code>lmstudio-community</code> is a third-party requantiser, not the Qwen project. That is an accepted choice, recorded here so it is a decision rather than an assumption. This is the precedent mirrored by the primary model's bartowski provenance statement above.</blockquote>
+<p>The model download for the retained rollback model completed successfully:</p>
 <pre><code class="lang-text">pulling 72a9b20a19c7: 100%
 verifying sha256 digest
 writing manifest
 success</code></pre>
-<p>CLI inference validation:</p>
+<p>CLI inference validation for the rollback model:</p>
 <pre><code class="lang-text">HX-3 CODER-X PASS</code></pre>
 <p>The permanent HX alias was created with <code>ollama cp</code>. Both names initially referenced the same Ollama model ID, proving the alias did not duplicate the 25 GB model data.</p>
 <p>After validation, the long Hugging Face manifest name was removed. The retained operational name is:</p>
 <pre><code class="lang-text">coder-x:qwen3-coder-30b-q6_k</code></pre>
-<p><strong>Coder-X CLI inference: PASS</strong></p>
+<p><strong>Rollback model CLI inference: PASS</strong></p>
 <h2>8. API and Reboot Validation</h2>
 <p>The Ollama LAN API was validated at:</p>
 <pre><code class="lang-text">http://192.168.50.203:11434</code></pre>
 <p>The final API generation test was reported successful by the owner during closeout. The exact generation response payload was not retained in the conversation evidence, so this record does not fabricate it.</p>
 <p>After reboot, directly observed:</p>
 <pre><code class="lang-text">ollama.service: active
-coder-x:qwen3-coder-30b-q6_k: present
-model ID: efcb36ee7419
-model size: 25 GB</code></pre>
-<p>This proves Ollama service startup and Coder-X model persistence across reboot.</p>
+Coder-X-GLM-Flash: present
+coder-x:qwen3-coder-30b-q6_k: present (retained rollback)</code></pre>
+<p>This proves Ollama service startup and persistence of both the primary Coder-X-GLM-Flash model and the retained rollback model across reboot.</p>
 <p><strong>Reboot persistence: PASS</strong></p>
 <h2>9. Informational Observation — Boot Time</h2>
 <p><strong>State: INFORMATIONAL / DEFERRED — NO ACTION</strong></p>
@@ -176,11 +212,12 @@ model size: 25 GB</code></pre>
 </ul>
 <p>No causal claim is made in this record. The observation remains available for a future diagnostic task if the owner elects to investigate it.</p>
 <h2>10. Final Acceptance State</h2>
-<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Ubuntu base rebuild</td><td>PASS</td></tr><tr><td>Base OS update state</td><td>PASS</td></tr><tr><td>Hostname / IP / DNS</td><td>PASS</td></tr><tr><td>Sudo / SSH baseline</td><td>PASS</td></tr><tr><td>UFW inactive / disabled</td><td>PASS</td></tr><tr><td>Domain membership</td><td>PASS</td></tr><tr><td>SSSD</td><td>PASS</td></tr><tr><td>Domain-user resolution</td><td>PASS</td></tr><tr><td>NVIDIA 595 driver</td><td>PASS</td></tr><tr><td>Dual RTX 5060 Ti detection</td><td>PASS</td></tr><tr><td>Dedicated Ollama NVMe storage</td><td>PASS</td></tr><tr><td>Ollama 0.33.3</td><td>PASS</td></tr><tr><td>Ollama active / enabled</td><td>PASS</td></tr><tr><td>LAN API</td><td>PASS</td></tr><tr><td>Coder-X Q6_K model</td><td>PASS</td></tr><tr><td>CLI inference</td><td>PASS</td></tr><tr><td>Final API generation</td><td>PASS — owner confirmed</td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr><tr><td>Boot-time observation</td><td>RECORDED — no action</td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Ubuntu base rebuild</td><td>PASS</td></tr><tr><td>Base OS update state</td><td>PASS</td></tr><tr><td>Hostname / IP / DNS</td><td>PASS</td></tr><tr><td>Sudo / SSH baseline</td><td>PASS</td></tr><tr><td>UFW inactive / disabled</td><td>PASS</td></tr><tr><td>Domain membership</td><td>PASS</td></tr><tr><td>SSSD</td><td>PASS</td></tr><tr><td>Domain-user resolution</td><td>PASS</td></tr><tr><td>NVIDIA 595 driver</td><td>PASS</td></tr><tr><td>Dual RTX 5060 Ti detection</td><td>PASS</td></tr><tr><td>Dedicated Ollama NVMe storage</td><td>PASS</td></tr><tr><td>Ollama 0.34.0</td><td>PASS</td></tr><tr><td>Ollama active / enabled</td><td>PASS</td></tr><tr><td>LAN API</td><td>PASS</td></tr><tr><td>Coder-X-GLM-Flash primary model</td><td>PASS</td></tr><tr><td>coder-x:qwen3-coder-30b-q6_k retained rollback</td><td>PASS</td></tr><tr><td>CLI inference</td><td>PASS</td></tr><tr><td>Final API generation</td><td>PASS — owner confirmed</td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr><tr><td>Boot-time observation</td><td>RECORDED — no action</td></tr></tbody></table></div>
 <h1>HX-3 FINAL STATUS: PASS</h1>
 <p>HX-3 is complete for the current clean-build scope.</p>
 <p>Operational inference endpoint:</p>
 <pre><code class="lang-text">http://192.168.50.203:11434</code></pre>
 <p>Operational model:</p>
-<pre><code class="lang-text">coder-x:qwen3-coder-30b-q6_k</code></pre>
+<pre><code class="lang-text">Coder-X-GLM-Flash (primary)
+coder-x:qwen3-coder-30b-q6_k (retained rollback)</code></pre>
 <p>Future work such as Ollama Cloud enablement or investigation of the longer boot time is explicitly outside this closeout and must be treated as a separate owner-directed task.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-3.md</code>.</footer></div></body></html>
