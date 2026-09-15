@@ -1,7 +1,7 @@
 # HX-5 — CentCom / Ornith / DeepSeek Harness / dev-test Server Configuration
 
-**Build state:** IN PROGRESS — Layer 0/1 closed; runtime/model build pending  
-**Gate:** LAYER 0/1 PASS / CLOSED; DOMAIN / ADMIN / GPU / STORAGE PASS  
+**Build state:** IN PROGRESS — Layer 0/1 closed; Ollama runtime complete; Ornith/model build pending  
+**Gate:** LAYER 0/1 PASS / CLOSED; DOMAIN / ADMIN / GPU / STORAGE / OLLAMA RUNTIME PASS  
 **IP:** `192.168.50.205`  
 **FQDN:** `hx-5.hx.local.arpa`  
 **Record updated:** 2026-09-15
@@ -87,7 +87,7 @@ Post-reboot SSH state:
 ```text
 ssh.service: active
 ssh.socket: active
-essh.socket: enabled
+ssh.socket: enabled
 port: 22
 ```
 
@@ -230,13 +230,50 @@ This is the existing HX4-F02 fleet-pattern finding and remains **DEFERRED / NON-
 
 ## 6. Runtime
 
-Pending Ollama installation.
+Block 3 completed successfully on 2026-09-15.
 
-Layer 0/1 is now closed. HX-5 is authorized to proceed to Block 3 / Ollama runtime installation.
+| Item | As-built state |
+|---|---|
+| Ollama version | `0.34.0` |
+| Install source | official Ollama Linux release archive |
+| Archive SHA-256 | `cf95886728959aa09910bb34de5cca1cc5a8f68003b5597197d3f2c2d57c0804` |
+| Archive verification | PASS |
+| Service | `ollama.service` |
+| Service state | active |
+| Startup state | enabled |
+| API listener | `*:11434` |
+| LAN endpoint | `http://192.168.50.205:11434` |
+| Model storage | `/srv/ollama/models` |
+| Cloud state | disabled for current base build |
+
+Systemd environment:
+
+```text
+OLLAMA_MODELS=/srv/ollama/models
+OLLAMA_HOST=0.0.0.0:11434
+OLLAMA_NO_CLOUD=1
+```
+
+Block 3 validation returned:
+
+```text
+ollama --version: 0.34.0
+ollama.service: active
+autostart: enabled
+listener: *:11434
+localhost /api/version: {"version":"0.34.0"}
+LAN /api/version:       {"version":"0.34.0"}
+```
+
+The existing two failed SSSD responder sockets remained visible during Block 3 and were accepted under HX4-F02; they did not block domain resolution, GPU validation, storage validation, Ollama installation, or API startup.
+
+**OLLAMA RUNTIME GATE: PASS**
 
 ## 7. Model / Application Provenance
 
 Pending Ornith installation.
+
+The current repository defines the next HX-5 workload step as installation and BASE PASS of the Ornith model, but the current `main` runbook does not yet encode a pinned Ornith model reference or model-install script. Do not invent the upstream model identity from the role name alone.
 
 Required fields at install time:
 
@@ -250,7 +287,7 @@ Import method:         <pull | GGUF import | other approved method>
 
 ## 8. Functional Validation
 
-Current Layer 0/1 proof:
+Current proof:
 
 ```text
 hostname: hx-5                              PASS
@@ -270,6 +307,10 @@ RTX 5060 visibility                        PASS
 RTX 5060 Ti visibility                     PASS
 /srv/ollama dedicated mount                PASS after reboot
 OS maintenance                             PASS; Netplan updates phased normally
+Ollama 0.34.0 archive verification         PASS
+Ollama service active/enabled              PASS
+Ollama localhost API                       PASS
+Ollama LAN API                             PASS
 ```
 
 ## 9. Layer 0/1 Closure State
@@ -298,7 +339,21 @@ OS maintenance                             PASS; Netplan updates phased normally
 
 Layer 0/1 closed on 2026-09-15 after the clean-rebuild reconciliation and post-reboot proof. HX4-F02 remains the sole known deferred Layer 0/1 condition and does not block the HX-5 application/runtime build.
 
-## 10. Evidence References
+## 10. HX-5 Workload Progress
+
+| Workload gate | Result |
+|---|---|
+| Layer 0/1 foundation | PASS / CLOSED |
+| Ollama runtime / Block 3 | PASS |
+| Ornith model installed | PENDING |
+| Ornith CLI inference | PENDING |
+| Ornith HTTP/LAN inference | PENDING |
+| Workload GPU-placement validation | PENDING |
+| Ollama + Ornith reboot persistence | PENDING |
+| CentCom smoke-runner activation | BLOCKED on Ornith + reboot persistence |
+| DeepSeek Harness | FUTURE SCHEDULED WORK |
+
+## 11. Evidence References
 
 Primary Layer 0/1 evidence is recorded in:
 
@@ -307,4 +362,4 @@ docs/00-control/HX-BASE-BLOCKS-1-2-CONFIGURATION-AUDIT.md
 docs/05-evidence/hx-5/layer0-1/2026-09-15-closure.md
 ```
 
-The first document records the Block 1/2 coverage audit and rebuild-process gaps. The second records the HX-5 closure proof. This server record is the current as-built configuration summary for HX-5.
+Block 3 evidence is recorded in this server record from the 2026-09-15 execution transcript. The current HX-5 runbook sequence is `docs/03-runbooks/HX-5/README.md`.
