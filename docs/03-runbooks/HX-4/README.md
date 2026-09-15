@@ -52,16 +52,18 @@ Do not mount/wipe unrelated disks. Do not import prior application state.
 unpinned model, on the same rule block 3 applies to Ollama itself: "whatever
 was current that day" is not a baseline a server record can state.
 
-A reference must identify one artifact. `hx_require_pinned_ref` rejects both
-`:latest` and a bare name with no tag, because those are the same defect
-spelled two ways.
+`HX_EMBED_PRIMARY_MODEL` is pinned to `bge-m3:567m`.
 
-**Block 06 will not run today.** `HX_EMBED_PRIMARY_MODEL` is `bge-m3:latest`,
-so the block exits 31. That is deliberate. The dimension probe proves the
-family and the vector length, not the revision, so a later same-dimension
-BGE-M3 revision could replace the model a closed HX-4 record names, with
-nothing in the build to notice it. Replace `latest` with the fixed tag actually
-reviewed, then the block runs. Do not remove the gate to get past it.
+A tag is the reviewed source reference, not the artifact. Block 06 additionally
+records the resolved Ollama model ID and the underlying blob SHA-256 during
+installation, and that hash is the immutable identity the server record keeps.
+The 1024-dimension known-answer test verifies the D-005 embedding identity
+before HX-4 is closed. A closed record is never silently re-pulled or
+re-baselined against a later artifact under the same tag.
+
+`hx_require_pinned_ref` rejects both `:latest` and a bare name with no tag,
+because those are the same defect spelled two ways. `bge-m3:567m` passes it;
+`bge-m3:latest` does not. Do not weaken or remove the gate.
 
 `tools/hx-doc/hx-preflight` cannot resolve an Ollama model tag. It checks
 downloads, PyPI, npm, Hugging Face and apt. These three pins are proved by the
