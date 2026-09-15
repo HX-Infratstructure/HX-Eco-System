@@ -1,0 +1,2 @@
+CLEANUP=PASS
+DETAIL=Disposable test script ollama_inference_smoke.py removed after evidence capture. keep_alive=0 so the model was not left loaded. No accepted model removed and no persistent Ollama configuration changed. No temporary router, cloud provider or container was created.

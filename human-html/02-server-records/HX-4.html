@@ -36,30 +36,112 @@ a{color:var(--accent)}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
 </style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/02-server-records/HX-4.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-4 — Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker Server Configuration</h1>
-<p><strong>Build state:</strong> NOT STARTED <strong>Gate:</strong> NEXT <strong>IP:</strong> <code>192.168.50.204</code> <strong>FQDN:</strong> <code>hx-4.hx.local.arpa</code> <strong>Record updated:</strong> 2026-09-10</p>
-<blockquote>Scaffolded by <code>tools/hx-doc/hx-new-server hx-4</code>. Fill every section as the build proceeds. <code>tools/hx-doc/hx-record-check</code> reports what is still open.</blockquote>
+<p><strong>Build state:</strong> PASS <strong>Gate:</strong> CLOSED <strong>IP:</strong> <code>192.168.50.204</code> <strong>FQDN:</strong> <code>hx-4.hx.local.arpa</code> <strong>Record updated:</strong> 2026-09-15</p>
 <h2>1. Identity and Network</h2>
-<p>Hostname, IP, gateway, DNS, domain join, SSSD, domain user resolution. State the gate result: <strong>Domain join gate: PASS/FAIL</strong>.</p>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Hostname</td><td><code>hx-4</code></td></tr><tr><td>FQDN</td><td><code>hx-4.hx.local.arpa</code></td></tr><tr><td>Interface</td><td><code>eno1</code></td></tr><tr><td>IPv4</td><td><code>192.168.50.204/24</code></td></tr><tr><td>Default route</td><td><code>default via 192.168.50.1 dev eno1 proto static</code></td></tr><tr><td>DNS</td><td><code>192.168.50.200</code> (HX-1)</td></tr><tr><td>Domain</td><td><code>hx.local.arpa</code>, <code>configured: kerberos-member</code>, server software <code>active-directory</code></td></tr><tr><td>SSSD</td><td><code>active</code></td></tr><tr><td>Domain user resolution</td><td><code>id jarvisr@hx.local.arpa</code> -&gt; <code>uid=218001148(jarvisr@hx.local.arpa) gid=218000513(domain users@hx.local.arpa)</code></td></tr></tbody></table></div>
+<p><strong>Domain join gate: PASS</strong></p>
+<p>Three <code>sssd</code> socket units are failed on this host: <code>sssd-nss.socket</code>, <code>sssd-pam-priv.socket</code>, <code>sssd-pam.socket</code>. <code>/etc/sssd/sssd.conf</code> names <code>nss</code> and <code>pam</code> in its <code>services</code> line, so <code>sssd.service</code> starts those responders while their socket units also attempt activation. Name resolution is unaffected and <code>getent passwd jarvisr@hx.local.arpa</code> returns the expected identity. Tracked as HX4-F02, deferred; the responder model is a fleet-wide decision.</p>
 <h2>2. Operating System</h2>
-<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Distribution / release</td><td></td></tr><tr><td>Kernel</td><td></td></tr><tr><td>Firmware version</td><td></td></tr><tr><td>sudo policy</td><td></td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Distribution / release</td><td>Ubuntu 24.04.5 LTS</td></tr><tr><td>Kernel</td><td><code>7.0.0-31-generic</code></td></tr><tr><td>Firmware version</td><td>Gigabyte X99-UD5 WIFI-CF, F22</td></tr><tr><td>sudo policy</td><td><code>/etc/sudoers.d/90-hx-admin</code>: <code>hxsa ALL=(ALL:ALL) NOPASSWD: ALL</code></td></tr></tbody></table></div>
 <h2>3. GPU Configuration</h2>
-<p>Driver package <strong>and exact version</strong>, GPU models and count, <code>nvidia-smi</code> proof. State the gate result: <strong>GPU gate: PASS/FAIL</strong>.</p>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Driver package</td><td><code>nvidia-driver-595-server-open</code></td></tr><tr><td>Exact version</td><td><code>595.71.05-0ubuntu0.24.04.1</code></td></tr><tr><td>Reported driver</td><td><code>595.71.05</code></td></tr><tr><td>GPUs</td><td>2 x NVIDIA GeForce RTX 5060 Ti, 16311 MiB each</td></tr></tbody></table></div>
+<pre><code class="lang-text">0, NVIDIA GeForce RTX 5060 Ti, 16311 MiB, 595.71.05
+1, NVIDIA GeForce RTX 5060 Ti, 16311 MiB, 595.71.05</code></pre>
+<p><strong>GPU gate: PASS</strong></p>
 <h2>4. Storage Layout</h2>
-<p>Devices, filesystems, mount points, and the dedicated application path. State the gate result: <strong>Storage gate: PASS/FAIL</strong>.</p>
+<div class="tw"><table><thead><tr><th>Device</th><th>Size</th><th>FS</th><th>Mount</th></tr></thead><tbody><tr><td><code>nvme0n1p1</code></td><td>1G</td><td>vfat</td><td><code>/boot/efi</code></td></tr><tr><td><code>nvme0n1p2</code></td><td>120G</td><td>ext4</td><td><code>/</code></td></tr><tr><td><code>nvme0n1p3</code></td><td>3.5T</td><td>ext4</td><td><code>/srv/ollama</code></td></tr></tbody></table></div>
+<p><code>/srv/ollama</code> was pre-existing, mounted and empty apart from <code>lost+found</code> before block 3 ran. No disk was partitioned, formatted or mounted during this build.</p>
+<p>Dedicated application path: <code>/srv/ollama/models</code>, owned <code>ollama:ollama</code>.</p>
+<p><strong>Storage gate: PASS</strong></p>
 <h2>5. Runtime</h2>
-<p>Package source, <strong>exact installed version</strong>, service unit, systemd overrides, listener address and port.</p>
+<h3>Ollama</h3>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Package source</td><td>Upstream release archive <code>ollama-linux-amd64.tar.zst</code>, verified against the pinned SHA-256 before extraction. Not Snap, not the Ubuntu archive.</td></tr><tr><td>Exact installed version</td><td><code>0.34.0</code></td></tr><tr><td>Archive SHA-256 pin</td><td><code>cf95886728959aa09910bb34de5cca1cc5a8f68003b5597197d3f2c2d57c0804</code></td></tr><tr><td>Service unit</td><td><code>/etc/systemd/system/ollama.service</code></td></tr><tr><td>Drop-in</td><td><code>/etc/systemd/system/ollama.service.d/storage.conf</code></td></tr><tr><td>Listener</td><td><code>0.0.0.0:11434</code></td></tr></tbody></table></div>
+<pre><code class="lang-text">OLLAMA_MODELS=/srv/ollama/models
+OLLAMA_HOST=0.0.0.0:11434
+OLLAMA_NO_CLOUD=1</code></pre>
+<p><code>systemctl is-active ollama</code> -&gt; <code>active</code>; <code>systemctl is-enabled ollama</code> -&gt; <code>enabled</code>.</p>
+<h3>Reranker runtime</h3>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Package source</td><td>PyPI, into <code>/srv/reranker/venv</code>. Not Snap, not the Ubuntu archive.</td></tr><tr><td>Runtime</td><td><code>infinity-emb</code></td></tr><tr><td>Exact installed version</td><td><code>0.0.77</code></td></tr><tr><td>Service unit</td><td><code>/etc/systemd/system/hx-reranker.service</code></td></tr><tr><td>Listener</td><td><code>0.0.0.0:7997</code></td></tr><tr><td>Dependency pins</td><td><code>click&lt;8.2</code>; <code>INFINITY_BETTERTRANSFORMER=false</code></td></tr></tbody></table></div>
+<p><code>systemctl is-active hx-reranker</code> -&gt; <code>active</code>; <code>systemctl is-enabled hx-reranker</code> -&gt; <code>enabled</code>.</p>
+<p>The two dependency pins are required, not optional. <code>infinity-emb</code> pins its own version and nothing it depends on. Without them the service crashes at startup and systemd restarts it in a loop. Recorded as HX4-F06 and HX4-F07 and fixed in <code>docs/03-runbooks/common/04-reranker.sh</code>.</p>
 <h2>6. Model / Application Provenance</h2>
 <p>Required for every server that hosts a model or a downloaded artifact. All five fields are mandatory — an unknown value is recorded as <code>UNRESOLVED</code>, never omitted, because a missing field cannot be told apart from a forgotten one.</p>
-<pre><code class="lang-text">HX alias:              &lt;ollama name or service identifier&gt;
-Upstream identity:     &lt;official model/product name and version&gt;
-Source URI:            &lt;exact hf.co/... repo:file, package URL, or registry ref&gt;
-Artifact SHA-256:      &lt;full 64-character hash of the downloaded artifact&gt;
-Import method:         &lt;pull | GGUF import | package install | build from source&gt;</code></pre>
-<p>If the artifact was imported rather than pulled, also record the Modelfile or build definition verbatim, including any template, parameter, or stop-token settings. If none were set, say so explicitly.</p>
-<p>Why both Source URI and SHA-256 are required: the hash proves what is running, and the URI proves where it came from. Public model registries carry modified community rebuilds under names close to the official ones, so neither field alone establishes provenance.</p>
+<h3>Meta-X generation model</h3>
+<pre><code class="lang-text">HX alias:              meta-x:gpt-oss-20b
+Upstream identity:     gpt-oss:20b
+Source URI:            gpt-oss:20b
+Ollama model ID:       17052f91a42e
+Artifact SHA-256:      e7b273f9636059a689e3ddcab3716e4f65abe0143ac978e46673ad0e52d09efb
+Import method:         ollama pull, then `ollama cp` to the HX alias
+Blob path:             /srv/ollama/models/blobs/sha256-e7b273f9636059a689e3ddcab3716e4f65abe0143ac978e46673ad0e52d09efb</code></pre>
+<h3>Primary embedding model</h3>
+<pre><code class="lang-text">HX alias:              hx-embed-primary:bge-m3
+Upstream identity:     BAAI/bge-m3
+Source URI:            bge-m3:567m
+Ollama model ID:       790764642607
+Artifact SHA-256:      daec91ffb5dd0c27411bd71f29932917c49cf529a641d0168496c3a501e3062c
+Import method:         ollama pull, then `ollama cp` to the HX alias
+Blob path:             /srv/ollama/models/blobs/sha256-daec91ffb5dd0c27411bd71f29932917c49cf529a641d0168496c3a501e3062c
+Native dimension:      1024</code></pre>
+<p>The tag is the reviewed source reference, not the artifact. At install time <code>bge-m3:latest</code>, <code>bge-m3:567m</code> and <code>bge-m3:567m-fp16</code> all resolved to registry manifest <code>7907646426070047...</code>, pushed 2024-08-07, and the Ollama registry does not serve manifests by digest. The artifact identity of record is therefore the blob SHA-256 above, captured on this host. This record is not re-baselined against a later artifact published under the same tag.</p>
+<h3>Alternate embedding model</h3>
+<pre><code class="lang-text">HX alias:              hx-embed-alt:nomic-v1.5
+Upstream identity:     nomic-ai/nomic-embed-text-v1.5
+Source URI:            nomic-embed-text:v1.5
+Ollama model ID:       0a109f422b47
+Artifact SHA-256:      970aa74c0a90ef7482477cf803618e776e173c007bf957f635f1015bfcfef0e6
+Import method:         ollama pull, then `ollama cp` to the HX alias
+Blob path:             /srv/ollama/models/blobs/sha256-970aa74c0a90ef7482477cf803618e776e173c007bf957f635f1015bfcfef0e6
+Native dimension:      768</code></pre>
+<p>D-005: one embedding identity per collection. BGE-M3 at 1024 and Nomic at 768 are not mixed, and Nomic is not forced to 1024 to match.</p>
+<h3>Reranker</h3>
+<pre><code class="lang-text">HX alias:              hx-reranker
+Upstream identity:     BAAI/bge-reranker-v2-m3
+Source URI:            BAAI/bge-reranker-v2-m3 @ 953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e
+Artifact SHA-256:      UNRESOLVED
+Import method:         infinity-emb 0.0.77 from PyPI, model fetched by the runtime at first start under HF_HOME=/srv/reranker/hf
+Serving runtime:       infinity-emb 0.0.77, systemd unit hx-reranker, port 7997</code></pre>
+<p><code>Artifact SHA-256</code> is <code>UNRESOLVED</code> and is not omitted. The checkpoint is pinned to an immutable commit revision, which fixes the upstream content, but the runtime fetches the checkpoint itself and the build captured no per-file hash for it. Close this field while the host is reachable.</p>
+<p>No model was imported by GGUF or built from source, so no Modelfile or build definition applies. No template, parameter or stop-token settings were set on any alias; <code>ollama cp</code> copied each pulled model unchanged.</p>
 <h2>7. Functional Validation</h2>
-<p>Known-answer CLI proof, HTTP/API proof, LAN proof, reboot persistence. Include the exact command and the exact response for each.</p>
+<p>Evidence model 2 applies: run bundles, not inline proof. See section 9.</p>
+<h3>A1 — Ollama inference</h3>
+<pre><code class="lang-text">$ OLLAMA_URL=http://192.168.50.204:11434 OLLAMA_MODEL=meta-x:gpt-oss-20b python3 ollama_inference_smoke.py
+OLLAMA_SMOKE_PASS model=meta-x:gpt-oss-20b token=HX-OLLAMA-SMOKE-9271</code></pre>
+<p>HTTP 200, <code>done=true</code>, exact known-answer token returned. Resource observation at completion: GPU0 12% / 9423 MiB, GPU1 58% / 9613 MiB; memory 5.6Gi of 62Gi used.</p>
+<h3>A2 — Embedding plane</h3>
+<pre><code class="lang-text">EMBEDDING_SMOKE_PASS model=BAAI/bge-m3 dim=1024 cosine=1.000000
+EMBEDDING_SMOKE_PASS model=nomic-ai/nomic-embed-text-v1.5 dim=768 cosine=1.000000</code></pre>
+<p>Both models returned numeric non-zero vectors at their approved dimensions. Repeated identical input exceeded the 0.999 cosine minimum.</p>
+<h3>A3 — Reranker</h3>
+<pre><code class="lang-text">run1 top=B scores={'B': 0.021615, 'A': 1.7e-05, 'C': 1.6e-05}
+run2 top=B scores={'B': 0.021615, 'A': 1.7e-05, 'C': 1.6e-05}
+RERANKER_SMOKE_PASS checkpoint=BAAI/bge-reranker-v2-m3@953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e run1_top=B run2_top=B</code></pre>
+<p>Passage B ranked first on both identical requests.</p>
+<h3>LAN proof</h3>
+<pre><code class="lang-text">$ curl -fsS http://192.168.50.204:11434/api/version
+{"version":"0.34.0"}
+
+$ curl -fsS http://192.168.50.204:7997/health
+{"unix":1789451046.3513517}</code></pre>
+<h3>Reboot persistence</h3>
+<p>Boot time moved from <code>2026-09-15 03:59:50</code> to <code>2026-09-15 05:43:28</code>.</p>
+<pre><code class="lang-text">systemctl is-active ollama hx-reranker sssd   -&gt;  active active active
+systemctl is-enabled ollama hx-reranker       -&gt;  enabled enabled
+findmnt -n /srv/ollama                        -&gt;  /srv/ollama /dev/nvme0n1p3 ext4 rw,relatime,stripe=64
+getent passwd jarvisr@hx.local.arpa           -&gt;  jarvisr@hx.local.arpa:218001148
+curl http://192.168.50.204:11434/api/version  -&gt;  {"version":"0.34.0"}
+curl http://192.168.50.204:7997/health        -&gt;  {"unix":1789451046.3513517}</code></pre>
+<p>All six models are present after reboot with unchanged IDs. The reranker answers on the LAN about 15 seconds after boot; it loads its checkpoint at start, so a health check issued immediately after boot can refuse the connection before the service is ready.</p>
+<p>The three failed <code>sssd</code> socket units survive the reboot. See section 1 and HX4-F02.</p>
 <h2>8. Final State</h2>
-<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td></td></tr><tr><td>Domain join / SSSD</td><td></td></tr><tr><td>GPU driver and visibility</td><td></td></tr><tr><td>Dedicated storage</td><td></td></tr><tr><td>Runtime version</td><td></td></tr><tr><td>Service active / enabled</td><td></td></tr><tr><td>Model / application loaded</td><td></td></tr><tr><td>Known-answer functional proof</td><td></td></tr><tr><td>Reboot persistence</td><td></td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td>PASS</td></tr><tr><td>Domain join / SSSD</td><td>PASS</td></tr><tr><td>GPU driver and visibility</td><td>PASS</td></tr><tr><td>Dedicated storage</td><td>PASS</td></tr><tr><td>Runtime version</td><td>PASS</td></tr><tr><td>Service active / enabled</td><td>PASS</td></tr><tr><td>Model / application loaded</td><td>PASS</td></tr><tr><td>Known-answer functional proof</td><td>PASS</td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr></tbody></table></div>
 <h2>9. Evidence References</h2>
-<p>Either a retained bundle path under <code>docs/05-evidence/&lt;server&gt;/&lt;component&gt;/&lt;run-id&gt;/</code>, or an explicit statement that the proof is recorded inline in section 7 of this record. See <code>docs/05-evidence/README.md</code> for which model applies.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-4.md</code>.</footer></div></body></html>
+<p>Retained run bundles, evidence model 2:</p>
+<ul>
+<li>A1 — <code>docs/05-evidence/hx-4/ollama-inference/20260915T054105Z_hx-4_ollama-inference</code></li>
+<li>A2 — <code>docs/05-evidence/hx-4/embedding-models/20260915T054147Z_hx-4_embedding-models</code></li>
+<li>A3 — <code>docs/05-evidence/hx-4/reranker/20260915T054239Z_hx-4_reranker</code></li>
+</ul>
+<p>CentCom does not exist yet, so roadmap steps A1-A3 were run before its activation. HX-4 was authorised as the station for its own runs, and each manifest records <code>runner_host: hx-4</code>. The operator workstation could not be used: it is Windows, and the runner requires <code>hostname -s</code>, which Git Bash does not provide. Tracked as HX4-F08.</p>
+<p>Because runner and system under test are the same host for these three runs, the LAN calls were issued from HX-4 to its own address. This is weaker than a remote call from a separate station and is recorded as such rather than presented as a remote proof.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-4.md</code>.</footer></div></body></html>

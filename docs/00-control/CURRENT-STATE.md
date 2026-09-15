@@ -20,7 +20,7 @@ The **ecosystem architecture is the cornerstone**. Validation proves the ecosyst
 | HX-1 | Samba AD / DNS / Kerberos / NTP | **PASS** |
 | HX-2 | Qwen-X / Ollama | **PASS** |
 | HX-3 | Coder-X / Ollama | **PASS** |
-| HX-4 | Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker | **NOT STARTED** |
+| HX-4 | Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker | **PASS** |
 | HX-5 | CentCom / Ornith / DeepSeek Harness / dev-test | **NOT STARTED** |
 | HX-6 | OmniRoute | **NOT STARTED** |
 | HX-7 | NGINX dev/test only | **NOT STARTED** |

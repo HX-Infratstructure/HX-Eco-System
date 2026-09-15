@@ -1,0 +1,3 @@
+FUNCTIONAL=PASS
+STATUS=PASS
+SUMMARY=HTTP 200, done=true, known-answer token HX-OLLAMA-SMOKE-9271 returned by model meta-x:gpt-oss-20b. Stdout: OLLAMA_SMOKE_PASS model=meta-x:gpt-oss-20b token=HX-OLLAMA-SMOKE-9271

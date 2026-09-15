@@ -1,0 +1,1 @@
+OLLAMA_SMOKE_PASS model=meta-x:gpt-oss-20b token=HX-OLLAMA-SMOKE-9271
