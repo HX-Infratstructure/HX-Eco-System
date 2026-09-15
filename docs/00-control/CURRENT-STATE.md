@@ -1,7 +1,7 @@
 ---
 document: HX Eco-System Current State
 status: current
-date: 2026-09-09
+date: 2026-09-15
 authority: infrastructure-owner
 ---
 
@@ -21,7 +21,7 @@ The **ecosystem architecture is the cornerstone**. Validation proves the ecosyst
 | HX-2 | Qwen-X / Ollama | **PASS** |
 | HX-3 | Coder-X / Ollama | **PASS** |
 | HX-4 | Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker | **NOT STARTED** |
-| HX-5 | CentCom / Ornith / DeepSeek Harness / dev-test | **NOT STARTED** |
+| HX-5 | CentCom / Ornith / DeepSeek Harness / dev-test | **IN PROGRESS** |
 | HX-6 | OmniRoute | **NOT STARTED** |
 | HX-7 | NGINX dev/test only | **NOT STARTED** |
 | HX-8 | Open WebUI | **NOT STARTED** |
@@ -36,6 +36,33 @@ The **ecosystem architecture is the cornerstone**. Validation proves the ecosyst
 | HX-17 | Crawl4AI + MCP | **NOT STARTED** |
 <!-- /HX-FLEET:TABLE -->
 
+## HX-5 current position
+
+HX-5 has completed the reconciled foundation and Ornith inference base gates:
+
+```text
+Layer 0/1 foundation                    PASS / CLOSED
+Ollama 0.34.0                           PASS
+Ollama binding 0.0.0.0:11434           PASS
+Dedicated /srv/ollama model storage     PASS
+ornith-1.5:35b                          PASS
+CLI inference                           PASS
+localhost HTTP API                      PASS
+LAN HTTP API                            PASS
+mixed-GPU placement                     PASS — observed 17% CPU / 83% GPU
+Ollama/model/storage reboot persistence PASS
+```
+
+HX-5 is still **IN PROGRESS**, not server-closed, because the CentCom smoke-runner capability has not yet been activated. The remaining current gate is:
+
+```text
+04-centcom-smoke-runner-bootstrap.sh
+hx-smoke-doctor
+hx-smoke-doctor --remote
+client tool versions recorded
+```
+
+DeepSeek Harness remains later scheduled work and is not a prerequisite for current CentCom smoke-runner activation.
 
 ## Current deployment order
 
@@ -71,8 +98,10 @@ The smoke roadmap is subordinate to deployment readiness: a component cannot be 
 
 Current smoke position:
 
-- Phase 0 foundation proof exists for HX-1, HX-2, HX-3.
-- Phase A is next, beginning with HX-4 inference/retrieval-model proof and HX-5 inference/runner activation when the deployment sequence reaches those servers.
+- Phase 0 foundation proof exists for HX-1, HX-2, and HX-3 under the earlier evidence standard.
+- HX-5 now has reconciled Layer 0/1 proof plus Ornith 35B BASE PASS.
+- HX-5 CentCom smoke-runner activation is the immediate next validation-capability gate.
+- After HX-5 current closeout, HX-2, HX-3, and HX-4 require a read-only retrospective Layer 0/1 audit against the reconciled HX-5 foundation standard.
 - After CentCom activation, later smoke tests run remotely from HX-5 where practical.
 - Downstream tests reference current prior PASS evidence when their primary contract depends on earlier components.
 - Temporary integrations are limited to the minimum required for proof and are cleaned up afterward.
