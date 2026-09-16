@@ -677,3 +677,147 @@ None on the current HX-5 build. GPU runtime, dual-GPU visibility, Ornith inferen
 NON-BLOCKING FOR CURRENT HX-5; RERUN GUARD REQUIRED OPERATIONALLY.
 
 Do not rerun Block 2 on HX-5 merely for confirmation. A future fleet decision should determine whether the shared NVIDIA pin is changed, host-specific exceptions are encoded, or the driver-install phase is separated from reusable domain validation.
+
+## HX5-F04 — The link gate reads a server filesystem path as a repository reference
+
+**Status:** OPEN / TOOLING  
+**Severity:** Low  
+**Scope:** Repository gate; every server record that cites a configuration file  
+**Discovered on:** HX-5  
+**Discovered during:** PR #26 — Documentation consistency gate  
+**Affected file:** `tools/hx-doc/hx_doc_check.py`
+
+### Finding — the cited path is external to this repository
+
+`PATH_REF` matches any backticked string that contains a slash and ends in one
+of `.md`, `.sh`, `.py`, `.html`, `.yaml` or `.txt`, then requires it to resolve
+inside the repository. The test is driven by the extension, not by where the
+path points.
+
+The HX-5 record cites the file that holds its persistent network configuration:
+
+```text
+- Persistent network file: `/etc/netplan/50-cloud-init.yaml`
+```
+
+That is a path on HX-5. The gate read it as a repository reference and failed:
+
+```text
+FAIL  links: docs/02-server-records/HX-5.md:17 broken ref -> /etc/netplan/50-cloud-init.yaml
+```
+
+The gate does not skip fenced code blocks. Quoting the offending line in this
+document reproduced the failure against this file. That is why this section's
+subheading carries a `FORWARD_MARKERS` phrase: it is currently the only way to
+write the defect down without tripping it.
+
+`/etc/hosts`, two lines above it, passes only because it carries no extension
+the pattern lists. Nothing about the rule distinguishes a server path from a
+repository path.
+
+### Resolution applied
+
+The line now carries `not a repository path`, one of the phrasings
+`FORWARD_MARKERS` already recognises. The gate passes and the reader is told
+something true.
+
+### Disposition
+
+OPEN. The escape works, but it is per line. Every future server record that
+cites a `.yaml`, `.sh` or `.txt` under `/etc`, `/srv` or `/var` will fail the
+same way and need the same phrase added by hand. A location test — an absolute
+path that resolves outside the repository is not a repository reference —
+would close the class instead of the instance, and skipping fenced code blocks
+would let the defect be documented plainly. Do these in a tooling pass, not on
+a build day.
+
+## HX5-F05 — A failing gate hides every gate behind it in the same job
+
+**Status:** OPEN / PROCESS  
+**Severity:** Low  
+**Scope:** Repository CI; the Documentation consistency job  
+**Discovered on:** HX-5  
+**Discovered during:** PR #26 — reading why the job stopped  
+**Affected file:** `.github/workflows/hx-checks.yml`
+
+### Finding
+
+The Documentation consistency job runs seven gates as seven sequential steps.
+A step that exits non-zero fails the job, and the steps after it never run.
+
+PR #26 failed on the first gate, `hx-doc-check`, for the reason recorded in
+HX5-F04. Gates two through seven never executed. `hx-record-check` would have
+reported two further defects in the same HX-5 record:
+
+```text
+docs/02-server-records/HX-5.md
+  MISSING    no section for Final State
+  DRIFT      record says 'IN PROGRESS — FOUNDATION AND ORNITH BASE PASS ...',
+             hx-fleet.tsv says 'IN PROGRESS'
+```
+
+Both were present the whole time. Neither was visible until the first gate was
+fixed and the job was allowed to reach step five.
+
+Observed on Actions run 35036774672.
+
+### Functional impact
+
+None on correctness. Nothing merges while a gate is red, and every defect is
+still caught eventually. The cost is round trips: a record carrying N defects
+in N different gates needs N pushes to find them all, and each one costs a full
+CI cycle and a context switch.
+
+### Disposition
+
+OPEN. Setting `continue-on-error: true` on each gate step, with a final step
+that fails when any gate failed, would report every defect from one run. Worth
+doing before the next server build. Not worth interrupting one.
+
+## HX5-F06 — The scheduled OpenWiki workflow that D-025 deleted came back
+
+**Status:** OPEN / OWNER ACTION  
+**Severity:** High  
+**Scope:** Repository automation and secrets; the repository is public  
+**Discovered on:** HX-5  
+**Discovered during:** 2026-09-15 OpenWiki regeneration, before the push to main  
+**Affected file:** `.github/workflows/openwiki-update.yml`
+
+### Finding
+
+The OpenWiki run scaffolded `.github/workflows/openwiki-update.yml` again, as
+an untracked file. D-025, ratified 2026-09-14, deleted that path and withdrew
+scheduled generation entirely.
+
+The file that reappeared claims more than the one D-025 removed:
+
+```text
+schedule:    cron "0 8 * * *"        daily, where D-023 was weekly
+permissions: contents: write, pull-requests: write
+secrets:     OPENROUTER_API_KEY, OPENWIKI_LANGSMITH_API_KEY, LANGSMITH_API_KEY
+model:       z-ai/glm-5.2, a paid run, unattended
+```
+
+D-025 recorded why the file itself is the exposure, not its contents: a branch
+that edits the workflow file can read the repository secrets, and no line
+inside the file can prevent it. That risk goes away only with the file.
+
+The file was deleted again and was never committed. It is absent from
+`aa5364c`.
+
+### Second part, still open
+
+D-025 also recorded that revoking `OPENWIKI_PR_TOKEN` and `ANTHROPIC_API_KEY`
+is a required owner action, not a hypothetical. Both are still present in
+repository settings as of 2026-09-15. `OPENWIKI_PR_TOKEN` was granted Contents
+read and write and Pull requests read and write, on a public repository.
+
+### Disposition
+
+OPEN. Two actions, both owner-only:
+
+1. Revoke `OPENWIKI_PR_TOKEN` and `ANTHROPIC_API_KEY`. Until this is done, the
+   exposure D-025 described is still live, whatever the workflow file does.
+2. Decide what stops the scaffold restoring the file. An `.openwikiignore`
+   entry, or a gate that fails when the path exists, so the next run cannot
+   reintroduce it silently.
