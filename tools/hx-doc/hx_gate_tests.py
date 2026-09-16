@@ -168,6 +168,37 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: the same broken link outside a generated tree fails',
       rc != 0 and 'broken' in out, out)
 
+# ------------------- hx_doc_check: a server path is not a repository path ----
+# A server record has to name the file that holds a host's configuration. Those
+# paths live on the server, not here, so the link gate must not read them as
+# repository references. HX5-F04.
+fresh()
+edit('docs/03-runbooks/README.md',
+     lambda s: s + chr(10) + 'Persistent network file: `/etc/netplan/50-cloud-init.yaml`' + chr(10))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a server path under /etc is not a repository reference',
+      rc == 0 and 'netplan' not in out, out)
+
+# The exemption above is for paths that are not ours. A repository path that
+# does not resolve must still fail, so the skip is a skip and not a hole.
+fresh()
+edit('docs/03-runbooks/README.md',
+     lambda s: s + chr(10) + 'See `docs/this-does-not-exist.md` for more.' + chr(10))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a repository path that does not resolve still fails',
+      rc != 0 and 'broken' in out, out)
+
+# ----------------------- hx_doc_check: a withdrawn path stays withdrawn ------
+# D-025 deleted .github/workflows/openwiki-update.yml and withdrew scheduled
+# generation. The OpenWiki scaffold restores that file on its own. HX5-F06.
+fresh()
+wf = pathlib.Path(WORK) / '.github' / 'workflows' / 'openwiki-update.yml'
+wf.parent.mkdir(parents=True, exist_ok=True)
+wf.write_text('name: OpenWiki Update' + chr(10), encoding='utf-8')
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a path a decision withdrew is refused if it comes back',
+      rc != 0 and 'openwiki-update.yml' in out, out)
+
 # ------------------------------------- hx_version_pins: package sources -----
 # D-021: .coderabbit.yaml stands, so Snap is never permitted, driver included.
 # The Ubuntu archive stays available for the driver, build toolchains and

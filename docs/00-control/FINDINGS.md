@@ -446,7 +446,7 @@ class of failure can recur on a future build day.
 
 ## HX4-F08 — The smoke runner cannot run on the operator workstation
 
-**Status:** OPEN / DEFERRED
+**Status:** OPEN / PARTIALLY RESOLVED  
 **Severity:** Medium
 **Scope:** `tools/hx-smoke-runner/hx-smoke-new`, `hx-smoke-promote`,
 `hx-smoke-doctor`
@@ -495,6 +495,23 @@ DEFERRED by owner decision, recorded rather than fixed during a server build.
    refuse it outright once a station exists.
 3. Re-run A1-A3 from HX-5 after CentCom activation if a remote LAN proof is
    required for HX-4 closure to stand.
+
+### Resolution, follow-up 1 only
+
+`hx-smoke-new`, `hx-smoke-doctor` and `hx-smoke-promote` no longer call
+`hostname -s`. They read `hostname` and strip the domain with `${VAR%%.*}`,
+which is POSIX and works on the operator's Git Bash station:
+
+```text
+before:  hostname: unknown option -- s        rc=1
+after:   RUNNER_HOST=HANA-X-JR0               rc=0
+```
+
+The runbook scripts still use `hostname -s`. They execute on the Linux servers
+they configure, where the option exists, so they are outside this finding.
+
+Follow-ups 2 and 3 are untouched: whether a system under test may ever be its
+own runner is still undecided, and A1-A3 have not been re-run from HX-5.
 
 ## HX4-F09 — The secret-scan gate rejected the evidence it exists to protect
 
@@ -646,7 +663,7 @@ This finding closes when HX-2, HX-3, and HX-4 each have a retained audit result 
 
 ## HX5-F03 — Shared Block 2 NVIDIA pin diverges from accepted HX-5 driver
 
-**Status:** OPEN / NON-BLOCKING  
+**Status:** ACCEPTED / EXCEPTION  
 **Severity:** Medium  
 **Scope:** HX-5 rerun safety / shared Block 2 applicability  
 **Discovered on:** HX-5  
@@ -678,16 +695,28 @@ NON-BLOCKING FOR CURRENT HX-5; RERUN GUARD REQUIRED OPERATIONALLY.
 
 Do not rerun Block 2 on HX-5 merely for confirmation. A future fleet decision should determine whether the shared NVIDIA pin is changed, host-specific exceptions are encoded, or the driver-install phase is separated from reusable domain validation.
 
+### Decision
+
+Accepted as a standing exception by the owner on 2026-09-15.
+
+- HX-5 stays on `595.99.02`. It is not downgraded to the shared pin.
+- Every other host stays on the shared Block 2 pin `595.71.05-0ubuntu0.24.04.1`.
+  No host is upgraded to match HX-5.
+- Block 2 is not rerun on HX-5.
+
+The divergence is accepted rather than removed. This finding is not a pending
+action; it is the record of the exception and the rule that goes with it.
+
 ## HX5-F04 — The link gate reads a server filesystem path as a repository reference
 
-**Status:** OPEN / TOOLING  
+**Status:** CLOSED  
 **Severity:** Low  
 **Scope:** Repository gate; every server record that cites a configuration file  
 **Discovered on:** HX-5  
 **Discovered during:** PR #26 — Documentation consistency gate  
 **Affected file:** `tools/hx-doc/hx_doc_check.py`
 
-### Finding — the cited path is external to this repository
+### Finding
 
 `PATH_REF` matches any backticked string that contains a slash and ends in one
 of `.md`, `.sh`, `.py`, `.html`, `.yaml` or `.txt`, then requires it to resolve
@@ -731,9 +760,25 @@ would close the class instead of the instance, and skipping fenced code blocks
 would let the defect be documented plainly. Do these in a tooling pass, not on
 a build day.
 
+### Resolution
+
+`hx_doc_check.py` now carries `SYSTEM_ROOTS`. An absolute target under `/etc/`,
+`/var/`, `/usr/`, `/srv/`, `/opt/`, `/run/`, `/boot/`, `/proc/`, `/sys/`,
+`/dev/` or `/tmp/` is a file on a server and is not resolved as a repository
+reference. Root-relative repository paths such as `/docs/...` are not listed
+and are still checked.
+
+The per-line workaround is gone. This finding quotes the offending line plainly
+and the gate passes, which is the demonstration that the class is closed rather
+than the instance.
+
+Two paired gate tests hold it: one requires the `/etc` path to be accepted, and
+one requires a repository path that does not resolve to still fail, so the
+exemption cannot widen into a hole.
+
 ## HX5-F05 — A failing gate hides every gate behind it in the same job
 
-**Status:** OPEN / PROCESS  
+**Status:** CLOSED  
 **Severity:** Low  
 **Scope:** Repository CI; the Documentation consistency job  
 **Discovered on:** HX-5  
@@ -774,9 +819,16 @@ OPEN. Setting `continue-on-error: true` on each gate step, with a final step
 that fails when any gate failed, would report every defect from one run. Worth
 doing before the next server build. Not worth interrupting one.
 
+### Resolution
+
+Each gate step in the Documentation consistency job now carries an `id` and
+`continue-on-error: true`, and a final `Fail if any gate failed` step with
+`if: always()` reports every gate that did not succeed and sets the job's exit
+status. One run now reports every defect instead of stopping at the first.
+
 ## HX5-F06 — The scheduled OpenWiki workflow that D-025 deleted came back
 
-**Status:** OPEN / OWNER ACTION  
+**Status:** PARTIALLY CLOSED / REMAINDER ON BACKLOG  
 **Severity:** High  
 **Scope:** Repository automation and secrets; the repository is public  
 **Discovered on:** HX-5  
@@ -821,3 +873,18 @@ OPEN. Two actions, both owner-only:
 2. Decide what stops the scaffold restoring the file. An `.openwikiignore`
    entry, or a gate that fails when the path exists, so the next run cannot
    reintroduce it silently.
+
+### Resolution, the guard
+
+Two changes, so the scaffold cannot restore the file unnoticed:
+
+- `.openwikiignore` excludes `.github/**`. OpenWiki no longer scans or writes
+  that tree, which is how the file reached the working copy.
+- `hx_doc_check.py` carries `WITHDRAWN_PATHS` and fails when a path a ratified
+  decision deleted exists again. A gate test creates the file and requires the
+  refusal, so the guard is proven able to fire.
+
+### Remainder
+
+Revoking `OPENWIKI_PR_TOKEN` and `ANTHROPIC_API_KEY` is on the backlog by owner
+decision of 2026-09-15. It is recorded here and is not scheduled.

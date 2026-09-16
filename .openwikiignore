@@ -14,3 +14,8 @@ graft/**
 
 # Harness configuration, not repository content.
 .claude/**
+
+# Repository automation. D-025 withdrew scheduled OpenWiki generation and
+# deleted .github/workflows/openwiki-update.yml. The scaffold writes that file
+# again unless this tree is excluded, so the exclusion is the guard. HX5-F06.
+.github/**

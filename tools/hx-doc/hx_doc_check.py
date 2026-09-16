@@ -35,6 +35,13 @@ FORWARD_MARKERS = re.compile(
 )
 # Paths that belong to an upstream project, not to this repository.
 UPSTREAM_PREFIXES = ("deploy/", "docs/LightRAG", "integrations/", ".agents/")
+# Absolute paths that belong to a server, not to this repository. A server
+# record has to be able to name the file that holds a host's configuration -
+# `/etc/netplan/50-cloud-init.yaml` - without the gate reading it as a
+# repository reference. Root-relative repository paths such as `/docs/...` are
+# not listed here and are still resolved and checked.
+SYSTEM_ROOTS = ("/etc/", "/var/", "/usr/", "/srv/", "/opt/", "/run/",
+                "/boot/", "/proc/", "/sys/", "/dev/", "/tmp/")
 
 MD_LINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
 PATH_REF = re.compile(r"`((?:\.{0,2}/)?[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)+\.(?:md|sh|py|html|yaml|txt))`")
@@ -53,6 +60,13 @@ notes: list[str] = []
 # heading or a filename inside one is not a finding against this repository.
 # openwiki/ is written by the OpenWiki CLI and replaced wholesale by
 # `openwiki --init`, the same class as human-html/.
+# Paths a ratified decision removed. The tool that wrote one can scaffold it
+# again without being asked, so absence is asserted rather than assumed.
+WITHDRAWN_PATHS = {
+    ".github/workflows/openwiki-update.yml":
+        "D-025 withdrew scheduled OpenWiki generation and deleted this file",
+}
+
 SKIP_TREES = (".git", "archive", "human-html", ".claude", "graft", "openwiki")
 
 
@@ -87,6 +101,8 @@ def check_links() -> None:
                 for m in pattern.finditer(line):
                     target = m.group(1).split("#")[0]
                     if not target or target.startswith(("http", "mailto")):
+                        continue
+                    if target.startswith(SYSTEM_ROOTS):
                         continue
                     if target.lstrip("/").startswith(UPSTREAM_PREFIXES):
                         continue
@@ -463,6 +479,15 @@ def check_tooling_docs() -> None:
             f"tooling: {pending} tool(s) still undocumented, listed in the index")
 
 
+def check_withdrawn_paths() -> None:
+    """A path a ratified decision deleted has not come back on its own."""
+    for rel, why in WITHDRAWN_PATHS.items():
+        if (REPO / rel).exists():
+            failures.append(f"withdrawn: {rel} exists; {why}")
+    if not failures or not any(f.startswith("withdrawn:") for f in failures):
+        notes.append(f"withdrawn: {len(WITHDRAWN_PATHS)} withdrawn path(s) absent")
+
+
 def main() -> int:
     """Run every check and report. Returns the process exit status."""
     quiet = "--quiet" in sys.argv
@@ -479,6 +504,7 @@ def main() -> int:
         check_unit_claims,
         check_generated_authority_claims,
         check_tooling_docs,
+        check_withdrawn_paths,
     )
     for fn in checks:
         fn()
