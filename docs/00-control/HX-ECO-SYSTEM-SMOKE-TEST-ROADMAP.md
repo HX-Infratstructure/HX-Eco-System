@@ -100,6 +100,7 @@ If a materially relevant dependency changes after its PASS—model revision/dime
 | Step | SUT | Proof | Authority | Requires | Limited integration | Status |
 |---|---|---|---|---|---|---|
 | **P0** | - | Foundation PASS (HX-1, HX-2, HX-3) | [`BUILD-STATE.md`](../../docs/00-control/BUILD-STATE.md) | — | None | **PASS** |
+| **F0** | - | Foundation control standard (FQDN, HX-1 NTP, fleet key) | [`00-foundation.sh`](../../docs/03-runbooks/common/00-foundation.sh) | — | None | NOT RUN |
 <!-- /HX-PROOF -->
 
 **Exit:** current foundation and at least one known-good HX model endpoint exist.
@@ -259,6 +260,7 @@ flowchart LR
     F3["<b>F3</b><br/>n8n Web UI"]
     F4["<b>F4</b><br/>n8n MCP"]
     G1["<b>G1</b><br/>Open WebUI"]
+    F0["<b>F0</b><br/>Foundation control standard (FQDN, HX-1 NTP, fleet key)"]
 
     P0 --> A1
     A1 --> A2

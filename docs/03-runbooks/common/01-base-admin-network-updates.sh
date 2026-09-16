@@ -9,9 +9,24 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 [ $# -eq 1 ] || { echo "Usage: ${0##*/} <hx-host>   (e.g. hx-4)" >&2; exit 2; }
 hx_require_host "$1"
 
+# ===========================================================================
+# FOUNDATION GATE
+#
+# The 2026-09-16 Layer 0/1 audit found that this block validated only what it
+# configured. Identity, time authority and fleet-key access were never
+# configured by any block, so nothing ever checked them - on any host, ever.
+# Three of four closed servers failed at least one of them.
+#
+# 00-foundation.sh establishes this state. This gate refuses to continue
+# without it, so a skipped foundation run is caught rather than inherited.
+#
+# D-026: network is validated here and never written. A mismatch stops the
+# build; correcting host networking is not an authority this process holds.
+# ===========================================================================
 hostnamectl
 ip -br addr
 ip route
+
 # `cmd | grep -q` makes grep close the pipe at its first match, which kills the
 # writer with SIGPIPE (141). Under `set -o pipefail` that fails the pipeline
 # even though the match succeeded, so match on captured output instead.
@@ -24,6 +39,22 @@ grep -q "^default via $HX_GATEWAY " <<<"$ROUTES" || { echo "STOP: expected gatew
 RESOLV="$(resolvectl status)"
 printf '%s\n' "$RESOLV"
 grep -q "$HX_DC_IP" <<<"$RESOLV" || { echo "STOP: expected HX-1 DNS $HX_DC_IP not found"; exit 13; }
+
+# Identity. A short name here means the FQDN is not resolvable locally.
+hx_require_fqdn "$(hostname -f)" "$HX_HOST.$HX_DOMAIN"
+
+# Time authority. HX-1 must be the selected source, not merely configured.
+hx_require_ntp_source "$(chronyc sources 2>/dev/null || true)" "$HX_NTP_SERVER"
+
+# Fleet access. The approved key, by fingerprint - not merely some key.
+hx_require_fleet_key "/home/$HX_ADMIN_USER/.ssh/authorized_keys" "$HX_FLEET_KEY_FINGERPRINT"
+
+# SSH persistence. Ubuntu may carry this on the socket rather than the service.
+hx_require_ssh_persistence \
+  "$(systemctl is-enabled ssh 2>/dev/null || true)" \
+  "$(systemctl is-enabled ssh.socket 2>/dev/null || true)"
+
+echo "FOUNDATION GATE: PASS"
 
 sudo sh -c 'set -e
 tmp=/etc/sudoers.d/90-hx-admin.tmp
@@ -54,6 +85,10 @@ systemctl is-active ufw || true
 sudo nft list ruleset || true
 systemctl is-active firewalld || echo "firewalld unit not found or inactive"
 
+# Access itself is proven by the foundation gate above and, externally, by
+# tools/hx-doc/hx-fleet-access. These two lines are evidence, not a control:
+# `is-active` was true on HX-2 and HX-3 the whole time the fleet could not
+# log in to either.
 systemctl is-active ssh
 sudo sshd -T | grep '^port '
 sudo apt update

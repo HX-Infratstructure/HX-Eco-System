@@ -92,7 +92,7 @@ limited_integration_plan: HX-10 Qdrant + HX-4 BGE-M3 + one approved HX LLM; synt
 <h2>5. Smoke-test roadmap</h2>
 <h3>Phase 0 — Existing cornerstone proof</h3>
 <p>&lt;!-- HX-PROOF:TABLE phase=0 --&gt;</p>
-<div class="tw"><table><thead><tr><th>Step</th><th>SUT</th><th>Proof</th><th>Authority</th><th>Requires</th><th>Limited integration</th><th>Status</th></tr></thead><tbody><tr><td><strong>P0</strong></td><td>-</td><td>Foundation PASS (HX-1, HX-2, HX-3)</td><td><a href="../../docs/00-control/BUILD-STATE.html"><code>BUILD-STATE.md</code></a></td><td>—</td><td>None</td><td><strong>PASS</strong></td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Step</th><th>SUT</th><th>Proof</th><th>Authority</th><th>Requires</th><th>Limited integration</th><th>Status</th></tr></thead><tbody><tr><td><strong>P0</strong></td><td>-</td><td>Foundation PASS (HX-1, HX-2, HX-3)</td><td><a href="../../docs/00-control/BUILD-STATE.html"><code>BUILD-STATE.md</code></a></td><td>—</td><td>None</td><td><strong>PASS</strong></td></tr><tr><td><strong>F0</strong></td><td>-</td><td>Foundation control standard (FQDN, HX-1 NTP, fleet key)</td><td><a href="../../docs/03-runbooks/common/00-foundation.sh"><code>00-foundation.sh</code></a></td><td>—</td><td>None</td><td>NOT RUN</td></tr></tbody></table></div>
 <p>&lt;!-- /HX-PROOF --&gt;</p>
 <p><strong>Exit:</strong> current foundation and at least one known-good HX model endpoint exist.</p>
 <hr/>
@@ -175,6 +175,7 @@ limited_integration_plan: HX-10 Qdrant + HX-4 BGE-M3 + one approved HX LLM; synt
     F3["&lt;b&gt;F3&lt;/b&gt;&lt;br/&gt;n8n Web UI"]
     F4["&lt;b&gt;F4&lt;/b&gt;&lt;br/&gt;n8n MCP"]
     G1["&lt;b&gt;G1&lt;/b&gt;&lt;br/&gt;Open WebUI"]
+    F0["&lt;b&gt;F0&lt;/b&gt;&lt;br/&gt;Foundation control standard (FQDN, HX-1 NTP, fleet key)"]
 
     P0 --&gt; A1
     A1 --&gt; A2
