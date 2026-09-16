@@ -58,10 +58,32 @@ printf 'server %s iburst prefer\n' '$HX_NTP_SERVER' > /etc/chrony/conf.d/10-hx-f
 chmod 0644 /etc/chrony/conf.d/10-hx-fleet.conf"
 sudo systemctl disable --now systemd-timesyncd 2>/dev/null || true
 sudo systemctl enable --now chrony
-# Selection is not instant after a restart; give chrony a moment to choose.
 sudo chronyc -a makestep >/dev/null 2>&1 || true
-sleep 5
+
+# Selection is not instant, and a fixed sleep either wastes time or guesses
+# wrong. Poll for it, then decide what to do about the answer.
+HX_NTP_OK=0
+for _ in 1 2 3 4 5 6 7 8 9 10 11 12; do
+  if hx_ntp_selected "$(chronyc sources 2>/dev/null || true)" "$HX_NTP_SERVER"; then
+    HX_NTP_OK=1
+    break
+  fi
+  sleep 5
+done
 chronyc sources -v || true
+
+if [ "$HX_NTP_OK" -ne 1 ]; then
+  # Disabling timesyncd before proving the replacement works would leave this
+  # host with no time source at all. On a domain-joined host that is not a
+  # clock problem: Kerberos rejects a skewed ticket, SSSD stops resolving
+  # identities, and domain logins fail. Put the working source back.
+  echo "STOP: chrony did not select $HX_NTP_SERVER within 60s." >&2
+  echo "      Restoring systemd-timesyncd so this host keeps a time source." >&2
+  sudo systemctl disable --now chrony 2>/dev/null || true
+  sudo systemctl enable --now systemd-timesyncd 2>/dev/null || true
+  exit 42
+fi
+echo "time authority: $HX_NTP_SERVER selected"
 
 echo "--- admin account and sudo ---"
 id "$HX_ADMIN_USER" >/dev/null 2>&1 || sudo useradd -m -s /bin/bash "$HX_ADMIN_USER"

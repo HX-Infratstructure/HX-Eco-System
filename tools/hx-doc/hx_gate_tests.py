@@ -752,6 +752,57 @@ check('foundation: socket activation counts as SSH persistence', rc == 0, out)
 rc, out = foundation('hx_require_ssh_persistence', 'disabled', 'disabled')
 check('foundation: neither ssh.service nor ssh.socket enabled is refused', rc == 45, out)
 
+# 00-foundation.sh disables systemd-timesyncd before starting chrony. If it
+# then stopped on a failed selection, the host would be left with no time
+# source at all - and on a domain-joined host that is not a clock problem,
+# it is Kerberos rejecting skewed tickets and SSSD losing identities. The
+# script needs a predicate it can test and roll back from, not one that exits.
+_SEL = '^* 192.168.50.200   3  6  377  15  +22us[+27us] +/- 71ms'
+_NOT = ('^* 185.125.190.57   2 10  377 290 +912us +/- 72ms\n'
+        '^- 192.168.50.200   3  6  377  15  +22us +/- 71ms')
+rc, out = foundation('hx_ntp_selected', _SEL, '192.168.50.200')
+check('foundation: hx_ntp_selected returns true for the selected source',
+      rc == 0, out)
+rc, out = foundation('hx_ntp_selected', _NOT, '192.168.50.200')
+check('foundation: hx_ntp_selected returns false, it does not exit, when unselected',
+      rc == 1, out)
+
+# The rollback has to be in the script, not just in the intention.
+_found = io.open(os.path.join(SRC, 'docs', '03-runbooks', 'common',
+                              '00-foundation.sh'), encoding='utf-8').read()
+check('foundation: a failed time switch restores systemd-timesyncd',
+      'enable --now systemd-timesyncd' in _found
+      and _found.index('HX_NTP_OK') < _found.index('enable --now systemd-timesyncd'),
+      _found[_found.find('time authority'):][:400])
+
+# D-028: the hold picks the pinned branch and nothing else. A filter that
+# caught every nvidia package would freeze branches this decision says nothing
+# about, and one that caught none would let routine patching move the driver.
+_PKGS = ('libnvidia-cfg1-595-server\nlibnvidia-gl-595-server\n'
+         'nvidia-utils-595-server\nlibnvidia-cfg1-580-server\n'
+         'chrony\nopenssh-server')
+rc, out = foundation('hx_nvidia_hold_list', _PKGS, '595')
+_held = [ln for ln in out.splitlines() if ln.strip()]
+check('foundation: the driver hold names every package on the pinned branch',
+      sorted(_held) == ['libnvidia-cfg1-595-server', 'libnvidia-gl-595-server',
+                        'nvidia-utils-595-server'], str(_held))
+check('foundation: the driver hold leaves other branches alone',
+      'libnvidia-cfg1-580-server' not in _held, str(_held))
+check('foundation: the driver hold leaves unrelated packages alone',
+      'chrony' not in _held and 'openssh-server' not in _held, str(_held))
+rc, out = foundation('hx_nvidia_hold_list', _PKGS, '999')
+check('foundation: a branch with nothing installed holds nothing',
+      [ln for ln in out.splitlines() if ln.strip()] == [], out)
+
+# And the hold must run before the upgrade, or it holds nothing that matters.
+_base = io.open(os.path.join(SRC, 'docs', '03-runbooks', 'common',
+                             '01-base-admin-network-updates.sh'),
+                encoding='utf-8').read()
+check('foundation: the driver hold is applied before apt upgrade runs',
+      'apt-mark hold' in _base
+      and _base.index('apt-mark hold') < _base.index('apt upgrade'),
+      _base[_base.find('D-028'):][:300])
+
 print()
 
 # ------------------- hx_fleet_access: the external administration proof -----

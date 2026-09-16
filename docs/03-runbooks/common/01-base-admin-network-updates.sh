@@ -91,6 +91,20 @@ systemctl is-active firewalld || echo "firewalld unit not found or inactive"
 # log in to either.
 systemctl is-active ssh
 sudo sshd -T | grep '^port '
+
+# D-028: hold the NVIDIA branch before any upgrade runs, so routine patching
+# cannot move the driver. Held packages are named, not silently skipped.
+HX_INSTALLED="$(dpkg-query -W -f='${Package}\n' 2>/dev/null || true)"
+HX_NVIDIA_HOLD="$(hx_nvidia_hold_list "$HX_INSTALLED" "$HX_NVIDIA_BRANCH")"
+if [ -n "$HX_NVIDIA_HOLD" ]; then
+  echo "D-028: holding the NVIDIA $HX_NVIDIA_BRANCH branch:"
+  printf '  %s\n' $HX_NVIDIA_HOLD
+  # shellcheck disable=SC2086  # deliberate word splitting: one package per arg
+  sudo apt-mark hold $HX_NVIDIA_HOLD
+else
+  echo "D-028: no NVIDIA $HX_NVIDIA_BRANCH packages installed; nothing to hold"
+fi
+
 sudo apt update
 sudo apt upgrade -y
 apt list --upgradable 2>/dev/null || true
