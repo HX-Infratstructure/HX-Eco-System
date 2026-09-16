@@ -43,13 +43,13 @@ HX4-F02, deferred; the responder model is a fleet-wide decision.
 | Item | Value |
 |---|---|
 | Driver package | `nvidia-driver-595-server-open` |
-| Exact version | `595.71.05-0ubuntu0.24.04.1` |
-| Reported driver | `595.71.05` |
+| Exact version | `595.91.07-0ubuntu0.24.04.1` |
+| Reported driver | `595.91.07` |
 | GPUs | 2 x NVIDIA GeForce RTX 5060 Ti, 16311 MiB each |
 
 ```text
-0, NVIDIA GeForce RTX 5060 Ti, 16311 MiB, 595.71.05
-1, NVIDIA GeForce RTX 5060 Ti, 16311 MiB, 595.71.05
+0, NVIDIA GeForce RTX 5060 Ti, 16311 MiB, 595.91.07
+1, NVIDIA GeForce RTX 5060 Ti, 16311 MiB, 595.91.07
 ```
 
 **GPU gate: PASS**

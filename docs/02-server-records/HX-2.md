@@ -76,7 +76,7 @@ and rebooted before the NVIDIA driver installation.
 Installed driver:
 
 ```text
-NVIDIA Driver: 595.71.05
+NVIDIA Driver: 595.91.07
 CUDA reported by nvidia-smi: 13.2
 ```
 

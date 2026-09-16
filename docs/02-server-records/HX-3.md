@@ -98,8 +98,8 @@ Operational note: the first `realm join` attempt returned a join failure; a subs
 Installed NVIDIA stack:
 
 ```text
-NVIDIA-SMI: 595.71.05
-Driver Version: 595.71.05
+NVIDIA-SMI: 595.91.07
+Driver Version: 595.91.07
 CUDA Version reported by nvidia-smi: 13.2
 ```
 
