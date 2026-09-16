@@ -29,6 +29,11 @@ TSV = REPO / "docs/00-control/hx-fleet.tsv"
 # a record can word its own heading naturally.
 REQUIRED = [
     ("Identity and Network", r"identity and network"),
+    # Added 2026-09-16. The base block validated only what it configured,
+    # so identity, time authority and fleet access were never recorded on
+    # any host - and the gate cannot ask for what the template does not
+    # declare. Every record carries this now, or says why it does not.
+    ("Foundation", r"foundation"),
     ("Operating System", r"operating system"),
     ("GPU Configuration", r"gpu"),
     ("Storage Layout", r"storage"),

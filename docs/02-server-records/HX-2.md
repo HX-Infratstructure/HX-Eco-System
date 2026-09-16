@@ -8,6 +8,30 @@
 
 ---
 
+## Foundation
+
+Established by `docs/03-runbooks/common/00-foundation.sh`, gated by
+`01-base-admin-network-updates.sh`, and proven from the operator workstation
+rather than from inside a session this host had already authenticated.
+
+| Control | Evidence | State |
+|---|---|---|
+| `hostname -f` | `hx-2.hx.local.arpa` | PASS |
+| AD DNS A record | `192.168.50.202` on HX-1 | PASS |
+| Time authority | `chronyc sources` shows `^* 192.168.50.200`; tracking reference `C0A832C8 (192.168.50.200)` | PASS |
+| Fleet key | `SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk` in `/home/hxsa/.ssh/authorized_keys` | PASS |
+| NOPASSWD sudo | `sudo -k -n true` succeeds, so a cached credential is not what proves it | PASS |
+| SSH persistence | `ssh.socket` enabled; `ssh.service` disabled, which is correct on Ubuntu | PASS |
+| External key-only login | `tools/hx-doc/hx-fleet-access hx-2` returns `hx-2` and `KEY+SUDO-PASS` | PASS |
+
+Verified 2026-09-16 after the reboot at `2026-09-16 14:30:31`, so this is post-reboot state
+rather than a live configuration that has never survived one.
+
+<!-- Service principal names are deliberately absent. D-029 has not decided
+     whether short-form principals are sufficient or FQDN SPNs must exist in
+     AD, and the 2026-09-16 audit established neither. Do not add an SPN row
+     until it is decided. -->
+
 ## 1. Identity and Network
 
 | Item | Configuration |
@@ -225,8 +249,17 @@ Upstream identity: Qwen3.8-27B (Q6_K quantisation)
 Source URI:        UNRESOLVED — see provenance gap below
 Artifact:          Qwen3.8-27B-Q6_K.gguf
 Artifact SHA-256:  7d590099e0a0fe7b8df812045faa2ae12bf4dbf3492b8eb7c7c7ab24c94d36ed
+Serving blob:      sha256-93f6e22ec01fcb87db640ca6c97a2f6a66e4c978a9259945183da1e73203ad39
 Import method:     local GGUF import via Modelfile
 ```
+
+> **Two hashes, two different objects.** `Artifact SHA-256` is the GGUF that
+> was downloaded. `Serving blob` is what Ollama serves, and they differ because
+> `ollama create` converts the source rather than copying it - the creation log
+> below reads `parsing GGUF / verifying conversion / writing manifest`. Both are
+> correct; neither substitutes for the other. Only the first was recorded until
+> 2026-09-16, so the record could not be used to verify what this host serves.
+> Confirmed against `ollama show --modelfile` on that date.
 
 > **Provenance gap — backfill required.** The exact Hugging Face repository
 > that supplied this blob was not recorded at build time. The hash above

@@ -101,6 +101,25 @@ rc, out = run('tools/hx-doc/hx_record_check.py')
 check('hx-record-check: a missing State line is drift',
       rc != 0 and 'State' in out, out)
 
+# ------------------------- hx_record_check: the Foundation section ----------
+# Added 2026-09-16. Identity, time authority and fleet access were absent from
+# every record because the template never asked for them, and a gate cannot
+# require what the template does not declare.
+fresh()
+edit('docs/02-server-records/HX-10.md',
+     lambda s: s.replace('## Foundation', '## Something Else', 1))
+rc, out = run('tools/hx-doc/hx_record_check.py')
+check('hx-record-check: a record with no Foundation section fails',
+      rc != 0 and 'Foundation' in out, out)
+
+# HX-1 is the domain controller, not a rebuilt application host. It declares
+# the sections that do not apply and says why. That declaration has to work,
+# or the gate forces a fiction onto the one host the standard is not about.
+fresh()
+rc, out = run('tools/hx-doc/hx_record_check.py')
+check('hx-record-check: a declared not-applicable section is accepted',
+      rc == 0, out)
+
 # ------------------------------------------ hx_doc_check: link traversal ----
 fresh()
 edit('docs/03-runbooks/README.md',
