@@ -29,3 +29,4 @@ F2	F	hx-14	n8n core	smoke-tests/n8n-smoke-test.md	A5	Disposable deterministic wo
 F3	F	hx-14	n8n Web UI	smoke-tests/native-web-ui-smoke-test.md	F2	Parent n8n live state only	NOT_RUN
 F4	F	hx-14	n8n MCP	smoke-tests/mcp-companion-smoke-test.md	F2	Parent n8n service only	NOT_RUN
 G1	G	hx-8	Open WebUI	smoke-tests/open-webui-smoke-test.md	P0	One temporary direct model connection; remove afterward	NOT_RUN
+F0	0	-	Foundation control standard (FQDN, HX-1 NTP, fleet key)	docs/03-runbooks/common/00-foundation.sh	NONE	NONE	NOT_RUN

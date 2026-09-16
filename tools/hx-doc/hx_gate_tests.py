@@ -686,6 +686,74 @@ if m:
           max(set(vers), key=ns['vkey']).startswith('595.71.05'),
           'lexicographic would pick ' + sorted(vers)[-1])
 
+# ------------------------- hx-base.env: the foundation gate helpers ---------
+# The 2026-09-16 Layer 0/1 audit found that the base block validated only what
+# it configured, so identity, time authority and fleet access were never
+# checked on any host. The gate that closes that runs on a server, not here,
+# so the checks take their inputs as arguments and are exercised directly.
+def foundation(fn, *args):
+    """Call one hx_require_* helper in a subshell; return its exit status."""
+    env = os.path.join(SRC, 'docs', '03-runbooks', 'common', 'hx-base.env')
+    quoted = ' '.join("'%s'" % a.replace("'", "'\\''") for a in args)
+    r = subprocess.run(
+        ['bash', '-c', '. "$1" 2>/dev/null; %s %s' % (fn, quoted), '_', env],
+        capture_output=True, text=True, encoding='utf-8', errors='replace')
+    return r.returncode, (r.stdout or '') + (r.stderr or '')
+
+FLEET_FP = 'SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk'
+
+# Identity. HX-2, HX-3 and HX-4 all answered with the short name.
+rc, out = foundation('hx_require_fqdn', 'hx-6', 'hx-6.hx.local.arpa')
+check('foundation: a short hostname is not an FQDN', rc == 41, out)
+rc, out = foundation('hx_require_fqdn', 'hx-6.hx.local.arpa', 'hx-6.hx.local.arpa')
+check('foundation: the correct FQDN passes', rc == 0, out)
+
+# Time. The subtle case: HX-1 present in the source list but not selected.
+# Three of four hosts were synchronised to a public pool with chrony absent.
+SELECTED = '^* 192.168.50.200   3  6  377  15  +22us[+27us] +/- 71ms'
+NOT_SEL = ('^* 185.125.190.57   2 10  377 290 +912us[+915us] +/- 72ms\n'
+           '^- 192.168.50.200   3  6  377  15  +22us[ +27us] +/- 71ms')
+rc, out = foundation('hx_require_ntp_source', NOT_SEL, '192.168.50.200')
+check('foundation: HX-1 configured but not selected is refused', rc == 42, out)
+rc, out = foundation('hx_require_ntp_source', SELECTED, '192.168.50.200')
+check('foundation: HX-1 selected passes', rc == 0, out)
+
+# Fleet access. "authorized_keys has a key" would have passed HX-2 and HX-3.
+_kd = os.path.join(_TMP, 'keys')
+os.makedirs(_kd, exist_ok=True)
+_good = os.path.join(_kd, 'good.keys')
+io.open(_good, 'w', encoding='utf-8', newline='\n').write(
+    io.open(os.path.join(SRC, 'docs', '03-runbooks', 'common', 'hx-fleet-key.pub'),
+            encoding='utf-8').read())
+_wrong = os.path.join(_kd, 'wrong.keys')
+subprocess.run(['ssh-keygen', '-q', '-t', 'ed25519', '-N', '', '-C', 'not-the-fleet-key',
+                '-f', os.path.join(_kd, 'other')], capture_output=True)
+io.open(_wrong, 'w', encoding='utf-8', newline='\n').write(
+    io.open(os.path.join(_kd, 'other.pub'), encoding='utf-8').read())
+
+rc, out = foundation('hx_require_fleet_key', os.path.join(_kd, 'absent.keys'), FLEET_FP)
+check('foundation: a missing authorized_keys is refused', rc == 43, out)
+rc, out = foundation('hx_require_fleet_key', _wrong, FLEET_FP)
+check('foundation: some other key is not the approved fleet key', rc == 44, out)
+rc, out = foundation('hx_require_fleet_key', _good, FLEET_FP)
+check('foundation: the approved fleet key passes', rc == 0, out)
+
+# The committed public key must be the approved one, or the bootstrap installs
+# the wrong thing on every future server.
+rc, out = foundation('hx_require_fleet_key',
+                     os.path.join(SRC, 'docs', '03-runbooks', 'common', 'hx-fleet-key.pub'),
+                     FLEET_FP)
+check('foundation: the committed public key matches the approved fingerprint', rc == 0, out)
+
+# Persistence. Ubuntu carries SSH on the socket; reading a disabled
+# ssh.service as a failure would break every host in the fleet.
+rc, out = foundation('hx_require_ssh_persistence', 'disabled', 'enabled')
+check('foundation: socket activation counts as SSH persistence', rc == 0, out)
+rc, out = foundation('hx_require_ssh_persistence', 'disabled', 'disabled')
+check('foundation: neither ssh.service nor ssh.socket enabled is refused', rc == 45, out)
+
+print()
+
 # Not ignore_errors: a workspace that cannot be removed is worth saying out
 # loud, but it is not a gate failure, so it does not change the exit status.
 try:

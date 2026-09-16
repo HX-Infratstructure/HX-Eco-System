@@ -15,7 +15,26 @@
 Hostname, IP, gateway, DNS, domain join, SSSD, domain user resolution.
 State the gate result: **Domain join gate: PASS/FAIL**.
 
-## 2. Operating System
+## 2. Foundation
+
+Established by `docs/03-runbooks/common/00-foundation.sh` and gated by
+`01-base-admin-network-updates.sh`. Proven externally, from the operator
+workstation, before Layer 0/1 closes.
+
+| Control | Evidence |
+|---|---|
+| `hostname -f` | `hx-NN.hx.local.arpa` |
+| Time authority | chrony selects HX-1 `192.168.50.200`, marked `^*` |
+| Fleet key fingerprint | `SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk` |
+| External key-only login | `hostname` + `KEY+SUDO-PASS` |
+| SSH persistence | `ssh.service` or `ssh.socket` enabled |
+
+<!-- Service principal names are deliberately absent. D-029 has not decided
+     whether short-form principals are sufficient or FQDN SPNs must exist in
+     AD, and the audit established neither. Do not add an SPN row until it is
+     decided. -->
+
+## 3. Operating System
 
 | Item | Value |
 |---|---|
@@ -24,22 +43,22 @@ State the gate result: **Domain join gate: PASS/FAIL**.
 | Firmware version | |
 | sudo policy | |
 
-## 3. GPU Configuration
+## 4. GPU Configuration
 
 Driver package **and exact version**, GPU models and count, `nvidia-smi` proof.
 State the gate result: **GPU gate: PASS/FAIL**.
 
-## 4. Storage Layout
+## 5. Storage Layout
 
 Devices, filesystems, mount points, and the dedicated application path.
 State the gate result: **Storage gate: PASS/FAIL**.
 
-## 5. Runtime
+## 6. Runtime
 
 Package source, **exact installed version**, service unit, systemd overrides,
 listener address and port.
 
-## 6. Model / Application Provenance
+## 7. Model / Application Provenance
 
 Required for every server that hosts a model or a downloaded artifact. All
 five fields are mandatory — an unknown value is recorded as `UNRESOLVED`, never
@@ -62,12 +81,12 @@ and the URI proves where it came from. Public model registries carry modified
 community rebuilds under names close to the official ones, so neither field
 alone establishes provenance.
 
-## 7. Functional Validation
+## 8. Functional Validation
 
 Known-answer CLI proof, HTTP/API proof, LAN proof, reboot persistence. Include
 the exact command and the exact response for each.
 
-## 8. Final State
+## 9. Final State
 
 | Gate | Result |
 |---|---|
@@ -81,7 +100,7 @@ the exact command and the exact response for each.
 | Known-answer functional proof | |
 | Reboot persistence | |
 
-## 9. Evidence References
+## 10. Evidence References
 
 Either a retained bundle path under `docs/05-evidence/<server>/<component>/<run-id>/`,
 or an explicit statement that the proof is recorded inline in section 7 of this
