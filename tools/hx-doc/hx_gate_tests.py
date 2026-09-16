@@ -254,8 +254,22 @@ check('hx-proof: a duplicate phase marker is drift',
 
 # -------------------------------------- hx_proof: dependency on nothing -----
 fresh()
-edit('docs/00-control/hx-proof.tsv',
-     lambda s: s.replace('\tB5,A2,P0\t', '\tB5,A2,Z9\t', 1))
+# Append a bogus dependency to the first step that has any, rather than
+# naming one row's exact dependency string. Hardcoding 'B5,A2,P0' broke the
+# moment a real step gained a new requirement, and the test then silently
+# edited nothing - it reported a gate failure that was its own.
+def _bogus_dep(text):
+    out, done = [], False
+    for line in text.split(chr(10)):
+        cells = line.split(chr(9))
+        if not done and len(cells) >= 6 and cells[5] not in ('NONE', 'requires', ''):
+            cells[5] += ',Z9'
+            line = chr(9).join(cells)
+            done = True
+        out.append(line)
+    assert done, 'no step with dependencies in hx-proof.tsv'
+    return chr(10).join(out)
+edit('docs/00-control/hx-proof.tsv', _bogus_dep)
 rc, out = run('tools/hx-doc/hx_proof.py', '--check')
 check('hx-proof: a dependency on an unknown step is refused',
       rc != 0 and 'Z9' in out, out)
