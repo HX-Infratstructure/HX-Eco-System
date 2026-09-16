@@ -28,6 +28,7 @@ workstation, before Layer 0/1 closes.
 | Fleet key fingerprint | `SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk` |
 | External key-only login | `hostname` + `KEY+SUDO-PASS` |
 | SSH persistence | `ssh.service` or `ssh.socket` enabled |
+| SSH host key | ed25519 and rsa fingerprints, read from the host itself |
 
 <!-- Service principal names are deliberately absent. D-029 has not decided
      whether short-form principals are sufficient or FQDN SPNs must exist in

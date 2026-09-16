@@ -1015,3 +1015,108 @@ worked on two hosts and not on a third with an identical keytab shape and a
 valid `adcli testjoin`. Left open rather than written up as settled, because
 the first explanation was confident and wrong, and a fleet standard should not
 rest on a cause nobody has established.
+
+## HX5-F09 — samba-common-bin is absent on the hosts built to the older standard
+
+**Status:** OPEN / OWNER DECISION
+**Severity:** Low
+**Scope:** HX-2 and HX-3
+**Discovered on:** HX-2
+**Discovered during:** 2026-09-16 AD DNS remediation
+
+### Finding
+
+Every host's own `realm list` names `samba-common-bin` among its
+required-packages. Two hosts do not have it:
+
+```text
+HX-2   realm requires it   not installed
+HX-3   realm requires it   not installed
+HX-4   realm requires it   installed
+HX-5   realm requires it   installed
+```
+
+The split is the older build against the newer one, the same pattern this
+audit found everywhere else, rather than one host being odd. The audit first
+reported HX-2 alone because only HX-2 and HX-4 had been probed; that was
+wrong and is corrected here.
+
+### Functional impact
+
+None on domain membership. `adcli testjoin` passes and
+`getent passwd jarvisr@hx.local.arpa` resolves on both hosts without it.
+
+What it costs is diagnosis. `net` and `samba-tool` are absent, so Samba-side
+AD queries cannot be run from those two hosts. During this audit that removed
+one route to checking SPNs and forced DNS registration down a different path.
+
+### Disposition
+
+OPEN. One decision: is a package the host's own realm declares required part
+of the HX standard, or is `adcli` sufficient and the declaration ignorable?
+
+If it is required, `apt-get install samba-common-bin` on HX-2 and HX-3 closes
+it, and the shared domain-join block should install it so this cannot recur.
+Not done here: installing a package on a running host is a change, and this is
+a standard question rather than a defect.
+
+## HX5-F10 — no reverse DNS zone is served
+
+**Status:** CLOSED / BY DESIGN
+**Severity:** Informational
+**Scope:** Fleet-wide
+**Discovered on:** All four audited hosts
+**Discovered during:** 2026-09-16 Layer 0/1 reconciliation audit
+
+### Finding
+
+No host in scope has a PTR record. The audit reported this as uniform absence
+and asked whether it was intentional. It is: there is no reverse zone at all.
+
+```text
+dig +short SOA 50.168.192.in-addr.arpa @192.168.50.200   ->   (no answer)
+```
+
+HX-1 serves the forward zone `hx.local.arpa` and does not serve
+`50.168.192.in-addr.arpa`. The absence is a property of the domain
+controller, not drift on the members, and no per-host action could change it.
+
+### Disposition
+
+CLOSED. Nothing in the reconciled Layer 0/1 baseline requires reverse
+resolution, and nothing observed during the audit depends on it. If a future
+component needs PTR records, the zone is created once on HX-1 rather than
+anything being done to the members.
+
+## HX5-F11 — HX-3's primary model displays as `:latest`, which is not a floating pin
+
+**Status:** CLOSED / NOT A DEFECT
+**Severity:** Informational
+**Scope:** HX-3 model provenance
+**Discovered on:** HX-3
+**Discovered during:** 2026-09-16 Layer 0/1 reconciliation audit
+
+### Finding
+
+`ollama list` on HX-3 shows the primary model as `Coder-X-GLM-Flash:latest`,
+which reads like the floating reference HX4-F04 was raised about.
+
+It is not. The record names the alias without a tag:
+
+```text
+HX alias: Coder-X-GLM-Flash
+```
+
+`ollama create` applies `:latest` to an untagged name automatically, so the
+suffix is how Ollama displays an untagged alias rather than a choice anyone
+made. What sits behind it is pinned and recorded: the blob
+`sha256-9e0156957bd07760644aa2a3b6d6791ac8796f2c1bc9c75a2cb07cef5ccb5764`,
+which the sibling tag `coder-x-glm:glm47flash-q5km` also resolves to, and both
+appear in the HX-3 record with their source URI.
+
+### Disposition
+
+CLOSED, not a defect. HX4-F04 is about an artifact that could move under a
+reference. Nothing can move here - the blob is fixed and recorded. Written
+down so the spelling is not re-raised as a finding on a later read.
+
