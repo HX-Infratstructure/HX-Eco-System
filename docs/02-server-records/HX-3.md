@@ -25,6 +25,7 @@ rather than from inside a session this host had already authenticated.
 | SSH persistence | `ssh.socket` enabled; `ssh.service` disabled, which is correct on Ubuntu | PASS |
 | External key-only login | `tools/hx-doc/hx-fleet-access hx-3` returns `hx-3` and `KEY+SUDO-PASS` | PASS |
 | SSH host key | ed25519 `SHA256:gL4sPYzEbDjRjVSoa+Qt50/zMtEsO640f5l+o6PWpBI`<br>rsa `SHA256:G5o9yOkS+ZXUS27dk59Lt7t7UZzIaG+eiApG1kNiKN0` | PASS |
+| SPNs in AD | `host/HX-3`, `host/hx-3.hx.local.arpa`, `RestrictedKrbHost/HX-3` present; `RestrictedKrbHost/hx-3.hx.local.arpa` **absent** | GAP, see HX5-F12 |
 
 The SSH host key is recorded because a changed one is otherwise unanswerable.
 When HX-2 and HX-3 presented new host keys, nothing in this repository could
@@ -34,11 +35,6 @@ session, and cross-checked against the operator's `known_hosts`.
 
 Verified 2026-09-16 after the reboot at `2026-09-16 14:30:56`, so this is post-reboot state
 rather than a live configuration that has never survived one.
-
-<!-- Service principal names are deliberately absent. D-029 has not decided
-     whether short-form principals are sufficient or FQDN SPNs must exist in
-     AD, and the 2026-09-16 audit established neither. Do not add an SPN row
-     until it is decided. -->
 
 ## 1. Identity and Network
 

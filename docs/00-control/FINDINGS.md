@@ -1120,3 +1120,60 @@ CLOSED, not a defect. HX4-F04 is about an artifact that could move under a
 reference. Nothing can move here - the blob is fixed and recorded. Written
 down so the spelling is not re-raised as a finding on a later read.
 
+## HX5-F12 — three hosts are missing the FQDN RestrictedKrbHost SPN
+
+**Status:** OPEN / REMEDIATION
+**Severity:** Low
+**Scope:** HX-2, HX-3, HX-4
+**Discovered on:** All four audited hosts
+**Discovered during:** 2026-09-16 resolution of the open SPN question
+
+### Finding
+
+The audit left the AD-side SPN set unestablished because the local keytab holds
+only short forms and no AD query had been run. Asking the KDC directly settles
+it, with no credentials: `kvno` returns a ticket when the SPN exists and says
+so plainly when it does not.
+
+```text
+                host/SHORT  host/FQDN  RestrictedKrbHost/SHORT  RestrictedKrbHost/FQDN
+  hx-2              OK         OK               OK                     absent
+  hx-3              OK         OK               OK                     absent
+  hx-4              OK         OK               OK                     absent
+  hx-5              OK         OK               OK                     OK
+```
+
+Asked independently from HX-4 and from HX-5; both agree. The absence is
+explicit, not a timeout:
+
+```text
+kvno: Server not found in Kerberos database while getting credentials for
+      RestrictedKrbHost/hx-4.hx.local.arpa@HX.LOCAL.ARPA
+
+RestrictedKrbHost/hx-5.hx.local.arpa@HX.LOCAL.ARPA: kvno = 2
+```
+
+**The keytab was never the authority.** Every keytab in the fleet lists only
+short forms, yet AD holds `host/<fqdn>` for all four. A record written from
+keytab contents would have understated what AD actually has.
+
+### What this settles
+
+D-029 asked whether short-form principals are sufficient or FQDN SPNs must
+exist. HX-5 is the reconciled reference and carries all four forms, so the
+standard is all four. The other three carry three of four.
+
+### Functional impact
+
+None observed. `RestrictedKrbHost/<fqdn>` is used for constrained delegation
+and restricted-host scenarios; nothing in the fleet requests it today, which is
+why this was invisible until asked for directly.
+
+### Disposition
+
+OPEN. One SPN per host on HX-2, HX-3 and HX-4. The shared domain-join block is
+where it should be fixed, so a future server does not arrive with the same
+gap - the same conclusion this audit reached about time authority and FQDN.
+Not remediated here: adding an SPN writes to AD, which is a change rather than
+a finding.
+
