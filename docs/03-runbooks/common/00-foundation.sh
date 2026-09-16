@@ -56,14 +56,28 @@ sudo sh -c "set -e
 mkdir -p /etc/chrony/conf.d
 printf 'server %s iburst prefer\n' '$HX_NTP_SERVER' > /etc/chrony/conf.d/10-hx-fleet.conf
 chmod 0644 /etc/chrony/conf.d/10-hx-fleet.conf"
-sudo systemctl disable --now systemd-timesyncd 2>/dev/null || true
+# Order matters. chrony must be running before the old source is touched, and
+# on Ubuntu the chrony package removes systemd-timesyncd outright - so on a
+# fresh install there is nothing left to disable, and nothing to restore if
+# this goes wrong. Only disable it where it actually still exists.
 sudo systemctl enable --now chrony
+# apt-get install starts chrony before this script writes the drop-in, and
+# `enable --now` does nothing to a service that is already running - so chrony
+# keeps the configuration it started with and never reads HX-1 at all. Both
+# HX-3 and HX-4 failed this way: the drop-in was on disk two seconds after
+# chrony started, and stayed unread. Restart, do not assume.
+sudo systemctl restart chrony
+if systemctl list-unit-files systemd-timesyncd.service >/dev/null 2>&1; then
+  sudo systemctl disable --now systemd-timesyncd 2>/dev/null || true
+fi
 sudo chronyc -a makestep >/dev/null 2>&1 || true
 
-# Selection is not instant, and a fixed sleep either wastes time or guesses
-# wrong. Poll for it, then decide what to do about the answer.
+# Cold-start selection takes longer than it looks: chrony has to reach the
+# server, collect enough samples to trust it, and only then prefer it over the
+# pool. HX-4 selected a public source first and reached HX-1 about a minute
+# later, so a sixty-second window reported a false failure. Three minutes.
 HX_NTP_OK=0
-for _ in 1 2 3 4 5 6 7 8 9 10 11 12; do
+for _ in $(seq 1 36); do
   if hx_ntp_selected "$(chronyc sources 2>/dev/null || true)" "$HX_NTP_SERVER"; then
     HX_NTP_OK=1
     break
@@ -73,14 +87,16 @@ done
 chronyc sources -v || true
 
 if [ "$HX_NTP_OK" -ne 1 ]; then
-  # Disabling timesyncd before proving the replacement works would leave this
-  # host with no time source at all. On a domain-joined host that is not a
-  # clock problem: Kerberos rejects a skewed ticket, SSSD stops resolving
-  # identities, and domain logins fail. Put the working source back.
-  echo "STOP: chrony did not select $HX_NTP_SERVER within 60s." >&2
-  echo "      Restoring systemd-timesyncd so this host keeps a time source." >&2
-  sudo systemctl disable --now chrony 2>/dev/null || true
-  sudo systemctl enable --now systemd-timesyncd 2>/dev/null || true
+  # Leave chrony running. There is no fallback to return to - the package
+  # removed systemd-timesyncd - so stopping chrony here would leave the host
+  # with no time source at all. That is not a clock problem on a domain-joined
+  # host: Kerberos rejects a skewed ticket, SSSD stops resolving identities,
+  # and domain logins fail. chrony is keeping time from the pool meanwhile; it
+  # has simply not settled on HX-1 yet, and Block 1 refuses the build until it
+  # does.
+  echo "STOP: $HX_NTP_SERVER is not the selected source after 3 minutes." >&2
+  echo "      chrony is left running, so this host still keeps time." >&2
+  echo "      Re-check with: chronyc sources" >&2
   exit 42
 fi
 echo "time authority: $HX_NTP_SERVER selected"

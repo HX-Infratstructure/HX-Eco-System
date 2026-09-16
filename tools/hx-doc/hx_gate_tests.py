@@ -770,10 +770,36 @@ check('foundation: hx_ntp_selected returns false, it does not exit, when unselec
 # The rollback has to be in the script, not just in the intention.
 _found = io.open(os.path.join(SRC, 'docs', '03-runbooks', 'common',
                               '00-foundation.sh'), encoding='utf-8').read()
-check('foundation: a failed time switch restores systemd-timesyncd',
-      'enable --now systemd-timesyncd' in _found
-      and _found.index('HX_NTP_OK') < _found.index('enable --now systemd-timesyncd'),
+# The chrony package removes systemd-timesyncd, so a failure path that stops
+# chrony to "restore" it leaves the host with no time source at all. HX-4
+# reached exactly that state for two minutes during the first live run.
+_fail_branch = _found[_found.index('if [ "$HX_NTP_OK" -ne 1 ]'):]
+_fail_branch = _fail_branch[:_fail_branch.index('fi')]
+check('foundation: a failed time switch does not stop chrony',
+      'disable --now chrony' not in _fail_branch, _fail_branch[:400])
+check('foundation: the failure path says the host still keeps time',
+      'still keeps time' in _fail_branch, _fail_branch[:400])
+
+# chrony has to be running before the old source is touched, or there is a
+# window with neither.
+check('foundation: chrony is started before timesyncd is disabled',
+      _found.index('enable --now chrony')
+      < _found.index('disable --now systemd-timesyncd'),
       _found[_found.find('time authority'):][:400])
+
+# Sixty seconds reported a false failure on HX-4, which reached HX-1 about a
+# minute after chrony started.
+check('foundation: cold-start selection is given more than a minute',
+      'seq 1 36' in _found, _found[_found.find('HX_NTP_OK'):][:300])
+
+# The package starts chrony before the drop-in is written, and `enable --now`
+# does nothing to a running service, so without an explicit restart chrony
+# keeps the configuration it booted with and never reads HX-1. This is what
+# actually failed on HX-3 and HX-4; the polling window was a symptom.
+check('foundation: chrony is restarted after the drop-in is written',
+      _found.index('10-hx-fleet.conf') < _found.index('systemctl restart chrony')
+      < _found.index('HX_NTP_OK'),
+      _found[_found.find('time authority'):][:500])
 
 # D-028: the hold picks the pinned branch and nothing else. A filter that
 # caught every nvidia package would freeze branches this decision says nothing
