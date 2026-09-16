@@ -64,6 +64,25 @@ UNIT
 sudo systemctl daemon-reload
 sudo systemctl enable --now hx-nginx
 hx_app_validate hx-nginx 80
+
+# The tarball was verified against its pin before the build, and the binary is
+# what that build produced. Record both, so a later "is this still the nginx we
+# reviewed?" has something to compare against. An unknown value is written
+# UNRESOLVED and never omitted.
+NGINX_BIN_SHA="$(sha256sum /usr/local/sbin/nginx 2>/dev/null | awk '{print $1}')"
+NGINX_BUILD="$(nginx -V 2>&1 | sed -n 's/^configure arguments: //p')"
+cat <<PROV
+
+=== PROVENANCE - copy into docs/02-server-records/HX-7.md, section 6 ===
+Component:        NGINX ${HX_NGINX_VERSION}
+Source URI:       ${URL}
+Tarball SHA-256:  ${HX_NGINX_SHA256:-UNRESOLVED}
+Binary path:      /usr/local/sbin/nginx
+Binary SHA-256:   ${NGINX_BIN_SHA:-UNRESOLVED}
+Build arguments:  ${NGINX_BUILD:-UNRESOLVED}
+=======================================================================
+PROV
+
 hx_app_done hx-nginx "$HX_HOST" "NGINX ${HX_NGINX_VERSION}" "http://${HX_IP}/"
 
 cat <<'NOTE'
