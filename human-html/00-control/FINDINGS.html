@@ -583,7 +583,7 @@ ERROR: Service principal RestrictedKrbHost/hx-3.hx.local.arpa already affected t
 <h2>HX5-F13 — HX-1 was recorded PASS / CLOSED with three foundation controls unproven</h2>
 <p><strong>Status:</strong> CLOSED <strong>Severity:</strong> Low <strong>Scope:</strong> HX-1 <strong>Discovered on:</strong> HX-1 <strong>Discovered during:</strong> 2026-09-16 review of the Foundation backfill</p>
 <h3>Finding</h3>
-<p>HX-1's record carries <code>**State:** PASS / CLOSED</code>, and <code>docs/00-control/hx-fleet.tsv</code> agrees. Its Foundation section now records three controls as NOT ESTABLISHED: its own upstream time source, its SSH host key, and its AD SPNs.</p>
+<p>HX-1's record carries <code>**State:** PASS / CLOSED</code>, and <code>docs/00-control/hx-fleet.tsv</code> agrees. Its Foundation section then recorded three controls as NOT ESTABLISHED: its own upstream time source, its SSH host key, and its AD SPNs. All three are PASS now; the Resolution below is what changed them, and this section describes the state that prompted the finding.</p>
 <p>A record should not claim closure while its own evidence is unresolved. That is the objection, and it is correct.</p>
 <h3>How it arose</h3>
 <p>The inconsistency is new, and it was created by improving the record rather than by anything changing on the host. HX-1 previously declared its whole Foundation section not applicable, so there were no unresolved rows and the claim was internally consistent - by not asking the question.</p>
@@ -606,7 +606,9 @@ dNSHostName: hx-1.hx.local.arpa
 HOST/HX-1                            RestrictedKrbHost/HX-1
 HOST/hx-1.hx.local.arpa              RestrictedKrbHost/hx-1.hx.local.arpa
 (plus the ldap/, GC/ and NTDS-replication principals a DC carries)</code></pre>
-<p>Each row closes on its own evidence. The ed25519 fingerprint matches what the host presents on the network, so it moves from <em>presented</em> to <em>verified</em>. The rsa key was not re-read and stays network-read only; the record says so.</p>
+<p>Each row closes on its own evidence.</p>
+<p>The ed25519 row closes on the console read alone, which is the bar this record set. The fingerprint now comes from the key file on HX-1 rather than from whatever a client happened to be offered. An earlier network-side observation of the same fingerprint sits in this file's history, but with no recorded command, source host or date, so it is not cited and no match between the two is claimed. Making that comparison would need a dated <code>ssh-keyscan</code> from a member host.</p>
+<p>The rsa key was not re-read and stays network-read only; the record says so.</p>
 <p>The unauthenticated form of that last command is not a substitute. It reads the local <code>sam.ldb</code> directly and fails for a non-root user:</p>
 <pre><code class="lang-text">Unable to open tdb '/var/lib/samba/private/sam.ldb': Permission denied</code></pre>
 <p>Under <code>sudo</code> it opens but returns only the <code>dn</code>, because <code>--attributes</code> was not given real attribute names. The authenticated <code>-U 'HX\Administrator'</code> form is the repeatable proof path and is what this record cites.</p>

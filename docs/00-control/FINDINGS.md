@@ -1309,9 +1309,10 @@ than here.
 ### Finding
 
 HX-1's record carries `**State:** PASS / CLOSED`, and
-`docs/00-control/hx-fleet.tsv` agrees. Its Foundation section now records three
-controls as NOT ESTABLISHED: its own upstream time source, its SSH host key,
-and its AD SPNs.
+`docs/00-control/hx-fleet.tsv` agrees. Its Foundation section then recorded
+three controls as NOT ESTABLISHED: its own upstream time source, its SSH host
+key, and its AD SPNs. All three are PASS now; the Resolution below is what
+changed them, and this section describes the state that prompted the finding.
 
 A record should not claim closure while its own evidence is unresolved. That is
 the objection, and it is correct.
@@ -1354,9 +1355,16 @@ HOST/hx-1.hx.local.arpa              RestrictedKrbHost/hx-1.hx.local.arpa
 (plus the ldap/, GC/ and NTDS-replication principals a DC carries)
 ```
 
-Each row closes on its own evidence. The ed25519 fingerprint matches what the
-host presents on the network, so it moves from *presented* to *verified*. The
-rsa key was not re-read and stays network-read only; the record says so.
+Each row closes on its own evidence.
+
+The ed25519 row closes on the console read alone, which is the bar this record
+set. The fingerprint now comes from the key file on HX-1 rather than from
+whatever a client happened to be offered. An earlier network-side observation of
+the same fingerprint sits in this file's history, but with no recorded command,
+source host or date, so it is not cited and no match between the two is claimed.
+Making that comparison would need a dated `ssh-keyscan` from a member host.
+
+The rsa key was not re-read and stays network-read only; the record says so.
 
 The unauthenticated form of that last command is not a substitute. It reads the
 local `sam.ldb` directly and fails for a non-root user:
