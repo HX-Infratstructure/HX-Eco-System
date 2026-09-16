@@ -14,7 +14,7 @@
 - IPv4: `192.168.50.205/24` on `eno1`
 - Default gateway: `192.168.50.1`
 - DNS: HX-1 `192.168.50.200`
-- Persistent network file: `/etc/netplan/50-cloud-init.yaml`
+- Persistent network file: `/etc/netplan/50-cloud-init.yaml` (not a repository path)
 - AD DNS zone: `hx.local.arpa`
 - Kerberos realm: `HX.LOCAL.ARPA`
 - Samba computer object: `HX-5$`
