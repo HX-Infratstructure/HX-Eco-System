@@ -111,9 +111,9 @@ If a materially relevant dependency changes after its PASS—model revision/dime
 <!-- HX-PROOF:TABLE phase=A -->
 | Step | SUT | Proof | Authority | Requires | Limited integration | Status |
 |---|---|---|---|---|---|---|
-| **A1** | hx-4 | GPT-OSS / Ollama inference | [`ollama-inference-smoke-test.md`](../../smoke-tests/ollama-inference-smoke-test.md) | P0 | None | NOT RUN |
-| **A2** | hx-4 | BGE-M3 + Nomic embeddings | [`embedding-models-smoke-test.md`](../../smoke-tests/embedding-models-smoke-test.md) | A1 | None | NOT RUN |
-| **A3** | hx-4 | BGE-family reranker | [`reranker-smoke-test.md`](../../smoke-tests/reranker-smoke-test.md) | A1 | None | NOT RUN |
+| **A1** | hx-4 | GPT-OSS / Ollama inference | [`ollama-inference-smoke-test.md`](../../smoke-tests/ollama-inference-smoke-test.md) | P0 | None | **PASS** |
+| **A2** | hx-4 | BGE-M3 + Nomic embeddings | [`embedding-models-smoke-test.md`](../../smoke-tests/embedding-models-smoke-test.md) | A1 | None | **PASS** |
+| **A3** | hx-4 | BGE-family reranker | [`reranker-smoke-test.md`](../../smoke-tests/reranker-smoke-test.md) | A1 | None | **PASS** |
 | **A4** | hx-5 | Ornith / Ollama inference | [`ollama-inference-smoke-test.md`](../../smoke-tests/ollama-inference-smoke-test.md) | P0 | None | NOT RUN |
 | **A5** | hx-5 | CentCom smoke-runner activation | [`HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md`](../../docs/04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md) | A4,P0 | One known-answer remote call to HX-2 | NOT RUN |
 <!-- /HX-PROOF -->

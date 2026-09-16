@@ -1,0 +1,2 @@
+EMBEDDING_SMOKE_PASS model=BAAI/bge-m3 dim=1024 cosine=1.000000
+EMBEDDING_SMOKE_PASS model=nomic-ai/nomic-embed-text-v1.5 dim=768 cosine=1.000000

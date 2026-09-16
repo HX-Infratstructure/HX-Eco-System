@@ -1,0 +1,3 @@
+FUNCTIONAL=PASS
+STATUS=PASS
+SUMMARY=Both accepted embedding models returned numeric non-zero vectors at their approved dimensions with repeated-input cosine above the 0.999 minimum. EMBEDDING_SMOKE_PASS model=BAAI/bge-m3 dim=1024 cosine=1.000000; EMBEDDING_SMOKE_PASS model=nomic-ai/nomic-embed-text-v1.5 dim=768 cosine=1.000000

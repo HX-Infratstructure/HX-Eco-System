@@ -1,8 +1,8 @@
 id	phase	sut	component	authority	requires	integration	status
 P0	0	-	Foundation PASS (HX-1, HX-2, HX-3)	docs/00-control/BUILD-STATE.md	NONE	NONE	PASS
-A1	A	hx-4	GPT-OSS / Ollama inference	smoke-tests/ollama-inference-smoke-test.md	P0	NONE	NOT_RUN
-A2	A	hx-4	BGE-M3 + Nomic embeddings	smoke-tests/embedding-models-smoke-test.md	A1	NONE	NOT_RUN
-A3	A	hx-4	BGE-family reranker	smoke-tests/reranker-smoke-test.md	A1	NONE	NOT_RUN
+A1	A	hx-4	GPT-OSS / Ollama inference	smoke-tests/ollama-inference-smoke-test.md	P0	NONE	PASS
+A2	A	hx-4	BGE-M3 + Nomic embeddings	smoke-tests/embedding-models-smoke-test.md	A1	NONE	PASS
+A3	A	hx-4	BGE-family reranker	smoke-tests/reranker-smoke-test.md	A1	NONE	PASS
 A4	A	hx-5	Ornith / Ollama inference	smoke-tests/ollama-inference-smoke-test.md	P0	NONE	NOT_RUN
 A5	A	hx-5	CentCom smoke-runner activation	docs/04-application-standards/HX-5-CENTCOM-SMOKE-RUNNER-TOOLSET-AND-BOOTSTRAP.md	A4,P0	One known-answer remote call to HX-2	NOT_RUN
 B1	B	hx-9	PostgreSQL core	smoke-tests/postgresql-smoke-test.md	A5	None; session-scoped disposable data	NOT_RUN

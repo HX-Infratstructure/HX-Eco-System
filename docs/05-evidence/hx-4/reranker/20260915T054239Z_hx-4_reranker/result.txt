@@ -1,0 +1,3 @@
+FUNCTIONAL=PASS
+STATUS=PASS
+SUMMARY=Passage B ranked first on both identical requests. RERANKER_SMOKE_PASS checkpoint=BAAI/bge-reranker-v2-m3@953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e run1_top=B run2_top=B. Scores identical across runs: B=0.021615, A=0.000017, C=0.000016

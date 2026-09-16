@@ -333,3 +333,217 @@ recognised as able to trip it.
 1. Convert the guard to the captured-output form when that block is next
    touched for another reason.
 2. Do not open a change solely for this while the measurement above holds.
+
+## HX4-F06 — infinity-emb pins itself but not click, and the reranker never starts
+
+**Status:** CLOSED
+**Severity:** High
+**Scope:** Fleet-wide; `docs/03-runbooks/common/04-reranker.sh` is shared
+**Discovered on:** HX-4
+**Discovered during:** Step 6 — reranker install
+**Affected files:** `docs/03-runbooks/common/04-reranker.sh`,
+`docs/03-runbooks/common/hx-base.env`
+
+### Finding
+
+Block 6 exited 7. The curl health check refused to connect because the service
+was crashing at startup and systemd was restarting it in a loop, so
+`systemctl is-active` reported `active` only in the gaps between restarts.
+
+`infinity-emb` pins its own version and nothing it depends on, so pip installs
+whatever is current on build day. HX-4 received `click 8.5.0`. `click 8.2`
+changed how a secondary flag is validated, and `typer 0.12.5`, which infinity
+installs, builds flags the new click rejects:
+
+```text
+TypeError: Secondary flag is not valid for non-boolean flag.
+hx-reranker.service: Main process exited, code=exited, status=1/FAILURE
+```
+
+The failure is at argument parsing, before the server exists, so nothing in the
+service log mentions the model or the port.
+
+### Resolution
+
+`HX_RERANKER_CLICK_PIN="click<8.2"`, added to the pip install line.
+
+### Verification
+
+With the pin applied the CLI parses and startup proceeds to the next stage.
+After both this and HX4-F07 were fixed, block 6 was re-run from the runbook on
+a wiped venv and unit: `SCRIPT_RC=0`, service `active` and `enabled`, LAN health
+answering on `192.168.50.204:7997`.
+
+### Repository references
+
+- PR: #24
+- Merged commit: `663ba76ba7e0f3c1a79ba645f289636bbd012b2c`
+
+### Disposition
+
+CLOSED. HX-5 through HX-17 would have hit this identically.
+
+## HX4-F07 — BetterTransformer is on by default and optimum is not installed
+
+**Status:** CLOSED
+**Severity:** High
+**Scope:** Fleet-wide; `docs/03-runbooks/common/04-reranker.sh` is shared
+**Discovered on:** HX-4
+**Discovered during:** Step 6 — reranker install, behind HX4-F06
+**Affected files:** `docs/03-runbooks/common/04-reranker.sh`,
+`docs/03-runbooks/common/hx-base.env`
+
+### Finding
+
+With click held back the CLI parses, and startup then fails:
+
+```text
+NameError: name 'BetterTransformerManager' is not defined
+ERROR:    Application startup failed. Exiting.
+```
+
+`bettertransformer` defaults to true in the installed package's environment
+module, which is external to this repository, and the code path imports
+`BetterTransformerManager` from `optimum`. The `torch` extra does not install
+`optimum`, and HX-4 had no `optimum` at all.
+
+### Resolution
+
+The accelerator is turned off:
+`HX_RERANKER_BETTERTRANSFORMER="false"`, written into the unit as
+`Environment="INFINITY_BETTERTRANSFORMER=false"`.
+
+Installing an older `optimum` was rejected as the wrong repair. Infinity's own
+source states that BetterTransformer does not work with torch 2.5 or later, and
+the fleet runs torch 2.14, so the accelerator could not have been used even if
+the import had succeeded.
+
+The environment variable was chosen over a `--no-bettertransformer` flag
+because the variable is what was tested on the host.
+
+### Verification
+
+```text
+HEALTH OK after ~50s
+{"unix":1789449905.6480312}
+INFO:     Uvicorn running on http://0.0.0.0:7997
+INFO:     127.0.0.1 - "GET /health HTTP/1.1" 200 OK
+```
+
+### Repository references
+
+- PR: #24
+- Merged commit: `663ba76ba7e0f3c1a79ba645f289636bbd012b2c`
+
+### Disposition
+
+CLOSED.
+
+Both faults share one cause worth stating separately: a version pin on a
+package does not pin what that package installs. The runbook now pins the two
+dependencies that broke; it does not pin the rest of the tree, so the same
+class of failure can recur on a future build day.
+
+## HX4-F08 — The smoke runner cannot run on the operator workstation
+
+**Status:** OPEN / DEFERRED
+**Severity:** Medium
+**Scope:** `tools/hx-smoke-runner/hx-smoke-new`, `hx-smoke-promote`,
+`hx-smoke-doctor`
+**Discovered on:** HX-4
+**Discovered during:** Step 7 — producing the A1-A3 run bundles
+
+### Finding
+
+`hx-smoke-new` resolves the runner-host gate with:
+
+```bash
+RUNNER_HOST="$(hostname -s)"
+```
+
+The operator workstation is Windows. Git Bash provides a `hostname` with no
+`-s` option, so the command fails, and under `set -euo pipefail` the assignment
+aborts the script before any argument is read:
+
+```text
+hostname: unknown option -- s
+rc=1
+```
+
+This is not wrong on Linux. It makes the tooling unusable from a Windows
+station, which is what the operator actually has.
+
+### Consequence for HX-4
+
+Roadmap steps A1-A4 run before CentCom exists, so there is no HX-5 station yet
+and the workstation was the intended stand-in. With the workstation unusable,
+HX-4 was authorised as its own runner. Each manifest records
+`runner_host: hx-4`, so the runs are distinguishable in retained evidence.
+
+The cost is real and is recorded in the HX-4 server record: runner and system
+under test are the same host, so the LAN calls in A1-A3 were issued from HX-4
+to its own address rather than from a separate station.
+
+### Disposition
+
+DEFERRED by owner decision, recorded rather than fixed during a server build.
+
+### Required follow-up
+
+1. Resolve the short hostname without `hostname -s`, so any POSIX station works.
+2. Decide whether a SUT may ever be its own runner, or whether the gate should
+   refuse it outright once a station exists.
+3. Re-run A1-A3 from HX-5 after CentCom activation if a remote LAN proof is
+   required for HX-4 closure to stand.
+
+## HX4-F09 — The secret-scan gate rejected the evidence it exists to protect
+
+**Status:** CLOSED
+**Severity:** Medium
+**Scope:** Repository gate; every server closed on run-bundle evidence
+**Discovered on:** HX-4
+**Discovered during:** Step 8 — opening the closure PR
+
+### Finding
+
+CI's secret scan failed the HX-4 closure with `leaks found: 3`.
+
+Every smoke test is a known-answer test: it sends a fixed string and requires it
+back verbatim. `.gitleaks.toml` already allowlisted those tokens, but only on
+the path `^smoke-tests/.*\.md$`.
+
+The token does not stay in the procedure. A passing run has to show the token it
+got back, so the same string lands in the retained bundle, in the server record
+that quotes the proof, and in the generated mirror of both:
+
+```text
+docs/02-server-records/HX-4.md
+docs/05-evidence/hx-4/ollama-inference/<run-id>/result.txt
+docs/05-evidence/hx-4/ollama-inference/<run-id>/supporting/smoke_stdout.txt
+human-html/02-server-records/HX-4.html
+```
+
+Evidence model 2 came in for HX-4 onward, and HX-4 is the first server to
+retain bundles, so nothing had exercised this before. The gate rejected the
+first evidence it was ever shown.
+
+### Resolution
+
+The allowlist paths now include the retained evidence tree, server records, and
+the generated mirrors.
+
+The `condition = "AND"` is what makes that safe and it is unchanged. A finding
+is allowed only when the file is on the paths list **and** the string matches
+the HX known-answer token pattern. A real credential in a retained bundle does
+not match that pattern and is still reported.
+
+### Disposition
+
+CLOSED. The rule is not weakened; its path list now matches where evidence
+actually lands.
+
+### Note
+
+The alternative — redacting the token out of retained evidence — was rejected.
+The token appearing in the response is the proof. Removing it would leave a
+bundle that cannot demonstrate what it claims.
