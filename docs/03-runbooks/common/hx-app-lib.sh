@@ -58,15 +58,48 @@ UNIT
 }
 
 # Wait for a TCP port to answer, then confirm the service is up.
+# HX4-F06 closed by fixing its cause, a click pin. This is its detector, which
+# was never fixed.
+#
+# The reranker crash-looped at startup and `systemctl is-active` reported
+# active in the gaps between restarts. The curl loop below already ran and
+# already failed, but nothing recorded that it had failed - the loop simply ran
+# out and execution fell through. So the only checks that could fail an
+# application block were the two that finding proved can lie.
+#
+# This does not add a check. It makes the check that was already there able to
+# fail, which is what "does the service start" means for an HTTP service.
+#
+# Takes the outcome as an argument, so the STOP is provable without a service
+# that refuses to start.
+hx_require_http_answer() {
+  local unit="$1" url="$2" answered="$3"
+  [ "$answered" -eq 0 ] || {
+    echo "STOP: $unit never answered $url." >&2
+    echo "      systemctl is-active can report active between restarts, so a" >&2
+    echo "      service that does not serve has to fail here (HX4-F06)." >&2
+    exit 32
+  }
+}
+
 # hx_app_validate <unit> [port] [health-path]
+# With a port, the endpoint has to answer within five minutes or the block
+# stops. Without one, the systemd state is all there is to check.
 hx_app_validate() {
   local unit="$1" port="${2:-}" path="${3:-/}"
   if [ -n "$port" ]; then
+    local url="http://127.0.0.1:${port}${path}"
+    local answered=1
     echo "Waiting for $unit on port $port ..."
     for _ in $(seq 1 60); do
-      curl -fsS -o /dev/null "http://127.0.0.1:${port}${path}" 2>/dev/null && break
+      if curl -fsS -o /dev/null "$url" 2>/dev/null; then answered=0; break; fi
       sleep 5
     done
+    if [ "$answered" -ne 0 ]; then
+      echo "--- $unit did not answer; last 30 log lines ---" >&2
+      journalctl -u "$unit" -n 30 --no-pager >&2 2>/dev/null || true
+    fi
+    hx_require_http_answer "$unit" "$url" "$answered"
   fi
   systemctl is-active "$unit"
   systemctl is-enabled "$unit"

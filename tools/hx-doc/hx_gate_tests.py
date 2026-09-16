@@ -1033,6 +1033,28 @@ check('gpu: an unlisted host with a card is refused', rc == 46, out)
 rc, out = foundation('hx_require_gpu_expectation', 'hx-1', GPU_LIST, NO_NV)
 check('gpu: hx-1 is not matched by hx-2..hx-5', rc == 0 and out.strip() == 'skip', out)
 
+# ------------------------- hx-app-lib.sh: the HTTP answer ------------------
+# HX4-F06 was a service that crash-looped and reported active between restarts.
+# Its curl check ran, failed every time, and the loop simply ran out, so the
+# block passed on the two systemd checks that finding proved unreliable.
+def applib(fn, *args):
+    """Call one hx-app-lib.sh helper in a subshell; return its exit status."""
+    lib = os.path.join(SRC, 'docs', '03-runbooks', 'common', 'hx-app-lib.sh')
+    quoted = ' '.join("'%s'" % a.replace("'", "'\\''") for a in args)
+    r = subprocess.run(
+        ['bash', '-c', '. "$1" 2>/dev/null; %s %s' % (fn, quoted), '_', lib],
+        capture_output=True, text=True, encoding='utf-8', errors='replace')
+    return r.returncode, (r.stdout or '') + (r.stderr or '')
+
+_URL = 'http://127.0.0.1:7997/health'
+rc, out = applib('hx_require_http_answer', 'hx-reranker', _URL, '1')
+check('app-lib: an endpoint that never answered fails the block', rc == 32, out)
+rc, out = applib('hx_require_http_answer', 'hx-reranker', _URL, '0')
+check('app-lib: an endpoint that answered passes', rc == 0, out)
+check('app-lib: the STOP names the finding it comes from',
+      'HX4-F06' in applib('hx_require_http_answer', 'hx-n', _URL, '1')[1],
+      applib('hx_require_http_answer', 'hx-n', _URL, '1')[1])
+
 # Not ignore_errors: a workspace that cannot be removed is worth saying out
 # loud, but it is not a gate failure, so it does not change the exit status.
 try:
