@@ -1028,3 +1028,400 @@ worked on two hosts and not on a third with an identical keytab shape and a
 valid `adcli testjoin`. Left open rather than written up as settled, because
 the first explanation was confident and wrong, and a fleet standard should not
 rest on a cause nobody has established.
+
+## HX5-F09 — samba-common-bin is absent on the hosts built to the older standard
+
+**Status:** OPEN / OWNER DECISION
+**Severity:** Low
+**Scope:** HX-2 and HX-3
+**Discovered on:** HX-2
+**Discovered during:** 2026-09-16 AD DNS remediation
+
+### Finding
+
+Every host's own `realm list` names `samba-common-bin` among its
+required-packages. Two hosts do not have it:
+
+```text
+HX-2   realm requires it   not installed
+HX-3   realm requires it   not installed
+HX-4   realm requires it   installed
+HX-5   realm requires it   installed
+```
+
+The split is the older build against the newer one, the same pattern this
+audit found everywhere else, rather than one host being odd. The audit first
+reported HX-2 alone because only HX-2 and HX-4 had been probed; that was
+wrong and is corrected here.
+
+### Functional impact
+
+None on domain membership. `adcli testjoin` passes and
+`getent passwd jarvisr@hx.local.arpa` resolves on both hosts without it.
+
+What it costs is diagnosis. `net` and `samba-tool` are absent, so Samba-side
+AD queries cannot be run from those two hosts. During this audit that removed
+one route to checking SPNs and forced DNS registration down a different path.
+
+### Disposition
+
+OPEN. One decision: is a package the host's own realm declares required part
+of the HX standard, or is `adcli` sufficient and the declaration ignorable?
+
+If it is required, `apt-get install samba-common-bin` on HX-2 and HX-3 closes
+it, and the shared domain-join block should install it so this cannot recur.
+Not done here: installing a package on a running host is a change, and this is
+a standard question rather than a defect.
+
+## HX5-F10 — no reverse DNS zone is served
+
+**Status:** OPEN / HAS IMPACT
+**Severity:** Low
+**Scope:** Fleet-wide
+**Discovered on:** All four audited hosts
+**Discovered during:** 2026-09-16 Layer 0/1 reconciliation audit
+
+### Finding
+
+No host in scope has a PTR record. The audit reported this as uniform absence
+and asked whether it was intentional. It is: there is no reverse zone at all.
+
+A single SOA query is not enough to conclude a zone is unserved fleet-wide, so
+the authoritative server set was established first. There is one DNS server and
+one domain controller:
+
+```text
+dig +short NS hx.local.arpa @192.168.50.200
+  hx-1.hx.local.arpa.
+
+dig +short SRV _ldap._tcp.dc._msdcs.hx.local.arpa @192.168.50.200
+  0 100 389 hx-1.hx.local.arpa.
+
+resolvectl on every member
+  Current DNS Server: 192.168.50.200
+```
+
+That single server serves the forward zone and returns nothing for the reverse
+one:
+
+```text
+dig +short SOA 50.168.192.in-addr.arpa @192.168.50.200   ->   (no answer)
+dig +short NS  50.168.192.in-addr.arpa @192.168.50.200   ->   (no answer)
+```
+
+So the absence is a property of the only domain controller, and no per-host
+action could change it.
+
+### It is not harmless, which this finding first claimed
+
+The original disposition said nothing depends on reverse resolution. That was
+wrong, and was written before anything had actually tried to use it.
+
+GSSAPI over LDAP canonicalises the server hostname through reverse DNS before
+asking the KDC for a ticket. With no PTR record the canonicalisation produces a
+name that has no SPN, and the bind fails with a message that names the wrong
+problem:
+
+```text
+ldap_sasl_interactive_bind: Local error (-2)
+  GSSAPI Error: Unspecified GSS failure ... (Server not found in Kerberos database)
+```
+
+The same query with `LDAPSASL_NOCANON=on` succeeds immediately. So the missing
+reverse zone breaks Kerberised LDAP by default, and the error points at
+Kerberos rather than at DNS - which is why it read as an SPN problem during this
+audit and cost time in the wrong place.
+
+### Disposition
+
+OPEN. Two things to decide, and no existing decision covers either: whether the
+reverse zone is created on HX-1, and whether PTR records become part of the
+reconciled Layer 0/1 baseline. Nothing in `docs/00-control/DECISIONS.md`
+establishes a position today, so the previous "by design" was an assumption
+rather than a recorded choice.
+
+If the zone is not created, `SASL_NOCANON` has to be set wherever Kerberised
+LDAP is used, and that belongs in the runbook rather than in an operator's
+memory.
+
+## HX5-F11 — HX-3's primary model displays as `:latest`, which is not a floating pin
+
+**Status:** CLOSED / NOT A DEFECT
+**Severity:** Informational
+**Scope:** HX-3 model provenance
+**Discovered on:** HX-3
+**Discovered during:** 2026-09-16 Layer 0/1 reconciliation audit
+
+### Finding
+
+`ollama list` on HX-3 shows the primary model as `Coder-X-GLM-Flash:latest`,
+which reads like the floating reference HX4-F04 was raised about.
+
+It is not. The record names the alias without a tag:
+
+```text
+HX alias: Coder-X-GLM-Flash
+```
+
+`ollama create` applies `:latest` to an untagged name automatically, so the
+suffix is how Ollama displays an untagged alias rather than a choice anyone
+made. What sits behind it is pinned and recorded: the blob
+`sha256-9e0156957bd07760644aa2a3b6d6791ac8796f2c1bc9c75a2cb07cef5ccb5764`,
+which the sibling tag `coder-x-glm:glm47flash-q5km` also resolves to, and both
+appear in the HX-3 record with their source URI.
+
+### What is and is not protected
+
+The blob is recorded, which means a change is *detectable* by comparison. It
+does not mean a change is *detected*. Nothing in the repository or the build
+compares the running digest against the recorded one, so if
+`Coder-X-GLM-Flash` were recreated from a different source the tag would point
+at a new blob and no gate would notice.
+
+That is not specific to this alias. HX4-F04 already states the same limit: a
+tag names a reviewed source reference, not an artifact, and artifact identity
+comes from the install-time capture written into the record. It closed on a
+rule - a closed record is never silently re-pulled or re-baselined - rather
+than on a mechanism.
+
+Approved artifact, recorded in full so a later comparison has something to
+compare against:
+
+```text
+HX alias:     Coder-X-GLM-Flash
+Source URI:   hf.co/bartowski/zai-org_GLM-4.7-Flash-GGUF:Q5_K_M
+Blob SHA-256: 9e0156957bd07760644aa2a3b6d6791ac8796f2c1bc9c75a2cb07cef5ccb5764
+```
+
+### Disposition
+
+CLOSED for the spelling, which was the question asked: `:latest` here is how
+Ollama displays an untagged alias, not a floating pin anyone chose.
+
+The gap it sits next to stays open under HX4-F04: no gate rejects a changed
+digest on any host. Closing this one should not be read as closing that.
+
+## HX5-F12 — three hosts held only short-form SPNs, and a short dNSHostName
+
+**Status:** CLOSED
+**Severity:** Low
+**Scope:** HX-2, HX-3, HX-4
+**Discovered on:** All four audited hosts
+**Discovered during:** 2026-09-16 resolution of the open SPN question
+
+### Finding
+
+The audit left the AD-side SPN set unestablished because the local keytab holds
+only short forms and no AD query had been run. Asking the KDC directly settles
+it, with no credentials: `kvno` returns a ticket when the SPN exists and says
+so plainly when it does not.
+
+```text
+                host/SHORT  host/FQDN  RestrictedKrbHost/SHORT  RestrictedKrbHost/FQDN
+  hx-2              OK         OK               OK                     absent
+  hx-3              OK         OK               OK                     absent
+  hx-4              OK         OK               OK                     absent
+  hx-5              OK         OK               OK                     OK
+```
+
+Asked independently from HX-4 and from HX-5; both agree. The absence is
+explicit, not a timeout:
+
+```text
+kvno: Server not found in Kerberos database while getting credentials for
+      RestrictedKrbHost/hx-4.hx.local.arpa@HX.LOCAL.ARPA
+
+RestrictedKrbHost/hx-5.hx.local.arpa@HX.LOCAL.ARPA: kvno = 2
+```
+
+### Corrected: kvno is not the authority either
+
+The table above was the first answer and it is incomplete. `kvno` asks whether
+a ticket can be issued, which is not the same as asking what AD stores. Reading
+the computer objects directly gives the real state:
+
+```text
+HX-2  dNSHostName: hx-2                   host/HX-2, RestrictedKrbHost/HX-2
+HX-3  dNSHostName: hx-3                   host/HX-3, RestrictedKrbHost/HX-3
+HX-4  dNSHostName: hx-4                   host/HX-4, RestrictedKrbHost/HX-4
+HX-5  dNSHostName: hx-5.hx.local.arpa     host/HX-5, host/hx-5.hx.local.arpa,
+                                          RestrictedKrbHost/HX-5,
+                                          RestrictedKrbHost/hx-5.hx.local.arpa
+```
+
+Three hosts are missing **two** SPNs each, not one, and their `dNSHostName` is
+the short name rather than the FQDN. `kvno host/hx-4.hx.local.arpa` succeeded
+because Samba's KDC matches that form implicitly from the realm; it does not do
+so for `RestrictedKrbHost/`, which is why only that one appeared absent.
+
+**Neither the keytab nor kvno was the authority.** The keytab lists only short
+forms; kvno reports what a KDC will issue. Only the directory says what is
+stored, and it took a third method to see it.
+
+### What this settles
+
+D-029 asked whether short-form principals are sufficient or FQDN SPNs must
+exist. HX-5 is the reconciled reference and carries all four forms, so the
+standard is all four. The other three carry three of four.
+
+### Functional impact
+
+None observed. `RestrictedKrbHost/<fqdn>` is used for constrained delegation
+and restricted-host scenarios; nothing in the fleet requests it today, which is
+why this was invisible until asked for directly.
+
+### Resolution
+
+Corrected on HX-2, HX-3 and HX-4 by the owner on 2026-09-16. Read back from the
+directory afterwards, from HX-5 rather than from the host where the change was
+made:
+
+```text
+HX-2  dNSHostName: hx-2.hx.local.arpa   host/HX-2, host/hx-2.hx.local.arpa,
+                                        RestrictedKrbHost/HX-2,
+                                        RestrictedKrbHost/hx-2.hx.local.arpa
+HX-3  dNSHostName: hx-3.hx.local.arpa   (same four forms)
+HX-4  dNSHostName: hx-4.hx.local.arpa   (same four forms)
+HX-5  dNSHostName: hx-5.hx.local.arpa   (same four forms)
+```
+
+All four hosts are now uniform.
+
+### What the fix actually is, which is not what this finding first said
+
+The explicit SPN additions were rejected:
+
+```text
+ERROR: Service principal host/hx-3.hx.local.arpa already affected to another user
+ERROR: Service principal RestrictedKrbHost/hx-3.hx.local.arpa already affected to another user
+```
+
+They were already present, created by the preceding `dNSHostName` change.
+Samba derives the FQDN-form SPNs from `dNSHostName`, so setting it is the fix
+and adding the SPNs is redundant - the "another user" in the message is the
+same computer object.
+
+That matters for the shared domain-join block. The correction there is to set
+`dNSHostName` to the FQDN at join time. Adding SPNs would be treating the
+symptom, and would fail the same way.
+
+### Disposition
+
+CLOSED. The remaining work is in the join procedure so a future server does
+not arrive with a short `dNSHostName`, tracked against the shared block rather
+than here.
+
+## HX5-F13 — HX-1 was recorded PASS / CLOSED with three foundation controls unproven
+
+**Status:** CLOSED
+**Severity:** Low
+**Scope:** HX-1
+**Discovered on:** HX-1
+**Discovered during:** 2026-09-16 review of the Foundation backfill
+
+### Finding
+
+HX-1's record carries `**State:** PASS / CLOSED`, and
+`docs/00-control/hx-fleet.tsv` agrees. Its Foundation section then recorded
+three controls as NOT ESTABLISHED: its own upstream time source, its SSH host
+key, and its AD SPNs. All three are PASS now; the Resolution below is what
+changed them, and this section describes the state that prompted the finding.
+
+A record should not claim closure while its own evidence is unresolved. That is
+the objection, and it is correct.
+
+### How it arose
+
+The inconsistency is new, and it was created by improving the record rather
+than by anything changing on the host. HX-1 previously declared its whole
+Foundation section not applicable, so there were no unresolved rows and the
+claim was internally consistent - by not asking the question.
+
+Replacing that blanket exemption with real rows is what surfaced the gap. Three
+controls that are genuinely applicable to a domain controller had never been
+recorded either way.
+
+### Why it could not be resolved from the audit
+
+All three needed access the audit did not have. The host key could only be
+confirmed at the console; the SPN read needed directory access to the DC's own
+object; HX-1's upstream time source had never been observed.
+
+### Resolution
+
+The owner read all three at the HX-1 console on 2026-09-16.
+
+```text
+$ grep -rh '^pool\|^server' /etc/chrony/chrony.conf /etc/chrony/conf.d/
+pool ntp.ubuntu.com iburst maxsources 4
+
+$ chronyc sources -v
+^+ 185.125.190.57   2  10  377  525  -1192us
+^+ 185.125.190.56   2  10  377  454  -3543us
+^* 91.189.91.157    2  10  267  271   -162us
+^+ 185.125.190.58   2  10  377  363   +571us
+
+$ ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub
+256 SHA256:krYLm3CEhfYoFoElfxieSI8+KBBb1mB1Cs/sTYKuQ58 root@hx-1 (ED25519)
+
+$ ssh-keyscan -t ed25519 192.168.50.200 | ssh-keygen -lf -
+256 SHA256:krYLm3CEhfYoFoElfxieSI8+KBBb1mB1Cs/sTYKuQ58 192.168.50.200 (ED25519)
+
+$ sudo samba-tool computer show HX-1 -U 'HX\Administrator'
+dNSHostName: hx-1.hx.local.arpa
+HOST/HX-1                            RestrictedKrbHost/HX-1
+HOST/hx-1.hx.local.arpa              RestrictedKrbHost/hx-1.hx.local.arpa
+(plus the ldap/, GC/ and NTDS-replication principals a DC carries)
+```
+
+Each row closes on its own evidence.
+
+The two ed25519 reads agree, so the recorded fingerprint is the key `sshd`
+serves rather than only the key on disk. The scan was issued from HX-1 against
+its own LAN address, so it proves what that address presents and nothing about
+the path a member takes to reach it. The rsa key was not read.
+
+`pool ntp.ubuntu.com iburst maxsources 4` is the configured upstream, and
+`maxsources 4` is why chrony lists four servers. They are stratum 2, so HX-1 is
+stratum 3 and the members stratum 4.
+
+The unauthenticated form of that last command is not a substitute. It reads the
+local `sam.ldb` directly and fails for a non-root user:
+
+```text
+Unable to open tdb '/var/lib/samba/private/sam.ldb': Permission denied
+```
+
+Under `sudo` it opens but returns only the `dn`, because `--attributes` was not
+given real attribute names. The authenticated `-U 'HX\Administrator'` form is
+the repeatable proof path and is what this record cites.
+
+The state model was checked rather than assumed. `docs/00-control/BUILD-STATE.md`
+defines `PASS / CLOSED` as the required gates being satisfied and the as-built
+record updated - completed activity, not exhaustive evidence. So `PASS / CLOSED`
+alongside a tracked evidence gap was defensible while it stood, and the gap is
+now shut regardless.
+
+### What this cost, and the rule that came out of it
+
+This finding took three corrected pushes, each one the same defect. A count was
+recalled instead of read from the table. A pool name was recognised from IP
+addresses instead of read from `chrony.conf`. A fingerprint match was asserted
+instead of measured. Every one read as evidence and none of it was.
+
+The rule that follows: a Foundation row carries the date, the command and the
+output, and stops there. Anything derived from those - a stratum, a provider, a
+conclusion - goes in prose below the table where it is visibly an inference.
+The rows above are written that way.
+
+### Disposition
+
+CLOSED on evidence, not by moving the state. HX-1 stays `PASS / CLOSED` in both
+the record and `hx-fleet.tsv`, which keeps runtime state, repository state and
+evidence state separate instead of letting a documentation gap read as an
+operational failure.
+
+Related: proof step `F0` is `NOT_RUN` on this branch. It is set to PASS by the
+change that wires the foundation into the proof chain, which is a separate
+pull request and had not merged when this was written.
+

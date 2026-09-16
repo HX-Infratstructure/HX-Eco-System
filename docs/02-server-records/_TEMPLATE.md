@@ -28,11 +28,8 @@ workstation, before Layer 0/1 closes.
 | Fleet key fingerprint | `SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk` |
 | External key-only login | `hostname` + `KEY+SUDO-PASS` |
 | SSH persistence | `ssh.service` or `ssh.socket` enabled |
-
-<!-- Service principal names are deliberately absent. D-029 has not decided
-     whether short-form principals are sufficient or FQDN SPNs must exist in
-     AD, and the audit established neither. Do not add an SPN row until it is
-     decided. -->
+| SSH host key | ed25519 and rsa fingerprints, read from the host itself |
+| SPNs in AD | `host/HX-NN`, `host/hx-NN.hx.local.arpa`, `RestrictedKrbHost/HX-NN`, `RestrictedKrbHost/hx-NN.hx.local.arpa` |
 
 ## 3. Operating System
 

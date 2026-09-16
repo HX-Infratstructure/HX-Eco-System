@@ -23,14 +23,17 @@ rather than from inside a session this host had already authenticated.
 | NOPASSWD sudo | `sudo -k -n true` succeeds, so a cached credential is not what proves it | PASS |
 | SSH persistence | `ssh.socket` enabled; `ssh.service` disabled, which is correct on Ubuntu | PASS |
 | External key-only login | `tools/hx-doc/hx-fleet-access hx-2` returns `hx-2` and `KEY+SUDO-PASS` | PASS |
+| SSH host key | ed25519 `SHA256:mHQ3VD3YIDTmyXEHvpFLXPe+X6viQGCQYxVbHMVgHg0`<br>rsa `SHA256:FF3mCoVVk8sxy5yDyy47EcErROrNWONvNB9ZxDEfHWw` | PASS |
+| SPNs in AD | `host/HX-2`, `host/hx-2.hx.local.arpa`, `RestrictedKrbHost/HX-2`, `RestrictedKrbHost/hx-2.hx.local.arpa`; `dNSHostName` is `hx-2.hx.local.arpa` | PASS |
+
+The SSH host key is recorded because a changed one is otherwise unanswerable.
+When HX-2 and HX-3 presented new host keys, nothing in this repository could
+distinguish a legitimate rebuild from anything else, and resolving it needed a
+trip to each console. Read from the host itself over an already-trusted
+session, and cross-checked against the operator's `known_hosts`.
 
 Verified 2026-09-16 after the reboot at `2026-09-16 14:30:31`, so this is post-reboot state
 rather than a live configuration that has never survived one.
-
-<!-- Service principal names are deliberately absent. D-029 has not decided
-     whether short-form principals are sufficient or FQDN SPNs must exist in
-     AD, and the 2026-09-16 audit established neither. Do not add an SPN row
-     until it is decided. -->
 
 ## 1. Identity and Network
 
