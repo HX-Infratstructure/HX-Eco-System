@@ -446,7 +446,7 @@ class of failure can recur on a future build day.
 
 ## HX4-F08 — The smoke runner cannot run on the operator workstation
 
-**Status:** OPEN / DEFERRED
+**Status:** OPEN / PARTIALLY RESOLVED  
 **Severity:** Medium
 **Scope:** `tools/hx-smoke-runner/hx-smoke-new`, `hx-smoke-promote`,
 `hx-smoke-doctor`
@@ -495,6 +495,23 @@ DEFERRED by owner decision, recorded rather than fixed during a server build.
    refuse it outright once a station exists.
 3. Re-run A1-A3 from HX-5 after CentCom activation if a remote LAN proof is
    required for HX-4 closure to stand.
+
+### Resolution, follow-up 1 only
+
+`hx-smoke-new`, `hx-smoke-doctor` and `hx-smoke-promote` no longer call
+`hostname -s`. They read `hostname` and strip the domain with `${VAR%%.*}`,
+which is POSIX and works on the operator's Git Bash station:
+
+```text
+before:  hostname: unknown option -- s        rc=1
+after:   RUNNER_HOST=HANA-X-JR0               rc=0
+```
+
+The runbook scripts still use `hostname -s`. They execute on the Linux servers
+they configure, where the option exists, so they are outside this finding.
+
+Follow-ups 2 and 3 are untouched: whether a system under test may ever be its
+own runner is still undecided, and A1-A3 have not been re-run from HX-5.
 
 ## HX4-F09 — The secret-scan gate rejected the evidence it exists to protect
 
@@ -646,7 +663,7 @@ This finding closes when HX-2, HX-3, and HX-4 each have a retained audit result 
 
 ## HX5-F03 — Shared Block 2 NVIDIA pin diverges from accepted HX-5 driver
 
-**Status:** OPEN / NON-BLOCKING  
+**Status:** ACCEPTED / EXCEPTION  
 **Severity:** Medium  
 **Scope:** HX-5 rerun safety / shared Block 2 applicability  
 **Discovered on:** HX-5  
@@ -677,3 +694,203 @@ None on the current HX-5 build. GPU runtime, dual-GPU visibility, Ornith inferen
 NON-BLOCKING FOR CURRENT HX-5; RERUN GUARD REQUIRED OPERATIONALLY.
 
 Do not rerun Block 2 on HX-5 merely for confirmation. A future fleet decision should determine whether the shared NVIDIA pin is changed, host-specific exceptions are encoded, or the driver-install phase is separated from reusable domain validation.
+
+### Decision
+
+Accepted as a standing exception by the owner on 2026-09-15.
+
+- HX-5 stays on `595.99.02`. It is not downgraded to the shared pin.
+- Every other host stays on the shared Block 2 pin `595.71.05-0ubuntu0.24.04.1`.
+  No host is upgraded to match HX-5.
+- Block 2 is not rerun on HX-5.
+
+The divergence is accepted rather than removed. This finding is not a pending
+action; it is the record of the exception and the rule that goes with it.
+
+## HX5-F04 — The link gate reads a server filesystem path as a repository reference
+
+**Status:** CLOSED  
+**Severity:** Low  
+**Scope:** Repository gate; every server record that cites a configuration file  
+**Discovered on:** HX-5  
+**Discovered during:** PR #26 — Documentation consistency gate  
+**Affected file:** `tools/hx-doc/hx_doc_check.py`
+
+### Finding
+
+`PATH_REF` matches any backticked string that contains a slash and ends in one
+of `.md`, `.sh`, `.py`, `.html`, `.yaml` or `.txt`, then requires it to resolve
+inside the repository. The test is driven by the extension, not by where the
+path points.
+
+The HX-5 record cites the file that holds its persistent network configuration:
+
+```text
+- Persistent network file: `/etc/netplan/50-cloud-init.yaml`
+```
+
+That is a path on HX-5. The gate read it as a repository reference and failed:
+
+```text
+FAIL  links: docs/02-server-records/HX-5.md:17 broken ref -> /etc/netplan/50-cloud-init.yaml
+```
+
+The gate does not skip fenced code blocks. Quoting the offending line in this
+document reproduced the failure against this file. That is why this section's
+subheading carries a `FORWARD_MARKERS` phrase: it is currently the only way to
+write the defect down without tripping it.
+
+`/etc/hosts`, two lines above it, passes only because it carries no extension
+the pattern lists. Nothing about the rule distinguishes a server path from a
+repository path.
+
+### Resolution applied
+
+The line now carries `not a repository path`, one of the phrasings
+`FORWARD_MARKERS` already recognises. The gate passes and the reader is told
+something true.
+
+### Disposition
+
+OPEN. The escape works, but it is per line. Every future server record that
+cites a `.yaml`, `.sh` or `.txt` under `/etc`, `/srv` or `/var` will fail the
+same way and need the same phrase added by hand. A location test — an absolute
+path that resolves outside the repository is not a repository reference —
+would close the class instead of the instance, and skipping fenced code blocks
+would let the defect be documented plainly. Do these in a tooling pass, not on
+a build day.
+
+### Resolution
+
+`hx_doc_check.py` now carries `SYSTEM_ROOTS`. An absolute target under `/etc/`,
+`/var/`, `/usr/`, `/srv/`, `/opt/`, `/run/`, `/boot/`, `/proc/`, `/sys/`,
+`/dev/` or `/tmp/` is a file on a server and is not resolved as a repository
+reference. Root-relative repository paths such as `/docs/...` are not listed
+and are still checked.
+
+The per-line workaround is gone. This finding quotes the offending line plainly
+and the gate passes, which is the demonstration that the class is closed rather
+than the instance.
+
+Two paired gate tests hold it: one requires the `/etc` path to be accepted, and
+one requires a repository path that does not resolve to still fail, so the
+exemption cannot widen into a hole.
+
+## HX5-F05 — A failing gate hides every gate behind it in the same job
+
+**Status:** CLOSED  
+**Severity:** Low  
+**Scope:** Repository CI; the Documentation consistency job  
+**Discovered on:** HX-5  
+**Discovered during:** PR #26 — reading why the job stopped  
+**Affected file:** `.github/workflows/hx-checks.yml`
+
+### Finding
+
+The Documentation consistency job runs seven gates as seven sequential steps.
+A step that exits non-zero fails the job, and the steps after it never run.
+
+PR #26 failed on the first gate, `hx-doc-check`, for the reason recorded in
+HX5-F04. Gates two through seven never executed. `hx-record-check` would have
+reported two further defects in the same HX-5 record:
+
+```text
+docs/02-server-records/HX-5.md
+  MISSING    no section for Final State
+  DRIFT      record says 'IN PROGRESS — FOUNDATION AND ORNITH BASE PASS ...',
+             hx-fleet.tsv says 'IN PROGRESS'
+```
+
+Both were present the whole time. Neither was visible until the first gate was
+fixed and the job was allowed to reach step five.
+
+Observed on Actions run 35036774672.
+
+### Functional impact
+
+None on correctness. Nothing merges while a gate is red, and every defect is
+still caught eventually. The cost is round trips: a record carrying N defects
+in N different gates needs N pushes to find them all, and each one costs a full
+CI cycle and a context switch.
+
+### Disposition
+
+OPEN. Setting `continue-on-error: true` on each gate step, with a final step
+that fails when any gate failed, would report every defect from one run. Worth
+doing before the next server build. Not worth interrupting one.
+
+### Resolution
+
+Each gate step in the Documentation consistency job now carries an `id` and
+`continue-on-error: true`, and a final `Fail if any gate failed` step with
+`if: always()` reports every gate that did not succeed and sets the job's exit
+status. One run now reports every defect instead of stopping at the first.
+
+## HX5-F06 — The scheduled OpenWiki workflow that D-025 deleted came back
+
+**Status:** PARTIALLY CLOSED / REMAINDER ON BACKLOG  
+**Severity:** High  
+**Scope:** Repository automation and secrets; the repository is public  
+**Discovered on:** HX-5  
+**Discovered during:** 2026-09-15 OpenWiki regeneration, before the push to main  
+**Affected file:** `.github/workflows/openwiki-update.yml`
+
+### Finding
+
+The OpenWiki run scaffolded `.github/workflows/openwiki-update.yml` again, as
+an untracked file. D-025 in `docs/00-control/DECISIONS.md`, ratified 2026-09-14,
+deleted that path and withdrew scheduled generation entirely.
+
+The file that reappeared claims more than the one D-025 removed:
+
+```text
+schedule:    cron "0 8 * * *"        daily, where D-023 was weekly
+permissions: contents: write, pull-requests: write
+secrets:     OPENROUTER_API_KEY, OPENWIKI_LANGSMITH_API_KEY, LANGSMITH_API_KEY
+model:       z-ai/glm-5.2, a paid run, unattended
+```
+
+D-025 recorded why the file itself is the exposure, not its contents: a branch
+that edits the workflow file can read the repository secrets, and no line
+inside the file can prevent it. That risk goes away only with the file.
+
+The file was deleted again and was never committed. It is absent from
+`aa5364c`.
+
+### Second part, still open
+
+D-025 also recorded that revoking `OPENWIKI_PR_TOKEN` and `ANTHROPIC_API_KEY`
+is a required owner action, not a hypothetical. `OPENWIKI_PR_TOKEN` was granted
+Contents read and write and Pull requests read and write, on a public
+repository.
+
+Both were still listed in repository settings on 2026-09-15, observed by
+listing the repository's Actions secrets through the GitHub API while this
+finding was written. No settings evidence is retained for that observation, so
+it is an assertion and not proof. Confirm in repository settings before acting
+on it.
+
+### Disposition
+
+OPEN. Two actions, both owner-only:
+
+1. Revoke `OPENWIKI_PR_TOKEN` and `ANTHROPIC_API_KEY`. Until this is done, the
+   exposure D-025 described is still live, whatever the workflow file does.
+2. Decide what stops the scaffold restoring the file. An `.openwikiignore`
+   entry, or a gate that fails when the path exists, so the next run cannot
+   reintroduce it silently.
+
+### Resolution, the guard
+
+Two changes, so the scaffold cannot restore the file unnoticed:
+
+- `.openwikiignore` excludes `.github/**`. OpenWiki no longer scans or writes
+  that tree, which is how the file reached the working copy.
+- `hx_doc_check.py` carries `WITHDRAWN_PATHS` and fails when a path a ratified
+  decision deleted exists again. A gate test creates the file and requires the
+  refusal, so the guard is proven able to fire.
+
+### Remainder
+
+Revoking `OPENWIKI_PR_TOKEN` and `ANTHROPIC_API_KEY` is on the backlog by owner
+decision of 2026-09-15. It is recorded here and is not scheduled.

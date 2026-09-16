@@ -28,28 +28,67 @@ jobs:
           python-version: '3.12'
 
       - name: Links, vocabulary, filenames, evidence
+        id: doc_check
+        continue-on-error: true
         run: ./tools/hx-doc/hx-doc-check
 
       - name: Fleet tables match docs/00-control/hx-fleet.tsv
+        id: fleet
+        continue-on-error: true
         run: ./tools/hx-doc/hx-fleet --check
 
       - name: Proof DAG is valid and its generated blocks are current
+        id: proof
+        continue-on-error: true
         run: ./tools/hx-doc/hx-proof --check
 
       - name: human-html mirrors match their Markdown sources
+        id: mirrors
+        continue-on-error: true
         run: ./tools/hx-doc/hx-render-html --check
 
       - name: Server records follow the template
+        id: records
+        continue-on-error: true
         run: ./tools/hx-doc/hx-record-check
 
       - name: Smoke-test authorities are complete
+        id: smoke_lint
+        continue-on-error: true
         run: ./tools/hx-doc/hx-smoke-lint --quiet
 
       # Each gate above enforces a written rule. These tests break the thing a
       # gate guards and require it to fail, so a gate cannot quietly stop
       # catching anything.
       - name: Every gate still fails on the case it guards
+        id: gate_tests
+        continue-on-error: true
         run: ./tools/hx-doc/hx-gate-tests
+
+      # Every gate above runs even when an earlier one failed, so one run
+      # reports every defect instead of stopping at the first. This step is
+      # what fails the job. HX5-F05.
+      - name: Fail if any gate failed
+        if: always()
+        run: |
+          fail=0
+          report() {
+            if [ "$2" != success ]; then
+              echo "FAILED: $1"
+              fail=1
+            fi
+          }
+          report "hx-doc-check"            "${{ steps.doc_check.outcome }}"
+          report "hx-fleet --check"        "${{ steps.fleet.outcome }}"
+          report "hx-proof --check"        "${{ steps.proof.outcome }}"
+          report "hx-render-html --check"  "${{ steps.mirrors.outcome }}"
+          report "hx-record-check"         "${{ steps.records.outcome }}"
+          report "hx-smoke-lint --quiet"   "${{ steps.smoke_lint.outcome }}"
+          report "hx-gate-tests"           "${{ steps.gate_tests.outcome }}"
+          if [ "$fail" -eq 0 ]; then
+            echo "every gate passed"
+          fi
+          exit "$fail"
 
   scripts:
     name: Execution artifacts
