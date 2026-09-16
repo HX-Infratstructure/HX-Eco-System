@@ -36,30 +36,196 @@ a{color:var(--accent)}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
 </style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/02-server-records/HX-5.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-5 — CentCom / Ornith / DeepSeek Harness / dev-test Server Configuration</h1>
-<p><strong>Build state:</strong> NOT STARTED <strong>Gate:</strong> — <strong>IP:</strong> <code>192.168.50.205</code> <strong>FQDN:</strong> <code>hx-5.hx.local.arpa</code> <strong>Record updated:</strong> 2026-09-10</p>
-<blockquote>Scaffolded by <code>tools/hx-doc/hx-new-server hx-5</code>. Fill every section as the build proceeds. <code>tools/hx-doc/hx-record-check</code> reports what is still open.</blockquote>
+<p><strong>Build state:</strong> IN PROGRESS <strong>Gate:</strong> LAYER 0/1 CLOSED; OLLAMA / ORNITH BASE PASS; CENTCOM RUNNER PENDING <strong>IP:</strong> <code>192.168.50.205</code> <strong>FQDN:</strong> <code>hx-5.hx.local.arpa</code> <strong>Record updated:</strong> 2026-09-15</p>
 <h2>1. Identity and Network</h2>
-<p>Hostname, IP, gateway, DNS, domain join, SSSD, domain user resolution. State the gate result: <strong>Domain join gate: PASS/FAIL</strong>.</p>
+<ul>
+<li>Static hostname: <code>hx-5</code></li>
+<li>FQDN: <code>hx-5.hx.local.arpa</code></li>
+<li><code>/etc/hosts</code>: <code>127.0.1.1 hx-5.hx.local.arpa hx-5</code></li>
+<li>IPv4: <code>192.168.50.205/24</code> on <code>eno1</code></li>
+<li>Default gateway: <code>192.168.50.1</code></li>
+<li>DNS: HX-1 <code>192.168.50.200</code></li>
+<li>Persistent network file: <code>/etc/netplan/50-cloud-init.yaml</code> (not a repository path)</li>
+<li>AD DNS zone: <code>hx.local.arpa</code></li>
+<li>Kerberos realm: <code>HX.LOCAL.ARPA</code></li>
+<li>Samba computer object: <code>HX-5$</code></li>
+<li>Samba <code>dNSHostName</code>: <code>hx-5.hx.local.arpa</code></li>
+<li>Samba DNS A record: <code>hx-5.hx.local.arpa -&gt; 192.168.50.205</code></li>
+<li>Required SPNs present:</li>
+<ul>
+<li><code>host/HX-5</code></li>
+<li><code>host/hx-5.hx.local.arpa</code></li>
+<li><code>RestrictedKrbHost/HX-5</code></li>
+<li><code>RestrictedKrbHost/hx-5.hx.local.arpa</code></li>
+</ul>
+<li><code>adcli testjoin -D hx.local.arpa</code>: PASS</li>
+<li>SSSD service: active</li>
+<li>Domain user resolution: <code>jarvisr@hx.local.arpa</code> PASS</li>
+</ul>
+<h3>Time synchronization</h3>
+<p>HX-1 is the accepted fleet NTP source.</p>
+<pre><code class="lang-text">chrony: active / enabled
+Reference ID: C0A832C8 (192.168.50.200)
+Selected source: ^* 192.168.50.200
+HX-1 source stratum: 3
+HX-5 local stratum: 4
+Leap status: Normal</code></pre>
+<p>Post-reboot validation confirmed HX-1 remained selected.</p>
+<p><strong>HX-1 NTP client gate: PASS</strong></p>
+<h3>SSH / administration access</h3>
+<p>Authoritative Windows fleet identity:</p>
+<pre><code class="lang-text">Private key: C:\Users\JarvisRichardson\.ssh\hx_fleet_ed25519
+Public key:  C:\Users\JarvisRichardson\.ssh\hx_fleet_ed25519.pub
+Fingerprint: SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk hx-fleet-20260810</code></pre>
+<p>Key-only external proof:</p>
+<pre><code class="lang-text">hx-5
+KEY+SUDO-PASS</code></pre>
+<p>Post-reboot SSH state:</p>
+<pre><code class="lang-text">ssh.service: active
+ssh.socket: active
+ssh.socket: enabled
+port: 22</code></pre>
+<ul>
+<li>Passwordless fleet-key SSH: PASS</li>
+<li><code>hxsa</code> non-interactive sudo: PASS</li>
+<li>SSH reboot persistence: PASS</li>
+</ul>
+<h3>Firewall posture</h3>
+<p>D-018 trusted-LAN posture:</p>
+<pre><code class="lang-text">ufw status: inactive
+ufw.service: disabled
+ufw.service: inactive
+firewalld: inactive / not found</code></pre>
+<p><strong>D-018 host-firewall posture: PASS</strong></p>
 <h2>2. Operating System</h2>
-<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Distribution / release</td><td></td></tr><tr><td>Kernel</td><td></td></tr><tr><td>Firmware version</td><td></td></tr><tr><td>sudo policy</td><td></td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Distribution / release</td><td>Ubuntu 24.04.5 LTS</td></tr><tr><td>Kernel</td><td><code>7.0.0-31-generic</code></td></tr><tr><td>Architecture</td><td>x86-64</td></tr><tr><td>Hardware vendor</td><td>iBUYPOWER</td></tr><tr><td>Hardware model</td><td>Intel Core i7-14700F system</td></tr><tr><td>Firmware version</td><td>BIOS 1836</td></tr><tr><td>Firmware date</td><td>2026-04-17</td></tr><tr><td>sudo policy</td><td><code>hxsa ALL=(ALL:ALL) NOPASSWD: ALL</code></td></tr></tbody></table></div>
+<p>Layer 0/1 maintenance completed with no immediately applicable updates after final reboot.</p>
+<p>Four Netplan packages were previously shown as upgradeable but both <code>apt-get -s upgrade</code> and <code>apt-get -s dist-upgrade</code> proved they were deferred solely by Ubuntu phased updates. No packages were held.</p>
+<p><strong>Base OS maintenance gate: PASS WITH NORMAL PHASED-UPDATES EXCEPTION</strong></p>
 <h2>3. GPU Configuration</h2>
-<p>Driver package <strong>and exact version</strong>, GPU models and count, <code>nvidia-smi</code> proof. State the gate result: <strong>GPU gate: PASS/FAIL</strong>.</p>
+<p>Accepted HX-5 mixed-GPU configuration:</p>
+<ul>
+<li>NVIDIA driver: <code>595.99.02</code></li>
+<li>CUDA reported by <code>nvidia-smi</code>: <code>13.2</code></li>
+<li>GPU 0: NVIDIA GeForce RTX 5060, <code>8151 MiB</code>, PCI <code>00000000:01:00.0</code></li>
+<li>GPU 0 UUID: <code>GPU-cc758e31-d23b-3c53-bee6-dae3299a6f11</code></li>
+<li>GPU 1: NVIDIA GeForce RTX 5060 Ti, <code>16311 MiB</code>, PCI <code>00000000:07:00.0</code></li>
+<li>GPU 1 UUID: <code>GPU-11b1a30e-8c11-001b-7b8b-7b1e15ab6978</code></li>
+<li>Combined physical VRAM: approximately 24 GB</li>
+</ul>
+<p><code>nvidia-smi</code> passed before and after reboot.</p>
+<p>The shared Block 2 NVIDIA package pin is not the accepted HX-5 driver state; Block 2 must not be rerun on HX-5 merely for confirmation.</p>
+<p><strong>GPU gate: PASS</strong></p>
 <h2>4. Storage Layout</h2>
-<p>Devices, filesystems, mount points, and the dedicated application path. State the gate result: <strong>Storage gate: PASS/FAIL</strong>.</p>
-<h2>5. Runtime</h2>
-<p>Package source, <strong>exact installed version</strong>, service unit, systemd overrides, listener address and port.</p>
-<h2>6. Model / Application Provenance</h2>
-<p>Required for every server that hosts a model or a downloaded artifact. All five fields are mandatory — an unknown value is recorded as <code>UNRESOLVED</code>, never omitted, because a missing field cannot be told apart from a forgotten one.</p>
-<pre><code class="lang-text">HX alias:              &lt;ollama name or service identifier&gt;
-Upstream identity:     &lt;official model/product name and version&gt;
-Source URI:            &lt;exact hf.co/... repo:file, package URL, or registry ref&gt;
-Artifact SHA-256:      &lt;full 64-character hash of the downloaded artifact&gt;
-Import method:         &lt;pull | GGUF import | package install | build from source&gt;</code></pre>
-<p>If the artifact was imported rather than pulled, also record the Modelfile or build definition verbatim, including any template, parameter, or stop-token settings. If none were set, say so explicitly.</p>
-<p>Why both Source URI and SHA-256 are required: the hash proves what is running, and the URI proves where it came from. Public model registries carry modified community rebuilds under names close to the official ones, so neither field alone establishes provenance.</p>
-<h2>7. Functional Validation</h2>
-<p>Known-answer CLI proof, HTTP/API proof, LAN proof, reboot persistence. Include the exact command and the exact response for each.</p>
-<h2>8. Final State</h2>
-<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td></td></tr><tr><td>Domain join / SSSD</td><td></td></tr><tr><td>GPU driver and visibility</td><td></td></tr><tr><td>Dedicated storage</td><td></td></tr><tr><td>Runtime version</td><td></td></tr><tr><td>Service active / enabled</td><td></td></tr><tr><td>Model / application loaded</td><td></td></tr><tr><td>Known-answer functional proof</td><td></td></tr><tr><td>Reboot persistence</td><td></td></tr></tbody></table></div>
-<h2>9. Evidence References</h2>
-<p>Either a retained bundle path under <code>docs/05-evidence/&lt;server&gt;/&lt;component&gt;/&lt;run-id&gt;/</code>, or an explicit statement that the proof is recorded inline in section 7 of this record. See <code>docs/05-evidence/README.md</code> for which model applies.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-5.md</code>.</footer></div></body></html>
+<p>Filesystem identity is UUID-authoritative.</p>
+<div class="tw"><table><thead><tr><th>Purpose</th><th>Filesystem</th><th>UUID</th><th>Mount</th></tr></thead><tbody><tr><td>EFI</td><td>vfat</td><td><code>6DA4-AE41</code></td><td><code>/boot/efi</code></td></tr><tr><td>OS/root</td><td>ext4</td><td><code>3e04ca1a-ccd0-4cc8-9bce-1d6e8f5bb532</code></td><td><code>/</code></td></tr><tr><td>Ollama/model storage</td><td>ext4</td><td><code>68d0e365-212c-456f-b42e-d908b445ae77</code></td><td><code>/srv/ollama</code></td></tr></tbody></table></div>
+<p>Observed before one reboot:</p>
+<pre><code class="lang-text">/srv/ollama /dev/nvme0n1p3 ext4 rw,relatime,stripe=128</code></pre>
+<p>Observed after the next reboot:</p>
+<pre><code class="lang-text">/srv/ollama /dev/nvme1n1p3 ext4 rw,relatime,stripe=128
+/dev/nvme1n1p3 797G 22G 736G 3% /srv/ollama</code></pre>
+<p>The device-name renumbering confirms why UUID, not <code>/dev/nvmeXnY</code>, is authority. The mount persisted correctly and contains the installed 22 GB Ornith model data.</p>
+<p>The separate approximately 476.9 GB ADATA NVMe remains outside the current HX-5 build scope.</p>
+<p><strong>Storage gate: PASS</strong></p>
+<h2>5. Domain / SSSD Deferred Condition</h2>
+<p>Core domain function:</p>
+<pre><code class="lang-text">adcli testjoin: PASS
+sssd.service: active
+domain user resolution: PASS</code></pre>
+<p>After final reboot two failed responder sockets remained:</p>
+<pre><code class="lang-text">sssd-nss.socket
+sssd-pam-priv.socket</code></pre>
+<p>This is tracked under HX4-F02 and remains <strong>DEFERRED / NON-BLOCKING</strong> because machine trust, SSSD service, and domain identity resolution all pass.</p>
+<h2>6. Ollama Runtime</h2>
+<p>Block 3 completed successfully on 2026-09-15.</p>
+<div class="tw"><table><thead><tr><th>Item</th><th>As-built state</th></tr></thead><tbody><tr><td>Ollama version</td><td><code>0.34.0</code></td></tr><tr><td>Install source</td><td>official Ollama Linux release archive</td></tr><tr><td>Archive SHA-256</td><td><code>cf95886728959aa09910bb34de5cca1cc5a8f68003b5597197d3f2c2d57c0804</code></td></tr><tr><td>Archive verification</td><td>PASS</td></tr><tr><td>Service</td><td><code>ollama.service</code></td></tr><tr><td>Service state</td><td>active</td></tr><tr><td>Startup state</td><td>enabled</td></tr><tr><td>API binding</td><td><code>0.0.0.0:11434</code></td></tr><tr><td>Live listener</td><td><code>*:11434</code></td></tr><tr><td>LAN endpoint</td><td><code>http://192.168.50.205:11434</code></td></tr><tr><td>Model storage</td><td><code>/srv/ollama/models</code></td></tr><tr><td>Cloud state</td><td>disabled for current base build</td></tr></tbody></table></div>
+<p>Systemd environment:</p>
+<pre><code class="lang-text">OLLAMA_MODELS=/srv/ollama/models
+OLLAMA_HOST=0.0.0.0:11434
+OLLAMA_NO_CLOUD=1</code></pre>
+<p>Local and LAN <code>/api/version</code> checks returned Ollama <code>0.34.0</code>.</p>
+<p>After reboot:</p>
+<pre><code class="lang-text">systemctl is-enabled ollama -&gt; enabled
+systemctl is-active ollama  -&gt; active
+ss -ltn                    -&gt; *:11434</code></pre>
+<p><strong>OLLAMA RUNTIME GATE: PASS</strong></p>
+<h2>7. Ornith 1.5 35B — Model Authority and Provenance</h2>
+<p>Current owner-approved HX-5 inference model:</p>
+<pre><code class="lang-text">ornith-1.5:35b</code></pre>
+<p>The prior <code>ornith-1.5:9b</code> assignment is stale and invalid for this build.</p>
+<p>Installed model facts:</p>
+<pre><code class="lang-text">Ollama reference:      ornith-1.5:35b
+Ollama model ID:       9f3b89b25219
+Reported size:         22 GB
+Runtime loaded size:   23 GB
+Architecture:          qwen35moe
+Parameters:            35.5B
+Quantization:          Q4_K_M
+Advertised context:    262144
+Validated run context: 32768
+Embedding length:      2048
+Capabilities:          tools, thinking, completion, vision
+Import method:         native Ollama pull</code></pre>
+<p>Artifact identities:</p>
+<pre><code class="lang-text">Model blob SHA-256:
+aaeb640f98a892980ef54876024293cc8d6987a86523aa1b947ffa9274ef800a
+
+Vision projector SHA-256:
+d9ce31026d1cb1f3f8d5152e2e2a014d9d2b302b6c93a7dc07bb0a0487f52837</code></pre>
+<p>Pull transcript included:</p>
+<pre><code class="lang-text">verifying sha256 digest
+writing manifest
+success</code></pre>
+<p><strong>ORNITH INSTALL / PROVENANCE GATE: PASS</strong></p>
+<h2>8. Functional Validation</h2>
+<h3>CLI inference</h3>
+<p>Known-answer prompt produced:</p>
+<pre><code class="lang-text">HX-5 ORNITH PASS</code></pre>
+<p><strong>CLI inference: PASS</strong></p>
+<h3>HTTP API inference</h3>
+<p>Local API:</p>
+<pre><code class="lang-text">http://127.0.0.1:11434/api/generate
+HX-5 ORNITH API PASS</code></pre>
+<p>LAN API:</p>
+<pre><code class="lang-text">http://192.168.50.205:11434/api/generate
+HX-5 ORNITH LAN PASS</code></pre>
+<p><strong>Local HTTP API inference: PASS</strong> <strong>LAN HTTP API inference: PASS</strong></p>
+<h3>GPU placement</h3>
+<p><code>ollama ps</code>:</p>
+<pre><code class="lang-text">ornith-1.5:35b  9f3b89b25219  23 GB  17%/83% CPU/GPU  32768</code></pre>
+<p>During inference:</p>
+<pre><code class="lang-text">RTX 5060     ~4.7 GB VRAM in use
+RTX 5060 Ti  ~15.0 GB VRAM in use
+llama-server active on both GPUs</code></pre>
+<p>This confirms the mixed-GPU workload is functioning as accepted. CPU offload is expected because the loaded model plus runtime overhead exceeds the available approximately 24 GB VRAM.</p>
+<p><strong>GPU-placement gate: PASS</strong></p>
+<h3>Reboot persistence</h3>
+<p>After reboot:</p>
+<pre><code class="lang-text">hostname: hx-5
+ollama.service: enabled / active
+listener: *:11434
+/srv/ollama: mounted by correct UUID
+ornith-1.5:35b: present, same model ID 9f3b89b25219
+post-reboot known-answer: HX-5 ORNITH REBOOT PASS
+post-reboot placement: 17% CPU / 83% GPU
+both GPUs active</code></pre>
+<p><strong>OLLAMA + ORNITH REBOOT PERSISTENCE: PASS</strong></p>
+<h2>9. Layer 0/1 Closure State</h2>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Hostname / FQDN</td><td>PASS</td></tr><tr><td>Persistent IPv4 / gateway / DNS</td><td>PASS</td></tr><tr><td>Live network / HX-1 DNS</td><td>PASS</td></tr><tr><td>HX-1 NTP client</td><td>PASS</td></tr><tr><td>NOPASSWD sudo</td><td>PASS</td></tr><tr><td>Fleet SSH key</td><td>PASS</td></tr><tr><td>SSH runtime / port 22</td><td>PASS</td></tr><tr><td>SSH reboot persistence</td><td>PASS</td></tr><tr><td>D-018 UFW disabled/stopped</td><td>PASS</td></tr><tr><td>Domain join / SSSD core function</td><td>PASS</td></tr><tr><td>Machine trust</td><td>PASS</td></tr><tr><td>Samba DNS / FQDN / SPNs</td><td>PASS</td></tr><tr><td>SSSD socket cleanliness</td><td>DEFERRED / HX4-F02</td></tr><tr><td>GPU driver and visibility</td><td>PASS</td></tr><tr><td>Dedicated storage</td><td>PASS</td></tr><tr><td>Base OS maintenance</td><td>PASS</td></tr><tr><td>Final post-reboot proof</td><td>PASS</td></tr></tbody></table></div>
+<p><strong>HX-5 LAYER 0/1 STATUS: PASS / CLOSED</strong></p>
+<h2>10. Workload Progress and Remaining HX-5 Work</h2>
+<div class="tw"><table><thead><tr><th>Workload gate</th><th>Result</th></tr></thead><tbody><tr><td>Layer 0/1 foundation</td><td>PASS / CLOSED</td></tr><tr><td>Ollama runtime / Block 3</td><td>PASS</td></tr><tr><td><code>ornith-1.5:35b</code> install / provenance</td><td>PASS</td></tr><tr><td>Ornith CLI inference</td><td>PASS</td></tr><tr><td>Ornith localhost HTTP API</td><td>PASS</td></tr><tr><td>Ornith LAN HTTP API</td><td>PASS</td></tr><tr><td>Workload GPU placement</td><td>PASS</td></tr><tr><td>Ollama + Ornith reboot persistence</td><td>PASS</td></tr><tr><td>CentCom smoke-runner bootstrap</td><td><strong>PENDING / NEXT</strong></td></tr><tr><td><code>hx-smoke-doctor</code></td><td><strong>PENDING</strong></td></tr><tr><td><code>hx-smoke-doctor --remote</code></td><td><strong>PENDING</strong></td></tr><tr><td>CentCom client-version capture</td><td><strong>PENDING</strong></td></tr><tr><td>CentCom smoke-runner capability</td><td><strong>NOT YET ACTIVE</strong></td></tr><tr><td>DeepSeek Harness</td><td>FUTURE SCHEDULED WORK; not a prerequisite for current runner activation</td></tr></tbody></table></div>
+<p>Current closeout boundary:</p>
+<pre><code class="lang-text">FOUNDATION + ORNITH BASE PASS = CLOSED
+CENTCOM SMOKE-RUNNER          = NEXT
+HX-5 SERVER                   = IN PROGRESS until runner activation evidence is accepted</code></pre>
+<p>After the CentCom runner current closeout, the owner-approved next housekeeping activity is a read-only reconciled Layer 0/1 audit of HX-2, HX-3, and HX-4 against the stronger standard proven on HX-5.</p>
+<h2>11. Final State</h2>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td>PASS</td></tr><tr><td>Domain join / SSSD</td><td>PASS</td></tr><tr><td>GPU driver and visibility</td><td>PASS</td></tr><tr><td>Dedicated storage</td><td>PASS</td></tr><tr><td>Runtime version</td><td>PASS</td></tr><tr><td>Service active / enabled</td><td>PASS</td></tr><tr><td>Model / application loaded</td><td>PASS</td></tr><tr><td>Known-answer functional proof</td><td>PASS</td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr></tbody></table></div>
+<h2>12. Evidence References</h2>
+<pre><code class="lang-text">docs/00-control/HX-BASE-BLOCKS-1-2-CONFIGURATION-AUDIT.md
+docs/05-evidence/hx-5/layer0-1/2026-09-15-closure.md
+docs/05-evidence/hx-5/ornith/2026-09-15-ornith-35b-pull-and-provenance.md
+docs/05-evidence/hx-5/ornith/2026-09-15-ornith-35b-inference-and-gpu-placement.md
+docs/05-evidence/hx-5/ornith/2026-09-15-ornith-35b-api-validation.md</code></pre>
+<p>The runtime evidence from the final reboot is incorporated into this as-built record and should be retained in a dedicated reboot-persistence evidence artifact during the documentation finalization pass.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-5.md</code>.</footer></div></body></html>

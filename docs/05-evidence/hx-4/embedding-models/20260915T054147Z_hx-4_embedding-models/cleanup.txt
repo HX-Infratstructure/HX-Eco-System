@@ -1,0 +1,2 @@
+CLEANUP=PASS
+DETAIL=Temporary model state released with keep_alive=0 for both aliases. Disposable script embedding_smoke.py removed after evidence capture. No database objects created. No vectors written to any Qdrant collection. Nomic was not forced to 1024 dimensions; each model was validated at its own native dimension per D-005.

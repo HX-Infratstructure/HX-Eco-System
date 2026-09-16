@@ -1,0 +1,2 @@
+CLEANUP=PASS
+DETAIL=No persistent data created. Disposable script reranker_smoke.py removed after evidence capture. No Qdrant collection, production corpus, LLM or container was used. The hx-reranker service was left in its accepted installed state; no checkpoint or runtime selection was made by this run.

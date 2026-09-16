@@ -59,8 +59,8 @@ cross-cutting concerns make a diagram less readable rather than more:
 | HX-1 | `192.168.50.200` | Samba AD / DNS / Kerberos / NTP | **PASS** |
 | HX-2 | `192.168.50.202` | Qwen-X / Ollama | **PASS** |
 | HX-3 | `192.168.50.203` | Coder-X / Ollama | **PASS** |
-| HX-4 | `192.168.50.204` | Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker | **NOT STARTED** |
-| HX-5 | `192.168.50.205` | CentCom / Ornith / DeepSeek Harness / dev-test | **NOT STARTED** |
+| HX-4 | `192.168.50.204` | Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker | **PASS** |
+| HX-5 | `192.168.50.205` | CentCom / Ornith / DeepSeek Harness / dev-test | **IN PROGRESS** |
 | HX-6 | `192.168.50.206` | OmniRoute | **NOT STARTED** |
 | HX-7 | `192.168.50.207` | NGINX dev/test only | **NOT STARTED** |
 | HX-8 | `192.168.50.208` | Open WebUI | **NOT STARTED** |

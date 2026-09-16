@@ -1,6 +1,6 @@
 # HX-5 — CentCom / Ornith / DeepSeek Harness / dev-test Server Configuration
 
-**Build state:** IN PROGRESS — foundation and Ornith BASE PASS complete; CentCom smoke-runner activation next  
+**Build state:** IN PROGRESS  
 **Gate:** LAYER 0/1 CLOSED; OLLAMA / ORNITH BASE PASS; CENTCOM RUNNER PENDING  
 **IP:** `192.168.50.205`  
 **FQDN:** `hx-5.hx.local.arpa`  
@@ -381,7 +381,21 @@ HX-5 SERVER                   = IN PROGRESS until runner activation evidence is 
 
 After the CentCom runner current closeout, the owner-approved next housekeeping activity is a read-only reconciled Layer 0/1 audit of HX-2, HX-3, and HX-4 against the stronger standard proven on HX-5.
 
-## 11. Evidence References
+## 11. Final State
+
+| Gate | Result |
+|---|---|
+| Clean base build | PASS |
+| Domain join / SSSD | PASS |
+| GPU driver and visibility | PASS |
+| Dedicated storage | PASS |
+| Runtime version | PASS |
+| Service active / enabled | PASS |
+| Model / application loaded | PASS |
+| Known-answer functional proof | PASS |
+| Reboot persistence | PASS |
+
+## 12. Evidence References
 
 ```text
 docs/00-control/HX-BASE-BLOCKS-1-2-CONFIGURATION-AUDIT.md

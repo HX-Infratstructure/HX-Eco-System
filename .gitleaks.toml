@@ -4,6 +4,12 @@
 # it back verbatim. Those strings are named TOKEN in the procedures, so the
 # generic-api-key rule flags all of them. They are published test fixtures, not
 # credentials.
+#
+# The token does not stay in the procedure. A passing run has to show the token
+# it got back, so the same string lands in the retained bundle, in the server
+# record that quotes the proof, and in the generated human-html mirror of both.
+# HX-4 was the first server closed on run-bundle evidence and the first to hit
+# this; the allowlist named only smoke-tests/, so its own proof failed the gate.
 
 [extend]
 useDefault = true
@@ -14,8 +20,15 @@ id = "generic-api-key"
 description = "HX known-answer smoke-test tokens are published test fixtures"
 # AND, not OR. Without it either condition alone was enough, so the rule was
 # switched off for every smoke-test document, and a real credential pasted into
-# one would have been ignored. Both must match: the file is a smoke-test
-# authority AND the finding is an HX known-answer token.
+# one would have been ignored. Both must match: the file is on the paths list
+# AND the finding is an HX known-answer token. The AND is what makes widening
+# the paths safe — a real credential in a retained bundle or a server record
+# does not match the token pattern, so it is still reported.
 condition = "AND"
-paths = ['''^smoke-tests/.*\.md$''']
+paths = [
+  '''^smoke-tests/.*\.md$''',
+  '''^docs/05-evidence/.*''',
+  '''^docs/02-server-records/.*\.md$''',
+  '''^human-html/.*''',
+]
 regexes = ['''HX-[A-Z0-9-]+-SMOKE-[A-Z0-9]+''']

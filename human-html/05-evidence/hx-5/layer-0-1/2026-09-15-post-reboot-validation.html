@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX-5 Layer 0/1 Post-Reboot Validation — 2026-09-15</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/05-evidence/hx-5/layer-0-1/2026-09-15-post-reboot-validation.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-5 Layer 0/1 Post-Reboot Validation — 2026-09-15</h1>
+<h2>Result</h2>
+<p>Layer 0/1 persistence is substantially proven after reboot. One blocking closure item remains: four Netplan packages are still reported upgradeable.</p>
+<h2>PASS evidence</h2>
+<ul>
+<li>Hostname: <code>hx-5</code></li>
+<li>FQDN: <code>hx-5.hx.local.arpa</code></li>
+<li>IPv4: <code>192.168.50.205/24</code></li>
+<li>Default gateway: <code>192.168.50.1</code></li>
+<li>DNS: <code>192.168.50.200</code></li>
+<li>Chrony: active and enabled</li>
+<li>Chrony selected source: <code>192.168.50.200</code> (HX-1), reference ID <code>C0A832C8</code></li>
+<li>UFW: inactive and disabled</li>
+<li>SSH: active on port 22</li>
+<li><code>ssh.socket</code>: active and enabled; this is the reboot-persistence mechanism while <code>ssh.service</code> itself is disabled</li>
+<li>NOPASSWD sudo: PASS</li>
+<li>AD machine trust: <code>adcli testjoin -D hx.local.arpa</code> PASS</li>
+<li>SSSD service: active</li>
+<li>Domain identity resolution: PASS</li>
+<li>NVIDIA driver/module: <code>595.99.02</code></li>
+<li>GPUs after reboot: RTX 5060 8151 MiB and RTX 5060 Ti 16311 MiB</li>
+<li><code>/srv/ollama</code>: mounted, ext4, ~797G total / ~757G available</li>
+</ul>
+<h2>NTP detail</h2>
+<p><code>chronyc tracking</code> showed reference <code>192.168.50.200</code>, stratum 4, normal leap status, and sub-millisecond offset. <code>chronyc sources -v</code> marked HX-1 as the selected source (<code>^*</code>). External Chrony sources remain configured as non-selected fallbacks; HX-1 is the active authoritative source.</p>
+<h2>SSH persistence detail</h2>
+<p>Post-reboot evidence:</p>
+<pre><code class="lang-text">ssh.service: active / disabled
+ssh.socket:  active / enabled
+port 22</code></pre>
+<p>This confirms Ubuntu socket activation is providing persistent SSH availability. The service being disabled is not a failure in this configuration.</p>
+<h2>Storage enumeration note</h2>
+<p>Before reboot the Ollama filesystem appeared as <code>/dev/nvme1n1p3</code>; after reboot it appeared as <code>/dev/nvme0n1p3</code>. The filesystem remained mounted correctly at <code>/srv/ollama</code>. Device-name renumbering across boots is expected and is exactly why the authoritative mount uses filesystem UUID rather than <code>/dev/nvme*n*p*</code> names.</p>
+<h2>Deferred finding</h2>
+<p>Two failed SSSD responder sockets remain after reboot:</p>
+<pre><code class="lang-text">sssd-nss.socket
+sssd-pam-priv.socket</code></pre>
+<p>Core SSSD/domain functions pass. This remains part of the existing HX4-F02 deferred/non-blocking fleet finding. The third previously observed socket (<code>sssd-pam.socket</code>) is no longer failed after this reboot.</p>
+<h2>Remaining closure item</h2>
+<p>The following packages remain upgradeable:</p>
+<pre><code class="lang-text">libnetplan1
+netplan-generator
+netplan.io
+python3-netplan</code></pre>
+<p>Layer 0/1 should not be marked fully closed until the package state is reconciled and a final post-update validation confirms network/DNS/NTP/domain/SSH persistence remains intact.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/05-evidence/hx-5/layer-0-1/2026-09-15-post-reboot-validation.md</code>.</footer></div></body></html>
