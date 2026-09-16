@@ -38,6 +38,18 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]
 FLEET = REPO / "docs" / "00-control" / "hx-fleet.tsv"
 MARKER = "KEY+SUDO-PASS"
+
+
+def remote_probe(marker: str = MARKER) -> str:
+    """The command the session runs to prove it can administer the host.
+
+    `sudo -k` first, because `sudo -n true` alone can be satisfied by a cached
+    credential timestamp - `timestamp_type=global` makes one session's password
+    entry serve another. A host whose NOPASSWD policy is missing would then emit
+    the marker anyway, which is a false PASS on the one control this tool exists
+    to prove. With a command, -k makes sudo ignore the cache for that command.
+    """
+    return "hostname; sudo -k -n true && echo " + marker
 DEFAULT_KEY = Path.home() / ".ssh" / "hx_fleet_ed25519"
 
 
@@ -86,6 +98,12 @@ def key_problem(key: Path) -> str | None:
         return str(key) + " does not exist. Set HX_FLEET_KEY to the fleet private key."
     try:
         mode = key.stat().st_mode
+        # Permission bits alone miss mode 000: no group or other bits set, so
+        # the check below passes, and then ssh cannot load the key. That failure
+        # surfaces as exit 47 "the login failed" when the truth is exit 46, the
+        # key was never usable. Read a byte and find out.
+        with key.open("rb") as fh:
+            fh.read(1)
     except OSError as exc:
         return "%s cannot be read: %s" % (key, exc)
     return key_permission_problem(str(key), mode)
@@ -107,8 +125,9 @@ def verdict(output: str, host: str) -> list[str]:
         )
     if MARKER not in output:
         problems.append(
-            f"'{MARKER}' absent, so `sudo -n true` did not succeed. "
-            "The key works but the account cannot act without a password."
+            f"'{MARKER}' absent, so `sudo -k -n true` did not succeed. "
+            "The key works but the account has no NOPASSWD policy - a cached "
+            "credential does not count."
         )
     return problems
 
@@ -160,7 +179,7 @@ def main() -> int:
         "-o", "IdentitiesOnly=yes",
         "-i", str(key),
         f"{user}@{ip}",
-        f"hostname; sudo -n true && echo {MARKER}",
+        remote_probe(),
     ]
 
     print(f"--- external key-only administration proof: {host} ({ip}) ---")

@@ -811,6 +811,27 @@ check('fleet-access: the fleet inventory resolves a known host',
 check('fleet-access: an unknown host does not resolve',
       _fa.fleet_ip('hx-99') is None, _fa.fleet_ip('hx-99'))
 
+# `sudo -n true` alone can be satisfied by a cached credential timestamp, so a
+# host with no NOPASSWD policy could still emit the marker. That is a false
+# PASS on the one control this tool exists to prove.
+_probe = _fa.remote_probe()
+check('fleet-access: the sudo proof ignores cached credentials',
+      'sudo -k -n true' in _probe, _probe)
+check('fleet-access: the probe asks the host to name itself',
+      _probe.startswith('hostname'), _probe)
+
+# Mode 000 sets no group or other bits, so a permission-bit check passes and
+# ssh then fails to load the key - reported as a failed login rather than an
+# unusable key. Root can read it regardless, so only assert where it holds.
+_unreadable = os.path.join(_TMP, 'unreadable.key')
+io.open(_unreadable, 'w', encoding='utf-8').write('x')
+os.chmod(_unreadable, 0)
+if hasattr(os, 'geteuid') and os.geteuid() != 0:
+    _problem = _fa.key_problem(pathlib.Path(_unreadable))
+    check('fleet-access: an unreadable key is refused before ssh runs',
+          _problem is not None and 'cannot be read' in _problem, str(_problem))
+os.chmod(_unreadable, 0o600)
+
 # Not ignore_errors: a workspace that cannot be removed is worth saying out
 # loud, but it is not a gate failure, so it does not change the exit status.
 try:
