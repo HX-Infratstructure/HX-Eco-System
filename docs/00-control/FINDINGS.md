@@ -1298,9 +1298,9 @@ CLOSED. The remaining work is in the join procedure so a future server does
 not arrive with a short `dNSHostName`, tracked against the shared block rather
 than here.
 
-## HX5-F13 — HX-1 is recorded PASS / CLOSED with three foundation controls unproven
+## HX5-F13 — HX-1 was recorded PASS / CLOSED with three foundation controls unproven
 
-**Status:** OPEN / OWNER DECISION
+**Status:** CLOSED
 **Severity:** Low
 **Scope:** HX-1
 **Discovered on:** HX-1
@@ -1327,21 +1327,60 @@ Replacing that blanket exemption with real rows is what surfaced the gap. Three
 controls that are genuinely applicable to a domain controller had never been
 recorded either way.
 
-### Why it is not resolved here
+### Why it could not be resolved from the audit
 
-All three need access this audit does not have. The host key can only be
-confirmed at the console; the SPN read needs directory access to the DC's own
-object; HX-1's upstream time source has never been observed.
+All three needed access the audit did not have. The host key could only be
+confirmed at the console; the SPN read needed directory access to the DC's own
+object; HX-1's upstream time source had never been observed.
 
-One further constraint is procedural: `hx-record-check` compares the record's
-state line against the fleet inventory, so changing one alone is drift. Moving
-HX-1 off `PASS / CLOSED` is a decision about the domain controller's status,
-not an edit.
+### Resolution
+
+The owner read all three at the HX-1 console on 2026-09-16.
+
+```text
+$ chronyc sources -v
+^+ 185.125.190.57   2  10  377  525  -1192us
+^+ 185.125.190.56   2  10  377  454  -3543us
+^* 91.189.91.157    2  10  267  271   -162us
+^+ 185.125.190.58   2  10  377  363   +571us
+
+$ ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub
+256 SHA256:krYLm3CEhfYoFoElfxieSI8+KBBb1mB1Cs/sTYKuQ58 root@hx-1 (ED25519)
+
+$ sudo samba-tool computer show HX-1 -U 'HX\Administrator'
+dNSHostName: hx-1.hx.local.arpa
+HOST/HX-1                            RestrictedKrbHost/HX-1
+HOST/hx-1.hx.local.arpa              RestrictedKrbHost/hx-1.hx.local.arpa
+(plus the ldap/, GC/ and NTDS-replication principals a DC carries)
+```
+
+Each row closes on its own evidence. The ed25519 fingerprint matches what the
+host presents on the network, so it moves from *presented* to *verified*. The
+rsa key was not re-read and stays network-read only; the record says so.
+
+The unauthenticated form of that last command is not a substitute. It reads the
+local `sam.ldb` directly and fails for a non-root user:
+
+```text
+Unable to open tdb '/var/lib/samba/private/sam.ldb': Permission denied
+```
+
+Under `sudo` it opens but returns only the `dn`, because `--attributes` was not
+given real attribute names. The authenticated `-U 'HX\Administrator'` form is
+the repeatable proof path and is what this record cites.
+
+The state model was checked rather than assumed. `docs/00-control/BUILD-STATE.md`
+defines `PASS / CLOSED` as the required gates being satisfied and the as-built
+record updated - completed activity, not exhaustive evidence. So `PASS / CLOSED`
+alongside a tracked evidence gap was defensible while it stood, and the gap is
+now shut regardless.
 
 ### Disposition
 
-OPEN. Either close the three controls with evidence from the console, or move
-HX-1's state in both the record and `hx-fleet.tsv` together, deliberately.
+CLOSED on evidence, not by moving the state. HX-1 stays `PASS / CLOSED` in both
+the record and `hx-fleet.tsv`, which keeps runtime state, repository state and
+evidence state separate instead of letting a documentation gap read as an
+operational failure.
 
 Related: proof step `F0` is `NOT_RUN` on this branch. It is set to PASS by the
 change that wires the foundation into the proof chain, which is a separate
