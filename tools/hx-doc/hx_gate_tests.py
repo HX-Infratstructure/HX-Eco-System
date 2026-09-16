@@ -754,6 +754,63 @@ check('foundation: neither ssh.service nor ssh.socket enabled is refused', rc ==
 
 print()
 
+# ------------------- hx_fleet_access: the external administration proof -----
+# Every other Layer 0/1 control can be checked from inside a session that has
+# already authenticated, which is why this one failed unnoticed: HX-2 and HX-3
+# reported ssh active throughout, while the fleet could not log in to either.
+# The ssh call needs a server; the verdict does not, so it is tested here.
+import importlib.util as _ilu
+_spec = _ilu.spec_from_file_location(
+    'hx_fleet_access', os.path.join(SRC, 'tools', 'hx-doc', 'hx_fleet_access.py'))
+_fa = _ilu.module_from_spec(_spec)
+_spec.loader.exec_module(_fa)
+
+GOOD = 'hx-5\nKEY+SUDO-PASS\n'
+check('fleet-access: a login proving host and sudo passes',
+      _fa.verdict(GOOD, 'hx-5') == [], _fa.verdict(GOOD, 'hx-5'))
+
+# The key works but the account cannot act. Reporting this as PASS is exactly
+# the half-proof the standard exists to refuse.
+NO_SUDO = 'hx-5\n'
+_p = _fa.verdict(NO_SUDO, 'hx-5')
+check('fleet-access: a login without sudo proof is refused',
+      len(_p) == 1 and 'KEY+SUDO-PASS' in _p[0], _p)
+
+# Right key, wrong machine.
+_p = _fa.verdict('hx-4\nKEY+SUDO-PASS\n', 'hx-5')
+check('fleet-access: an answer from the wrong host is refused',
+      len(_p) == 1 and 'hx-5' in _p[0], _p)
+
+_p = _fa.verdict('', 'hx-5')
+check('fleet-access: an empty response proves nothing', len(_p) == 2, _p)
+
+# A key on a Windows mount reads as world-readable whatever Windows thinks, so
+# ssh silently declines to offer it and the server's refusal looks like the
+# key being rejected. The tool has to name the real cause.
+_problem = _fa.key_permission_problem(
+    '/mnt/c/Users/someone/.ssh/hx_fleet_ed25519', 0o100644)
+check('fleet-access: a key on a Windows mount is explained, not just refused',
+      _problem is not None and 'Windows mount' in _problem, str(_problem))
+
+check('fleet-access: a key at 0600 on a real path is accepted',
+      _fa.key_permission_problem('/home/op/.ssh/hx_fleet_ed25519', 0o100600) is None,
+      str(_fa.key_permission_problem('/home/op/.ssh/hx_fleet_ed25519', 0o100600)))
+
+_problem = _fa.key_permission_problem('/home/op/.ssh/hx_fleet_ed25519', 0o100644)
+check('fleet-access: a world-readable key anywhere is refused',
+      _problem is not None and 'chmod 600' in _problem, str(_problem))
+
+_problem = _fa.key_problem(pathlib.Path(os.path.join(_TMP, 'no-such-key')))
+check('fleet-access: a missing private key is refused before ssh runs',
+      _problem is not None and 'does not exist' in _problem, _problem)
+
+# The host must be resolvable from the fleet inventory, or the operator is
+# typing addresses by hand on build day.
+check('fleet-access: the fleet inventory resolves a known host',
+      _fa.fleet_ip('hx-5') == '192.168.50.205', _fa.fleet_ip('hx-5'))
+check('fleet-access: an unknown host does not resolve',
+      _fa.fleet_ip('hx-99') is None, _fa.fleet_ip('hx-99'))
+
 # Not ignore_errors: a workspace that cannot be removed is worth saying out
 # loud, but it is not a gate failure, so it does not change the exit status.
 try:
