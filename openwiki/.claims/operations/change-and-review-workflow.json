@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:440d3c0940562c18802312f7ad8752e1625edf0d2df7631e0910d80983bc25a4",
+  "claims": [
+    {
+      "id": "claim_785190298d3f470e9036ef96e93aaf39",
+      "statement": "main is not a working branch; every change including a one-line fix goes through a pull request so CodeRabbit reviews it, and review is not optional.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L167-L171",
+          "version": "repo-lines-v1:sha256:c725b5b09a625fa3032e92373ca3a3207feb9540ee6ac181e2da377749c197da:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTY1ZjJlN2E5ODZjYzdmM2Q3MTMyZTYxNGQ5OWYxMGI3Nzg1MzA2YzBiMDBhNzc0ZTJlMzc1ZjExYWZmZjgxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjIyNDI0NDQ1Yjc5ZGU0ZTA1MjQ5YjhlZjI0NjJjMDk3MmRiYWFmMGMzNjlkODI3MWEwNDdkZGQ1ZTJiNjM0MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODZkNjJiOWEyY2Y5NmZiZjQ0YzYwMGYxMmM4OTA4MTUyMDE2NGQxYjE2ODJmZjM0YzdiMGIwMTg5ZTllYWNjMSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_272d55d1e4ca49a886b82fd73236718b",
+      "statement": "Section 13 fixes the change sequence: git checkout -b <type>/<short-name>; regenerate derived output and check it (tools/hx-doc/hx-fleet && tools/hx-doc/hx-render-html && tools/hx-doc/hx-doc-check); git add -A; git status; git commit; coderabbit review --agent BEFORE the push; git push -u origin HEAD && gh pr create.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L172-L187",
+          "version": "repo-lines-v1:sha256:97026b2c753127b35b767867e8e91faffe2f7ce149277f8632869f7bfe6fc582:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkZTJmNTMyOGVlNmU4MDUwZThhYWZkOGRjODY5YTA2OWNkOTU4NGVkYWFmNTRmZTU4OWQ3M2MzYjdkY2Q3OTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkNTk1MjM1ZjA2YzAxODJjOTllYzQ1MmI0OTcyMzBkMDY4YzhjMjc1MWI5NTQwMTdiMGYyNGNmZWYxZTc3ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRhZWEwMmFjMTNmNTcwZWEzNzcxNmJmZGVkNGVkZTZkNmZmZGNlMjQzODM0MTZmNDIxMDc4OTNiZTc2NDllODIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_31f26efc15f74c9d92ba47594cce64a4",
+      "statement": "coderabbit review --agent before every push is required, not a convenience: the hosted reviewer runs after push, applies base-branch config rather than the branch under review, and on a public repo can refuse for the day once the review limit is reached; the CLI reviewer has none of those limits and reads the working tree and config as they are now.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L189-L200",
+          "version": "repo-lines-v1:sha256:8b7f49ebe91aa526ddae60bb6c195b098c42c7a9279e8630b5af17d6e31e43b3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1OTlhOTIzNTQ2ZmNhNGVkNTliZjI2ODFiM2JjMTNkYjlhM2RkOGI5NTE3MDU2ZjkyMzQzY2VjN2FhYzMyODAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwMzdkYTQ5ZGUwYzc4YTc4ZGJlMDg0ZmNlNmI0MTZiNmNjNDRjZDNlNWY0MzRiOTg3ZmVmMDcyODkwN2Y3NzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiNzA0M2E1N2I0NzIxZDdjZmI4YzgxODUxNTRlNWY1NDc3ZjkzYThkM2Q0YTgxZGQ5ZmI0MzM3OGZjMzlhMDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxNzAxZGIyODljZWM3YzIwZDA5ZDA5MmIzMzE0NjlkMjk3NTI2MDQ1MWJkMTQ1ZjNhMjQ5YTZkYWVkZTk4MDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0fdd72350f6b4f7b9383aa39a4a3f3d0",
+      "statement": "The first push that skipped the local CLI review shipped two defects that it would have reported first: a duplicate with: key that stopped a GitHub Actions workflow from starting, and a path_filters entry that turned the filter list into an allow list and would have excluded every file from review.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L196-L200",
+          "version": "repo-lines-v1:sha256:d93432bfc2f8d27fda0b687e96309f912a7be89f701d45524b43bf99a7fdd1a3:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWY1ZmYwODczNTBkMmM3ZDViOTVhYzdhMjQwNTVlZjVhMzQ2MGIzODRmNjMxMTcyZTlkZGFiNGY3OWI4Mzk0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTAzN2RhNDlkZTBjNzhhNzhkYmUwODRmY2U2YjQxNmI2Y2M0NGNkM2U1ZjQzNGI5ODdmZWYwNzI4OTA3Zjc3MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTA0YTI2MWI5NGFhNDIxNWI4YzA3NDY0MzcyMjA5ZGFhNjc4NTQ4ZGI5YmE3MGQzYzZlZmVlNWE2ZGU5ODFjZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjE3MDFkYjI4OWNlYzdjMjBkMDlkMDkyYjMzMTQ2OWQyOTc1MjYwNDUxYmQxNDVmM2EyNDlhNmRhZWRlOTgwMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a8145e71a7df4178bcfe4e01db7dfab3",
+      "statement": "The CLI review runs from a CodeRabbit API key; coderabbit auth status reports whether one is configured.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L202-L203",
+          "version": "repo-lines-v1:sha256:a061440919c418f1ea3ad1c673975da60e7c6fedfb4d70b2130e753b6f73b922:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ4YjUxOWNjZWRlYjc5MDk4YjQwNjk5OWU1MjY5YzYwMGNhZTRkMjhlYmQyOGE0ZWUyZDgxODFkYTVlZDUwNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGQyOTM0NmJkMDQxMTRkNTkyZTRjNGQxNmM5MTc3MjIyYTZmM2NkOTQxNWQwMDYzODEyNGJiZWU4YzEwYjBhNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTg3NGVlOGRiOWJjOTIxMGFhNTFiZGVjMDRiYzcxMGE1ZmVhODM2MjE4NTU2MDM1MzFjYTNiODA5ODJlZTBjYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTBlYmFjMjY3NjQ2N2Y1ZjY0ZjM3YTg1MTE2MGU0NDdjOGJiMDRjOTliZDcwOGUzYTdlODIzZDUxZmQ3NTBkMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_17e7b63082804ad0b6e247acf73f4930",
+      "statement": "When CodeRabbit raises a finding it must be fixed (small, medium, or large); if a finding is wrong, say why on the thread rather than ignoring it.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L214-L215",
+          "version": "repo-lines-v1:sha256:b80ec7657ed49c2e1c768bbb61cbb4719403493f530519c7b7cf21a859408301:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTExYjIwZTA3NzdmMGY2MzQ4YWIwMzBkMTMxOWUwMjdkODljZjBlNjBkZjg5OWRhMmFhZDJmMTM4ZTU0NGFmNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDU5NDMxY2E1YTEyMWNhNjk5YWJlMjhiMjUxMmEyOTE4MjNlNjQ5MWQ2MTEwYjk3ZDcwZTY0NDIyNjIwMDk4NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzNjNjcyYTE2MDAwNGM0YTM0YmM2MzM4YzNjMDRjNGUxMTA2MTRkODhmMjY0YmIyYzFjYmNhOWMxNjQwYTE2ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjk0Mjc2MDVmMzA1Zjk5MGUxNDhiODJiNmM4M2FhZjYxZjdiNTJkYjFhNjM2MzMzMWViMGJhYmQyN2I4NDJlYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9ab5b3135a6f4704a0534b05e7717673",
+      "statement": "A stacked pull request is reviewed too: .coderabbit.yaml matches every base branch, not just main, via auto_review.base_branches set to - \".*\"; naming only main there silently skipped stacked work, which is an unreviewed change, and a base-branch config fix must reach main to take effect.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L29-L39",
+          "version": "repo-lines-v1:sha256:cf46d049299ced3775bd0679b5080dced1a783db972dfa8a1f596f15f6984441:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5MDg4ZDk1ZjhiYjBlMTQ5ZDRiZDZkMWZiYTRlZDQ2NDg5ZmI2NGQzMjRkMjFlZWFlYTg5Njc5ZDVjM2I5NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkNzc1ZDQ3ZWJlMTU4NzNmMWRlMmYzMzhlZGNkN2UzOGZkMjEzNjczNWFhYWNjMWU1ZWFiYTdjZmRmYWE0ZTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQyNjY1ZTRmMzZlNWU1YzI5NDVmZDVhZDgzYzQ1NmYzYzI2MTc4NGQ0YzlmMGNiYzdhNGI5MzZlMWZmOTc2MjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjYmIzNTY3ZGY2OTg0NTc5ZmVlMGE0NWFiMDE0OWFlY2QwNzI5NjA2OGUwNDYyYTg4ZDFjZDc5ZGU1ODk4OTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b22b606833f1418395e52579b2b3dc66",
+      "statement": "A pull request must stay under 100 changed files or CodeRabbit skips it, and a skipped review is the same as no review; generated output and archive are already filtered out in .coderabbit.yaml, which is what usually pushes a change over the line.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L209-L212",
+          "version": "repo-lines-v1:sha256:0611c96b82e675228b794a2856bcd96346d955bfa25ce0cae9fd61b73f28851f:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTgwOGU0ODQyMjczOWJjMmI3NzUwYzMwOWE1MmU2NGZmMWEzZGFmOWQ5ZDUxYzk5YjQ0ODVkNDllYmY2ZDNhMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDU0OGMyZWYxYWRjZDc5NDEyMGQzNTgzYjJlYTQ3YWQyNDJkYzJjM2Q4OTkyODY5ZmI1NWIyNmFlNjU5OTI3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzViN2I5MDdkMDE1Mzk4MmIzZjA2ZGJhNDAzNTNhY2ExNWJlZmM2ZTQ5ZDIyODRmZTMzOTMwMGY3Y2I4YjU4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzU2NDdjMWM3MzkzNjM0Y2I2OGE3ZjAxNGJhOWE0YjVmZTQ2MGI5MDEzNWRhZjhmZmYwMDFiYWE0OTA3Y2RkZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_77296ac430324b0da3538519c05ca7ea",
+      "statement": ".coderabbit.yaml path_filters begins with - \"**\" (which keeps the whole tree in scope) and subtracts generated/excluded trees (!human-html/**, !archive/**, !openwiki/**, !docs/03-runbooks/common/hx-fleet-ips.env); a positive entry turns the list into an allow list.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L55-L70",
+          "version": "repo-lines-v1:sha256:c6fb926dec393be50c1f4395378e30535313c20b2167aaa5392a076b783644fb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwNTFiM2U3YTM3ZGQ1NWE0M2MwOWEwMzU5YjgxNzMxYjgyZDBhYjM3MjcwNjU4Njk5ZTczMjIxNzk3ZmY5YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU3Y2JlNTA1MmNjYzYxODFlMzU2Y2Q0ODE3ODlmYTIyODk4NDdjN2I5NmRjMTE1NWQ2MjBlZmJkYTcyNTdmNjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI2NTk3MDllMGVlZjdlYTc3MTc4NWYwMWYxMTllZDE1NDE0ZmIwM2NiYzgwYTc0NzRhYTI5NDJlMzI0ZTQzNTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEwOWY0MTAyMDJkNzhlZDhkY2UzNDk0ZDc3NmI3MDNhYzYzNDVhODNmYzhlZmQ3NzExODQwMDZkYWNhNWVlODIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_000caea7f8e64e2986f1143ec530a4b9",
+      "statement": "The two source-of-truth TSV files (hx-fleet.tsv, hx-proof.tsv) are re-included by name in .coderabbit.yaml because CodeRabbit's default filters exclude **/*.tsv and would otherwise keep the last files that should go unreviewed out of every review.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L71-L77",
+          "version": "repo-lines-v1:sha256:f0b9e448b54bea8b2e161b614a6dbfc8878b76ace5ec628a65b2fb8cf68b6f91:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGQ4YTk3NmIzMzM2ODk3YTQ4ODRkNDcwZTMxZDFkMmZjNWUwM2RmN2E4YjA2ZDRlYjllYmE3ZjRkOTczOWVlOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjcxN2NjMzFkZWU2ZTczMTM4NWUyYjcyZTYxZDM0NTM1ZjQzYmQ2YjZmZmNiNzUxZWE5NjA3ZTExNmNlZDRhNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2FjYThjYWJmN2ZmYTdkYTc5MmMxMmVhMDZjNWUxYzk0Y2Y0MzM5NWI1YWMxMzUxNmIwYjIxZGNmYmM4NjlmMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDU0NmZiYTk2YzQ4MzY2Y2Y2MTdjMTVhNjFlYjExYmU3MzkwZWQzMGIxYjg4YTFlZGIwZWIwNjcwYmJlZTFhOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7a77713464234fb2a2a9d92ddbcc6ab9",
+      "statement": "CI runs both hx-render-html and hx-doc-check and fails a documentation change otherwise; hx-doc-check validates links, registry vocabulary, control frontmatter, stable filenames, and committable evidence, and hx-render-html makes every human-html/ mirror match its Markdown source.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L224-L226",
+          "version": "repo-lines-v1:sha256:fb32148d1bc58f663bcf5f2121fb4f93b0cefe6a9785b6d1c7e2eb0192ee2300:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Y2Y2VhNDI5YWYxYmY1ZDZjZmFhOWUxZjE0OGRlNmViYzQxZWExYTkxOGE0MjQ5M2I3NzJiZGI1NTJlMWM5ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDIxZGIwZDZmZGM5N2VlMzJkN2RmM2JiOWY0YTcxYzE4NjMzN2YzNTkyN2ZjMjI3Y2ZkNjY0ODcwODc3M2EwMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTZiMmI4OTMwNDdjNjQ2Y2M3NWUyODBkOWJmN2EyZDY2NDQyYzIyMmM2YTVmYzgwZjlmZmI2NGQ3ODc2YmZkYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmM5ZDk0MTQzNjM0MjczNGUwNTNhM2NlMTEyZDVjMzY3MWQ4MzA3ZmE2ZDU3YjA2MWZjNGI0YzcxNWJhYmYwZiJ9"
+        },
+        {
+          "resource": "repo://AGENTS.md#L303-L308",
+          "version": "repo-lines-v1:sha256:4a13ccce4b9a5d35f13d6cd62e75eebbc487a67116e9553bdb6067a5c77839c1:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODg5NWNjMmVlZmRmMzQ5N2U3NjBhZGYzMDlhN2U3ODE2OGRjNmJiM2FlNWQ1ZGMzZGE2ODJmMjllN2Q5OTRkNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2UzODk1MTY1YjQzZGY0M2M2ZTU3NmJjYjFhYmQyYTZmZTQ2NmQyYjBiZDA1NTczZDFmYjk1MGJmZjlkMDhlNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGE3MDQ1YWQ0MmQxMGY2NjkwZjM5NjUzMjE3MTY4MjRmYTExNzZkNmQ0NmNhYjYwZjI1NzQ3NWY1NWUyOWY0NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWYzN2UzYTJlZGQ3MjNmOWQwNzlhZTQ3ZTQ1N2YyNDBjNzNmNDBmYzc5ZTVmMzJiNmU5MGUyOWZhZjYyNDU2NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c8cef34234414361b34e0b6e4283af5f",
+      "statement": "OpenWiki generation is manual, not scheduled, as of D-025 (ratified 2026-09-14): the former .github/workflows/openwiki-update.yml was deleted and regeneration happens from a host-agent session using that session's model rather than an API key, superseding D-023 which had authorized OPENWIKI_PR_TOKEN and ANTHROPIC_API_KEY for a weekly paid run.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L287-L326",
+          "version": "repo-lines-v1:sha256:feef79b0e9a22e9f4496c3d858097cc2fee33413c5135619e62a4b040e3011d6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0MjQ1ZWZkZDFmNTViODhjY2I0YjhmZDJiYmZmMTdiNjE1MzVlYWVjMjJmM2FhODhjZWUxY2Y0OTRjZDdlZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1YjQwNWUyNGEzOTU4NzBmMDcyMWYyZWJiOWMyMWFiNjc0YWQ4MGFlZDI3NGVhMmY3OWY3ZDAwOWFkNDk3YWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmYmUwMjg1M2Q4MTA3M2Q5OTIxZWU3ZGRiYWE5YjNjM2I4NmE4YTJlNmExNDA4N2QzZGU4OTdkNWQ5MWYzZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwMTVjMjk3ODNkMTdjMTQxMTM0OWY3Y2M5MDMzMzBkYzQ4ZWM5ZTA4ZDczZmVjODYyMWEwZWZjODI3MTE3ZTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5548ee3c5f1844529b3ee095ea1406da",
+      "statement": "D-023 required that OpenWiki pull requests are not auto-merged: a human reads the generated documentation before it lands; D-023 was superseded by D-025 on 2026-09-14.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L156-L160",
+          "version": "repo-lines-v1:sha256:7bdc15cc827f667d662c83f2a0f6b098325968f78f9d09a11630387cae4b2239:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTBkNDgxNTNjOTIxY2IwM2M2MDkyYjAwZDgzNWZiNWY1M2JlZTM3YzliZGQzNWQxMWM2YjUzZmNmZmVmZTM4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTYxMmYzZDk5YzFhOTY5NDU2N2RmYzlhMWVjZjVlMWY2MjAwYmUzMjEwMmFjMzFkMzM0OWYwYjA2MzFkMGM0NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGQxN2ZmMTg1M2M5YjI0MDMyYWE1OGY2OWM4MjgxZWM5N2ZkMmIwN2I4OTZhNGUyNTlmZmNmNDZjYzE5ZmU4YiJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L188-L189",
+          "version": "repo-lines-v1:sha256:e4fc717d246790da71b8f2815ca6998e09cac704d8a3a1f48a5143ec66b3950b:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWRlY2ZlN2ZmOTI5Yjg2YmQ1OTBjZGJmN2JiZWNjZTJlZGVjYzAyMjg4ODZlOTRhNjUxZGY4OGE3ZGEzNDg5ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGEzNjZhYmQ3NDU4MjhiZTQ5YjljMTAwYTVkNTc5NzYyNjBjNGYzYzYwY2MzZmZkNTdlYzk4MzVkM2I0MDZlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGNhNDdiNmJlOGFmMDJhZTJhNWViZjI3YTE4NGJmMWNhYjQ3YzczZDQwOTczNTI3MTJkZWY1ZjhjMjlkYTVkMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZThhZTY1ZmU5NWYwYWEzZmM4NDhkNDZjNDFlYTQ4OGJlNjU2MDM4ODdlMTRlOGY2ZmNiNTQ5ODkxMWZlNjU3ZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_51ccfa4bf5fb4553b71924e1006cd4e1",
+      "statement": "Generated openwiki pages are never authority: they are written by a model from the code and are behind the working tree by at least one run; source code and tests are evidence not authority, and the question 'what am I allowed to do' is answered by AGENTS.md, control docs, and smoke-tests/, not the wiki.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L319-L333",
+          "version": "repo-lines-v1:sha256:1ab1082a619559f23d4b30c867e7636a9f236c6d3612247174052f63f2ecc180:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxZDc0ZWQ5OTc5YjkzMmIxZjQ2YWM3MThhMjRmNTlmMTJiMDljNDc5YzQ2NGQ2NmQ1NDc1MmJkN2FlOTYxZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQwMmIyZDUwYzUxOTdiMGJkN2QxMjFlYzI4MTU2ZmNhMjM1MTg4ZGMzNzc2N2FhZjgyMWIyNWUxZTY1NjZkM2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU5YjQ4YzFjOTNhZjYzMmQwZDU0ZjM3NWYzNGJlNjNiZmUwODRkYTIxZGJmOThkODlmMmM1MTc0ZjRmNTY2ZWEifQ"
+        },
+        {
+          "resource": "repo://docs/06-tooling/openwiki-agents.md#L8-L38",
+          "version": "repo-lines-v1:sha256:281009ae3ef812ace2f71f31b1d3f07616c2821128158df911e9bd93523894c6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVhNTZmMGYwNmE0NmFiNDVhYjBhYjYxNjJjYzNhYzE0OWEzZWQ1ZWI0NDE4MjI5NTI5YTE0YmJhOWY4ZWFlMGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFiNjQ2ZmI1OGRlNGM5MWNjOGE1ZDYzZGNlYzBmZDdjMjdjMDMwOWQ3NTIxNzVkZmFlNTUxYzNmZDBiNjcwYzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_93ebddbe047d42579387848915f41767",
+      "statement": "Never hand-edit generated trees: openwiki/**/*.md (except INSTRUCTIONS.md), openwiki/.claims/**, the run-state files, and the OpenWiki markers in AGENTS.md/CLAUDE.md are regenerated every run and edits there are lost; openwiki/INSTRUCTIONS.md is owner-authored, never rewritten by OpenWiki, and is the supported way to change wiki coverage.",
+      "evidence": [
+        {
+          "resource": "repo://docs/06-tooling/openwiki-agents.md#L40-L52",
+          "version": "repo-lines-v1:sha256:91d58318b166918893a51002a3d53472e93970b66bdb2b2aaafa06ae5980e19c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViMDA5Y2UwYWFiN2JjMzYwNDgwOTc0MDRjNmQ3NDY3MWMxOTBlZmMyZWI2Yzc2YzlhYTkxY2QxNDc5MmI0MmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE1ZDRkM2MxMzUyNTU1ZjJjNWQ4ZmZkNTdlMjIwMDk1YzcwNDJjNjA5NjhkMWUxNDllNzM3OWY1MTJkZWJjM2IifQ"
+        },
+        {
+          "resource": "repo://docs/06-tooling/openwiki.md#L57-L60",
+          "version": "repo-lines-v1:sha256:e019e25f491dbf677d1b22441fac5e6e1a56073a21926b3d80c2693e549f0987:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmJlODNkNDQyNjRiMmZhN2ZjMDM4MTIyN2ViNWI0MWRiNjk4OTBmZWM3MWUyYWIxMDE1NDcwZTU5ZTY0OGNmYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDg5OWM5NThiZDQwZDYxYzRjMGI4ZTdjMTZiNzYwMmVjOWU0N2M3ZjBiODQzZDI3NWQ3Njc5MTU5MjU0ODJjMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmFkZDgxM2I2NGE4ZjVkZTM2YjE1YmI4MmU3NjAyZWQ2OTAwMzZlZTQzMjY0M2JjOWE3MWI0MWQ4NmNlODA5MiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f0aa41fc1c464266846e61e599379285",
+      "statement": "Active documents use stable unversioned filenames with version/date/status inside; only one current version stays active and superseded versions go under archive/YYYY-MM-DD/; do not create duplicate active documents with timestamps, (1), final-final, or model-name prefixes.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L300-L308",
+          "version": "repo-lines-v1:sha256:e1079114886e1e6438dc3a8dd1e5fe493c396eb4678ee645d9d497ad51184e50:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmE2NDEyZmNiYTNhYTkzMjcxZTRjZjhmZDU1ODAyYTljNWQ2MzIwODlmY2NhZDczNDMyMjBlNjE3MGVhYmFjYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2UzODk1MTY1YjQzZGY0M2M2ZTU3NmJjYjFhYmQyYTZmZTQ2NmQyYjBiZDA1NTczZDFmYjk1MGJmZjlkMDhlNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2ZlMzViNmEzZDIzOGNkOTMyZDEwYjU2MGIxODhmMjk5ZWNlZWY4MDgzNzc5Y2YzMDI3YWQ4YjYwYzFmYTUyMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWYzN2UzYTJlZGQ3MjNmOWQwNzlhZTQ3ZTQ1N2YyNDBjNzNmNDBmYzc5ZTVmMzJiNmU5MGUyOWZhZjYyNDU2NyJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L39-L40",
+          "version": "repo-lines-v1:sha256:ab408150598657641074093f9d923be984c5f6ec31acfb3a42f0396c32d328c3:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzVkNzA1YTk5ZDFiM2M4YjI2MGFiYTcwNjdmMzM2NzM5MjEzODNlNzU4YzQ2M2U4ZDI0MzJjMjI2MjVkM2ExNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjkwMzlmYWQwNmQ5N2Y1MzliNDNiNTM0OGZlOTAxODZlNmJkMTNmMGE2YTI2MTQyZGZlYTMwNjgzZTQyMTJkMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTFkZDA1ODA3NTY0NWVmZDJhMGI4MjE4Zjg3NmZjZDRjMzg0ZTEzMDM4MTNlMzg0MjU5YWVjYjRlMzg4YjQzYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGJkNTZjZDVkODQ0MjMxOTMwZmZlYzg2MmRlOWM5ODYxYTkyNTA2OTllNDZiNmQyNTc0MjMyMDMxY2RjNzA5NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7259fcd032b44d6facb401e5c7325d0b",
+      "statement": "tools/hx-doc/hx_doc_supersede.py performs the supersede procedure in one command: it creates archive/<today>/<same-path>/, copies the current Markdown there with a --suffix, archives the matching human-html mirror if committed, leaves the active file in place for editing, and reminds you to re-render the mirror then commit the edit and archive copy together in one commit.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_supersede.py#L107-L112",
+          "version": "repo-lines-v1:sha256:370fc2419b56827f8a425a41a4ff26b388b1ad57237942e123b8febcc8845c29:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTUzMmE0NzM0MjJkOWU5NDIyZGNkMTEyNTg4YjY2YWIxNWFjNzAxYjVkZTE4MjM2MGZmYTlmOTJkMDMzZTRmNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTYyMzNiM2ZmZWEzMmEyM2RmNTMwNjUzNDM0OGYyZGVlNzc2YTVhNmY3NGZiNTMzMTc1ZGRjNTM5YThmZTQ2NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTU4ZjQ0YjJhYTVjYTIxNWY4OTU0M2UxYmIyMGIwODc5MDE5YjhjNzhlNjgzYTZiM2M0NDdiODhmNzZmMjljZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2Q0MTM0MGNjMjM5YTE1OWNlOWI2MDIyZTlmNjMyMjgzMmUyZWFkNzZjYWU5ZTQ3NTRkMjEwZWI4ZmI2ZDVlOCJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_supersede.py#L8-L17",
+          "version": "repo-lines-v1:sha256:3d0813c81be5f68e5d2f0427c562307e0f0cc5cea7cb0c2ce66d20039e583eab:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1MzE1NzcwOTJjMjcyYTAxYmYzMTlmNjllMGQwMDIyMjg4OTk4ZDNhYTNjNGQ5ZjE5ZmRjMmNhYTlmZmYyOGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzNTVjZDdmYjYwNTJjZjhjMmUwMGU4OGUxZDEzOTY2ZmFmZjcwYWFjMDJmYWFjMmU4OTZjYmFhNWFmYjE1ODEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFkMzE4NGEzODRkM2VmMThiYzRlY2I0NjkyMzFhNTQwMWNmZTA3ZGIwOGVjMTRlYmZmNmU3Njg5NTk3NGUyMDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJlY2U3ZjEzYjdiNmEzNTE2ZmNkNGI1NDMyZDg1OGU1ZjVhMjUyMDRlNjY3OGQ5MzEwZjA1MzNlOTU0NzlmNDUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f4cf435b4dfa4752a5cd84529b8c00f5",
+      "statement": "hx_doc_supersede.py refuses a path under archive/ or human-html/ (not an active document) and refuses a --suffix whose archive copy already exists, leaving exactly one active version.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_supersede.py#L60-L63",
+          "version": "repo-lines-v1:sha256:fc769f778eabd90d78f77e18e01e6d4347f0b610449070bc2d5bafec8babdcb3:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFhMzFhOWEwMTMzYzNjNGE0ZjEyMWY0MzhhNzg1YThiYjMwMmI3OWY3OThjZTVkYjBhYWJkOTYyNWEyZmE2OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjMwODY2ZTFiY2M1YWI3NmUzZWY1OTAxMmQwYWQzOWE2ODdhYmUwMDIzYjQzOGFjYjExMzBhMTg4MjVlODE5MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2Y4MzkzY2RhNzQ0YmM5OGQ0Y2JiZDk0NzY0ZDM5MWExMTg4NTZiOTEwZWI0Y2I5YmJjZDljZjdiZjZhYTg4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGRjZTU3ZjFhMDk2YjUyNGNmNTVmMzY5NTgxMWZlZDA1M2M5YjdkNzMyOGQ0NGVhOGE4ZDQxY2UyMjJiZjQyZSJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_supersede.py#L69-L72",
+          "version": "repo-lines-v1:sha256:20abe4fd0ca9b1efe1b66b663977c3c2298df7cb6b214589fc877f5659000769:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTM5NGU2Njg0YzUyYjhjOTVlZTk4YTUwY2VkZDI5NDc1MjUxOWM4ZTAwNWRjYjIyMjA4ZDkxMDY5MjAwN2ViNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjMwODY2ZTFiY2M1YWI3NmUzZWY1OTAxMmQwYWQzOWE2ODdhYmUwMDIzYjQzOGFjYjExMzBhMTg4MjVlODE5MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmMwMTNmNmZhOGY1MmU1ODdkNmYwYjJjMmM0Y2M0ZmJiY2NhZDFhYjU0OWY0M2M5N2YyYmQ5ZWI0OGY3OWM1OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmRhNzlhODg1OWI5ZWM3ZmZmYWNmZmJmOGFlNzFmNWY4OTljMDBiNjM0ZmY0ZDEzNTZlNTljNDhmZjdiNGNiYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ac6e7435fff443e682a287e6b7b5cbe4",
+      "statement": "human-html/** is generated output; never hand-edit it — edit the Markdown source and run tools/hx-doc/hx-render-html; a change appearing in human-html/ without the matching Markdown source changing is itself the review finding.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L107-L110",
+          "version": "repo-lines-v1:sha256:a32b5b5fa93a19b72b4127a87a31a8ad8af7b90de9371108e33265109d44bc19:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjRhY2IxMWU2YzFmYmNhOTMyMmUwZDZjODFhMjU0ZTY5OWNmZmM4NmUyM2ViYWQzMzI1NzI5YjdjNzQ3MzcxZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTA0YjQ4Y2QwYWJlMWU3ZDIwNWQ2MjZmMzIwNmM1NjhhNWQ5ZWY5ZjQ0MWUzNGJjMDY4ZjhmZTk3Y2FkMDY3YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTlkYzI5MWY4YjA3ZmMzNTVlNzdkZWNjYWY1ODhmN2M3ZWY3MGUwYWU2NzI5ZDJlYWY2ZTcxZjY0YmM1NDdjZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTk0ODY0MTI1MzliZTE1Njc2MjNjOGRmNGQxYjBmMmMwYTIwZWYyOWMyZWUyYzY1ZmNlYjE0YzhlZDk1NDQ1MiJ9"
+        },
+        {
+          "resource": "repo://AGENTS.md#L300-L308",
+          "version": "repo-lines-v1:sha256:e1079114886e1e6438dc3a8dd1e5fe493c396eb4678ee645d9d497ad51184e50:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmE2NDEyZmNiYTNhYTkzMjcxZTRjZjhmZDU1ODAyYTljNWQ2MzIwODlmY2NhZDczNDMyMjBlNjE3MGVhYmFjYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2UzODk1MTY1YjQzZGY0M2M2ZTU3NmJjYjFhYmQyYTZmZTQ2NmQyYjBiZDA1NTczZDFmYjk1MGJmZjlkMDhlNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2ZlMzViNmEzZDIzOGNkOTMyZDEwYjU2MGIxODhmMjk5ZWNlZWY4MDgzNzc5Y2YzMDI3YWQ4YjYwYzFmYTUyMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWYzN2UzYTJlZGQ3MjNmOWQwNzlhZTQ3ZTQ1N2YyNDBjNzNmNDBmYzc5ZTVmMzJiNmU5MGUyOWZhZjYyNDU2NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_09e222c957114845b64ce9d7d71ff42d",
+      "statement": "The review posture in .coderabbit.yaml is assertive, with no praise and no restating of the diff, so findings are meant to be specific and actionable.",
+      "evidence": [
+        {
+          "resource": "repo://.coderabbit.yaml#L9-L21",
+          "version": "repo-lines-v1:sha256:c68b9089e16114501e08d8ea9e66150e93523ca8fe46298a9e38ba4bad69f4a1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NGY0ODVhNmEwNmJmODhjMTVkNjhiMTY0ZmRlOGQ5Yzg4MjgxMTE0NTUyZjViNDM5MDE3ODllNDBmZGI4MjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI3Y2Q4OTUzZjc0MDBmNmYzMDk0OWEzOGQxMmMzODJmOWI2ZjhhN2FlYTBiNDZmMzlmZGQyMzdkMTk0MmY1MTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIzZDY1NTdiMmY5N2Q4ZjI4ZWE0MzcwNTk4YWMyM2EwOWM4MzIyZTNmYTNjZmYyNWJiNTEzOGVkY2EzZWQ3ODIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU2MGRhZTVhNTUzY2YzNjQ1OGVlYTM5MjBhMWYyNzZmNDI2ZmQ5NTZiNjQwM2FjZTRjMWY0ODZkZWM5NDRiMjcifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-15T22:39:27.588Z"
+  }
+}

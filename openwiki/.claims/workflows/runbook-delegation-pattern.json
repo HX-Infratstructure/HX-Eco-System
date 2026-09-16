@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:3b5c95121fd2a6ef483680d0674378c2256802007181be5c11cd68900f7250b2",
+  "claims": [
+    {
+      "id": "claim_140b6bf39aa840888738d98384661e1b",
+      "statement": "Per-host runbook directories (docs/03-runbooks/HX-N/) are five-line wrappers that exec the shared block in docs/03-runbooks/common/ with the host name as the sole argument, carrying no logic of their own; the two invocation forms ./HX-4/01-base-admin-network-updates.sh and ./common/01-base-admin-network-updates.sh hx-4 are equivalent.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/HX-4/01-base-admin-network-updates.sh",
+          "version": "repo-file-v1:sha256:45e68299c714ef36f4734b5809d8a864100ad0408af8c1a32d4380ef8a7900a5"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/README.md#L19-L28",
+          "version": "repo-lines-v1:sha256:4081b96725d3e9a7e0497e7ddde24c80e0185258486be62fbb2b6bfe7506ee02:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2MWFlNDk3NTNjMjFhZjhjOTA5ZjZlZTlhZWEwODNhMjQ5ZTQyOWY3Yzg1NTkwZTg4MjBlYjQ3YmM0OTk3MzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxNTA4YzYwNDM0NjYxNzhjMjdhOTI4NzllZWNjNjE3Y2FhYmQwNmRlZTRhYWVlOGJiODExMDBhZjJlYzMwNGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMwZTQyZmEzOWNjMDcxNTgzMzY5NDNiZmFmOGU3NzI5ZGMyZWViYzJhZmNhOTMwZWY5ZTViN2E3ZTcyNjZkOTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhkNDAyMzE1OTVmOGExYTQxNWE1ZTM1N2Y4M2Y1M2IwZjMzNDBkYTVkNDM1NDQwMGI3MzQ4NzhiMjA4ZGYwMzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e32887a37baf426aacec28a790420d21",
+      "statement": "Every common block calls hx_require_host as its first substantive action (after sourcing hx-base.env and checking the argument count), and it exits 10 when hostname -s does not match the expected host name, which is the guard against running one host's block on another.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/01-base-admin-network-updates.sh#L9-L10",
+          "version": "repo-lines-v1:sha256:418849320c43f59fbb02274f9103cda40eb6f6a224594579ad5dc24f443e14a7:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODcxYTE3OWJkNDU3Yjk2ZTE1MTU5ZjRiNDVlODZhY2NlN2U0ZjkwMDZmZTdlN2I5YWY3YzkzZjhjMzg3ZDI1MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmEzOGIyZmFjZjkxMGExZjU0MWJjZGIxMDk0ZWJjNTJkYmU0OTZjYzEzNWZmNmZlNzEzNDg4MjEzOWZjMTQ4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTQ4MzdiMWFkMGYyODUxNzNjZWJjNTE5ZGRhMDZjODZlMGVjZjAxZjg4NmY3MTdkODVhZmNmMDhjYTQwZWNkOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTM3ZmFlYmQ0NTU1YjkzZWExMWE0ZjdiMTJiM2UxMWQ1MzEwYzQ0YTg4YmFiZjVkMTczMDdiMjA3ZDVkMjUzOCJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/10-qdrant.sh#L11-L12",
+          "version": "repo-lines-v1:sha256:891c919c53583c28cc46c87f19fe5a137a77a74d97cc5369a2aa4ac60fb59346:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTczYjM4NzRlNjEzNGI5NjVkNTcxNWEyYjg3NTc0YWJjZThjYmRiZGNkZWI3MTZkZjgzZWFlMGQxNjY1NWMzYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmEzOGIyZmFjZjkxMGExZjU0MWJjZGIxMDk0ZWJjNTJkYmU0OTZjYzEzNWZmNmZlNzEzNDg4MjEzOWZjMTQ4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTI5MzMzZmE1YjYyZWFjMGM0NjEyNmM3ZDhlZDZjMTkwMDc0ZjZjMTg1MWNjY2U5NDY5ZTU2YzVhMmIyMGRmYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWNmMWFkZjlmZGM5MGVmNGY5ZmM4MjM1ZGZhMWIyYjkzNmU3YjJkMTRjNDk1Zjg3YTBlNzMwZWE4Yjk2OWNhNSJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L107-L120",
+          "version": "repo-lines-v1:sha256:66c40ae40940951deb37f7f599f09d59fd01853a46958d4f553e2a28e7db72fd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyNTE0ODYwMWZmNzNiYTRlMDUxMzg5M2VhMTk0NTI3NGVjYTc4YjNiNmJlZDU1NTJjZWE2YzgzZWVjM2I3YTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNhZTg3YzRmOTgwZDNkMGU5NjMyYTE3MTVmMGMxMDY3Nzc5NTUyNTIxNWRjYzdmYjFlOGNhNmNhNjQ4ZDE4NzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE5YmYxYTY3ZjJhMzljODY2N2U3Y2QxM2RiYmZiZWM2YzNiZmYyNTg4YjdmNjViMzFmMzUyNjc3MGIzN2JmNGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5a69d133c2da4fbb990631096f6f2453",
+      "statement": "hx_require_host also resolves HX_IP via hx_ip_for so downstream blocks use the recorded LAN address for listener and health checks rather than re-deriving it, and exits 10 if no IP is recorded for the host.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L114-L119",
+          "version": "repo-lines-v1:sha256:f772da4ea5ffe8c4e9d15fb7bc4577c9854c658c5871d6ffba4eab5fbd023b83:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWRmZWM2ZTBlYzk2MWVkZDEwM2VkYjEzOWMzMzRlNjdkOThkYzczYjQ4NjM3ZmNiNDExZjkxYjhiOGRiNGMwMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmU2ZjcwN2JjNjJiN2U4NGExNGEwNGUxYmU1ZTQ2NDZmZDM0NzkwMmU5YmNjZjdhNmUxNWI0NzQ5YzEzZmIxMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGYwMjM3NjNhYjRkOTQ2NTFkYTEzNTQwODg1OTMxMzA4ZGRkYzQ0YmEwZGE4NjM3MzY1MTRmYjkzM2M4YTNlOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmJlZTg5MTRlODg3NjEzZTcxZjM0YzlkM2NmYTIyMTQwZTNmOTY4MDI1YzEyNGRhNGRjN2Y0MGI0NzkxMTEyMSJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-fleet-ips.env#L4-L24",
+          "version": "repo-lines-v1:sha256:1e32d39054bc2fdaf70a3a595f333bf786f74c5dcece55f3ed11ab0b3746a92f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWJjNGVkZDc3M2M4MzQ5NjQ4NmM3ZjQ2NWJiOGI1ZjJhYjc1Y2Q4NzRlZmE5YmM4NjI5ZTkzYTM1YzdiMDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyMGRjOWViOTE4NmVlZGY4MjM0YTAzYmQxZjU2ZTM0MjJkNTg5MGY4ZTFiZDlhMGNiNjk1OTk5ZmY5Yzg3MjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2ZjAwNTJmNmM4NzEyMzZjZWZjZjU3M2Y3Mjc1YmM0ZWZlNTNiOWQxZmQ0ZjVhMmRmZGYwNjk5Y2U0MThmNjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_80161b05f79d4171bf6985f517559a12",
+      "statement": "hx-fleet-ips.env is generated from docs/00-control/hx-fleet.tsv by tools/hx-doc/hx-fleet, defines hx_ip_for as a host->IP case statement, is sourced by hx-base.env, and must never be hand-edited.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L11-L14",
+          "version": "repo-lines-v1:sha256:2e7487713c58868a261739fa5deef143b1e0668b74511d98ff2d83107d336098:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGMxODQxMjhjMGQyMTQ4MzU3MjFmZDY5MzI2ZDYwNWUzN2JlNGIzZjcwZWViMmZkZDE3MDdlYjI5MTJkMDUzNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWEwNzA4ZjdlMmRlNWYxNmQ0MGUwY2U0NjkzZTFiYWZhZDZmNDFkNGQwMDE1OWViOTQ2YjZiMzA3YTM0MjJiYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmJjZDVhNDZkMTA1MGI5OWY2NWUzOTQxNDM4MjNlYWU0ZGZlMmJhMTA1ZjdlMzEyZGNkYmY1Mjg0YWIwYjM4NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWY4YTIwOTRhZTdhNjA1MWQyODkyMDE1MjA1ZGU4MmZhNzRiNDVlYjJjNTk4MmIzM2U1ZmYzODk4MWI1NTUzZSJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-fleet-ips.env#L1-L3",
+          "version": "repo-lines-v1:sha256:66f0052f6c871236cefcf573f7275bc4efe53b9d1fd4f5a2dfdf0699ce418f65:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmE2MWFkNGViMDQ3NWY1ZWVjODg0NzYzNzViY2VmY2M0MWU2Yjc0M2EwZjU1MDE1MDU5NjI0NzcwMWFjYzQ2MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjAyNjA4ZjY3NjE2ZGRmOWY3YjM3ZWJlNjVhYTAxYzg3YThlNGNhYTI2N2ZjOTM1MmNkNjhkZjExZGIzNjFkOCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_28a1c53d5f6544c9a324ea3c87595038",
+      "statement": "hx-base.env is the single source of version pins and LAN facts sourced by every common block; changing a pin there does not retro-change a closed server record, and it defaults Ollama and NVIDIA pins to the versions HX-2 and HX-3 closed on so a new server matches the fleet baseline.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/README.md#L76-L87",
+          "version": "repo-lines-v1:sha256:9f887d873d735001d23928df846d7d300d2531df557c9fdf23d4f3f6a9bc679f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiY2UyYjNjMTYzNDRhM2VjZjAxNjFkMTIxMDRlMDM4MzM1YThiNzU0NTY3M2Y1MzBhMDdiYzQ5OWYwYzQ1ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1NGRmOGUzMDJlYmU0OGQ2ZmI0Mjk1YmIwNmIzMDFjYTZiYTQ0ZjRhZDY3ZTE4ODllZDUyOGJjNTY5NjExY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ0MGQ3ODRmMGM3MTI4YzhjYzYzMTZjNTdiYjVlNGY3NDgxNWQzYjAxZmE5YTMxOTc3NzlmZWQ0MTdlNGNiMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhhODJmM2VjODQ3MTM4OTA4YTBmYzNjZDYyNmZkODY4YzdmYTI2MmViMWNmMjFiYThkOWEzMGEyNjFjNmZmOTIifQ"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L1-L8",
+          "version": "repo-lines-v1:sha256:48253e5d1118e3f76a2db93cfda25eaba4f0f3ce0836d6fd153c77b7c5f563c4:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTAyOTAwZGUxMTBlODhhMzNlNGY4OGE5MGYyOTliMGRhMzZlODk2ZmYyZTE3M2VkN2FmMzA4YjkzZDgwNzI0ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDk5NjdlYmM2NzdiYmU4OWUyMzgxMzNiZTlkZTAxODQyYjc0ODk5MjBiN2UwOTZhMmI1Y2I3NDQ5NzI0YjFmZSJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L27-L39",
+          "version": "repo-lines-v1:sha256:044d9b5844fbf4a2ce0be7416b144ad1acc3f7a9d925ba18258ce64160bd25f3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM4YzlkM2I4ZDI1MjAyNjM1M2RiYTlkODYzOGYzY2FiM2EwNWY5NzNjMDVkNDJiYzdmNWU0MGU0MWQxNjY2OGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2NjYyZjZjZjdlMmU5MjRlMjdlN2MyZjExYTc0MDAwM2I3ZjE3YzY3YmU5ODYzYjE5YWI5Njg4NWY0ZTM3N2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMyMjljOGQyODI4NmMyN2JlYmMyY2I2YWE4ZGEzNjAzZGU5MmFlMzA3Y2JlMTRiZDA2NjljYzhiYzczOTBmODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg0YTViYTFiNGRiMTEwYWJiYTZhNDgwYzE1MTNhNTM4ZTE2ODJmMTYyMzhhN2U4OTAyOTg0Mjc0YTc0NjJjZTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9a264c5dccdf4b38be77022b4374a3e2",
+      "statement": "Block 03-storage-ollama.sh refuses to run when HX_OLLAMA_VERSION is unset (exit 30) and stops on mismatch (exit 22) if the installed Ollama version does not equal the pin, because an unpinned 'current that day' version is not a baseline a server record can state.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/03-storage-ollama.sh#L27-L35",
+          "version": "repo-lines-v1:sha256:7d9d9be13fe5302740a46a4ca3730a3a50afb7dda5d7a9b015de7094165ad66c:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDk4YjFhN2UxZjFiZjg0M2NjYTEzZjUyMWM4ODFlZmRmMTBiNzkxMjczNTM0NTE0NWI3NjU5NGVjZDljMzdkYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjczZjc5NjBmNmE3Zjk3MDg0N2UxYTM5MmZmMWNhMjBjMWRkOTI2ZjRkNzY0ZTllZjAwZDAxOWJjYWU4OGUzMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWRlZTYzMTA5YjQxNTMzMjkzN2YzNDNhMmQ0ZGM0MzI0ZWQzY2M1M2ZhZGJkOTNmNWYzNmZlZDU4ZTUzZTdkMiJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/03-storage-ollama.sh#L52-L57",
+          "version": "repo-lines-v1:sha256:13b8e57a5de95cc36e19f0a4b393499d50ba396bd59e3cda0bdd5bebeaddd8c8:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmZlOTZmZTE3NGU4ZjAzYjYxZGZmOWFiZWFhNWMzOTdkMzE1OTdjZmU5MGMzOTc4NWVhMjg5MGI3NDgxNzk1NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzc2OWQyMzdjZDQyMGI5ZDM4Yjk4MWEwYTRmNjc3MDE5MGE0YTgzZGNhMWZlNTZjNGY1YmExZTJjYmMwZWY3NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODM0MjQ3YTM3MzJjNGY3MTRhY2FmOGMyMmY5ZmI4ZTIyN2MyZTU3MTM3ZjBjNzRhNzc0ZjVlMGRhNjUzMDU0YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmEyZjdmN2M2M2M1NmY3ZDY5NmNlMzg1MWNkMmVhZGUzYjlkM2M3NzNlOGZiZDllZmIxNGU5NjI1YzVjNDIzMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d607e817d459442ab5b3e708890362f3",
+      "statement": "Moving the fleet forward is a three-step act: change the pin in hx-base.env, build, then record the resolved version in the server record; clearing a pin accepts the current upstream release but the resolved version must be recorded before that server can close.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/README.md#L83-L87",
+          "version": "repo-lines-v1:sha256:755356ecb102c4f772c06e64e6ccf181337c77eb062afc332974e3835b8545a6:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWU4ZTNjNTYzNWRkNTI1MThkNjM3NmEyYzA0NzE0YzgwOTM3MGYxOGQzMzU3MDZjMGVhMGU4MDAzOTYwZGNkZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDU0ZGY4ZTMwMmViZTQ4ZDZmYjQyOTViYjA2YjMwMWNhNmJhNDRmNGFkNjdlMTg4OWVkNTI4YmM1Njk2MTFjYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTZjMmU2YTczMmY5M2VhZDc4YTUxYzk0YWQxZmRkZDZhNWY2MDNmYTc0NzA5NDU2NzE3ZjMxMjJkMGY2MWJiNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGE4MmYzZWM4NDcxMzg5MDhhMGZjM2NkNjI2ZmQ4NjhjN2ZhMjYyZWIxY2YyMWJhOGQ5YTMwYTI2MWM2ZmY5MiJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/03-storage-ollama.sh#L27-L30",
+          "version": "repo-lines-v1:sha256:2e1676f44626e837570b9c520a6f3311e0799db79a8e9b88a1ab91aa0e40a762:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDk4YjFhN2UxZjFiZjg0M2NjYTEzZjUyMWM4ODFlZmRmMTBiNzkxMjczNTM0NTE0NWI3NjU5NGVjZDljMzdkYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmU5YThhMTJkODcyMzJlYmZiMTU3ZDVmNDA3YTgyMjhiOWU4ZGNiMmRjOWQ0Yzk5ZmQwMjkwMDI4ODM2MzBlNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjczZjc5NjBmNmE3Zjk3MDg0N2UxYTM5MmZmMWNhMjBjMWRkOTI2ZjRkNzY0ZTllZjAwZDAxOWJjYWU4OGUzMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTMyNGI3MTk4ODA1YjM2ZThhMWI1MWExOGVlMzg5YWExY2ViYzQxMzI1NTg1MWVhZDNiZWViMjcwNjI1ZjIzNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ed759b50e73b4ee7855bd438dab37666",
+      "statement": "90-ollama-upgrade.sh upgrades already-closed inference servers in place to the fleet pin via hx_ollama_install, asserts the post-install version equals the pin, and leaves /srv/ollama and the storage drop-in alone so models are not re-downloaded.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/90-ollama-upgrade.sh#L1-L9",
+          "version": "repo-lines-v1:sha256:3dccec6ecd7488bc75166dc1b6b5c5d0c3c9df4e9e3355e01ab8434f24218881:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWQ5NWZjMDRhODBjOTUyZjQ5Y2U0MTg4NjI3YzUzYjBmYmU4YzQ0MDQxYjk1MmQ1OTJhY2QxZGU5OTg2MTQ2NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDJkZmNlZGIwODc0MWM4MjIwMTk0NjA2ODI1MmViODJhMzViZmUwM2I5Y2Q3ZTFiMDk0MWYyOGNiZjE0Nzk4MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTI2NDEyNTVjNDE1MzkyMjg0NzRhZDBjZjFlMmUyMTgyMThjZDEwMTFlMzFkYWNiMmZjNjE3YmJiNzJkYTY2NSJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/90-ollama-upgrade.sh#L28-L43",
+          "version": "repo-lines-v1:sha256:787b9d21d5f15fc14ed33bcffc7de94d65ea6ebdeda176683f58fcb879ce5c50:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1OGQ0M2EwYjY3NmQwMGYyYjRhOWJhZjFkOGU4ODMzODMyODdlZTAyYWU3YjFmNTBhNDU2N2Q1MDJhOTM2MTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkZDRkOWU3ZDY2NGY4NmU2N2U3MTViNjVlYjMzNmRiNjRhZmIzZTRlMjJlMDFhNmZkMzQ1ZWM5MTQyNjU2NzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY4YTdjYWE4MTlkZThmN2Y1Y2YyMTU0YTVkYzdkMGE1MDJmMzhjNGMyNzNmOTkwMmZiM2JhZTI2OWRjYTIwOTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlMTUxMGE2ZTM5N2YxNzM2MGVlODY2OTUxYzQyOTExZjhiNGFjOTVkNzMyN2I3ZTBmYmM4MDYyNzk3YzQ0ZmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6bde967935b24d39851c8af6cbdbde10",
+      "statement": "hx_fetch_verified downloads an artifact and refuses it (exit 30) unless its SHA-256 matches the recorded pin, deleting the file on mismatch; it exists because release assets can be replaced in place and only 10-postgresql.sh historically verified a download.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L122-L150",
+          "version": "repo-lines-v1:sha256:4fb2cd45ca5d9b3ae917c98850bd0a63a8137a46b52a3cd5e80b44b215b507dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhMGMyMWFlYzI4ZTY2MjBmZWMyMjQ1ODllOWEwMjQ2OTllZjNiZThlZmNhZGRhYTE2YjQzNTNiZWFiMmU1NWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY3YjFiZWFkNTAxNDcwMDEzMmM5NmQ3MjgyYjc2NzVlMTI2MjQwMWFhNWMzMGM5YjRkNmUyZDNkMDVlNGZlOTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3NzI2NDIyODMyMGQ2YjFlZTcwZGNkZjQ1YmU3YzU5ZDQ4NWM3YTZiMmQyNWRkZDJmNjc0Y2QzNWMxNzU5NjYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_30b1199e31344881b36bba4c84cd708d",
+      "statement": "hx_app_lib.sh is sourced (not executed) by the 10-*.sh application blocks and provides hx_app_user, hx_app_venv, hx_app_unit, hx_app_validate, hx_app_done, and hx_node_install; its validation is deliberately minimal — the service starts and survives a reboot, nothing more.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/10-deep-agents.sh#L8-L9",
+          "version": "repo-lines-v1:sha256:5dd67f5d3cd67411b906656fde2c1bc561e43fc40aea139e5df1845e886a80e3:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjcyNGE2YWM5MmI0YzE1OWIxYjk3Nzg4MDI4NWVhYWNmODFhMDQyNmIzNjZiNGNkZmY0Y2E1YmZmZGVlZmJiZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzFmN2Y0M2E5ZTEyM2QzMDk0MjI4MzMzZDA1ZjY0NzkxZWJjOGE1MzQxZDZhZmIzMmMwMDg0N2E5MzM1ZWIwNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmI2NmMzZjcwODIwZDU0NTBhMTIyOGM1MGM3ZjE5N2ZlYTcxNjc2Y2IzMGQ4YzhjMzY5MDI5YzE4NzE0ZWJmOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTc2NDUwZjBjYmM1OTE5Y2U0NDlkZDY0OTYzY2ZmMDQ3NWU2ZjRkZWU3MTJjMDZhZDQ0ODIzMjUwZWU5OWU2MCJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-app-lib.sh#L1-L6",
+          "version": "repo-lines-v1:sha256:7832e093f369d93379cbb7122e5be9190a746f8d5acd7802b2d81e6895ee5c0d:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTA2NTZmODY4MDcyN2Q4NzZmYmI3MzA5M2JlNGRhMmEyNTA2NjdjMTJmYTZhZmY2NmE3MzM2Nzc4YjU2NWM2NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGNkMTg4Zjk3YjU0ZjhmOTBiZTRlNTg0NzRlMzQ5OTcwM2Y0NjE5NjAzYTM4NTg3MGUzZThkNjlkOWJkZGY0ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjdiYTkyNTMxYTIxYTVjN2RhZTZlZDIyNWU1ZjM0OTk1YmMwOGVkNWJmN2JjYThhZjY1MzZiOTExMTgxM2M3NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ced62720d7a043d5820527cd2fda4126",
+      "statement": "hx_app_done has a NONE mode for libraries/CLIs with no daemon: the fourth argument is required and is the exact command to run as the reboot-persistence check instead of systemctl is-active; this exists because the helper formerly took a unit name unconditionally and told operators to run systemctl is-active on a unit that nothing creates.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-app-lib.sh#L77-L114",
+          "version": "repo-lines-v1:sha256:40c9c873f36d36a5c7bcecc5bf8b689dd1debdaa4d91860aea5bf58bd0ddcc7c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmM2ViNDlmYTliYjQ2MTc2MDVkMTg3MjZmNGU0MWU2OTMzYzQ4OThjMWI4NGE2MGRmZjgzYmVlMmVlZGIxYjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwN2NjNDgwNTU2OGY2M2FkMDMwOTY3MWVkMzdlNjlhYzI0YzU3ZjYwZDg1ZWM2Yzg5NmI2YTg3YWJhNjUwM2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJlN2QxZDhlODYwZjA2MjIzNDY1MDFiOGQzMmJmODAzYzgyZjJkYWI0MjExOTE5MWE2YmE0ZTNjY2E5MzExMmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_17839ca6266d47edb92f7fe8f9ceb52b",
+      "statement": "hx_node_install installs Node.js from the official nodejs.org binary tarball under /usr/local, verifying against the published SHASUMS256.txt, never Snap/Ubuntu-archive/NodeSource, and is idempotent.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-app-lib.sh#L116-L135",
+          "version": "repo-lines-v1:sha256:3513bb3b23ccc9c05069aa812147b50aef03e992a01b1a71c16e9bf8093743f4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxOThiYzA3N2QyOGVmMTRiZDFlYTNkNDljMjlkYjJkNTIzMDYxMGY1MjRhNmM3YTc3NjM0NWQxMDVmMzcyNGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjNzVkOTcyNmEzMzVlZWI5MTUzNjY4MWRjZDY4OWM1OGQxMWQxNWE2MDc4NWU1MDY2NDY4NTQ2ZGRhOTkwOTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_477aef85872344cf9b9f015a763b1a32",
+      "statement": "Every application comes from PyPI, npm, a GitHub release, an upstream source tarball, a direct binary, or Hugging Face — never apt for applications and never Snap for anything (D-020/D-021); the Ubuntu archive is used only for the NVIDIA driver, build toolchains, and library headers.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/README.md#L60-L63",
+          "version": "repo-lines-v1:sha256:f3f022b00590f79c74004c81aa091127926dbb895dea95d173e45716cb2a35f8:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmQ0MTI4OWJlYzk2MmU3MGM3MzZiYTg3NTYwMDRiOGQ2OWM1ZjFhZWE4OTM5NzQxMGExZTg1OWY0MTZlMmVmZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWNhYjMyYzgxYjVmMWEyZTlhZmQ0YTA3ZWE5YTFjYjg3MTI4MTIyYjAwMDgzNDRkNWFkMjlhNmJmNTYzYWYwMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTEwODhlMzI5ZmMzMTMyZmQxZGY4NDVkOTA4ODc4ZmIwMTgwNGIyZDcxYTdlN2FhZjE0MDUyY2FmYzI1MzM5NCJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L317-L322",
+          "version": "repo-lines-v1:sha256:8009a2d2936316c3172ca7c7158f7df711e23732d2468f448e6fe08043f71e8f:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzJjNDg1OGUyMmNjMmM5NjdiNDIxNTBmYTU1MDU2MmEyYzgzOWMyY2ViY2FhYjkxY2FiZGY2ZjRkYTAyMDAyMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmEwYzIxYWVjMjhlNjYyMGZlYzIyNDU4OWU5YTAyNDY5OWVmM2JlOGVmY2FkZGFhMTZiNDM1M2JlYWIyZTU1ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGE3MjgzYzRlODMyYzM1MTIyMTI0NmJlMzkyNzNlYTM5NjJmOTVkYzZmZmU0M2U5ZTY0NTlhM2UyYzQ3Y2Y4MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjM1N2EwMzVhOTBjMjRjNDc2ZGM1MmM4YmE0OTg4YTQ2MzhmZmNkNjYxZGY1MzE2ZDlkMGI0YTkwNTZiNDhmYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3f18f3c4ce124c009ca06514ecb12af5",
+      "statement": "Docling, Crawl4AI, Deep Agents, FastMCP, and Mem0 are libraries/CLIs with no unit for the core install; they call hx_app_done NONE, and the companion MCP server that gets a unit is a separate gate, not part of the base build.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/10-deep-agents.sh#L25-L36",
+          "version": "repo-lines-v1:sha256:7a83314a9379ce7e70d411bb20460d2d32487a5f5e2f74633de8183123c71c57:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0ODQyNTIyZWMzZDUwZDRiYzIwOTM5NGFiZDI5MWZhNGVhM2VjMWRhMGI5ZDA1YWE5NWU3MzMwOGM5NTk2NTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3ODk1ZmFkOTU0MDg0ZTU4YTZiM2ExN2FjYzQzYmVkN2JlYmU3NzZkNDFmODVlNDk0ZWRlMzJhNDliNzFkODUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI2YWUzMGUzZDVmMzRjNTA0MjQ4MjM4NWI2MmY1YWFhNmZjZmZkZjE3YjczYjRlN2Q0ODY3MGFjYjhmMzMwZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/10-docling.sh#L28-L36",
+          "version": "repo-lines-v1:sha256:b4114da0d61e8d3c93e389f428bf618cf721e45198714e3a2aa6e2a4b5f241fe:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWUyOWRmNDdjMTY1NTg0ZjkyZjZhYzAyNzJmYzQ0ZDEzMTg3NTVjYzZmZDExOTY5OGY3NmFjN2FkMGY4ZTM0NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjc4OTVmYWQ5NTQwODRlNThhNmIzYTE3YWNjNDNiZWQ3YmViZTc3NmQ0MWY4NWU0OTRlZGUzMmE0OWI3MWQ4NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDdkOGQzMTg5ZjEyMjM1NmYxYjkzMjhmYmQwMDRmMWM3YzExNTk3Y2VjNzUxMzMzZjZjZTg5Zjg5NDI4Y2Y2NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/10-fastmcp.sh#L19-L29",
+          "version": "repo-lines-v1:sha256:026fec37d76f620b80ffd68de10292b60fbc4944d7e1f53dae8eafe9ff8f2ca6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmZWE3NGYyNjA4NmE5N2U5MGFiNTUxM2Q1Zjk1ODU1NWYzNDZjZmJlYTI1YmRkMTkyNzIyN2I2OWU1OWM5MGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3ODk1ZmFkOTU0MDg0ZTU4YTZiM2ExN2FjYzQzYmVkN2JlYmU3NzZkNDFmODVlNDk0ZWRlMzJhNDliNzFkODUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQwNTNjZTUxMmQwZTk3NzRmMzA4NzJmZTU1MGJkODRjMmMzMzM3Y2I0NDMwMmIwZTM5YmEwMzk4ZTQ4ODA5NDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_dc37efeeb0004140a55c0516ff680803",
+      "statement": "The 10-mem0.sh block installs the Mem0 library and then exits 3 with an operator-decision note, because whether Mem0 runs inside the assigned MCP server or behind a small FastAPI service is undecided, so it refuses to name a unit that nothing creates.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/10-mem0.sh#L16-L29",
+          "version": "repo-lines-v1:sha256:05df552f1023404811726064ec4e63c467d48c1ff6b199b602ac1d92f409f2a2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3ODk1ZmFkOTU0MDg0ZTU4YTZiM2ExN2FjYzQzYmVkN2JlYmU3NzZkNDFmODVlNDk0ZWRlMzJhNDliNzFkODUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmMmY5MWMyNDIwMTBlM2M3NmY1NmQ1NDI3NzIyY2EzOGRhZTQwNzk1NGZmOWI2Y2JiNDYxOTYyYjAyZWE0NWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQyZmUxN2IyYTQyZTVkYjRiNWU0ZWI4M2E1NDllOWIzMGIzZTg4ZTgxNWIwM2VmMDZjMGZlMjU5MzY1YmY5YTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1f72fb9f39524c5cbd2e9ac1f44f3a33",
+      "statement": "The three common base blocks are 01-base-admin-network-updates (reboots, all hosts), 02-domain-nvidia (reboots, all hosts), and 03-storage-ollama (no reboot, inference hosts only); the run-sheet server shape is two reboots then the application then validate then record.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/README.md#L30-L36",
+          "version": "repo-lines-v1:sha256:3381565b63eda28f1caa21bd47725a4cd0a9f341159c8a9db27324c1fa751f00:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWVlOGZiYjA5NWEyMTRhZjQ2MGVlOTRkZDYyNjQ3NjNjMTFkOTkyZWFiMTRkYTkwZTY4OGJhYThmNjRjMTkyYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmM0MjdjZDRiMTk4MmIxZjc1ODg1YTI1NDE5MTU3NzljODY3ZTYxMWZkOWMzYTg0MmE1YmJlNjcyMDViY2VjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDQwNWY2MDJjNWRhY2VkYWI2NzFhMzYyMjE0Mjk4MDk2NGI5NzVmZWYwOTRjMGU1ZjQyYTNmOTgzMzU3ZmFjMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDg0ZTFhZDk3YzNkYjA1MDIzOWQ0N2U5Mzc3NTQ4OTQ1ZTUwZjBkMmRlNzY2ZGIwNzA1MjRjYjJhNTllMDhjNCJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/RUN-SHEET.md#L51-L66",
+          "version": "repo-lines-v1:sha256:fe6b7f1c8b01e64e0a36fbaf4f50f942d793e75a7e21a755962c5f34a0738bda:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhZGY2OTZmMjJmOTNmN2M5ZjhkZmY3ZWE3OTRmMDY3ZWQ5ZTY4ZjQ0ZTdkNzFjMTg3ZjdhZjBkMzE2NTFlNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczNTgzYjZmYTkwNjNkMTI3NjdjMTQ4NWMwYzFiNzMzZDNkMjgzMTgyMTEyYjA0ZmFlNWQzZTU0Yzc2ZDFkZTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNkZDliODhmNmU1YWY3OGMwZTlmYmM2ZTI5NzhiYWZiYWYyOTYwYjNmNzBkYTlmY2UyZWIxNDE5MDM3M2FiNzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ2YTA0OTJjZWU1YTA5ZDJkYjUwYjg2NmY2OGI4MDI5ODk0YmJhNDIzYmU3MTg0ZmYyOThlYzQ0ZjgzODljM2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b1f257a915a44687ae4aa58aa040767c",
+      "statement": "hx_app_unit writes a fixed Type=simple systemd unit template (After=network-online.target, Restart=on-failure, RestartSec=5, TimeoutStartSec=600, WantedBy=multi-user.target) and enables/starts it; blocks needing a different unit shape (PostgreSQL Type=notify, NGINX Type=forking) write their own unit inline instead.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/10-nginx.sh#L45-L65",
+          "version": "repo-lines-v1:sha256:b95f823cd9bda2b1b9839ebdb8f71c2618973305508ee8c990db120696ca9b81:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2Nzg0YzAwMGRmOWY0YzcwMTlhMTMzZDQzZmY2MGFmZjE4OWYzN2ZjNzdiODg0NjY4ZGNlYTE5NTEzYzk0MTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU3MGU3OWU0OGUxYTFjZGQ3YzM3ZTI5NDUxYWFhNjJjZTVmOGYzNWM4Y2NhYzE0ZTE0MDE0ODdjM2ExYzNhM2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzN2ViYTU2MzYwMTAyM2NiMDRmZjkyZmQ3NGJhMmY0ODBiOWNhYzMyMWM0YWZkZWZlNWEzYzM2YWRjMTZkZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdkNTFiNDA3OTA1MWYxZjRhOGUyMWRkNzljNWZjYzhlOGM2NGQ1NDMzMjVjZDdjZjI0OGRmMDc1MTVhOGI4MTcifQ"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/10-postgresql.sh#L72-L94",
+          "version": "repo-lines-v1:sha256:380fc81aa97aea668c0da12ed7d31c9ab750025c25c04b8bd742912ae1ec8d6d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4OTcyY2M4NzdmZDc3ZGY2NjY3NWJkYjI0MTZmZGQ2ODliMDg0MjlhYzAxOTg5NDlhOTczODgyMmE1N2Q5NGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmYTY4NWIxMWRiZGViZTQyNTk4MTk4ZWVkNjQwYTkwMDMyOGY3MWMzMWU3MjEyMTg2NGY1ZDc4MGZlNDEzNjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3MmNjMmJiMWEwMjliNjFmYTU5MWQwMjhmZmY0OTcyMTk1MjMzYjAzNmExZWRiMDE5NmY5YjZjMmNmOWZjNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM1ZjQ1ZmFhYjBlODc5ZTE0NGVjMzcyNTdhNWYyZmE1NGFhZjRkNWM0MDNmYWM2YWEzNmRhNzFkYzQxOWViMWEifQ"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-app-lib.sh#L28-L58",
+          "version": "repo-lines-v1:sha256:5776a3c3e42c53702064ed639daed36f0bfff94dd63c4b6c002228b3fab3583c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzODM4MDYyNmJlZWJjY2M0YjE5OTEwYWI3OWFlYTUzMGZiYzk4OWEwNmQ1MzFjNDJhZTNjMjljZTc3MWJiY2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk4M2M0ZjU2N2U0YzEzZjMwN2FjNTMwMGIyYTlmOTA0MTAxMmRhNWY1YzE5MjBkOTY3ZDdmNTc0Y2M1MDc1NzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdhNmY2ZTdjNDRlNWFlNDg0NzQxZGUyOTZiNDkwODQ0YWI3OTE1YmU0MzQ0YjczZWI3Y2QzNGNjYmVhYzRiNDUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_08ee2f51f92d4874a59f636f42a3d413",
+      "statement": "HX-9 carries two applications (PostgreSQL and Redis) that close separately, and the Redis block uses the download.redis.io release tarball rather than the GitHub tag archive because the tag archive bytes are not guaranteed stable and cannot carry a checksum pin.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/common/10-postgresql.sh#L100-L109",
+          "version": "repo-lines-v1:sha256:e9eba3d35ca4131cec4f4465b830e00efc3a4b7173933429679cbc11fe92128d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwZGI4MWQ1Y2JiN2E4OGRhMTJlNzM3MDk5ZjFhOTkyODc4MTljOTZmZmVlNTIzZTA0YjIyZTliY2FlNjE3ZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlNzVjNTgyMDU0NzE4NDJmY2ZkNmJiNDA1NmVjNjZiMDE1MGMwOTc3NzA0NDI0ZjI1NjZjZWNiZjE4ZWQ5OWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMzZTMxM2U2M2QwNzIzMzJmYmM0MDdmN2Q3MGRhZjlhYmU3NjdkOTQ1Zjg2ODAwYzc3ZTA0ZDU2ZGE0NzYxZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY3ODk1ZmFkOTU0MDg0ZTU4YTZiM2ExN2FjYzQzYmVkN2JlYmU3NzZkNDFmODVlNDk0ZWRlMzJhNDliNzFkODUifQ"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/10-redis.sh#L14-L22",
+          "version": "repo-lines-v1:sha256:364bd439928adb50ad2ff0026c08e7930f8fc61508ffc3d529bd5db0d1866c04:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDU4NDBjNjcyMzAyYzc4ZDM2MDg3MDcxMmYzMGE0OWQ0OTA1MDk0YWUxMmQ2OTczY2M2ODFlNmIxNTY1YmZhNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjk5ZTg5YzMyZjNlZmNmYWQwNTM1YmRkMWY5NjBiYzk2MTk0NThjOWVmODVhODU4M2EzODNkNjk5ZWZjY2NjOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDU0MDM0Y2NmMTVkZWZjNzNmYWVhYWJjM2MwMmM0ZWJiZGY0YjZlNWE3NDExMjBiMDRjN2I2ODZjNTk2Y2RhOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2JiZjY3NjYyNjNiY2EwZDAxNzg5OWU3Y2YzM2RiNTM0MzNkMTZhMjk0Y2I0YjRiNWQxZGFmOGY0OWExNDZjMiJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-15T22:39:27.588Z"
+  }
+}

@@ -1,4 +1,3 @@
 # Files
 
-- [Owner Decisions and Non-Negotiable Rules](decisions-and-rules.md)
-- [Truth Order, Authority Layers, and Document Control](truth-order-and-authority.md) - How the HX ecosystem decides what to trust when sources conflict — the seven-level truth order, the one-question-per-layer authority model, and the document-control rules that keep exactly one active version of each authority.
+- [Governed Skills Capability Layer](governed-skills.md) - The skills/ capability layer — what skills may and may not do, the loading order, the registry, pinned upstream commits, classifications, and the drift check that reports when a pinned commit moves.

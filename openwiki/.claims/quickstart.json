@@ -1,86 +1,234 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:b8679e95f35f157ad2740d7cbb2987f2087d2feb1bf4b9f5c7331c121cd5bce5",
+  "pageVersion": "sha256:d3d8005e4db53089ce10ee200559c5f6e81f1668e2d9f9c6b7d498200e0116cb",
   "claims": [
     {
-      "id": "claim_19a38e80d78645f3afaa7269d17fd13e",
-      "statement": "This repository is the authoritative control plane for a clean-room 17-server native-Linux AI ecosystem rebuild, not a typical application codebase; its executable surface is shell runbook blocks, Python consistency tools, shell smoke-runner scripts, TSV data sources, and CI workflows, with Markdown in docs/ and smoke-tests/ as machine/agent authority and human-html/ as a generated mirror.",
+      "id": "claim_fa1dcf56a4ff4bdab6977b6fa0e89869",
+      "statement": "AGENTS.md section 2 defines a seven-level truth order: (1) owner instruction, (2) current docs/ Markdown plus smoke-tests/ acceptance authority when testing, (3) current live evidence from the server, (4) approved runbook/execution artifact, (5) governed HX wrapper skill plus vendor guidance, (6) historical/archive reference, (7) general model knowledge. Source code and tests are NOT in this list; they are evidence, not authority. If live evidence or vendor requirements contradict an active document, the document stops being sufficient proof and the contradiction must be reported.",
       "evidence": [
         {
-          "resource": "repo://README.md#L1-L11",
-          "version": "repo-lines-v1:sha256:c59aecc664cbea81ec0ffccfd804ef25467f12e81238c3fe63fc106c4248ec90:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1YTk1NWRlNTMzOGE1MjcyYTZkODE2MjE3ZmRkNDQ3OTFlNjIzZWMzZWJmMjc2MDBkMjMxOGQwYTUxOWY3NDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQyOWI2NTQ1MWRmNWU3NjNhMmUwMDM3NDZiNzAxYTI4NmU5ZDc3NjJjZmI1MjZkNTYyNzc0M2I1NmRlMjdjMDMifQ"
-        },
-        {
-          "resource": "repo://README.md#L236-L249",
-          "version": "repo-lines-v1:sha256:97549b21706b8604e13d110484af8d38c6f208e6b3b5da47bad17630a0882d58:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyZDkwYWYyZDQ4ODYwY2I2MzA1ZDc0NTQ0YjEzY2U0N2MwN2M5ZTdmZWJmZWNmNmEwOWQ2YmJhZDgyZGE2MTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1MDFmMzk0NDc2ZTRlNmY2NzRiZjQzNDI3YTg3NDg4NzUxNWRlMjg2N2UwZmM0ZDc3ZjdiNzE2Njk4M2MxZjkifQ"
-        }
-      ]
-    },
-    {
-      "id": "claim_16fd9f863279422684c118b9063e8daf",
-      "statement": "AGENTS.md section 1 defines a mandatory reading order before any change: README -> CURRENT-STATE -> BUILD-STATE -> DECISIONS -> ARCHITECTURE-ORIENTATION -> BASE-IMPLEMENTATION-PRIORITY -> server record -> runbook -> standard -> (validating only) smoke-test roadmap -> smoke testing operating model -> component smoke authority -> runner AGENTS.md; archive/ and human-html/ are not current authority.",
-      "evidence": [
-        {
-          "resource": "repo://AGENTS.md#L5-L24",
-          "version": "repo-lines-v1:sha256:cb79d03c57aac75f2292bdd667a58ed11ec398d25168195d132b30f1be9f2eff:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA0ODBkYzk2YzJjZjBiZWM1ZjlkODVjZDVmNjZhZDVjMWY1ZGVhMTE5ZjY4YTMyODUzMGY2OTMwZjI1ZjFkOTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwYWFjZTFjM2Q3MjkyMTM2YzYzNWYwNGVjZDkwZDk0Y2FhMWUxNmI3ZDJmNWFmMTZkMDg5NGU1NjIwZjlhZTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3MWIxYmEzMTg2ZDE3MTI3OWZiZGVkY2JlNmZiNGE0ZDkyNTgwYjg3ZjI5NGFkZTc4YTAyODMwM2I2ZWY4ZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIzYTM2N2FiYWUxMmI4OGVmNGM0ZGI4ODg5OWEwN2JhNTNlMTcwYjZjZDc3ZjEwOTgyMDYyMGE2ZmFkOGEyMTYifQ"
-        }
-      ]
-    },
-    {
-      "id": "claim_378d8d43173240179e6ea5c0e751d574",
-      "statement": "Truth-order precedence is: explicit current owner instruction > current active docs/ and smoke-tests/ authority (when testing) > current live evidence from the server > current approved runbook/execution artifact > governed HX skill + current vendor guidance > historical/archive material > general model knowledge; contradictions between live evidence/vendor guidance and an active document must be reported, not silently resolved, and a vendor skill cannot redesign HX architecture.",
-      "evidence": [
-        {
-          "resource": "repo://AGENTS.md#L26-L36",
+          "resource": "repo://AGENTS.md#L28-L38",
           "version": "repo-lines-v1:sha256:6d285dc7917533b9daaf6c2be651a7497ed9c5c650fa4a383399509d40993098:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5NmUyN2Y5YWY3MjA0ODViNTMxNzVmOWNhZjlhNjJjZmZkNzY3MWI1ZDU5YTllMTNiOTA3YzAzZmVjYjUyMTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4MDQ3YjIyYzE1NDljZDdkOWVhNGQzODc3N2Y4YzVlNzExNmI2MTBjNWE1NGY3MjExNGQ0NDM1NDI3YTlkMmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmZjNkMjE2M2MyZjJiNzM2YjNkOTZmNzU1OWZlODJlMDRlMGU0NmZlMTdkMjE1NjUyM2FjZTk2NGQ0ZGE5MGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE3Njg3MTYyYzFkZTVlZmU1MmRjNjJlM2MzZjM4ZTgyYjFiOWFmNWE0Y2JjODVhYmUyODc2ODY3MWE0Yzc2NGQifQ"
+        },
+        {
+          "resource": "repo://AGENTS.md#L312-L332",
+          "version": "repo-lines-v1:sha256:0d8b9f532ae37677245c4a8d3aa757ddb4b0f589ff83113d9c9f0ea9e1097e3e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5Njg5YjVmOWZmMzQ3Zjc5MTA0ZjFjOWRmMDJmNjgxMjc4ZmQ1ZWRlYjYwNDVmOTU0ZWYxODYxZDY2ZTdmNGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1NGE5YmM1MjIyYzdhMjYyZTg4YzZkZDE5Mzg0MWUxMDI1MjNlMmY4NGU0MDMxOTI0Y2ZmZjU3OTQyZDFmYjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFmMzdlM2EyZWRkNzIzZjlkMDc5YWU0N2U0NTdmMjQwYzczZjQwZmM3OWU1ZjMyYjZlOTBlMjlmYWY2MjQ1NjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViMWJjNWJjNGEyMzdmNTc4ZTZhZjRhNDE1ZDA2NDdmOTkxMGIwM2IzNjRlMWUyN2MxZjFkYmFhNzQzZDAzYmEifQ"
         }
       ]
     },
     {
-      "id": "claim_a3f3df9aab3d4c038a8d25ce9bc8ed38",
-      "statement": "Standing constraints gating every change: native Linux + systemd with no containers unless owner-approved (D-002); KISS one-server-at-a-time; every change goes through a PR with CodeRabbit review (`coderabbit review --agent`) before push; run tools/hx-doc/hx-doc-check and hx-render-html before committing; do not hand-edit generated human-html/ or openwiki/ output.",
+      "id": "claim_adcfb8df48e1430f8b26541ad6338f6d",
+      "statement": "A generated block (including all of openwiki/) that calls source code or tests authoritative is a defect; hx-doc-check refuses such a block. Generated pages, this wiki included, are context and never authority. If the generated block disagrees with section 2 of AGENTS.md, section 2 wins and the block is a defect to fix by correcting openwiki/INSTRUCTIONS.md, not by editing the block.",
       "evidence": [
         {
-          "resource": "repo://AGENTS.md#L165-L200",
-          "version": "repo-lines-v1:sha256:989dfef62a1bb4dcc74b91bc6178325bbcf9adcb9722ece797f8d65220add300:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2NWYyZTdhOTg2Y2M3ZjNkNzEzMmU2MTRkOTlmMTBiNzc4NTMwNmMwYjAwYTc3NGUyZTM3NWYxMWFmZmY4MTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkOGI1MTljY2VkZWI3OTA5OGI0MDY5OTllNTI2OWM2MDBjYWU0ZDI4ZWJkMjhhNGVlMmQ4MTgxZGE1ZWQ1MDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyMjQyNDQ0NWI3OWRlNGUwNTI0OWI4ZWYyNDYyYzA5NzJkYmFhZjBjMzY5ZDgyNzFhMDQ3ZGRkNWUyYjYzNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY2NjE2YjU5YWNmMTY3MTkxMzQ5ZDFjMGI0ZGUwMjIyYzAzZTQ5YTAzYzVkMmJjMzlkZmQwODA1MGUwOGM4ODgifQ"
+          "resource": "repo://AGENTS.md#L312-L332",
+          "version": "repo-lines-v1:sha256:0d8b9f532ae37677245c4a8d3aa757ddb4b0f589ff83113d9c9f0ea9e1097e3e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5Njg5YjVmOWZmMzQ3Zjc5MTA0ZjFjOWRmMDJmNjgxMjc4ZmQ1ZWRlYjYwNDVmOTU0ZWYxODYxZDY2ZTdmNGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1NGE5YmM1MjIyYzdhMjYyZTg4YzZkZDE5Mzg0MWUxMDI1MjNlMmY4NGU0MDMxOTI0Y2ZmZjU3OTQyZDFmYjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFmMzdlM2EyZWRkNzIzZjlkMDc5YWU0N2U0NTdmMjQwYzczZjQwZmM3OWU1ZjMyYjZlOTBlMjlmYWY2MjQ1NjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViMWJjNWJjNGEyMzdmNTc4ZTZhZjRhNDE1ZDA2NDdmOTkxMGIwM2IzNjRlMWUyN2MxZjFkYmFhNzQzZDAzYmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e1524acceb0f40009d1dcc26b6927357",
+      "statement": "tools/hx-doc/hx-proof --ready <id> reads the proof DAG in docs/00-control/hx-proof.tsv and reports whether a step may run; hx-smoke-promote enforces the same DAG at promotion time, refusing a PASS when a required prior step has not passed and been cited in prior_pass_evidence. There is no bypass flag; if a dependency genuinely does not apply, the 'requires' field must be changed in the TSV through a reviewed pull request.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L232-L244",
+          "version": "repo-lines-v1:sha256:435bb371d877ce0c57337b0ad9cc0d72b11f629e5f99e9f9c8b82f87da420041:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhMWZiOTU3MDg4ODM2MGQ4ZTRkNTQ1MmY3YjBjMzVkNTI2YTVmZGNmNzJmYmFlOGU1NmQwY2UzM2M0NDhiNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0ZjQyNzJmNGM2NWM0N2RiMTg3Nzg2OTNlY2YzYWYxNTg2ODAyNWM4ZDNkNmJmODg4Y2FhMzcwMjYzODRkNDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3M2I3MjNjOWM5MjdmY2M4YTg4OTZhNDkzYzlhMTc5YjRlYzdkY2I1ODBhNDVhNGUzNzIxMDc1OWI2YmNlZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxYTMwY2NhM2M5NmViNGQzMjQ0YzdkOGZjZTY4N2ZkNzM3NjVlMWZhZjRlMjEzOTc0YmZmMzY5YTU2YjFjMzQifQ"
         },
         {
-          "resource": "repo://AGENTS.md#L38-L50",
+          "resource": "repo://docs/03-runbooks/RUN-SHEET.md#L34-L49",
+          "version": "repo-lines-v1:sha256:8017cd631c13e5b8cb21bf7ed407d7f9a0a1ee500306581c2bc16732cbf5b2af:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0Zjc0MDRmMjgzM2RkMDM0MDg4YzIxZjY0ZDI2Y2Q0NzQ2YzFkYWQ3NDU4Y2M3YzhiZWU4NTY2Mjg4M2I2YjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkNGIwNzAzM2Y2MzUzYjE3ODBiYjk5MWE2ZDhiMDZjZmZiOTZiYzIzMWFmZDdiYjE5OWI0MWM3MTIyMWVjMTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljNDYxMjQ0YWM3NTYzYTA2MzhlZWU4ZDg0NGMxMDFmNmQ2NmVmM2Q5YjM2NmFhNjM2MWU5MmVjYWYzODUxZGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ca7bda7643474cd3ac7204dab2a37156",
+      "statement": "docs/00-control/hx-fleet.tsv is the single source of truth for fleet state, IP, role, state, and gate per server. The README fleet table and runbook IP map are generated from it by tools/hx-doc/hx-fleet and must not be hand-edited.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L54-L79",
+          "version": "repo-lines-v1:sha256:c588caa0a9d82535cf518a361cdcaf986ef13c5860c7ddd3626dd64cfecb04f4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmNzRjNGVmZWZiY2NlODFhODYxNWY3MWI5NjQ5MzgyYWNjZjgyY2NhMmM0YTFkNzY4YmEyYzgxZjY5NGY3MzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiYjZkZTEzM2IyNDBlYWNkMzkzZTdlNGYwMjNhZDE4MjEwZTYwMmM1NzBiYThiZmFhMjFmMzE0NzRiNDE5OTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY5YTlmN2JlNjUyZGRmYmVkZWIwMzhiMTYwNTc1MDgzOWVlZTFjMTU0NTY2NGU5N2U5ZjkzNjBkM2ZkZWViMmEifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/hx-fleet.tsv#L1-L18",
+          "version": "repo-lines-v1:sha256:c9a29d87ae3dde45f1a5624f417d30461867200bf18c3766f599d87f28a7d341:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlODBhYzM4ZGU4ZmUxMTY0ZmIzZjVlZjRkYmE4ODBhNmVlYTYwMGNkYTI5ZDFlMWI1ZTRmNzMwOTI0MjZhZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlZGJjMjM5ODI5N2U0MzZiN2I0NDA0ZTYxZWM4MjBmNGIwMTNlMGRlZmMzYWViZDIwOWRkYjg5ZTg2YjU5NjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e5171985de9d4f759102869492d97f80",
+      "statement": "Per-host runbook wrappers under docs/03-runbooks/HX-<N>/ are thin scripts that exec the shared common/ block with the host name; all install logic lives in docs/03-runbooks/common/ blocks sourced from hx-base.env. Each block calls hx_require_host, which compares hostname -s to the expected host and exits 10 on mismatch, preventing cross-host damage. Pins and the host->IP map live in common/hx-base.env.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/HX-4/01-base-admin-network-updates.sh#L1-L5",
+          "version": "repo-lines-v1:sha256:45e68299c714ef36f4734b5809d8a864100ad0408af8c1a32d4380ef8a7900a5:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWQ5NWZjMDRhODBjOTUyZjQ5Y2U0MTg4NjI3YzUzYjBmYmU4YzQ0MDQxYjk1MmQ1OTJhY2QxZGU5OTg2MTQ2NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODFiMTExN2E5MzVjMzkxZTFlM2ZiZmU1NmQ4MDNhOWMwZmU0NjAyYTkxZDZiN2ExNWJlNjZiYjU3NTUzMjI2ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/01-base-admin-network-updates.sh#L1-L23",
+          "version": "repo-lines-v1:sha256:4b2db333635163f0b799b3c3da7689f3cb368de19d5ee9a22312c16179bed8f1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkOTVmYzA0YTgwYzk1MmY0OWNlNDE4ODYyN2M1M2IwZmJlOGM0NDA0MWI5NTJkNTkyYWNkMWRlOTk4NjE0NjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4YWJhNTM4OWU0ZTU4MDQ4OGVjZWRlODQ0ZjJkYTNmYWU1ZTAxYWM3YjhhNGEzNDQ1NGU4ZDU1MTE5ZDk1YTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE1ZmExNjc4ZGY5NWZhMTRkN2I3ZmJiMzE0NTNkOWU5ZGQ2YjE3ODMxMTAzNDc4YWIyOWQxMGQzNjZkNzcwZjkifQ"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/common/hx-base.env#L104-L120",
+          "version": "repo-lines-v1:sha256:e1b757e683eb0f21ab396d2456f615f39eb175d7fbd96ac7635dedddf4ceddfb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhMGMyMWFlYzI4ZTY2MjBmZWMyMjQ1ODllOWEwMjQ2OTllZjNiZThlZmNhZGRhYTE2YjQzNTNiZWFiMmU1NWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYyODJmNzExOTdkMzQyN2UzOWE5NzAzNGZkMGZjZmUxOWRjNzNmZWFmMWZkZGY2M2EyYTFmNmNjY2I0NWZiYWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE5YmYxYTY3ZjJhMzljODY2N2U3Y2QxM2RiYmZiZWM2YzNiZmYyNTg4YjdmNjViMzFmMzUyNjc3MGIzN2JmNGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f1d3367ece9946688d851978ef12ddd6",
+      "statement": "Every server follows the same six-step build-day flow from RUN-SHEET.md: (1) common/01-base-admin-network-updates.sh reboots, (2) common/02-domain-nvidia.sh reboots, (3) common/03-storage-ollama.sh is inference hosts only, (4) the application block, (5) validate start then reboot then start, (6) record it. Validation is two questions everywhere: does the service start, and does it survive a reboot.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L131-L152",
+          "version": "repo-lines-v1:sha256:6f6f004d5c9b2550449e9d502da71687f851da48082539574c1523f913f528f5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YjA0OWEwNTlkYTFiOWYyYzFlY2M1M2JhNjMwNGExZDM2NTMwYzYwZjU4MDA1MjliMzAyN2Y0OGM1OGM1NTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIwYjMyYzcyOGRkY2JhNDdhZTkxYTBmNmNkMzEyNWViMmI4ODFhOTgwNTIyNzA0OTA1ZDZkZmEzYjcwZWRhYWEifQ"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/RUN-SHEET.md#L52-L106",
+          "version": "repo-lines-v1:sha256:e2faa954275b362d6227768d982618444af24c83272ba752a901e3dc2d7841f9:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVhMDQwZTk2NjZlNWQ2MTY2MzZhOTJkMjE1ODc0MjQ3ZGIzOTQ0MzRiM2QwM2Y2ZDg5YTk1MDIwZTg3OTI4ZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQxMDM1NTdlYmRlMjg0Y2QyODUwNjA1OTg5NDk5YmMyNTk5OThiZDI3YmYwNWJjNGY0OGIzNmRmYTNmMWQwOGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7e9dbfa972be46b4ae72fa41b501e2fa",
+      "statement": "Every change goes through a pull request; main is not a working branch. Before every push, coderabbit review --agent must be run locally (it is required, not a convenience, because it reads the working tree and config as they currently are, unlike the hosted reviewer). A pull request must stay under 100 changed files or CodeRabbit skips it, which equals no review. Generated output and archive are already filtered in .coderabbit.yaml.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L167-L213",
+          "version": "repo-lines-v1:sha256:fdc35aac37b66a9785bc8f4c3013b5d447feb4826231ba562343a2cc3069844e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2NWYyZTdhOTg2Y2M3ZjNkNzEzMmU2MTRkOTlmMTBiNzc4NTMwNmMwYjAwYTc3NGUyZTM3NWYxMWFmZmY4MTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyMjQyNDQ0NWI3OWRlNGUwNTI0OWI4ZWYyNDYyYzA5NzJkYmFhZjBjMzY5ZDgyNzFhMDQ3ZGRkNWUyYjYzNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlMjI1ZjI2OGVlOGI3ODY1MDY3Yzk0ZTJiNDRmN2Q0YjhkODQyMThjMjM1OWU0ODIwOWI0NmEwODg0ZTZlNzAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9c7f74f8dc2d4238a6046d1bfb4f920f",
+      "statement": "The tools/hx-doc/ tools are the enforcement layer for written rules: hx-doc-check (links resolve, registry vocabulary defined, control frontmatter complete, filenames stable, evidence committable, and refuses generated blocks calling code/tests authoritative), hx-proof (proof DAG valid and generated blocks current), hx-render-html (every human-html/ mirror matches its Markdown source), hx-version-pins (pins current, no apt/Snap application), hx-upstream-drift (registry pinned commits still current), hx-record-check (server records follow template), hx-smoke-lint (smoke authorities carry required sections). CI runs them all; a failure is a real defect, not noise to bypass.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L217-L231",
+          "version": "repo-lines-v1:sha256:d1b18ae417743609a71d6f7cfe2aefc877812bbea1681c21d4aad16d57277586:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllNDNkYjVkNGU1ZjUzMGE0ODgxZmRkZTljM2U4ZDJjZjQ4ZGUyZGJhNDBkNTQ3YmY3MGU4MDQ3ZjhmMGFjNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlMjI1ZjI2OGVlOGI3ODY1MDY3Yzk0ZTJiNDRmN2Q0YjhkODQyMThjMjM1OWU0ODIwOWI0NmEwODg0ZTZlNzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlYTFiZjg1ZjM1OTZjMTc4MjFlYzFjYjBhM2RjNzU5N2E3NTkwYzIzY2VkMjFkN2Q1NzFhNTVkODcxYTZmNGQifQ"
+        },
+        {
+          "resource": "repo://README.md#L205-L234",
+          "version": "repo-lines-v1:sha256:b37e4c7b15bc5a9fea51395909e185650be8591cf8c6ee0db41c5a38699f2e20:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxNDRmNTVhOTY1ZTBkZWE1ZDFjMzRiOGJmZDZmZTI1NDY5ODg2OWE1ZGFmY2Y4NGRkMmRmNDdkOTBhODg1N2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyNzlhZmM5ZmQzNTE4MzRkMjUxYzE3Zjk2MGZmYzVhODNjOTgyMWUzMDE2MDBmNzM1YWMyYTM1NDAzMDVhZjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_62160b2929b54df681d64cacb07b94ba",
+      "statement": "skills/ is the canonical HX capability library, subordinate to owner decisions, active architecture, live evidence, runbooks, and smoke-test acceptance criteria. Before operational use of a component skill, read skills/SKILL-GOVERNANCE.md and skills/SKILL-REGISTRY.md, then the wrapper skills/<component>/. Skills may guide planning, installation, troubleshooting, upgrades, and validation prep, but cannot authorize host-placement, container/cloud/embedded deployment, cluster topology, network/security/storage changes, model-placement changes, permanent integration, or PASS-criteria changes. Skills never contain credentials.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L83-L96",
+          "version": "repo-lines-v1:sha256:cca8064edc5fbc1c27cba4bcead862118f13506ce5a56a46a069cc4347ed5563:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyM2Q3Mjk5NTRlZmZmZWY2ZDQ3MzEyOTNmODhmNDYzNDVjOWViNzNhNWE5MWIzYTNmNjdhOGQ4ZGNhNTYxNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM1NWNmYTk2OGM2MWMxYmFiMjE1NjY0ZmNjZDdiNDQxM2E0MmQyYWIyMWI1ZDRkMjE5ODU5Y2I0YTI1OTdmNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4ZjJkNjNjNWFkNWI5Mzc5YzExZGYyNGE0YTNlNGI0N2NiNTNjNDgwODM0MjMzZGMwYWE5YzNhNzU2MmVjYWYifQ"
+        },
+        {
+          "resource": "repo://README.md#L179-L201",
+          "version": "repo-lines-v1:sha256:653f1cf7b2041e61ecca10d5d93ec0a260a25b64fb33ef3c4f42a904d885bc43:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyNjJlOThhMTBjZGE0YjkyOWI2YjgwZDFiNTk1NGM2ZDBiYjIwMTNiZTQ3NjkzNjkxNjE5NWM5NjhiMTE1ODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkZjU4NTRjYWRlY2JiM2IxNTU2MDhkYmE0M2IwYzZmMmQ3ODU3Yzk4Y2FiMTJhNDI2ZjRjM2IwZDk2YWRmZDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bdec0db6302a49c2b5d15132b89d65a7",
+      "statement": "The HX ecosystem architecture is the cornerstone and validation is subordinate to it. docs/01-architecture/ARCHITECTURE-ORIENTATION.md is the foundational orientation authority; smoke-testing documents are validation-layer authorities that must not redefine ecosystem placement, permanent integration, server roles, or network architecture. Before executing a smoke test an agent must state the component's server, IP, role, current state, baseline, layer/ownership boundary, required vs validation-only dependencies, model/data placement, and BASE PASS boundary.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L54-L71",
+          "version": "repo-lines-v1:sha256:3057421de073598d1ceae27e02111c02b05ac843d29023e4db2e9d3100315854:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwNTgzYmJhODg2NWExZTA4ZWQ0YjcwMzgxNjdhMjE3NDU5MTcyNWEyZDY0Y2I4NTEzOGFmMmNhNTZiZmQ0NTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU3MjBlYTY5ODJhOWI2NWM3NTU0Zjc0YzJiNzcyODJlZTVkMTZmYmIwNWEwMTIyMDIyNTIwZGE3MjNhMTkwM2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjMWZiOTNiNDRkZTg1MmEzZmRkOTc0N2Q0YjQyMjU5MTI3M2I2NDRkY2M2NDU4ZTMyZWFiYjllMDk0ZGFiNjcifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L51-L52",
+          "version": "repo-lines-v1:sha256:c6448088d5274d2090227db9f0fce14389c29847e934ebfb2f2979cf8e9180b8:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDIwOTI4Y2JhY2M3ZTJmZTM0N2M1MzhjN2E3MTQzNGYzN2UxMDRiMjJiNWUxN2Y3MmNlZGNkOTU3NzhlY2RhMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg2ZmRhNWQ0OTM0NDkyNTYxZTcxMzY2MjAwMTYwZDkyZDlhYTM2NzA1MTVhOWMxMWE4NjM3MjI0Zjg0OWUxMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGQ5OGQ2NzM4ZDI1ZjVhNTUzZTZmYjk3NzFmNGViZjE3NmUyMzM1OThhMzVhMjE2OWIzYWE1ZGI1ZjVjYzBmZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjQ1Mjc1ZThhNDZhYWQwZjE0MjBkZGEwZTM1ZjJmMmViMzlmMTgwMTVhOWRhZDUzYzA0MzBiYzQ5ZjA5NGI3YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7fa5fcc65f0843a6a65ae1476a09dea5",
+      "statement": "HX maintains two complementary evergreen roadmaps: docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md (deployment/build order and BASE PASS boundaries) and docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md (ordered proof dependencies, prior PASS evidence, companion gates, permitted limited validation integration). The smoke roadmap inherits the deployment roadmap and never authorizes testing a component before the SUT is installed/ready. HX uses cumulative proof with minimal live coupling.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L73-L82",
+          "version": "repo-lines-v1:sha256:77c4adb0541a8ea0af93f609b7c32dcb6123dedb375fc64c659b4340cb66adef:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIzOTcxMzUyNDI0NzhkYmY0NWExMDJhZmUzNmIwNWZkMTdmMDY1Y2MwY2U0NzRhNzE1ZGYxOTIyNjFhMzM0NzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwZmViYmIzYmVlNjA5NWU1YWY4ZWU1NmI0YWY0ZjVjYWNlNTE3OTkzYzZkNjNiMmFhMjNmMTRmNTU2YzQ1YzcifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L54-L55",
+          "version": "repo-lines-v1:sha256:f1a887417dec28f2a53c1b09c643fb9a5368b133890ed343547db9cd098706d3:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGU3ZjUyOTRiYjIxYmE0N2U5NTYxYWZkMGQyYjZkZGE1ZDU1YzkwNGNkZGEyYWYxMTUxNmNlZDc1M2JhMGQ4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTliMDMwMWI1YjcyYjAwODVjZTQ5ZTE4N2M1YTYyZmFiOGM5MjFjN2IzZGU2MTBhN2M1YzQ1MTZjZjA5MmFhOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGVkOWU0ZjcxODBhNDJiYzMwM2NlMTVlZDk2MDVmZTliYjQzZWY2ZjE2MjAwMzRiZmQ4ZWRkZjBiYzE3MTJhMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmU0MGFkZTFlZDdhMTQyZmYwOTdlNDJhMGUxODNmYjg0ZGE1NGZlNjQxOGJiYjk1ZDk1ZmQ4MWYxMzUwMjU2NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7ebf2b55ccb74d84b1f4fcf22daa4009",
+      "statement": "The current program is base stand-up, not full integration. A base build may include small, reversible functional smoke tests against already-proven dependencies. Temporary validation wiring must be recorded and removed/disabled before closure unless explicitly approved as permanent architecture. A server is not PASS/CLOSED until workload, functional, cleanup, and reboot-persistence gates are satisfied and its record is updated.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L40-L52",
           "version": "repo-lines-v1:sha256:6e6b6a10454cbe109d65f4fca796506a7eb1595fb7354eaa3767f2fe09e7ea36:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiNDE0ZDA0Zjk1NjRhMmQ4NmYxYWI2ZmJjNGI2NDQxZTE1OTVhMzkxZmI3NzQwOWI3YzM2Mzc4NzA5NjA2ZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiZjVlNTlhNGJhNzQzOTk3MjRhZTFiNWE5NzRkZWQ2Y2JjMTZjYzU1MjI3YThjMzNmMTFiZDdkYTcwMDZjMTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE2MTE0ZGFhMGVhMDYwZjBjZTJlNzllYWMzMjUyYmE4OTM4ZDYwOWUyN2E4NDlhNmE1NjgxMzUzNDg4MDA3OGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxYTM3NTI2Nzc5NzY2OTg2ODRmMTE3ZjY1Njg1ZDJlZWU0MGNmMTUwMjU4ZDY0YzRkYTM0YTczYjRiN2U2MTUifQ"
+        },
+        {
+          "resource": "repo://AGENTS.md#L98-L108",
+          "version": "repo-lines-v1:sha256:2376e8fb411f983552b80e644051a00d6e8c6283a1cde6cf84fad3c01248d01d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkYzQ1OWE3Yzc2M2M3ZTA2ZWVlNTU1YmViMmIzZTNmNWE5MjJkZGE1MjcxZTc5ZjVhYWFjZDRlNTQxMmZmNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMyMWZiMjQ4MGE0NGFlZDAxMWZlMGRiZjRhN2I2ZDAxNjg1MDg3MzQxOTk1NWFhZTJjZTNmODZmMDY1ODc2YzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzYmU3NTFhNmNmMzk1YzNhZDk3ZjVhZDI3NDQ0OWE2YjhmODQzNjZmMTAyYTVjMWQ4ZWYzZDU5YzNiOGU5NDMifQ"
         }
       ]
     },
     {
-      "id": "claim_bb15025a3d88453ebb63a1402b2b2c39",
-      "statement": "docs/00-control/hx-fleet.tsv is the single source of truth for the fleet; generated fleet tables, the runbook IP map, and server records derive from it, and the fleet table is regenerated via tools/hx-doc/hx-fleet rather than hand-edited.",
+      "id": "claim_9e8b9ae2c08a461dba542252ca8f8154",
+      "statement": "Do not treat anything under archive/, human-html/, or graft/ as current authority. archive/ is superseded history (reference only), human-html/ is generated output (never authority, never hand-edited), and these paths are excluded by .openwikiignore. If one appears in a wiki page, the ignore file is wrong and should be fixed.",
       "evidence": [
         {
-          "resource": "repo://README.md#L240-L249",
-          "version": "repo-lines-v1:sha256:81b298cf678b88317877792089898f496bc273d3d475211008788a76f6247511:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjOTJkMWIwOTFiMjVhZmNlZDQyNjVhYjhjYzJmNDBhZjBhZDhmZmExM2QzYmE1NjA3MTBhMWNhYTE0YmZhMDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwM2NmNTk2ZjNjZDcyMzkzNTM3YTI1Y2JiMGU2MmFmMzRkNGYxMDI5YWQ5M2E2MDJhNDliYzM0OTgxODNjMGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1MDFmMzk0NDc2ZTRlNmY2NzRiZjQzNDI3YTg3NDg4NzUxNWRlMjg2N2UwZmM0ZDc3ZjdiNzE2Njk4M2MxZjkifQ"
+          "resource": "repo://AGENTS.md#L26-L26",
+          "version": "repo-lines-v1:sha256:70aace1c3d7292136c635f04ecd90d94caa1e16b7d2f5af16d0894e5620f9ae1:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzBhYWNlMWMzZDcyOTIxMzZjNjM1ZjA0ZWNkOTBkOTRjYWExZTE2YjdkMmY1YWYxNmQwODk0ZTU2MjBmOWFlMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzBhYWNlMWMzZDcyOTIxMzZjNjM1ZjA0ZWNkOTBkOTRjYWExZTE2YjdkMmY1YWYxNmQwODk0ZTU2MjBmOWFlMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDVlMGJjNzYzM2RiZDI2ZWVlYjJkNzFmNDdlNWFiZjI1OTk0MjVjMzg5YmVjZmFkNjI0MzcwZWFmM2E5ZTc0MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjNhMzY3YWJhZTEyYjg4ZWY0YzRkYjg4ODk5YTA3YmE1M2UxNzBiNmNkNzdmMTA5ODIwNjIwYTZmYWQ4YTIxNiJ9"
         },
         {
-          "resource": "repo://README.md#L77-L78",
-          "version": "repo-lines-v1:sha256:93aa82d89359d18ca77338c703494cdc74fca9b3f3d176bdea72aabc17fc2046:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjJmZWRiZWM1NjhhMGZiY2UwNjMwYTY4ZmFmNmJjODRlZDkyMDRlOTM0NzE3MDdlNTdjZDQ1YjVkNDMwMzYwYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmJiNmRlMTMzYjI0MGVhY2QzOTNlN2U0ZjAyM2FkMTgyMTBlNjAyYzU3MGJhOGJmYWEyMWYzMTQ3NGI0MTk5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmQ0ODdiNmFjNWI0NzA4NGExZmY5ZGY0ODIwMzMzNGNiOTc3ZWQzZjhhODZlNDQ5OTMxMjRkMGUxOTYxZmQ5MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjlhOWY3YmU2NTJkZGZiZWRlYjAzOGIxNjA1NzUwODM5ZWVlMWMxNTQ1NjY0ZTk3ZTlmOTM2MGQzZmRlZWIyYSJ9"
+          "resource": "repo://README.md#L229-L249",
+          "version": "repo-lines-v1:sha256:590162877b01ee4af75e4329c86c20d0a671be9aff657d93470069dbadab0275:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmNWUwMGI4YmI0YjBkYjM3NjUxODJhMDdmMmM0ODE5M2RjNTUzNjkyNjFiYzhhNzMwZjE0ZjRiYWJhYTA4NTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzNzgxNjE5MmZlOTFhMzhmZTJiYzJmYmNkNjViNGYyOTZmNzc0NGY0MGZmMGQ3MDIzZGIzZGZkMDdjNTRhOTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjYjJiYzc1MjA3ZjJhYjA3Y2JjN2ZiOTQzOWNhNWQzOGJiNjViOWYzZjkxMTk4YjQwNThhN2EyNDZhZDhiNDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L39-L40",
+          "version": "repo-lines-v1:sha256:ab408150598657641074093f9d923be984c5f6ec31acfb3a42f0396c32d328c3:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzVkNzA1YTk5ZDFiM2M4YjI2MGFiYTcwNjdmMzM2NzM5MjEzODNlNzU4YzQ2M2U4ZDI0MzJjMjI2MjVkM2ExNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjkwMzlmYWQwNmQ5N2Y1MzliNDNiNTM0OGZlOTAxODZlNmJkMTNmMGE2YTI2MTQyZGZlYTMwNjgzZTQyMTJkMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTFkZDA1ODA3NTY0NWVmZDJhMGI4MjE4Zjg3NmZjZDRjMzg0ZTEzMDM4MTNlMzg0MjU5YWVjYjRlMzg4YjQzYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGJkNTZjZDVkODQ0MjMxOTMwZmZlYzg2MmRlOWM5ODYxYTkyNTA2OTllNDZiNmQyNTc0MjMyMDMxY2RjNzA5NSJ9"
         }
       ]
     },
     {
-      "id": "claim_b03f222a21d3467e925c35822e1dd69a",
-      "statement": "tools/hx-doc holds Python consistency tools (standard library only) that regenerate derived artifacts and enforce written rules as failing checks — hx-fleet, hx-proof, hx-render-html, hx-doc-check, hx-version-pins, hx-upstream-drift, hx-record-check, hx-smoke-lint, hx-new-server, hx-doc-supersede, hx-preflight — while tools/hx-smoke-runner holds the repository-owned smoke-runner helpers and smoke-tests/*.md are the component acceptance authorities run from HX-5 CentCom.",
+      "id": "claim_2948603d25364c8ead67dc6bcab9767f",
+      "statement": "Smoke-test authority is layered: the smoke-test roadmap defines which proof runs next and which prior PASS evidence it consumes; HX-SMOKE-TESTING-OPERATING-MODEL.md defines how the validation subsystem fits together; smoke-tests/*.md defines what each component must prove; HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md defines how HX executes and retains the proof; tools/hx-smoke-runner/ contains the repository-owned helper implementation. After CentCom activation (A5), later component smoke tests run remotely from HX-5 when the product exposes a LAN/API/protocol/native-client/UI surface.",
       "evidence": [
         {
-          "resource": "repo://README.md#L204-L229",
-          "version": "repo-lines-v1:sha256:e13273a61d8f21f724461954ab4e5ab678e61aa029ec986633d897cbdcd43a1f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxNDRmNTVhOTY1ZTBkZWE1ZDFjMzRiOGJmZDZmZTI1NDY5ODg2OWE1ZGFmY2Y4NGRkMmRmNDdkOTBhODg1N2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzNTI3NTllOTYxOGUxY2IzOTVkYjVmMDViZmFhY2I2N2Q5ZTE0ZjYxM2MyZWU3NzAzNTFhN2I4ZWEyMDhlZjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU3MTc3NjVjOWNlMjVlM2EyYWU2YzVjZGU0OWRlNzEyOGIzYjQ1N2JjMmM3NTkyNDFhZmI1M2QwYzA0ZTkzYTYifQ"
+          "resource": "repo://AGENTS.md#L110-L121",
+          "version": "repo-lines-v1:sha256:f3d48c49ba61fa4ee55a777535a8ca7901f67dab397b8b180c4b2e3908b97b10:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MzA1NWIzZDQ2MGE1NmE5YTU5N2YyNDZlYWIyYjc4MzIxM2IwMzA0YTNiYWY1MGI5MDUyNWUxMDcyYmUyMTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2YmM5MTVhNjU4ZTY1NWVkMDM5MTg3MTA0MzAwNDQ2MzE0YmMyNmNhNjc5OGM3NTZhNzRlZTE5YjI3YTE4Y2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkODk5MzkxNDU1NmMzOTNlNTVkNzczY2I2OWQzMjhiNTc5NjIyZTMxOTdkY2IxMjg4ZmUwMmEwYmRhNDQzNzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0MTk1MzUxMjk2NmFmZWFmNGE4ODY1YzBjOGNhYmJiMjVjZjQ0MTkzZDlhMjkxODBiMTM3MDQ5NTI5NDRkOTQifQ"
         },
         {
-          "resource": "repo://README.md#L236-L249",
-          "version": "repo-lines-v1:sha256:97549b21706b8604e13d110484af8d38c6f208e6b3b5da47bad17630a0882d58:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyZDkwYWYyZDQ4ODYwY2I2MzA1ZDc0NTQ0YjEzY2U0N2MwN2M5ZTdmZWJmZWNmNmEwOWQ2YmJhZDgyZGE2MTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1MDFmMzk0NDc2ZTRlNmY2NzRiZjQzNDI3YTg3NDg4NzUxNWRlMjg2N2UwZmM0ZDc3ZjdiNzE2Njk4M2MxZjkifQ"
+          "resource": "repo://docs/00-control/hx-proof.tsv#L1-L31",
+          "version": "repo-lines-v1:sha256:2da71e2f6f07d6f7247773024b0a1239c44eb2e8fe487e82be6b0c890285e4df:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxODc0ZGE1MzEyNzQxNzBjZGUyNzRhZjQ1ODIzNzVlZGZiZmMzMDdiZWNiZTNiN2I3NzBkNWNmZGE2Y2M5OGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzN2Q3MGVjNmVkNDRiN2Q4ZTFhMzE4Mjg2NmQyOTRkNWJmMTgwNjc0MDA4YjZkYjcwZGFlNTgwM2MzMjJmZGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2c54bf9771c243debfdfe53ed0ffe513",
+      "statement": "Server records require the source URI and full SHA-256 of anything downloaded; an unknown value is written UNRESOLVED, never left blank. Anything a server needs that is not yet decided goes in that server's record as UNRESOLVED, not in someone's memory. A server is not PASS until its record is updated and hx-record-check passes.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/RUN-SHEET.md#L236-L237",
+          "version": "repo-lines-v1:sha256:cd1ba851d8d543f7bb33c73de9d76d5586a5ff313908a296d5cdc939dfb8dd1f:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTc4NWE4ZWFlZDNkNTZjNGY5ZGI0YTk3NGVkODE1OTA1ZWZjY2U3NTQ4ZGM1M2U3YmY5NWViZTVhMDk4ZWVmOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDE3YjdkMmM4YzhjY2ZiMzkzOGU5NTgxYmZhMjI5NTgxOTUwMGJjMmQ4ZTliYTg3OTAzMmRiMDY2ODZkMzEzNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWJmMDNhZmM5M2ZiODU4NDVjYmJkNGFlNjFkN2Q3OThmY2FhNjA4OTY5ZjY5ODk1ZDQ0OTU1OWNhNGQxNjgxMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/RUN-SHEET.md#L96-L109",
+          "version": "repo-lines-v1:sha256:d9eabd3c34efe9f0e3f458f9a0fa37fa4881a490347f5fd9dc94e92040492cbb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU0MGJhZjEzMTU1NDBjYjQ2NTJiNGI5NDE1OWVjY2YzYWEwZThhMzdhMzhhMDRjY2FiMTMzYzg4YmUzYzVlZjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5NWUyYjAwN2U2ODliZDk4MWY5OGYzNmYxMjg1MzM1MTViNzA1MGFmMDRjODAwYzljMzQwNGFlNGI0M2ExZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_93a50be3a389401385a3c6d03820e7c7",
+      "statement": "Graft indexes the executable surface carrying a file extension: the .sh blocks, .py tool bodies, and .env files. It does not index the 17 extensionless scripts (every tools/hx-doc wrapper and the four smoke-runner scripts), the Markdown authorities (smoke-tests/, roadmaps, control docs), or call edges for shell functions. An empty graft result means 'not in the graph', never 'does not exist'. For shell call edges, grep for the name before changing a function in common/.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L246-L285",
+          "version": "repo-lines-v1:sha256:15bfb13653c81613c8fe8477dff52120128dea6fc5a3df34900e30891ae5fd6b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlYjI5Y2I0Zjc0YTkxNjNlYTQ0ODc4YjI1YjA2MjRmNTg1M2U3N2NhOTIxZmFhMzRmMjdhMmJlNmIyYWVmYTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjZmEyYjJmYmQ4ZThjMjI5YzVmODRjMjEzMjBkZjVhZmI0NjFhYzc4ZTQ5OTA3Nzc5YTNkNzhlNzg1ZGI5N2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3OGIzM2NlMWI0ZmMwMWRmOGM5ZmNlY2FiNTVmM2MyNWY5MmJkZWQ0MjVhYzdkM2YzOTA5MGZmMTU4ODU0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIzMzRmNmQ0MjcxOTVjOGU1ZWVjZTdiZjI3MjM1ZGU3NDA5NTEyNTI5ZDdlYzkyNjQwMWViOTdhNmI0NzE5NGQifQ"
+        },
+        {
+          "resource": "repo://docs/03-runbooks/RUN-SHEET.md#L197-L224",
+          "version": "repo-lines-v1:sha256:770e723475b6ed3014e3c2747b066377f9de6e0bcbfd7239c178bf592df0cdbc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMjliYjkzYWUxZTEyN2Q2ZmEzMmY1YjdiZDRiYjRlMzllODAzMmNmYWUyMWNiMGYwN2JkODliNTU2MjFlZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5OWU1Mzc4ZTI2NGZiMDU2ZTk1OTBlZTcxYWM4N2M0YmQ3YjQwNTkyYzBmZjJiNTJlOTExYmUzMjdmYTk2MjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQwOTQyYTdlZDg4Mjg4ZTYyODkwNzk4MTdhZDY2ODFkYjQxYmViZjQ3NTkzMTIzZDBjYzE3Yjc4ZjBiYzJlOTkifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.1",
-    "at": "2026-09-14T19:05:42.087Z"
+    "at": "2026-09-15T22:39:27.588Z"
   }
 }

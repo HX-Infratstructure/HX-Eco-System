@@ -52,6 +52,20 @@ Prefer the current state. Nothing in `archive/` describes what is true now.
 
 State costs and irreversibility plainly where a page describes an action.
 
+## The generated agent block
+
+Every run rewrites the block between the `OPENWIKI:START` / `OPENWIKI:END`
+markers in `AGENTS.md` (and the matching block in `CLAUDE.md`). That block
+must obey the same one rule as every page:
+
+- Never state that source code or tests are authoritative. They are evidence
+  and context; the truth order in `AGENTS.md` section 2 governs.
+- Describe regeneration as manual, per D-025 in
+  `docs/00-control/DECISIONS.md`. No scheduled workflow refreshes this wiki.
+
+A block that violates either is a generator regression; the fix belongs here
+or in the run, not in hand-edits inside the markers.
+
 ## Do not document
 
 Anything under `archive/`, `human-html/` or `graft/`. `.openwikiignore`

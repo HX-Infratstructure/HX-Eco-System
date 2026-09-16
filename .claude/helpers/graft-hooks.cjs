@@ -4,8 +4,11 @@ const fs = require('fs');
 const { pathToFileURL } = require('url');
 const { execFileSync } = require('child_process');
 const dir = process.env.CLAUDE_PROJECT_DIR || process.cwd();
-// Fast-path candidate: npm's Windows global node_modules derived from %APPDATA% (null if unset).
-const BAKED = process.env.APPDATA ? path.join(process.env.APPDATA, 'npm', 'node_modules', '@nanonets', 'graft', 'dist', 'claude') : null;
+const BAKED = "/usr/local/lib/node_modules/@nanonets/graft/dist/claude";
+// Windows global installs live under %APPDATA%\npm\node_modules, not /usr/local/lib.
+const BAKED_WIN = process.env.APPDATA
+  ? path.join(process.env.APPDATA, 'npm', 'node_modules', '@nanonets', 'graft', 'dist', 'claude')
+  : null;
 
 // The dist/claude dir of @nanonets/graft resolved from a base whose node_modules is searched.
 function fromPkg(base) {
@@ -56,7 +59,7 @@ function best(dirs, name) {
 
 function entry(name) {
   // Cheap candidates first, and only shell out to npm when every one of them misses.
-  const cheap = [BAKED, fromPkg(dir), fromPkg(path.join(path.dirname(process.execPath), '..', 'lib'))];
+  const cheap = [BAKED, BAKED_WIN, fromPkg(dir), fromPkg(path.join(path.dirname(process.execPath), '..', 'lib'))];
   const hit = best(cheap, name);
   if (hit) return path.join(hit, name);
   const gr = globalRoot();

@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:3ae9060ef90e0d3716adc14fe5081a94f7582156b8a1359f1ab4f2949672c295",
+  "claims": [
+    {
+      "id": "claim_921dc92ff2f7474b9c78c527c85296b9",
+      "statement": "Each of the 17 HX hosts has exactly one Markdown server record under docs/02-server-records/HX-N.md, scaffolded from docs/02-server-records/_TEMPLATE.md, which defines nine required sections; a section that does not apply is declared with a single **Not applicable:** line rather than removed silently.",
+      "evidence": [
+        {
+          "resource": "repo://docs/02-server-records/HX-9.md#L1-L86",
+          "version": "repo-lines-v1:sha256:999d31b3bb8a994caca4ab6d1144c01885ae2bfadabcdd32dfeacb95802a686f:eyJzZWxlY3RlZExpbmVDb3VudCI6ODYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5NmY5ZjM4OGYwODIwMDY3OTIxOGZkOTg4ZDBmYmI4Y2QzMDYzZTBkMDIyMjVlZTY5ZDYxYjQ2MDQ1MTdkMTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgzMWNhZjljMGZhMGQ4NTE3OTc3M2NmMWI5YTg1MzM2ZDVkNDU2ZGI2ODVmNTBjMjJjMDY3MzUyMTkxOGIwNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://docs/02-server-records/_TEMPLATE.md#L1-L88",
+          "version": "repo-lines-v1:sha256:10fe3d59d92b6e353d3b9c06bf375c462cfdfa7009b4ea931670423962c8069e:eyJzZWxlY3RlZExpbmVDb3VudCI6ODgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiNGYwNmNhZjZjMTk4MjU4MTMxNWE4ZjMwNzFlNzI4NWIyMGFlZGEyYjcxMWY2NjYxNGY2NTM0NDQxNzA3N2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgzMWNhZjljMGZhMGQ4NTE3OTc3M2NmMWI5YTg1MzM2ZDVkNDU2ZGI2ODVmNTBjMjJjMDY3MzUyMTkxOGIwNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_37a374ea835a45e385b1398fa6695df1",
+      "statement": "An unknown value in a server record is written UNRESOLVED, never left blank, because a missing field cannot be told apart from a forgotten one; this applies most visibly to the five mandatory provenance fields, and HX-2 carries an open UNRESOLVED Source URI gap as a recorded, visible defect.",
+      "evidence": [
+        {
+          "resource": "repo://docs/02-server-records/HX-2.md#L225-L239",
+          "version": "repo-lines-v1:sha256:bf7105a2c68b2a88deed7d194f61d83f1e354479c590ffbca0ad2cc882b86918:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiZmViNDk5MGYzOGUyZWZlZjc4YzNlMjgzYTAzNWQ2YjYyMDk0ZDVjZGIwODQ5MmUyYjg0OTYwYWE3NTNlNWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5MGVjMThlMmZhNTljY2NkNTdlNDU4YjUwMDI1NmMzM2ZiZmNjMmY3Y2M4MjNlZGI0YTE1MDI4NTFkNGQ1OWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZmFmMDk3MzFlMmFkMDIzOTdmYTlmZDI0YzNlMmJlNWUwZGQxMTNjNTJiMDZlZTM0MTUwNGZlNjEwMTIxODIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4ZDc0ZDQ5ZjI4YzU3YzIxNTI1MjU1YjdhYzIyMzk5MjY4NzU5YzE0Y2QzMWIzYzk3MWE1MTQyYTEzNWFkNmQifQ"
+        },
+        {
+          "resource": "repo://docs/02-server-records/_TEMPLATE.md#L42-L54",
+          "version": "repo-lines-v1:sha256:bb8eb8d26796e8c7dd575f099179870f8f8ca447265d823264fe0a5a2316f48e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwMzNhODE1ZTk4NTEzMDdkMzRjZjc1MDJjNTcyZGI0MmY0NmExOGMyNWQ3MmEzMDJjYzI5ZWZlYWVlYmYzZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFiYmI1Njg0OWVkYzg3ZGY5YWIyMjE3NTUxNWJkNjIzM2JkMzQ1ZjE2MzRmNGU5Y2Q4Y2RmMDZkZmJiNWU4M2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcxZmE3MmY2ZTU2ZTMzODUyMTJhZGNlYjkwNjJmZWM0MjVjMTdhMDEwNzFlZmI4OTQ4NTk5OTJlNTRlMGMxY2UifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_febb24fb2bc046309047a74abf505b74",
+      "statement": "Section 6 requires five provenance fields (HX alias, upstream identity, Source URI, Artifact SHA-256, import method) for every server hosting a model or downloaded artifact; both Source URI and SHA-256 are required because public registries carry community rebuilds under names close to official ones, so the hash proves what is running and the URI proves where it came from.",
+      "evidence": [
+        {
+          "resource": "repo://docs/02-server-records/HX-3.md#L224-L240",
+          "version": "repo-lines-v1:sha256:2711075c99bafd7340aa3002191a4b14c68f56703992e9cbce41d6a4265e4748:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5MDAxYWE4ZDMwNjU3NDYwNTI3MzE1NWNiMGMwY2RkZjVmMjAzYmYzOGRhOTZhNzdmMjU4MzhjMjQ1OTdhOTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1ODNkYWRhZjVmYTExY2NiZTcyMTkwNzJiY2FkOWJiOGI2NGE0NGZmZTkxMTQ4MWUzMGU2ZmM3ODdiNmNjMzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY4NTllMDMyNGFmZDcwMmIyZGQ2M2E2YTAzNTk2YmE3Mzg3ZWU5YjNhOWU3MmM2YmY5NTJhNjFhZDBlNDM2MzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE1MjFkNTNiNWQ0NmVlYThkNzExZWVkNzI4YTk1MGE1NzRkNjNkYTNmZGZhYmVhZDFiY2ZlZjQ1ZjAzMzc2NjYifQ"
+        },
+        {
+          "resource": "repo://docs/02-server-records/_TEMPLATE.md#L42-L64",
+          "version": "repo-lines-v1:sha256:301e2b99e61da84631578901eebfb8e725e04029b20b4458d2dac3e8403a6205:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwMzNhODE1ZTk4NTEzMDdkMzRjZjc1MDJjNTcyZGI0MmY0NmExOGMyNWQ3MmEzMDJjYzI5ZWZlYWVlYmYzZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFiYmI1Njg0OWVkYzg3ZGY5YWIyMjE3NTUxNWJkNjIzM2JkMzQ1ZjE2MzRmNGU5Y2Q4Y2RmMDZkZmJiNWU4M2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNhYjRkN2UwYzMwY2VjOTg1ZmFmZDFlMTEyMzFmMWVmM2IxNmZhMzRiYTNlZmQ5MzRiNGQwNWMwNTdiNDU0OGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ed95e45d9d54401b9d64e6f0efcb5c3e",
+      "statement": "hx-new-server scaffolds runbook wrappers, a runbook README, and the server record from hx-fleet.tsv and _TEMPLATE.md; --no-ollama skips the Ollama block for non-inference hosts, --force is required to overwrite, and the tool refuses unknown -- flags, hosts not in the TSV, and a template placeholder that does not match exactly once, validating the record before writing anything.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_new_server.py#L88-L189",
+          "version": "repo-lines-v1:sha256:3ff8045c5d563de751a2c5d0f859a58e70bc41d2c2d48c3c346892d449ea7dd8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIxNjIzM2IzZmZlYTMyYTIzZGY1MzA2NTM0MzQ4ZjJkZWU3NzZhNWE2Zjc0ZmI1MzMxNzVkZGM1MzlhOGZlNDY0IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmNWY5ZjY4MWQ2MDk5YWU4MmMyZDdiZjM1ODBiMGZkMDFlNDFhYTY4ZDdjOWRhYzhkM2VhZmRjY2I1NGMwNzNhIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIzZDQxMzQwY2MyMzlhMTU5Y2U5YjYwMjJlOWY2MzIyODMyZTJlYWQ3NmNhZTllNDc1NGQyMTBlYjhmYjZkNWU4In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_e797768eafbd4054989b8817af52bb06",
+      "statement": "hx-record-check reports MISSING (a required section absent modulo a Not-applicable exemption), UNRESOLVED (a field recorded as not yet known, a gap not an error), and DRIFT (the record's Build state disagrees with hx-fleet.tsv, the record is not in the TSV, or the State line is missing); the state comparison is whole-value and normalised, and --strict fails on UNRESOLVED as well.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_record_check.py#L1-L124",
+          "version": "repo-lines-v1:sha256:324513f08874a0dd8ed551757f43887d0a20edbbe66fa7488d8ed4936a0a15b1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTI0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkNjgyY2JkYjRjOGIwNzUxOGJmNDg2YzU4OTkwZmMzOTE3ODNhYTIwYTkxNmJmYjI3YWQyMTFlYjFkNWMzNjQyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3OTFkM2I3MTc0ZmY0YjQxM2ExYjVjODEwZmRhYTAyNmE3Yzg2NjA0OTI5ZTkxZjliZWI2MmMwOThjNTFkOWFjIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_35425a5eee7d450ea03a1ca67a9f3ee5",
+      "statement": "RUN-SHEET Step 6 closes a server record by editing the record, editing hx-fleet.tsv (state -> PASS, gate -> CLOSED), running hx-fleet to regenerate tables, hx-render-html, then hx-doc-check && hx-record-check before commit; the record needs the source URI and full SHA-256 of anything downloaded.",
+      "evidence": [
+        {
+          "resource": "repo://docs/03-runbooks/RUN-SHEET.md#L95-L106",
+          "version": "repo-lines-v1:sha256:42267cd398ec724a0d35067c12480fb1ffe3dd84abddfb12175391b695850b1d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVjMjgzYzRmODhjMzcwMjJhMmZiYzI0ZDIwZTJhYmQ4MDg1ZDJkZWQ1NTU2MDJlMzgyZjMzOTU1ZDQ5NTExMjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVkNTM3MzMyMGQ4N2NjZWVmNjNkYzliZDg2MzFmZWQ3ZTlhMzZkYTY3ZTBkNjMyZWE3ZjY5ZjcyMzc0OGMxZTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQxMDM1NTdlYmRlMjg0Y2QyODUwNjA1OTg5NDk5YmMyNTk5OThiZDI3YmYwNWJjNGY0OGIzNmRmYTNmMWQwOGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4711cb7d23eb4f91b85058c5dc219cac",
+      "statement": "HX-1, HX-2, and HX-3 closed before the CentCom runner existed, so their proof is recorded inline in section 7 of their server records as exact commands and exact responses; this is accepted evidence and hx-smoke-promote accepts an accepted server record as prior_pass_evidence, so these records are not retrofitted into run bundles.",
+      "evidence": [
+        {
+          "resource": "repo://docs/02-server-records/HX-2.md#L280-L341",
+          "version": "repo-lines-v1:sha256:ed7d28e66e72ce8a25691237e713b3f4367365271d806d8beb2a48ca4d031a52:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5OGZlNjQ4MTg2MWZjMTcxMDY1MjE4NGFhMDk1NWIzOGQ0OTdhNTBiOTVhNzY3NzJhOGZmMjM4NzJhYTFhOWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ3Y2ZkMTdkNWRiZDgyNGUzNDk0ZTU5MjIwYzVkMTdlZjZiNzJhODNiZDVlMDI3ZGNkODI3NmY5ZmE0ZGRmMTUifQ"
+        },
+        {
+          "resource": "repo://docs/05-evidence/README.md#L10-L16",
+          "version": "repo-lines-v1:sha256:b37ef4bba0722103f023dac2ee333bda62a241f1745e4e2c0acba59aae08407e:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIyZTczNTIwNjAxZmI1N2MwYjBiY2ZiNDcyMTgzNTM1Y2I2OWYyZWFkMTQ3MjFjMDgwNzFjNmMyNzllZGRkMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjcyNTg3MmZkZjMwZTdkY2ExNGI1YTliZDY2MjQ1YzdhMWRmODFhMjgyNGRlOTYxZDVkYjBkOTI4MzlhMGE0YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzdjYjBjM2EwOGU1MDkxM2U4Y2RhNjQ2ZTI3M2Q4ZDE4YmVmNmZlM2ZjMTY4ZjQ0ODY2ODI0YzA5MDM2MjdiMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGZjZDIzMDM2NDZiYzhmMDRmZjliYTEzYjUwODFjYjdjMzhiMGY4N2QwOGYyYjVjYTE2MDU1YThlNWViZWQwYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_94b36d80b17042419e4ac22d3328526d",
+      "statement": "From HX-4 onward, component proof is retained as a run bundle under docs/05-evidence/<server>/<component>/<run-id>/ containing manifest.md, result.txt, cleanup.txt, and supporting captures; the bundle is created by hx-smoke-new, promoted by hx-smoke-promote, which copies only the normalized bundle and does not auto-commit.",
+      "evidence": [
+        {
+          "resource": "repo://docs/05-evidence/README.md#L18-L56",
+          "version": "repo-lines-v1:sha256:4e2df566753e124ff4a3635a446c6fc59c85872fdd1f12d5db57b0c2f27b35e3:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5ZWJhMzMyYjhkZmIyYmI4Y2NjYmRlMjA0MzI0YWIzOTczZGMwODFmMTJkMTY5ZTRlZWQ3NTBkNTg2ZDk2NzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM1YWE3YjRhYWZjOTM0YzIxZTJiNTVmMmFhZmYzMGM0Y2FjNWYwZTMxMWFhNTMzMGM4YzRjYjFjNDkzMjRlN2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU2Y2YyZjdmZDE2ZTg2NjhlM2NkOTcyZTRmNWY4MGY2MTIzZWEyZDc4OWY2MDE1YTgzZDBlYWZkNzQ2ZmM5NmUifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L221-L248",
+          "version": "repo-lines-v1:sha256:b6c1ce7acfe081c005bf3ad5a743f407afbb916637d88134954304066a09ec81:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjViYjcwYjI1OGFkMDgwYzM1ZmE5OWM1NTVlNDJiNmM2MmYyODBlYTA0NTIxZjk5Y2NiZGZlMTU2N2M5MWMyNDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5MzEyZjNiMGNkYTdkYmUxN2NkNmQ2NDE0YTk2NmI0OWRlMTc2ZDJlZTU2ZjJhYmEzYTU4Njg0ZjA5NWQ0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY0ZDAzYzlmYTE5MzlkOTdlYjkwMTZkNzUyZTIxODM3ODRkMDM1NjczOGU3NTM4NzI0ZTE4NmM2MmU5YzViMjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwNGM2NjM3NTllMTJlMjZlZTEzODk0NTU5MGY4N2UwZGE0ZDZkN2YzMzI2MzgyMTM3YzI1MGMxYTIwYmFhMDQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7585b9f3b2de4f1b96b20ecf6da3951c",
+      "statement": "Before CentCom is activated at roadmap step A5, smoke runs A1-A4 are executed from an operator station authorised by exporting HX_SMOKE_ALLOW_HOST and HX_ECO_REPO; the station used is recorded as runner_host in the manifest, and after A5 passes these variables are unset so a later run cannot pick up a stale authorization.",
+      "evidence": [
+        {
+          "resource": "repo://docs/05-evidence/README.md#L21-L42",
+          "version": "repo-lines-v1:sha256:a2ee124e7bfcb3dbc1c4152f8051ea2037cd3694d52233409cbfee20963b2f75:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczNWQ2YzQ5ODQwMjFhOGM4ZjFkMzEyNjE1MzA4MmZkM2MwNWQ5NWJmYzYwMjNlOWRiODEyNTJhYmEwZGUzM2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJhNzUzZDkzYzUyMjMwNmE4ZWU5MzBlMDZmOWJjYWU2ZDI1NmE5Y2QzMDI3NGJiMGNhNzgxN2Y0ZjQ2NmNiNjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk0MDBhMTJmZmUzNTM2YmZkYzkyZDkwM2EwNzY5ZmM0MmU4NGMxYzVmMzRhM2U2Yzc3NTdmMDhiYjNmMjUwYjgifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-new#L22-L33",
+          "version": "repo-lines-v1:sha256:efaeb5918f7d61af636ed4f336087ca69c7c6237db2b5f8154eb50b39f40793e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzN2EwOWQyZDMyZTVhY2EyNzdkZDc5NTM2YTc1NWU2OTJlNjkxOGJiMDExMzgxM2JkYmU0OTg2YzdjYjZjNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3NjlkMjM3Y2Q0MjBiOWQzOGI5ODFhMGE0ZjY3NzAxOTBhNGE4M2RjYTFmZTU2YzRmNWJhMWUyY2JjMGVmNzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdjZDkxMThhMjU5YTc4ZmY1ZTlkYjYyNGI5OTc4NmM3ZmYxMTI5OTg5OGViMzk2NGE2NDY2ZTRjYzM0ZDhkYmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3Yjk0YTE5NWZiZWZlMWU0ZGNmYmY3NmI5NTVjNzk2NzhhM2VjMTRiODA5MTZhZTA1NzMyMTNlZTQ3ZTI5NTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_20557f992f0b41f8a47a3582ad9385e3",
+      "statement": "Every retained run must identify runner host, SUT, component/version, smoke-test authority file, repository commit, known-answer input, PASS/FAIL determination, cleanup result and verification, and reboot-persistence result when applicable; standard naming is YYYYMMDDTHHMMSSZ_<server>_<component>_<gate>_<description>.<ext>.",
+      "evidence": [
+        {
+          "resource": "repo://docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md#L404-L430",
+          "version": "repo-lines-v1:sha256:3f1d249f38dff714b3a503bc73a14d0d563b6f35c1ec8da2104bbebba66d6247:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2MTMzNzU3NjgwNzBiZDFjNmU5NjdhNTcwZjUzNzNiZjc0ZGJlNzZhNWVmNmJjYjU2ZGNlNDQ2NmRkNDYyNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4MjQ4NmViNWE2YjVhNmU0MzJjZjJhMWVhMmFmYmI4ZTNjYWI0ZWU1YzBhODJlYTk3NzY2N2QyZTIxZTAwOGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFiNTI5MzVlZThlNDE2ZDU3NTMzYTJjYzc2MmJjNmQxMThkNDZiODIzYTJhYmY2YThjMTEzMmVlNTUyY2IzNTkifQ"
+        },
+        {
+          "resource": "repo://docs/05-evidence/README.md#L44-L67",
+          "version": "repo-lines-v1:sha256:9659dea03aa233fb6c669891a2f03f95aee2187350d2ade4da66f1c1ec1dfc64:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4Y2ZiMTk1YjYxZTVlMjBlOTE4Y2FkYjMzZjFkODhkOWQwOTc2MmU2N2FkNTc0Yzc5YzRlNzgxYTU4NTRlODUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwMDI2OGRiMmFiMjE2MTNiNTE5Y2FiY2UyNDVjNGMzZjMyMDlkYjJjYTMwZmVmYjcwNGU1ODhiODQ4NmM2YTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA3YjU1MTBjYmZiODNhMjk5OWMyZDdjYTYzNmNhZTQxMTYwZTQ1MjNkNjE5ZWU4ZWJjODMyMWQ3ZmFmZDk2MzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVlYmVkOGJmMGNhNjU0Njc2NjFjNDkxYTg1ZjllZjQ2MzUwMzU1MmFjYTJkY2QyM2E4N2EwOTgzN2Y5OTNkMzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_afedf773eda5454fbfbfb00eee02cb5b",
+      "statement": "For a PASS, hx-smoke-promote requires FUNCTIONAL=PASS, CLEANUP=PASS or NOT_APPLICABLE, prior_pass_evidence and limited_integration_plan each recorded on one line (or NONE), a proof_step bound to the run's host and authority whose declared dependencies are all PASS and each cited in prior_pass_evidence, the step not being NOT_EXECUTABLE, and component_version_or_revision/transport_or_endpoint/sut_ip recorded rather than TO_RECORD.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L93-L206",
+          "version": "repo-lines-v1:sha256:789c36ff19cb3d71c1de928ef44198ee656f87edbba6c0ac288018390a41767c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxZDI4MTZiYzhkZTE0YzA4ZWEyNWU0NTMxOTcwOWQ2Yzc1ZWJmNjk2YjA5Zjc0N2I3NTk1MTAzZDM4M2NlYjU2IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzNzY5ZDIzN2NkNDIwYjlkMzhiOTgxYTBhNGY2NzcwMTkwYTRhODNkY2ExZmU1NmM0ZjViYTFlMmNiYzBlZjc2IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlMjgyMTQ1N2VhYTQ2ZTQ0ZjU1YWM2ZTAwYTBmMDJmNmZiN2FiNTYyOWFiMDQxZjhkNWI3ZjQ5Y2FmNjAyMGY2IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIyZTdjNzAzNmU5YTczZjNkZjFlOTU3OWZlZjZhZmUxYTE0M2ZlMjBhN2MyYTY5ZDM4NWRiMzVjZWM3ZGFhY2Y3In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_e56954f8400542ea9e02a6b4cdd7278a",
+      "statement": "Failed evidence is not overwritten by a later PASS: a retry receives a new run ID (new timestamp), so the failed run's bundle is preserved alongside the succeeding one, and the server record summarizes the final accepted state while the evidence trail retains materially relevant failed runs.",
+      "evidence": [
+        {
+          "resource": "repo://docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md#L441-L453",
+          "version": "repo-lines-v1:sha256:fcdd14993164738d8e99c98db5ba34903790adc2d4f1984559bfaf9817d240a8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMjVhM2U4ZTM4ZmI0Y2ZiZTgxNjI5ODFjNTcxODE1YTVmMDE5MzVjOTljNmE2MTM4MGMzMjNlZjMyZWMwYmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1ZGE0YWZkY2UzNmVjNjA0ZGI3YTczNWMwMjNiODdlMzg0ZWY4MzAwYmJmNTI5N2FhYjFkZjlkYWRlMGNkYzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY4Y2U5ZTE0YWI4Mjg5NDM5YTUxZWRmY2NiY2U1ZjY5NGQwNTRmMjRmZmRiMDdlODA2MDk1ZGI4Y2RiZjZlNGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjM2I3ZTc2Y2JlMmJhYzA2NWY2Y2Q3NGFkMzEzYzA0NWNiYmYxZjM1ZWE2YmRlOTIyMTgyYjNkMGNmN2M3ZWIifQ"
+        },
+        {
+          "resource": "repo://docs/05-evidence/README.md#L68-L75",
+          "version": "repo-lines-v1:sha256:3a0781035e39d95df4423df50641c374a1abbc2ec79a88cbe4a7d397ce61aa9d:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTlhYTBiMjMxZTkwMzQ4NGJhYjQ1MTYyNjE2ZTY4MzJmZjJhNTkxODFiYjI3ODgyODBjMjI1M2JkMWE1MjY0NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmY5YjAxM2QxMjcyYmZhNDg3YzJiODdhMzI3ZWU3ZjYyNDkwNTEyM2U5YzgyOGFmYjA2OTRlOWViMjQ0OGQ2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ddea3ab531ca4a2ebc3adfbfb5c8a4b2",
+      "statement": "Secret values must not appear in retained evidence; hx-smoke-promote screens the promotion set for obvious credential patterns and refuses on a match, and accidental secret output is redacted before promotion while preserving the functional result.",
+      "evidence": [
+        {
+          "resource": "repo://docs/05-evidence/README.md#L71-L75",
+          "version": "repo-lines-v1:sha256:afb712810d57efcad8008f5e95ccf2586c42c46839b69ca532b7d9fe01fa4531:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODdlZThiNTA1OWQ4MDQ2MWU0NWE0YWI1YWViNmY3NGQwMzJmOGM1MWE2M2M4NWQ4NDcwNzU2MmIxNDVhNjVlNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTlhYTBiMjMxZTkwMzQ4NGJhYjQ1MTYyNjE2ZTY4MzJmZjJhNTkxODFiYjI3ODgyODBjMjI1M2JkMWE1MjY0NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWViZWQ4YmYwY2E2NTQ2NzY2MWM0OTFhODVmOWVmNDYzNTAzNTUyYWNhMmRjZDIzYTg3YTA5ODM3Zjk5M2QzNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L208-L214",
+          "version": "repo-lines-v1:sha256:1f31230e433ce336dc54bfce9a07a37c09f460ba32a7e48591e263483d85fdd2:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTQyNGNmMzYxNDhkNjY2Njg1MWQ0MDU5NDA0MjMwYzg1MTQ4M2Q4MGZmNGMzZWZmZTk0MjVmYzhlNTlmZmNmNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzc2OWQyMzdjZDQyMGI5ZDM4Yjk4MWEwYTRmNjc3MDE5MGE0YTgzZGNhMWZlNTZjNGY1YmExZTJjYmMwZWY3NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzhkMDZlMTI4YzQyNzA2MWViYmZmNTJiOGQ5OGIzMWZiNDRmMTczYzQzNzU5ZDY3ZGEyZjFkMmUyYTA2MDk2MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTdjM2RmNDhkYTU3NjdjMzI3M2FiNWY1ZTAwZGMyNTJjZjFlZjY0MmQwNDkzOGI3NmYwYjlkOWExMDgzMWZhMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ee9c1f3cda8c41e2a4e1cbee06ee8189",
+      "statement": "Evidence supports current state but does not independently override explicit owner decisions or current active authority; a PASS is not permanent if its substrate changes materially (embedding/revision changes, vector-store or API changes, model alias changes, SUT rebuilds), and downstream tests must revalidate before citing stale evidence.",
+      "evidence": [
+        {
+          "resource": "repo://docs/04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md#L451-L453",
+          "version": "repo-lines-v1:sha256:45e748a91c8dba8034c7f901679cf04cd55fb7524bd68433aba5dd8249798094:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWJkMzJhMzFjZjhkYzM2MWE1YzM2ZGU4OWRhNzgyMzZlZmQwMmFiZDUyM2UyZTc1MDFjNjAzN2YxN2JjMWMzYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzVkYTRhZmRjZTM2ZWM2MDRkYjdhNzM1YzAyM2I4N2UzODRlZjgzMDBiYmY1Mjk3YWFiMWRmOWRhZGUwY2RjNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGIyNzNmYjY1NGMzNTBlMWQ5ZmVjZjY0OTVmMTM4YjllNTVlYThjZjFlMWVkMjU0NjJjYWMwMGEyYTljN2Q0ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2MzYjdlNzZjYmUyYmFjMDY1ZjZjZDc0YWQzMTNjMDQ1Y2JiZjFmMzVlYTZiZGU5MjIxODJiM2QwY2Y3YzdlYiJ9"
+        },
+        {
+          "resource": "repo://docs/05-evidence/README.md#L75-L75",
+          "version": "repo-lines-v1:sha256:a9aa0b231e903484bab45162616e6832ff2a59181bb2788280c2253bd1a52646:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTlhYTBiMjMxZTkwMzQ4NGJhYjQ1MTYyNjE2ZTY4MzJmZjJhNTkxODFiYjI3ODgyODBjMjI1M2JkMWE1MjY0NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTlhYTBiMjMxZTkwMzQ4NGJhYjQ1MTYyNjE2ZTY4MzJmZjJhNTkxODFiYjI3ODgyODBjMjI1M2JkMWE1MjY0NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTEyOWU5OTIxNTYxYWU1ZGE2MTRhNGE4MTk1ZjFmZDBhZTFjYjA3ZWVhZjFiMzRjNzhmMDhjMjg0NTcxOWMzOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d540a8f1ff4e45c997791c333db6328f",
+      "statement": "hx-doc-check runs git check-ignore against a probe evidence path under docs/05-evidence and fails if .gitignore would silently drop retained evidence logs, so retained evidence stays committable.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L174-L195",
+          "version": "repo-lines-v1:sha256:08854a3d70fe8a27ef471b03cb64860103361e45c2bbb358e72a440fc352520f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlZDBmMzE0MWVmMjVjNTc0NjA4ZjQ1ZTU4YzMyMDk4MjFhNjIyZGNjY2M2NmIxM2FlOGE5MWE1ZDU5OTJmNjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MDlhNTNhNjE4ZDAyOGUxZDMwMDBjMGE3YWJjZWVjYmU1ZmIzN2Y0ZTUxMWVmZTQ2NjQzZmFkNmU2Njg3MmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk0OWEzZjUxN2U2NTI3MGJiZjJkZjQxMzQ3ODBmMDE3NGQwM2VlNDJiMzUyMjJhMjkwYjI2OWFiMjMwMThiMWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViMDZlYWRlYmM3ZGY2YTRlZmQ0NzE3ZTA3ZjY5NDgzNjI5NGQ4YWQ2N2E4MjkyMzIxN2M1NmVmN2Q4MGRmNjcifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-15T22:39:27.588Z"
+  }
+}

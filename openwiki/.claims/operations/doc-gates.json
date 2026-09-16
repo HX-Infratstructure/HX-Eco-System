@@ -1,0 +1,284 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:d6397b434dffae83274b36092fb9147f9add06c2fd837392984870f2c6604e61",
+  "claims": [
+    {
+      "id": "claim_781d1a66def84ca8bdac10eb72642d41",
+      "statement": "AGENTS.md section 14 states the core principle: written rules that nothing checks will drift; the tools/hx-doc/ tools are the enforcement layer; a failure is a real defect, not noise to work around; if a check is wrong, fix the check in a reviewed change, do not bypass or weaken it.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L217-L230",
+          "version": "repo-lines-v1:sha256:a0457fcb2303dd083d047d86556f4cb67f676d330917211298d8c83a6e0aa8e7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllNDNkYjVkNGU1ZjUzMGE0ODgxZmRkZTljM2U4ZDJjZjQ4ZGUyZGJhNDBkNTQ3YmY3MGU4MDQ3ZjhmMGFjNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhYTk1YTAyNTQ3OTFjMWU4MjA1YWQyMzQzOGIxZjkwMDU3NmM0ZmVhMjllMGM5ZmI2NmEwMWQzZTQ4ZTIxNzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlMjI1ZjI2OGVlOGI3ODY1MDY3Yzk0ZTJiNDRmN2Q0YjhkODQyMThjMjM1OWU0ODIwOWI0NmEwODg0ZTZlNzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5OTdlMDEwMDRiZDg5MGYyZmEzZmM0ODJiNTI1YTMzZWY3MzFkMTI2NzU2ODlmNjFlMjk1YTk1NzMwOGFjYWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5b413cc8d2d94cfa8c8f84bb2bf5c158",
+      "statement": "The before-commit commands are tools/hx-doc/hx-doc-check and tools/hx-doc/hx-render-html; CI runs both and fails the change otherwise. The section-13 regenerate-and-check sequence is hx-fleet && hx-render-html && hx-doc-check.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L175-L176",
+          "version": "repo-lines-v1:sha256:fdd530173189aa56b608a465d597cea0f2ec57aa0a07c7cdd26e7c591624e062:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDE2NjhhNjU3ODJkYjJhYWFjNjU1ZGIyNGMxZWZhNzE2ZGQ0MzRlYTY1MDZkM2Y5YTk5Mzc4YWQ5NjBkYmNmNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTA3ODE3ZDViM2RmNmY5ZWYyZmFkNjUxODU1ODI4OTY4YWE4OTM0ZmNlZTcyZWU5YjZmMmYxYTY1MTVlMWUzMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODZkNjJiOWEyY2Y5NmZiZjQ0YzYwMGYxMmM4OTA4MTUyMDE2NGQxYjE2ODJmZjM0YzdiMGIwMTg5ZTllYWNjMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWYzMzQwNGE0ZTE3MjI0ZGZiMzkyZjZlYjZmZTI0OTllMWEyN2Q3YzE0OTA1MDc2M2FlZGViZmJkNWY4NTUxNSJ9"
+        },
+        {
+          "resource": "repo://AGENTS.md#L303-L304",
+          "version": "repo-lines-v1:sha256:c2a6e43021f0a7cd2ee7d378fd341535deb0f561e8224395f5eaacbaaa84b01c:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODg5NWNjMmVlZmRmMzQ5N2U3NjBhZGYzMDlhN2U3ODE2OGRjNmJiM2FlNWQ1ZGMzZGE2ODJmMjllN2Q5OTRkNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQzNzI0NDcyMDBjMDQ0OTAyZWFlNGQzOTZjYTVmMWZmMjU3OWQ5YjljNzNjNWZjODQwNTNjZWRmYmQxMjg5MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGE3MDQ1YWQ0MmQxMGY2NjkwZjM5NjUzMjE3MTY4MjRmYTExNzZkNmQ0NmNhYjYwZjI1NzQ3NWY1NWUyOWY0NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWE3YjEwMzVmOTI1YjJjMjg4NjVlNWM0ZWYxNWFmY2VkOTEyYjQyMmY2ZmRlZGUyYmMzNzBhNTFiNTU2YWI0YSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_59d1f7447bdb4fb987a7d226206c136f",
+      "statement": "hx-checks.yml runs hx-doc-check, hx-fleet --check, hx-proof --check, hx-render-html --check, hx-record-check, hx-smoke-lint --quiet, hx-gate-tests in the documentation job, and shellcheck, a CRLF/executable-bit check, Python compile, and a pinned checksum-verified gitleaks secret scan in the scripts/secrets jobs, on push to main, PRs, and dispatch, with persist-credentials: false.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-checks.yml#L1-L131",
+          "version": "repo-lines-v1:sha256:259cfba82e5ed4a6983e0066f53efcd401bb4d4cfcc8029ceebf9fb12fb65f2a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmNzEyZTg0ODExNzg0ZGE4Y2NhNTM3MTNlZjZhMWE5NDk3YzcyMzYwZDQxZDg4MTVjODcyMTA1NjhmNmM2MGQxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzYzEwNjBhZDI4NTAxY2RkMzQyYTRhMWMyMzViYWEzMzdmNzMzYWNiMjkxN2JjZTNmODQzZGU3MDM4MjIyZDFhIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_8c8985dc933e4505b81e2efea2fea0f1",
+      "statement": "hx-upstream-drift.yml runs hx-preflight --quiet plus hx-upstream-drift and hx-version-pins weekly (Monday 06:17 UTC). Drift is information that opens/updates a GitHub issue rather than failing the job; the only job-failing condition is an upstream that could not be reached.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/hx-upstream-drift.yml#L1-L83",
+          "version": "repo-lines-v1:sha256:659f67056d25160a4e0b6aea53dc308d3d6f3ae98e81e3aca37855da04f626f0:eyJzZWxlY3RlZExpbmVDb3VudCI6ODMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFiNDEyMjM0OWM5NWE0ZTZmOTgxOWIxZjM0MGExYjhhMTU4MjRmYTY4NTU0OWE4OWFkN2ZiNTI2ZDQ4OThmNDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2460f8e59e534ab890e2c10d3364509d",
+      "statement": "hx-doc-check runs eight checks: links (internal refs resolve or are declared forward refs, clamped to repo root), vocabulary (SKILL-REGISTRY uses only states SKILL-GOVERNANCE section 4 defines), frontmatter (control docs carry document/status/date), duplicates (stable active filenames), evidence (.gitignore cannot swallow retained evidence logs), units (a block may only report a unit it creates), authority (the generated AGENTS.md block may not call source code/tests authoritative), and tooling (docs/06-tooling docs have five ordered headings plus two distinct Upstream links, and the index is true).",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L1-L17",
+          "version": "repo-lines-v1:sha256:fab02ea9f0c92ed41ea9476165b54d59527bc774ad3461c113b9a4d9be559062:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ODJjYmRiNGM4YjA3NTE4YmY0ODZjNTg5OTBmYzM5MTc4M2FhMjBhOTE2YmZiMjdhZDIxMWViMWQ1YzM2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMDNlY2RkNGE0ZDEwZjE5YzczZmQ0MmZkMTI0MzdmZDMzNTRhODI2ODE2MDVkYTUyNTVhOTdhMzkwNjhkYmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU2ZWJjYTdkNzI3ODMzOWY1OTBhYjljNzQwYzY0N2FlODViZjg0ODM5M2YyMTU2NjMxNzkyNmNmMTFmYWUxYjMifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L237-L300",
+          "version": "repo-lines-v1:sha256:1587802b89c1122547ed930be2efce860c0a732357786115f6648e02bae5713d:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkOWYzOTYwOTdlOTNhMTljZjcxMzQxYTEwYTMxMjVlYzE0ZmQ4YWY3MGNlYWQ3MzNhYzU1Y2EyZmJiNmU0ODkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiNWM4MjYzMmZjODJkNGIyYzM0MGY0MjU1OGJhM2RmYTMxYzc2NTVkZjZmY2MxNjhiNGZkY2U1N2ZhYzYwNDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgxNzg3ZmI2MjVhYzA0NGQyZTRlYzdjZDQ5NmQyYzg5MjQ3ZDkwMTFkMGM2MjZhODFiODdlZjkyOTZkMWQ1NjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0ZjJlOTU1OGFkYmU1ZTg5NTgzNDkzNzU2YzNkZDQwYmU4YmQwNWRkM2I5NjZkM2ZkNTMzMWU5ZTM4YTAzZDUifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L345-L463",
+          "version": "repo-lines-v1:sha256:bf9c363f40cbd3773e00d098c39244672c75317d5b0dd318c509d123d7596dec:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmZWJlYTk2MTc4ZTMwNGVmZDliODNmNDY4NjBhNDNjNWU5NTMyYjc3NGFkODM5MzU1ZDc0NWRmNmU5OWRlZTRlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzOWM5MmZkNzJhZjZkMzkyNzk5YjZlYTgwYTEzZWQzNDExMjFhMWQyYzA2NjI1YTdhNjY2MTI2NjZkOThiMWM0IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI1YjE4MjcyZjk2NDgyN2RmOTNkM2M5OWU1YmIyYzBlOWMyMzg3YmM1MTU5ZTg2NjFkZDA2YzYwNTMzMTBlNjJmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI1NDhkNzQ4M2QwNjBmMTcyMmUyNDUzNjg4ODMzNDI1NmI1NDkwZThiYmU4Njk4MjA2NzZjYTllYWYzNTA5Y2M5In0"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L466-L497",
+          "version": "repo-lines-v1:sha256:5824a18b251f0e1db0c73b5c4fcaae2df5854fe0b1028e9aab056ddd25d11025:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMzk3OTMzYTI0YTgwMWVlOTIzMzI3YmQ2OWEwMTA0OWMwNzc5MTUwMjFjZjJlYzM5ZGRhNGY4MWFhODM3ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MjMzYjNmZmVhMzJhMjNkZjUzMDY1MzQzNDhmMmRlZTc3NmE1YTZmNzRmYjUzMzE3NWRkYzUzOWE4ZmU0NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkzNDEwY2NiNmFjN2FiM2UyNzU0YTFhMmMwYTQ5N2ViOTE1ZmFjOGFkOWZkNzcyMzNiNGRiYWU4ODdhYTg0M2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L70-L110",
+          "version": "repo-lines-v1:sha256:2cedcccac8c8dc890eed859dac88bfb5d288cbf40639213049107e9f99a21766:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiYjhlMzhlOTkwMWQwNzBiNTk0NTZhMjkwMmE5ODViNTM4Y2M5ODRmYjYxZjZhOWRiN2M2Y2NiMDQwZmE0YTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1YjNlMjlhNTRmYWMwYzA5YzAyOTdjMGYxODA4OTc2YjFiODk1NGI4MGQyN2M5MjY1NTRmOGUxZWYxYjFjMDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBiNDY4YWQwYWJkNWRmODYyMGJiOTRiZGZmZTg1ZjQyMTEwZWNkYThhZjc2NGE0ZDVjM2JhMDZiYWE1Zjc3M2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlZjkzYzE0MDM4MDg3ZjNjN2MyNDY3YzNmOTdkODVhNGJiYTRkYjkzMTMwYzhlM2Q0YzM4Y2NlODczMjIwNzMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_abf62be003894faf949445d2991a68b5",
+      "statement": "hx-doc-check skips generated/archived trees (.git, archive, human-html, .claude, graft, openwiki): a broken link inside openwiki/ is not a finding against the repository, and the skip is proven (by hx-gate-tests) to be a skip and not a hole.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L46-L67",
+          "version": "repo-lines-v1:sha256:f8900b0a6f96683950c0f6f4e1b07360f7adafa1f55f5eadafdb5adddcb33543:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1OWRlYjUwMWIyMDQ1ZWUxMzhkMGQwMGZiYWUzMTQ4ZmFhNGUzNjM2Y2E4ODM0Y2MzNjI0MTg3MzZjYzkwYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU0NTI2YWZkNzhlMmJiZGM0N2QwODZmNjliOTdhZjYwZTQ5MjAzZDNjNDlhMTAwMDNmNTQxNzEyODlmOTYxZTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjMmFlOTRmYmM4MDJkYjJjMmViNTUxNmQwNjI0ZTZmMGI2OGYwZDIxZTNmYWZhNzg3NGNhNWU1NjMzZDA4YmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4NGI5Yzk1NzhmZDA3M2Y4YTEyYWEzOTkwNGFjZGU0YmVlN2RhMDY2NjhmZWQ3NWYyNTIyYWM0NjhmZDFkYTcifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L146-L169",
+          "version": "repo-lines-v1:sha256:b84d6c80e7b7d8b1702ef5445a3f91c0286be17b75cf39410c2eaf9dbb97989d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4NmRkNjNkMWU0NzI3NGEzMjM4M2EyNDBjMDA0MGFmNmE5ZDZiNWIxMTVhNGRiOWY2OTRlMWQ5MTZlZmJmNDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3OTExMjNlYzk3OGY0NzY3MmQ3NWUxZTZhZDNjOWEyMmQwODM4MTNjMjFiZmQ5YzkwMGE4MDY1YzhlYjVkNTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFhMDMyNzgwMGE1OTI3MjcyMmE4OWE0MDQ3ZTE5ODJjNDM1NzE3NTRkMjkzMTE5MzQzNzg4ZGNjNGNjMmU2YTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIwYzNjMGViZDI5NGM3NGU3NTE5ZjIwZWJjMjRmYzc4NDQ3YzVjZGQxYzQ5ZGExNzc4ZDgzYWZiYzhjMWE4MTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_95f4c51947d74a23915b8e113ee89668",
+      "statement": "hx-doc-check's authority check parses the generated AGENTS.md block sentence by sentence in both word orders with whole-word matching; naming docs/ does not license calling source code authoritative because section 2's truth order has no entry for source code; a sentence denying the claim is accepted, and a word merely containing 'tests' (attests) is not a claim. A red authority finding means the OpenWiki generator regressed and openwiki/INSTRUCTIONS.md should be corrected, not the generated block.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L326-L332",
+          "version": "repo-lines-v1:sha256:36e6c8dfd996613323803328c324254a87f39c7d0ec3b00fb6c34636d649262b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2VjMjU2OTRiYzNlZjgyYTE4OGZjZGQxYjJkMjA0ZWI5Mzk1Y2YwOGY0YTcxODk2ZWVmZTQzNWRiOWY5ODVlNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzU0YTliYzUyMjJjN2EyNjJlODhjNmRkMTkzODQxZTEwMjUyM2UyZjg0ZTQwMzE5MjRjZmZmNTc5NDJkMWZiMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzU0MGI3NmI2MTQ1ZTZjM2Y3YjdmMzg0ZjMxOTViYzJlZjZiYWZmMjIxZTA5ZTc4OTIyNDZjN2M3ZDgzYjAwZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWIxYmM1YmM0YTIzN2Y1NzhlNmFmNGE0MTVkMDY0N2Y5OTEwYjAzYjM2NGUxZTI3YzFmMWRiYWE3NDNkMDNiYSJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_check.py#L237-L301",
+          "version": "repo-lines-v1:sha256:7fce2fae77d1124b47df7158a17e4574a7d85daa40de07cbb0cb0c98c1944201:eyJzZWxlY3RlZExpbmVDb3VudCI6NjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkOWYzOTYwOTdlOTNhMTljZjcxMzQxYTEwYTMxMjVlYzE0ZmQ4YWY3MGNlYWQ3MzNhYzU1Y2EyZmJiNmU0ODkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzMjM3Y2YyZTI1YTcxOWY2NjFmNWE2OTk3MjFiMzRiMTE4Mjc1MjMzMjY3OWFlYzBkY2ZiZGYyZDI0NGIzMmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgxNzg3ZmI2MjVhYzA0NGQyZTRlYzdjZDQ5NmQyYzg5MjQ3ZDkwMTFkMGM2MjZhODFiODdlZjkyOTZkMWQ1NjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc4YWFjNDAwYTA3ZGNlMTM1NDcwZmNhY2I2MzJlMTI3YzFiZTVmZTA1MzkwNTRmNTAyNzg4YjVmMGY1ZTk0OWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_69a4aae6d2af49d59a093aaba96a79db",
+      "statement": "hx-proof validates the DAG from hx-proof.tsv and refuses a blank or duplicate id, a missing column, a dangling requires (unknown step), a missing authority file, an unknown SUT host (not in hx-fleet.tsv), an unrecognised status (only NOT_RUN/PASS/FAIL/NOT_EXECUTABLE), and a cycle. hx-smoke-promote refuses a PASS whose prior proof has not passed and been cited; there is no bypass flag.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L232-L244",
+          "version": "repo-lines-v1:sha256:435bb371d877ce0c57337b0ad9cc0d72b11f629e5f99e9f9c8b82f87da420041:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhMWZiOTU3MDg4ODM2MGQ4ZTRkNTQ1MmY3YjBjMzVkNTI2YTVmZGNmNzJmYmFlOGU1NmQwY2UzM2M0NDhiNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0ZjQyNzJmNGM2NWM0N2RiMTg3Nzg2OTNlY2YzYWYxNTg2ODAyNWM4ZDNkNmJmODg4Y2FhMzcwMjYzODRkNDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3M2I3MjNjOWM5MjdmY2M4YTg4OTZhNDkzYzlhMTc5YjRlYzdkY2I1ODBhNDVhNGUzNzIxMDc1OWI2YmNlZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxYTMwY2NhM2M5NmViNGQzMjQ0YzdkOGZjZTY4N2ZkNzM3NjVlMWZhZjRlMjEzOTc0YmZmMzY5YTU2YjFjMzQifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L54-L161",
+          "version": "repo-lines-v1:sha256:34200b09ea7090052de78fa8eebe098a6379d3b6690ca438d1d24c514792e103:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA4LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI2ZWFjMDVkNzYyMDBjNGU1NWYyOTJlNmIxMjZjZTM2NzM1OTY2ZTkxNDU5NzFhZDRlYjlhMmY1MmFiZDIyMzE3IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMjM0YjE3NjYxNjJiMWM5OGE2MjY5MTVlYTg2YmU1OGVkOTJkZjljOTZmNWQ1ODkwOTVkOTYyMGI3NTE5NjZmIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIwOWY5MzA4M2MxOTcxMjFiOTgyNzAwYmE4YWZhYmQxNzIyY2YxZDNlNzQwNDUwOWU4MGVmYTI3MjQ3ZjYyZjA3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI5YjhkYmNiMWQzNGY1NzZjZjFmYzM2MWE4MjBkNzRiODBkY2VhMzY5M2FlZTdlMmExOGRkMmE4Y2Q5MTBhNDJkIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_83e7fa647192467993a6f31dd3bbe7fb",
+      "statement": "hx-version-pins source_problem() enforces the package-source policy: Snap is never permitted for anything (app or driver, D-021), the Ubuntu archive is allowed only for drivers, and pypi/npm/github/source/binary/huggingface are accepted for applications. The approved-source display phrases are derived from APP_SOURCES and the module raises (not asserts) if phrases, order, and set drift apart.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_version_pins.py#L145-L148",
+          "version": "repo-lines-v1:sha256:b3acd18d0fdc89728a0035fd2ae7ecbe1319c8cddf56503d4239e17d4d33d8fe:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGI5Mzk5YjA4MDFjMzJhY2ZhZTk4MzhjZjYyNjAyY2QxYzZmNjQxNjU4YmQwM2I5ZjQ0ODk0NDNhZDY2MjY0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzBhYjQ5MTk3NDdhMmU2OTQ5NmEwM2Q0YjYxNjU1NWVmOThhMGMyMWZjYjk4ZDRjYmY2YmM1NzFlNGViYzYzOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDM2YzRkMzc4MTQyM2U2MzRjZTk5YzYwMTc1ODJkNzFlNTY2MGE5Yzc5ZjQwZWRjZWFhZWE4OWVhZjE1ODFiMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzAzMTg4MTNjZWZjMTJiYjQwYjNkNzkyOGY0YzVhYmYzNmNiMWE2ZjlhNjQyZWYyMmIzNThiODk3MTgyZWY2NyJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_version_pins.py#L39-L101",
+          "version": "repo-lines-v1:sha256:29869251c435d27a080186bcb31fc9308baa086690c4c5306f5207529216c1da:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0YmI3MDM3MWE3ZGU2MDlkYzVjZjNkYzZlYzBmMzliN2Q5ZDRiMzUwNDI2NjRjZDlhMGE3OTI4YzY3OWIzNmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1MTIyZDNlYjdmZTA0NDM5YjJmYmJkZDU2MGZmZTc1OWM1OTFiZmNkYzhhYmY2YzNmOWFmMWViYWUyOTMwZmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRkNTRjNWI3M2IzNWY1NDczYjY5YjQ2OGEzMTdmMGNkZDZiYWEwOTViZGY4NTc1Mzg1OTcyZjU3YjQzMmJlNjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhM2NmNTE5MjM1NGY3MTYxNWFjNTEwMzRiM2U5N2MyMGVkYTk5NjQzZmNhZjViYmU2ZDQxYWQ1OWJkMTIxNjcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5a532adee01b48f2bc973c5909135d57",
+      "statement": "hx-upstream-drift reads pins from SKILL-REGISTRY.md provenance blocks, compares each pinned SHA to upstream HEAD, refuses unpaired repo/sha provenance (different counts error with 'pair up' because zip() would silently drop the surplus), and under --fail-on-drift an unreachable upstream fails rather than reading as current.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_upstream_drift.py#L56-L74",
+          "version": "repo-lines-v1:sha256:1c380f6b9b96a76e26054b5daf7a6fcb60b655a199663fa6e113c2465052e7b9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkNzI3NTk2MGQ5NDkxZjUwNDYxMTM2NGUzN2UwNzBlZTQ5ZTE3MjRhZDMyYTgwNzY4MGIxY2Y0MzVlYzA2OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1NzU3NGNmYzVjZTgxNGExYzM4NjdmMGE2NTNmZmUzMGJiZDU1ODI1YjVkOTc4OGJhY2QxNjViODhmNjUwOTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI2MzJlOGVkZDIyMGUwZDE1MmYwZWIzYzMzMDI4MWE5MGVhM2NkOWQ4MjNkYzRkY2Y5MmNiNzJjZjFkOTg5NDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0OGQ3NDgzZDA2MGYxNzIyZTI0NTM2ODg4MzM0MjU2YjU0OTBlOGJiZTg2OTgyMDY3NmNhOWVhZjM1MDljYzkifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_upstream_drift.py#L86-L121",
+          "version": "repo-lines-v1:sha256:9f56bad9a64cb51a370f1e050b6cb4e6223d098960f76690b1d475060067562e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxZjc5MGViNTEzNmMwZDgwMGYyYjgxNTM5ZTQ4MzAyYmFlYTUzMWJlYWQ4MzIwMWU4MmUyODJjNWU5ZTdhNTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwODYxNWM5OGM1Y2U4ZjZkZGQ5MjRlMzIxZjA5NjI3OThlNThmNWE1YWY4OGJhNzRmNTU1N2UyNDM5MTZkZTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQwZWRlN2NlZmNiYTMwMmVmNGMzOGM3MTI2NzNkNWJiOTExYzE3Y2JmY2QwMWE1M2FiMzg3MmNhYmI1MGQyNjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cce29c0e5ecb4226948ca87aed593d6f",
+      "statement": "hx-render-html --check reports STALE mirrors and ORPHAN html files (no source) and exits 1 if either exists; human-html/ is generated output, never hand-edited — edit the Markdown and run hx-render-html.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_render_html.py#L301-L342",
+          "version": "repo-lines-v1:sha256:1f246052a1a4f40f93fe917accf2d7232890aed33acb1963039bfe815b81151e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMzk3OTMzYTI0YTgwMWVlOTIzMzI3YmQ2OWEwMTA0OWMwNzc5MTUwMjFjZjJlYzM5ZGRhNGY4MWFhODM3ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MjMzYjNmZmVhMzJhMjNkZjUzMDY1MzQzNDhmMmRlZTc3NmE1YTZmNzRmYjUzMzE3NWRkYzUzOWE4ZmU0NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjYzRhN2QxY2M3OTZhYmEzZTQ2NzIzMzI3ZjUxN2U5ZjgxMTk4MmQyNTBmMDcwMjk4NmU0YjU3NjRhZDk1ODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bc2ed9b566da49efa5ba04d14c5df8ff",
+      "statement": "hx-record-check reports MISSING (absent required section, modulo an explicit Not-applicable exemption), UNRESOLVED (recorded gap, not an error by default), and DRIFT (record state disagrees with hx-fleet.tsv, record not in TSV, or State line missing). The state comparison is whole-value and normalised so NOT STARTED is not satisfied by NOT APPLICABLE; --strict fails on UNRESOLVED.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_record_check.py#L47-L123",
+          "version": "repo-lines-v1:sha256:1b76d6c919b2d9204d79cb8f9ce95c5b9866d05245d1d9cf46f462102b05fb26:eyJzZWxlY3RlZExpbmVDb3VudCI6NzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMzk3OTMzYTI0YTgwMWVlOTIzMzI3YmQ2OWEwMTA0OWMwNzc5MTUwMjFjZjJlYzM5ZGRhNGY4MWFhODM3ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNmODQxNGMxZWFjMzc2MzRlZDEwNjU5MDdmOWZmYWIwYzNmOWU1NDZjY2VjODA4M2U3M2ZmMjFhY2IxODRkNTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJkNDdkNWZiZDllZTZiOGI2YjJkODcyNGZmYWYyZGNiYjg3ZGJmMDFiYTA4YzQ3Y2YxNTExODVkY2Q3OGQzN2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fecf4efc3f434cbbbbf368d479e33841",
+      "statement": "hx-smoke-lint checks smoke-test authorities for six canonical sections, a known-answer marker, and evidence retention anchored to the docs/05-evidence bundle path in the body (not the words 'evidence'/'retain', which a negated sentence satisfies); a bare Evidence heading with nothing under it does not satisfy the check.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_smoke_lint.py#L24-L86",
+          "version": "repo-lines-v1:sha256:bf7f1161e291b81e16630768052a54479cb3c63f05b8fd70f52f4afbdf505f29:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2ZTQ4ODEwNWUxMDNhYWM3ZmYwZDEyOWE2ZDljNzE2MzIzZTBlNDE3NTg1ZDg2YWY1M2U3NzBiYzE3NGFmYmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2MTEwMmE4YzU1NTBlODg4MGJhODFkZTcwMTNkNDQ1YmYyYWRiNTBmZWI4NWMxM2NhNGRkZDI2NzZkOTk1NDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjY2YzZDI3ZWY4YTE1OWQyM2RiODY4YmUyMWE4MmE2MjZjMGI3ZTNlZWEyYTE4M2IzMDM5MzllYWExODM0NWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_981ef388e4f94ab5852eabd82d19abb9",
+      "statement": "hx-fleet regenerates every HX-FLEET:TABLE marker and the runbook IP map (hx-fleet-ips.env) from hx-fleet.tsv; --check fails on a stale, unclosed, orphan-closing, or unknown-column marker.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/README.md#L24-L45",
+          "version": "repo-lines-v1:sha256:72edb01df310f2d689877847058e1a89eba2bf34b21a1b16a98ba8dbc5fe515c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwMDQ4YjZiMzRiN2RiZjJiMmJkM2NjY2ZhMjY1Y2YxYjA3OGUyMmNkYjk1MDFjNzM4MDQ2ZjM4ZGM4NmVhYTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNmVlOGFlYmNkZmQ0MDJkM2NlZjYyN2VlNmI2MTJhYTBjMDE5NjYyZjU0OWU4OWE3MmMwZTE2OWM2YTM3MWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmMjJmYTg1YzZkMDgwODQzNTM1MzEyNDdlZGMwMmU5YmJmMGVkMWQ2N2E1ZTA2OTBjM2MyYTY3YjA3NWY1ZTEifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_fleet.py#L1-L58",
+          "version": "repo-lines-v1:sha256:8125dcdf58e7758c378b227960f1b16372ba2c6b03069969282456054e85faf7:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ODJjYmRiNGM4YjA3NTE4YmY0ODZjNTg5OTBmYzM5MTc4M2FhMjBhOTE2YmZiMjdhZDIxMWViMWQ1YzM2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NjFhZDc0NjQwY2Y5OTk1ODQyNzFmODhkNjA0Y2M3OWFmZDFiYjBkNDEwZDA3YTQxM2Y1ODg5NTJlMzYyYjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4MDllZjgxZWE1NWZjYTM1ZTM4NzA1ODY5NGIwZjhmMmMzZGM4MzcwY2RlN2ZmYjExZTMxZWQ0YTlmYmU2YzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b6990e311dc6457e9005e07215da87f0",
+      "statement": "hx-new-server scaffolds runbook wrappers, a runbook README, and the server record from the template and fleet TSV; it refuses a misspelled -- flag (exit 2), a host not in the TSV, and a template placeholder that no longer matches exactly once. It builds and validates the record before writing anything, so a template defect cannot leave wrappers on disk with no record. --force overwrites; --no-ollama skips the Ollama block.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_new_server.py#L89-L160",
+          "version": "repo-lines-v1:sha256:d4731a4239535d9c3a589e225198b97db9cffffbe4dd7022fbdbed797834071a:eyJzZWxlY3RlZExpbmVDb3VudCI6NzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMzk3OTMzYTI0YTgwMWVlOTIzMzI3YmQ2OWEwMTA0OWMwNzc5MTUwMjFjZjJlYzM5ZGRhNGY4MWFhODM3ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3ODA4MGMyMTEwMmJkNjEwY2VjZDAxZDVhNDc3YWRiZTliZTI1ODFmYjQ3M2JhZTc4OGIwMDAxYWY1OWU2ZjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc2NGU4YTJlOGZlMGRiNGMwZWI5YmFiODZjMzMzOWI2NWNhYzg5YTQzNDcxODc0NmZhNmIxNGEyMmI3NmQzYmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhmOTcxNzE3MzBmOTkyNmI4NmJiMzFmMmM5YjMzOGFlMDcyOTQ1ZGNkZDY4NTE3YjY3Njc1ZjhjZGNlODkwNTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_64ef31b4b6ac4238971261e6a16f1721",
+      "statement": "hx-doc-supersede archives the current Markdown (and its committed human-html mirror) to archive/<today>/ with a --suffix, leaves the active file untouched, and refuses a missing suffix, an out-of-repo path, an archive/human-html source path, or an existing archive target; --dry-run shows the plan.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_doc_supersede.py#L29-L112",
+          "version": "repo-lines-v1:sha256:e07ee0f7494278c0014ff3d8b9ee8b0858c43c3b1e02fb6e7f089014a1ae0b84:eyJzZWxlY3RlZExpbmVDb3VudCI6ODQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMzk3OTMzYTI0YTgwMWVlOTIzMzI3YmQ2OWEwMTA0OWMwNzc5MTUwMjFjZjJlYzM5ZGRhNGY4MWFhODM3ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MjMzYjNmZmVhMzJhMjNkZjUzMDY1MzQzNDhmMmRlZTc3NmE1YTZmNzRmYjUzMzE3NWRkYzUzOWE4ZmU0NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwM2E5MTcwNzhjNGVmYjA5OTM0ZjEwZTNlN2Y3Yjc0YzM3NGVjOTlhMGEyYTQ4MWE4MGQwYzEwMmZlNDE4YjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f5d203343f6a4c12b1e6bcf4ff94003f",
+      "statement": "hx-preflight checks that every pinned artifact is still fetchable (direct download URLs, PyPI versions not yanked, npm versions, Hugging Face revisions, the NVIDIA driver published for noble/amd64), downloads nothing, takes about thirty seconds, and an empty hx-base.env fails outright. It is run the morning of a build day.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/README.md#L123-L133",
+          "version": "repo-lines-v1:sha256:5e0176e561b1b1a7874e6c90495551abff477a16ec9bfb8fd3a3a2cb49c85527:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyMzA2MDRhMDIwY2U5YWRmYzEyZDkxNmMxODk0NDQ2NTZjZjQ2YzlmYmY2ZGYzZjYzOWFjM2FhMDI4M2JkYTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjNjNiY2M1ODY4ZGNhZjg0YjVjNzEzNjc3ZmVhNTQwNjBhNTA0Mzg4Yjc1ODc0NDE0MTViZjJjMGM3OTEzMTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ2ZjM4ZGNiYjVjMmEwMTM3NWYwMzRiNWExMDYyNjMwNjhkNzg1MmEzOWQ0ZTgzMGRjMjdkMzRhZjMwNzI4OTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcxZmE2M2I3ZTc5ZWUxZDJkZjFkMjY0ZThlYWViZTYwYTgwMDE4OGIzYTMwNzc1OTA2YTgyNGRhODY0YWFkYzYifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_preflight.py#L1-L18",
+          "version": "repo-lines-v1:sha256:9a9d3047aed95d92cfac8f3ec7b424c9870e38afb05db586ebd3d70717c0cbe3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ODJjYmRiNGM4YjA3NTE4YmY0ODZjNTg5OTBmYzM5MTc4M2FhMjBhOTE2YmZiMjdhZDIxMWViMWQ1YzM2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMDNlY2RkNGE0ZDEwZjE5YzczZmQ0MmZkMTI0MzdmZDMzNTRhODI2ODE2MDVkYTUyNTVhOTdhMzkwNjhkYmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBkYWQzNDI5YzAzZDRmMDJhMjE4MjdmMjY2MWZjZGFiZDk0YjA0ZTU5YTJmNTNhZDgwYzg0NzI3NDZjMWEwMDgifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_preflight.py#L190-L220",
+          "version": "repo-lines-v1:sha256:06ffb6cfc825e881de5e024ab908c21a11b82650e8d6a0b70482ea300c5dd2fa:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMzk3OTMzYTI0YTgwMWVlOTIzMzI3YmQ2OWEwMTA0OWMwNzc5MTUwMjFjZjJlYzM5ZGRhNGY4MWFhODM3ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MjMzYjNmZmVhMzJhMjNkZjUzMDY1MzQzNDhmMmRlZTc3NmE1YTZmNzRmYjUzMzE3NWRkYzUzOWE4ZmU0NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwMWIyZDYyYjk2ODQ4NDBlYWZmMDRmMjcwMzE1YjJkMDE0OTg2YmNiYmUwYjg2MDIyMTE0YzNkYjA1ODUxZDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2f64bea0aa7146dfaa7a879efd723256",
+      "statement": "Graft is a finding tool, not a gate: it indexes 57 .sh blocks, 13 .py tool bodies, and 2 .env files (the extension-bearing executable surface), and does NOT index the Markdown authorities or the 17 extensionless scripts (every tools/hx-doc wrapper plus the four smoke-runner scripts). An empty graft result means 'not in the graph', never 'does not exist', and graft_trace_calls finds no callers of a shell function (a parser limit). Run tools/hx-doc/hx-graft-bash once per install and after upgrades.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L246-L291",
+          "version": "repo-lines-v1:sha256:998ee21084434e9c0d2448632fc1a1b1e9965802c89ff5112af5065b76733348:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlYjI5Y2I0Zjc0YTkxNjNlYTQ0ODc4YjI1YjA2MjRmNTg1M2U3N2NhOTIxZmFhMzRmMjdhMmJlNmIyYWVmYTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3Y2I3ZjNhN2RjZWY4YjExMTQ4N2U5NGU2NTEwNTU3YWEzMGZlYjMyMDY1OThkMDdkMDVkZjMzZDY5YWU3ZWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3OGIzM2NlMWI0ZmMwMWRmOGM5ZmNlY2FiNTVmM2MyNWY5MmJkZWQ0MjVhYzdkM2YzOTA5MGZmMTU4ODU0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE5NTBkZDViNjM2ZWQzNDQ3MmQ2NmFhNWFiNzRmYjM5YmQ2ODQ1NDgwYjBiZTA1NTg5NzZjMDkxZjk2YjkyYmIifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/README.md#L68-L101",
+          "version": "repo-lines-v1:sha256:7fe5fdd1266b568b8ce2d67b6acaabdc27d597d5946bac4b6ea759e251b85570:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllZDE3ZjA5ZWQzZTJmOWU1YzJlM2FiZjkzNTUwZDEzM2M0YzcxODlmY2JjZDgyMGRjOWFlZjE5ZWNjODBhNDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjYmJmNWU5ZjU3NjY2ODA2MjQ1NTQ2NGE5NDE3NzhjZDc5NjFlNGMxMTZjZTMzY2UyMTZhODc0MDcwMGJhZDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwMjcyZWUwNjE4MGI5YWE0YjE3MjVkNjQwZGZjMzM0YjYyODRkZDAwMjMwYzhhNjM4Nzc5NGY1MDIwM2IwYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMyNzUwNDQ2MTUyNzhmMTVhMmU1OWJmZDY1ZmM5NzRiOTA4OWRjNjYxYzk3NWViOTBiMjFhNzkwMTg4MzBhMzgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f5ca6c5f2818464d82f67aa288905532",
+      "statement": "hx-gate-tests is the meta-gate: it copies the repo into a throwaway git work tree and, for every checking tool, breaks the thing the tool guards and requires it to fail (asserts a non-zero exit); a check that cannot fail is treated as a defect. It exits 1 if any test failed.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L1-L61",
+          "version": "repo-lines-v1:sha256:692a2630b7e951bc0d7c86861287e77e2b8b9c1033a2f45d91008ef9e8439d93:eyJzZWxlY3RlZExpbmVDb3VudCI6NjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0MWM1MTVlNTZlOGMxNzk4NWUzZTVjODgyNThlZWVkYTBlNDNlYjI3MjY0YzIxNDU5Y2I4YzRhNmFmYTZmMzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3MTM5MGZhNjRjNDU3Y2RlYzY3ZTY5Zjc0YWY4OWY3N2VlNWE0ZTcyYTZkOGMyYTE5MzU4MDc5NDc3ZmE4MjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVjODA4ZTI5ZmI5ZDNiYTk3YzZkODk3ZWNlZDFlZWQwNzMxYzIzNjIwOTkyNTIxOWU1YjYzMGM1YjVkZTcyZmEifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L648-L655",
+          "version": "repo-lines-v1:sha256:2f962f9c535228a04e67271489b1062f4e0d9f07829f2a72f7154b6a9c8c95dc:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWEzZjJlMTVjYTc0Y2NiMDg4YmU3YTI1MDExZjVjOGNmNzQ1NzEzMGQzYzcwMzk3OTBhZjNiOGEwM2RkNzlkZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjYwMThmMzJjNDY0ZTZiMzY4NGYzNDk5YWJiZTkzNDQ2YjYwNTAxNjc5NTE5MGFmZTkxMTBiMzA4NjI5NjcyNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWMzM2I1MGEwZTk3YTYyZDg4MzkwYTlhMjkyMTY0ZDcwNWNkOWNjMTEzMDFiMjg1M2IzNzAwZWFkZmRkZjUzYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2b5492b8fcbe49b0bd9483a5bea08c01",
+      "statement": "hx-gate-tests holds five package-source checks against hx_version_pins.source_problem(): a Snap app is refused, a Snap driver is refused, the Ubuntu archive is allowed for a driver, the Ubuntu archive is refused for an app, and PyPI is accepted. It also checks both remediation messages name every approved source (from _SOURCE_PHRASES) and that the shipped comparator sorts 595.71.05 above 595.9.05 by execing the function out of the module under test.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L171-L205",
+          "version": "repo-lines-v1:sha256:74221f93fe4cea78eaeda0ac5f5cf1f37c8383016ba786b60ed9aa70cd7e1956:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmY2NmZDI1N2YzYzcwMWY5NzY0OTdkZDZiZjcyZDg3MGIxYjhmNjViZTJjOTY5MGNjMjkwY2FlN2I5MTMxZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2ZjI5ZDA2NTYwZDE0ZjE4N2VjMjdkOGZlNWFhOTgyZmFkNDI1MWY1YjAyZmY3YTIxNWNjOTdiYjZjNDVlZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwMDE2OTgyYjE3OGZhOWM3MjhhMDgzOWJjMWEzMWI4MDA3YzA3ZDVmZGVlNGFjNjRkN2YxMTZkOGY3OWFkOTUifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_gate_tests.py#L630-L646",
+          "version": "repo-lines-v1:sha256:83e387c982e1ff469a8ef4108eaa12058941d6db1e48b760ecd34273f5e81ac7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyZDE5MzI4YzYwM2ExYjhhNTQ2YzdmZmNjMGNkMWQ4OTI0N2UxMjI3N2M1MTk4ZGE3OGIwNjA1OTU4NGFlYWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1ODA5YjI4NzEyMWQ0NTRlYjllMTBiZjNkM2MyN2UyMzZmOGMyNmE2NDZlNzQxZjIzZDA5YzBiNWY2OTY2ZWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNkYTk1Y2I4ODhlMGRmNzQzODkyOWI1NTk1ODUxZjZkZjMzMWY0YzcxOWVjNTg4NDQ2Yjk3MWEwNmQ1NWZiNzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI5MGM2NTY2ZDI2NmIwOTE4YmQ0ZGU2Nzc1YTE0ZDA0NmE1M2U3ZmZiMmFlMjk5OGEwNzQ1OWFjM2U4ZDRjZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_666e025cc7c943e5bb0ca6d41dd4ff55",
+      "statement": "The tools/hx-doc layer is thirteen Python-3-stdlib-only tools (no third-party dependencies); each exists because the matching defect actually happened in the repository and converts a written rule into something that fails loudly.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/README.md#L1-L22",
+          "version": "repo-lines-v1:sha256:e616c53f3a39f657e3910513a333532bfc108e91bb5c2cec6b20aaf41e48f236:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiODc5OGU0NTk2YTllNGI5NDkyOWRjYzA0MGI4MjJlNWMxOTM2ZGUwZDBjNmFjNDZmZmJkZDFmMjMxMWFhMmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiNDQ5MzJiYTBkMjBjNDA4MDI2Yzg3NDg4NTAwOTJlY2YyZTIzMmQ0NzgyMTJiNWM2MWIzMTUxMzNjMTFjOWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYzNWE3YjAyOGZkOGZkZTNjMWRhY2RhNmRmY2M5Yjc0ZWM1NTI0YmY1M2JiYWM2NDI2ZjllNmU5ODM4OTdiYzAifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-15T22:39:27.588Z"
+  }
+}

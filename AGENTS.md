@@ -337,9 +337,9 @@ lost.
 
 This repository has a generated `openwiki/` evidence index. It is optional just-in-time context, not required startup reading.
 
-- Authority follows section 2: owner instruction, then the control Markdown in `docs/` and the acceptance authority in `smoke-tests/`, then live evidence, then the approved runbook. Source code and tests are evidence, not authority, and generated OpenWiki pages are context only. A brief's unknowns and review items are verification gaps, not automatic requirements.
+- Treat source code and tests as evidence and context, never authority. The truth order in section 2 governs; a page's unknowns and review items are verification gaps, not automatic requirements.
 - Prefer the narrowest quiet validation that proves the changed behavior. Preserve complete failure output.
 
-`openwiki/` is regenerated manually from a host-agent session per D-025; there is no scheduled workflow. Do not hand-edit generated OpenWiki pages unless explicitly asked; prefer updating source code/docs and letting OpenWiki regenerate.
+OpenWiki generation is manual, per D-025 in `docs/00-control/DECISIONS.md`. Do not hand-edit generated OpenWiki pages unless explicitly asked; prefer updating source code/docs and letting a manual OpenWiki run regenerate.
 
 <!-- OPENWIKI:END -->

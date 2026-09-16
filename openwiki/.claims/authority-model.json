@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:65c0aef80dbc24ac41c10c7e77461c80dfaf08ca0afbd53d04bdf949506947bf",
+  "claims": [
+    {
+      "id": "claim_ee73d877e175417db68dd6c1bcf4d19b",
+      "statement": "The HX truth order in AGENTS.md section 2 is a seven-tier precedence ladder: 1. explicit current infrastructure-owner instruction; 2. current active control/architecture Markdown in docs/ and the exact current component acceptance authority in smoke-tests/ when testing; 3. current live evidence from the server being worked on; 4. current approved runbook/execution artifact; 5. governed HX wrapper skill plus current official vendor guidance for product-specific expertise; 6. historical/archive material only as reference; 7. general model knowledge.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L28-L37",
+          "version": "repo-lines-v1:sha256:ac9e791aef099da6d465421797379adc2f74bf75c1c58bfcae62dd007f0148bc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5NmUyN2Y5YWY3MjA0ODViNTMxNzVmOWNhZjlhNjJjZmZkNzY3MWI1ZDU5YTllMTNiOTA3YzAzZmVjYjUyMTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmZjNkMjE2M2MyZjJiNzM2YjNkOTZmNzU1OWZlODJlMDRlMGU0NmZlMTdkMjE1NjUyM2FjZTk2NGQ0ZGE5MGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2OTNiMTBlMmRlMTUyZmMzZGJmMDNjMjM3ZTEwNTcxZDc3NTRiZTJkZjU2ZjA4N2NhYWNlNmQ3YTA5OTUwMGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6d5ae3ec4e9542e88619539e3132eefb",
+      "statement": "If current live evidence or current official vendor requirements contradict an active document, an agent must stop treating the document as sufficient proof and report the contradiction; a vendor skill must not silently redesign HX.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L38-L38",
+          "version": "repo-lines-v1:sha256:88047b22c1549cd7d9ea4d38777f8c5e7116b610c5a54f72114d4435427a9d2a:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODgwNDdiMjJjMTU0OWNkN2Q5ZWE0ZDM4Nzc3ZjhjNWU3MTE2YjYxMGM1YTU0ZjcyMTE0ZDQ0MzU0MjdhOWQyYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODgwNDdiMjJjMTU0OWNkN2Q5ZWE0ZDM4Nzc3ZjhjNWU3MTE2YjYxMGM1YTU0ZjcyMTE0ZDQ0MzU0MjdhOWQyYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzE5OGFkNzFjNzFmYjU5ZWFhNjUzMDhkYjY5YzQ3NTdmNzgxZjU3OWJmZjQ5NDI3MTE2NjI2Y2I2NjZjYjlkYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTc2ODcxNjJjMWRlNWVmZTUyZGM2MmUzYzNmMzhlODJiMWI5YWY1YTRjYmM4NWFiZTI4NzY4NjcxYTRjNzY0ZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ce4701e411724021ac1c08576b211e9d",
+      "statement": "Generated pages (the whole of openwiki/ included) are context and never authority, and source code and tests are evidence, not authority, and are not in the truth-order list; a generated block that disagrees with AGENTS.md section 2 is a defect to fix, and hx-doc-check refuses a generated block that calls source code or tests authoritative.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L320-L333",
+          "version": "repo-lines-v1:sha256:fc2d6a7c564ee8f645e840060500d91b9434bfc2b55fd59995f676a515bdc88b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU0ZjE4NmEzZjA0YTk4ZDZiNmZhODc2YmEwOTg0MjA4Y2ZhMjlkMDlkNTlmNDNjNDVmZDA1OGMxYjQ0YTAzMWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU5YjQ4YzFjOTNhZjYzMmQwZDU0ZjM3NWYzNGJlNjNiZmUwODRkYTIxZGJmOThkODlmMmM1MTc0ZjRmNTY2ZWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0a8bd4b4036d4734bf5cfc97df2e0097",
+      "statement": "docs/00-control/DECISIONS.md is the decision ledger where each entry is a D-NNN record; RATIFIED entries are binding owner-approved decisions, entries marked SUPERSEDED BY another D-NNN are no longer current, and a decision must be cited, not paraphrased.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L1-L11",
+          "version": "repo-lines-v1:sha256:9a523052e3dec44266fdb543166a062c417d6d12a34675dcbba4668ef1581531:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlhNTdjNWNhNzNiYWJmMjZmZjU0OGMyNGM2ZWRmMmIyNTM1MGJlNTM2ZGE4MjFiZjNkNmQwYTU5ZDI0OTJlYzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_611c4305b79045e2819edb48f564aebd",
+      "statement": "A decision entry is not binding until ratified on main; D-024 states it reaches main only when PR #15 is merged and until then binds nothing, and its approval of record is the GitHub merge event read via gh pr view --json mergedBy,mergeCommit,mergedAt.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L210-L231",
+          "version": "repo-lines-v1:sha256:ca4bc0f089eb71ab9f18e14330d968b1c11247d4706a8ab32c39aa22f4bb8048:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkNzQwMzA1MzQ2M2U0MWY5MTUxYWM0NWE0ZmVjY2FmNjZmODE3MzY2MmExZWM2MDQzMDM2NmEwZGI2M2E2MjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyMThkNTE0MDkwYTYzZWQ4ODIwYWE4ODAyZjg2NTQ5YjFkOTUzZGEzZmM3MGEyODJjNzdmZjhhMjZlY2MxNGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk0YmNmZTM3OGJmYTM3MjQxYTZjNzg1ZDg4MGM2OTg0YzY5ZjM1Mjk5YWViY2VlYTg0ODFiNTg0Zjg3MTJjNDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM5ODg3NmIyOGQ4N2QwNWIwY2Y0ODc0NjIxNDg4MDMzMzg0YTZlZWM0Y2Y1ZTM1NDA4YzI4ZDg2ZDg0ZWY2MTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_646b5191ac89416d92347c6b81d9948b",
+      "statement": "D-023 is superseded by D-025 on 2026-09-14: D-023 had authorised two Actions secrets (OPENWIKI_PR_TOKEN and ANTHROPIC_API_KEY) for a weekly OpenWiki regeneration workflow, and D-025 withdraws that posture so generation becomes a manual host-agent run with the workflow file deleted and the secrets to be revoked.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L156-L156",
+          "version": "repo-lines-v1:sha256:90d48153c921cb03c6092b00d835fb5f53bee37c9bdd35d11c6b53fcffefe382:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTBkNDgxNTNjOTIxY2IwM2M2MDkyYjAwZDgzNWZiNWY1M2JlZTM3YzliZGQzNWQxMWM2YjUzZmNmZmVmZTM4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTBkNDgxNTNjOTIxY2IwM2M2MDkyYjAwZDgzNWZiNWY1M2JlZTM3YzliZGQzNWQxMWM2YjUzZmNmZmVmZTM4MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTYxMmYzZDk5YzFhOTY5NDU2N2RmYzlhMWVjZjVlMWY2MjAwYmUzMjEwMmFjMzFkMzM0OWYwYjA2MzFkMGM0NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmIwYWVhMjJiY2UxOGVhMmRiM2RlOWNkZjUwMmFmY2NkNTlmMWQyZjliNDgxMjM3MWYwMmNjY2I2ZjM2MDdlMyJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/DECISIONS.md#L287-L329",
+          "version": "repo-lines-v1:sha256:27b5bdd11174d83d92b971de857ace7405f9204ad87b6a131e52ae9517dd7b58:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0MjQ1ZWZkZDFmNTViODhjY2I0YjhmZDJiYmZmMTdiNjE1MzVlYWVjMjJmM2FhODhjZWUxY2Y0OTRjZDdlZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxZjgzOWY5Nzk0ZjkyOGJiNjk5ODY1NzQ1ZTcwMzJkMTJhMjE5NjkwZmY0YzkxY2Q1NWM1OTY3NzQ1ZGYxMTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmYmUwMjg1M2Q4MTA3M2Q5OTIxZWU3ZGRiYWE5YjNjM2I4NmE4YTJlNmExNDA4N2QzZGU4OTdkNWQ5MWYzZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_527e3fbf68fe4c7ba9e1733639b87e45",
+      "statement": "docs/00-control/CURRENT-STATE.md, docs/00-control/BUILD-STATE.md, and docs/00-control/FINDINGS.md are the tier-2 control documents carrying the truth order: CURRENT-STATE for fleet state/deployment/validation order, BUILD-STATE for per-server gate state with a server not PASS/CLOSED until workload/functional/cleanup/reboot-persistence gates pass, and FINDINGS for open findings that may be CLOSED, OPEN/DEFERRED, or OPEN/MONITOR.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/BUILD-STATE.md#L56-L57",
+          "version": "repo-lines-v1:sha256:79b307208f1916d2ff2b0efcc03e658f127024452142290efa34268bb2d8092e:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzI2M2FlOWVlYjk0YmZjYWMzY2YzZTQzMzM5YmVmNjQ4MWMyZDA1MDRlYjAyNmE0OTY5NDkwMzQyNTEwNzc2MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDgxZTJlNjJlZjQ2Yzk2Y2E2NmQ5MDA3N2M3NGNmYzc1YTFlYTk1MjhkOWIyYjJkOTNkMDQwNTI4NDJjOGI0ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGM2MDI2MmU1MGVmYmE5ZmUzMWRkMTAwMDgxMTE1ZjkxNThmMjY3ZjQ2YjllZmNkYzAyZDViMzUwZTRmMzU0MyJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/CURRENT-STATE.md#L1-L12",
+          "version": "repo-lines-v1:sha256:24f4a1d2c86d4a567d5228352f6f1e2712803c7e672a0614d232542553f85ea9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyZjU2YjE5OGQwNzk0MjMyYTBhNGM1YjE4NWVlNDQ4NGVmYTEzYzNjM2ZjZjQxYjVkOTRjNmU2MDI0YzAxMzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEyYTUzOWQwZDM0MmIyNWYwYWY4YWI2ZjRmZjhhZDc0MzA5YjcwZWNlOWU2MTIzOWM3NzE5NDQ1MzUwMjEyMTIifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/FINDINGS.md#L1-L8",
+          "version": "repo-lines-v1:sha256:fc2bd32167710242de8b368d1fc2972d214d06b46aeefa40d20c156fc368cc38:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2FiZDlhZjYwOGM3NjU1N2E5Y2YzM2Q0OTM3MTA4YmMyY2QyZjFmNzlmYjljNjUwNDA4NjlhZGM5N2JmMjAyNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_12e5cd9c056b43d4b810953024b2f3fe",
+      "statement": "smoke-tests/ acceptance authority is tier-2 authority only when testing and defines what a component must prove; it does not define ecosystem placement, server roles, or network architecture, which inherit from docs/01-architecture/ARCHITECTURE-ORIENTATION.md.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L114-L114",
+          "version": "repo-lines-v1:sha256:631c7d9e7768f0e0eb564f793231009f6823c0bb30f3282bb88f6d6a8fff426a:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjMxYzdkOWU3NzY4ZjBlMGViNTY0Zjc5MzIzMTAwOWY2ODIzYzBiYjMwZjMyODJiYjg4ZjZkNmE4ZmZmNDI2YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjMxYzdkOWU3NzY4ZjBlMGViNTY0Zjc5MzIzMTAwOWY2ODIzYzBiYjMwZjMyODJiYjg4ZjZkNmE4ZmZmNDI2YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmIyYjQ1MjQ4NTcxNDI4MWI5ODUxODJlOWIyYmU4YjJlNjk0NzFkMDA2N2M2ZjM3N2I0NmQ1NjQ5Yjg4MzkxMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmY2OGQ1ZjYxYjU1NjRhNmFlMTE0NThhNTgxNjgzZTZjN2NkNDVlZDBlMzU5NTk3NGMxMjlkZGI4MjYzN2VkNSJ9"
+        },
+        {
+          "resource": "repo://AGENTS.md#L66-L68",
+          "version": "repo-lines-v1:sha256:0ce4972b6005a07c5f7974aaf5c00fef023db0cd3f59c0ec198458ee422a29f2:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjllODg3MDM0NmRhZWQ5MTY2NTUzZjgwNTIyODA5MTIyNzQyOWFiN2VkM2Q4OTFjOWM3ZDA1NDc5N2M0ZjYxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzk3MTRkMDUzMWEwNmI3YTFiNTUwY2Y5Mzk5NmZkNTdkNzk5Nzg3YjhkMjQ4M2Q4MTAxZWY2ZjlhMTc1ZDk4NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDAyNDRkZTY5ZTI4NzliYmUzMTBiMjk1YTQzNzNjODg4MDU0NGM3OGM3OGE5NTZlNjQ1MjE0YzI5ZTdiZDQ3OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmFlNmY5MGY2MDE5YTQxOWQ1ZTcyOTExNWEyY2Q0NDE4ZTQzZDBiZjRlYmMyNzRkYjE3NjI4ZTZhZGEyZjdhMiJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-15T22:39:27.588Z"
+  }
+}

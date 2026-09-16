@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:d40ffce4ee563c6cae73e0dc073c0306a4f92c2edfedd4c928c0d6a62c69079b",
+  "claims": [
+    {
+      "id": "claim_2f19eb74bf4a43b4b747826e7f228d0f",
+      "statement": "docs/00-control/hx-proof.tsv is the single source for the smoke-test dependency chain, with columns id, phase, sut, component, authority, requires, integration, status, holding 30 smoke steps across phases P0 through G.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/hx-proof.tsv#L1-L31",
+          "version": "repo-lines-v1:sha256:2da71e2f6f07d6f7247773024b0a1239c44eb2e8fe487e82be6b0c890285e4df:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxODc0ZGE1MzEyNzQxNzBjZGUyNzRhZjQ1ODIzNzVlZGZiZmMzMDdiZWNiZTNiN2I3NzBkNWNmZGE2Y2M5OGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzN2Q3MGVjNmVkNDRiN2Q4ZTFhMzE4Mjg2NmQyOTRkNWJmMTgwNjc0MDA4YjZkYjcwZGFlNTgwM2MzMjJmZGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L31-L51",
+          "version": "repo-lines-v1:sha256:7986464e37db226d1ad33f5972cd1fcea03ee31b229748a7effad611ec9d28ed:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiZDM5NjJhNTM0NjRlZWVmYTljMjE1ZTcwZGFmN2VhZTA2YjE4NmVjZGNiYmY3YTBmNWVmZjYwMTc0Zjc0YzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliZWRjYWRkYmQ5MzUzYjMzZjY0NTQ3MGIyNjRkNjc3M2NiZmNlNzg2MjM0ODAyOTc2ZTBjZjRjNDYyMTBjMDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjMjBhNGQ5NDYzNzY1OWU3ZmY2NzEwNjNkZWU3MGM2MjA0NWY0ZTQ1ODRlMmViZmIyMmI5ZGNjZDVjZDY0NWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1d32bace78d44a19abbec09053996094",
+      "statement": "The hx-proof tool offers --list (every step and what it waits on), --check (CI: valid DAG and generated blocks current), --ready <id> (readiness gate), and no-flag regeneration of the phase tables and dependency diagram in the smoke-test roadmap.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/README.md#L47-L61",
+          "version": "repo-lines-v1:sha256:14a1c64cc72a36443f5f4f9f71bc0ee144bd72ec175bc0d39ecd75112e536835:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ4MzVlNDE4NzVhYWM4YWU4ZDVkNTdmNzc3M2YxMWJmNGExZWMzMWRmY2NhZjU2YmJjYTg1YjNiMWVhMjNiMTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM0ODcwZGRmY2Y1YmM4OTY4ZDk2NTkxMTc0YmVjZTViZjA5ZmYzNDdiYTcyNDMzYzZmMzU4ZDk3ZTlmMzVkNzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZhOTgyOGQ3MDlhZjU4YjIxYTU1Zjc1NTk2ZDI0NzBlZDIyZWJkNjYwYWE2ZDExODI5NDUyM2VkYTI4NjM2Y2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYzMzRkNTk0M2NhYjg4ZThhYTQyMzc2MDRhZTk5ZjY0ZDQyM2YyNDJkZmNhZDMwZTQwMDNjZjQ1Mjg4ZDNlMTkifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L282-L358",
+          "version": "repo-lines-v1:sha256:cccf84935359fe563879d164170ccb9af3891375c4b709b9d3fd79267cc3348e:eyJzZWxlY3RlZExpbmVDb3VudCI6NzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMzk3OTMzYTI0YTgwMWVlOTIzMzI3YmQ2OWEwMTA0OWMwNzc5MTUwMjFjZjJlYzM5ZGRhNGY4MWFhODM3ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MjMzYjNmZmVhMzJhMjNkZjUzMDY1MzQzNDhmMmRlZTc3NmE1YTZmNzRmYjUzMzE3NWRkYzUzOWE4ZmU0NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliZmE4MmVkZmIyMDZiOTEyMjk3MDk3NmQxMWIwYzUyYjE2MGI1ZTJhYjE4ODMzOTQwMmY0YTlmYmJjZDM1OTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_16241ff93c41471390dbc3db8e91ae43",
+      "statement": "hx-proof --ready reports READY when every required prior proof has passed, NOT READY listing blocking steps when some have not, and NOT RUNNABLE when the step's own status is NOT_EXECUTABLE (an implementation decision is still open, dependencies are not the blocker); an already-PASS step reports ALREADY PASSED and refuses re-run.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L168-L186",
+          "version": "repo-lines-v1:sha256:366f13191be9f4f9303c03445aabee560bd9e25e51f7877e589cf3505c7a8f3c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiYzgwZTQ2ODYzZTQ5N2EzNGI0OGRiNmQzMmVhOWYxY2NiOWQ4MWY4ZDFiYTA3YjEzNzQwZWFkZGFkOTg1YTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2OGE4NjA1ODkyN2I4YTk2OTljNTFjOWJhYjE5MmM4MWI5Mzg3NTM5YmU3ZjZhNDVhNWI4OWViYzQyMzM2NTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlNmFmN2Q1Yzc5Zjc4NzkxMjFiZTZmOTAxODJjMjEyOGM5ZTUyOTAyODFmZDg5OTdhODVhN2U4OTdlYTQyNDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliOGRiY2IxZDM0ZjU3NmNmMWZjMzYxYTgyMGQ3NGI4MGRjZWEzNjkzYWVlN2UyYTE4ZGQyYThjZDkxMGE0MmQifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L294-L325",
+          "version": "repo-lines-v1:sha256:4bf86b9eeb5f32ff9b44eb62fc0fe2aa164d31354b9212822674dd2c94d297ad:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjNlYzVkMWI2YzczZWRhZmYxZmFmOGE2ZTliYWZlNTEzNDUwYzU0NmJhMDdmNmU2NjM4ZjYxNzhiYWU4NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzMDg2NmUxYmNjNWFiNzZlM2VmNTkwMTJkMGFkMzlhNjg3YWJlMDAyM2I0MzhhY2IxMTMwYTE4ODI1ZTgxOTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllMmVmNGY5NDUxYzExZmJiZTE4NWY3OTA2ZTMwZDQwNjVkYjA5ZjQ5MjA2MDZmZGE4NGFkOTZhMGU0ZTZiNmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk0NmI2ZjI4OGJlYzc1MjM1NmUyNzI0NDhjMzBiZjVkNGI5ODQxMzY3MzNkZjRiMGExODFiOTI2ZmQ3ZWQ4MTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c2e79edd7a9c44a8903cf22386d19d39",
+      "statement": "hx-proof validation rejects a dangling requires, a cycle, a missing authority file, an unknown SUT host (not in hx-fleet.tsv), an unrecognised status, and a blank or duplicate id; --check reports STALE and exits 1 when generated roadmap blocks drift from the TSV.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L101-L161",
+          "version": "repo-lines-v1:sha256:8c276dc6477dda322bfb48ff511327fb19aa23052b4a4616c4d29c98302725a7:eyJzZWxlY3RlZExpbmVDb3VudCI6NjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhmMjk1NGZhNzBkMDQ1NjhjNmM2NjhiZmIyNDdiOTE3YjJmY2FkMjc4ZjIzY2NiZjEzZGQ3NDkxMjBhMGQ3MTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyMzRiMTc2NjE2MmIxYzk4YTYyNjkxNWVhODZiZTU4ZWQ5MmRmOWM5NmY1ZDU4OTA5NWQ5NjIwYjc1MTk2NmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhMTZkYzZiZWZkZDgyOGZiN2ZmZDQwNTJmZDU1ZWY1ODRkODEyNWI5OTE1NzE2N2ZjZTAwMTg3MTZkMjEwOTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliOGRiY2IxZDM0ZjU3NmNmMWZjMzYxYTgyMGQ3NGI4MGRjZWEzNjkzYWVlN2UyYTE4ZGQyYThjZDkxMGE0MmQifQ"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L227-L279",
+          "version": "repo-lines-v1:sha256:d76c91bddebfc1f716ccfe3724e200ec4de8dc0191c75e9630df976f50e52023:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0ZTA3MmVmZTRmMDI2MDU0YzFiMmM1NzhkZTJhYjU1NmY3YWZhZDgyNGQxZDEyNTE4ZjhjZDhhMDZmZDQ2ZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzZjI4YzIzYTVkMWQ3ZTdlMjVlMzQ1NWJjMGY0NjhhNDQxZDBhNGY1MThjYThkMjJjNTI0YjQ0OThjYzdkZGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY3NzQwODkwMGFmNDZhMjQ3MWQ5YTUwNzY5NWQwMzMwODc0MGRkZGI5MGZmNDkyNjA4ZjQxOTE0ZDMwYjBkZGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0OGQ3NDgzZDA2MGYxNzIyZTI0NTM2ODg4MzM0MjU2YjU0OTBlOGJiZTg2OTgyMDY3NmNhOWVhZjM1MDljYzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9f6c9fe093014736a32a3dd19ac16b5f",
+      "statement": "hx-smoke-promote reads the same hx-proof.tsv and refuses a PASS when a required prior step has not passed and been cited in prior_pass_evidence; there is no bypass flag, and if a dependency genuinely does not apply the requires column must be changed in the TSV through a reviewed pull request.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/README.md#L59-L62",
+          "version": "repo-lines-v1:sha256:5e096028191911246d53ce0f7080984a3794ab3e551918bc1e1bf2f0b0e11933:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTEyZWI4MzQ2YzkxMGJiNDA4NDUzYmQ4ZjQwNWMyYzNiYTE5ZWQ3MTczOTg0MGZkNGU0ZDdmYzljZGEwZGI2NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmE4NTkwOTFhMjYzYWZhZDQyOWI5OTUxNDc3ZjQ4M2JkNmY2NDNkMDcyMDZiODY4ZjRjYzEyZDdjOTRmNDk1NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjRhMzNjMTZiYzM4Y2IwM2NiN2UwYjM5MzkyNDIxY2ZmZmE2YzIxNTFjMTEyY2UyNjIzZTE0NmY2YjU4NzFiYyJ9"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L107-L194",
+          "version": "repo-lines-v1:sha256:d8739cf34dd8ed0f596e189a6a36b4c4b66f325431d7ceb7c965d783e2ae25f5:eyJzZWxlY3RlZExpbmVDb3VudCI6ODgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzYjQ2NmE3MmM5YTJkNjNhOGVmOWEwMWQwNDU2ZGI1MDNiNGIzMDc3OGNkYzgyMzNlOGNjNTBkNWM1Nzg0MGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0ZTc2MDQyNmE4ZTNhODYwZGQxNTBlNmMxMTc4YmFhNmJmMTgyNGM1N2ZlODI3M2IwMmI0YTVjZTQ1M2FhNzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFkN2M2NDYyNmMyMzc4OWM2YzMxYjU1OTExZTZkNTM3MzRhMzJiYWIzNGFmZTQ2ZDlmNGE0ZjQ1YzMwYzhiNDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMyNmQxYWRmMDExYTMzZmQyYjY0MWVjNmM5NTEwOWIxNjk2ZDVhYTRmZDlmZWM1YWJkNzFjZGMxOWMwMGQxNDIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_65b7264f84b84c8eb38ec3ce69c41f30",
+      "statement": "For a PASS, manifest.md must record prior_pass_evidence and limited_integration_plan each on one line; prior_pass_evidence uses one '<step-id> -> <evidence>' entry per required step separated by ';', and a bare list of paths or a multi-line indented value is refused because it cannot bind a path to a dependency.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L13-L20",
+          "version": "repo-lines-v1:sha256:32457cff61f2544ca093e888429bd97a4074e65c4dd6899f6b1dda23c62c1d68:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODE1MTI1ZjcyNzg5NDFjZDljZjU2OTZmMzY0NTVlYWVkOWFhZTJhMzJlYWQyN2VlNjdmYTNkMGIzZjYyMDA2YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWI5MGI4Y2U4NTM2OGQ4NGZmOTY4MTUzM2Y3YjgwNTI2N2FlMTcxNmY0NWVmYzg2M2Q3M2NiZGMzYTBhZGEzYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjg2N2FiYjEyMDQzYTVkYzAyODk5MDcwZDk0ZmU1YzdkYTFiYzg0ZTE0M2ZkNmI4ZjQzODg5MTM2MmIyYmFiMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjFhOTVhZjZlMWJlMTdlM2M0MjdiMWE1MTlhZjI3YjQyMTFlMTdjM2Q4NGE3YThlODFmZmVkNDQwMmMwMjQwZSJ9"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L168-L190",
+          "version": "repo-lines-v1:sha256:f1ffe9b5ec6e81c0cdeed8e1123d9b6c025ab13bf50d4edd40676330ae2da888:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2OThlNjRlMWRjZjAzM2YxYzU2MGIxZDg5Yjg0NTk2YTJlN2NhNWUwNzQwYWZmMjNhZTgyYjE2MDExNTFiN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5NTE0ZmU4NGFkY2Q1ODQxZjk5M2ExNmQwM2ZkMGUzOTcxYTU5YmYyODNlMGFlZTNiZTk2ZWM0NGFlYzhmMDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNiYzFhNWY5MjQ3ZDZkODc2NjI0YWFmZTRmMjljM2VkMWRmMmFkYjE4NmQ2M2NlMDU4YmI4MjM1MzQyNjVjNjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA1NDA4ZjIzZmE3M2RiYjY5ZDY0NzEwNTcxZWJjMTZlOTk5YWYzYWNiNzA5MDhlMTUzZGMwYTY5ZDJiNmU5MzEifQ"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L99-L106",
+          "version": "repo-lines-v1:sha256:e6a2268ecbd43dab6d6585f0d1cb22b89548aa55c2610dc1a114a0ab4fe7c610:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWJmM2YxNTVmZWUyODYzMDg3NzQwMmJkMTY4MzM0MGE3NjVmNWI4YTRjOTUwN2ZkNThhZmY5MmQ5ODYxMDZkOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmJiZDhmMWRlZjcwOGQzMmNhMzhhMmU1ODFlZGI1ZDk5MTVmZjQ4ZTM2NDRmMDU4YzVkNmVlYmU3YTY0ZWQyZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2M3ZTY1OTM4YTVlNWZjOTllYjgxN2JiOGNhMzBlYmVhNWI0YTY4Y2I4YmI0ZDczYmY0NTZlM2EzMzEzMzE5NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_eedebd4f7fff405b9b2f7c65da17d3d3",
+      "statement": "hx-smoke-promote re-binds the manifest's proof_step to the run's sut_host and smoke_test_file against the TSV, so a hand-edited manifest cannot name a valid step belonging to another host and authority and have that other step's dependencies enforced; a manifest with no proof_step is refused while hx-proof.tsv exists.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L113-L141",
+          "version": "repo-lines-v1:sha256:313549ccbf2f9004d7ef9f2b77e6037c8792af322d5b3ee95a3cda018a01a95d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzZjAyNjRjNzgzMWU4ZGUzYzk0OWNhNGRjZDQzNzUzYmQ3MjA5MmUyMGE1YjM5ZmI1OGM1ZWMxMDQ5YjU3MjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyZDVkZTI3MWU1ODNjNjVkNzcxYzk3MTZkYjJjOWY2YjdjNmY5NjNhMDU0MTQwOGRmMjJjMTQ1Y2Q5ODA2ZTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwMWQ1NzI1NTM0NjcxZTBjZGYzZDllMDI1M2Y4MTNiMjkwOThkNGFjYTMzNjExNjc3MDkzYzI1ZmYzNjc4YTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0NjA4NzJjMDE5MmYxZjE5YTYwNjg3NWY5OWNiNzE5NGY2M2RkMzk1NjUzZjc5ZDc5ZWYwYzRmZTQ0MDI0ZWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fc6310354603492a8c2e6a903f8bfa37",
+      "statement": "hx-smoke-promote refuses to retain a PASS for a proof step whose TSV status is NOT_EXECUTABLE, because an implementation decision is still open; hx-proof --ready reports NOT RUNNABLE for the same reason.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L308-L311",
+          "version": "repo-lines-v1:sha256:00d48bd0222c16558096a664366ead2223de504c39d8f2f22764a200bcfbf1ea:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTM5ZGE3ODMwNTc3MTg1OTFiMmI3ZjYyNTYzMzIwZGY0NTVhZWQ4MjIyNzg2ZDZhOGM5YjkxN2Q5Zjg0ZTVmYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2U3NTk2MmNmODdkYmJiMzU2Mzk0YTcxNzMzOTFkMzU4MDFjZTk0NzZhYjIzZThkOTMwZDkyODZjMDZlOGFhNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2I5MjNhZWJlNzYwYWQxNzlhNzkwNGM0MzQ1NjM5ODVhNTU4YmJhZDBiZWY3OGM1MTc5MjAxMTc2NGQ3MWU5ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWIzNDYxYTYzZjk3YzcxNjM5NDE3OGE5OGQxODMxMzAyM2U1OWYwNzU2MzU4NDI4Nzk3ZjUzZjI1NzY2MTJjNyJ9"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L143-L153",
+          "version": "repo-lines-v1:sha256:e6de45895a92d5e6fda9492cc89c060e894446b2aeda1c021234a907166502fb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1NTk2ODg4ZmMwZjQ5Mzg0YjdjMDI1ZjllYWEwYmJiYzhiZTZkYWI1NmU4ODBmOTQ5N2IxMTZhNWY5NDkwYTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0ZTc2MDQyNmE4ZTNhODYwZGQxNTBlNmMxMTc4YmFhNmJmMTgyNGM1N2ZlODI3M2IwMmI0YTVjZTQ1M2FhNzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwMzZhNmEwMjdhNGEwMzFiNThhYWU2YmZiZTlkYzkxM2RlMjExMDc5YTZlMjNkZTBmNGFjYzMzM2E1Yzg5M2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliYWY5ZjY0OWRhOGY5MmQ4N2I4ZDljOGMwOGZlYTljNjE4ODlhMTUxYzc2YjQzNjNlY2YwZGU0ZGI2NGMxZGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2bfcbce6310b48b4bc17d8a6e79b10e7",
+      "statement": "hx-smoke-promote runs only on HX-5 CentCom or a host authorised via HX_SMOKE_ALLOW_HOST, which is used for pre-CentCom roadmap steps A1-A4; the station used is recorded in each run manifest.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L25-L36",
+          "version": "repo-lines-v1:sha256:efaeb5918f7d61af636ed4f336087ca69c7c6237db2b5f8154eb50b39f40793e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzN2EwOWQyZDMyZTVhY2EyNzdkZDc5NTM2YTc1NWU2OTJlNjkxOGJiMDExMzgxM2JkYmU0OTg2YzdjYjZjNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3NjlkMjM3Y2Q0MjBiOWQzOGI5ODFhMGE0ZjY3NzAxOTBhNGE4M2RjYTFmZTU2YzRmNWJhMWUyY2JjMGVmNzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmMmNmNTZjZDEzNDVjYzRmMWE5NWQ1YjE4OWQ1MDk5ZmZhN2NjMGVhYTI0NThkYTBjY2EwMWM1MTAyNjEyNzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxOWRjNzAxZDU5OTZmNTA3NjhlMzVhMmY3NmJkMTVjNDQwZWVmM2RkYjM1YTY1ZGMxNTk3ZDYyYmRiZjM2NzEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_83da148383494ac5863595e47370994b",
+      "statement": "The cumulative-proof-with-minimal-live-coupling model means a downstream test reuses prior PASS evidence and creates only the smallest temporary integration needed to prove its own contract; temporary smoke wiring is removed before closure and is not permanent architecture.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md#L337-L351",
+          "version": "repo-lines-v1:sha256:c8e00c9b8080d0436522fca5170ffcec739ba13f1c619fd580ee5cb0cd78033d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViZjg3ODJiNzZlN2FjNTdkODY0OGRmZWE5OTM3M2E3Y2UwY2VjN2JkOTlmYmQwNjMwZjAwMjk5NGZmZmQ2MDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1MWU3NzAxYzc1NTM3ODAxMTYyOWM3ZWUzYjcyOGE3NTg2Zjc1MzIyMDc4NmFiMjFiY2QzNjk1ZTIzNTY4ZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhlOTI5MjkwZjk5NmI2MjJjMzI2NGE5NTk0NGMxYTFmMDA0NTRmMzJhZGM5ZTU0YzAzNjY2MzhlOTQyMDYzOWQifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md#L36-L50",
+          "version": "repo-lines-v1:sha256:0bff30c70dbb70795646cdc7c74d176a1a2e3a1f788d10ce6299bc3f2ff6554b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBkYTdhNjFhMGFhNDcxNzlkYmM1NjVkYjIzNGE3NTgzNTk4NzYwOTIxMmRhNmRhMGU2MGI5ZjNmMDA0MDM2NmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwZTI0N2FiMjFjY2U5YzNkYmNlN2Y0OTk4MWFjOTZiOTE2N2FiODJjMTM1NzYwMmJkOWQxZWJjZjNlNjZlYTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6c6064ffe57d4f3f88d5f4f498720cbf",
+      "statement": "MCP companion gates (mcp-companion-smoke-test.md) and Web UI gates (native-web-ui-smoke-test.md) are separate smoke steps per parent component that require the parent core smoke to pass first; a companion PASS cannot substitute for a failed parent core smoke test.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md#L300-L319",
+          "version": "repo-lines-v1:sha256:2ff70ab9bb9c5294d8e028a0736c7c1bd6a91579a14b547017c7acf9759ce35d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2YjMwMmE5N2UwM2M5ZGRhOGRiZTU5NjA2ZDY4MTY4Yzg0YmEzZTFjZjNiZGJmMTZlNzVlNzEwN2FkMjc5NTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MDU2OTNlNzNjMjk5NGZmYzcxZmM1MTc4YTczMjQ3NDFhYWUwNjgzYzg0NjY3NWUxM2UxMmNjNWExOTA1MjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEyZTkxZGI3ODc4YjJhNjI5NjBmNzNiNTg2NjAwNjhlNTFlMGNhYzYzOTIzNTliOWQzNTc0YzQ4MGM1MTE3YjEifQ"
+        },
+        {
+          "resource": "repo://docs/00-control/hx-proof.tsv#L9-L14",
+          "version": "repo-lines-v1:sha256:5bf574978964b6628d79ba6d4cc92dde59d4b55bd6ff15e9b27c5a7ed956b12d:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjBhZTlmNTBkYTg2NWYzMzFjNjI2Y2U5MzdjMmM3ZGYzNWEyMWNmZDgyZjc5YzdmMmQyMjQ4NTkyN2Y4OWZjOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2QyNDhiYWZlNzhiYmEyMjQxNTkwY2U3NGJlMDVkOWViMDEyODhjODZkMTJkN2E4NDc5ZGYzOTk1Y2VhN2U5MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWNjMzZhMDZkZGQ4NjZmMWNiYjg3NzhhZjk4ZmViNTVhN2I0NmE5OGQyODI0NjFiODM3OWQzYzNmZDQzMTgwMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2VjODM5NmM3OTJkMjYxN2RmMDEwYjZlNzNhZjA5OTY2NzM3MDgxYTcwZGFlNWMzNmZkODRlMjY5M2JmMGE0YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_40e4f4492bf84438b05364b3cc0067d7",
+      "statement": "The phases group the 30 steps as A=HX-4/5 inference+embeddings+reranker+CentCom activation, B=HX-9/10 state+retrieval, C=HX-6/15/5/7 routing+MCP+harness+nginx, D=HX-16/17 knowledge, E=HX-11/13 RAG+memory, F=HX-12/14 agents+workflow, G=HX-8 Open WebUI, with P0 as foundation.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md#L97-L219",
+          "version": "repo-lines-v1:sha256:17faab5a48b3a3da58460240072439534d8ffd3ce42745d2afae44154c67eb95:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI1YTdmMTU4NzliZTc1ZDQ0ZDJkM2U0ZDJkZmUzMWQ1OTk3ZjBjYmQxNTljNTMzNmMxMTkzNzhhNzZhZWM3YTAzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJkNTk0ZDFjMWUwODAxZDE1NGZjZGY2OThhOTg1M2MyYWQxNTllNzU4NDk4NjZjOTAxMWIxZjBhZWQwYmY4ZmU3IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI5MmZkMzA1MWY1YzdmMDE1NThjMTU0YTM4ZmFjZTRiY2FjYzMwYTRjYTgyMDMxODc2Mzc5NTk4YmJiOGNjMGFkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIwMDFmMmVjMTc1OTNjMTA1NGViNDYzNjdkODQ1M2VmMjRhMTczY2U5NmI3MTE3ZDkxZjlhNjhkNDRmZWY4YjAxIn0"
+        },
+        {
+          "resource": "repo://docs/00-control/hx-proof.tsv#L2-L31",
+          "version": "repo-lines-v1:sha256:87c7ea4425a8babd4591b82da997f84921f1d500135fe110571df55dda687930:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5MjZhODg3NGJhYjcxNjdmNTNlOTczNzQxNDA4MTk1ZTc1MGU3M2U3N2Q2Y2M2N2EyOGM1OGNjYTM2ZDMxMWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzN2Q3MGVjNmVkNDRiN2Q4ZTFhMzE4Mjg2NmQyOTRkNWJmMTgwNjc0MDA4YjZkYjcwZGFlNTgwM2MzMjJmZGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYxODc0ZGE1MzEyNzQxNzBjZGUyNzRhZjQ1ODIzNzVlZGZiZmMzMDdiZWNiZTNiN2I3NzBkNWNmZGE2Y2M5OGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b6578b4b197f4c7da9f7f5147a224b94",
+      "statement": "Promotion does not edit the TSV: after a successful PASS promotion the operator must set the step's status to PASS in hx-proof.tsv, run hx-proof to regenerate the roadmap, and commit the evidence plus the status change in a reviewed change; only that advances the chain for downstream steps.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/README.md#L49-L52",
+          "version": "repo-lines-v1:sha256:4b75b52a11cad9eca86d1f26a749d27d3381e4d48d42459bf0830e09b2d6aff1:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTQ5M2Q2NjVhNGQ2ZGYxYjRjY2Q4NmZkZGM1NDAwNDBmN2MyZDRlN2Y0NDUzNTM2NDUxNWFiNzRmYjlhZTdhNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmYyMmZhODVjNmQwODA4NDM1MzUzMTI0N2VkYzAyZTliYmYwZWQxZDY3YTVlMDY5MGMzYzJhNjdiMDc1ZjVlMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODk1OTk3MWE2NjlmY2YyNGQ0OGZlOTIyOWRhNWEwNWU0NDk3Y2MwZmM3M2I2NjFiN2JjNmFhYjJhYjFiOTZmZSJ9"
+        },
+        {
+          "resource": "repo://tools/hx-smoke-runner/hx-smoke-promote#L249-L251",
+          "version": "repo-lines-v1:sha256:004c663759e12e26ee138945590f87e0da4d6d7f3326382137c250c1a20baa04:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBjMDdkOGZkYzY3NWI5N2JhOGFjODUwYjdiNzg3N2IzMTg3M2M4ODM3YTc3M2Y0NGRhZDFiYWEwZTQ3MTA3MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzc2OWQyMzdjZDQyMGI5ZDM4Yjk4MWEwYTRmNjc3MDE5MGE0YTgzZGNhMWZlNTZjNGY1YmExZTJjYmMwZWY3NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGNlN2JiMjJjZDJlMWFjYzA2YjA5ZTdjOGE1M2E0MjYwYWE4NGE1ZjFmZDk0ZDZiZTc2NTU5OWVjMGJmNzE1MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_80abb263ab4c45f3a0b2e2ea2fc091f5",
+      "statement": "E1 LightRAG core and E3 Mem0 core each require B5,A2,P0 (accepted Qdrant plus accepted embeddings plus foundation) and use the accepted Qdrant/embedding/LLM path with synthetic data deleted afterward; these are the only steps with three prerequisites.",
+      "evidence": [
+        {
+          "resource": "repo://docs/00-control/HX-ECO-SYSTEM-SMOKE-TEST-ROADMAP.md#L85-L91",
+          "version": "repo-lines-v1:sha256:54e24844be72f7d2fc206b87b8b7bd4b579b55c4e23b727e1f49aaa13e895ba8:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzA4Yjg3NTAxMzkzNzI2MzcyNDI2YzlhMjc1YmRjYTkxNjdiMzllNDlhNTUzNDhmMDdiZjZhZTZjNjVkYTgyNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDdjMDZjNTYxZDVjMzI3MzQzNjg1MjY4YTQ2YjMzOTFmMzk5OGVlZTg5MGQyYmU1MWYwZDIxY2M0YTUzYWU2ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjViMGE2OWIyOGJlOGY4M2I1NmI4ZGNlNmFmMDdiYjBlOWM3NDRkYzIyZTMzNGM1NzU3YjVlNWVmNmJlNjg5MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWE4NDA3YmExZTJjZDQ1NDExNGY5OGQwYmYzZGNkYzRjMjhkYTNjMTRiZWU1MWQxN2U4NDUxNjBhYTE2MTc2MCJ9"
+        },
+        {
+          "resource": "repo://docs/00-control/hx-proof.tsv#L23-L26",
+          "version": "repo-lines-v1:sha256:e5f3bcd1c1cdb088b34c643c5784fdb3bd2ea057e492fe8083c161ad202c0b79:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTEyZGVkMTQxZTk0YzU0MjE0MTUwMmY1YWE4OTYzNWIwNWMwMmFkOTJkNTI3MmM2YzllNDJhYjVmNzJkMmMyZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWU4NTM3ZGI4ZTU1NDA1YTJjNmRkODU2MTFlYTMxOTAyMWI5MGZiNDliMWY2Zjk3OTJjOGUyNjhmMWNjMzM1ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTcwYWE1OTE0ODdmZmNlMGRmNzYxOWFiYmY1NGY2ZjYwZDc0NGM0NmRlODMyYTZmYzY0NDE0MjdmYTdlMDVlNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2MzYzMxMjk0NmRkMWMxNmVmNjI3ZDUzM2VkMDEzZTg0NDQyZDE0ZTRlZTEyNDBlZTEyYmU4MjgzYjZkYjFiNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7f8471c4640d40a7a7d547eee49673a4",
+      "statement": "hx-proof.tsv replaced a hand-maintained per-phase table and mermaid diagram that carried only 19 nodes, omitting 11 of the 29 component steps including every MCP companion gate, both Web UI gates, and the reranker; the tables and diagram are now generated from the TSV.",
+      "evidence": [
+        {
+          "resource": "repo://tools/hx-doc/README.md#L63-L67",
+          "version": "repo-lines-v1:sha256:c42d2b2401548ac4b170ee8bb96ebe52bcb2bfd70497be6fc81469473f06d548:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDNlMTQ0YzM1MzVlMTBlZWU4Njg4NGM2MTdmZWVlN2RmNzAyZjc2MzhkOTg2YmU5ODQ2NmQ2YjE1NzkyMzhhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjgzZWE2ZTUwODhjNDEyMzY5OTc4OTM1MDRlNTcyNDRlNjI5MTk2M2I1YTlhYjc3NDc5ZTJkOWJiOTJmNTJjMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmI5OWU5ZjNjODQ2YjliYTZiNDRjOGRjODZhOGNhNDY1OWZhM2IzZjE0MzIzNzk1YWJiODU5NGUyMGI1NDA3MyJ9"
+        },
+        {
+          "resource": "repo://tools/hx-doc/hx_proof.py#L2-L13",
+          "version": "repo-lines-v1:sha256:610b33a70da2134af8f4363e708f06a8ac567e64f4ec24a5200792029e7eecee:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU0N2E5MDE2MTg1NWQ5ZjZhNTcxOGY5ZjQ1ZjMxODc4YjQ1MmZiZWQyZWY0YTlkZWZjOWRjZGE1OTJlYWYyOGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhNDBjMGI3NjUzYTBiYzYwNDI1YTEyM2NlYWFmNTFkZDMxMzc4YWUzZmVkZjNhNmNjM2ViOGI4ZmU0MjllZTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2ODJjYmRiNGM4YjA3NTE4YmY0ODZjNTg5OTBmYzM5MTc4M2FhMjBhOTE2YmZiMjdhZDIxMWViMWQ1YzM2NDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiMTA2ODBkOGZkZjU0YzNjY2FlYThiMWFjYjMyOWQwNGVhYTlkZDgxMjM0YjAyODBiNDQ5NDk1YzYzMDlkNzIifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-15T22:39:27.588Z"
+  }
+}

@@ -1,5 +1,6 @@
 # Files
 
-- [hx-doc Repository Consistency Tooling](hx-doc-tooling.md) - The 13 Python tools under tools/hx-doc/ that convert each written repository rule into a failing check — fleet and proof-DAG generators, doc-check, version-pins, upstream-drift, record-check, smoke-lint, new-server, supersede, preflight, graft-bash, and gate-tests — their enforcement role and CI placement.
-- [Runbook Blocks, Pins, and Install Helpers](runbook-blocks-and-pins.md) - How the docs/03-runbooks/ shell-block system installs software on fleet hosts — the common base blocks, per-application installers, the hx-base.env pin file, shared hx-app-lib.sh helpers, host-gating, verified-fetch/checksum enforcement, and systemd unit generation.
-- [HX-5 CentCom Smoke Runner](smoke-runner.md) - Repository-owned runner helpers under tools/hx-smoke-runner/ — hx-smoke-doctor, hx-smoke-new, hx-smoke-promote, and hx-smoke-ui-capture — that create disposable smoke-test runs, bind each run to a proof-DAG step, enforce cumulative-proof and cleanup gates, and promote reviewed evidence.
+- [Change and Review Workflow](change-and-review-workflow.md)
+- [Documentation Gates and Enforcement Tools](doc-gates.md) - The tools/hx-doc/ enforcement layer — what each gate checks, what it refuses, and what a failure means — plus the CI layer and the meta-gate that breaks every checker on purpose.
+- [Proof Chain and Smoke Eligibility](proof-chain.md) - How the hx-proof.tsv proof DAG defines the smoke-test dependency chain, how step readiness is checked, and how hx-smoke-promote enforces cumulative proof with no bypass.
+- [Server Records and Evidence Retention](server-records-and-evidence.md) - The one-file-per-server record pattern, the record-check gate, the inline vs run-bundle evidence models, and the invariants that keep retained proof honest.
