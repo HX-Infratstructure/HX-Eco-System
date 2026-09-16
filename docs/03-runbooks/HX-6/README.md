@@ -196,7 +196,7 @@ Do not install 3.8.50 as an intermediate step merely to satisfy the existing com
 
 ### 5.2 Current common OmniRoute block is incomplete for the accepted HX-6 contract
 
-The current `common/10-omniroute.sh` installs Node, installs the pinned npm package, creates `hx-omniroute.service`, sets `HOME`, `PORT` and `HOST=0.0.0.0`, and validates `/v1/models`.
+The current `../common/10-omniroute.sh` installs Node, installs the pinned npm package, creates `hx-omniroute.service`, sets `HOME`, `PORT` and `HOST=0.0.0.0`, and validates `/v1/models`.
 
 That is not sufficient for the HX-6 contract in this runbook. Before execution, the common application block must be reconciled so that it also establishes or explicitly preserves:
 
@@ -217,14 +217,16 @@ The exact bind variable used by the packaged 3.8.51 CLI must be confirmed before
 
 ### 5.4 Application pre-read commands
 
-Before installing OmniRoute, capture:
+Run these from the repository root so they do not depend on the caller's
+working directory:
 
 ```bash
+cd ~/src/HX-Eco-System
 node --version 2>/dev/null || true
 npm --version 2>/dev/null || true
 findmnt /srv/omniroute
-grep '^HX_OMNIROUTE_VERSION=' ../common/hx-base.env
-sed -n '1,260p' ../common/10-omniroute.sh
+grep '^HX_OMNIROUTE_VERSION=' docs/03-runbooks/common/hx-base.env
+sed -n '1,260p' docs/03-runbooks/common/10-omniroute.sh
 ```
 
 Do not execute if the block would:
@@ -251,6 +253,13 @@ command -v node
 command -v npm
 ```
 
+Provenance is an artifact identity, not a version string. For **both** Node.js and `omniroute@3.8.51`, record in the HX-6 server record:
+
+- the exact source URI the artifact came from; and
+- the full SHA-256 of the artifact actually installed.
+
+If either value cannot be established for an artifact, record `UNRESOLVED` for it. Do not fabricate a hash, and do not treat the npm version alone as provenance. The HX-6 deployment gate cannot be marked PASS or CLOSED while either the Node.js or the OmniRoute provenance is `UNRESOLVED`.
+
 Install the exact reviewed npm package:
 
 ```text
@@ -258,6 +267,30 @@ omniroute@3.8.51
 ```
 
 The deployed service is the packaged runtime, not the source-development path.
+
+A release tag is not publication proof. Before install, prove the pinned package resolves from the approved npm registry — the official `https://registry.npmjs.org/`, passed explicitly so the check does not depend on the caller's npm configuration:
+
+```bash
+npm view omniroute@3.8.51 version dist.integrity dist.tarball --registry=https://registry.npmjs.org/
+```
+
+Record the returned `dist.tarball` and `dist.integrity` in the HX-6 server record. Then bind installation to that exact artifact — do not resolve the package a second time and hope it is the same bits. Fetch the recorded tarball once, verify its integrity and full SHA-256, and install the local file:
+
+```bash
+curl -fL -o /tmp/omniroute-3.8.51.tgz "<recorded dist.tarball URL>"
+npm pack --pack-destination /tmp omniroute@3.8.51 --registry=https://registry.npmjs.org/  # alternative fetch path; use one
+EXPECTED_INTEGRITY="$(npm view omniroute@3.8.51 dist.integrity --registry=https://registry.npmjs.org/)"
+# sha512 integrity must match the downloaded tarball; a mismatch is a hard stop.
+tarball_integrity="$(openssl dgst -sha512 -binary /tmp/omniroute-3.8.51.tgz | openssl base64 -A)"
+[ "sha512-$tarball_integrity" = "$EXPECTED_INTEGRITY" ] \
+  || { echo 'FAIL: tarball integrity mismatch'; exit 1; }
+sha256sum /tmp/omniroute-3.8.51.tgz        # record in the server record
+npm install --global /tmp/omniroute-3.8.51.tgz
+```
+
+Apply the same flow to the Node.js artifact: record its source URI, fetch that exact tarball, compute and record its full SHA-256, and install that verified artifact — only then is Node provenance PASS.
+
+If `3.8.51` does not resolve, deployment remains blocked. Do not fall back to `3.8.50`, `latest`, a git source, or `npm run dev`.
 
 Required package proof:
 
@@ -284,6 +317,22 @@ Do not redirect OmniRoute persistence to HX-9 PostgreSQL. HX-9 remains a separat
 
 Create application directories only if they do not already exist. Preserve the owner-provisioned storage and record the observed ownership/mode rather than assuming it.
 
+For an existing `/srv/omniroute/data`, do not chown or chmod it to force a result. Prove the `omniroute` service identity can already write it, and stop if it cannot:
+
+```bash
+# Record the existing ownership/mode first.
+sudo stat -c '%U:%G %a' /srv/omniroute/data
+# Write probe as the actual service identity; a failure is a stop. The probe
+# path is unique to this run so it cannot overwrite an owner-provisioned file.
+PROBE="/srv/omniroute/data/.hx-write-probe.$$"
+sudo -u omniroute touch "$PROBE" \
+  || { echo 'FAIL: omniroute identity cannot write DATA_DIR'; exit 1; }
+sudo -u omniroute rm -f -- "$PROBE" \
+  || { echo 'WARN: probe cleanup failed; remove '"$PROBE"' manually'; exit 1; }
+```
+
+Only when the write probe fails and the owner directs a change may ownership/mode be adjusted, and then the change and its approval are recorded.
+
 Target application-owned identity:
 
 ```text
@@ -293,6 +342,8 @@ omniroute:omniroute
 ## 8. Runtime configuration contract
 
 The permanent service must consume a root-owned, non-repository environment file or equivalent systemd environment source. No secret value is committed to the repository or copied into the server record.
+
+When the source is an environment file, it must be least-privilege: owner and group `root:root`, mode `0600`. Record only the path, owner and mode — never a secret value or its hash.
 
 The final reviewed native service configuration must explicitly cover at least:
 
@@ -353,8 +404,26 @@ sudo systemctl status hx-omniroute --no-pager -l
 sudo systemctl is-enabled hx-omniroute
 sudo systemctl is-active hx-omniroute
 sudo systemctl cat hx-omniroute
-sudo ss -lntp | grep -E ':(20128|20132)\b' || true
 ```
+
+Listener posture is a pass/fail check, not an observation. The following must exit non-zero on any deviation:
+
+```bash
+set -e
+# 20128 must be present and reachable on an HX-6 LAN address: wildcard bind
+# (0.0.0.0 / [::]) or the recorded HX-6 LAN address itself. A bind to some
+# other specific address fails.
+sudo ss -lntH | grep -E ':20128\s' \
+  | grep -qE '0\.0\.0\.0:20128|\[::\]:20128|192\.168\.50\.206:20128'
+# 20132 must be present, and EVERY listening endpoint on 20132 must be
+# loopback. Fail if the port is absent or if any bind is non-loopback —
+# this is all-endpoints-must-be-loopback, not a denylist.
+ss_out="$(sudo ss -lntH | grep -E ':20132\s')"
+[ -n "$ss_out" ] || { echo 'FAIL: 20132 not listening'; exit 1; }
+! printf '%s\n' "$ss_out" | grep -qvE '127\.0\.0\.1:20132|\[::1\]:20132'
+```
+
+A missing `20128` listener, a `20128` bound only to an address other than wildcard or the recorded HX-6 LAN address, a missing `20132` listener, or any single `20132` endpoint bound to a non-loopback address each fail this gate.
 
 ## 10. First-party CLI diagnostics
 
@@ -390,11 +459,12 @@ At minimum prove:
 
 - unauthenticated protected API behavior matches the configured policy;
 - authenticated `/v1/models` succeeds;
-- dashboard loads;
+- an unauthenticated dashboard request is challenged semantically: PASS is a redirect to login, an authentication challenge, or a login page (which may legitimately return HTTP 200 with a login body); FAIL is an unauthenticated request exposing the usable authenticated dashboard/application state;
+- an authenticated session loads the dashboard successfully;
 - the expected OmniRoute version is observed where the product exposes it;
 - service remains stable while accessed over the LAN.
 
-A single HTTP 200 does not close the application.
+Dashboard and API auth behavior are proved per surface as configured; do not assume one result implies the other beyond what is observed. A single HTTP 200 does not close the application.
 
 ## 12. Provider and model governance — D-010
 
@@ -424,6 +494,19 @@ Required proof:
 5. retain evidence without exposing credentials.
 
 Do not install a separate generic MCP server on HX-6 to satisfy this gate.
+
+### 13.1 Authentication coverage per surface
+
+Each surface is proved against its own configured policy — API, dashboard, MCP and A2A are not assumed to share one mechanism:
+
+| Surface | Required acceptance |
+|---|---|
+| API (`/v1`) | unauthenticated request behaves per configured policy; authenticated key succeeds |
+| Dashboard | unauthenticated request challenged (redirect, auth challenge, or login page) and authenticated state not exposed; authenticated session loads |
+| MCP | connection per the configured MCP auth policy; unauthenticated behavior recorded |
+| A2A | Agent Card and task endpoint per the configured A2A auth policy; behavior recorded |
+
+For each surface, record the observed unauthenticated and authenticated behavior. Where a surface is configured unauthenticated, that is the recorded policy — do not invent a requirement it does not have.
 
 ## 14. A2A proof
 
@@ -463,9 +546,37 @@ Retain the OmniRoute endpoint, connection/provider identity, model mapping, resp
 
 ### 15.3 Compare and clean up
 
-Establish that the routed path reached the intended backend and returned the expected answer/behavior. Then remove or disable the temporary route unless it has separately been approved as permanent architecture.
+Establish that the routed path reached the intended backend and returned the expected answer/behavior.
 
-Prove the temporary route is no longer active.
+Cleanup of the temporary route is **unconditional**. It must happen whether the routed request, the comparison or any verification step succeeded or failed — a failed test is never a reason to leave a temporary route active. Structure the execution so the removal step runs on both the success and the failure path, and record which path it ran on.
+
+Where the execution is shell, use a `trap` so cleanup runs even on a mid-script failure or interrupt:
+
+```bash
+ROUTE_ID=<temporary-route-id>
+route_absent() {
+  # route-not-active check; non-zero while the route is still resolvable
+  ! omniroute <route-list-command> | grep -q "$ROUTE_ID"
+}
+cleanup_route() {
+  omniroute <route-remove-command> "$ROUTE_ID" || return 1
+  route_absent || { echo 'FAIL: temporary route still active after removal'; return 1; }
+}
+trap cleanup_route EXIT
+# ... routed request and comparison; any failure path still exits through the trap ...
+# On the success path: run cleanup explicitly (removal + absence verification),
+# and only release the trap when both pass.
+if cleanup_route; then
+  trap - EXIT
+else
+  echo 'FAIL: D-009 cleanup did not verify; gate fails' >&2
+  exit 1   # EXIT trap remains active as the fallback
+fi
+```
+
+The EXIT trap remains in place as the failure-path fallback until cleanup (removal **and** route-absent verification) has passed; a removal or verification failure is a non-zero result that fails the D-009 cleanup gate, not a warning. The equivalent requirement for any other execution style is a `finally`-style or explicitly sequenced cleanup block that executes after a failed request/comparison exactly as it does after a successful one.
+
+After removal, prove the temporary route is no longer active. That verification runs regardless of how the request or comparison ended; if it cannot confirm removal, the D-009 cleanup gate fails and HX-6 does not close.
 
 ## 16. Reboot-persistence gate
 
@@ -475,8 +586,9 @@ Before reboot capture:
 sudo systemctl is-enabled hx-omniroute
 sudo systemctl is-active hx-omniroute
 findmnt /srv/omniroute
-sudo ss -lntp | grep -E ':(20128|20132)\b' || true
 ```
+
+Apply the same listener pass/fail checks as section 9 (20128 present and reachable on an HX-6 LAN address; 20132 present and loopback-only; any non-loopback 20132 bind fails) before rebooting.
 
 Reboot once. After HX-6 returns, re-prove:
 
@@ -505,10 +617,12 @@ HX-6 is not BASE PASS because `systemctl` is green or `/v1/models` returns 200.
 |---|---|
 | Common Foundation / F0 | PASS with recorded evidence |
 | External fleet-key proof | `hx-6` + `KEY+SUDO-PASS` |
-| Domain join / SSSD core function | PASS or current accepted finding only |
+| Domain join / SSSD core function | PASS, or `HX4-F02` (SSSD responder/socket conflict, OPEN/DEFERRED) documented as non-impacting HX-6 with recorded evidence; no other finding satisfies this gate |
 | Existing `/srv/omniroute` storage | PASS; no destructive storage change |
 | Node.js exact supported version | PASS |
+| Node.js provenance (source URI + SHA-256) | PASS; UNRESOLVED blocks closure |
 | OmniRoute exact `3.8.51` package | PASS |
+| OmniRoute provenance (source URI + SHA-256) | PASS; UNRESOLVED blocks closure |
 | Native `hx-omniroute.service` | PASS |
 | Persistent `DATA_DIR` under `/srv/omniroute` | PASS |
 | API-key authentication | PASS |
@@ -539,7 +653,8 @@ The final record/evidence must include at least:
 - domain identity and SPN evidence;
 - `/srv/omniroute` filesystem/UUID/mount evidence;
 - Node version/source;
-- OmniRoute version, package source and provenance;
+- Node.js provenance: source URI and full SHA-256, or `UNRESOLVED`;
+- OmniRoute version, package source and provenance: source URI and full SHA-256, or `UNRESOLVED`;
 - systemd unit and effective runtime configuration with secrets redacted;
 - persistent data path;
 - actual listeners;

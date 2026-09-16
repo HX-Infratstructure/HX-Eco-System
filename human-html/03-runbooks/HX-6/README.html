@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX-6 Current Runbook</title><style>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX-6 Current Runbook — OmniRoute</title><style>
 :root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
 --surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
 @media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
@@ -35,27 +35,419 @@ a{color:var(--accent)}
 .mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
-</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/03-runbooks/HX-6/README.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-6 Current Runbook</h1>
-<p><strong>Host:</strong> hx-6 <strong>Expected IP:</strong> <code>192.168.50.206</code> <strong>Role:</strong> OmniRoute</p>
-<h2>Execution</h2>
-<p>Steps 1-2 are the shared base blocks. Run them from this directory; each one refuses to run on any host other than <code>hx-6</code>.</p>
-<pre><code class="lang-bash">./01-base-admin-network-updates.sh # reboots
-./02-domain-nvidia.sh              # reboots
-../common/10-omniroute.sh hx-6</code></pre>
-<p>Implementation lives in <code>../common/</code>; version pins and the host -&gt; IP map live in <code>../common/hx-base.env</code>. See <code>../README.md</code> before changing a pin.</p>
-<h2>Sequence</h2>
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/03-runbooks/HX-6/README.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-6 Current Runbook — OmniRoute</h1>
+<p><strong>Host:</strong> <code>hx-6</code> <strong>Expected IP:</strong> <code>192.168.50.206</code> <strong>FQDN:</strong> <code>hx-6.hx.local.arpa</code> <strong>Role:</strong> OmniRoute AI gateway / routing control plane / MCP-A2A interface <strong>Deployment:</strong> native Ubuntu Linux + systemd; no Docker, Podman, Kubernetes, or Snap <strong>Target OmniRoute release:</strong> <code>3.8.51</code> <strong>Upstream:</strong> <code>https://github.com/diegosouzapw/OmniRoute.git</code> <strong>Persistent application root:</strong> <code>/srv/omniroute</code></p>
+<p>This runbook owns the <strong>HX-6-specific OmniRoute build, configuration, validation and BASE PASS boundary</strong>. It does <strong>not</strong> reimplement the fleet foundation.</p>
+<blockquote><strong>Ownership rule:</strong> common foundation owns fleet controls; HX-6 owns OmniRoute-specific installation, configuration, capability validation and BASE PASS.</blockquote>
+<p>The fleet foundation implemented on <code>main</code> after the 2026-09-16 Layer 0/1 remediation is authoritative for hostname/FQDN, network validation, HX-1 time authority, the <code>hxsa</code> administration account, fleet-key presence, SSH persistence, base patching, domain join and the current NVIDIA package policy. HX-6 consumes those controls rather than duplicating them here.</p>
+<h2>1. HX authority and boundaries</h2>
+<p>Current HX decisions that apply directly to OmniRoute:</p>
+<ul>
+<li><strong>D-002:</strong> native Linux + systemd only.</li>
+<li><strong>D-003:</strong> a product-specific MCP server and native Web UI are part of the parent application's base build where applicable.</li>
+<li><strong>D-009:</strong> BASE PASS requires one temporary route to one already-proven Ollama endpoint, direct-versus-routed known-answer evidence, and cleanup of the temporary route.</li>
+<li><strong>D-010:</strong> supported or discovered providers/models are not automatically HX-approved. Maintain an explicit provider allowlist and an explicit model allowlist.</li>
+<li><strong>D-018:</strong> do not add UFW or unrelated network restrictions. This does not make anonymous OmniRoute API access mandatory.</li>
+<li><strong>D-019:</strong> HX-6 uses the Diego Souza OmniRoute project, installed from the pinned npm package on Node.js from the official Node binary distribution.</li>
+<li><strong>D-021:</strong> Snap is never a package source.</li>
+</ul>
+<p>The current foundation scripts on <code>main</code> also implement newer fleet controls discovered during the Layer 0/1 audit. Some of those scripts cite D-026 through D-029 even though those entries are not yet present in <code>docs/00-control/DECISIONS.md</code>. This HX-6 runbook therefore inherits the <strong>implemented common behavior</strong> but does not create new decision authority by repeating those decision numbers here.</p>
+<p>Owner direction for HX-6:</p>
+<ul>
+<li>OmniRoute API-key authentication is required for the LAN-facing API.</li>
+<li>The main Dashboard/API service is LAN-facing on port <code>20128</code>.</li>
+<li>The dedicated live-dashboard WebSocket service on <code>20132</code> remains loopback-only unless a later owner decision changes that posture.</li>
+<li><code>/srv/omniroute</code> is already provisioned. <strong>Do not format, wipe, repartition, replace or remount it as part of this runbook.</strong> Validate it and use it.</li>
+<li>Advanced OmniRoute capabilities that are not necessary for HX-6 BASE PASS stay deferred until separately adopted.</li>
+</ul>
+<h2>2. Product model — HX-6 scope</h2>
+<p>OmniRoute 3.8.51 is more than a routing daemon. HX-6 BASE covers the product surfaces required to operate it as the ecosystem routing control plane.</p>
+<div class="tw"><table><thead><tr><th>Capability</th><th>HX-6 BASE scope</th></tr></thead><tbody><tr><td>Gateway / routing API</td><td>Required</td></tr><tr><td>Dashboard</td><td>Required</td></tr><tr><td>OpenAI-compatible <code>/v1</code> API</td><td>Required</td></tr><tr><td>CLI / diagnostics</td><td>Required</td></tr><tr><td>SQLite-backed persistent state</td><td>Required</td></tr><tr><td>Provider management</td><td>Required</td></tr><tr><td>Model management</td><td>Required</td></tr><tr><td>Explicit HX provider allowlist</td><td>Required</td></tr><tr><td>Explicit HX model allowlist</td><td>Required</td></tr><tr><td>Product-native MCP server</td><td>Required</td></tr><tr><td>A2A Agent Card and endpoint</td><td>Required</td></tr><tr><td>D-009 direct-vs-routed Ollama proof</td><td>Required</td></tr><tr><td>API-key authentication</td><td>Required</td></tr><tr><td>Live WS <code>20132</code> LAN exposure</td><td>Not in BASE; loopback only</td></tr><tr><td>Memory/Qdrant integration</td><td>Deferred</td></tr><tr><td>Skills marketplace / external skill packs</td><td>Deferred</td></tr><tr><td>Cloud agents</td><td>Deferred</td></tr><tr><td>Tunnels</td><td>Deferred</td></tr><tr><td>MITM / Traffic Inspector</td><td>Deferred</td></tr><tr><td>Free-provider automation / Radar</td><td>Deferred</td></tr><tr><td>Electron desktop app</td><td>Out of scope</td></tr><tr><td>Docker / Kubernetes deployment</td><td>Prohibited by HX policy</td></tr></tbody></table></div>
+<p>HX-15 FastMCP remains the HX shared/custom MCP development host. OmniRoute's own MCP server remains inside the HX-6 application boundary and does not replace HX-15.</p>
+<h2>3. Foundation boundary — inherited, not duplicated</h2>
+<h3>3.1 Current common sequence</h3>
+<p>The current fleet sequence on <code>main</code> is:</p>
+<pre><code class="lang-text">Step 0  common/00-foundation.sh &lt;host&gt;
+Step 1  tools/hx-doc/hx-fleet-access &lt;host&gt;   # from the operator workstation
+Step 2  common/01-base-admin-network-updates.sh &lt;host&gt;   # reboots
+Step 3  common/02-domain-nvidia.sh &lt;host&gt;                 # reboots
+Step 4  common/03-storage-ollama.sh                       # inference hosts only; SKIP on HX-6
+Step 5  application block</code></pre>
+<p>For HX-6, the application block is <code>common/10-omniroute.sh hx-6</code> <strong>only after the OmniRoute-specific pre-read in section 5 passes</strong>.</p>
+<p>The common scripts own their implementation. Do not copy their package lists, host-file logic, Chrony logic, fleet-key logic, SSH enablement, patching commands or domain-join commands into this runbook.</p>
+<h3>3.2 Step 0 — establish the foundation</h3>
+<p>From the repository on HX-6:</p>
+<pre><code class="lang-bash">cd ~/src/HX-Eco-System
+./docs/03-runbooks/common/00-foundation.sh hx-6</code></pre>
+<p>The common foundation currently:</p>
+<ul>
+<li>validates the recorded IP, gateway and HX-1 DNS and <strong>does not rewrite network configuration</strong>;</li>
+<li>establishes <code>hx-6</code> and local FQDN resolution as <code>hx-6.hx.local.arpa</code>;</li>
+<li>installs/configures Chrony when required and requires HX-1 <code>192.168.50.200</code> to become the selected <code>^*</code> time source;</li>
+<li>establishes the <code>hxsa</code> NOPASSWD sudo policy;</li>
+<li>installs the committed HX fleet public key and validates its fingerprint;</li>
+<li>enables SSH persistence using the Ubuntu service/socket model.</li>
+</ul>
+<p>A failed common foundation block is a stop. Do not reproduce its corrective logic manually in this runbook.</p>
+<h3>3.3 Step 1 — prove fleet access from off-host</h3>
+<p>This is the one foundation control HX-6 cannot prove about itself. Run it from the approved operator workstation environment:</p>
+<pre><code class="lang-bash">tools/hx-doc/hx-fleet-access hx-6</code></pre>
+<p>Required output:</p>
+<pre><code class="lang-text">hx-6
+KEY+SUDO-PASS</code></pre>
+<p>Retain the output as foundation evidence. A locally active SSH service is not a substitute for this proof.</p>
+<h3>3.4 Steps 2 and 3 — common base/domain blocks</h3>
+<p>The HX-6 wrappers remain thin dispatchers into common authority:</p>
+<pre><code class="lang-bash">cd ~/src/HX-Eco-System/docs/03-runbooks/HX-6
+./01-base-admin-network-updates.sh
+./02-domain-nvidia.sh</code></pre>
+<p><code>01-base-admin-network-updates.sh</code> opens with the foundation gate and refuses to continue unless FQDN, HX-1 NTP selection, the approved fleet key and SSH persistence are present. It also applies the common patch flow and current NVIDIA-package hold policy before reboot.</p>
+<p><code>02-domain-nvidia.sh</code> remains the current shared authority for domain join, SSSD/domain-user resolution and the fleet's pinned NVIDIA package policy. HX-6 does not redefine that block here.</p>
+<p><strong>Important:</strong> if live HX-6 foundation/base work has already been completed under the current common standard, do not replay a destructive or unnecessary block merely because this document lists the canonical sequence. Reconcile live evidence and the HX-6 server record first. Target-state text is not proof that a block still needs to run.</p>
+<h3>3.5 Foundation acceptance before OmniRoute</h3>
+<p>Before the application phase, the HX-6 server record must carry observed evidence for the current Foundation section, including:</p>
+<ul>
+<li><code>hostname -f</code> = <code>hx-6.hx.local.arpa</code>;</li>
+<li>AD DNS A record at the recorded fleet address;</li>
+<li>HX-1 selected as the time source;</li>
+<li>approved fleet-key fingerprint;</li>
+<li><code>sudo -k -n true</code> PASS;</li>
+<li>SSH persistence;</li>
+<li>external <code>KEY+SUDO-PASS</code> proof;</li>
+<li>recorded SSH host key;</li>
+<li>AD computer identity with FQDN <code>dNSHostName</code> and the required short/FQDN <code>host/</code> and <code>RestrictedKrbHost/</code> SPNs.</li>
+</ul>
+<p>The repository proof chain treats foundation step <code>F0</code> as a prerequisite for unbuilt-server proof. Do not close HX-6 application work around an unproven foundation.</p>
+<h3>3.6 Known fleet findings are not HX-6 application work</h3>
+<p>Do not remediate unrelated fleet findings while installing OmniRoute. In particular, the current fleet still tracks reverse-DNS/GSSAPI canonicalization and SSSD responder/socket behavior separately. If either affects HX-6 execution, stop and reference the existing finding rather than silently changing the shared domain model from this runbook.</p>
+<h2>4. Existing <code>/srv/omniroute</code> storage</h2>
+<p>The owner has already provisioned <code>/srv/omniroute</code>. This runbook consumes that storage; it does not create a new filesystem.</p>
+<p>Validate before application installation:</p>
+<pre><code class="lang-bash">findmnt /srv/omniroute
+lsblk -f
+sudo ls -ld /srv/omniroute</code></pre>
+<p>Record the backing device, filesystem, UUID, mount source, mount options, capacity and persistence mechanism. Stop if <code>/srv/omniroute</code> is not the intended persistent application storage.</p>
+<p>Do not mount, format, wipe, repartition, replace or repurpose storage from this runbook.</p>
+<h2>5. OmniRoute application pre-read — current hard stops</h2>
+<p>Do not execute <code>common/10-omniroute.sh hx-6</code> until all items in this section are reconciled.</p>
+<h3>5.1 Version pin mismatch</h3>
+<p>HX-6 targets <strong>OmniRoute 3.8.51</strong>. Upstream <code>release/v3.8.51</code> identifies the npm package as <code>omniroute</code> version <code>3.8.51</code> and supports Node <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code>.</p>
+<p>Current <code>main</code> still pins:</p>
+<pre><code class="lang-text">HX_OMNIROUTE_VERSION="3.8.50"</code></pre>
+<p>and the current build-day run sheet still lists OmniRoute 3.8.50. Therefore the shared application path is <strong>not executable for this runbook yet</strong>. Reconcile the shared pin and any derived references through a separate reviewed change before HX-6 application execution.</p>
+<p>Do not install 3.8.50 as an intermediate step merely to satisfy the existing common script.</p>
+<h3>5.2 Current common OmniRoute block is incomplete for the accepted HX-6 contract</h3>
+<p>The current <code>../common/10-omniroute.sh</code> installs Node, installs the pinned npm package, creates <code>hx-omniroute.service</code>, sets <code>HOME</code>, <code>PORT</code> and <code>HOST=0.0.0.0</code>, and validates <code>/v1/models</code>.</p>
+<p>That is not sufficient for the HX-6 contract in this runbook. Before execution, the common application block must be reconciled so that it also establishes or explicitly preserves:</p>
+<ul>
+<li>persistent <code>DATA_DIR</code> under <code>/srv/omniroute</code>;</li>
+<li>the accepted API-key authentication posture;</li>
+<li>required secret handling outside the repository;</li>
+<li>the accepted <code>20128</code> LAN listener posture;</li>
+<li>the accepted <code>20132</code> loopback-only posture;</li>
+<li>current 3.8.51 runtime semantics rather than assumptions inherited from an older package.</li>
+</ul>
+<p>Until that shared block is reconciled, <strong>do not run it</strong> and then manually patch around it. The reviewed common block should produce the intended service state.</p>
+<h3>5.3 Native bind variable must be verified, not guessed</h3>
+<p>Do not carry <code>APP_BIND_HOST=0.0.0.0</code> forward as a native-systemd control. Current upstream uses <code>APP_BIND_HOST</code> for Docker/Compose host publishing, while upstream native/runtime material uses other host variables such as <code>HOSTNAME</code> and development code also references <code>HOST</code>.</p>
+<p>The exact bind variable used by the packaged 3.8.51 CLI must be confirmed before the shared HX application block is changed. The final runbook/service should document the variable actually proven on the packaged native runtime.</p>
+<h3>5.4 Application pre-read commands</h3>
+<p>Run these from the repository root so they do not depend on the caller's working directory:</p>
+<pre><code class="lang-bash">cd ~/src/HX-Eco-System
+node --version 2&gt;/dev/null || true
+npm --version 2&gt;/dev/null || true
+findmnt /srv/omniroute
+grep '^HX_OMNIROUTE_VERSION=' docs/03-runbooks/common/hx-base.env
+sed -n '1,260p' docs/03-runbooks/common/10-omniroute.sh</code></pre>
+<p>Do not execute if the block would:</p>
+<ul>
+<li>install a version other than <code>3.8.51</code>;</li>
+<li>use Docker, Podman, Kubernetes or Snap;</li>
+<li>use <code>npm run dev</code> as the permanent service;</li>
+<li>wipe or replace <code>/srv/omniroute</code>;</li>
+<li>expose the API anonymously to the LAN;</li>
+<li>expose <code>20132</code> to the LAN without a later owner decision;</li>
+<li>omit persistent application state under <code>/srv/omniroute</code>;</li>
+<li>omit the required secret/configuration boundary.</li>
+</ul>
+<h2>6. Node.js and package provenance</h2>
+<p>Node.js comes from the official Node binary tarball through the HX shared helper. It is not installed from Snap, NodeSource or the Ubuntu application archive.</p>
+<p>Required proof:</p>
+<pre><code class="lang-bash">node --version
+npm --version
+command -v node
+command -v npm</code></pre>
+<p>Provenance is an artifact identity, not a version string. For <strong>both</strong> Node.js and <code>omniroute@3.8.51</code>, record in the HX-6 server record:</p>
+<ul>
+<li>the exact source URI the artifact came from; and</li>
+<li>the full SHA-256 of the artifact actually installed.</li>
+</ul>
+<p>If either value cannot be established for an artifact, record <code>UNRESOLVED</code> for it. Do not fabricate a hash, and do not treat the npm version alone as provenance. The HX-6 deployment gate cannot be marked PASS or CLOSED while either the Node.js or the OmniRoute provenance is <code>UNRESOLVED</code>.</p>
+<p>Install the exact reviewed npm package:</p>
+<pre><code class="lang-text">omniroute@3.8.51</code></pre>
+<p>The deployed service is the packaged runtime, not the source-development path.</p>
+<p>A release tag is not publication proof. Before install, prove the pinned package resolves from the approved npm registry — the official <code>https://registry.npmjs.org/</code>, passed explicitly so the check does not depend on the caller's npm configuration:</p>
+<pre><code class="lang-bash">npm view omniroute@3.8.51 version dist.integrity dist.tarball --registry=https://registry.npmjs.org/</code></pre>
+<p>Record the returned <code>dist.tarball</code> and <code>dist.integrity</code> in the HX-6 server record. Then bind installation to that exact artifact — do not resolve the package a second time and hope it is the same bits. Fetch the recorded tarball once, verify its integrity and full SHA-256, and install the local file:</p>
+<pre><code class="lang-bash">curl -fL -o /tmp/omniroute-3.8.51.tgz "&lt;recorded dist.tarball URL&gt;"
+npm pack --pack-destination /tmp omniroute@3.8.51 --registry=https://registry.npmjs.org/  # alternative fetch path; use one
+EXPECTED_INTEGRITY="$(npm view omniroute@3.8.51 dist.integrity --registry=https://registry.npmjs.org/)"
+# sha512 integrity must match the downloaded tarball; a mismatch is a hard stop.
+tarball_integrity="$(openssl dgst -sha512 -binary /tmp/omniroute-3.8.51.tgz | openssl base64 -A)"
+[ "sha512-$tarball_integrity" = "$EXPECTED_INTEGRITY" ] \
+  || { echo 'FAIL: tarball integrity mismatch'; exit 1; }
+sha256sum /tmp/omniroute-3.8.51.tgz        # record in the server record
+npm install --global /tmp/omniroute-3.8.51.tgz</code></pre>
+<p>Apply the same flow to the Node.js artifact: record its source URI, fetch that exact tarball, compute and record its full SHA-256, and install that verified artifact — only then is Node provenance PASS.</p>
+<p>If <code>3.8.51</code> does not resolve, deployment remains blocked. Do not fall back to <code>3.8.50</code>, <code>latest</code>, a git source, or <code>npm run dev</code>.</p>
+<p>Required package proof:</p>
+<pre><code class="lang-bash">command -v omniroute
+omniroute --version
+npm list -g --depth=0 omniroute</code></pre>
+<p>Record the npm package identity/version and available integrity/provenance evidence in the HX-6 server record.</p>
+<h2>7. Runtime ownership and persistence</h2>
+<p>Use a dedicated <code>omniroute</code> service identity and the existing <code>/srv/omniroute</code> application root.</p>
+<p>Persistent application state belongs under:</p>
+<pre><code class="lang-text">/srv/omniroute/
+└── data/                # OmniRoute DATA_DIR; SQLite, backups and runtime state</code></pre>
+<p>Do not redirect OmniRoute persistence to HX-9 PostgreSQL. HX-9 remains a separate ecosystem service.</p>
+<p>Create application directories only if they do not already exist. Preserve the owner-provisioned storage and record the observed ownership/mode rather than assuming it.</p>
+<p>For an existing <code>/srv/omniroute/data</code>, do not chown or chmod it to force a result. Prove the <code>omniroute</code> service identity can already write it, and stop if it cannot:</p>
+<pre><code class="lang-bash"># Record the existing ownership/mode first.
+sudo stat -c '%U:%G %a' /srv/omniroute/data
+# Write probe as the actual service identity; a failure is a stop. The probe
+# path is unique to this run so it cannot overwrite an owner-provisioned file.
+PROBE="/srv/omniroute/data/.hx-write-probe.$$"
+sudo -u omniroute touch "$PROBE" \
+  || { echo 'FAIL: omniroute identity cannot write DATA_DIR'; exit 1; }
+sudo -u omniroute rm -f -- "$PROBE" \
+  || { echo 'WARN: probe cleanup failed; remove '"$PROBE"' manually'; exit 1; }</code></pre>
+<p>Only when the write probe fails and the owner directs a change may ownership/mode be adjusted, and then the change and its approval are recorded.</p>
+<p>Target application-owned identity:</p>
+<pre><code class="lang-text">omniroute:omniroute</code></pre>
+<h2>8. Runtime configuration contract</h2>
+<p>The permanent service must consume a root-owned, non-repository environment file or equivalent systemd environment source. No secret value is committed to the repository or copied into the server record.</p>
+<p>When the source is an environment file, it must be least-privilege: owner and group <code>root:root</code>, mode <code>0600</code>. Record only the path, owner and mode — never a secret value or its hash.</p>
+<p>The final reviewed native service configuration must explicitly cover at least:</p>
+<pre><code class="lang-text">HOME=/srv/omniroute
+DATA_DIR=/srv/omniroute/data
+PORT=20128
+&lt;verified native bind variable&gt;=0.0.0.0
+REQUIRE_API_KEY=true
+LIVE_WS_HOST=127.0.0.1
+LIVE_WS_PORT=20132
+JWT_SECRET=&lt;generated locally; secret&gt;
+API_KEY_SECRET=&lt;generated locally; secret&gt;
+INITIAL_PASSWORD=&lt;owner/operator supplied; secret&gt;
+OMNIROUTE_WS_BRIDGE_SECRET=&lt;generated locally; secret&gt;</code></pre>
+<p>The exact 3.8.51 semantics must be verified against the packaged runtime immediately before implementation. If upstream behavior contradicts this target, stop and reconcile the shared block and this runbook rather than improvising on HX-6.</p>
+<p>Preferred authenticated client contract:</p>
+<pre><code class="lang-http">Authorization: Bearer &lt;HX-issued OmniRoute endpoint key&gt;</code></pre>
+<p>Required listener posture:</p>
+<pre><code class="lang-text">20128/tcp  Dashboard + canonical API  LAN-facing
+20132/tcp  Live dashboard WebSocket   loopback-only</code></pre>
+<p>Prove actual listeners with <code>ss</code>; environment text alone is not evidence.</p>
+<h2>9. systemd service</h2>
+<p>OmniRoute runs as a native systemd service named:</p>
+<pre><code class="lang-text">hx-omniroute.service</code></pre>
+<p>Required properties:</p>
+<ul>
+<li>dedicated <code>omniroute</code> user;</li>
+<li>working/home boundary under <code>/srv/omniroute</code>;</li>
+<li>explicit persistent <code>DATA_DIR</code>;</li>
+<li>secret values sourced outside the repository;</li>
+<li>boot enablement;</li>
+<li>restart policy consistent with the current HX application-service helper;</li>
+<li>no development-mode runner;</li>
+<li>no container runtime.</li>
+</ul>
+<p>Validate without printing secrets:</p>
+<pre><code class="lang-bash">sudo systemctl status hx-omniroute --no-pager -l
+sudo systemctl is-enabled hx-omniroute
+sudo systemctl is-active hx-omniroute
+sudo systemctl cat hx-omniroute</code></pre>
+<p>Listener posture is a pass/fail check, not an observation. The following must exit non-zero on any deviation:</p>
+<pre><code class="lang-bash">set -e
+# 20128 must be present and reachable on an HX-6 LAN address: wildcard bind
+# (0.0.0.0 / [::]) or the recorded HX-6 LAN address itself. A bind to some
+# other specific address fails.
+sudo ss -lntH | grep -E ':20128\s' \
+  | grep -qE '0\.0\.0\.0:20128|\[::\]:20128|192\.168\.50\.206:20128'
+# 20132 must be present, and EVERY listening endpoint on 20132 must be
+# loopback. Fail if the port is absent or if any bind is non-loopback —
+# this is all-endpoints-must-be-loopback, not a denylist.
+ss_out="$(sudo ss -lntH | grep -E ':20132\s')"
+[ -n "$ss_out" ] || { echo 'FAIL: 20132 not listening'; exit 1; }
+! printf '%s\n' "$ss_out" | grep -qvE '127\.0\.0\.1:20132|\[::1\]:20132'</code></pre>
+<p>A missing <code>20128</code> listener, a <code>20128</code> bound only to an address other than wildcard or the recorded HX-6 LAN address, a missing <code>20132</code> listener, or any single <code>20132</code> endpoint bound to a non-loopback address each fail this gate.</p>
+<h2>10. First-party CLI diagnostics</h2>
+<p>A running process is not an OmniRoute BASE PASS. Use the installed product's own control plane as evidence.</p>
+<p>At minimum establish the current 3.8.51 equivalents of:</p>
+<pre><code class="lang-bash">omniroute --version
+omniroute doctor --json
+omniroute status
+omniroute providers validate
+omniroute mcp status
+omniroute a2a status</code></pre>
+<p>If the command surface differs in the pinned package, use <code>omniroute --help</code>, record the exact supported command and update the runbook/shared implementation if required. Do not bypass a failed diagnostic because the HTTP port is open.</p>
+<h2>11. Dashboard and HTTP/API proof</h2>
+<p>Prove localhost first, then the LAN surface using the approved API-key contract.</p>
+<p>Required surfaces:</p>
+<pre><code class="lang-text">Dashboard:  http://192.168.50.206:20128
+API base:   http://192.168.50.206:20128/v1
+Models:     /v1/models
+Health:     current 3.8.51 health surface identified by product diagnostics/docs</code></pre>
+<p>At minimum prove:</p>
+<ul>
+<li>unauthenticated protected API behavior matches the configured policy;</li>
+<li>authenticated <code>/v1/models</code> succeeds;</li>
+<li>an unauthenticated dashboard request is challenged semantically: PASS is a redirect to login, an authentication challenge, or a login page (which may legitimately return HTTP 200 with a login body); FAIL is an unauthenticated request exposing the usable authenticated dashboard/application state;</li>
+<li>an authenticated session loads the dashboard successfully;</li>
+<li>the expected OmniRoute version is observed where the product exposes it;</li>
+<li>service remains stable while accessed over the LAN.</li>
+</ul>
+<p>Dashboard and API auth behavior are proved per surface as configured; do not assume one result implies the other beyond what is observed. A single HTTP 200 does not close the application.</p>
+<h2>12. Provider and model governance — D-010</h2>
+<p>Before HX-6 closes:</p>
 <ol>
-<li>Base/admin/network validation; apt update + upgrade; reboot.</li>
-<li>Join <code>hx.local.arpa</code>; validate SSSD/domain user; install the pinned NVIDIA</li>
+<li>Build an explicit HX-approved provider allowlist.</li>
+<li>Build an explicit HX-approved model allowlist.</li>
+<li>Confirm free/no-auth/discovered providers are not automatically approved.</li>
+<li>Confirm provider approval does not implicitly approve its entire model catalog.</li>
+<li>Confirm cloud providers/cloud models are inactive unless explicitly approved.</li>
+<li>Retain evidence showing the effective approved provider/model set.</li>
 </ol>
-<p>driver; reboot.</p>
+<p>Discovery is not approval.</p>
+<h2>13. Product-native MCP proof — D-003</h2>
+<p>OmniRoute's product-native MCP capability is part of HX-6 BASE PASS. HX-15 FastMCP does not substitute for it.</p>
+<p>Use the current 3.8.51 MCP transport supported by the packaged runtime and retain the exact endpoint/transport actually used. Expected product surfaces include network MCP endpoints such as <code>/api/mcp/stream</code> and <code>/api/mcp/sse</code>, subject to confirmation against the pinned package.</p>
+<p>Required proof:</p>
 <ol>
-<li>Install OmniRoute:</li>
+<li>product MCP status reports healthy/ready state;</li>
+<li>establish an authenticated MCP client connection;</li>
+<li>execute at least one read-only known-answer tool, preferably health/status;</li>
+<li>confirm the result describes the HX-6 OmniRoute instance;</li>
+<li>retain evidence without exposing credentials.</li>
 </ol>
-<p><code>../common/10-omniroute.sh hx-6</code> Versions are pinned in <code>../common/hx-base.env</code>. Application software comes from PyPI, a GitHub release, a direct binary, or Hugging Face. Not Snap. Not the Ubuntu archive.</p>
+<p>Do not install a separate generic MCP server on HX-6 to satisfy this gate.</p>
+<h3>13.1 Authentication coverage per surface</h3>
+<p>Each surface is proved against its own configured policy — API, dashboard, MCP and A2A are not assumed to share one mechanism:</p>
+<div class="tw"><table><thead><tr><th>Surface</th><th>Required acceptance</th></tr></thead><tbody><tr><td>API (<code>/v1</code>)</td><td>unauthenticated request behaves per configured policy; authenticated key succeeds</td></tr><tr><td>Dashboard</td><td>unauthenticated request challenged (redirect, auth challenge, or login page) and authenticated state not exposed; authenticated session loads</td></tr><tr><td>MCP</td><td>connection per the configured MCP auth policy; unauthenticated behavior recorded</td></tr><tr><td>A2A</td><td>Agent Card and task endpoint per the configured A2A auth policy; behavior recorded</td></tr></tbody></table></div>
+<p>For each surface, record the observed unauthenticated and authenticated behavior. Where a surface is configured unauthenticated, that is the recorded policy — do not invent a requirement it does not have.</p>
+<h2>14. A2A proof</h2>
+<p>A2A is a native OmniRoute product surface included in the HX-6 contract.</p>
+<p>Confirm the pinned package exposes and successfully serves the current equivalents of:</p>
+<pre><code class="lang-text">GET  /.well-known/agent.json
+POST /a2a</code></pre>
+<p>Required evidence:</p>
 <ol>
-<li>Validation: the service starts, and it survives a reboot.</li>
-<li>Fill in <code>docs/02-server-records/HX-6.md</code>, then set <code>state</code> and</li>
+<li>Agent Card is reachable and valid;</li>
+<li>A2A service reports healthy/ready state through the product CLI or API;</li>
+<li>one bounded known-answer A2A task succeeds through the supported JSON-RPC contract;</li>
+<li>retain task/result status.</li>
 </ol>
-<p><code>gate</code> for <code>HX-6</code> in <code>docs/00-control/hx-fleet.tsv</code> and run <code>tools/hx-doc/hx-fleet</code>.</p>
-<p>Do not mount/wipe unrelated disks. Do not import prior application state.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/03-runbooks/HX-6/README.md</code>.</footer></div></body></html>
+<p>Do not use this BASE proof to create permanent multi-agent architecture that HX has not approved.</p>
+<h2>15. D-009 routing proof</h2>
+<p>After service health, authentication, CLI diagnostics, catalog governance, MCP and A2A are healthy, prove the primary routing contract.</p>
+<p>Use one already-proven HX Ollama endpoint. The route exists only for this test unless separately approved as permanent architecture.</p>
+<h3>15.1 Direct request</h3>
+<p>Send a deterministic/known-answer request directly to the chosen Ollama endpoint and retain the target, model, request, response and timestamp.</p>
+<h3>15.2 Routed request</h3>
+<p>Create one explicitly approved temporary OmniRoute connection/route to that same endpoint and send the equivalent request through HX-6.</p>
+<p>Retain the OmniRoute endpoint, connection/provider identity, model mapping, response and routing decision/trace metadata where exposed.</p>
+<h3>15.3 Compare and clean up</h3>
+<p>Establish that the routed path reached the intended backend and returned the expected answer/behavior.</p>
+<p>Cleanup of the temporary route is <strong>unconditional</strong>. It must happen whether the routed request, the comparison or any verification step succeeded or failed — a failed test is never a reason to leave a temporary route active. Structure the execution so the removal step runs on both the success and the failure path, and record which path it ran on.</p>
+<p>Where the execution is shell, use a <code>trap</code> so cleanup runs even on a mid-script failure or interrupt:</p>
+<pre><code class="lang-bash">ROUTE_ID=&lt;temporary-route-id&gt;
+route_absent() {
+  # route-not-active check; non-zero while the route is still resolvable
+  ! omniroute &lt;route-list-command&gt; | grep -q "$ROUTE_ID"
+}
+cleanup_route() {
+  omniroute &lt;route-remove-command&gt; "$ROUTE_ID" || return 1
+  route_absent || { echo 'FAIL: temporary route still active after removal'; return 1; }
+}
+trap cleanup_route EXIT
+# ... routed request and comparison; any failure path still exits through the trap ...
+# On the success path: run cleanup explicitly (removal + absence verification),
+# and only release the trap when both pass.
+if cleanup_route; then
+  trap - EXIT
+else
+  echo 'FAIL: D-009 cleanup did not verify; gate fails' &gt;&amp;2
+  exit 1   # EXIT trap remains active as the fallback
+fi</code></pre>
+<p>The EXIT trap remains in place as the failure-path fallback until cleanup (removal <strong>and</strong> route-absent verification) has passed; a removal or verification failure is a non-zero result that fails the D-009 cleanup gate, not a warning. The equivalent requirement for any other execution style is a <code>finally</code>-style or explicitly sequenced cleanup block that executes after a failed request/comparison exactly as it does after a successful one.</p>
+<p>After removal, prove the temporary route is no longer active. That verification runs regardless of how the request or comparison ended; if it cannot confirm removal, the D-009 cleanup gate fails and HX-6 does not close.</p>
+<h2>16. Reboot-persistence gate</h2>
+<p>Before reboot capture:</p>
+<pre><code class="lang-bash">sudo systemctl is-enabled hx-omniroute
+sudo systemctl is-active hx-omniroute
+findmnt /srv/omniroute</code></pre>
+<p>Apply the same listener pass/fail checks as section 9 (20128 present and reachable on an HX-6 LAN address; 20132 present and loopback-only; any non-loopback 20132 bind fails) before rebooting.</p>
+<p>Reboot once. After HX-6 returns, re-prove:</p>
+<ul>
+<li>applicable common foundation controls remain valid;</li>
+<li>external fleet-key access still returns <code>KEY+SUDO-PASS</code>;</li>
+<li>domain identity remains healthy;</li>
+<li><code>/srv/omniroute</code> mount persists;</li>
+<li><code>hx-omniroute.service</code> is active/enabled;</li>
+<li>exact OmniRoute version;</li>
+<li><code>20128</code> LAN listener;</li>
+<li><code>20132</code> loopback-only listener;</li>
+<li>persistent application state survived;</li>
+<li>dashboard/API authentication still works;</li>
+<li>provider/model allowlists survived;</li>
+<li>MCP status and one read-only MCP call;</li>
+<li>A2A Agent Card and service status;</li>
+<li>no temporary D-009 route was resurrected.</li>
+</ul>
+<p>Do not rerun <code>00-foundation.sh</code> after reboot merely as a substitute for proof. Re-run a common remediation block only when an observed foundation control actually fails and the current common authority says that block is the remedy.</p>
+<h2>17. HX-6 BASE PASS definition</h2>
+<p>HX-6 is not BASE PASS because <code>systemctl</code> is green or <code>/v1/models</code> returns 200.</p>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Required result</th></tr></thead><tbody><tr><td>Common Foundation / F0</td><td>PASS with recorded evidence</td></tr><tr><td>External fleet-key proof</td><td><code>hx-6</code> + <code>KEY+SUDO-PASS</code></td></tr><tr><td>Domain join / SSSD core function</td><td>PASS, or <code>HX4-F02</code> (SSSD responder/socket conflict, OPEN/DEFERRED) documented as non-impacting HX-6 with recorded evidence; no other finding satisfies this gate</td></tr><tr><td>Existing <code>/srv/omniroute</code> storage</td><td>PASS; no destructive storage change</td></tr><tr><td>Node.js exact supported version</td><td>PASS</td></tr><tr><td>Node.js provenance (source URI + SHA-256)</td><td>PASS; UNRESOLVED blocks closure</td></tr><tr><td>OmniRoute exact <code>3.8.51</code> package</td><td>PASS</td></tr><tr><td>OmniRoute provenance (source URI + SHA-256)</td><td>PASS; UNRESOLVED blocks closure</td></tr><tr><td>Native <code>hx-omniroute.service</code></td><td>PASS</td></tr><tr><td>Persistent <code>DATA_DIR</code> under <code>/srv/omniroute</code></td><td>PASS</td></tr><tr><td>API-key authentication</td><td>PASS</td></tr><tr><td>Dashboard/API <code>20128</code></td><td>PASS</td></tr><tr><td>Live WS <code>20132</code> loopback-only posture</td><td>PASS</td></tr><tr><td>First-party CLI diagnostics</td><td>PASS</td></tr><tr><td>Explicit provider allowlist</td><td>PASS</td></tr><tr><td>Explicit model allowlist</td><td>PASS</td></tr><tr><td>Product-native MCP</td><td>PASS</td></tr><tr><td>A2A</td><td>PASS</td></tr><tr><td>D-009 direct-vs-routed functional proof</td><td>PASS</td></tr><tr><td>D-009 cleanup verification</td><td>PASS</td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr><tr><td>Server record/evidence</td><td>COMPLETE</td></tr></tbody></table></div>
+<p>Only after every required gate passes should HX-6 be promoted to <code>PASS / CLOSED</code>.</p>
+<h2>18. Evidence and record closure</h2>
+<p>Update <code>docs/02-server-records/HX-6.md</code> from observed evidence only. Do not copy target-state text from this runbook into the record as though it were runtime proof.</p>
+<p>The current server record still represents an unproven/not-started host until observed evidence is entered. The owner's statement that <code>/srv/omniroute</code> has been provisioned is an execution input, not permission to mark unrelated foundation rows PASS without their evidence.</p>
+<p>The final record/evidence must include at least:</p>
+<ul>
+<li>Foundation/F0 evidence from the current common standard;</li>
+<li>external <code>hx-fleet-access</code> proof;</li>
+<li>domain identity and SPN evidence;</li>
+<li><code>/srv/omniroute</code> filesystem/UUID/mount evidence;</li>
+<li>Node version/source;</li>
+<li>Node.js provenance: source URI and full SHA-256, or <code>UNRESOLVED</code>;</li>
+<li>OmniRoute version, package source and provenance: source URI and full SHA-256, or <code>UNRESOLVED</code>;</li>
+<li>systemd unit and effective runtime configuration with secrets redacted;</li>
+<li>persistent data path;</li>
+<li>actual listeners;</li>
+<li>authentication posture;</li>
+<li>CLI diagnostic results;</li>
+<li>approved provider allowlist;</li>
+<li>approved model allowlist;</li>
+<li>MCP proof;</li>
+<li>A2A proof;</li>
+<li>D-009 direct/routed comparison;</li>
+<li>D-009 cleanup proof;</li>
+<li>reboot-persistence proof.</li>
+</ul>
+<p>Then set HX-6 state/gate in <code>docs/00-control/hx-fleet.tsv</code> only when the actual closure evidence supports it, regenerate repository-derived artifacts and run the repository checks required by <code>AGENTS.md</code>.</p>
+<h2>19. Explicit non-goals</h2>
+<p>Do not add these merely because OmniRoute supports them:</p>
+<ul>
+<li>Docker, Compose, Podman or Kubernetes;</li>
+<li>Electron desktop deployment;</li>
+<li>NGINX as a mandatory common gateway in front of HX-6;</li>
+<li>external PostgreSQL for OmniRoute state;</li>
+<li>Qdrant-backed OmniRoute memory;</li>
+<li>cloud agents;</li>
+<li>tunnels;</li>
+<li>MITM/traffic-inspection features;</li>
+<li>external skill marketplaces;</li>
+<li>automatic activation of free/no-auth providers;</li>
+<li>LAN exposure of <code>20132</code>;</li>
+<li>unrelated firewall/TLS/segmentation changes.</li>
+</ul>
+<p>Each can be evaluated later under its own HX decision if a real requirement appears.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/03-runbooks/HX-6/README.md</code>.</footer></div></body></html>
