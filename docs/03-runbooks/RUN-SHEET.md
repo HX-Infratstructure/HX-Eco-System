@@ -54,14 +54,41 @@ Identical for all of them. Two reboots, then the application.
 
 | Step | Block | Reboots | Roughly |
 |---|---|---|---|
-| 1 | `common/01-base-admin-network-updates.sh` | yes | 10-20 min |
-| 2 | `common/02-domain-nvidia.sh` | yes | 10-15 min |
-| 3 | `common/03-storage-ollama.sh` | no | 5 min |
-| 4 | the application block | no | varies |
-| 5 | validate: starts, then reboot, then starts | yes | 5 min |
-| 6 | record it | no | 5 min |
+| 0 | `common/00-foundation.sh` | no | 5 min |
+| 1 | `tools/hx-doc/hx-fleet-access <host>` **from the workstation** | no | seconds |
+| 2 | `common/01-base-admin-network-updates.sh` | yes | 10-20 min |
+| 3 | `common/02-domain-nvidia.sh` | yes | 10-15 min |
+| 4 | `common/03-storage-ollama.sh` | no | 5 min |
+| 5 | the application block | no | varies |
+| 6 | validate: starts, then reboot, then starts | yes | 5 min |
+| 7 | record it | no | 5 min |
 
-Step 3 is inference hosts only. Skip it on HX-6 through HX-17.
+Step 4 is inference hosts only. Skip it on HX-6 through HX-17.
+
+Steps 0 and 1 are the foundation. Step 0 establishes identity, HX-1 time,
+the admin account, the fleet key and SSH persistence; step 2 refuses to run
+without them.
+
+Step 1 is the one control that cannot be satisfied from inside the server, so
+it is the one that has to be run from somewhere else. Everything a build can
+check over its own SSH session, it can check while the fleet is locked out -
+HX-2 and HX-3 reported `ssh` active throughout, and neither would accept the
+fleet key. Run it from Git Bash on the workstation, where the private key's
+permissions apply; from WSL the key sits on a Windows mount and ssh declines
+to offer it.
+
+```bash
+tools/hx-doc/hx-fleet-access hx-6
+```
+
+Required output, and nothing less counts:
+
+```text
+hx-6
+KEY+SUDO-PASS
+```
+
+Retain that output as Layer 0/1 closure evidence.
 
 Call each block with the host name, or run the wrapper from the server's own
 runbook directory. Both do the same thing.

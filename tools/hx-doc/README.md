@@ -1,6 +1,6 @@
 # hx-doc — repository consistency tooling
 
-Thirteen small tools. Each exists because the matching failure actually happened
+Fourteen small tools. Each exists because the matching failure actually happened
 here, and each converts a written rule into something that fails loudly.
 
 No third-party dependencies. Python 3 standard library only.
@@ -10,6 +10,7 @@ No third-party dependencies. Python 3 standard library only.
 | `hx-fleet` | six hand-typed server tables | every fleet table and the runbook IP map comes from `docs/00-control/hx-fleet.tsv` |
 | `hx-proof` | a hand-drawn DAG that omitted 11 of 29 steps | every proof step and edge comes from `docs/00-control/hx-proof.tsv`, and a PASS cannot skip its prior proof |
 | `hx-render-html` | hand-written HTML mirrors | a mirror always matches its Markdown source |
+| `hx-fleet-access` | reading `systemctl is-active ssh` as proof of access | the fleet key can actually log in and act as root, proven from the workstation rather than from inside an already-authenticated session |
 | `hx-doc-check` | proofreading | links resolve, vocabulary is defined, filenames are stable, evidence is committable |
 | `hx-version-pins` | remembering to look | product pins match what upstream ships, and applications do not come from the Ubuntu archive or Snap |
 | `hx-upstream-drift` | remembering to look | the registry's reviewed commits still match upstream |

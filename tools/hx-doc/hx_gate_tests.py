@@ -754,6 +754,121 @@ check('foundation: neither ssh.service nor ssh.socket enabled is refused', rc ==
 
 print()
 
+# ------------------- hx_fleet_access: the external administration proof -----
+# Every other Layer 0/1 control can be checked from inside a session that has
+# already authenticated, which is why this one failed unnoticed: HX-2 and HX-3
+# reported ssh active throughout, while the fleet could not log in to either.
+# The ssh call needs a server; the verdict does not, so it is tested here.
+import importlib.util as _ilu
+_spec = _ilu.spec_from_file_location(
+    'hx_fleet_access', os.path.join(SRC, 'tools', 'hx-doc', 'hx_fleet_access.py'))
+_fa = _ilu.module_from_spec(_spec)
+_spec.loader.exec_module(_fa)
+
+GOOD = 'hx-5\nKEY+SUDO-PASS\n'
+check('fleet-access: a login proving host and sudo passes',
+      _fa.verdict(GOOD, 'hx-5') == [], _fa.verdict(GOOD, 'hx-5'))
+
+# The key works but the account cannot act. Reporting this as PASS is exactly
+# the half-proof the standard exists to refuse.
+NO_SUDO = 'hx-5\n'
+_p = _fa.verdict(NO_SUDO, 'hx-5')
+check('fleet-access: a login without sudo proof is refused',
+      len(_p) == 1 and 'KEY+SUDO-PASS' in _p[0], _p)
+
+# Right key, wrong machine.
+_p = _fa.verdict('hx-4\nKEY+SUDO-PASS\n', 'hx-5')
+check('fleet-access: an answer from the wrong host is refused',
+      len(_p) == 1 and 'hx-5' in _p[0], _p)
+
+_p = _fa.verdict('', 'hx-5')
+check('fleet-access: an empty response proves nothing', len(_p) == 2, _p)
+
+# A key on a Windows mount reads as world-readable whatever Windows thinks, so
+# ssh silently declines to offer it and the server's refusal looks like the
+# key being rejected. The tool has to name the real cause.
+_problem = _fa.key_permission_problem(
+    '/mnt/c/Users/someone/.ssh/hx_fleet_ed25519', 0o100644)
+check('fleet-access: a key on a Windows mount is explained, not just refused',
+      _problem is not None and 'Windows mount' in _problem, str(_problem))
+
+check('fleet-access: a key at 0600 on a real path is accepted',
+      _fa.key_permission_problem('/home/op/.ssh/hx_fleet_ed25519', 0o100600) is None,
+      str(_fa.key_permission_problem('/home/op/.ssh/hx_fleet_ed25519', 0o100600)))
+
+_problem = _fa.key_permission_problem('/home/op/.ssh/hx_fleet_ed25519', 0o100644)
+check('fleet-access: a world-readable key anywhere is refused',
+      _problem is not None and 'chmod 600' in _problem, str(_problem))
+
+_problem = _fa.key_problem(pathlib.Path(os.path.join(_TMP, 'no-such-key')))
+check('fleet-access: a missing private key is refused before ssh runs',
+      _problem is not None and 'does not exist' in _problem, _problem)
+
+# The host must be resolvable from the fleet inventory, or the operator is
+# typing addresses by hand on build day.
+# Against an isolated inventory, not the real one. Asserting a production
+# address here would turn a legitimate IP change into a parser failure, and
+# report drift in the fleet as a bug in the tool.
+_fixture = os.path.join(_TMP, 'fleet-fixture.tsv')
+io.open(_fixture, 'w', encoding='utf-8', newline='\n').write(
+    'name\tip\trole\n'
+    'HX-42\t10.0.0.42\tfixture host\n')
+_real_fleet = _fa.FLEET
+try:
+    _fa.FLEET = pathlib.Path(_fixture)
+    check('fleet-access: the fleet inventory resolves a known host',
+          _fa.fleet_ip('hx-42') == '10.0.0.42', str(_fa.fleet_ip('hx-42')))
+    check('fleet-access: resolution is case-insensitive on the host name',
+          _fa.fleet_ip('HX-42') == '10.0.0.42', str(_fa.fleet_ip('HX-42')))
+    check('fleet-access: an unknown host does not resolve',
+          _fa.fleet_ip('hx-99') is None, str(_fa.fleet_ip('hx-99')))
+finally:
+    _fa.FLEET = _real_fleet
+
+# `sudo -n true` alone can be satisfied by a cached credential timestamp, so a
+# host with no NOPASSWD policy could still emit the marker. That is a false
+# PASS on the one control this tool exists to prove.
+_probe = _fa.remote_probe()
+check('fleet-access: the sudo proof ignores cached credentials',
+      'sudo -k -n true' in _probe, _probe)
+
+# The marker must be a line, not a substring of one. A login banner that
+# quoted this document would otherwise satisfy the proof.
+_p = _fa.verdict('hx-5\nxKEY+SUDO-PASSx\n', 'hx-5')
+check('fleet-access: the marker embedded in another line is not the marker',
+      len(_p) == 1 and 'as a line of its own' in _p[0], str(_p))
+
+# The probe prints the hostname first. Output in the other order did not come
+# from the probe, whatever it contains.
+_p = _fa.verdict('KEY+SUDO-PASS\nhx-5\n', 'hx-5')
+check('fleet-access: the marker before the hostname is refused',
+      len(_p) == 1 and 'before the hostname' in _p[0], str(_p))
+
+# A session that printed the right thing and then exited non-zero is a proof
+# failure, not a pass. Output alone is not the proof.
+check('fleet-access: a clean exit is required, not just the right output',
+      _fa.exit_for_session(1, 'hx-5\nKEY+SUDO-PASS\n') == 48,
+      str(_fa.exit_for_session(1, 'hx-5\nKEY+SUDO-PASS\n')))
+check('fleet-access: a non-zero exit with no output is a failed login',
+      _fa.exit_for_session(255, '') == 47, str(_fa.exit_for_session(255, '')))
+check('fleet-access: a clean exit reaches the verdict',
+      _fa.exit_for_session(0, 'hx-5\n') is None,
+      str(_fa.exit_for_session(0, 'hx-5\n')))
+check('fleet-access: the probe asks the host to name itself',
+      _probe.startswith('hostname'), _probe)
+
+# Mode 000 sets no group or other bits, so a permission-bit check passes and
+# ssh then fails to load the key - reported as a failed login rather than an
+# unusable key. Root can read it regardless, so only assert where it holds.
+_unreadable = os.path.join(_TMP, 'unreadable.key')
+io.open(_unreadable, 'w', encoding='utf-8').write('x')
+os.chmod(_unreadable, 0)
+if hasattr(os, 'geteuid') and os.geteuid() != 0:
+    _problem = _fa.key_problem(pathlib.Path(_unreadable))
+    check('fleet-access: an unreadable key is refused before ssh runs',
+          _problem is not None and 'cannot be read' in _problem, str(_problem))
+os.chmod(_unreadable, 0o600)
+
 # Not ignore_errors: a workspace that cannot be removed is worth saying out
 # loud, but it is not a gate failure, so it does not change the exit status.
 try:
