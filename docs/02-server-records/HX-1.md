@@ -1,6 +1,7 @@
 # HX-1 — Samba Infrastructure Server
 
-**State:** PASS / CLOSED
+**State:** PASS / CLOSED — but see HX5-F13; four Foundation controls are
+recorded NOT ESTABLISHED and this state predates them being asked for.
 **IP:** `192.168.50.200`
 **FQDN:** `hx-1.hx.local.arpa`
 

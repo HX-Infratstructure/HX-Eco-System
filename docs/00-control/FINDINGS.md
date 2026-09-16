@@ -1269,3 +1269,52 @@ this is fixed. A future server should not arrive with a short `dNSHostName`.
 
 Not remediated here: this writes to Active Directory.
 
+## HX5-F13 — HX-1 is recorded PASS / CLOSED with four foundation controls unproven
+
+**Status:** OPEN / OWNER DECISION
+**Severity:** Low
+**Scope:** HX-1
+**Discovered on:** HX-1
+**Discovered during:** 2026-09-16 review of the Foundation backfill
+
+### Finding
+
+HX-1's record carries `**State:** PASS / CLOSED`, and
+`docs/00-control/hx-fleet.tsv` agrees. Its Foundation section now records four
+controls as NOT ESTABLISHED: its own upstream time source, its SSH host key,
+its AD SPNs, and the SPN read that would confirm them.
+
+A record should not claim closure while its own evidence is unresolved. That is
+the objection, and it is correct.
+
+### How it arose
+
+The inconsistency is new, and it was created by improving the record rather
+than by anything changing on the host. HX-1 previously declared its whole
+Foundation section not applicable, so there were no unresolved rows and the
+claim was internally consistent - by not asking the question.
+
+Replacing that blanket exemption with real rows is what surfaced the gap. Four
+controls that are genuinely applicable to a domain controller had never been
+recorded either way.
+
+### Why it is not resolved here
+
+Three of the four need access this audit does not have. The host key can only
+be confirmed at the console; the SPN read needs directory access to the DC's
+own object; HX-1's upstream time source has never been observed.
+
+The fourth constraint is procedural: `hx-record-check` compares the record's
+state line against the fleet inventory, so changing one alone is drift. Moving
+HX-1 off `PASS / CLOSED` is a decision about the domain controller's status,
+not an edit.
+
+### Disposition
+
+OPEN. Either close the four controls with evidence from the console, or move
+HX-1's state in both the record and `hx-fleet.tsv` together, deliberately.
+
+Related: proof step `F0` is `NOT_RUN` on this branch. It is set to PASS by the
+change that wires the foundation into the proof chain, which is a separate
+pull request and had not merged when this was written.
+
