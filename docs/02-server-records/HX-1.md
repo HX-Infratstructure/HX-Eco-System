@@ -24,8 +24,8 @@ That read closed HX5-F13.
 | Kerberos / KDC | Machine accounts obtain tickets against `HX.LOCAL.ARPA`; `adcli testjoin` passes on all four members | PASS |
 | Domain controller | `dig +short SRV _ldap._tcp.dc._msdcs.hx.local.arpa` advertises one DC, this host | PASS |
 | Fleet time source | HX-2 through HX-5 all select `^* 192.168.50.200`, tracking reference `C0A832C8` | PASS |
-| HX-1's own upstream time | `chronyc sources -v`, run at the HX-1 console on 2026-09-16, lists four reachable stratum-2 servers and selects `^* 91.189.91.157`, reach `267`, offset -162us. HX-1 is therefore stratum 3 and the fleet stratum 4. Which pool those four addresses belong to is not established; `/etc/chrony/chrony.conf` was not read | PASS |
-| SSH host key | `ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub`, run at the HX-1 console on 2026-09-16, returns `256 SHA256:krYLm3CEhfYoFoElfxieSI8+KBBb1mB1Cs/sTYKuQ58 root@hx-1 (ED25519)`. That is the key file on the host, which is the reference this row exists to hold. No dated network-side capture is cited, so no match against a presented key is claimed. The rsa key `SHA256:FonPshtSPT5/Fi8ianIsBdjCc5DH+PZw9sPxB5Tsm2E` was network-read only and was not re-read | PASS |
+| HX-1's own upstream time | 2026-09-16 console read, below: configured `pool ntp.ubuntu.com iburst maxsources 4`; four stratum-2 sources, selected `91.189.91.157`, reach `267`, offset -162us | PASS |
+| SSH host key | 2026-09-16 console read, below: the key file and a scan of `192.168.50.200` both return `SHA256:krYLm3CEhfYoFoElfxieSI8+KBBb1mB1Cs/sTYKuQ58`. rsa key not read | PASS |
 | Fleet key access | Not attempted; the fleet key is for member administration and HX-1 is reached directly by the owner | N/A |
 | External key-only login | N/A for the same reason | N/A |
 | SPNs in AD | `HOST/HX-1`, `HOST/hx-1.hx.local.arpa`, `RestrictedKrbHost/HX-1`, `RestrictedKrbHost/hx-1.hx.local.arpa`, plus the `ldap/`, `GC/` and NTDS-replication principals a domain controller carries; `dNSHostName` is `hx-1.hx.local.arpa` | PASS |
@@ -33,21 +33,42 @@ That read closed HX5-F13.
 The host-key row was the one worth closing. When HX-2 and HX-3 presented
 changed host keys, the absence of a recorded fingerprint cost a trip to each
 console; HX-1 had the same exposure and is the host where it would matter most.
-The ed25519 fingerprint now comes from the key file at the console rather than
-from whatever a client was offered, which is what this row was waiting for. It
-is not cross-checked against a dated network capture. That comparison would
-need an `ssh-keyscan` from a member host, and none is recorded.
+Console read, 2026-09-16, by the owner. Verbatim.
+
+```text
+$ grep -rh '^pool\|^server' /etc/chrony/chrony.conf /etc/chrony/conf.d/
+pool ntp.ubuntu.com iburst maxsources 4
+
+$ chronyc sources -v
+^+ 185.125.190.57   2  10  377  525  -1192us
+^+ 185.125.190.56   2  10  377  454  -3543us
+^* 91.189.91.157    2  10  267  271   -162us
+^+ 185.125.190.58   2  10  377  363   +571us
+
+$ ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub
+256 SHA256:krYLm3CEhfYoFoElfxieSI8+KBBb1mB1Cs/sTYKuQ58 root@hx-1 (ED25519)
+
+$ ssh-keyscan -t ed25519 192.168.50.200 | ssh-keygen -lf -
+256 SHA256:krYLm3CEhfYoFoElfxieSI8+KBBb1mB1Cs/sTYKuQ58 192.168.50.200 (ED25519)
+```
+
+Both reads return the same fingerprint, so the key recorded here is the key
+`sshd` serves, not only the key on disk.
+
+One limit: the scan was run from HX-1 against its own LAN address. It proves
+what `sshd` presents on `192.168.50.200:22`. It does not prove the path from a
+member host to that address is clean.
 
 Two observations came out of the same read, neither of them defects.
 
-HX-1's four upstream servers are public internet addresses, not LAN hosts, so
-the whole fleet's time chain ends outside the LAN. Time keeps working if that
-link drops - chrony holds the local clock and every member still agrees with
-HX-1 - but the chain is worth knowing when the fleet's time is questioned.
+HX-1's upstream is the `ntp.ubuntu.com` pool, and `maxsources 4` is why chrony
+shows four. Those are public internet addresses, not LAN hosts, so the fleet's
+time chain ends outside the LAN. Time keeps working if that link drops - chrony
+holds the local clock and every member still agrees with HX-1 - but the chain
+is worth knowing when the fleet's time is questioned.
 
-Which pool those addresses belong to, and whether it was chosen or left at the
-Ubuntu default, is not established. `/etc/chrony/chrony.conf` was not read and
-the addresses were not resolved, so nothing here names a provider.
+HX-1's upstream is stratum 2, which makes HX-1 stratum 3 and the members
+stratum 4.
 
 HX-1 spells its host principals `HOST/`, where the members spell theirs
 `host/`. Service principal names compare case-insensitively, so the two forms

@@ -1339,6 +1339,9 @@ object; HX-1's upstream time source had never been observed.
 The owner read all three at the HX-1 console on 2026-09-16.
 
 ```text
+$ grep -rh '^pool\|^server' /etc/chrony/chrony.conf /etc/chrony/conf.d/
+pool ntp.ubuntu.com iburst maxsources 4
+
 $ chronyc sources -v
 ^+ 185.125.190.57   2  10  377  525  -1192us
 ^+ 185.125.190.56   2  10  377  454  -3543us
@@ -1347,6 +1350,9 @@ $ chronyc sources -v
 
 $ ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub
 256 SHA256:krYLm3CEhfYoFoElfxieSI8+KBBb1mB1Cs/sTYKuQ58 root@hx-1 (ED25519)
+
+$ ssh-keyscan -t ed25519 192.168.50.200 | ssh-keygen -lf -
+256 SHA256:krYLm3CEhfYoFoElfxieSI8+KBBb1mB1Cs/sTYKuQ58 192.168.50.200 (ED25519)
 
 $ sudo samba-tool computer show HX-1 -U 'HX\Administrator'
 dNSHostName: hx-1.hx.local.arpa
@@ -1357,14 +1363,14 @@ HOST/hx-1.hx.local.arpa              RestrictedKrbHost/hx-1.hx.local.arpa
 
 Each row closes on its own evidence.
 
-The ed25519 row closes on the console read alone, which is the bar this record
-set. The fingerprint now comes from the key file on HX-1 rather than from
-whatever a client happened to be offered. An earlier network-side observation of
-the same fingerprint sits in this file's history, but with no recorded command,
-source host or date, so it is not cited and no match between the two is claimed.
-Making that comparison would need a dated `ssh-keyscan` from a member host.
+The two ed25519 reads agree, so the recorded fingerprint is the key `sshd`
+serves rather than only the key on disk. The scan was issued from HX-1 against
+its own LAN address, so it proves what that address presents and nothing about
+the path a member takes to reach it. The rsa key was not read.
 
-The rsa key was not re-read and stays network-read only; the record says so.
+`pool ntp.ubuntu.com iburst maxsources 4` is the configured upstream, and
+`maxsources 4` is why chrony lists four servers. They are stratum 2, so HX-1 is
+stratum 3 and the members stratum 4.
 
 The unauthenticated form of that last command is not a substitute. It reads the
 local `sam.ldb` directly and fails for a non-root user:
@@ -1382,6 +1388,18 @@ defines `PASS / CLOSED` as the required gates being satisfied and the as-built
 record updated - completed activity, not exhaustive evidence. So `PASS / CLOSED`
 alongside a tracked evidence gap was defensible while it stood, and the gap is
 now shut regardless.
+
+### What this cost, and the rule that came out of it
+
+This finding took three corrected pushes, each one the same defect. A count was
+recalled instead of read from the table. A pool name was recognised from IP
+addresses instead of read from `chrony.conf`. A fingerprint match was asserted
+instead of measured. Every one read as evidence and none of it was.
+
+The rule that follows: a Foundation row carries the date, the command and the
+output, and stops there. Anything derived from those - a stratum, a provider, a
+conclusion - goes in prose below the table where it is visibly an inference.
+The rows above are written that way.
 
 ### Disposition
 
