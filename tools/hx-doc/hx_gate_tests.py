@@ -792,6 +792,15 @@ check('foundation: chrony is started before timesyncd is disabled',
 check('foundation: cold-start selection is given more than a minute',
       'seq 1 36' in _found, _found[_found.find('HX_NTP_OK'):][:300])
 
+# The package starts chrony before the drop-in is written, and `enable --now`
+# does nothing to a running service, so without an explicit restart chrony
+# keeps the configuration it booted with and never reads HX-1. This is what
+# actually failed on HX-3 and HX-4; the polling window was a symptom.
+check('foundation: chrony is restarted after the drop-in is written',
+      _found.index('10-hx-fleet.conf') < _found.index('systemctl restart chrony')
+      < _found.index('HX_NTP_OK'),
+      _found[_found.find('time authority'):][:500])
+
 # D-028: the hold picks the pinned branch and nothing else. A filter that
 # caught every nvidia package would freeze branches this decision says nothing
 # about, and one that caught none would let routine patching move the driver.

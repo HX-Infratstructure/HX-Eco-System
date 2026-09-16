@@ -61,6 +61,12 @@ chmod 0644 /etc/chrony/conf.d/10-hx-fleet.conf"
 # fresh install there is nothing left to disable, and nothing to restore if
 # this goes wrong. Only disable it where it actually still exists.
 sudo systemctl enable --now chrony
+# apt-get install starts chrony before this script writes the drop-in, and
+# `enable --now` does nothing to a service that is already running - so chrony
+# keeps the configuration it started with and never reads HX-1 at all. Both
+# HX-3 and HX-4 failed this way: the drop-in was on disk two seconds after
+# chrony started, and stayed unread. Restart, do not assume.
+sudo systemctl restart chrony
 if systemctl list-unit-files systemd-timesyncd.service >/dev/null 2>&1; then
   sudo systemctl disable --now systemd-timesyncd 2>/dev/null || true
 fi
