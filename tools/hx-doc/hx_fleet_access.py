@@ -109,8 +109,27 @@ def key_problem(key: Path) -> str | None:
     return key_permission_problem(str(key), mode)
 
 
+def exit_for_session(returncode: int, stdout: str) -> int | None:
+    """The status a finished ssh session earns, before its output is read.
+
+    A non-zero return with no output means the login never happened. A non-zero
+    return that still printed something means the session ran and then failed,
+    which is a proof failure rather than an access failure - and must not be
+    allowed to reach a PASS on the strength of the output alone.
+    """
+    if returncode == 0:
+        return None
+    return 47 if not stdout.strip() else 48
+
+
 def verdict(output: str, host: str) -> list[str]:
     """What the login failed to prove. Empty list means it proved everything.
+
+    The probe prints the hostname and then the marker, so both must be present
+    as whole lines and in that order. A substring test would accept the marker
+    embedded in unrelated output - a login banner quoting this document, say -
+    and a set test would accept them in either order, which no real run
+    produces.
 
     Kept apart from the ssh call so tools/hx-doc/hx-gate-tests can exercise
     every refusal without a network or a server.
@@ -118,16 +137,25 @@ def verdict(output: str, host: str) -> list[str]:
     problems: list[str] = []
     lines = [ln.strip() for ln in output.splitlines() if ln.strip()]
     short = host.strip().lower()
-    if not any(ln.lower() == short for ln in lines):
+
+    host_at = next((i for i, ln in enumerate(lines) if ln.lower() == short), None)
+    mark_at = next((i for i, ln in enumerate(lines) if ln == MARKER), None)
+
+    if host_at is None:
         problems.append(
-            f"the session did not report hostname '{short}'. "
+            f"the session did not report hostname '{short}' on a line of its own. "
             f"Saw: {lines[:3] if lines else 'nothing'}"
         )
-    if MARKER not in output:
+    if mark_at is None:
         problems.append(
-            f"'{MARKER}' absent, so `sudo -k -n true` did not succeed. "
-            "The key works but the account has no NOPASSWD policy - a cached "
-            "credential does not count."
+            f"'{MARKER}' absent as a line of its own, so `sudo -k -n true` did "
+            "not succeed. The key works but the account has no NOPASSWD policy "
+            "- a cached credential does not count."
+        )
+    if host_at is not None and mark_at is not None and mark_at < host_at:
+        problems.append(
+            f"'{MARKER}' appeared before the hostname. The probe prints the "
+            "hostname first, so this is not the output of the probe."
         )
     return problems
 
@@ -203,7 +231,8 @@ def main() -> int:
     if err:
         print(err, file=sys.stderr)
 
-    if r.returncode != 0 and not out.strip():
+    session = exit_for_session(r.returncode, out)
+    if session == 47:
         print(f"\nSTOP: key-only login to {user}@{ip} failed.", file=sys.stderr)
         if "Host key verification failed" in err:
             print("      The host key is not the one on record. Verify it on the "
@@ -214,6 +243,13 @@ def main() -> int:
                   "      docs/03-runbooks/common/00-foundation.sh on the host.",
                   file=sys.stderr)
         return 47
+    if session == 48:
+        print(f"\nSTOP: the session on {user}@{ip} exited {r.returncode}.",
+              file=sys.stderr)
+        print("      It printed output, so the login worked, but the probe did "
+              "not\n      finish cleanly. Output alone is not the proof.",
+              file=sys.stderr)
+        return 48
 
     problems = verdict(out, host)
     if problems:

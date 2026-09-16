@@ -806,10 +806,24 @@ check('fleet-access: a missing private key is refused before ssh runs',
 
 # The host must be resolvable from the fleet inventory, or the operator is
 # typing addresses by hand on build day.
-check('fleet-access: the fleet inventory resolves a known host',
-      _fa.fleet_ip('hx-5') == '192.168.50.205', _fa.fleet_ip('hx-5'))
-check('fleet-access: an unknown host does not resolve',
-      _fa.fleet_ip('hx-99') is None, _fa.fleet_ip('hx-99'))
+# Against an isolated inventory, not the real one. Asserting a production
+# address here would turn a legitimate IP change into a parser failure, and
+# report drift in the fleet as a bug in the tool.
+_fixture = os.path.join(_TMP, 'fleet-fixture.tsv')
+io.open(_fixture, 'w', encoding='utf-8', newline='\n').write(
+    'name\tip\trole\n'
+    'HX-42\t10.0.0.42\tfixture host\n')
+_real_fleet = _fa.FLEET
+try:
+    _fa.FLEET = pathlib.Path(_fixture)
+    check('fleet-access: the fleet inventory resolves a known host',
+          _fa.fleet_ip('hx-42') == '10.0.0.42', str(_fa.fleet_ip('hx-42')))
+    check('fleet-access: resolution is case-insensitive on the host name',
+          _fa.fleet_ip('HX-42') == '10.0.0.42', str(_fa.fleet_ip('HX-42')))
+    check('fleet-access: an unknown host does not resolve',
+          _fa.fleet_ip('hx-99') is None, str(_fa.fleet_ip('hx-99')))
+finally:
+    _fa.FLEET = _real_fleet
 
 # `sudo -n true` alone can be satisfied by a cached credential timestamp, so a
 # host with no NOPASSWD policy could still emit the marker. That is a false
@@ -817,6 +831,29 @@ check('fleet-access: an unknown host does not resolve',
 _probe = _fa.remote_probe()
 check('fleet-access: the sudo proof ignores cached credentials',
       'sudo -k -n true' in _probe, _probe)
+
+# The marker must be a line, not a substring of one. A login banner that
+# quoted this document would otherwise satisfy the proof.
+_p = _fa.verdict('hx-5\nxKEY+SUDO-PASSx\n', 'hx-5')
+check('fleet-access: the marker embedded in another line is not the marker',
+      len(_p) == 1 and 'as a line of its own' in _p[0], str(_p))
+
+# The probe prints the hostname first. Output in the other order did not come
+# from the probe, whatever it contains.
+_p = _fa.verdict('KEY+SUDO-PASS\nhx-5\n', 'hx-5')
+check('fleet-access: the marker before the hostname is refused',
+      len(_p) == 1 and 'before the hostname' in _p[0], str(_p))
+
+# A session that printed the right thing and then exited non-zero is a proof
+# failure, not a pass. Output alone is not the proof.
+check('fleet-access: a clean exit is required, not just the right output',
+      _fa.exit_for_session(1, 'hx-5\nKEY+SUDO-PASS\n') == 48,
+      str(_fa.exit_for_session(1, 'hx-5\nKEY+SUDO-PASS\n')))
+check('fleet-access: a non-zero exit with no output is a failed login',
+      _fa.exit_for_session(255, '') == 47, str(_fa.exit_for_session(255, '')))
+check('fleet-access: a clean exit reaches the verdict',
+      _fa.exit_for_session(0, 'hx-5\n') is None,
+      str(_fa.exit_for_session(0, 'hx-5\n')))
 check('fleet-access: the probe asks the host to name itself',
       _probe.startswith('hostname'), _probe)
 
