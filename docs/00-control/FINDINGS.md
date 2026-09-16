@@ -547,3 +547,133 @@ actually lands.
 The alternative — redacting the token out of retained evidence — was rejected.
 The token appearing in the response is the proof. Removing it would leave a
 bundle that cannot demonstrate what it claims.
+## HX5-F01 — NVMe device names are not stable storage authority
+
+**Status:** OPEN / NON-BLOCKING  
+**Severity:** Low  
+**Scope:** HX-5 documentation/configuration hygiene  
+**Discovered on:** HX-5  
+**Discovered during:** 2026-09-15 post-rebuild storage validation
+
+### Finding
+
+The active `/etc/fstab` entries use filesystem UUIDs and mount the correct filesystems. Installer-generated comments reference `/dev/nvme0n1p*`, but live Linux device enumeration changed across reboots:
+
+```text
+Observed before one reboot: /srv/ollama -> /dev/nvme0n1p3
+Observed after next reboot: /srv/ollama -> /dev/nvme1n1p3
+```
+
+The authoritative `/srv/ollama` filesystem UUID remained:
+
+```text
+68d0e365-212c-456f-b42e-d908b445ae77
+```
+
+and the mount remained correct and read-write.
+
+### Functional impact
+
+None. This is direct evidence that `/dev/nvmeXnY` naming must not be treated as persistent storage identity.
+
+The installed Ornith model remained present after reboot on `/srv/ollama`, confirming the UUID-backed mount is functioning correctly.
+
+### Disposition
+
+NON-BLOCKING.
+
+Do not interrupt the build to rewrite descriptive installer comments. Correct comments during a future hygiene pass if desired, but keep UUID as the only storage authority.
+
+## HX5-F02 — Layer 0/1 evidence standard drift across inference hosts
+
+**Status:** OPEN / PLANNED AUDIT  
+**Severity:** Medium  
+**Scope:** HX-2, HX-3, HX-4 retrospective foundation evidence  
+**Discovered on:** HX-5  
+**Discovered during:** 2026-09-15 clean-rebuild Layer 0/1 reconciliation
+
+### Finding
+
+HX-5 exposed that successful completion of the shared Blocks 1 and 2 does not by itself prove the complete HX Layer 0/1 foundation. The reconciled HX-5 standard now explicitly proves controls that are not consistently retained in the older HX-2/HX-3/HX-4 records.
+
+The evidence gap includes some combination of:
+
+- HX-1 NTP source selection;
+- persistent Netplan/IP/gateway/DNS proof;
+- fleet SSH-key proof;
+- SSH reboot persistence mechanism;
+- `adcli testjoin` machine-trust proof;
+- Samba DNS A record;
+- AD `dNSHostName` and required SPNs;
+- failed systemd-unit classification;
+- final foundation reboot proof.
+
+This is an **evidence-standard gap**, not evidence that HX-2, HX-3, or HX-4 are presently malfunctioning.
+
+### Owner direction
+
+Complete HX-5 first. After the current HX-5 closeout boundary, perform a **read-only retrospective Layer 0/1 audit of HX-2, HX-3, and HX-4** against the reconciled HX-5 foundation standard.
+
+Do not rebuild working servers or change configuration merely to make records look symmetrical.
+
+### Acceptance method
+
+For each host, capture and classify:
+
+```text
+hostname / FQDN
+persistent IP / gateway / HX-1 DNS
+HX-1 NTP
+NOPASSWD sudo
+fleet SSH key
+SSH persistence
+D-018 UFW state
+realm / SSSD core
+machine trust
+Samba DNS / dNSHostName / SPNs
+failed units
+GPU runtime where applicable
+approved storage mounts
+OS maintenance state
+final reboot persistence
+```
+
+### Disposition
+
+OPEN / PLANNED AUDIT.
+
+This finding closes when HX-2, HX-3, and HX-4 each have a retained audit result against the reconciled standard and their server records are backfilled accordingly.
+
+## HX5-F03 — Shared Block 2 NVIDIA pin diverges from accepted HX-5 driver
+
+**Status:** OPEN / NON-BLOCKING  
+**Severity:** Medium  
+**Scope:** HX-5 rerun safety / shared Block 2 applicability  
+**Discovered on:** HX-5  
+**Discovered during:** 2026-09-15 clean rebuild
+
+### Finding
+
+The accepted HX-5 NVIDIA runtime is:
+
+```text
+595.99.02
+```
+
+The shared Block 2 pin remains:
+
+```text
+595.71.05-0ubuntu0.24.04.1
+```
+
+Therefore rerunning Block 2 on HX-5 would attempt to impose a different driver baseline from the accepted as-built server state.
+
+### Functional impact
+
+None on the current HX-5 build. GPU runtime, dual-GPU visibility, Ornith inference, and post-reboot GPU placement all pass with 595.99.02.
+
+### Disposition
+
+NON-BLOCKING FOR CURRENT HX-5; RERUN GUARD REQUIRED OPERATIONALLY.
+
+Do not rerun Block 2 on HX-5 merely for confirmation. A future fleet decision should determine whether the shared NVIDIA pin is changed, host-specific exceptions are encoded, or the driver-install phase is separated from reusable domain validation.
