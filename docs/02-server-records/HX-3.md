@@ -25,7 +25,7 @@ rather than from inside a session this host had already authenticated.
 | SSH persistence | `ssh.socket` enabled; `ssh.service` disabled, which is correct on Ubuntu | PASS |
 | External key-only login | `tools/hx-doc/hx-fleet-access hx-3` returns `hx-3` and `KEY+SUDO-PASS` | PASS |
 | SSH host key | ed25519 `SHA256:gL4sPYzEbDjRjVSoa+Qt50/zMtEsO640f5l+o6PWpBI`<br>rsa `SHA256:G5o9yOkS+ZXUS27dk59Lt7t7UZzIaG+eiApG1kNiKN0` | PASS |
-| SPNs in AD | `host/HX-3`, `RestrictedKrbHost/HX-3` present; `host/hx-3.hx.local.arpa` and `RestrictedKrbHost/hx-3.hx.local.arpa` **absent**; `dNSHostName` is `hx-3`, not the FQDN | GAP, see HX5-F12 |
+| SPNs in AD | `host/HX-3`, `host/hx-3.hx.local.arpa`, `RestrictedKrbHost/HX-3`, `RestrictedKrbHost/hx-3.hx.local.arpa`; `dNSHostName` is `hx-3.hx.local.arpa` | PASS |
 
 The SSH host key is recorded because a changed one is otherwise unanswerable.
 When HX-2 and HX-3 presented new host keys, nothing in this repository could

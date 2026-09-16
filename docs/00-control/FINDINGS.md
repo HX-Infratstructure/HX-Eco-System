@@ -1188,9 +1188,9 @@ Ollama displays an untagged alias, not a floating pin anyone chose.
 The gap it sits next to stays open under HX4-F04: no gate rejects a changed
 digest on any host. Closing this one should not be read as closing that.
 
-## HX5-F12 — three hosts hold only short-form SPNs, and a short dNSHostName
+## HX5-F12 — three hosts held only short-form SPNs, and a short dNSHostName
 
-**Status:** OPEN / REMEDIATION
+**Status:** CLOSED
 **Severity:** Low
 **Scope:** HX-2, HX-3, HX-4
 **Discovered on:** All four audited hosts
@@ -1257,17 +1257,46 @@ None observed. `RestrictedKrbHost/<fqdn>` is used for constrained delegation
 and restricted-host scenarios; nothing in the fleet requests it today, which is
 why this was invisible until asked for directly.
 
+### Resolution
+
+Corrected on HX-2, HX-3 and HX-4 by the owner on 2026-09-16. Read back from the
+directory afterwards, from HX-5 rather than from the host where the change was
+made:
+
+```text
+HX-2  dNSHostName: hx-2.hx.local.arpa   host/HX-2, host/hx-2.hx.local.arpa,
+                                        RestrictedKrbHost/HX-2,
+                                        RestrictedKrbHost/hx-2.hx.local.arpa
+HX-3  dNSHostName: hx-3.hx.local.arpa   (same four forms)
+HX-4  dNSHostName: hx-4.hx.local.arpa   (same four forms)
+HX-5  dNSHostName: hx-5.hx.local.arpa   (same four forms)
+```
+
+All four hosts are now uniform.
+
+### What the fix actually is, which is not what this finding first said
+
+The explicit SPN additions were rejected:
+
+```text
+ERROR: Service principal host/hx-3.hx.local.arpa already affected to another user
+ERROR: Service principal RestrictedKrbHost/hx-3.hx.local.arpa already affected to another user
+```
+
+They were already present, created by the preceding `dNSHostName` change.
+Samba derives the FQDN-form SPNs from `dNSHostName`, so setting it is the fix
+and adding the SPNs is redundant - the "another user" in the message is the
+same computer object.
+
+That matters for the shared domain-join block. The correction there is to set
+`dNSHostName` to the FQDN at join time. Adding SPNs would be treating the
+symptom, and would fail the same way.
+
 ### Disposition
 
-OPEN. On HX-2, HX-3 and HX-4: set `dNSHostName` to the FQDN, then add
-`host/<fqdn>` and `RestrictedKrbHost/<fqdn>`. Order matters - AD validates an
-SPN write against `dNSHostName`, so the SPNs are refused while it holds the
-short name.
-
-HX-5 shows the intended end state, so the shared domain-join block is where
-this is fixed. A future server should not arrive with a short `dNSHostName`.
-
-Not remediated here: this writes to Active Directory.
+CLOSED. The remaining work is in the join procedure so a future server does
+not arrive with a short `dNSHostName`, tracked against the shared block rather
+than here.
 
 ## HX5-F13 — HX-1 is recorded PASS / CLOSED with four foundation controls unproven
 

@@ -535,8 +535,8 @@ Blob SHA-256: 9e0156957bd07760644aa2a3b6d6791ac8796f2c1bc9c75a2cb07cef5ccb5764</
 <h3>Disposition</h3>
 <p>CLOSED for the spelling, which was the question asked: <code>:latest</code> here is how Ollama displays an untagged alias, not a floating pin anyone chose.</p>
 <p>The gap it sits next to stays open under HX4-F04: no gate rejects a changed digest on any host. Closing this one should not be read as closing that.</p>
-<h2>HX5-F12 — three hosts hold only short-form SPNs, and a short dNSHostName</h2>
-<p><strong>Status:</strong> OPEN / REMEDIATION <strong>Severity:</strong> Low <strong>Scope:</strong> HX-2, HX-3, HX-4 <strong>Discovered on:</strong> All four audited hosts <strong>Discovered during:</strong> 2026-09-16 resolution of the open SPN question</p>
+<h2>HX5-F12 — three hosts held only short-form SPNs, and a short dNSHostName</h2>
+<p><strong>Status:</strong> CLOSED <strong>Severity:</strong> Low <strong>Scope:</strong> HX-2, HX-3, HX-4 <strong>Discovered on:</strong> All four audited hosts <strong>Discovered during:</strong> 2026-09-16 resolution of the open SPN question</p>
 <h3>Finding</h3>
 <p>The audit left the AD-side SPN set unestablished because the local keytab holds only short forms and no AD query had been run. Asking the KDC directly settles it, with no credentials: <code>kvno</code> returns a ticket when the SPN exists and says so plainly when it does not.</p>
 <pre><code class="lang-text">                host/SHORT  host/FQDN  RestrictedKrbHost/SHORT  RestrictedKrbHost/FQDN
@@ -563,10 +563,23 @@ HX-5  dNSHostName: hx-5.hx.local.arpa     host/HX-5, host/hx-5.hx.local.arpa,
 <p>D-029 asked whether short-form principals are sufficient or FQDN SPNs must exist. HX-5 is the reconciled reference and carries all four forms, so the standard is all four. The other three carry three of four.</p>
 <h3>Functional impact</h3>
 <p>None observed. <code>RestrictedKrbHost/&lt;fqdn&gt;</code> is used for constrained delegation and restricted-host scenarios; nothing in the fleet requests it today, which is why this was invisible until asked for directly.</p>
+<h3>Resolution</h3>
+<p>Corrected on HX-2, HX-3 and HX-4 by the owner on 2026-09-16. Read back from the directory afterwards, from HX-5 rather than from the host where the change was made:</p>
+<pre><code class="lang-text">HX-2  dNSHostName: hx-2.hx.local.arpa   host/HX-2, host/hx-2.hx.local.arpa,
+                                        RestrictedKrbHost/HX-2,
+                                        RestrictedKrbHost/hx-2.hx.local.arpa
+HX-3  dNSHostName: hx-3.hx.local.arpa   (same four forms)
+HX-4  dNSHostName: hx-4.hx.local.arpa   (same four forms)
+HX-5  dNSHostName: hx-5.hx.local.arpa   (same four forms)</code></pre>
+<p>All four hosts are now uniform.</p>
+<h3>What the fix actually is, which is not what this finding first said</h3>
+<p>The explicit SPN additions were rejected:</p>
+<pre><code class="lang-text">ERROR: Service principal host/hx-3.hx.local.arpa already affected to another user
+ERROR: Service principal RestrictedKrbHost/hx-3.hx.local.arpa already affected to another user</code></pre>
+<p>They were already present, created by the preceding <code>dNSHostName</code> change. Samba derives the FQDN-form SPNs from <code>dNSHostName</code>, so setting it is the fix and adding the SPNs is redundant - the "another user" in the message is the same computer object.</p>
+<p>That matters for the shared domain-join block. The correction there is to set <code>dNSHostName</code> to the FQDN at join time. Adding SPNs would be treating the symptom, and would fail the same way.</p>
 <h3>Disposition</h3>
-<p>OPEN. On HX-2, HX-3 and HX-4: set <code>dNSHostName</code> to the FQDN, then add <code>host/&lt;fqdn&gt;</code> and <code>RestrictedKrbHost/&lt;fqdn&gt;</code>. Order matters - AD validates an SPN write against <code>dNSHostName</code>, so the SPNs are refused while it holds the short name.</p>
-<p>HX-5 shows the intended end state, so the shared domain-join block is where this is fixed. A future server should not arrive with a short <code>dNSHostName</code>.</p>
-<p>Not remediated here: this writes to Active Directory.</p>
+<p>CLOSED. The remaining work is in the join procedure so a future server does not arrive with a short <code>dNSHostName</code>, tracked against the shared block rather than here.</p>
 <h2>HX5-F13 — HX-1 is recorded PASS / CLOSED with four foundation controls unproven</h2>
 <p><strong>Status:</strong> OPEN / OWNER DECISION <strong>Severity:</strong> Low <strong>Scope:</strong> HX-1 <strong>Discovered on:</strong> HX-1 <strong>Discovered during:</strong> 2026-09-16 review of the Foundation backfill</p>
 <h3>Finding</h3>
