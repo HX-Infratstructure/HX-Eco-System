@@ -188,6 +188,16 @@ rc, out = run('tools/hx-doc/hx_doc_check.py')
 check('hx-doc-check: a repository path that does not resolve still fails',
       rc != 0 and 'broken' in out, out)
 
+# A system root can be traversed out of. `/etc/../docs/x.md` starts with /etc/
+# but names a repository path, so the exemption must classify it by where it
+# resolves to, not by how it is spelt.
+fresh()
+edit('docs/03-runbooks/README.md',
+     lambda s: s + chr(10) + 'See `/etc/../docs/this-does-not-exist.md` for more.' + chr(10))
+rc, out = run('tools/hx-doc/hx_doc_check.py')
+check('hx-doc-check: a repository path spelt through a system root still fails',
+      rc != 0 and 'broken' in out, out)
+
 # ----------------------- hx_doc_check: a withdrawn path stays withdrawn ------
 # D-025 deleted .github/workflows/openwiki-update.yml and withdrew scheduled
 # generation. The OpenWiki scaffold restores that file on its own. HX5-F06.

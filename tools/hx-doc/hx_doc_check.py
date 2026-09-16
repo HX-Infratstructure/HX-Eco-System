@@ -17,6 +17,7 @@ Exit 0 when everything passes, 1 otherwise.
 """
 from __future__ import annotations
 
+import posixpath
 import re
 import subprocess
 import sys
@@ -39,7 +40,9 @@ UPSTREAM_PREFIXES = ("deploy/", "docs/LightRAG", "integrations/", ".agents/")
 # record has to be able to name the file that holds a host's configuration -
 # `/etc/netplan/50-cloud-init.yaml` - without the gate reading it as a
 # repository reference. Root-relative repository paths such as `/docs/...` are
-# not listed here and are still resolved and checked.
+# not listed here and are still resolved and checked. The target is normalised
+# first: `/etc/../docs/x.md` is spelt through a system root but names a
+# repository path, so it is classified by where it resolves, not how it reads.
 SYSTEM_ROOTS = ("/etc/", "/var/", "/usr/", "/srv/", "/opt/", "/run/",
                 "/boot/", "/proc/", "/sys/", "/dev/", "/tmp/")
 
@@ -102,7 +105,7 @@ def check_links() -> None:
                     target = m.group(1).split("#")[0]
                     if not target or target.startswith(("http", "mailto")):
                         continue
-                    if target.startswith(SYSTEM_ROOTS):
+                    if posixpath.normpath(target).startswith(SYSTEM_ROOTS):
                         continue
                     if target.lstrip("/").startswith(UPSTREAM_PREFIXES):
                         continue

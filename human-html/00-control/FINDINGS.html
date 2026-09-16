@@ -406,7 +406,7 @@ final reboot persistence</code></pre>
 <h2>HX5-F06 — The scheduled OpenWiki workflow that D-025 deleted came back</h2>
 <p><strong>Status:</strong> PARTIALLY CLOSED / REMAINDER ON BACKLOG <strong>Severity:</strong> High <strong>Scope:</strong> Repository automation and secrets; the repository is public <strong>Discovered on:</strong> HX-5 <strong>Discovered during:</strong> 2026-09-15 OpenWiki regeneration, before the push to main <strong>Affected file:</strong> <code>.github/workflows/openwiki-update.yml</code></p>
 <h3>Finding</h3>
-<p>The OpenWiki run scaffolded <code>.github/workflows/openwiki-update.yml</code> again, as an untracked file. D-025, ratified 2026-09-14, deleted that path and withdrew scheduled generation entirely.</p>
+<p>The OpenWiki run scaffolded <code>.github/workflows/openwiki-update.yml</code> again, as an untracked file. D-025 in <code>docs/00-control/DECISIONS.md</code>, ratified 2026-09-14, deleted that path and withdrew scheduled generation entirely.</p>
 <p>The file that reappeared claims more than the one D-025 removed:</p>
 <pre><code class="lang-text">schedule:    cron "0 8 * * *"        daily, where D-023 was weekly
 permissions: contents: write, pull-requests: write
@@ -415,7 +415,8 @@ model:       z-ai/glm-5.2, a paid run, unattended</code></pre>
 <p>D-025 recorded why the file itself is the exposure, not its contents: a branch that edits the workflow file can read the repository secrets, and no line inside the file can prevent it. That risk goes away only with the file.</p>
 <p>The file was deleted again and was never committed. It is absent from <code>aa5364c</code>.</p>
 <h3>Second part, still open</h3>
-<p>D-025 also recorded that revoking <code>OPENWIKI_PR_TOKEN</code> and <code>ANTHROPIC_API_KEY</code> is a required owner action, not a hypothetical. Both are still present in repository settings as of 2026-09-15. <code>OPENWIKI_PR_TOKEN</code> was granted Contents read and write and Pull requests read and write, on a public repository.</p>
+<p>D-025 also recorded that revoking <code>OPENWIKI_PR_TOKEN</code> and <code>ANTHROPIC_API_KEY</code> is a required owner action, not a hypothetical. <code>OPENWIKI_PR_TOKEN</code> was granted Contents read and write and Pull requests read and write, on a public repository.</p>
+<p>Both were still listed in repository settings on 2026-09-15, observed by listing the repository's Actions secrets through the GitHub API while this finding was written. No settings evidence is retained for that observation, so it is an assertion and not proof. Confirm in repository settings before acting on it.</p>
 <h3>Disposition</h3>
 <p>OPEN. Two actions, both owner-only:</p>
 <ol>

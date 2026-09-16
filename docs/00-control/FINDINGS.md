@@ -838,8 +838,8 @@ status. One run now reports every defect instead of stopping at the first.
 ### Finding
 
 The OpenWiki run scaffolded `.github/workflows/openwiki-update.yml` again, as
-an untracked file. D-025, ratified 2026-09-14, deleted that path and withdrew
-scheduled generation entirely.
+an untracked file. D-025 in `docs/00-control/DECISIONS.md`, ratified 2026-09-14,
+deleted that path and withdrew scheduled generation entirely.
 
 The file that reappeared claims more than the one D-025 removed:
 
@@ -860,9 +860,15 @@ The file was deleted again and was never committed. It is absent from
 ### Second part, still open
 
 D-025 also recorded that revoking `OPENWIKI_PR_TOKEN` and `ANTHROPIC_API_KEY`
-is a required owner action, not a hypothetical. Both are still present in
-repository settings as of 2026-09-15. `OPENWIKI_PR_TOKEN` was granted Contents
-read and write and Pull requests read and write, on a public repository.
+is a required owner action, not a hypothetical. `OPENWIKI_PR_TOKEN` was granted
+Contents read and write and Pull requests read and write, on a public
+repository.
+
+Both were still listed in repository settings on 2026-09-15, observed by
+listing the repository's Actions secrets through the GitHub API while this
+finding was written. No settings evidence is retained for that observation, so
+it is an assertion and not proof. Confirm in repository settings before acting
+on it.
 
 ### Disposition
 
