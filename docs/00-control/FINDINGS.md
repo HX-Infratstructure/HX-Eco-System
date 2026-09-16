@@ -1062,8 +1062,8 @@ a standard question rather than a defect.
 
 ## HX5-F10 — no reverse DNS zone is served
 
-**Status:** CLOSED / BY DESIGN
-**Severity:** Informational
+**Status:** OPEN / HAS IMPACT
+**Severity:** Low
 **Scope:** Fleet-wide
 **Discovered on:** All four audited hosts
 **Discovered during:** 2026-09-16 Layer 0/1 reconciliation audit
@@ -1073,20 +1073,63 @@ a standard question rather than a defect.
 No host in scope has a PTR record. The audit reported this as uniform absence
 and asked whether it was intentional. It is: there is no reverse zone at all.
 
+A single SOA query is not enough to conclude a zone is unserved fleet-wide, so
+the authoritative server set was established first. There is one DNS server and
+one domain controller:
+
 ```text
-dig +short SOA 50.168.192.in-addr.arpa @192.168.50.200   ->   (no answer)
+dig +short NS hx.local.arpa @192.168.50.200
+  hx-1.hx.local.arpa.
+
+dig +short SRV _ldap._tcp.dc._msdcs.hx.local.arpa @192.168.50.200
+  0 100 389 hx-1.hx.local.arpa.
+
+resolvectl on every member
+  Current DNS Server: 192.168.50.200
 ```
 
-HX-1 serves the forward zone `hx.local.arpa` and does not serve
-`50.168.192.in-addr.arpa`. The absence is a property of the domain
-controller, not drift on the members, and no per-host action could change it.
+That single server serves the forward zone and returns nothing for the reverse
+one:
+
+```text
+dig +short SOA 50.168.192.in-addr.arpa @192.168.50.200   ->   (no answer)
+dig +short NS  50.168.192.in-addr.arpa @192.168.50.200   ->   (no answer)
+```
+
+So the absence is a property of the only domain controller, and no per-host
+action could change it.
+
+### It is not harmless, which this finding first claimed
+
+The original disposition said nothing depends on reverse resolution. That was
+wrong, and was written before anything had actually tried to use it.
+
+GSSAPI over LDAP canonicalises the server hostname through reverse DNS before
+asking the KDC for a ticket. With no PTR record the canonicalisation produces a
+name that has no SPN, and the bind fails with a message that names the wrong
+problem:
+
+```text
+ldap_sasl_interactive_bind: Local error (-2)
+  GSSAPI Error: Unspecified GSS failure ... (Server not found in Kerberos database)
+```
+
+The same query with `LDAPSASL_NOCANON=on` succeeds immediately. So the missing
+reverse zone breaks Kerberised LDAP by default, and the error points at
+Kerberos rather than at DNS - which is why it read as an SPN problem during this
+audit and cost time in the wrong place.
 
 ### Disposition
 
-CLOSED. Nothing in the reconciled Layer 0/1 baseline requires reverse
-resolution, and nothing observed during the audit depends on it. If a future
-component needs PTR records, the zone is created once on HX-1 rather than
-anything being done to the members.
+OPEN. Two things to decide, and no existing decision covers either: whether the
+reverse zone is created on HX-1, and whether PTR records become part of the
+reconciled Layer 0/1 baseline. Nothing in `docs/00-control/DECISIONS.md`
+establishes a position today, so the previous "by design" was an assumption
+rather than a recorded choice.
+
+If the zone is not created, `SASL_NOCANON` has to be set wherever Kerberised
+LDAP is used, and that belongs in the runbook rather than in an operator's
+memory.
 
 ## HX5-F11 — HX-3's primary model displays as `:latest`, which is not a floating pin
 
@@ -1114,13 +1157,38 @@ made. What sits behind it is pinned and recorded: the blob
 which the sibling tag `coder-x-glm:glm47flash-q5km` also resolves to, and both
 appear in the HX-3 record with their source URI.
 
+### What is and is not protected
+
+The blob is recorded, which means a change is *detectable* by comparison. It
+does not mean a change is *detected*. Nothing in the repository or the build
+compares the running digest against the recorded one, so if
+`Coder-X-GLM-Flash` were recreated from a different source the tag would point
+at a new blob and no gate would notice.
+
+That is not specific to this alias. HX4-F04 already states the same limit: a
+tag names a reviewed source reference, not an artifact, and artifact identity
+comes from the install-time capture written into the record. It closed on a
+rule - a closed record is never silently re-pulled or re-baselined - rather
+than on a mechanism.
+
+Approved artifact, recorded in full so a later comparison has something to
+compare against:
+
+```text
+HX alias:     Coder-X-GLM-Flash
+Source URI:   hf.co/bartowski/zai-org_GLM-4.7-Flash-GGUF:Q5_K_M
+Blob SHA-256: 9e0156957bd07760644aa2a3b6d6791ac8796f2c1bc9c75a2cb07cef5ccb5764
+```
+
 ### Disposition
 
-CLOSED, not a defect. HX4-F04 is about an artifact that could move under a
-reference. Nothing can move here - the blob is fixed and recorded. Written
-down so the spelling is not re-raised as a finding on a later read.
+CLOSED for the spelling, which was the question asked: `:latest` here is how
+Ollama displays an untagged alias, not a floating pin anyone chose.
 
-## HX5-F12 — three hosts are missing the FQDN RestrictedKrbHost SPN
+The gap it sits next to stays open under HX4-F04: no gate rejects a changed
+digest on any host. Closing this one should not be read as closing that.
+
+## HX5-F12 — three hosts hold only short-form SPNs, and a short dNSHostName
 
 **Status:** OPEN / REMEDIATION
 **Severity:** Low
@@ -1153,9 +1221,29 @@ kvno: Server not found in Kerberos database while getting credentials for
 RestrictedKrbHost/hx-5.hx.local.arpa@HX.LOCAL.ARPA: kvno = 2
 ```
 
-**The keytab was never the authority.** Every keytab in the fleet lists only
-short forms, yet AD holds `host/<fqdn>` for all four. A record written from
-keytab contents would have understated what AD actually has.
+### Corrected: kvno is not the authority either
+
+The table above was the first answer and it is incomplete. `kvno` asks whether
+a ticket can be issued, which is not the same as asking what AD stores. Reading
+the computer objects directly gives the real state:
+
+```text
+HX-2  dNSHostName: hx-2                   host/HX-2, RestrictedKrbHost/HX-2
+HX-3  dNSHostName: hx-3                   host/HX-3, RestrictedKrbHost/HX-3
+HX-4  dNSHostName: hx-4                   host/HX-4, RestrictedKrbHost/HX-4
+HX-5  dNSHostName: hx-5.hx.local.arpa     host/HX-5, host/hx-5.hx.local.arpa,
+                                          RestrictedKrbHost/HX-5,
+                                          RestrictedKrbHost/hx-5.hx.local.arpa
+```
+
+Three hosts are missing **two** SPNs each, not one, and their `dNSHostName` is
+the short name rather than the FQDN. `kvno host/hx-4.hx.local.arpa` succeeded
+because Samba's KDC matches that form implicitly from the realm; it does not do
+so for `RestrictedKrbHost/`, which is why only that one appeared absent.
+
+**Neither the keytab nor kvno was the authority.** The keytab lists only short
+forms; kvno reports what a KDC will issue. Only the directory says what is
+stored, and it took a third method to see it.
 
 ### What this settles
 
@@ -1171,9 +1259,13 @@ why this was invisible until asked for directly.
 
 ### Disposition
 
-OPEN. One SPN per host on HX-2, HX-3 and HX-4. The shared domain-join block is
-where it should be fixed, so a future server does not arrive with the same
-gap - the same conclusion this audit reached about time authority and FQDN.
-Not remediated here: adding an SPN writes to AD, which is a change rather than
-a finding.
+OPEN. On HX-2, HX-3 and HX-4: set `dNSHostName` to the FQDN, then add
+`host/<fqdn>` and `RestrictedKrbHost/<fqdn>`. Order matters - AD validates an
+SPN write against `dNSHostName`, so the SPNs are refused while it holds the
+short name.
+
+HX-5 shows the intended end state, so the shared domain-join block is where
+this is fixed. A future server should not arrive with a short `dNSHostName`.
+
+Not remediated here: this writes to Active Directory.
 

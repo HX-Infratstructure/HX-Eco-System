@@ -493,13 +493,31 @@ HX-5   realm requires it   installed</code></pre>
 <p>OPEN. One decision: is a package the host's own realm declares required part of the HX standard, or is <code>adcli</code> sufficient and the declaration ignorable?</p>
 <p>If it is required, <code>apt-get install samba-common-bin</code> on HX-2 and HX-3 closes it, and the shared domain-join block should install it so this cannot recur. Not done here: installing a package on a running host is a change, and this is a standard question rather than a defect.</p>
 <h2>HX5-F10 — no reverse DNS zone is served</h2>
-<p><strong>Status:</strong> CLOSED / BY DESIGN <strong>Severity:</strong> Informational <strong>Scope:</strong> Fleet-wide <strong>Discovered on:</strong> All four audited hosts <strong>Discovered during:</strong> 2026-09-16 Layer 0/1 reconciliation audit</p>
+<p><strong>Status:</strong> OPEN / HAS IMPACT <strong>Severity:</strong> Low <strong>Scope:</strong> Fleet-wide <strong>Discovered on:</strong> All four audited hosts <strong>Discovered during:</strong> 2026-09-16 Layer 0/1 reconciliation audit</p>
 <h3>Finding</h3>
 <p>No host in scope has a PTR record. The audit reported this as uniform absence and asked whether it was intentional. It is: there is no reverse zone at all.</p>
-<pre><code class="lang-text">dig +short SOA 50.168.192.in-addr.arpa @192.168.50.200   -&gt;   (no answer)</code></pre>
-<p>HX-1 serves the forward zone <code>hx.local.arpa</code> and does not serve <code>50.168.192.in-addr.arpa</code>. The absence is a property of the domain controller, not drift on the members, and no per-host action could change it.</p>
+<p>A single SOA query is not enough to conclude a zone is unserved fleet-wide, so the authoritative server set was established first. There is one DNS server and one domain controller:</p>
+<pre><code class="lang-text">dig +short NS hx.local.arpa @192.168.50.200
+  hx-1.hx.local.arpa.
+
+dig +short SRV _ldap._tcp.dc._msdcs.hx.local.arpa @192.168.50.200
+  0 100 389 hx-1.hx.local.arpa.
+
+resolvectl on every member
+  Current DNS Server: 192.168.50.200</code></pre>
+<p>That single server serves the forward zone and returns nothing for the reverse one:</p>
+<pre><code class="lang-text">dig +short SOA 50.168.192.in-addr.arpa @192.168.50.200   -&gt;   (no answer)
+dig +short NS  50.168.192.in-addr.arpa @192.168.50.200   -&gt;   (no answer)</code></pre>
+<p>So the absence is a property of the only domain controller, and no per-host action could change it.</p>
+<h3>It is not harmless, which this finding first claimed</h3>
+<p>The original disposition said nothing depends on reverse resolution. That was wrong, and was written before anything had actually tried to use it.</p>
+<p>GSSAPI over LDAP canonicalises the server hostname through reverse DNS before asking the KDC for a ticket. With no PTR record the canonicalisation produces a name that has no SPN, and the bind fails with a message that names the wrong problem:</p>
+<pre><code class="lang-text">ldap_sasl_interactive_bind: Local error (-2)
+  GSSAPI Error: Unspecified GSS failure ... (Server not found in Kerberos database)</code></pre>
+<p>The same query with <code>LDAPSASL_NOCANON=on</code> succeeds immediately. So the missing reverse zone breaks Kerberised LDAP by default, and the error points at Kerberos rather than at DNS - which is why it read as an SPN problem during this audit and cost time in the wrong place.</p>
 <h3>Disposition</h3>
-<p>CLOSED. Nothing in the reconciled Layer 0/1 baseline requires reverse resolution, and nothing observed during the audit depends on it. If a future component needs PTR records, the zone is created once on HX-1 rather than anything being done to the members.</p>
+<p>OPEN. Two things to decide, and no existing decision covers either: whether the reverse zone is created on HX-1, and whether PTR records become part of the reconciled Layer 0/1 baseline. Nothing in <code>docs/00-control/DECISIONS.md</code> establishes a position today, so the previous "by design" was an assumption rather than a recorded choice.</p>
+<p>If the zone is not created, <code>SASL_NOCANON</code> has to be set wherever Kerberised LDAP is used, and that belongs in the runbook rather than in an operator's memory.</p>
 <h2>HX5-F11 — HX-3's primary model displays as <code>:latest</code>, which is not a floating pin</h2>
 <p><strong>Status:</strong> CLOSED / NOT A DEFECT <strong>Severity:</strong> Informational <strong>Scope:</strong> HX-3 model provenance <strong>Discovered on:</strong> HX-3 <strong>Discovered during:</strong> 2026-09-16 Layer 0/1 reconciliation audit</p>
 <h3>Finding</h3>
@@ -507,9 +525,17 @@ HX-5   realm requires it   installed</code></pre>
 <p>It is not. The record names the alias without a tag:</p>
 <pre><code class="lang-text">HX alias: Coder-X-GLM-Flash</code></pre>
 <p><code>ollama create</code> applies <code>:latest</code> to an untagged name automatically, so the suffix is how Ollama displays an untagged alias rather than a choice anyone made. What sits behind it is pinned and recorded: the blob <code>sha256-9e0156957bd07760644aa2a3b6d6791ac8796f2c1bc9c75a2cb07cef5ccb5764</code>, which the sibling tag <code>coder-x-glm:glm47flash-q5km</code> also resolves to, and both appear in the HX-3 record with their source URI.</p>
+<h3>What is and is not protected</h3>
+<p>The blob is recorded, which means a change is <em>detectable</em> by comparison. It does not mean a change is <em>detected</em>. Nothing in the repository or the build compares the running digest against the recorded one, so if <code>Coder-X-GLM-Flash</code> were recreated from a different source the tag would point at a new blob and no gate would notice.</p>
+<p>That is not specific to this alias. HX4-F04 already states the same limit: a tag names a reviewed source reference, not an artifact, and artifact identity comes from the install-time capture written into the record. It closed on a rule - a closed record is never silently re-pulled or re-baselined - rather than on a mechanism.</p>
+<p>Approved artifact, recorded in full so a later comparison has something to compare against:</p>
+<pre><code class="lang-text">HX alias:     Coder-X-GLM-Flash
+Source URI:   hf.co/bartowski/zai-org_GLM-4.7-Flash-GGUF:Q5_K_M
+Blob SHA-256: 9e0156957bd07760644aa2a3b6d6791ac8796f2c1bc9c75a2cb07cef5ccb5764</code></pre>
 <h3>Disposition</h3>
-<p>CLOSED, not a defect. HX4-F04 is about an artifact that could move under a reference. Nothing can move here - the blob is fixed and recorded. Written down so the spelling is not re-raised as a finding on a later read.</p>
-<h2>HX5-F12 — three hosts are missing the FQDN RestrictedKrbHost SPN</h2>
+<p>CLOSED for the spelling, which was the question asked: <code>:latest</code> here is how Ollama displays an untagged alias, not a floating pin anyone chose.</p>
+<p>The gap it sits next to stays open under HX4-F04: no gate rejects a changed digest on any host. Closing this one should not be read as closing that.</p>
+<h2>HX5-F12 — three hosts hold only short-form SPNs, and a short dNSHostName</h2>
 <p><strong>Status:</strong> OPEN / REMEDIATION <strong>Severity:</strong> Low <strong>Scope:</strong> HX-2, HX-3, HX-4 <strong>Discovered on:</strong> All four audited hosts <strong>Discovered during:</strong> 2026-09-16 resolution of the open SPN question</p>
 <h3>Finding</h3>
 <p>The audit left the AD-side SPN set unestablished because the local keytab holds only short forms and no AD query had been run. Asking the KDC directly settles it, with no credentials: <code>kvno</code> returns a ticket when the SPN exists and says so plainly when it does not.</p>
@@ -523,10 +549,21 @@ HX-5   realm requires it   installed</code></pre>
       RestrictedKrbHost/hx-4.hx.local.arpa@HX.LOCAL.ARPA
 
 RestrictedKrbHost/hx-5.hx.local.arpa@HX.LOCAL.ARPA: kvno = 2</code></pre>
-<p><strong>The keytab was never the authority.</strong> Every keytab in the fleet lists only short forms, yet AD holds <code>host/&lt;fqdn&gt;</code> for all four. A record written from keytab contents would have understated what AD actually has.</p>
+<h3>Corrected: kvno is not the authority either</h3>
+<p>The table above was the first answer and it is incomplete. <code>kvno</code> asks whether a ticket can be issued, which is not the same as asking what AD stores. Reading the computer objects directly gives the real state:</p>
+<pre><code class="lang-text">HX-2  dNSHostName: hx-2                   host/HX-2, RestrictedKrbHost/HX-2
+HX-3  dNSHostName: hx-3                   host/HX-3, RestrictedKrbHost/HX-3
+HX-4  dNSHostName: hx-4                   host/HX-4, RestrictedKrbHost/HX-4
+HX-5  dNSHostName: hx-5.hx.local.arpa     host/HX-5, host/hx-5.hx.local.arpa,
+                                          RestrictedKrbHost/HX-5,
+                                          RestrictedKrbHost/hx-5.hx.local.arpa</code></pre>
+<p>Three hosts are missing <strong>two</strong> SPNs each, not one, and their <code>dNSHostName</code> is the short name rather than the FQDN. <code>kvno host/hx-4.hx.local.arpa</code> succeeded because Samba's KDC matches that form implicitly from the realm; it does not do so for <code>RestrictedKrbHost/</code>, which is why only that one appeared absent.</p>
+<p><strong>Neither the keytab nor kvno was the authority.</strong> The keytab lists only short forms; kvno reports what a KDC will issue. Only the directory says what is stored, and it took a third method to see it.</p>
 <h3>What this settles</h3>
 <p>D-029 asked whether short-form principals are sufficient or FQDN SPNs must exist. HX-5 is the reconciled reference and carries all four forms, so the standard is all four. The other three carry three of four.</p>
 <h3>Functional impact</h3>
 <p>None observed. <code>RestrictedKrbHost/&lt;fqdn&gt;</code> is used for constrained delegation and restricted-host scenarios; nothing in the fleet requests it today, which is why this was invisible until asked for directly.</p>
 <h3>Disposition</h3>
-<p>OPEN. One SPN per host on HX-2, HX-3 and HX-4. The shared domain-join block is where it should be fixed, so a future server does not arrive with the same gap - the same conclusion this audit reached about time authority and FQDN. Not remediated here: adding an SPN writes to AD, which is a change rather than a finding.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/00-control/FINDINGS.md</code>.</footer></div></body></html>
+<p>OPEN. On HX-2, HX-3 and HX-4: set <code>dNSHostName</code> to the FQDN, then add <code>host/&lt;fqdn&gt;</code> and <code>RestrictedKrbHost/&lt;fqdn&gt;</code>. Order matters - AD validates an SPN write against <code>dNSHostName</code>, so the SPNs are refused while it holds the short name.</p>
+<p>HX-5 shows the intended end state, so the shared domain-join block is where this is fixed. A future server should not arrive with a short <code>dNSHostName</code>.</p>
+<p>Not remediated here: this writes to Active Directory.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/00-control/FINDINGS.md</code>.</footer></div></body></html>
