@@ -804,18 +804,49 @@ check('foundation: chrony is restarted after the drop-in is written',
 # D-028: the hold picks the pinned branch and nothing else. A filter that
 # caught every nvidia package would freeze branches this decision says nothing
 # about, and one that caught none would let routine patching move the driver.
-_PKGS = ('libnvidia-cfg1-595-server\nlibnvidia-gl-595-server\n'
-         'nvidia-utils-595-server\nlibnvidia-cfg1-580-server\n'
-         'chrony\nopenssh-server')
+# The real installed set from HX-3, not an invented one. The four packages
+# that are actually the driver carry a suffix after "-server", and an
+# end-anchored pattern left every one of them free while holding the
+# libraries - a hold that looked like twelve packages and protected nothing
+# that matters.
+_PKGS = '\n'.join([
+    'libnvidia-cfg1-595-server',
+    'libnvidia-common-595-server',
+    'libnvidia-egl-wayland1',
+    'libnvidia-gl-595-server',
+    'linux-firmware-nvidia-graphics',
+    'nvidia-compute-utils-595-server',
+    'nvidia-dkms-595-server-open',
+    'nvidia-driver-595-server-open',
+    'nvidia-firmware-595-server-595.71.05',
+    'nvidia-kernel-common-595-server',
+    'nvidia-kernel-source-595-server-open',
+    'nvidia-prime',
+    'nvidia-settings',
+    'nvidia-utils-595-server',
+    'xserver-xorg-video-nvidia-595-server',
+    'libnvidia-cfg1-580-server',
+])
 rc, out = foundation('hx_nvidia_hold_list', _PKGS, '595')
-_held = [ln for ln in out.splitlines() if ln.strip()]
-check('foundation: the driver hold names every package on the pinned branch',
-      sorted(_held) == ['libnvidia-cfg1-595-server', 'libnvidia-gl-595-server',
-                        'nvidia-utils-595-server'], str(_held))
+_held = sorted(ln for ln in out.splitlines() if ln.strip())
+
+# The ones that carry the driver itself. If these are not held, the hold is
+# decoration.
+for _pkg in ('nvidia-dkms-595-server-open', 'nvidia-driver-595-server-open',
+             'nvidia-kernel-source-595-server-open',
+             'nvidia-firmware-595-server-595.71.05'):
+    check('foundation: the driver hold covers %s' % _pkg, _pkg in _held, str(_held))
+
+check('foundation: the driver hold covers the runtime libraries too',
+      'libnvidia-gl-595-server' in _held and 'nvidia-utils-595-server' in _held,
+      str(_held))
 check('foundation: the driver hold leaves other branches alone',
       'libnvidia-cfg1-580-server' not in _held, str(_held))
 check('foundation: the driver hold leaves unrelated packages alone',
-      'chrony' not in _held and 'openssh-server' not in _held, str(_held))
+      not any(p in _held for p in ('nvidia-prime', 'nvidia-settings',
+                                   'libnvidia-egl-wayland1',
+                                   'linux-firmware-nvidia-graphics')),
+      str(_held))
 rc, out = foundation('hx_nvidia_hold_list', _PKGS, '999')
 check('foundation: a branch with nothing installed holds nothing',
       [ln for ln in out.splitlines() if ln.strip()] == [], out)
