@@ -223,7 +223,7 @@ GPU 1: RTX 5060 Ti, 16311 MiB
 nvidia-smi: PASS before and after reboot
 ```
 
-The shared Block 2 pin still targets `595.71.05-0ubuntu0.24.04.1`; therefore **Block 2 must not be rerun on HX-5 merely for confirmation**.
+The shared Block 2 pin targets `595.91.07-0ubuntu0.24.04.1` as of 2026-09-16. HX-5 runs 595.99.02, so **Block 2 must not be rerun on HX-5 merely for confirmation**.
 
 **PASS**
 

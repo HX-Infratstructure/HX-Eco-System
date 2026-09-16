@@ -33,7 +33,7 @@ Outstanding infrastructure findings are tracked in `docs/00-control/FINDINGS.md`
 
 ### HX-2
 - Domain membership / SSSD: PASS
-- NVIDIA 595.71.05: PASS
+- NVIDIA 595.91.07: PASS
 - 2 x GeForce RTX 4070 Ti SUPER 16 GB: PASS
 - Dedicated `/srv/ollama` storage: PASS
 - Ollama 0.34.0: PASS
@@ -44,7 +44,7 @@ Outstanding infrastructure findings are tracked in `docs/00-control/FINDINGS.md`
 ### HX-3
 - Ubuntu 24.04.5 / kernel 7.0.0-31: PASS
 - Domain membership / SSSD: PASS
-- NVIDIA 595.71.05: PASS
+- NVIDIA 595.91.07: PASS
 - 2 x RTX 5060 Ti 16 GB: PASS
 - Dedicated `/srv/ollama` storage: PASS
 - Ollama 0.34.0: PASS
@@ -56,7 +56,7 @@ Outstanding infrastructure findings are tracked in `docs/00-control/FINDINGS.md`
 ### HX-4
 - Ubuntu 24.04.5 / kernel 7.0.0-31: PASS
 - Domain membership / SSSD: PASS
-- NVIDIA 595.71.05: PASS
+- NVIDIA 595.91.07: PASS
 - 2 x RTX 5060 Ti 16 GB: PASS
 - Dedicated `/srv/ollama` storage: PASS
 - Ollama 0.34.0: PASS

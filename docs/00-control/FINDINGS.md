@@ -700,9 +700,22 @@ Do not rerun Block 2 on HX-5 merely for confirmation. A future fleet decision sh
 Accepted as a standing exception by the owner on 2026-09-15.
 
 - HX-5 stays on `595.99.02`. It is not downgraded to the shared pin.
-- Every other host stays on the shared Block 2 pin `595.71.05-0ubuntu0.24.04.1`.
-  No host is upgraded to match HX-5.
+- Every other host stays on the shared Block 2 pin, which was
+  `595.71.05-0ubuntu0.24.04.1` when this was decided. No host is upgraded to
+  match HX-5.
 - Block 2 is not rerun on HX-5.
+
+### Update, 2026-09-16
+
+The shared pin moved to `595.91.07-0ubuntu0.24.04.1` by owner decision. HX-2,
+HX-3 and HX-4 were upgraded and rebooted; all three report `595.91.07` and
+their records are updated. HX-5 still runs `595.99.02`, so the exception this
+finding records still stands - the gap is now two point releases rather than
+twenty, and the shape of the decision is unchanged.
+
+The D-028 holds were released to perform the upgrade and have not been
+reapplied. Whether the new pin is held again is an open question for D-028,
+not something this finding settles.
 
 The divergence is accepted rather than removed. This finding is not a pending
 action; it is the record of the exception and the rule that goes with it.

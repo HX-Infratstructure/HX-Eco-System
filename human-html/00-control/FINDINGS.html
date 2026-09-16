@@ -361,12 +361,15 @@ final reboot persistence</code></pre>
 <p>Accepted as a standing exception by the owner on 2026-09-15.</p>
 <ul>
 <li>HX-5 stays on <code>595.99.02</code>. It is not downgraded to the shared pin.</li>
-<li>Every other host stays on the shared Block 2 pin <code>595.71.05-0ubuntu0.24.04.1</code>.</li>
+<li>Every other host stays on the shared Block 2 pin, which was</li>
 </ul>
-<p>No host is upgraded to match HX-5.</p>
+<p><code>595.71.05-0ubuntu0.24.04.1</code> when this was decided. No host is upgraded to match HX-5.</p>
 <ul>
 <li>Block 2 is not rerun on HX-5.</li>
 </ul>
+<h3>Update, 2026-09-16</h3>
+<p>The shared pin moved to <code>595.91.07-0ubuntu0.24.04.1</code> by owner decision. HX-2, HX-3 and HX-4 were upgraded and rebooted; all three report <code>595.91.07</code> and their records are updated. HX-5 still runs <code>595.99.02</code>, so the exception this finding records still stands - the gap is now two point releases rather than twenty, and the shape of the decision is unchanged.</p>
+<p>The D-028 holds were released to perform the upgrade and have not been reapplied. Whether the new pin is held again is an open question for D-028, not something this finding settles.</p>
 <p>The divergence is accepted rather than removed. This finding is not a pending action; it is the record of the exception and the rule that goes with it.</p>
 <h2>HX5-F04 — The link gate reads a server filesystem path as a repository reference</h2>
 <p><strong>Status:</strong> CLOSED <strong>Severity:</strong> Low <strong>Scope:</strong> Repository gate; every server record that cites a configuration file <strong>Discovered on:</strong> HX-5 <strong>Discovered during:</strong> PR #26 — Documentation consistency gate <strong>Affected file:</strong> <code>tools/hx-doc/hx_doc_check.py</code></p>
