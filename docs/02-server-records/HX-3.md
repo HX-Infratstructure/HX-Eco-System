@@ -9,6 +9,30 @@
 
 ---
 
+## Foundation
+
+Established by `docs/03-runbooks/common/00-foundation.sh`, gated by
+`01-base-admin-network-updates.sh`, and proven from the operator workstation
+rather than from inside a session this host had already authenticated.
+
+| Control | Evidence | State |
+|---|---|---|
+| `hostname -f` | `hx-3.hx.local.arpa` | PASS |
+| AD DNS A record | `192.168.50.203` on HX-1 | PASS |
+| Time authority | `chronyc sources` shows `^* 192.168.50.200`; tracking reference `C0A832C8 (192.168.50.200)` | PASS |
+| Fleet key | `SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk` in `/home/hxsa/.ssh/authorized_keys` | PASS |
+| NOPASSWD sudo | `sudo -k -n true` succeeds, so a cached credential is not what proves it | PASS |
+| SSH persistence | `ssh.socket` enabled; `ssh.service` disabled, which is correct on Ubuntu | PASS |
+| External key-only login | `tools/hx-doc/hx-fleet-access hx-3` returns `hx-3` and `KEY+SUDO-PASS` | PASS |
+
+Verified 2026-09-16 after the reboot at `2026-09-16 14:30:56`, so this is post-reboot state
+rather than a live configuration that has never survived one.
+
+<!-- Service principal names are deliberately absent. D-029 has not decided
+     whether short-form principals are sufficient or FQDN SPNs must exist in
+     AD, and the 2026-09-16 audit established neither. Do not add an SPN row
+     until it is decided. -->
+
 ## 1. Identity and Network
 
 | Item | As-built configuration |

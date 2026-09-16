@@ -87,7 +87,7 @@ measured and does not fire.
 
 **Status:** OPEN / DEFERRED  
 **Severity:** Low  
-**Scope:** Domain-client configuration; fleet applicability to be assessed  
+**Scope:** Fleet-wide; confirmed on HX-2, HX-3, HX-4 and HX-5 on 2026-09-16  
 **Discovered on:** HX-4  
 **Discovered during:** Post-Block-2 validation
 
@@ -142,9 +142,26 @@ No configuration change was made during HX-4 Blocks 1-3 because correcting the r
 
 Before changing HX-4, compare the SSSD configuration and socket state across the existing domain-joined fleet and establish the intended HX-wide responder model.
 
+### Fleet applicability, established 2026-09-16
+
+Step 1 is done. Every domain-joined host carries this, so it belongs to the
+shared join procedure rather than to HX-4:
+
+```text
+HX-2   sssd-nss.socket, sssd-pam-priv.socket, sssd-pam.socket   3 failed
+HX-3   sssd-nss.socket, sssd-pam-priv.socket                    2 failed
+HX-4   sssd-nss.socket, sssd-pam-priv.socket                    2 failed
+HX-5   sssd-nss.socket, sssd-pam-priv.socket                    2 failed
+```
+
+The count varies, so a check asserting three failed units would pass on HX-2
+and fail everywhere else. Identity resolution works on all four:
+`getent passwd jarvisr@hx.local.arpa` returns the domain identity.
+
 ### Required follow-up
 
-1. Inspect SSSD responder configuration on existing joined hosts.
+1. ~~Inspect SSSD responder configuration on existing joined hosts.~~ Done
+   2026-09-16; the table above is the result.
 2. Determine whether HX standardizes on direct responder startup or socket activation.
 3. Update the common domain-join runbook if the issue is fleet-wide.
 4. Correct affected hosts under a separate approved change.
@@ -603,7 +620,7 @@ Do not interrupt the build to rewrite descriptive installer comments. Correct co
 
 ## HX5-F02 — Layer 0/1 evidence standard drift across inference hosts
 
-**Status:** OPEN / PLANNED AUDIT  
+**Status:** CLOSED  
 **Severity:** Medium  
 **Scope:** HX-2, HX-3, HX-4 retrospective foundation evidence  
 **Discovered on:** HX-5  
@@ -657,9 +674,37 @@ final reboot persistence
 
 ### Disposition
 
-OPEN / PLANNED AUDIT.
+CLOSED 2026-09-16.
 
-This finding closes when HX-2, HX-3, and HX-4 each have a retained audit result against the reconciled standard and their server records are backfilled accordingly.
+The audit ran read-only across HX-2 through HX-5 and found the gap was wider
+than "the older records are thinner". Three of four hosts did not use HX-1 as
+their time source and could not resolve their own FQDN. The shared base block
+had never configured either, so nothing had ever checked them - on any host.
+All three were remediated and re-proven, and every server record now carries a
+Foundation section that `hx-record-check` requires.
+
+The condition this finding set for itself is met: HX-2, HX-3 and HX-4 each have
+a retained result against the reconciled standard, and their records are
+backfilled. What the audit exposed beyond that became findings of its own
+rather than being folded in here.
+
+### One audit claim was wrong, and is withdrawn
+
+The audit reported that HX-2 and HX-3 retain no evidence, on the strength of
+`docs/05-evidence/hx-2` and `hx-3` holding zero files, and concluded their PASS
+labels could not be reproduced from anything the repository keeps.
+
+That was a misreading of this repository's own standard.
+`docs/05-evidence/README.md` states that HX-1, HX-2 and HX-3 use inline record
+evidence, keeps their proof inside `docs/02-server-records/` as exact commands
+and exact responses, calls it accepted evidence, and says explicitly: do not
+retrofit these into run bundles. Both records carry it - 413 and 441 lines,
+with 56 fenced evidence blocks each.
+
+An empty evidence directory is the expected state for those three hosts, not a
+gap. No bundles were created. Recorded here because the claim was circulated
+before it was checked, and a reader who acts on it would be undoing a
+deliberate decision.
 
 ## HX5-F03 — Shared Block 2 NVIDIA pin diverges from accepted HX-5 driver
 
@@ -907,3 +952,79 @@ Two changes, so the scaffold cannot restore the file unnoticed:
 
 Revoking `OPENWIKI_PR_TOKEN` and `ANTHROPIC_API_KEY` is on the backlog by owner
 decision of 2026-09-15. It is recorded here and is not scheduled.
+
+## HX5-F07 — `net ads testjoin` disagrees with `adcli testjoin` by design
+
+**Status:** CLOSED / EXPECTED
+**Severity:** Informational
+**Scope:** Every domain-joined host that was joined with adcli
+**Discovered on:** HX-4 and HX-5
+**Discovered during:** 2026-09-16 Layer 0/1 reconciliation audit
+
+### Finding
+
+The two tools disagree on every host where both are installed:
+
+```text
+adcli testjoin     Sucessfully validated join to domain hx.local.arpa
+net ads testjoin   Join to domain is not valid: NT code 0xfffffff6
+```
+
+They read different stores. `adcli` uses the Kerberos keytab; `net ads` uses
+Samba's secrets database, which an adcli-based join does not populate. Machine
+trust is genuinely valid - `adcli testjoin` is the authority the control matrix
+names, and it passes on every host.
+
+The same cause makes `net ads dns register -P` fail with
+`NT_STATUS_CANT_ACCESS_DOMAIN_INFO`, which is why DNS registration had to use a
+Kerberos ticket from the keytab instead.
+
+### Disposition
+
+CLOSED as expected behaviour, written down so it is not re-investigated on
+every audit. Do not "fix" it by re-joining with `net`. The join is valid.
+
+## HX5-F08 — HX-2 could not register its own DNS record, and the reason is unknown
+
+**Status:** OPEN / UNEXPLAINED
+**Severity:** Low
+**Scope:** HX-2 AD DNS registration
+**Discovered on:** HX-2
+**Discovered during:** 2026-09-16 AD DNS remediation
+
+### Finding
+
+HX-3 and HX-4 registered their own A records using their machine account from
+the keytab. HX-2 refused, repeatedly:
+
+```text
+update failed: SERVFAIL
+```
+
+HX-2 has zone write permission. It created a throwaway name with the same
+credential, which was then removed. Only `hx-2.hx.local.arpa` was refused, in
+every form tried: add, delete-then-add, and the uppercase spelling.
+
+The obvious explanation was a stale AD object owned by HX-2's previous machine
+account, since HX-2's SSH host key had also changed at some point. **That
+explanation was wrong.** Queried as Administrator, the node did not exist:
+
+```text
+ERROR(runtime): Record or zone does not exist. [WERR_DNS_ERROR_NAME_DOES_NOT_EXIST]
+```
+
+and a plain `samba-tool dns add` as Administrator succeeded first time. There
+was no tombstone to clear.
+
+### Functional impact
+
+None. The record exists and resolves fleet-wide, confirmed from HX-1, HX-5 and
+HX-6.
+
+### Disposition
+
+OPEN. The record is correct. What is unresolved is why the machine-account path
+worked on two hosts and not on a third with an identical keytab shape and a
+valid `adcli testjoin`. Left open rather than written up as settled, because
+the first explanation was confident and wrong, and a fleet standard should not
+rest on a cause nobody has established.

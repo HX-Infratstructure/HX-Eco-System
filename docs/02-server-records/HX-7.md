@@ -8,6 +8,28 @@
 > Scaffolded by `tools/hx-doc/hx-new-server hx-7`. Fill every section as the
 > build proceeds. `tools/hx-doc/hx-record-check` reports what is still open.
 
+## Foundation
+
+Established by `docs/03-runbooks/common/00-foundation.sh` before Block 1, and
+gated by `01-base-admin-network-updates.sh`, which refuses to proceed without
+it. Proven from the operator workstation before Layer 0/1 closes.
+
+| Control | Expected | State |
+|---|---|---|
+| `hostname -f` | `hx-7.hx.local.arpa` | NOT ESTABLISHED |
+| AD DNS A record | the address recorded in `docs/00-control/hx-fleet.tsv` | NOT ESTABLISHED |
+| Time authority | `chronyc sources` shows `^* 192.168.50.200` | NOT ESTABLISHED |
+| Fleet key | `SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk` | NOT ESTABLISHED |
+| NOPASSWD sudo | `sudo -k -n true` succeeds | NOT ESTABLISHED |
+| SSH persistence | `ssh.service` or `ssh.socket` enabled | NOT ESTABLISHED |
+| External key-only login | `tools/hx-doc/hx-fleet-access hx-7` returns `hx-7` and `KEY+SUDO-PASS` | NOT ESTABLISHED |
+
+This host is not built. Every row is filled from the build, and proof step F0
+in `docs/00-control/hx-proof.tsv` must be satisfied before this server's own
+phase can close.
+
+<!-- SPNs deliberately absent pending D-029. -->
+
 ## 1. Identity and Network
 
 Hostname, IP, gateway, DNS, domain join, SSSD, domain user resolution.

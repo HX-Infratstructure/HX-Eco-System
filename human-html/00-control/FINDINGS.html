@@ -81,7 +81,7 @@ STOP: expected HX-1 DNS 192.168.50.200 not found</code></pre>
 <p>The correction is now part of the shared runbook and must be used for HX-5 through HX-17.</p>
 <p>"Fleet-wide" describes the block this finding names. One instance of the same pattern remains elsewhere and is tracked separately as HX4-F05, where it is measured and does not fire.</p>
 <h2>HX4-F02 — SSSD responder and socket-activation conflict</h2>
-<p><strong>Status:</strong> OPEN / DEFERRED <strong>Severity:</strong> Low <strong>Scope:</strong> Domain-client configuration; fleet applicability to be assessed <strong>Discovered on:</strong> HX-4 <strong>Discovered during:</strong> Post-Block-2 validation</p>
+<p><strong>Status:</strong> OPEN / DEFERRED <strong>Severity:</strong> Low <strong>Scope:</strong> Fleet-wide; confirmed on HX-2, HX-3, HX-4 and HX-5 on 2026-09-16 <strong>Discovered on:</strong> HX-4 <strong>Discovered during:</strong> Post-Block-2 validation</p>
 <h3>Finding</h3>
 <p>After the HX-4 domain-join and NVIDIA block completed and the server rebooted, three systemd socket units were failed:</p>
 <pre><code class="lang-text">sssd-nss.socket
@@ -108,9 +108,19 @@ mentioned in the services' line in /etc/sssd/sssd.conf.</code></pre>
 <p>DEFERRED.</p>
 <p>No configuration change was made during HX-4 Blocks 1-3 because correcting the responder activation model was outside the approved build scope.</p>
 <p>Before changing HX-4, compare the SSSD configuration and socket state across the existing domain-joined fleet and establish the intended HX-wide responder model.</p>
+<h3>Fleet applicability, established 2026-09-16</h3>
+<p>Step 1 is done. Every domain-joined host carries this, so it belongs to the shared join procedure rather than to HX-4:</p>
+<pre><code class="lang-text">HX-2   sssd-nss.socket, sssd-pam-priv.socket, sssd-pam.socket   3 failed
+HX-3   sssd-nss.socket, sssd-pam-priv.socket                    2 failed
+HX-4   sssd-nss.socket, sssd-pam-priv.socket                    2 failed
+HX-5   sssd-nss.socket, sssd-pam-priv.socket                    2 failed</code></pre>
+<p>The count varies, so a check asserting three failed units would pass on HX-2 and fail everywhere else. Identity resolution works on all four: <code>getent passwd jarvisr@hx.local.arpa</code> returns the domain identity.</p>
 <h3>Required follow-up</h3>
 <ol>
-<li>Inspect SSSD responder configuration on existing joined hosts.</li>
+<li>~~Inspect SSSD responder configuration on existing joined hosts.~~ Done</li>
+</ol>
+<p>2026-09-16; the table above is the result.</p>
+<ol>
 <li>Determine whether HX standardizes on direct responder startup or socket activation.</li>
 <li>Update the common domain-join runbook if the issue is fleet-wide.</li>
 <li>Correct affected hosts under a separate approved change.</li>
@@ -305,7 +315,7 @@ Observed after next reboot: /srv/ollama -&gt; /dev/nvme1n1p3</code></pre>
 <p>NON-BLOCKING.</p>
 <p>Do not interrupt the build to rewrite descriptive installer comments. Correct comments during a future hygiene pass if desired, but keep UUID as the only storage authority.</p>
 <h2>HX5-F02 — Layer 0/1 evidence standard drift across inference hosts</h2>
-<p><strong>Status:</strong> OPEN / PLANNED AUDIT <strong>Severity:</strong> Medium <strong>Scope:</strong> HX-2, HX-3, HX-4 retrospective foundation evidence <strong>Discovered on:</strong> HX-5 <strong>Discovered during:</strong> 2026-09-15 clean-rebuild Layer 0/1 reconciliation</p>
+<p><strong>Status:</strong> CLOSED <strong>Severity:</strong> Medium <strong>Scope:</strong> HX-2, HX-3, HX-4 retrospective foundation evidence <strong>Discovered on:</strong> HX-5 <strong>Discovered during:</strong> 2026-09-15 clean-rebuild Layer 0/1 reconciliation</p>
 <h3>Finding</h3>
 <p>HX-5 exposed that successful completion of the shared Blocks 1 and 2 does not by itself prove the complete HX Layer 0/1 foundation. The reconciled HX-5 standard now explicitly proves controls that are not consistently retained in the older HX-2/HX-3/HX-4 records.</p>
 <p>The evidence gap includes some combination of:</p>
@@ -342,8 +352,13 @@ approved storage mounts
 OS maintenance state
 final reboot persistence</code></pre>
 <h3>Disposition</h3>
-<p>OPEN / PLANNED AUDIT.</p>
-<p>This finding closes when HX-2, HX-3, and HX-4 each have a retained audit result against the reconciled standard and their server records are backfilled accordingly.</p>
+<p>CLOSED 2026-09-16.</p>
+<p>The audit ran read-only across HX-2 through HX-5 and found the gap was wider than "the older records are thinner". Three of four hosts did not use HX-1 as their time source and could not resolve their own FQDN. The shared base block had never configured either, so nothing had ever checked them - on any host. All three were remediated and re-proven, and every server record now carries a Foundation section that <code>hx-record-check</code> requires.</p>
+<p>The condition this finding set for itself is met: HX-2, HX-3 and HX-4 each have a retained result against the reconciled standard, and their records are backfilled. What the audit exposed beyond that became findings of its own rather than being folded in here.</p>
+<h3>One audit claim was wrong, and is withdrawn</h3>
+<p>The audit reported that HX-2 and HX-3 retain no evidence, on the strength of <code>docs/05-evidence/hx-2</code> and <code>hx-3</code> holding zero files, and concluded their PASS labels could not be reproduced from anything the repository keeps.</p>
+<p>That was a misreading of this repository's own standard. <code>docs/05-evidence/README.md</code> states that HX-1, HX-2 and HX-3 use inline record evidence, keeps their proof inside <code>docs/02-server-records/</code> as exact commands and exact responses, calls it accepted evidence, and says explicitly: do not retrofit these into run bundles. Both records carry it - 413 and 441 lines, with 56 fenced evidence blocks each.</p>
+<p>An empty evidence directory is the expected state for those three hosts, not a gap. No bundles were created. Recorded here because the claim was circulated before it was checked, and a reader who acts on it would be undoing a deliberate decision.</p>
 <h2>HX5-F03 — Shared Block 2 NVIDIA pin diverges from accepted HX-5 driver</h2>
 <p><strong>Status:</strong> ACCEPTED / EXCEPTION <strong>Severity:</strong> Medium <strong>Scope:</strong> HX-5 rerun safety / shared Block 2 applicability <strong>Discovered on:</strong> HX-5 <strong>Discovered during:</strong> 2026-09-15 clean rebuild</p>
 <h3>Finding</h3>
@@ -441,4 +456,27 @@ model:       z-ai/glm-5.2, a paid run, unattended</code></pre>
 </ul>
 <p>decision deleted exists again. A gate test creates the file and requires the refusal, so the guard is proven able to fire.</p>
 <h3>Remainder</h3>
-<p>Revoking <code>OPENWIKI_PR_TOKEN</code> and <code>ANTHROPIC_API_KEY</code> is on the backlog by owner decision of 2026-09-15. It is recorded here and is not scheduled.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/00-control/FINDINGS.md</code>.</footer></div></body></html>
+<p>Revoking <code>OPENWIKI_PR_TOKEN</code> and <code>ANTHROPIC_API_KEY</code> is on the backlog by owner decision of 2026-09-15. It is recorded here and is not scheduled.</p>
+<h2>HX5-F07 — <code>net ads testjoin</code> disagrees with <code>adcli testjoin</code> by design</h2>
+<p><strong>Status:</strong> CLOSED / EXPECTED <strong>Severity:</strong> Informational <strong>Scope:</strong> Every domain-joined host that was joined with adcli <strong>Discovered on:</strong> HX-4 and HX-5 <strong>Discovered during:</strong> 2026-09-16 Layer 0/1 reconciliation audit</p>
+<h3>Finding</h3>
+<p>The two tools disagree on every host where both are installed:</p>
+<pre><code class="lang-text">adcli testjoin     Sucessfully validated join to domain hx.local.arpa
+net ads testjoin   Join to domain is not valid: NT code 0xfffffff6</code></pre>
+<p>They read different stores. <code>adcli</code> uses the Kerberos keytab; <code>net ads</code> uses Samba's secrets database, which an adcli-based join does not populate. Machine trust is genuinely valid - <code>adcli testjoin</code> is the authority the control matrix names, and it passes on every host.</p>
+<p>The same cause makes <code>net ads dns register -P</code> fail with <code>NT_STATUS_CANT_ACCESS_DOMAIN_INFO</code>, which is why DNS registration had to use a Kerberos ticket from the keytab instead.</p>
+<h3>Disposition</h3>
+<p>CLOSED as expected behaviour, written down so it is not re-investigated on every audit. Do not "fix" it by re-joining with <code>net</code>. The join is valid.</p>
+<h2>HX5-F08 — HX-2 could not register its own DNS record, and the reason is unknown</h2>
+<p><strong>Status:</strong> OPEN / UNEXPLAINED <strong>Severity:</strong> Low <strong>Scope:</strong> HX-2 AD DNS registration <strong>Discovered on:</strong> HX-2 <strong>Discovered during:</strong> 2026-09-16 AD DNS remediation</p>
+<h3>Finding</h3>
+<p>HX-3 and HX-4 registered their own A records using their machine account from the keytab. HX-2 refused, repeatedly:</p>
+<pre><code class="lang-text">update failed: SERVFAIL</code></pre>
+<p>HX-2 has zone write permission. It created a throwaway name with the same credential, which was then removed. Only <code>hx-2.hx.local.arpa</code> was refused, in every form tried: add, delete-then-add, and the uppercase spelling.</p>
+<p>The obvious explanation was a stale AD object owned by HX-2's previous machine account, since HX-2's SSH host key had also changed at some point. <strong>That explanation was wrong.</strong> Queried as Administrator, the node did not exist:</p>
+<pre><code class="lang-text">ERROR(runtime): Record or zone does not exist. [WERR_DNS_ERROR_NAME_DOES_NOT_EXIST]</code></pre>
+<p>and a plain <code>samba-tool dns add</code> as Administrator succeeded first time. There was no tombstone to clear.</p>
+<h3>Functional impact</h3>
+<p>None. The record exists and resolves fleet-wide, confirmed from HX-1, HX-5 and HX-6.</p>
+<h3>Disposition</h3>
+<p>OPEN. The record is correct. What is unresolved is why the machine-account path worked on two hosts and not on a third with an identical keytab shape and a valid <code>adcli testjoin</code>. Left open rather than written up as settled, because the first explanation was confident and wrong, and a fleet standard should not rest on a cause nobody has established.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/00-control/FINDINGS.md</code>.</footer></div></body></html>
