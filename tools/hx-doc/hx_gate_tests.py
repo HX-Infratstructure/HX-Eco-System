@@ -1324,6 +1324,183 @@ check("omniroute: a privileged node behind env is accepted",
 check("omniroute: env with options still exposes the command",
       unprivileged_app_reads('env -i HOME=/srv/omniroute node "$OMNIROUTE_CLI" --version') != [])
 
+# The native-dependency probes run inside `bash -lc`, which the per-command
+# identity check cannot see into. Their shape is gated directly instead: the
+# probe must carry the service identity and must cd into the application tree
+# before node runs, because a probe whose cwd is still the caller's home
+# cannot traverse the 750 omniroute-owned tree and answers "module not found"
+# about a package that is installed. HX-6 proved exactly that false negative.
+_resolves_fn = re.search(
+    r"^omniroute_resolves\(\) \{\n(.*?)^\}", _omni, re.S | re.M)
+check("omniroute: the resolution probe exists", bool(_resolves_fn))
+if _resolves_fn:
+    # A commented-out command would satisfy a substring or line match, so
+    # every assertion below runs against the executable body only: comment
+    # lines stripped, nothing else.
+    _rf = "\n".join(
+        line for line in _resolves_fn.group(0).splitlines()
+        if not line.lstrip().startswith("#")
+    )
+    check("omniroute: the resolution probe runs as the service identity",
+          "sudo -u omniroute bash -lc" in _rf, _rf)
+    # The cd must be guarded so a failed cd stops the probe: `cd ... || exit`
+    # is required, and a `|| true` or semicolon fallback that would run node
+    # from the wrong directory anyway is refused.
+    check("omniroute: the resolution probe cds into the app tree before node",
+          re.search(r"cd '\$HX_OMNIROUTE_APP_DIR' \|\| exit \d+", _rf) is not None
+          and not re.search(r"cd '\$HX_OMNIROUTE_APP_DIR'[^\n]*(\|\| true|;\s*\n\s*node)", _rf),
+          _rf)
+_loads_fn = re.search(
+    r"^omniroute_native_loads\(\) \{\n(.*?)^\}", _omni, re.S | re.M)
+check("omniroute: the native-load probe exists", bool(_loads_fn))
+if _loads_fn:
+    # Same rule as the resolution probe: assertions run against the
+    # executable body only, with comment lines stripped.
+    _lf = "\n".join(
+        line for line in _loads_fn.group(0).splitlines()
+        if not line.lstrip().startswith("#")
+    )
+    check("omniroute: the native-load probe runs as the service identity",
+          "sudo -u omniroute bash -lc" in _lf, _lf)
+    check("omniroute: the native-load probe cds into the app tree before node",
+          re.search(r"cd '\$HX_OMNIROUTE_APP_DIR' \|\| exit \d+", _lf) is not None
+          and not re.search(r"cd '\$HX_OMNIROUTE_APP_DIR'[^\n]*(\|\| true|;\s*\n\s*node)", _lf),
+          _lf)
+    # The runbook writes the JS inside a double-quoted shell string, so its
+    # quotes are escaped. Unescape them, strip trailing shell comments and
+    # unreachable `if (false)` branches, and match the executable
+    # require -> open -> close sequence, not substrings that a comment or
+    # dead code could satisfy. Only the argument actually passed to
+    # `node -e` is inspected: a require sitting in another shell command,
+    # such as an echo, must not satisfy the gate.
+    _node_e = re.search(r"node -e '(.*?)'\s*(?:\n|\"|;|$)", _lf, re.S)
+    check("omniroute: the native-load probe passes JavaScript to node -e",
+          _node_e is not None, _lf)
+    _lf_js = ""
+    if _node_e:
+        _lf_js = re.sub(
+            r'if\s*\(\s*false\s*\)\s*\{.*?\}', '',
+            _node_e.group(1).replace('\\"', '"'),
+            flags=re.S,
+        )
+    check("omniroute: the native-load probe loads better-sqlite3",
+          re.search(r'require\("better-sqlite3"\)\(":memory:"\)', _lf_js) is not None,
+          _lf_js)
+    check("omniroute: the native-load probe closes the database after opening it",
+          re.search(
+              r'const\s+(?P<db>[A-Za-z_$][A-Za-z0-9_$]*)\s*=\s*'
+              r'require\("better-sqlite3"\)\(":memory:"\)\s*;'
+              r'.*(?P=db)\.close\(\)',
+              _lf_js,
+              re.S,
+          ) is not None, _lf_js)
+check("omniroute: the native load is gated, not just noted",
+      re.search(
+          r"omniroute_native_loads && _nl=0 \|\| _nl=1.*"
+          r'hx_require_native_dep\s+"better-sqlite3 native addon"\s+"\$_nl"',
+          _omni,
+          re.S,
+      ) is not None)
+
+# The checker must be able to fail, or it is decoration. A commented-out
+# command must not satisfy the identity or cd requirements, and a dead-code
+# require must not satisfy the load requirement.
+_commented = """omniroute_resolves() {
+  # sudo -u omniroute bash -lc
+  # cd '$HX_OMNIROUTE_APP_DIR' || exit 1
+  node -e 'require.resolve("x")'
+}"""
+_commented_body = "\n".join(
+    line for line in _commented.splitlines() if not line.lstrip().startswith("#"))
+check("omniroute: a commented-out probe fails the identity check",
+      "sudo -u omniroute bash -lc" not in _commented_body)
+check("omniroute: a commented-out probe fails the cd check",
+      re.search(r"cd '\$HX_OMNIROUTE_APP_DIR' \|\| exit \d+", _commented_body) is None)
+_dead = """omniroute_native_loads() {
+  sudo -u omniroute bash -lc "
+    cd '$HX_OMNIROUTE_APP_DIR' || exit 1
+    node -e '
+      if (false) {
+        const db = require(\\"better-sqlite3\\")(\\":memory:\\");
+        db.close();
+      }
+    '
+  " >/dev/null 2>&1
+}"""
+_dead_node_e = re.search(r"node -e '(.*?)'\s*(?:\n|\"|;|$)", _dead, re.S)
+_dead_js = re.sub(
+    r'if\s*\(\s*false\s*\)\s*\{.*?\}', '',
+    _dead_node_e.group(1).replace('\\"', '"') if _dead_node_e else '',
+    flags=re.S,
+)
+check("omniroute: a dead-code require fails the load check",
+      re.search(
+          r'const\s+(?P<db>[A-Za-z_$][A-Za-z0-9_$]*)\s*=\s*'
+          r'require\("better-sqlite3"\)\(":memory:"\)\s*;'
+          r'.*(?P=db)\.close\(\)',
+          _dead_js,
+          re.S,
+      ) is None)
+
+# A require sitting in a separate shell command, not in the node -e payload,
+# must not satisfy the gate either: only what node actually executes counts.
+_detached = """omniroute_native_loads() {
+  sudo -u omniroute bash -lc "
+    cd '$HX_OMNIROUTE_APP_DIR' || exit 1
+    echo 'const db = require(\\"better-sqlite3\\")(\\":memory:\\")
+      db.close();'
+    node -e 'process.exit(0)'
+  " >/dev/null 2>&1
+}"""
+_detached_node_e = re.search(r"node -e '(.*?)'\s*(?:\n|\"|;|$)", _detached, re.S)
+_detached_js = _detached_node_e.group(1).replace('\\"', '"') if _detached_node_e else ''
+check("omniroute: a require outside node -e fails the load check",
+      re.search(
+          r'const\s+(?P<db>[A-Za-z_$][A-Za-z0-9_$]*)\s*=\s*'
+          r'require\("better-sqlite3"\)\(":memory:"\)\s*;'
+          r'.*(?P=db)\.close\(\)',
+          _detached_js,
+          re.S,
+      ) is None)
+
+# The cwd mechanism itself, not just its shape. The HX-6 false negative was:
+# node run as the service identity with its cwd still inside the caller's
+# home, which the service identity cannot traverse, so Node cannot read the
+# package configs along the resolution path and misreads a package that is
+# installed. The cd-first form fails loudly at the cd instead, which is
+# detectable. Reproduced here with a 0750 agentzero-owned directory and the
+# probe run as nobody. The exact error text differs by Node version - v24
+# reports the unreadable package config, v22 a module-not-found - so the
+# assertion is on the failure itself, not on its wording.
+_cwd = os.path.join(_TMP, 'cwd-check')
+os.makedirs(_cwd, mode=0o750)
+_r = subprocess.run(
+    ['sudo', '-u', 'nobody', 'node', '-e', 'require.resolve("better-sqlite3")'],
+    cwd=_cwd, capture_output=True, text=True)
+check("cwd: a probe from an untraversable cwd fails", _r.returncode != 0,
+      _r.stderr[-300:])
+_r = subprocess.run(
+    ['sudo', '-u', 'nobody', 'bash', '-c',
+     "cd '%s' && node -e 'require.resolve(\"better-sqlite3\")'" % _cwd],
+    capture_output=True, text=True)
+check("cwd: the cd-first probe fails loudly at the cd, not silently",
+      _r.returncode != 0 and 'cd:' in _r.stderr, _r.stderr[-300:])
+# The control needs a world-traversable path from the root down: a 0755 leaf
+# under the 0700 mkdtemp parent is still unreachable for nobody.
+_open = tempfile.mkdtemp(prefix='hx-gate-open-', dir='/tmp')
+os.chmod(_open, 0o755)
+_r = subprocess.run(
+    ['sudo', '-u', 'nobody', 'node', '-e', 'require.resolve("better-sqlite3")'],
+    cwd=_open, capture_output=True, text=True)
+check("cwd: a traversable cwd gives the honest module-not-found",
+      _r.returncode != 0 and "Cannot find module 'better-sqlite3'" in _r.stderr,
+      _r.stderr[-300:])
+os.chmod(_open, 0o700)
+try:
+    shutil.rmtree(_open)
+except OSError as exc:
+    print(f"warning: could not remove {_open}: {exc}")
+
 # Not ignore_errors: a workspace that cannot be removed is worth saying out
 # loud, but it is not a gate failure, so it does not change the exit status.
 try:
