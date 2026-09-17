@@ -77,6 +77,15 @@ sudo -u omniroute git -C "$HX_OMNIROUTE_APP_DIR" diff --quiet || {
 }
 
 # ---------------------------------------------------------------------------
+# Operating-system dependencies of packages in the pinned tree. keytar builds
+# its binding without libsecret and then cannot load without it, so this has to
+# happen before anything asks the tree to import. HX6-F03.
+# ---------------------------------------------------------------------------
+sudo apt-get update -qq
+# shellcheck disable=SC2086
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq $HX_OMNIROUTE_OS_PACKAGES
+
+# ---------------------------------------------------------------------------
 # Build. npm ci, because the lockfile is committed and a build day should not
 # resolve its own dependency tree.
 # ---------------------------------------------------------------------------
@@ -123,6 +132,15 @@ omniroute_native_loads() {
   " >/dev/null 2>&1
 }
 
+# The same question, asked of any module by name. better-sqlite3 keeps its own
+# probe above because opening a database proves more than importing does.
+omniroute_module_loads() {
+  sudo -u omniroute bash -lc "
+    cd '$HX_OMNIROUTE_APP_DIR' || exit 1
+    node -e 'require(\"$1\")'
+  " >/dev/null 2>&1
+}
+
 OMNIROUTE_NATIVE_REPAIR="not needed"
 if omniroute_resolves better-sqlite3; then
   echo "better-sqlite3 resolves from $HX_OMNIROUTE_APP_DIR; no repair needed."
@@ -140,6 +158,25 @@ hx_require_native_dep better-sqlite3 "$_nd"
 # outage one step later, so the load is gated too, not just noted.
 omniroute_native_loads && _nl=0 || _nl=1
 hx_require_native_dep "better-sqlite3 native addon" "$_nl"
+
+# HX6-F02. npm 11.19 names the install scripts it declined to run and exits 0,
+# so a package can sit in the tree with no binary behind it. The install output
+# is not the evidence; the import is. Each module is loaded, repaired with its
+# own install script in the foreground if it cannot load, and then re-proven.
+for _mod in $HX_OMNIROUTE_NATIVE_MODULES; do
+  [ "$_mod" = "better-sqlite3" ] && continue   # proven above by opening a database
+  if omniroute_module_loads "$_mod"; then
+    echo "$_mod loads from $HX_OMNIROUTE_APP_DIR."
+    continue
+  fi
+  echo "$_mod does not load after npm ci; running its install script."
+  sudo -u omniroute env HOME=/srv/omniroute npm install "$_mod" \
+    --no-save --foreground-scripts --prefix "$HX_OMNIROUTE_APP_DIR"
+  OMNIROUTE_NATIVE_REPAIR="applied"
+  omniroute_module_loads "$_mod" && _ml=0 || _ml=1
+  hx_require_native_dep "$_mod" "$_ml"
+done
+unset _mod
 
 # --no-save keeps the manifests out of it, and node_modules is gitignored
 # upstream. Prove that rather than trust it: the provenance gate above says this

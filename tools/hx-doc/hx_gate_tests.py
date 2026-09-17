@@ -1402,6 +1402,58 @@ check("omniroute: the native load is gated, not just noted",
           re.S,
       ) is not None)
 
+# ------------------- HX6-F02: every listed native module must be load-gated --
+# npm 11.19 names the install scripts it declined to run and exits 0, leaving a
+# package resolvable with no binary behind it. The block answers that by
+# importing each module in HX_OMNIROUTE_NATIVE_MODULES. Listing a module and
+# never gating it would read as coverage while proving nothing, so the list and
+# the loop are checked against each other rather than separately.
+def native_modules_gated(env_text: str, block_text: str) -> bool:
+    m = re.search(r'^HX_OMNIROUTE_NATIVE_MODULES="([^"]*)"', env_text, re.M)
+    if not m or not m.group(1).split():
+        return False
+    if not re.search(r'for\s+_mod\s+in\s+"?\$HX_OMNIROUTE_NATIVE_MODULES"?\s*;\s*do',
+                     block_text):
+        return False
+    body = block_text.split("for _mod in", 1)[1].split("\ndone", 1)[0]
+    executable = "\n".join(
+        line for line in body.splitlines() if not line.lstrip().startswith("#"))
+    # The repair alone is not the gate. The module has to be asked again
+    # afterwards and the answer has to reach hx_require_native_dep.
+    return (re.search(r'omniroute_module_loads\s+"\$_mod"\s*&&\s*_ml=0\s*\|\|\s*_ml=1',
+                      executable) is not None
+            and re.search(r'hx_require_native_dep\s+"\$_mod"\s+"\$_ml"',
+                          executable) is not None)
+
+
+_env_txt = io.open(os.path.join(SRC, "docs", "03-runbooks", "common", "hx-base.env"),
+                   encoding="utf-8").read()
+check("omniroute: every listed native module is load-gated",
+      native_modules_gated(_env_txt, _omni))
+
+# The checker must be able to fail, or it is decoration.
+check("omniroute: an empty module list is refused",
+      native_modules_gated('HX_OMNIROUTE_NATIVE_MODULES=""', _omni) is False)
+check("omniroute: a list with no loop is refused",
+      native_modules_gated('HX_OMNIROUTE_NATIVE_MODULES="keytar"',
+                           "npm ci --prefix x\n") is False)
+_ungated = '''for _mod in $HX_OMNIROUTE_NATIVE_MODULES; do
+  omniroute_module_loads "$_mod" || echo "$_mod did not load"
+done
+'''
+check("omniroute: a loop that only warns is refused",
+      native_modules_gated('HX_OMNIROUTE_NATIVE_MODULES="keytar"', _ungated) is False,
+      _ungated)
+_commented_gate = '''for _mod in $HX_OMNIROUTE_NATIVE_MODULES; do
+  omniroute_module_loads "$_mod" && _ml=0 || _ml=1
+  # hx_require_native_dep "$_mod" "$_ml"
+done
+'''
+check("omniroute: a commented-out gate inside the loop is refused",
+      native_modules_gated('HX_OMNIROUTE_NATIVE_MODULES="keytar"',
+                           _commented_gate) is False,
+      _commented_gate)
+
 # The checker must be able to fail, or it is decoration. A commented-out
 # command must not satisfy the identity or cd requirements, and a dead-code
 # require must not satisfy the load requirement.
