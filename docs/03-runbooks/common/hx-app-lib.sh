@@ -28,8 +28,21 @@ hx_app_venv() {
 # Write a simple systemd unit, enable it, and start it.
 # hx_app_unit <name> <description> <user> <workdir> <exec-line> [env "K=V" ...]
 hx_app_unit() {
+  # Secrets must not become Environment= lines: /etc/systemd/system is
+  # world-readable and `systemctl show` prints them. A caller that has
+  # secrets passes `--env-file PATH` for a root-owned mode 600 file instead.
+  # Optional and leading, so callers with no secrets are unaffected.
+  local env_file=""
+  if [ "${1:-}" = "--env-file" ]; then
+    env_file="${2:?--env-file needs a path}"
+    shift 2
+  fi
+
   local name="$1" desc="$2" user="$3" workdir="$4" exec_line="$5"; shift 5
   local env_lines=""
+  if [ -n "$env_file" ]; then
+    env_lines+="EnvironmentFile=${env_file}\n"
+  fi
   for kv in "$@"; do env_lines+="Environment=\"$kv\"\n"; done
 
   sudo tee "/etc/systemd/system/${name}.service" >/dev/null <<UNIT
@@ -55,6 +68,12 @@ UNIT
 
   sudo systemctl daemon-reload
   sudo systemctl enable --now "$name"
+
+  # `enable --now` starts a stopped unit and does nothing to a running one, so
+  # on a rerun the service keeps the previous unit and the previous environment
+  # file, and the block reports success for a configuration that never loaded.
+  # The same defect was found in 00-foundation.sh and again in 10-nginx.sh.
+  sudo systemctl restart "$name"
 }
 
 # Wait for a TCP port to answer, then confirm the service is up.
