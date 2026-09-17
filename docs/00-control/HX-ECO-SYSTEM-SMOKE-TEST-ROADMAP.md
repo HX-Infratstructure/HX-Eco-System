@@ -134,11 +134,11 @@ After A5, later component smoke tests run from HX-5 whenever the product exposes
 <!-- HX-PROOF:TABLE phase=B -->
 | Step | SUT | Proof | Authority | Requires | Limited integration | Status |
 |---|---|---|---|---|---|---|
-| **B1** | hx-9 | PostgreSQL core | [`postgresql-smoke-test.md`](../../smoke-tests/postgresql-smoke-test.md) | A5,F0 | None; session-scoped disposable data | NOT RUN |
+| **B1** | hx-9 | PostgreSQL core | [`postgresql-smoke-test.md`](../../smoke-tests/postgresql-smoke-test.md) | F0 | None; session-scoped disposable data | NOT RUN |
 | **B2** | hx-9 | PostgreSQL MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | B1 | Parent PostgreSQL service only | NOT RUN |
-| **B3** | hx-9 | Redis core | [`redis-smoke-test.md`](../../smoke-tests/redis-smoke-test.md) | A5,F0 | None; TTL-protected disposable key | NOT RUN |
+| **B3** | hx-9 | Redis core | [`redis-smoke-test.md`](../../smoke-tests/redis-smoke-test.md) | F0 | None; TTL-protected disposable key | NOT RUN |
 | **B4** | hx-9 | Redis MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | B3 | Parent Redis service only | NOT RUN |
-| **B5** | hx-10 | Qdrant core | [`qdrant-smoke-test.md`](../../smoke-tests/qdrant-smoke-test.md) | A5,F0 | None; deterministic raw vectors avoid an embedding dependency | NOT RUN |
+| **B5** | hx-10 | Qdrant core | [`qdrant-smoke-test.md`](../../smoke-tests/qdrant-smoke-test.md) | F0 | None; deterministic raw vectors avoid an embedding dependency | NOT RUN |
 | **B6** | hx-10 | Qdrant Web UI | [`native-web-ui-smoke-test.md`](../../smoke-tests/native-web-ui-smoke-test.md) | B5 | Parent Qdrant live state only | NOT RUN |
 | **B7** | hx-10 | Qdrant MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | B5 | Parent Qdrant service only | NOT RUN |
 <!-- /HX-PROOF -->
@@ -153,9 +153,9 @@ After A5, later component smoke tests run from HX-5 whenever the product exposes
 | Step | SUT | Proof | Authority | Requires | Limited integration | Status |
 |---|---|---|---|---|---|---|
 | **C1** | hx-6 | OmniRoute | [`omniroute-smoke-test.md`](../../smoke-tests/omniroute-smoke-test.md) | P0,F0 | One temporary route to the proven model; remove afterward | NOT RUN |
-| **C2** | hx-15 | FastMCP | [`fastmcp-smoke-test.md`](../../smoke-tests/fastmcp-smoke-test.md) | A5,F0 | Disposable custom MCP server/tool only | NOT RUN |
+| **C2** | hx-15 | FastMCP | [`fastmcp-smoke-test.md`](../../smoke-tests/fastmcp-smoke-test.md) | F0 | Disposable custom MCP server/tool only | NOT RUN |
 | **C3** | hx-5 | DeepSeek Harness | [`deepseek-harness-smoke-test.md`](../../smoke-tests/deepseek-harness-smoke-test.md) | A4 | Direct model use for a disposable generated AI project | NOT RUN |
-| **C4** | hx-7 | NGINX dev/test | [`nginx-smoke-test.md`](../../smoke-tests/nginx-smoke-test.md) | A5,F0 | HX-5 hosts one temporary private-IP HTTP upstream; remove afterward | NOT RUN |
+| **C4** | hx-7 | NGINX dev/test | [`nginx-smoke-test.md`](../../smoke-tests/nginx-smoke-test.md) | A1,F0 | Proxies the A1-proven HX-4 Ollama endpoint; no new service is created; record the upstream host, IP and port in the evidence | NOT RUN |
 <!-- /HX-PROOF -->
 
 **Exit:** routing, shared/custom MCP development, meta-agent solution construction, and dev/test proxy capability are proven without creating permanent integration architecture.
@@ -167,9 +167,9 @@ After A5, later component smoke tests run from HX-5 whenever the product exposes
 <!-- HX-PROOF:TABLE phase=D -->
 | Step | SUT | Proof | Authority | Requires | Limited integration | Status |
 |---|---|---|---|---|---|---|
-| **D1** | hx-16 | Docling + Granite-Docling | [`docling-smoke-test.md`](../../smoke-tests/docling-smoke-test.md) | A5,F0 | None; self-generated local PDF | NOT RUN |
+| **D1** | hx-16 | Docling + Granite-Docling | [`docling-smoke-test.md`](../../smoke-tests/docling-smoke-test.md) | F0 | None; self-generated local PDF | NOT RUN |
 | **D2** | hx-16 | Docling MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | D1 | Parent Docling service only | NOT RUN |
-| **D3** | hx-17 | Crawl4AI | [`crawl4ai-smoke-test.md`](../../smoke-tests/crawl4ai-smoke-test.md) | A5,F0 | None; deterministic inline raw HTML | NOT RUN |
+| **D3** | hx-17 | Crawl4AI | [`crawl4ai-smoke-test.md`](../../smoke-tests/crawl4ai-smoke-test.md) | F0 | None; deterministic inline raw HTML | NOT RUN |
 | **D4** | hx-17 | Crawl4AI MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | D3 | Parent Crawl4AI service only | NOT RUN |
 <!-- /HX-PROOF -->
 
@@ -200,7 +200,7 @@ Docling/Crawl4AI PASS is useful upstream ecosystem evidence but is **not forced 
 | Step | SUT | Proof | Authority | Requires | Limited integration | Status |
 |---|---|---|---|---|---|---|
 | **F1** | hx-12 | Deep Agents | [`deep-agents-smoke-test.md`](../../smoke-tests/deep-agents-smoke-test.md) | P0,F0 | Model + local synthetic rules + disposable in-memory checkpointer | NOT RUN |
-| **F2** | hx-14 | n8n core | [`n8n-smoke-test.md`](../../smoke-tests/n8n-smoke-test.md) | A5,F0 | Disposable deterministic workflow only | NOT RUN |
+| **F2** | hx-14 | n8n core | [`n8n-smoke-test.md`](../../smoke-tests/n8n-smoke-test.md) | F0 | Disposable deterministic workflow only | NOT RUN |
 | **F3** | hx-14 | n8n Web UI | [`native-web-ui-smoke-test.md`](../../smoke-tests/native-web-ui-smoke-test.md) | F2 | Parent n8n live state only | NOT RUN |
 | **F4** | hx-14 | n8n MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | F2 | Parent n8n service only | NOT RUN |
 <!-- /HX-PROOF -->
@@ -268,27 +268,21 @@ flowchart LR
     P0 --> A4
     A4 --> A5
     P0 --> A5
-    A5 --> B1
     F0 --> B1
     B1 --> B2
-    A5 --> B3
     F0 --> B3
     B3 --> B4
-    A5 --> B5
     F0 --> B5
     B5 --> B6
     B5 --> B7
     P0 --> C1
     F0 --> C1
-    A5 --> C2
     F0 --> C2
     A4 --> C3
-    A5 --> C4
+    A1 --> C4
     F0 --> C4
-    A5 --> D1
     F0 --> D1
     D1 --> D2
-    A5 --> D3
     F0 --> D3
     D3 --> D4
     B5 --> E1
@@ -303,7 +297,6 @@ flowchart LR
     E3 --> E4
     P0 --> F1
     F0 --> F1
-    A5 --> F2
     F0 --> F2
     F2 --> F3
     F2 --> F4

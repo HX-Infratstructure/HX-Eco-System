@@ -1598,7 +1598,7 @@ nothing about this finding asks it to change.
 
 ## HX7-F02 — eight proof steps cannot run, because all of them wait on HX-5
 
-**Status:** OPEN
+**Status:** CLOSED
 **Severity:** Medium
 **Scope:** Fleet-wide; the proof chain
 **Discovered on:** HX-7
@@ -1638,12 +1638,46 @@ It is a statement of what the proof chain currently says, so the cost is
 visible before it is paid seven more times rather than discovered on each host
 at closure.
 
+### Resolution
+
+`A5` was an artificial dependency, not a technical one, and the owner ratified
+the amendment that says so on 2026-09-17.
+
+Seven of the eight needed only a runner that is not the system under test, and
+nothing had required that runner to be CentCom since `hx-smoke-new` stopped
+depending on `hostname -s`. Those seven now require `F0` alone.
+
+`C4` was the exception and keeps a real dependency, now named honestly. It
+tests a reverse proxy, so it needs something to proxy. It requires `A1`, the
+HX-4 Ollama endpoint that has already passed, rather than a temporary listener
+raised on whichever host happened to be the runner.
+
+D-014 gains an authorised-substitute model and keeps CentCom as the standard
+station. A substitute must be off the system under test, on the HX LAN, able to
+reach the target, running the tooling from `tools/hx-smoke-runner/`, recording
+`runner_host` in the manifest, and carrying Playwright where the component's
+authority requires UI proof. `HX_SMOKE_ALLOW_HOST` stays as the mechanism; no
+second abstraction was added and no server was special-cased.
+
+`A5` now has no dependents. It remains in the chain as HX-5's own step.
+
+### Two defects found while doing it
+
+`smoke-tests/nginx-smoke-test.md` wrote its temporary server block to
+`/etc/nginx/conf.d/` and reloaded a unit named `nginx`. HX-7 is built from
+source with `--prefix=/srv/nginx` and runs `hx-nginx`. Neither path nor unit
+exists on the host, so `C4` could not have passed as written, whatever happened
+to `A5`. Corrected with the rest of the change.
+
+The audit that raised this finding said B5 and F2 both needed browser evidence.
+Only F2 does. The Qdrant test states in its own scope that the Web UI is a
+separate companion gate, so B5 needs no Playwright, and its prerequisites now
+say so rather than leaving the question open.
+
 ### Disposition
 
-OPEN. One decision covers all eight: either `A5` is satisfied, or the steps
-that depend on it are re-expressed against something that exists. Until one of
-those happens, every affected server closes at `IN_PROGRESS` with a deferred
-gate, as HX-7 just did.
+CLOSED. Seven servers - HX-7, HX-9, HX-10, HX-14, HX-15, HX-16 and HX-17 - are
+no longer blocked behind a station that does not exist.
 
 ## HX7-F03 — a hand-kept status table contradicts the generated one beside it
 

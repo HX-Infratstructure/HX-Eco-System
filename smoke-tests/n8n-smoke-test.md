@@ -17,6 +17,9 @@ n8n is the HX workflow automation component on HX-14. This smoke test validates 
 http://192.168.50.214:5678
 ```
 
+- This test requires **UI proof**, so the runner needs Playwright headless
+  Chromium. Confirm it before starting; a station without it cannot produce the
+  evidence this test asks for and must not be used for this step (D-014).
 - No external credential, webhook, database integration, production workflow, or container is required.
 
 ## 3. Test Steps

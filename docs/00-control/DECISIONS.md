@@ -48,6 +48,31 @@ Deep Agents by LangChain on HX-12 is the HX line-of-business agent factory/appli
 ## D-014 — HX-5 CentCom smoke-test runner role
 After HX-5 closes its own base inference foundation, CentCom becomes the standard remote execution station for subsequent HX component smoke tests. Disposable test projects, runner/client tooling, synthetic fixtures, manifests, logs, and cleanup verification live on HX-5 rather than on the application host. The system under test keeps only its installed application, approved configuration, and explicitly smoke-namespaced temporary data required by the test. Remote API/protocol/client execution is preferred; approved SSH is used only when the component's primary contract genuinely requires local execution. Cleanup and cleanup verification are mandatory parts of PASS. DeepSeek Harness is not a prerequisite for enabling the CentCom smoke-runner role. Detailed authority: `../04-application-standards/HX-5-SMOKE-TEST-PROCESS-AND-PROCEDURES.md`.
 
+**Amended 2026-09-17 — authorised substitute runner.** CentCom remains the
+preferred and standard fleet proof station whenever it is available. It is not
+the only station a proof may run from. An authorised substitute may be used
+when CentCom is unavailable or not yet established, provided it is:
+
+- off the system under test;
+- on the HX LAN;
+- able to reach the target service;
+- running the approved HX proof tooling from `tools/hx-smoke-runner/`;
+- recording `runner_host` in the evidence manifest;
+- equipped with Playwright headless Chromium when the component's smoke-test
+  authority requires UI proof.
+
+The operator workstation, including its WSL environment, is a valid substitute
+when those conditions are met. The existing `HX_SMOKE_ALLOW_HOST` export is how
+a station is authorised; no second mechanism is introduced, and no server is
+special-cased.
+
+**Why this is an amendment and not a withdrawal.** HX7-F02 established that
+eight proof steps carried `requires A5` while needing only a runner that is not
+the system under test. That is an artificial dependency, not a technical one:
+the tooling stopped depending on a CentCom-only shell some time ago, and the
+station actually used is already recorded per run. CentCom keeps its role as
+the standard station and gains nothing and loses nothing here.
+
 ## D-015 — Ecosystem architecture is the cornerstone
 The HX ecosystem architecture and current configuration context must be understood before validation is designed or executed. Validation sits on top of the ecosystem; it does not define the ecosystem. Agents must establish server ownership, target IP, current state, foundational network/domain/deployment rules, model/data placement, dependency boundaries, and BASE PASS expectations before selecting or running a smoke test. `../01-architecture/ARCHITECTURE-ORIENTATION.md` is the foundational orientation authority; smoke-test documents must inherit rather than redefine that architecture.
 
