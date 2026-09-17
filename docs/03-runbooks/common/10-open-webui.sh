@@ -11,20 +11,20 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 [ $# -eq 1 ] || { echo "Usage: ${0##*/} <hx-host>   (hx-8)" >&2; exit 2; }
 hx_require_host "$1"
 
-# /srv/open-webui is a dedicated volume and everything below writes into it:
+# /srv/openwebui is a dedicated volume and everything below writes into it:
 # the SQLite database, uploads and the Hugging Face cache all live there. With
 # the volume unmounted that tree lands on / and disappears the moment it is
 # mounted. Same shape as 03-storage-ollama.sh and 10-omniroute.sh.
-findmnt /srv/open-webui >/dev/null || {
-  echo "STOP: /srv/open-webui is not a mounted filesystem." >&2
+findmnt /srv/openwebui >/dev/null || {
+  echo "STOP: /srv/openwebui is not a mounted filesystem." >&2
   echo "      The dedicated volume must be mounted before Open WebUI is installed." >&2
   exit 34
 }
 
-hx_app_user openwebui /srv/open-webui
+hx_app_user openwebui /srv/openwebui
 
-sudo -u openwebui test -w /srv/open-webui || {
-  echo "STOP: /srv/open-webui is not writable by the openwebui service identity." >&2
+sudo -u openwebui test -w /srv/openwebui || {
+  echo "STOP: /srv/openwebui is not writable by the openwebui service identity." >&2
   exit 34
 }
 
@@ -48,9 +48,9 @@ else
   echo "No extras requested; installing the base package only."
 fi
 
-hx_app_venv openwebui /srv/open-webui/venv "$OPEN_WEBUI_SPEC"
+hx_app_venv openwebui /srv/openwebui/venv "$OPEN_WEBUI_SPEC"
 
-OPEN_WEBUI_BIN=/srv/open-webui/venv/bin/open-webui
+OPEN_WEBUI_BIN=/srv/openwebui/venv/bin/open-webui
 [ -x "$OPEN_WEBUI_BIN" ] || { echo "STOP: $OPEN_WEBUI_BIN is missing after install" >&2; exit 30; }
 
 # An installer's exit code is not proof of what landed. HX-6 spent a build day
@@ -68,14 +68,14 @@ if [ "$OPEN_WEBUI_INSTALLED" != "$HX_OPEN_WEBUI_VERSION" ]; then
 fi
 
 sudo install -d -o openwebui -g openwebui -m 750 "$HX_OPEN_WEBUI_DATA_DIR"
-sudo install -d -o openwebui -g openwebui -m 750 /srv/open-webui/hf
+sudo install -d -o openwebui -g openwebui -m 750 /srv/openwebui/hf
 
 cat <<PROV
 
 === PROVENANCE - copy into docs/02-server-records/HX-8.md, section 6 ===
 Component:        Open WebUI ${OPEN_WEBUI_INSTALLED}
 Source URI:       https://pypi.org/project/open-webui/${HX_OPEN_WEBUI_VERSION}/
-Install method:   pip wheel into a native venv at /srv/open-webui/venv
+Install method:   pip wheel into a native venv at /srv/openwebui/venv
 Extras:           ${HX_OPEN_WEBUI_EXTRAS:-none}
 Installed version: ${OPEN_WEBUI_INSTALLED}   (${OPEN_WEBUI_BIN} --version)
 Python:           $(python3 -c 'import sys; print(sys.version.split()[0])')
@@ -112,10 +112,10 @@ sudo chmod 600 "$HX_OPEN_WEBUI_ENV_FILE"
 sudo stat -c '%U:%G %a %n' "$HX_OPEN_WEBUI_ENV_FILE"
 
 hx_app_unit --env-file "$HX_OPEN_WEBUI_ENV_FILE" \
-  hx-open-webui "HX Open WebUI ${OPEN_WEBUI_INSTALLED}" openwebui /srv/open-webui \
+  hx-open-webui "HX Open WebUI ${OPEN_WEBUI_INSTALLED}" openwebui /srv/openwebui \
   "${OPEN_WEBUI_BIN} serve --host 0.0.0.0 --port ${HX_OPEN_WEBUI_PORT}" \
   "DATA_DIR=${HX_OPEN_WEBUI_DATA_DIR}" \
-  "HF_HOME=/srv/open-webui/hf" \
+  "HF_HOME=/srv/openwebui/hf" \
   "WEBUI_AUTH=True" \
   "ENABLE_SIGNUP=False"
 
