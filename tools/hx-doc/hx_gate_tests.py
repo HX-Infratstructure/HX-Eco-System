@@ -1370,15 +1370,19 @@ if _loads_fn:
     # quotes are escaped. Unescape them, strip trailing shell comments and
     # unreachable `if (false)` branches, and match the executable
     # require -> open -> close sequence, not substrings that a comment or
-    # dead code could satisfy.
-    _lf_js = re.sub(
-        r'if\s*\(\s*false\s*\)\s*\{.*?\}', '',
-        "\n".join(
-            line.split("#", 1)[0]
-            for line in _lf.replace('\\"', '"').splitlines()
-        ),
-        flags=re.S,
-    )
+    # dead code could satisfy. Only the argument actually passed to
+    # `node -e` is inspected: a require sitting in another shell command,
+    # such as an echo, must not satisfy the gate.
+    _node_e = re.search(r"node -e '(.*?)'\s*(?:\n|\"|;|$)", _lf, re.S)
+    check("omniroute: the native-load probe passes JavaScript to node -e",
+          _node_e is not None, _lf)
+    _lf_js = ""
+    if _node_e:
+        _lf_js = re.sub(
+            r'if\s*\(\s*false\s*\)\s*\{.*?\}', '',
+            _node_e.group(1).replace('\\"', '"'),
+            flags=re.S,
+        )
     check("omniroute: the native-load probe loads better-sqlite3",
           re.search(r'require\("better-sqlite3"\)\(":memory:"\)', _lf_js) is not None,
           _lf_js)
@@ -1423,12 +1427,10 @@ _dead = """omniroute_native_loads() {
     '
   " >/dev/null 2>&1
 }"""
+_dead_node_e = re.search(r"node -e '(.*?)'\s*(?:\n|\"|;|$)", _dead, re.S)
 _dead_js = re.sub(
     r'if\s*\(\s*false\s*\)\s*\{.*?\}', '',
-    "\n".join(
-        line.split("#", 1)[0]
-        for line in _dead.replace('\\"', '"').splitlines()
-    ),
+    _dead_node_e.group(1).replace('\\"', '"') if _dead_node_e else '',
     flags=re.S,
 )
 check("omniroute: a dead-code require fails the load check",
@@ -1437,6 +1439,27 @@ check("omniroute: a dead-code require fails the load check",
           r'require\("better-sqlite3"\)\(":memory:"\)\s*;'
           r'.*(?P=db)\.close\(\)',
           _dead_js,
+          re.S,
+      ) is None)
+
+# A require sitting in a separate shell command, not in the node -e payload,
+# must not satisfy the gate either: only what node actually executes counts.
+_detached = """omniroute_native_loads() {
+  sudo -u omniroute bash -lc "
+    cd '$HX_OMNIROUTE_APP_DIR' || exit 1
+    echo 'const db = require(\\"better-sqlite3\\")(\\":memory:\\")
+      db.close();'
+    node -e 'process.exit(0)'
+  " >/dev/null 2>&1
+}"""
+_detached_node_e = re.search(r"node -e '(.*?)'\s*(?:\n|\"|;|$)", _detached, re.S)
+_detached_js = _detached_node_e.group(1).replace('\\"', '"') if _detached_node_e else ''
+check("omniroute: a require outside node -e fails the load check",
+      re.search(
+          r'const\s+(?P<db>[A-Za-z_$][A-Za-z0-9_$]*)\s*=\s*'
+          r'require\("better-sqlite3"\)\(":memory:"\)\s*;'
+          r'.*(?P=db)\.close\(\)',
+          _detached_js,
           re.S,
       ) is None)
 
