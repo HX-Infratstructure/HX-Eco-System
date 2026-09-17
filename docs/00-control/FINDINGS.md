@@ -938,26 +938,33 @@ OPEN. Two actions, both owner-only:
    entry, or a gate that fails when the path exists, so the next run cannot
    reintroduce it silently.
 
-### Resolution, the guard
+### Resolution, the guard, one half of which was never true
 
-Two changes, so the scaffold cannot restore the file unnoticed:
+Two changes were recorded here as stopping the scaffold restoring the file.
+Only one of them does.
 
-- `.openwikiignore` excludes `.github/**`. OpenWiki no longer scans or writes
-  that tree, which is how the file reached the working copy.
-- `hx_doc_check.py` carries `WITHDRAWN_PATHS` and fails when a path a ratified
-  decision deleted exists again. A gate test creates the file and requires the
-  refusal, so the guard is proven able to fire.
+- **Holds.** `hx_doc_check.py` carries `WITHDRAWN_PATHS` and fails when a path
+  a ratified decision deleted exists again. A gate test creates the file and
+  requires the refusal, so the guard is proven able to fire. It fired on
+  2026-09-17, on the first run after the file reappeared.
+
+- **Never held.** `.openwikiignore` excluding `.github/**` was recorded as
+  meaning "OpenWiki no longer scans or writes that tree". It does not mean
+  that. `.openwikiignore` gates what the documentation agent may read, write
+  or edit. The workflow file is written by the setup path, which never
+  consults it. The exclusion is correct and was in place twenty hours before
+  the file returned, and it was never going to matter. HX7-F01 has the code
+  and the evidence.
+
+The entry stays rather than being deleted, because a resolution that was
+believed for two days is worth leaving visible.
 
 ### Remainder
 
 Revoking `OPENWIKI_PR_TOKEN` and `ANTHROPIC_API_KEY` is on the backlog by owner
-decision of 2026-09-15. It is recorded here and is not scheduled.
-
-### The guard above did not hold
-
-`.github/workflows/openwiki-update.yml` returned to the working copy on
-2026-09-16 with the exclusion in place. The resolution recorded above is
-disproven; see HX7-F01.
+decision of 2026-09-15, re-affirmed 2026-09-17 after both were confirmed still
+present and unrotated since 2026-09-12. It is recorded here and is not
+scheduled.
 
 ## HX5-F07 — `net ads testjoin` disagrees with `adcli testjoin` by design
 
@@ -1431,9 +1438,9 @@ Related: proof step `F0` is `NOT_RUN` on this branch. It is set to PASS by the
 change that wires the foundation into the proof chain, which is a separate
 pull request and had not merged when this was written.
 
-## HX7-F01 — the OpenWiki guard is written down, is in place, and did not work
+## HX7-F01 — the OpenWiki guard is written down, is in place, and could never have worked
 
-**Status:** OPEN
+**Status:** OPEN / ROOT CAUSE ESTABLISHED
 **Severity:** Medium
 **Scope:** Repository automation; the repository is public
 **Discovered on:** Operator workstation
@@ -1474,11 +1481,85 @@ Detection works. `hx-doc-check` caught the file on the first run after it
 appeared, which is exactly what `WITHDRAWN_PATHS` is for, and CI would have
 refused any pull request carrying it.
 
-Prevention does not. `.openwikiignore` was the mechanism recorded as stopping
-the write, and the write happened with that file present and correct. Either
-the scaffold does not consult `.openwikiignore` for this path, or it consults
-it for scanning but not for its own setup output. Which of those is true has
-not been established, and guessing is what produced the first wrong answer.
+Prevention never existed. The mechanism recorded as stopping the write does
+not govern the path that performs it.
+
+### Root cause
+
+`.openwikiignore` is an agent sandbox, not a file filter. `openwiki-ignore.js`
+and `docs-only-backend.js` apply it to what the documentation agent may read,
+write, edit or shell out to. The workflow file is not written by the agent. It
+is written by the setup path:
+
+```js
+// dist/ingestion/code-mode.js
+async function ensureCodeModeWorkflow(cwd, cronExpression, env) {
+    const workflowPath = path.join(cwd, ".github", "workflows", "openwiki-update.yml");
+    try { await readFile(workflowPath, "utf8"); return; }
+    catch (error) { if (!isFileNotFoundError(error)) throw error; }
+    await mkdir(path.dirname(workflowPath), { recursive: true });
+    await writeFile(workflowPath, createCodeModeWorkflow(cronExpression, env), "utf8");
+}
+```
+
+That file contains no reference to the ignore list at all.
+
+The trigger is the opposite of what was assumed. The workflow is written **only
+when it is missing**, and only by `init`. All three call sites read
+`createWorkflow: resolvedCommand === "init"`. So deleting the file under D-025
+is what armed its recreation, and a repository that never deleted it would
+never see it come back.
+
+### Reproduction
+
+```text
+1. The repository has no .github/workflows/openwiki-update.yml
+2. Run `openwiki init`
+3. The file reappears
+```
+
+`.openwikiignore` changes nothing at any step. The pattern `.github/**` is
+correct - the matcher is gitignore-compatible with `**` spanning directories -
+and it was added on 2026-09-16 at 04:15 UTC, twenty hours before the run.
+
+### What actually ran
+
+No commit reintroduced the file. A local run did, and it never finished:
+
+```text
+runId      85a4bb9a-7e3f-468c-8a06-2122ac39c731
+mode       init
+phase      generating
+startedAt  2026-09-17T00:20:22.011Z
+actor      openwiki/0.5.1, metadataModel z-ai/glm-5.2
+targetGitHead  e1f5bad
+```
+
+`targetGitHead` is this repository's own `main`, so the run was in this working
+copy and not in another checkout.
+
+### Exposure
+
+None from this event. The file existed only in the working copy, from
+2026-09-17 00:20:22 UTC until it was set aside. It was never staged, committed
+or pushed.
+
+The regenerated file does not reference the secrets this repository holds. It
+wants `OPENROUTER_API_KEY`, `OPENWIKI_LANGSMITH_API_KEY` and
+`LANGSMITH_API_KEY`, none of which exist here, and its pull-request step uses
+the default `GITHUB_TOKEN`.
+
+Two exposures do stand, and both predate this event:
+
+- `ANTHROPIC_API_KEY` and `OPENWIKI_PR_TOKEN` exist, were created 2026-09-12
+  and have never been rotated. Nothing under `.github/` on `main` references
+  either. They are live and orphaned. Rotation is on the backlog under
+  HX5-F06 by owner decision and is not scheduled.
+- `origin/docs/tooling-home` is a merged branch that still carries the older
+  workflow, and that copy does wire both secrets, including
+  `token: ${{ secrets.OPENWIKI_PR_TOKEN }}`. It is inert, because GitHub runs
+  scheduled workflows only from the default branch, and the branch should not
+  still exist.
 
 ### Why it matters beyond the tidying
 
@@ -1491,11 +1572,29 @@ gate would then be the last line rather than a backstop.
 The file has been left in place and uncommitted, so the behaviour can be
 reproduced rather than tidied away before it is understood.
 
+### The fix is not another guard
+
+`openwiki init` is a setup command and installing the scheduled workflow is
+what setup does. The tool is behaving as designed, in a repository whose owner
+withdrew that design. Update mode passes `createWorkflow: false` and never
+touches the path.
+
+So the root-cause fix is to stop running `init` here, not to defend the path
+from it. Patching the vendored package would be lost on the next install, and a
+second file guard would treat the symptom that `WITHDRAWN_PATHS` already
+catches.
+
 ### Disposition
 
-OPEN. Establish why the exclusion did not apply before changing anything. A
-second guard added on top of a first one that was never proven would repeat
-this finding a third time.
+OPEN. Two actions remain, in this order:
+
+1. Record in `docs/00-control/DECISIONS.md`, alongside D-025, that `openwiki
+   init` is not run in this repository. Update mode only.
+2. Delete `origin/docs/tooling-home`. It is merged and still publishes the
+   secret wiring.
+
+`WITHDRAWN_PATHS` stays exactly as it is. It is the backstop, it fired, and
+nothing about this finding asks it to change.
 
 ## HX7-F02 — eight proof steps cannot run, because all of them wait on HX-5
 
