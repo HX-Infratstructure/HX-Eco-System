@@ -1965,3 +1965,104 @@ needed, with a message about a shared object rather than about OmniRoute.
 CLOSED. The library is installed by the block and the module is load-gated by
 HX6-F02's loop.
 
+## HX6-F04 — the OmniRoute service runs as the administrator account
+
+**Status:** LOGGED — accepted by owner decision D-031, not scheduled
+**Severity:** High if the premise changes; accepted at the current posture
+**Scope:** HX-6, `hx-omniroute.service`
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17 review of the working npm implementation
+
+### Finding
+
+```text
+ExecStart={ path=/usr/local/bin/omniroute ; argv[]=/usr/local/bin/omniroute ... }
+WorkingDirectory=/home/hxsa
+User=hxsa
+```
+
+`hxsa` is the administrator account and holds NOPASSWD sudo. OmniRoute is a
+LAN-facing HTTP service on `0.0.0.0:20128` that performs provider calls. At this
+identity an application compromise is a host compromise, with no escalation step
+in between.
+
+The repository model for application hosts is a dedicated service user that owns
+only the application tree. HX-7 nginx, HX-8 Open WebUI and the HX-6 source build
+all follow it.
+
+### Disposition
+
+LOGGED, not open for fix. The owner was shown the consequence and chose to keep
+`hxsa` on 2026-09-17. D-031 records that decision and its reversal criteria.
+This entry exists so the posture is discoverable from the findings register
+rather than only from a unit file.
+
+## HX6-F05 — the dedicated volume holds the abandoned build, not the live data
+
+**Status:** OPEN
+**Severity:** Low
+**Scope:** HX-6 storage layout
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17 review of the working npm implementation
+
+### Finding
+
+```text
+/dev/nvme0n1p3  116G   17G   94G  15%  /srv/omniroute
+
+15G     /srv/omniroute/app          the abandoned source build
+2.5M    /srv/omniroute/data         written by that build
+4.0K    /srv/omniroute/omniroute.env
+16K     /srv/omniroute/lost+found
+```
+
+The running service has `WorkingDirectory=/home/hxsa`, which is on the 120G root
+filesystem, and generated its `STORAGE_ENCRYPTION_KEY` into
+`/home/hxsa/.omniroute/.env`. So the dedicated 117G volume carries 15G of a
+checkout that nothing runs, while the live service writes to the root disk.
+
+A search of `/home/hxsa/.omniroute` to depth 2 found no database file, so where
+the live store actually sits has not been established and is not claimed here.
+
+### Disposition
+
+OPEN. No change proposed. Two things to settle when this is picked up: where the
+running service keeps its store, and whether the 15G checkout at
+`/srv/omniroute/app` should be retained as the record of the source-build
+attempt or removed.
+
+## HX6-F06 — the service configuration is outside systemd
+
+**Status:** OPEN
+**Severity:** Low
+**Scope:** HX-6, `hx-omniroute.service`
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17 review of the working npm implementation
+
+### Finding
+
+```text
+EnvironmentFiles=          (empty)
+```
+
+`REQUIRE_API_KEY=true` and the generated `STORAGE_ENCRYPTION_KEY` are not
+supplied by the unit. The binary loads them itself, from
+`/usr/local/lib/node_modules/omniroute/.env` inside the package tree and from
+`/home/hxsa/.omniroute/.env`, both observed in the startup output on
+2026-09-17.
+
+Two consequences. `systemctl show hx-omniroute` does not report the service's
+configuration, so the unit is not a truthful record of how it runs. And a
+`npm install -g omniroute` that rewrites the package tree can replace a file the
+service depends on, because one of the two env files lives inside the package.
+
+The posture itself is proven working: 20128 refused an unauthenticated
+`/v1/models` with `401 AUTH_002` from the workstation on 2026-09-17, and 20132
+did not answer from the LAN.
+
+### Disposition
+
+OPEN. No change proposed. Recorded because the control is real and its location
+is not where the repository states it, so a later reader checking the unit would
+conclude the API key requirement was unset.
+
