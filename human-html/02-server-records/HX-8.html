@@ -46,7 +46,7 @@ font-size:12.5px;color:var(--fg2)}
 <p><strong>Reverse DNS is absent fleet-wide, not on this host.</strong> A reverse lookup of <code>192.168.50.208</code> returned nothing on 2026-09-17, and so did every other address checked, including the domain controller's own <code>192.168.50.200</code>. No reverse zone is served. The domain join and GSSAPI work because they use the SPNs, and all four forms are present above. This is recorded as <code>HX8-F01</code> in <a href="../00-control/FINDINGS.html"><code>FINDINGS.md</code></a> because it is a property of the domain, not a defect against hx-8.</p>
 <h2>1. Identity and Network</h2>
 <div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Hostname</td><td><code>hx-8</code></td></tr><tr><td>FQDN</td><td><code>hx-8.hx.local.arpa</code></td></tr><tr><td>IP</td><td><code>192.168.50.208</code> on <code>eno1</code></td></tr><tr><td>Domain</td><td><code>hx.local.arpa</code>, realm <code>HX.LOCAL.ARPA</code></td></tr><tr><td>Client software</td><td>SSSD</td></tr></tbody></table></div>
-<p>Domain join, 2026-09-17, reported by <code>./02-domain.sh</code>:</p>
+<p>Domain join, 2026-09-17, reported by <a href="../03-runbooks/HX-8/02-domain.sh"><code>02-domain.sh</code></a>:</p>
 <pre><code class="lang-text">hx.local.arpa
   type: kerberos
   realm-name: HX.LOCAL.ARPA

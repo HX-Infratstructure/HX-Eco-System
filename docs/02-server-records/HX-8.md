@@ -51,7 +51,8 @@ domain, not a defect against hx-8.
 | Domain | `hx.local.arpa`, realm `HX.LOCAL.ARPA` |
 | Client software | SSSD |
 
-Domain join, 2026-09-17, reported by `./02-domain.sh`:
+Domain join, 2026-09-17, reported by
+[`02-domain.sh`](../03-runbooks/HX-8/02-domain.sh):
 
 ```text
 hx.local.arpa
