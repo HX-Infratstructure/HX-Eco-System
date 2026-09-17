@@ -1337,8 +1337,13 @@ if _resolves_fn:
     _rf = _resolves_fn.group(0)
     check("omniroute: the resolution probe runs as the service identity",
           "sudo -u omniroute bash -lc" in _rf, _rf)
+    # The cd must be guarded so a failed cd stops the probe: `cd ... || exit`
+    # is required, and a `|| true` or semicolon fallback that would run node
+    # from the wrong directory anyway is refused.
     check("omniroute: the resolution probe cds into the app tree before node",
-          re.search(r"cd '\$HX_OMNIROUTE_APP_DIR'.*node -e", _rf, re.S) is not None, _rf)
+          re.search(r"cd '\$HX_OMNIROUTE_APP_DIR' \|\| exit \d+", _rf) is not None
+          and not re.search(r"cd '\$HX_OMNIROUTE_APP_DIR'[^\n]*(\|\| true|;\s*\n\s*node)", _rf),
+          _rf)
 _loads_fn = re.search(
     r"^omniroute_native_loads\(\) \{\n(.*?)^\}", _omni, re.S | re.M)
 check("omniroute: the native-load probe exists", bool(_loads_fn))
@@ -1347,15 +1352,23 @@ if _loads_fn:
     check("omniroute: the native-load probe runs as the service identity",
           "sudo -u omniroute bash -lc" in _lf, _lf)
     check("omniroute: the native-load probe cds into the app tree before node",
-          re.search(r"cd '\$HX_OMNIROUTE_APP_DIR'.*node -e", _lf, re.S) is not None, _lf)
+          re.search(r"cd '\$HX_OMNIROUTE_APP_DIR' \|\| exit \d+", _lf) is not None
+          and not re.search(r"cd '\$HX_OMNIROUTE_APP_DIR'[^\n]*(\|\| true|;\s*\n\s*node)", _lf),
+          _lf)
     # The runbook writes the JS inside a double-quoted shell string, so its
-    # quotes are escaped. Unescape them before matching, then require the
-    # whole chain: load better-sqlite3, open :memory:, close the database.
-    _lf_js = _lf.replace('\\"', '"')
+    # quotes are escaped. Unescape them, strip comments, and match the
+    # executable require -> open -> close sequence, not substrings that a
+    # comment or dead code could satisfy.
+    _lf_js = "\n".join(
+        line.split("#", 1)[0]
+        for line in _lf.replace('\\"', '"').splitlines()
+    )
     check("omniroute: the native-load probe loads better-sqlite3",
-          'require("better-sqlite3")' in _lf_js, _lf_js)
-    check("omniroute: the native-load probe opens and closes an in-memory database",
-          '":memory:"' in _lf_js and "db.close()" in _lf_js, _lf_js)
+          re.search(r'require\("better-sqlite3"\)\(":memory:"\)', _lf_js) is not None,
+          _lf_js)
+    check("omniroute: the native-load probe closes the database after opening it",
+          re.search(r'require\("better-sqlite3"\)\(":memory:"\).*db\.close\(\)',
+                    _lf_js, re.S) is not None, _lf_js)
 check("omniroute: the native load is gated, not just noted",
       re.search(
           r"omniroute_native_loads && _nl=0 \|\| _nl=1.*"
