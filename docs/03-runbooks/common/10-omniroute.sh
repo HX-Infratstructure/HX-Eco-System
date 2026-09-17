@@ -151,8 +151,8 @@ sudo chown root:root "$HX_OMNIROUTE_ENV_FILE"
 sudo chmod 600 "$HX_OMNIROUTE_ENV_FILE"
 sudo stat -c '%U:%G %a %n' "$HX_OMNIROUTE_ENV_FILE"
 
-HX_APP_ENV_FILE="$HX_OMNIROUTE_ENV_FILE"
-hx_app_unit hx-omniroute "HX OmniRoute ${OMNIROUTE_INSTALLED}" omniroute "$HX_OMNIROUTE_APP_DIR" \
+hx_app_unit --env-file "$HX_OMNIROUTE_ENV_FILE" \
+  hx-omniroute "HX OmniRoute ${OMNIROUTE_INSTALLED}" omniroute "$HX_OMNIROUTE_APP_DIR" \
   "$(command -v node) ${OMNIROUTE_CLI} serve" \
   "HOME=/srv/omniroute" \
   "DATA_DIR=${HX_OMNIROUTE_DATA_DIR}" \

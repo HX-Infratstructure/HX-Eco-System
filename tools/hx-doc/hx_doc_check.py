@@ -232,12 +232,23 @@ def check_unit_claims() -> None:
         code = "\n".join(
             line for line in raw.splitlines() if not line.lstrip().startswith("#")
         )
+        # A trailing backslash continues one command across lines, so join
+        # them the way the shell does. Without this a call whose arguments
+        # wrap reads as two statements and the unit name is never found.
+        code = code.replace("\\\n", " ")
         for unit in re.findall(r"hx_app_done\s+([A-Za-z0-9_-]+)", code):
             if unit == "NONE":
                 continue
             path = rf"/etc/systemd/system/{re.escape(unit)}\.service"
             creates_it = (
-                re.search(rf"hx_app_unit\s+{re.escape(unit)}\b", code)
+                # Leading long options may precede the unit name, so skip
+                # any `--opt value` pairs rather than pinning the name to
+                # the first argument. Naming one option here would break
+                # the next one.
+                re.search(
+                    rf"hx_app_unit\s+(?:--\S+\s+\S+\s+)*{re.escape(unit)}\b",
+                    code,
+                )
                 # A write, not merely a mention: tee, cp, install or a redirect.
                 or re.search(rf"(tee|cp|install)\b[^\n]*{path}", code)
                 or re.search(rf">\s*{path}", code)
