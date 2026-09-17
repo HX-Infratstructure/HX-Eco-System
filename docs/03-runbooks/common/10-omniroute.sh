@@ -48,7 +48,11 @@ hx_require_source_pin "$HX_OMNIROUTE_COMMIT"
 sudo install -d -o omniroute -g omniroute -m 750 "$HX_OMNIROUTE_APP_DIR"
 sudo install -d -o omniroute -g omniroute -m 750 "$HX_OMNIROUTE_DATA_DIR"
 
-if [ ! -d "$HX_OMNIROUTE_APP_DIR/.git" ]; then
+# Every test below runs as omniroute, not as the calling user. The application
+# tree is mode 750 and omniroute-owned on purpose, so hxsa cannot traverse it
+# and `test -d` answers "absent" for a directory that is plainly there. On a
+# rerun that made the block try to clone into a populated checkout.
+if ! sudo -u omniroute test -d "$HX_OMNIROUTE_APP_DIR/.git"; then
   sudo -u omniroute git clone --branch "$HX_OMNIROUTE_BRANCH" \
     "$HX_OMNIROUTE_REPO" "$HX_OMNIROUTE_APP_DIR"
 else
@@ -126,18 +130,19 @@ sudo -u omniroute env HOME=/srv/omniroute npm run build \
 
 # `omniroute serve` runs the standalone bundle the build produces. Without it
 # the CLI would fall back to a path that does not exist here.
-[ -f "$HX_OMNIROUTE_APP_DIR/dist/server.js" ] || {
+sudo -u omniroute test -f "$HX_OMNIROUTE_APP_DIR/dist/server.js" || {
   echo "STOP: dist/server.js is absent after the build; there is nothing to serve." >&2
   exit 38
 }
 
 OMNIROUTE_CLI="$HX_OMNIROUTE_APP_DIR/bin/omniroute.mjs"
-[ -f "$OMNIROUTE_CLI" ] || { echo "STOP: $OMNIROUTE_CLI is missing" >&2; exit 30; }
+sudo -u omniroute test -f "$OMNIROUTE_CLI" \
+  || { echo "STOP: $OMNIROUTE_CLI is missing" >&2; exit 30; }
 
 # ---------------------------------------------------------------------------
 # Provenance and the version gate.
 # ---------------------------------------------------------------------------
-OMNIROUTE_INSTALLED="$(node "$OMNIROUTE_CLI" --version 2>/dev/null || true)"
+OMNIROUTE_INSTALLED="$(sudo -u omniroute node "$OMNIROUTE_CLI" --version 2>/dev/null || true)"
 OMNIROUTE_INSTALLED="${OMNIROUTE_INSTALLED#v}"
 case "$OMNIROUTE_INSTALLED" in
   [0-9]*) ;;
@@ -156,7 +161,7 @@ Component:        OmniRoute ${OMNIROUTE_INSTALLED}
 Source URI:       ${HX_OMNIROUTE_REPO}
 Branch:           ${HX_OMNIROUTE_BRANCH}
 Source commit:    ${OMNIROUTE_SHA}
-package.json:     $(node -p "require('${HX_OMNIROUTE_APP_DIR}/package.json').version")
+package.json:     $(sudo -u omniroute node -p "require('${HX_OMNIROUTE_APP_DIR}/package.json').version")
 Built CLI:        ${OMNIROUTE_INSTALLED}   (node ${OMNIROUTE_CLI} --version)
 App directory:    ${HX_OMNIROUTE_APP_DIR}
 Node:             $(node --version)

@@ -1107,6 +1107,223 @@ rc, out = foundation('hx_require_native_dep', 'better-sqlite3', '1')
 check('native dep: the STOP forbids the skip flag',
       'OMNIROUTE_SKIP_NATIVE_DEP_CHECK' in out, out)
 
+# ------------------------- 10-omniroute.sh: identity on the app tree -------
+# /srv/omniroute/app is mode 750 and omniroute-owned by design, so a filesystem
+# test run as the calling user answers about permission rather than about the
+# tree. That reported .git as absent on a rerun and the block tried to clone
+# into a populated checkout. Five accesses had the same defect.
+# Split a line into the commands it actually runs. `&&`, `||`, `;` and `|`
+# each start a new one, and so does a command substitution, so the check sees
+# `[ -f ... ]` in `sudo -u omniroute git ... && [ -f ... ]` as its own command.
+# A regex split cannot see quoting: it would cut inside single quotes, where
+# none of that is shell syntax any more, just text. The scanner below tracks
+# quote state instead. Inside single quotes nothing runs. Inside double quotes
+# the operators are literal too, but a substitution still executes, so it
+# still opens a command.
+def _read_substitution(text: str, i: int) -> tuple[str, int]:
+    """text[i:i+2] == '$('. Return (inner text, index past the closing ')')."""
+    depth = 1
+    j = i + 2
+    start = j
+    quote = ""
+    while j < len(text):
+        ch = text[j]
+        if quote:
+            if ch == quote:
+                quote = ""
+        elif ch in "'\"":
+            quote = ch
+        elif text[j:j+2] == "$(":
+            depth += 1
+            j += 1
+        elif ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth -= 1
+            if depth == 0:
+                return text[start:j], j + 1
+        j += 1
+    return text[start:], len(text)  # unterminated: the rest is the command
+
+
+def shell_segments(line: str) -> list[str]:
+    """The commands a shell line actually runs, one string each."""
+    segments: list[str] = []
+    buf: list[str] = []
+    quote = ""
+    i = 0
+    n = len(line)
+
+    def flush() -> None:
+        segments.append("".join(buf))
+        buf.clear()
+
+    while i < n:
+        ch = line[i]
+        if quote == "'":
+            buf.append(ch)
+            if ch == "'":
+                quote = ""
+        elif quote == '"':
+            if ch == '"':
+                quote = ""
+                buf.append(ch)
+            elif ch == "\\" and i + 1 < n:
+                buf.append(line[i:i+2])
+                i += 1
+            elif line[i:i+2] == "$(":
+                # A substitution inside double quotes still runs.
+                inner, i = _read_substitution(line, i)
+                segments.extend(shell_segments(inner))
+                continue
+            else:
+                buf.append(ch)
+        elif ch == "'" or ch == '"':
+            quote = ch
+            buf.append(ch)
+        elif ch == "\\" and i + 1 < n:
+            buf.append(line[i:i+2])
+            i += 1
+        elif line[i:i+2] in ("&&", "||"):
+            flush()
+            i += 1
+        elif ch in ";|&":
+            flush()
+        elif line[i:i+2] == "$(":
+            inner, i = _read_substitution(line, i)
+            segments.extend(shell_segments(inner))
+            continue
+        else:
+            buf.append(ch)
+        i += 1
+    flush()
+    return segments
+_ACCESS = re.compile(r"^(\[|test|node)\s")
+_PRIV = re.compile(r"^sudo\s+-u\s+omniroute\s+")
+# Shell keywords and one-off environment assignments sit in front of the command
+# without changing which command runs. Left in place they hide the access:
+# `if [ -f "$APP/x" ]` and `HOME=/srv/omniroute node "$CLI"` both fail a match
+# anchored on the command token, so the check would read them as harmless.
+_LEAD = re.compile(
+    r"^(?:(?:if|then|elif|else|while|until|do|!)\s+"
+    r"|[A-Za-z_][A-Za-z0-9_]*=\S*\s+)+"
+)
+# `env` wraps the real command: its own options and the assignments it
+# carries sit in front of the executable without changing what runs.
+# `env HOME=/srv/omniroute node "$CLI"` is a node invocation and must be
+# detected as one, not skipped because the body starts with `env`.
+_ENV = re.compile(
+    r"^env(?:\s+-\S+|\s+[A-Za-z_][A-Za-z0-9_]*=\S*)*\s+"
+)
+
+
+def unprivileged_app_reads(text: str) -> list[str]:
+    """Commands that touch the OmniRoute app tree without assuming its identity.
+
+    Checked per command, not per line. Asking whether the line contains
+    "sudo -u omniroute" passes `sudo -u omniroute git ... && [ -f "$APP/x" ]`,
+    where the sudo belongs to the git call and the bracket test still runs as
+    the caller. That is the defect this exists to catch, so a chained command
+    must carry the prefix itself.
+    """
+    out = []
+    for raw in text.splitlines():
+        line = raw.strip()
+        if line.startswith("#") or not line:
+            continue
+        if "HX_OMNIROUTE_APP_DIR" not in line and "OMNIROUTE_CLI" not in line:
+            continue
+        for seg in shell_segments(line):
+            seg = seg.strip()
+            if "HX_OMNIROUTE_APP_DIR" not in seg and "OMNIROUTE_CLI" not in seg:
+                continue
+            # Strip the prefix first, then ask what the command is. Testing the
+            # other way round accepts a privileged form by never recognising it
+            # as an access at all, which reads as a pass for the wrong reason.
+            cmd = _LEAD.sub("", seg)
+            privileged = bool(_PRIV.match(cmd))
+            body = _PRIV.sub("", cmd, count=1) if privileged else cmd
+            # An env wrapper does not change which executable runs; strip it
+            # and its options/assignments so the real command is matched.
+            body = _ENV.sub("", body)
+            # Only filesystem access matters; --prefix and interpolation do not.
+            if not _ACCESS.match(body):
+                continue
+            if privileged:
+                continue
+            out.append(seg)
+    return out
+
+_omni = io.open(os.path.join(SRC, "docs", "03-runbooks", "common", "10-omniroute.sh"),
+                encoding="utf-8").read()
+_bad = unprivileged_app_reads(_omni)
+check("omniroute: every app-tree read assumes the omniroute identity",
+      _bad == [], "\n".join(_bad))
+
+# The checker must be able to fail, or it is decoration.
+check("omniroute: the identity check catches an unprivileged read",
+      unprivileged_app_reads('[ -f "$HX_OMNIROUTE_APP_DIR/dist/server.js" ] || exit 1') != [])
+check("omniroute: the identity check accepts a privileged one",
+      unprivileged_app_reads('sudo -u omniroute test -f "$HX_OMNIROUTE_APP_DIR/x"') == [])
+
+# The prefix has to belong to the command that reads the tree. Here it belongs
+# to the git call, and the bracket test still runs as the caller.
+_chained = ('sudo -u omniroute git -C "$HX_OMNIROUTE_APP_DIR" fetch '
+            '&& [ -f "$HX_OMNIROUTE_APP_DIR/dist/server.js" ]')
+check("omniroute: sudo on an earlier command does not cover a chained test",
+      unprivileged_app_reads(_chained) != [], _chained)
+
+# Same shape with the other separators, so the fix is not one operator deep.
+for _sep in ("||", ";"):
+    _c = 'sudo -u omniroute git -C "$HX_OMNIROUTE_APP_DIR" fetch %s test -f "$OMNIROUTE_CLI"' % _sep
+    check("omniroute: sudo does not cover a command chained with %s" % _sep,
+          unprivileged_app_reads(_c) != [], _c)
+
+# A command substitution is its own command too.
+check("omniroute: an unprivileged read inside a substitution is caught",
+      unprivileged_app_reads('V="$(node "$OMNIROUTE_CLI" --version)"') != [])
+check("omniroute: a privileged read inside a substitution is accepted",
+      unprivileged_app_reads('V="$(sudo -u omniroute node "$OMNIROUTE_CLI" --version)"') == [])
+
+# A background separator starts a new command as surely as the others do.
+_bg = 'sudo -u omniroute git -C "$HX_OMNIROUTE_APP_DIR" fetch & node "$OMNIROUTE_CLI" --version'
+check("omniroute: sudo does not cover a command chained with &",
+      unprivileged_app_reads(_bg) != [], _bg)
+
+# Quoting changes what runs. Inside single quotes an operator or a
+# substitution is text, so the scanner must not cut there; inside double
+# quotes the operators are literal too, but a substitution still executes.
+_sq = "echo '&& [ -f \"$HX_OMNIROUTE_APP_DIR/dist/server.js\" ] && $(node \"$OMNIROUTE_CLI\")'"
+check("omniroute: operators and substitutions in single quotes are not commands",
+      unprivileged_app_reads(_sq) == [], _sq)
+check("omniroute: a substitution inside double quotes still runs",
+      unprivileged_app_reads('msg="x $(node "$OMNIROUTE_CLI" --version)"') != [])
+check("omniroute: an operator inside double quotes is literal",
+      unprivileged_app_reads('msg="a && [ -f "$HX_OMNIROUTE_APP_DIR/x" ]"') == [])
+
+# A shell keyword in front of the command does not change which command runs.
+# Anchoring on the command token alone read these as harmless.
+check("omniroute: an unprivileged test behind `if` is caught",
+      unprivileged_app_reads('if [ -f "$HX_OMNIROUTE_APP_DIR/dist/server.js" ]; then') != [])
+check("omniroute: a privileged test behind `if !` is still accepted",
+      unprivileged_app_reads('if ! sudo -u omniroute test -d "$HX_OMNIROUTE_APP_DIR/.git"; then') == [])
+
+# Same for a one-off environment assignment.
+check("omniroute: an unprivileged node behind an env assignment is caught",
+      unprivileged_app_reads('HOME=/srv/omniroute node "$OMNIROUTE_CLI" --version') != [])
+check("omniroute: a privileged node behind an env assignment is accepted",
+      unprivileged_app_reads('sudo -u omniroute env HOME=/srv/omniroute node "$OMNIROUTE_CLI" -v') == [])
+
+# An env wrapper is not the command: its options and assignments must be
+# stripped before the executable is matched, or the access hides behind it.
+_env = 'env HOME=/srv/omniroute node "$OMNIROUTE_CLI" --version'
+check("omniroute: an unprivileged node behind env is caught",
+      unprivileged_app_reads(_env) != [], _env)
+check("omniroute: a privileged node behind env is accepted",
+      unprivileged_app_reads('sudo -u omniroute env HOME=/srv/omniroute node "$OMNIROUTE_CLI" -v') == [])
+check("omniroute: env with options still exposes the command",
+      unprivileged_app_reads('env -i HOME=/srv/omniroute node "$OMNIROUTE_CLI" --version') != [])
+
 # Not ignore_errors: a workspace that cannot be removed is worth saying out
 # loud, but it is not a gate failure, so it does not change the exit status.
 try:
