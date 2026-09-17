@@ -36,34 +36,89 @@ a{color:var(--accent)}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
 </style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/02-server-records/HX-8.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-8 — Open WebUI Server Configuration</h1>
-<p><strong>Build state:</strong> NOT STARTED <strong>Gate:</strong> — <strong>IP:</strong> <code>192.168.50.208</code> <strong>FQDN:</strong> <code>hx-8.hx.local.arpa</code> <strong>Record updated:</strong> 2026-09-10</p>
-<blockquote>Scaffolded by <code>tools/hx-doc/hx-new-server hx-8</code>. Fill every section as the build proceeds. <code>tools/hx-doc/hx-record-check</code> reports what is still open.</blockquote>
+<p><strong>Build state:</strong> PASS <strong>Gate:</strong> CLOSED <strong>IP:</strong> <code>192.168.50.208</code> <strong>FQDN:</strong> <code>hx-8.hx.local.arpa</code> <strong>Record updated:</strong> 2026-09-17</p>
 <h2>Foundation</h2>
 <p>Established by <code>docs/03-runbooks/common/00-foundation.sh</code> before Block 1, and gated by <code>01-base-admin-network-updates.sh</code>, which refuses to proceed without it. Proven from the operator workstation before Layer 0/1 closes.</p>
-<div class="tw"><table><thead><tr><th>Control</th><th>Expected</th><th>State</th></tr></thead><tbody><tr><td><code>hostname -f</code></td><td><code>hx-8.hx.local.arpa</code></td><td>NOT ESTABLISHED</td></tr><tr><td>AD DNS A record</td><td>the address recorded in <code>docs/00-control/hx-fleet.tsv</code></td><td>NOT ESTABLISHED</td></tr><tr><td>Time authority</td><td><code>chronyc sources</code> shows <code>^* 192.168.50.200</code></td><td>NOT ESTABLISHED</td></tr><tr><td>Fleet key</td><td><code>SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk</code></td><td>NOT ESTABLISHED</td></tr><tr><td>NOPASSWD sudo</td><td><code>sudo -k -n true</code> succeeds</td><td>NOT ESTABLISHED</td></tr><tr><td>SSH persistence</td><td><code>ssh.service</code> or <code>ssh.socket</code> enabled</td><td>NOT ESTABLISHED</td></tr><tr><td>External key-only login</td><td><code>tools/hx-doc/hx-fleet-access hx-8</code> returns <code>hx-8</code> and <code>KEY+SUDO-PASS</code></td><td>NOT ESTABLISHED</td></tr><tr><td>SSH host key</td><td>recorded at build, so a later change is answerable from the repository</td><td>NOT ESTABLISHED</td></tr><tr><td>SPNs in AD</td><td>all four forms, short and FQDN, for <code>host/</code> and <code>RestrictedKrbHost/</code></td><td>NOT ESTABLISHED</td></tr></tbody></table></div>
-<p>This host is not built. Every row is filled from the build, and proof step F0 in <code>docs/00-control/hx-proof.tsv</code> must be satisfied before this server's own phase can close.</p>
+<p>Every row below carries the date, the command, and the verbatim output. Rows run from the workstation prove the control from outside the machine that claims it.</p>
+<div class="tw"><table><thead><tr><th>Control</th><th>Date</th><th>Command</th><th>Output</th></tr></thead><tbody><tr><td><code>hostname -f</code></td><td>2026-09-17</td><td><code>hostname -f</code></td><td><code>hx-8.hx.local.arpa</code></td></tr><tr><td>AD DNS A record</td><td>2026-09-17</td><td><code>nslookup hx-8.hx.local.arpa 192.168.50.200</code></td><td><code>Name: hx-8.hx.local.arpa</code> / <code>Address: 192.168.50.208</code></td></tr><tr><td>Time authority</td><td>2026-09-17</td><td><code>chronyc sources</code></td><td><code>^* 192.168.50.200  3  6  377  13  -186us[ -171us] +/- 71ms</code></td></tr><tr><td>Fleet key</td><td>2026-09-17</td><td>foundation block key report</td><td><code>256 SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk hx-fleet-20260810 (ED25519)</code></td></tr><tr><td>NOPASSWD sudo</td><td>2026-09-17</td><td><code>sudo -k -n true</code></td><td><code>NOPASSWD-OK</code></td></tr><tr><td>SSH persistence</td><td>2026-09-17</td><td>foundation block persistence report</td><td><code>enabled</code></td></tr><tr><td>External key-only login</td><td>2026-09-17</td><td><code>tools/hx-doc/hx-fleet-access hx-8</code></td><td><code>hx-8</code> / <code>KEY+SUDO-PASS</code> / <code>PASS  hx-8 is administrable by the fleet key, proven externally.</code></td></tr><tr><td>SSH host key</td><td>2026-09-17</td><td><code>ssh-keyscan</code> piped to <code>ssh-keygen -lf -</code></td><td><code>256 SHA256:DdUbVL+ISn1Lv5p0zw7DpFO0oLr5VIiRUrVtNx9kmQI 192.168.50.208 (ED25519)</code></td></tr><tr><td>SPNs in AD</td><td>2026-09-17</td><td><code>samba-tool computer show hx-8</code> on HX-1</td><td><code>host/HX-8</code>, <code>host/hx-8.hx.local.arpa</code>, <code>RestrictedKrbHost/HX-8</code>, <code>RestrictedKrbHost/hx-8.hx.local.arpa</code></td></tr></tbody></table></div>
+<p>All four SPN forms are present, which is what D-029 requires. <code>dNSHostName</code> reads <code>hx-8.hx.local.arpa</code>.</p>
+<p>Proof step <code>F0</code> in <code>docs/00-control/hx-proof.tsv</code> is satisfied.</p>
+<p><strong>One observation, recorded rather than acted on.</strong> A reverse lookup of <code>192.168.50.208</code> from the workstation returned nothing on 2026-09-17. Forward resolution, the domain join and GSSAPI all work, so this is noted here as a fact about the zone rather than as a defect against this host.</p>
 <h2>1. Identity and Network</h2>
-<p>Hostname, IP, gateway, DNS, domain join, SSSD, domain user resolution. State the gate result: <strong>Domain join gate: PASS/FAIL</strong>.</p>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Hostname</td><td><code>hx-8</code></td></tr><tr><td>FQDN</td><td><code>hx-8.hx.local.arpa</code></td></tr><tr><td>IP</td><td><code>192.168.50.208</code> on <code>eno1</code></td></tr><tr><td>Domain</td><td><code>hx.local.arpa</code>, realm <code>HX.LOCAL.ARPA</code></td></tr><tr><td>Client software</td><td>SSSD</td></tr></tbody></table></div>
+<p>Domain join, 2026-09-17, reported by <code>./02-domain.sh</code>:</p>
+<pre><code class="lang-text">hx.local.arpa
+  type: kerberos
+  realm-name: HX.LOCAL.ARPA
+  domain-name: hx.local.arpa
+  configured: kerberos-member
+  server-software: active-directory
+  client-software: sssd
+  login-formats: %U@hx.local.arpa
+  login-policy: allow-realm-logins</code></pre>
+<p>SSSD active, and a domain user resolves:</p>
+<pre><code class="lang-text">active
+uid=218001148(jarvisr@hx.local.arpa) gid=218000513(domain users@hx.local.arpa) groups=218000513(domain users@hx.local.arpa)</code></pre>
+<p><strong>Domain join gate: PASS</strong></p>
 <h2>2. Operating System</h2>
-<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Distribution / release</td><td></td></tr><tr><td>Kernel</td><td></td></tr><tr><td>Firmware version</td><td></td></tr><tr><td>sudo policy</td><td></td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Distribution / release</td><td>Ubuntu 24.04.5 LTS</td></tr><tr><td>Kernel</td><td><code>7.0.0-31-generic</code></td></tr><tr><td>Firmware version</td><td>UNRESOLVED — not read during this build</td></tr><tr><td>sudo policy</td><td>NOPASSWD for the admin account via <code>/etc/sudoers.d/90-hx-admin</code>, parsed OK during the foundation block</td></tr></tbody></table></div>
+<p>Block 1 finished with <code>0 updates can be applied immediately</code> after its reboot.</p>
 <h2>3. GPU Configuration</h2>
-<p>Driver package <strong>and exact version</strong>, GPU models and count, <code>nvidia-smi</code> proof. State the gate result: <strong>GPU gate: PASS/FAIL</strong>.</p>
+<p>HX-8 carries no GPU. Block 2 reported this and installed no driver:</p>
+<pre><code class="lang-text">hx-8 carries no GPU, so Block 2 is domain join only here.</code></pre>
+<p>This is the expected result. <code>HX_GPU_HOSTS</code> is <code>hx-2 hx-3 hx-4 hx-5</code>, and <code>hx_require_gpu_expectation</code> refuses a driver install on any host outside it.</p>
+<p><strong>GPU gate: PASS — no GPU expected, none installed</strong></p>
 <h2>4. Storage Layout</h2>
-<p>Devices, filesystems, mount points, and the dedicated application path. State the gate result: <strong>Storage gate: PASS/FAIL</strong>.</p>
+<pre><code class="lang-text">nvme0n1     238.5G
+├─nvme0n1p1     1G vfat  /boot/efi
+├─nvme0n1p2   120G ext4  /
+└─nvme0n1p3 117.4G ext4  /srv/openwebui</code></pre>
+<p><code>/srv/openwebui</code> is a dedicated filesystem, mounted by UUID in <code>/etc/fstab</code>. Usage after the build and the reboot, 2026-09-17:</p>
+<pre><code class="lang-text">/dev/nvme0n1p3  116G   12G   98G  11% /srv/openwebui</code></pre>
+<p>The volume was provisioned as <code>/srv/openwebui</code>, matching the fleet convention. The block looked for <code>/srv/open-webui</code> and refused at exit 34 until the path was corrected. The gate did its job: without it the install would have created a plain directory on the root disk and left this volume empty.</p>
+<p><strong>Storage gate: PASS</strong></p>
 <h2>5. Runtime</h2>
-<p>Package source, <strong>exact installed version</strong>, service unit, systemd overrides, listener address and port.</p>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Package source</td><td>PyPI wheel into a native venv</td></tr><tr><td>Installed version</td><td><code>0.11.3</code>, read back from distribution metadata through the venv interpreter</td></tr><tr><td>Virtual environment</td><td><code>/srv/openwebui/venv</code></td></tr><tr><td>Service unit</td><td><code>hx-open-webui.service</code></td></tr><tr><td>Service identity</td><td><code>User=openwebui</code></td></tr><tr><td>Listener</td><td><code>0.0.0.0:8081</code></td></tr></tbody></table></div>
+<pre><code class="lang-text">ExecStart=/srv/openwebui/venv/bin/open-webui serve --host 0.0.0.0 --port 8081
+User=openwebui
+ActiveState=active
+UnitFileState=enabled</code></pre>
+<p>Listener proven at install time:</p>
+<pre><code class="lang-text">LISTEN 0  2048  0.0.0.0:8081  0.0.0.0:*</code></pre>
+<p>Secrets live in an environment file the service identity never reads directly. systemd reads it as PID 1 before dropping to <code>User=</code>:</p>
+<pre><code class="lang-text">root:root 600 /srv/openwebui/open-webui.env</code></pre>
+<p>It holds <code>WEBUI_SECRET_KEY</code> only. No administrator password is generated, prompted for, or stored. <code>DATA_DIR</code>, <code>HF_HOME</code>, <code>WEBUI_AUTH=True</code> and <code>ENABLE_SIGNUP=False</code> are unit <code>Environment=</code> lines, not secrets.</p>
+<p>The version is read from distribution metadata rather than from the CLI. <code>open-webui</code> accepts no <code>--version</code> and exits 2 on it, observed on hx-8 against 0.11.3, which stopped the block at exit 31 until the read was corrected.</p>
 <h2>6. Model / Application Provenance</h2>
-<p>Required for every server that hosts a model or a downloaded artifact. All five fields are mandatory — an unknown value is recorded as <code>UNRESOLVED</code>, never omitted, because a missing field cannot be told apart from a forgotten one.</p>
-<pre><code class="lang-text">HX alias:              &lt;ollama name or service identifier&gt;
-Upstream identity:     &lt;official model/product name and version&gt;
-Source URI:            &lt;exact hf.co/... repo:file, package URL, or registry ref&gt;
-Artifact SHA-256:      &lt;full 64-character hash of the downloaded artifact&gt;
-Import method:         &lt;pull | GGUF import | package install | build from source&gt;</code></pre>
-<p>If the artifact was imported rather than pulled, also record the Modelfile or build definition verbatim, including any template, parameter, or stop-token settings. If none were set, say so explicitly.</p>
-<p>Why both Source URI and SHA-256 are required: the hash proves what is running, and the URI proves where it came from. Public model registries carry modified community rebuilds under names close to the official ones, so neither field alone establishes provenance.</p>
+<p>HX-8 hosts no model. It hosts the downloaded application artifact below.</p>
+<pre><code class="lang-text">HX alias:              hx-open-webui
+Upstream identity:     Open WebUI 0.11.3
+Source URI:            https://files.pythonhosted.org/packages/4c/e4/28abecd6b75fa6fa40ae181d2fa9f57593e26d13309c90531dee5b4acc28/open_webui-0.11.3-py3-none-any.whl
+Artifact SHA-256:      8436f9bb29c5accbdfd90d78470fcc917c882bd53f72ed88fed91b1ee97fa547
+Import method:         package install</code></pre>
+<p>The hash is the one PyPI publishes for that wheel, read from the project JSON API on 2026-09-17. It was not recomputed from the installed tree, so it proves what the index serves at that URL rather than what pip wrote to disk.</p>
+<p>No Modelfile, template, parameter or stop-token settings apply here, because no model is imported on this host.</p>
+<p>That same API record states <code>requires_python &lt;3.13.0a1,&gt;=3.11</code>, which confirms <code>HX_OPEN_WEBUI_PY_MIN</code> and <code>HX_OPEN_WEBUI_PY_MAX</code> independently of the source tree. The host runs Python 3.12.3, inside the range.</p>
 <h2>7. Functional Validation</h2>
-<p>Known-answer CLI proof, HTTP/API proof, LAN proof, reboot persistence. Include the exact command and the exact response for each.</p>
+<p><strong>HTTP, from the workstation, 2026-09-17.</strong> Off-host, so it proves the LAN path and not only a loopback listener:</p>
+<pre><code class="lang-text">health 200
+version 0.11.3
+auth True
+enable_signup False</code></pre>
+<p><strong>Authentication posture.</strong> Before the first account existed the public config carried <code>onboarding: true</code>, which is what opens the create-administrator screen. After the account was created the key is absent and <code>enable_signup</code> is still <code>false</code>, so the one-account window opened and closed:</p>
+<pre><code class="lang-text">before:  onboarding true    enable_signup false
+after:   onboarding absent  enable_signup false</code></pre>
+<p><strong>D-008 base proof, 2026-09-17.</strong> Open WebUI was pointed at proven Ollama endpoints, prompts were sent from the UI, and responses rendered. Four models across four hosts answered:</p>
+<div class="tw"><table><thead><tr><th>Model in the UI</th><th>Endpoint</th><th>Host record</th></tr></thead><tbody><tr><td><code>qwen-x:qwen3.8-27b-q6_k</code></td><td><code>http://192.168.50.202:11434</code></td><td>HX-2, PASS / CLOSED</td></tr><tr><td><code>coder-x-glm:glm47flash-q5km</code></td><td><code>http://192.168.50.203:11434</code></td><td>HX-3, PASS / CLOSED</td></tr><tr><td><code>meta-x:gpt-oss-20b</code> and <code>gpt-oss:20b</code></td><td><code>http://192.168.50.204:11434</code></td><td>HX-4, PASS / CLOSED</td></tr><tr><td><code>ornith-1.5:35b</code></td><td><code>http://192.168.50.205:11434</code></td><td>HX-5, Ollama 0.34.0 PASS</td></tr></tbody></table></div>
+<p>Three of those endpoints were checked from the workstation before the proof and each answered <code>{"version":"0.34.0"}</code> on <code>/api/version</code>.</p>
+<p>D-008 asks for one temporary connection. Four were made, so the obligation to remove them covers four entries rather than one. Removal is recorded in section 8.</p>
+<p><strong>Reboot persistence, 2026-09-17.</strong> After <code>sudo reboot</code>:</p>
+<pre><code class="lang-text">active
+enabled
+health 200</code></pre>
 <h2>8. Final State</h2>
-<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td></td></tr><tr><td>Domain join / SSSD</td><td></td></tr><tr><td>GPU driver and visibility</td><td></td></tr><tr><td>Dedicated storage</td><td></td></tr><tr><td>Runtime version</td><td></td></tr><tr><td>Service active / enabled</td><td></td></tr><tr><td>Model / application loaded</td><td></td></tr><tr><td>Known-answer functional proof</td><td></td></tr><tr><td>Reboot persistence</td><td></td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td>PASS</td></tr><tr><td>Domain join / SSSD</td><td>PASS</td></tr><tr><td>GPU driver and visibility</td><td>PASS — no GPU expected, none installed</td></tr><tr><td>Dedicated storage</td><td>PASS — <code>/dev/nvme0n1p3</code> at <code>/srv/openwebui</code></td></tr><tr><td>Runtime version</td><td>PASS — <code>0.11.3</code> matches the pin</td></tr><tr><td>Service active / enabled</td><td>PASS</td></tr><tr><td>Model / application loaded</td><td>PASS — Open WebUI 0.11.3, no model on this host</td></tr><tr><td>Known-answer functional proof</td><td>PASS — D-008, four models rendered</td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr></tbody></table></div>
+<p><strong>Stated exception: the D-008 connections remain configured.</strong> D-008 asks for a temporary connection, removed once the proof is captured. On 2026-09-17 the owner decided to keep the four Ollama connections in place, so this host still holds direct links to HX-2, HX-3, HX-4 and HX-5 rather than reaching the inference plane only through OmniRoute.</p>
+<p>The functional proof above stands on its own: prompts were sent and responses rendered, and that evidence does not depend on what happens to the connections afterwards. The removal clause of D-008 is a separate obligation, and it is recorded here as open rather than met. Nothing in this record should be read as saying the connections were removed.</p>
 <h2>9. Evidence References</h2>
-<p>Either a retained bundle path under <code>docs/05-evidence/&lt;server&gt;/&lt;component&gt;/&lt;run-id&gt;/</code>, or an explicit statement that the proof is recorded inline in section 7 of this record. See <code>docs/05-evidence/README.md</code> for which model applies.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-8.md</code>.</footer></div></body></html>
+<p>The proof is recorded inline in section 7 of this record. No retained bundle applies: every control above is a command and its output, captured on 2026-09-17, and nothing here produced a run directory.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-8.md</code>.</footer></div></body></html>

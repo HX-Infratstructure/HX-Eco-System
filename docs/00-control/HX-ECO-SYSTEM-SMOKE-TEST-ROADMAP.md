@@ -214,7 +214,7 @@ Docling/Crawl4AI PASS is useful upstream ecosystem evidence but is **not forced 
 <!-- HX-PROOF:TABLE phase=G -->
 | Step | SUT | Proof | Authority | Requires | Limited integration | Status |
 |---|---|---|---|---|---|---|
-| **G1** | hx-8 | Open WebUI | [`open-webui-smoke-test.md`](../../smoke-tests/open-webui-smoke-test.md) | P0,F0 | One temporary direct model connection; remove afterward | NOT RUN |
+| **G1** | hx-8 | Open WebUI | [`open-webui-smoke-test.md`](../../smoke-tests/open-webui-smoke-test.md) | P0,F0 | One temporary direct model connection; remove afterward | **PASS** |
 <!-- /HX-PROOF -->
 
 **Exit:** the user-facing layer proves a real model interaction. A rendered page without a model response is not PASS.

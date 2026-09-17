@@ -29,4 +29,4 @@ F1	F	hx-12	Deep Agents	smoke-tests/deep-agents-smoke-test.md	P0,F0	Model + local
 F2	F	hx-14	n8n core	smoke-tests/n8n-smoke-test.md	F0	Disposable deterministic workflow only	NOT_RUN
 F3	F	hx-14	n8n Web UI	smoke-tests/native-web-ui-smoke-test.md	F2	Parent n8n live state only	NOT_RUN
 F4	F	hx-14	n8n MCP	smoke-tests/mcp-companion-smoke-test.md	F2	Parent n8n service only	NOT_RUN
-G1	G	hx-8	Open WebUI	smoke-tests/open-webui-smoke-test.md	P0,F0	One temporary direct model connection; remove afterward	NOT_RUN
+G1	G	hx-8	Open WebUI	smoke-tests/open-webui-smoke-test.md	P0,F0	One temporary direct model connection; remove afterward	PASS
