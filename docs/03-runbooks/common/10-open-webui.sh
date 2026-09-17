@@ -59,10 +59,11 @@ OPEN_WEBUI_BIN=/srv/openwebui/venv/bin/open-webui
 #
 # Not from the CLI. `open-webui --version` does not exist: the entry point takes
 # only --install-completion, --show-completion and --help, and exits 2 on
-# anything else. Observed on hx-8 against 0.11.3. The distribution metadata is
-# read through the venv interpreter instead, which is the same interpreter the
-# unit executes, so this answers about the installed package rather than about
-# whichever pip happens to be on PATH.
+# anything else. The distribution metadata is read through the venv interpreter
+# instead, which is the same interpreter the unit executes, so this answers
+# about the installed package rather than about whichever pip happens to be on
+# PATH. This block is shared, so it names no host and no release: the pin lives
+# in hx-base.env and the dated observation lives in the HX-8 runbook.
 OPEN_WEBUI_INSTALLED="$(sudo -u openwebui /srv/openwebui/venv/bin/python -c   'import importlib.metadata as m; print(m.version("open-webui"))' 2>/dev/null | tr -cd '0-9.' || true)"
 case "$OPEN_WEBUI_INSTALLED" in
   [0-9]*) ;;
