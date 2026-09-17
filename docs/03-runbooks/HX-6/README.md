@@ -213,7 +213,25 @@ Do not carry `APP_BIND_HOST=0.0.0.0` forward as a native-systemd control. Curren
 
 The exact bind variable used by the packaged CLI must be confirmed before the shared HX application block is changed. The final runbook/service should document the variable actually proven on the packaged native runtime.
 
-This is now enforced rather than requested. `HX_OMNIROUTE_BIND_VAR` is empty in `hx-base.env`, and `10-omniroute.sh` stops with exit 36 before writing a unit. Observe the variable on the pinned package, record it there, and the block uses it. It will not guess, and `HOST=0.0.0.0` is no longer carried forward.
+**Resolved 2026-09-17, from the published package rather than from source or inference.**
+
+`npm pack omniroute@3.8.50` produces `omniroute-3.8.50.tgz`, sha256
+`738c58af1faae8c57eb643a939d1191f8d7e083d9295ef61687d2bff04878c29`. Its server
+entry, `package/dist/server.js`, binds with:
+
+```js
+const hostname = process.env.HOSTNAME || '0.0.0.0'
+```
+
+The same file reads `APP_BIND_HOST`, `API_HOST` and a bare `HOST` **zero**
+times. `API_HOST` does appear in the shipped `dist/.env.example`, but only under
+split-port mode, where the API and dashboard are served on separate ports; it
+does not set the default bind. `HOST` is what this block used to pass, and
+nothing in 3.8.50 reads it.
+
+`HX_OMNIROUTE_BIND_VAR="HOSTNAME"` in `hx-base.env`. The gate stays: an empty
+value still stops the block at exit 36, so a future version whose variable
+changes cannot be papered over by a default.
 
 ### 5.4 Application pre-read commands
 
@@ -368,8 +386,19 @@ The seven non-secret entries become `Environment=` lines in
 
 The four secrets do not. `/etc/systemd/system` is world-readable and
 `systemctl show` prints `Environment=` values, so they go in
-`/srv/omniroute/omniroute.env`, owned by `omniroute` at mode `600`, referenced
-by a single `EnvironmentFile=` line. Three are generated with
+`/srv/omniroute/omniroute.env` at `root:root` `0600`, referenced by a single
+`EnvironmentFile=` line.
+
+Root rather than the service identity: systemd reads an `EnvironmentFile` as
+PID 1 and then drops to `User=`, so `omniroute` never needs to read it, and
+giving it access would widen an application compromise for no gain. The block
+prints the result of:
+
+```bash
+sudo stat -c '%U:%G %a %n' /srv/omniroute/omniroute.env
+```
+
+Expected: `root:root 600 /srv/omniroute/omniroute.env`. Three are generated with
 `openssl rand -hex 32` on first run and deliberately not regenerated
 afterwards, because rotating them would invalidate every key and token already
 issued against them.

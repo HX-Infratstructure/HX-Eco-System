@@ -92,8 +92,12 @@ if [ ! -f "$HX_OMNIROUTE_ENV_FILE" ]; then
 else
   echo "$HX_OMNIROUTE_ENV_FILE exists; leaving the generated secrets in place."
 fi
-sudo chown omniroute:omniroute "$HX_OMNIROUTE_ENV_FILE"
+# root:root 0600. systemd reads this as PID 1 before dropping to User=, so the
+# service identity never needs it. Values are never echoed and never become
+# Environment= lines, so `systemctl show` does not print them.
+sudo chown root:root "$HX_OMNIROUTE_ENV_FILE"
 sudo chmod 600 "$HX_OMNIROUTE_ENV_FILE"
+sudo stat -c '%U:%G %a %n' "$HX_OMNIROUTE_ENV_FILE"
 
 HX_APP_ENV_FILE="$HX_OMNIROUTE_ENV_FILE"
 hx_app_unit hx-omniroute "HX OmniRoute ${OMNIROUTE_INSTALLED}" omniroute /srv/omniroute \
