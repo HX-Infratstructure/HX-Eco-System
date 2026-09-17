@@ -106,19 +106,19 @@ limited_integration_plan: HX-10 Qdrant + HX-4 BGE-M3 + one approved HX LLM; synt
 <hr/>
 <h3>Phase B — State and retrieval substrate</h3>
 <p>&lt;!-- HX-PROOF:TABLE phase=B --&gt;</p>
-<div class="tw"><table><thead><tr><th>Step</th><th>SUT</th><th>Proof</th><th>Authority</th><th>Requires</th><th>Limited integration</th><th>Status</th></tr></thead><tbody><tr><td><strong>B1</strong></td><td>hx-9</td><td>PostgreSQL core</td><td><a href="../../smoke-tests/postgresql-smoke-test.html"><code>postgresql-smoke-test.md</code></a></td><td>A5,F0</td><td>None; session-scoped disposable data</td><td>NOT RUN</td></tr><tr><td><strong>B2</strong></td><td>hx-9</td><td>PostgreSQL MCP</td><td><a href="../../smoke-tests/mcp-companion-smoke-test.html"><code>mcp-companion-smoke-test.md</code></a></td><td>B1</td><td>Parent PostgreSQL service only</td><td>NOT RUN</td></tr><tr><td><strong>B3</strong></td><td>hx-9</td><td>Redis core</td><td><a href="../../smoke-tests/redis-smoke-test.html"><code>redis-smoke-test.md</code></a></td><td>A5,F0</td><td>None; TTL-protected disposable key</td><td>NOT RUN</td></tr><tr><td><strong>B4</strong></td><td>hx-9</td><td>Redis MCP</td><td><a href="../../smoke-tests/mcp-companion-smoke-test.html"><code>mcp-companion-smoke-test.md</code></a></td><td>B3</td><td>Parent Redis service only</td><td>NOT RUN</td></tr><tr><td><strong>B5</strong></td><td>hx-10</td><td>Qdrant core</td><td><a href="../../smoke-tests/qdrant-smoke-test.html"><code>qdrant-smoke-test.md</code></a></td><td>A5,F0</td><td>None; deterministic raw vectors avoid an embedding dependency</td><td>NOT RUN</td></tr><tr><td><strong>B6</strong></td><td>hx-10</td><td>Qdrant Web UI</td><td><a href="../../smoke-tests/native-web-ui-smoke-test.html"><code>native-web-ui-smoke-test.md</code></a></td><td>B5</td><td>Parent Qdrant live state only</td><td>NOT RUN</td></tr><tr><td><strong>B7</strong></td><td>hx-10</td><td>Qdrant MCP</td><td><a href="../../smoke-tests/mcp-companion-smoke-test.html"><code>mcp-companion-smoke-test.md</code></a></td><td>B5</td><td>Parent Qdrant service only</td><td>NOT RUN</td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Step</th><th>SUT</th><th>Proof</th><th>Authority</th><th>Requires</th><th>Limited integration</th><th>Status</th></tr></thead><tbody><tr><td><strong>B1</strong></td><td>hx-9</td><td>PostgreSQL core</td><td><a href="../../smoke-tests/postgresql-smoke-test.html"><code>postgresql-smoke-test.md</code></a></td><td>F0</td><td>None; session-scoped disposable data</td><td>NOT RUN</td></tr><tr><td><strong>B2</strong></td><td>hx-9</td><td>PostgreSQL MCP</td><td><a href="../../smoke-tests/mcp-companion-smoke-test.html"><code>mcp-companion-smoke-test.md</code></a></td><td>B1</td><td>Parent PostgreSQL service only</td><td>NOT RUN</td></tr><tr><td><strong>B3</strong></td><td>hx-9</td><td>Redis core</td><td><a href="../../smoke-tests/redis-smoke-test.html"><code>redis-smoke-test.md</code></a></td><td>F0</td><td>None; TTL-protected disposable key</td><td>NOT RUN</td></tr><tr><td><strong>B4</strong></td><td>hx-9</td><td>Redis MCP</td><td><a href="../../smoke-tests/mcp-companion-smoke-test.html"><code>mcp-companion-smoke-test.md</code></a></td><td>B3</td><td>Parent Redis service only</td><td>NOT RUN</td></tr><tr><td><strong>B5</strong></td><td>hx-10</td><td>Qdrant core</td><td><a href="../../smoke-tests/qdrant-smoke-test.html"><code>qdrant-smoke-test.md</code></a></td><td>F0</td><td>None; deterministic raw vectors avoid an embedding dependency</td><td>NOT RUN</td></tr><tr><td><strong>B6</strong></td><td>hx-10</td><td>Qdrant Web UI</td><td><a href="../../smoke-tests/native-web-ui-smoke-test.html"><code>native-web-ui-smoke-test.md</code></a></td><td>B5</td><td>Parent Qdrant live state only</td><td>NOT RUN</td></tr><tr><td><strong>B7</strong></td><td>hx-10</td><td>Qdrant MCP</td><td><a href="../../smoke-tests/mcp-companion-smoke-test.html"><code>mcp-companion-smoke-test.md</code></a></td><td>B5</td><td>Parent Qdrant service only</td><td>NOT RUN</td></tr></tbody></table></div>
 <p>&lt;!-- /HX-PROOF --&gt;</p>
 <p><strong>Exit:</strong> relational, transient, and vector state capabilities are independently proven and may be cited by later tests.</p>
 <hr/>
 <h3>Phase C — Routing, MCP development, and control capability</h3>
 <p>&lt;!-- HX-PROOF:TABLE phase=C --&gt;</p>
-<div class="tw"><table><thead><tr><th>Step</th><th>SUT</th><th>Proof</th><th>Authority</th><th>Requires</th><th>Limited integration</th><th>Status</th></tr></thead><tbody><tr><td><strong>C1</strong></td><td>hx-6</td><td>OmniRoute</td><td><a href="../../smoke-tests/omniroute-smoke-test.html"><code>omniroute-smoke-test.md</code></a></td><td>P0,F0</td><td>One temporary route to the proven model; remove afterward</td><td>NOT RUN</td></tr><tr><td><strong>C2</strong></td><td>hx-15</td><td>FastMCP</td><td><a href="../../smoke-tests/fastmcp-smoke-test.html"><code>fastmcp-smoke-test.md</code></a></td><td>A5,F0</td><td>Disposable custom MCP server/tool only</td><td>NOT RUN</td></tr><tr><td><strong>C3</strong></td><td>hx-5</td><td>DeepSeek Harness</td><td><a href="../../smoke-tests/deepseek-harness-smoke-test.html"><code>deepseek-harness-smoke-test.md</code></a></td><td>A4</td><td>Direct model use for a disposable generated AI project</td><td>NOT RUN</td></tr><tr><td><strong>C4</strong></td><td>hx-7</td><td>NGINX dev/test</td><td><a href="../../smoke-tests/nginx-smoke-test.html"><code>nginx-smoke-test.md</code></a></td><td>A5,F0</td><td>HX-5 hosts one temporary private-IP HTTP upstream; remove afterward</td><td>NOT RUN</td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Step</th><th>SUT</th><th>Proof</th><th>Authority</th><th>Requires</th><th>Limited integration</th><th>Status</th></tr></thead><tbody><tr><td><strong>C1</strong></td><td>hx-6</td><td>OmniRoute</td><td><a href="../../smoke-tests/omniroute-smoke-test.html"><code>omniroute-smoke-test.md</code></a></td><td>P0,F0</td><td>One temporary route to the proven model; remove afterward</td><td>NOT RUN</td></tr><tr><td><strong>C2</strong></td><td>hx-15</td><td>FastMCP</td><td><a href="../../smoke-tests/fastmcp-smoke-test.html"><code>fastmcp-smoke-test.md</code></a></td><td>F0</td><td>Disposable custom MCP server/tool only</td><td>NOT RUN</td></tr><tr><td><strong>C3</strong></td><td>hx-5</td><td>DeepSeek Harness</td><td><a href="../../smoke-tests/deepseek-harness-smoke-test.html"><code>deepseek-harness-smoke-test.md</code></a></td><td>A4</td><td>Direct model use for a disposable generated AI project</td><td>NOT RUN</td></tr><tr><td><strong>C4</strong></td><td>hx-7</td><td>NGINX dev/test</td><td><a href="../../smoke-tests/nginx-smoke-test.html"><code>nginx-smoke-test.md</code></a></td><td>A1,F0</td><td>Proxies the A1-proven HX-4 Ollama endpoint; no new service is created; record the upstream host, IP and port in the evidence</td><td>NOT RUN</td></tr></tbody></table></div>
 <p>&lt;!-- /HX-PROOF --&gt;</p>
 <p><strong>Exit:</strong> routing, shared/custom MCP development, meta-agent solution construction, and dev/test proxy capability are proven without creating permanent integration architecture.</p>
 <hr/>
 <h3>Phase D — Knowledge acquisition</h3>
 <p>&lt;!-- HX-PROOF:TABLE phase=D --&gt;</p>
-<div class="tw"><table><thead><tr><th>Step</th><th>SUT</th><th>Proof</th><th>Authority</th><th>Requires</th><th>Limited integration</th><th>Status</th></tr></thead><tbody><tr><td><strong>D1</strong></td><td>hx-16</td><td>Docling + Granite-Docling</td><td><a href="../../smoke-tests/docling-smoke-test.html"><code>docling-smoke-test.md</code></a></td><td>A5,F0</td><td>None; self-generated local PDF</td><td>NOT RUN</td></tr><tr><td><strong>D2</strong></td><td>hx-16</td><td>Docling MCP</td><td><a href="../../smoke-tests/mcp-companion-smoke-test.html"><code>mcp-companion-smoke-test.md</code></a></td><td>D1</td><td>Parent Docling service only</td><td>NOT RUN</td></tr><tr><td><strong>D3</strong></td><td>hx-17</td><td>Crawl4AI</td><td><a href="../../smoke-tests/crawl4ai-smoke-test.html"><code>crawl4ai-smoke-test.md</code></a></td><td>A5,F0</td><td>None; deterministic inline raw HTML</td><td>NOT RUN</td></tr><tr><td><strong>D4</strong></td><td>hx-17</td><td>Crawl4AI MCP</td><td><a href="../../smoke-tests/mcp-companion-smoke-test.html"><code>mcp-companion-smoke-test.md</code></a></td><td>D3</td><td>Parent Crawl4AI service only</td><td>NOT RUN</td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Step</th><th>SUT</th><th>Proof</th><th>Authority</th><th>Requires</th><th>Limited integration</th><th>Status</th></tr></thead><tbody><tr><td><strong>D1</strong></td><td>hx-16</td><td>Docling + Granite-Docling</td><td><a href="../../smoke-tests/docling-smoke-test.html"><code>docling-smoke-test.md</code></a></td><td>F0</td><td>None; self-generated local PDF</td><td>NOT RUN</td></tr><tr><td><strong>D2</strong></td><td>hx-16</td><td>Docling MCP</td><td><a href="../../smoke-tests/mcp-companion-smoke-test.html"><code>mcp-companion-smoke-test.md</code></a></td><td>D1</td><td>Parent Docling service only</td><td>NOT RUN</td></tr><tr><td><strong>D3</strong></td><td>hx-17</td><td>Crawl4AI</td><td><a href="../../smoke-tests/crawl4ai-smoke-test.html"><code>crawl4ai-smoke-test.md</code></a></td><td>F0</td><td>None; deterministic inline raw HTML</td><td>NOT RUN</td></tr><tr><td><strong>D4</strong></td><td>hx-17</td><td>Crawl4AI MCP</td><td><a href="../../smoke-tests/mcp-companion-smoke-test.html"><code>mcp-companion-smoke-test.md</code></a></td><td>D3</td><td>Parent Crawl4AI service only</td><td>NOT RUN</td></tr></tbody></table></div>
 <p>&lt;!-- /HX-PROOF --&gt;</p>
 <p><strong>Exit:</strong> HX can independently convert documents and acquire web content. These proofs do not yet create a permanent RAG ingestion pipeline.</p>
 <hr/>
@@ -131,7 +131,7 @@ limited_integration_plan: HX-10 Qdrant + HX-4 BGE-M3 + one approved HX LLM; synt
 <hr/>
 <h3>Phase F — Agent and workflow consumers</h3>
 <p>&lt;!-- HX-PROOF:TABLE phase=F --&gt;</p>
-<div class="tw"><table><thead><tr><th>Step</th><th>SUT</th><th>Proof</th><th>Authority</th><th>Requires</th><th>Limited integration</th><th>Status</th></tr></thead><tbody><tr><td><strong>F1</strong></td><td>hx-12</td><td>Deep Agents</td><td><a href="../../smoke-tests/deep-agents-smoke-test.html"><code>deep-agents-smoke-test.md</code></a></td><td>P0,F0</td><td>Model + local synthetic rules + disposable in-memory checkpointer</td><td>NOT RUN</td></tr><tr><td><strong>F2</strong></td><td>hx-14</td><td>n8n core</td><td><a href="../../smoke-tests/n8n-smoke-test.html"><code>n8n-smoke-test.md</code></a></td><td>A5,F0</td><td>Disposable deterministic workflow only</td><td>NOT RUN</td></tr><tr><td><strong>F3</strong></td><td>hx-14</td><td>n8n Web UI</td><td><a href="../../smoke-tests/native-web-ui-smoke-test.html"><code>native-web-ui-smoke-test.md</code></a></td><td>F2</td><td>Parent n8n live state only</td><td>NOT RUN</td></tr><tr><td><strong>F4</strong></td><td>hx-14</td><td>n8n MCP</td><td><a href="../../smoke-tests/mcp-companion-smoke-test.html"><code>mcp-companion-smoke-test.md</code></a></td><td>F2</td><td>Parent n8n service only</td><td>NOT RUN</td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Step</th><th>SUT</th><th>Proof</th><th>Authority</th><th>Requires</th><th>Limited integration</th><th>Status</th></tr></thead><tbody><tr><td><strong>F1</strong></td><td>hx-12</td><td>Deep Agents</td><td><a href="../../smoke-tests/deep-agents-smoke-test.html"><code>deep-agents-smoke-test.md</code></a></td><td>P0,F0</td><td>Model + local synthetic rules + disposable in-memory checkpointer</td><td>NOT RUN</td></tr><tr><td><strong>F2</strong></td><td>hx-14</td><td>n8n core</td><td><a href="../../smoke-tests/n8n-smoke-test.html"><code>n8n-smoke-test.md</code></a></td><td>F0</td><td>Disposable deterministic workflow only</td><td>NOT RUN</td></tr><tr><td><strong>F3</strong></td><td>hx-14</td><td>n8n Web UI</td><td><a href="../../smoke-tests/native-web-ui-smoke-test.html"><code>native-web-ui-smoke-test.md</code></a></td><td>F2</td><td>Parent n8n live state only</td><td>NOT RUN</td></tr><tr><td><strong>F4</strong></td><td>hx-14</td><td>n8n MCP</td><td><a href="../../smoke-tests/mcp-companion-smoke-test.html"><code>mcp-companion-smoke-test.md</code></a></td><td>F2</td><td>Parent n8n service only</td><td>NOT RUN</td></tr></tbody></table></div>
 <p>&lt;!-- /HX-PROOF --&gt;</p>
 <p><strong>Exit:</strong> application-agent creation/runtime and workflow execution are proven without requiring production memory, RAG, or external workflow integrations.</p>
 <hr/>
@@ -183,27 +183,21 @@ limited_integration_plan: HX-10 Qdrant + HX-4 BGE-M3 + one approved HX LLM; synt
     P0 --&gt; A4
     A4 --&gt; A5
     P0 --&gt; A5
-    A5 --&gt; B1
     F0 --&gt; B1
     B1 --&gt; B2
-    A5 --&gt; B3
     F0 --&gt; B3
     B3 --&gt; B4
-    A5 --&gt; B5
     F0 --&gt; B5
     B5 --&gt; B6
     B5 --&gt; B7
     P0 --&gt; C1
     F0 --&gt; C1
-    A5 --&gt; C2
     F0 --&gt; C2
     A4 --&gt; C3
-    A5 --&gt; C4
+    A1 --&gt; C4
     F0 --&gt; C4
-    A5 --&gt; D1
     F0 --&gt; D1
     D1 --&gt; D2
-    A5 --&gt; D3
     F0 --&gt; D3
     D3 --&gt; D4
     B5 --&gt; E1
@@ -218,7 +212,6 @@ limited_integration_plan: HX-10 Qdrant + HX-4 BGE-M3 + one approved HX LLM; synt
     E3 --&gt; E4
     P0 --&gt; F1
     F0 --&gt; F1
-    A5 --&gt; F2
     F0 --&gt; F2
     F2 --&gt; F3
     F2 --&gt; F4

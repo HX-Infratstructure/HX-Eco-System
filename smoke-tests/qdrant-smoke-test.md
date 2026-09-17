@@ -24,6 +24,8 @@ export QDRANT_API_KEY="<authorized-test-key>"
 ```
 
 - The temporary collection name `hx_smoke_qdrant` must not be used for persistent data.
+- This test needs **no UI proof**, so the runner does not need Playwright. The
+  Qdrant Web UI is a separate companion gate, as section 1 states.
 - No Docker, Podman, Kubernetes, or temporary container is required or permitted for this test.
 
 ## 3. Test Steps

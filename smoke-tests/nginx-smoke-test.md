@@ -8,122 +8,105 @@ NGINX on HX-7 is an HX development/test UI rendering utility. This smoke test va
 
 ## 2. Prerequisites
 
-- NGINX is installed natively and running on HX-7.
+- NGINX is installed natively and running on HX-7 as unit `hx-nginx`.
 - `nginx -t` passes before the test.
-- A temporary test runner other than HX-7 can host a simple upstream on a private HX network IP.
-- Set that private IP on HX-7:
+- The upstream is an **already-proven HX endpoint**, not a service created for
+  this test. Use HX-4's Ollama, which proof step `A1` has already passed:
 
 ```bash
-export UPSTREAM_IP="<approved-test-runner-private-ip>"
+export UPSTREAM_HOST="hx-4"
+export UPSTREAM_IP="192.168.50.204"
+export UPSTREAM_PORT="11434"
 ```
 
-- TCP port `18080` on the temporary upstream and `18017` on HX-7 are unused for the test.
+- Record the host, IP and port actually used in the evidence, so the proof is
+  reproducible against a named endpoint rather than a disposable one.
+- TCP port `18017` on HX-7 is unused for the test.
 - Do not use `127.0.0.1` or `localhost` as the NGINX `proxy_pass` target.
 - No firewall or network-policy changes are part of this smoke test.
+- No new upstream service is started, so nothing has to be torn down off HX-7.
 
 ## 3. Test Steps
 
-1. On the temporary test runner, save as `nginx_smoke_upstream.py`:
-
-```python
-from http.server import BaseHTTPRequestHandler, HTTPServer
-
-TOKEN = b"HX-NGINX-SMOKE-9271\n"
-
-class Handler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        if self.path != "/hx-smoke":
-            self.send_response(404)
-            self.end_headers()
-            return
-        self.send_response(200)
-        self.send_header("Content-Type", "text/plain")
-        self.send_header("Content-Length", str(len(TOKEN)))
-        self.end_headers()
-        self.wfile.write(TOKEN)
-
-    def log_message(self, format, *args):
-        pass
-
-HTTPServer(("0.0.0.0", 18080), Handler).serve_forever()
-```
-
-2. Start it:
+1. From the runner, prove the upstream answers directly:
 
 ```bash
-python3 nginx_smoke_upstream.py
+curl -fsS "http://${UPSTREAM_IP}:${UPSTREAM_PORT}/api/version"
 ```
 
-3. From HX-7, prove the upstream directly:
+Expected: `{"version":"0.34.0"}`, which is `HX_OLLAMA_VERSION` as pinned in
+`docs/03-runbooks/common/hx-base.env` and proven on HX-4 by step `A1`.
 
-```bash
-curl -fsS "http://${UPSTREAM_IP}:18080/hx-smoke"
-```
-
-Expected: `HX-NGINX-SMOKE-9271`.
-
-4. On HX-7, create a temporary NGINX config:
+2. On HX-7, create a temporary server block. The configuration directory and
+the unit are the ones this host was built with, `--prefix=/srv/nginx` and
+`hx-nginx`, not the distribution defaults:
 
 ```bash
 : "${UPSTREAM_IP:?set UPSTREAM_IP first}"
+: "${UPSTREAM_PORT:?set UPSTREAM_PORT first}"
 
-sudo tee /etc/nginx/conf.d/hx-smoke.conf >/dev/null <<EOF
+sudo tee /srv/nginx/conf.d/hx-smoke.conf >/dev/null <<EOF
 server {
     listen 18017;
     server_name _;
 
     location /hx-smoke {
-        proxy_pass http://${UPSTREAM_IP}:18080/hx-smoke;
+        proxy_pass http://${UPSTREAM_IP}:${UPSTREAM_PORT}/api/version;
     }
 }
 EOF
 
 sudo nginx -t
-sudo systemctl reload nginx
+sudo systemctl reload hx-nginx
 ```
 
-5. Call NGINX:
+3. Call NGINX from the runner, which is not HX-7:
 
 ```bash
 curl -fsS "http://192.168.50.207:18017/hx-smoke"
 ```
 
-6. Confirm the exact known-answer token is returned and record the upstream IP, NGINX version, configuration test result, and direct-vs-proxied output.
+4. Confirm the routed response is byte-identical to the direct one, and record
+the upstream host, IP and port, the NGINX version, the configuration test
+result, and both the direct and the proxied output.
 
 ## 4. Sample Data
 
 ```text
-Upstream path: /hx-smoke
-Known answer:  HX-NGINX-SMOKE-9271
+Upstream:      hx-4  192.168.50.204:11434  /api/version   (proven by A1)
+Known answer:  {"version":"0.34.0"}
 NGINX port:    18017
-Upstream port: 18080
+NGINX path:    /hx-smoke
 ```
 
 ## 5. Expected Output
 
-Both direct upstream and NGINX-proxied requests return:
+Both the direct upstream request and the NGINX-proxied request return:
 
 ```text
-HX-NGINX-SMOKE-9271
+{"version":"0.34.0"}
 ```
 
 `nginx -t` must also report successful configuration syntax.
 
-Pass means HX-7 receives the request, proxies it to the separate private-IP upstream, and returns the unchanged known-answer payload.
+Pass means HX-7 receives the request, proxies it to a separate private-IP host,
+and returns the payload unchanged. The two responses must be byte-identical; a
+routed response that merely looks similar is not a pass.
 
 ## 6. Cleanup / Teardown
 
 On HX-7:
 
 ```bash
-sudo rm -f /etc/nginx/conf.d/hx-smoke.conf
+sudo rm -f /srv/nginx/conf.d/hx-smoke.conf
 sudo nginx -t
-sudo systemctl reload nginx
+sudo systemctl reload hx-nginx
 ```
 
-On the temporary test runner, stop `nginx_smoke_upstream.py` and remove the disposable test file/workspace.
+Nothing is torn down anywhere else. The upstream is an existing proven service
+and is left exactly as it was found; the test starts no service off HX-7.
 
-Confirm HX-7 port `18017` and the temporary upstream port are no longer part of the smoke test.
+Confirm HX-7 port `18017` no longer answers.
 
 **Do not add permanent ecosystem routes, DNS changes, firewall restrictions, TLS configuration, or localhost proxy targets as part of this test.**
 
@@ -133,6 +116,7 @@ Retain the run through the standard bundle described in
 `docs/05-evidence/README.md`: manifest, result, cleanup proof, and the
 supporting capture of the temporary development proxy response.
 
-Record the NGINX version, the temporary server block used, the private
-upstream it proxied, the known-answer response, and the confirmation that the
-temporary configuration was removed and NGINX reloaded cleanly afterwards.
+Record the NGINX version, the temporary server block used, the upstream host,
+IP and port it proxied, both the direct and routed responses, and the
+confirmation that the temporary configuration was removed and `hx-nginx`
+reloaded cleanly afterwards.

@@ -702,7 +702,7 @@ targetGitHead  e1f5bad</code></pre>
 <p>CLOSED on the root cause. <code>WITHDRAWN_PATHS</code> is unchanged: it is the backstop, it fired, and nothing here asked it to change.</p>
 <p>Rotating <code>OPENWIKI_PR_TOKEN</code> and <code>ANTHROPIC_API_KEY</code> is not part of this. It sits on the backlog under HX5-F06 by owner decision and is unaffected by the root cause being understood.</p>
 <h2>HX7-F02 — eight proof steps cannot run, because all of them wait on HX-5</h2>
-<p><strong>Status:</strong> OPEN <strong>Severity:</strong> Medium <strong>Scope:</strong> Fleet-wide; the proof chain <strong>Discovered on:</strong> HX-7 <strong>Discovered during:</strong> 2026-09-17 HX-7 closure</p>
+<p><strong>Status:</strong> CLOSED <strong>Severity:</strong> Medium <strong>Scope:</strong> Fleet-wide; the proof chain <strong>Discovered on:</strong> HX-7 <strong>Discovered during:</strong> 2026-09-17 HX-7 closure</p>
 <h3>Finding</h3>
 <p>HX-7 finished its build, serves on the LAN and survives a reboot, and still cannot close. Its functional gate is proof step <code>C4</code>, <code>C4</code> requires <code>A5</code>, and <code>A5</code> is CentCom activation on HX-5.</p>
 <p>It is not one server's problem. Eight steps carry the same requirement:</p>
@@ -719,8 +719,17 @@ F2  hx-14  requires A5,F0</code></pre>
 <h3>What this is not</h3>
 <p>This is not an argument for building HX-5. That is an owner decision already taken, and the finding does not reopen it.</p>
 <p>It is a statement of what the proof chain currently says, so the cost is visible before it is paid seven more times rather than discovered on each host at closure.</p>
+<h3>Resolution</h3>
+<p><code>A5</code> was an artificial dependency, not a technical one, and the owner ratified the amendment that says so on 2026-09-17.</p>
+<p>Seven of the eight needed only a runner that is not the system under test, and nothing had required that runner to be CentCom since <code>hx-smoke-new</code> stopped depending on <code>hostname -s</code>. Those seven now require <code>F0</code> alone.</p>
+<p><code>C4</code> was the exception and keeps a real dependency, now named honestly. It tests a reverse proxy, so it needs something to proxy. It requires <code>A1</code>, the HX-4 Ollama endpoint that has already passed, rather than a temporary listener raised on whichever host happened to be the runner.</p>
+<p>D-014 gains an authorised-substitute model and keeps CentCom as the standard station. A substitute must be off the system under test, on the HX LAN, able to reach the target, running the tooling from <code>tools/hx-smoke-runner/</code>, recording <code>runner_host</code> in the manifest, and carrying Playwright where the component's authority requires UI proof. <code>HX_SMOKE_ALLOW_HOST</code> stays as the mechanism; no second abstraction was added and no server was special-cased.</p>
+<p><code>A5</code> now has no dependents. It remains in the chain as HX-5's own step.</p>
+<h3>Two defects found while doing it</h3>
+<p><code>smoke-tests/nginx-smoke-test.md</code> wrote its temporary server block to <code>/etc/nginx/conf.d/</code> and reloaded a unit named <code>nginx</code>. HX-7 is built from source with <code>--prefix=/srv/nginx</code> and runs <code>hx-nginx</code>. Neither path nor unit exists on the host, so <code>C4</code> could not have passed as written, whatever happened to <code>A5</code>. Corrected with the rest of the change.</p>
+<p>The audit that raised this finding said B5 and F2 both needed browser evidence. Only F2 does. The Qdrant test states in its own scope that the Web UI is a separate companion gate, so B5 needs no Playwright, and its prerequisites now say so rather than leaving the question open.</p>
 <h3>Disposition</h3>
-<p>OPEN. One decision covers all eight: either <code>A5</code> is satisfied, or the steps that depend on it are re-expressed against something that exists. Until one of those happens, every affected server closes at <code>IN_PROGRESS</code> with a deferred gate, as HX-7 just did.</p>
+<p>CLOSED. Seven servers - HX-7, HX-9, HX-10, HX-14, HX-15, HX-16 and HX-17 - are no longer blocked behind a station that does not exist.</p>
 <h2>HX7-F03 — a hand-kept status table contradicts the generated one beside it</h2>
 <p><strong>Status:</strong> OPEN <strong>Severity:</strong> Low <strong>Scope:</strong> <code>docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md</code> <strong>Discovered on:</strong> Repository <strong>Discovered during:</strong> 2026-09-17 HX-7 closure</p>
 <h3>Finding</h3>
