@@ -1324,6 +1324,68 @@ check("omniroute: a privileged node behind env is accepted",
 check("omniroute: env with options still exposes the command",
       unprivileged_app_reads('env -i HOME=/srv/omniroute node "$OMNIROUTE_CLI" --version') != [])
 
+# The native-dependency probes run inside `bash -lc`, which the per-command
+# identity check cannot see into. Their shape is gated directly instead: the
+# probe must carry the service identity and must cd into the application tree
+# before node runs, because a probe whose cwd is still the caller's home
+# cannot traverse the 750 omniroute-owned tree and answers "module not found"
+# about a package that is installed. HX-6 proved exactly that false negative.
+_resolves_fn = re.search(
+    r"^omniroute_resolves\(\) \{\n(.*?)^\}", _omni, re.S | re.M)
+check("omniroute: the resolution probe exists", bool(_resolves_fn))
+if _resolves_fn:
+    _rf = _resolves_fn.group(0)
+    check("omniroute: the resolution probe runs as the service identity",
+          "sudo -u omniroute bash -lc" in _rf, _rf)
+    check("omniroute: the resolution probe cds into the app tree before node",
+          re.search(r"cd '\$HX_OMNIROUTE_APP_DIR'.*node -e", _rf, re.S) is not None, _rf)
+_loads_fn = re.search(
+    r"^omniroute_native_loads\(\) \{\n(.*?)^\}", _omni, re.S | re.M)
+check("omniroute: the native-load probe exists", bool(_loads_fn))
+if _loads_fn:
+    _lf = _loads_fn.group(0)
+    check("omniroute: the native-load probe runs as the service identity",
+          "sudo -u omniroute bash -lc" in _lf, _lf)
+    check("omniroute: the native-load probe cds into the app tree before node",
+          re.search(r"cd '\$HX_OMNIROUTE_APP_DIR'.*node -e", _lf, re.S) is not None, _lf)
+    check("omniroute: the native-load probe opens and closes an in-memory database",
+          ":memory:" in _lf and "db.close()" in _lf, _lf)
+check("omniroute: the native load is gated, not just noted",
+      re.search(r"omniroute_native_loads && _nl=0 \|\| _nl=1", _omni) is not None)
+
+# The cwd mechanism itself, not just its shape. The HX-6 false negative was:
+# node run as the service identity with its cwd still inside the caller's
+# home, which the service identity cannot traverse, so Node cannot read the
+# package configs along the resolution path and answers "Cannot read package
+# config ... permission denied" about a package that is installed. The cd-first
+# form fails loudly at the cd instead, which is detectable. Reproduced here
+# with a 0750 agentzero-owned directory and the probe run as nobody.
+_cwd = os.path.join(_TMP, 'cwd-check')
+os.makedirs(_cwd, mode=0o750)
+_r = subprocess.run(
+    ['sudo', '-u', 'nobody', 'node', '-e', 'require.resolve("better-sqlite3")'],
+    cwd=_cwd, capture_output=True, text=True)
+check("cwd: a probe from an untraversable cwd misreads an installed package",
+      _r.returncode != 0 and 'permission denied' in _r.stderr, _r.stderr[-300:])
+_r = subprocess.run(
+    ['sudo', '-u', 'nobody', 'bash', '-c',
+     "cd '%s' && node -e 'require.resolve(\"better-sqlite3\")'" % _cwd],
+    capture_output=True, text=True)
+check("cwd: the cd-first probe fails loudly at the cd, not silently",
+      _r.returncode != 0 and 'cd:' in _r.stderr, _r.stderr[-300:])
+# The control needs a world-traversable path from the root down: a 0755 leaf
+# under the 0700 mkdtemp parent is still unreachable for nobody.
+_open = '/tmp/hx-gate-open-control'
+os.makedirs(_open, mode=0o755, exist_ok=True)
+_r = subprocess.run(
+    ['sudo', '-u', 'nobody', 'node', '-e', 'require.resolve("better-sqlite3")'],
+    cwd=_open, capture_output=True, text=True)
+check("cwd: a traversable cwd gives the honest module-not-found",
+      _r.returncode != 0 and "Cannot find module 'better-sqlite3'" in _r.stderr,
+      _r.stderr[-300:])
+os.chmod(_open, 0o700)
+shutil.rmtree(_open, ignore_errors=True)
+
 # Not ignore_errors: a workspace that cannot be removed is worth saying out
 # loud, but it is not a gate failure, so it does not change the exit status.
 try:

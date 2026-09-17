@@ -94,12 +94,33 @@ sudo -u omniroute env HOME=/srv/omniroute npm ci \
 # bypassed and OMNIROUTE_SKIP_NATIVE_DEP_CHECK is never set: the gate is what
 # turned a four-minute module-not-found into a one-second message.
 #
-# Resolution is asked with an explicit paths root rather than from the current
-# directory, so the answer is about the application tree and not about wherever
-# this block happens to be run from.
+# Resolution is asked from inside the application directory, as the omniroute
+# identity. The tree is mode 750 and omniroute-owned, so a probe whose cwd is
+# still the caller's home cannot even traverse to it, and Node answers
+# "module not found" about a package that is plainly installed. HX-6 proved
+# exactly that: better-sqlite3@13.0.3 present and resolvable from
+# /srv/omniroute/app, while the same probe run from the hxsa-owned checkout
+# path failed. cd first, then ask.
 omniroute_resolves() {
-  sudo -u omniroute env HOME=/srv/omniroute node \
-    -e "require.resolve('$1', { paths: ['$HX_OMNIROUTE_APP_DIR'] })" >/dev/null 2>&1
+  sudo -u omniroute bash -lc "
+    cd '$HX_OMNIROUTE_APP_DIR' || exit 1
+    node -e 'require.resolve(\"$1\")'
+  " >/dev/null 2>&1
+}
+
+# Resolution alone does not prove the addon works: npm 11 can leave a JS
+# package whose native .node binding is missing or built against another ABI,
+# and require.resolve answers happily about it. Load the module and open an
+# in-memory SQLite database with it, then close it. That is the smallest thing
+# a present-but-broken addon cannot do.
+omniroute_native_loads() {
+  sudo -u omniroute bash -lc "
+    cd '$HX_OMNIROUTE_APP_DIR' || exit 1
+    node -e '
+      const db = require(\"better-sqlite3\")(\":memory:\");
+      db.close();
+    '
+  " >/dev/null 2>&1
 }
 
 OMNIROUTE_NATIVE_REPAIR="not needed"
@@ -114,6 +135,11 @@ fi
 
 omniroute_resolves better-sqlite3 && _nd=0 || _nd=1
 hx_require_native_dep better-sqlite3 "$_nd"
+
+# A package that resolves but cannot load its native binding is the same
+# outage one step later, so the load is gated too, not just noted.
+omniroute_native_loads && _nl=0 || _nl=1
+hx_require_native_dep "better-sqlite3 native addon" "$_nl"
 
 # --no-save keeps the manifests out of it, and node_modules is gitignored
 # upstream. Prove that rather than trust it: the provenance gate above says this
