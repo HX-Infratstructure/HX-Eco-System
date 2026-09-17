@@ -64,7 +64,12 @@ uid=218001148(jarvisr@hx.local.arpa) gid=218000513(domain users@hx.local.arpa) g
 <p><strong>Domain join gate: PASS</strong></p>
 <h2>2. Operating System</h2>
 <div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Distribution / release</td><td>Ubuntu 24.04.5 LTS</td></tr><tr><td>Kernel</td><td><code>6.8.0-139-generic</code></td></tr><tr><td>Firmware version</td><td><code>UNRESOLVED</code> — no firmware change was made during this build</td></tr><tr><td>sudo policy</td><td><code>hxsa ALL=(ALL:ALL) NOPASSWD: ALL</code> in <code>/etc/sudoers.d/90-hx-admin</code></td></tr></tbody></table></div>
-<p><code>apt update</code> and <code>apt upgrade</code> ran in Block 1. After the final reboot, <code>0 updates can be applied immediately</code>.</p>
+<p><code>apt update</code> and <code>apt upgrade</code> ran in Block 1. Four packages remain upgradable as of 2026-09-17, all one source package held back by Ubuntu's phased rollout:</p>
+<pre><code class="lang-text">libnetplan1        1.1.2-8ubuntu1~24.04.1 -&gt; ~24.04.3
+netplan-generator  1.1.2-8ubuntu1~24.04.1 -&gt; ~24.04.3
+netplan.io         1.1.2-8ubuntu1~24.04.1 -&gt; ~24.04.3
+python3-netplan    1.1.2-8ubuntu1~24.04.1 -&gt; ~24.04.3</code></pre>
+<p>They are phased, not held by this build, and no <code>apt-mark hold</code> is set on this host. D-026 makes network configuration something this process validates and never writes, so a netplan upgrade is a deliberate act rather than something a block should take on its own.</p>
 <h2>3. GPU Configuration</h2>
 <p><strong>HX-7 has no GPU.</strong> No driver was installed and none is expected.</p>
 <pre><code class="lang-text">$ dpkg -l 'nvidia-driver-*' 'nvidia-dkms-*' 'nvidia-kernel-*' | grep '^ii'
@@ -85,10 +90,11 @@ $ command -v nvidia-smi
 <p>Dedicated application path: <code>/srv/nginx</code>, which holds the configuration, the <code>conf.d</code> drop-in directory and both logs. Logs therefore land on the dedicated volume rather than on <code>/</code>.</p>
 <p><strong>Storage gate: PASS</strong></p>
 <h2>5. Runtime</h2>
-<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Source</td><td>upstream source tarball from <code>nginx.org</code>, built natively</td></tr><tr><td>Installed version</td><td><code>nginx/1.30.4</code></td></tr><tr><td>Service unit</td><td><code>hx-nginx.service</code></td></tr><tr><td>Binary</td><td><code>/usr/local/sbin/nginx</code></td></tr><tr><td>Configuration</td><td><code>/srv/nginx/nginx.conf</code>, with <code>include /srv/nginx/conf.d/*.conf</code></td></tr><tr><td>Listener</td><td><code>0.0.0.0:80</code></td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Source</td><td>upstream source tarball from <code>nginx.org</code>, built natively</td></tr><tr><td>Installed version</td><td><code>nginx/1.30.4</code></td></tr><tr><td>Service unit</td><td><code>hx-nginx.service</code></td></tr><tr><td>Binary</td><td><code>/usr/local/sbin/nginx</code></td></tr><tr><td>Configuration</td><td><code>/srv/nginx/nginx.conf</code>, with <code>include /srv/nginx/conf.d/*.conf</code></td></tr><tr><td>Listener</td><td><code>0.0.0.0:80</code></td></tr><tr><td>Optional modules</td><td><code>compat</code>, <code>http_ssl</code>, <code>http_v2</code>, <code>http_realip</code>, <code>http_stub_status</code>, <code>http_sub</code></td></tr></tbody></table></div>
 <pre><code class="lang-text">$ ss -ltn | grep :80
 LISTEN 0      511          0.0.0.0:80        0.0.0.0:*</code></pre>
 <p>Not Snap and not the Ubuntu archive, per D-021.</p>
+<p>nginx compiles about thirty modules by default, including <code>proxy</code>, <code>rewrite</code>, <code>gzip</code> and the upstream balancers, so the proxy role needs nothing added for it. The six above are default-off. <code>compat</code> is the structural one: without it nginx refuses to load any third-party dynamic module, and adding one later would mean another build rather than a configuration change.</p>
 <h2>6. Model / Application Provenance</h2>
 <pre><code class="lang-text">HX alias:              hx-nginx
 Upstream identity:     NGINX 1.30.4
@@ -97,12 +103,19 @@ Artifact SHA-256:      4261dc90e9e47c1c4041276e9aaa3d48ebe2e664f728e14fa95ae6c67
 Import method:         build from source</code></pre>
 <p>The source tarball was verified against its recorded pin before the build. The binary that build produced:</p>
 <pre><code class="lang-text">Binary path:      /usr/local/sbin/nginx
-Binary SHA-256:   b595c64fdd20355703b79da693c234166f18069a46b40697d89a0ad28e302fb7
+Binary SHA-256:   1aaea115232e297901414a82033992a52d0217bfce258382718ac7815aeaa151
 Build arguments:  --prefix=/srv/nginx --sbin-path=/usr/local/sbin/nginx
                   --conf-path=/srv/nginx/nginx.conf --pid-path=/run/nginx.pid
                   --error-log-path=/srv/nginx/logs/error.log
                   --http-log-path=/srv/nginx/logs/access.log
-                  --with-http_ssl_module --with-http_v2_module</code></pre>
+                  --with-compat --with-http_ssl_module --with-http_v2_module
+                  --with-http_realip_module --with-http_stub_status_module
+                  --with-http_sub_module</code></pre>
+<p>Rebuilt on 2026-09-17 at 01:27 UTC to add four modules, so this digest replaces the one from the first build, <code>b595c64f...</code>. The source tarball is the same artifact and its digest is unchanged; only the configure arguments differ.</p>
+<p>The running process was checked against the file rather than assumed:</p>
+<pre><code class="lang-text">$ sudo sha256sum /proc/$(cat /run/nginx.pid)/exe
+1aaea115232e297901414a82033992a52d0217bfce258382718ac7815aeaa151</code></pre>
+<p>That check exists because <code>systemctl enable --now</code> does nothing to a unit that is already running. Before the block gained an explicit restart, a rebuild replaced the file on disk and left the previous binary serving, and the block's own health check would have passed against it.</p>
 <p>Both digests are recorded because the tarball hash proves what was compiled and the binary hash proves what is running. A version string establishes neither.</p>
 <h2>7. Functional Validation</h2>
 <p>Evidence model 2 applies to HX-7, but no run bundle exists yet, because the only smoke test assigned to this server is proof step <code>C4</code> and that step is deferred. The install and persistence proof below is inline. See section 9.</p>
@@ -137,15 +150,45 @@ $ chronyc sources | grep '\^\*'
 $ curl -fsS -o /dev/null -w '%{http_code}\n' http://192.168.50.207/
 200</code></pre>
 <p>Serving, enabled, dedicated volume still mounted, and still tracking HX-1.</p>
+<p>That reboot proved the first binary. The rebuild at 01:27 UTC replaced it, so the host was rebooted a second time and re-checked without intervention.</p>
+<pre><code class="lang-text">$ uptime -s
+2026-09-17 01:39:07
+
+$ sudo sha256sum /proc/$(cat /run/nginx.pid)/exe
+1aaea115232e297901414a82033992a52d0217bfce258382718ac7815aeaa151
+
+$ nginx -V 2&gt;&amp;1 | grep -o -- '--with-[a-z_0-9]*'
+--with-compat --with-http_ssl_module --with-http_v2_module
+--with-http_realip_module --with-http_stub_status_module --with-http_sub_module
+
+$ systemctl is-active hx-nginx
+active
+$ systemctl is-enabled hx-nginx
+enabled
+
+$ findmnt -no SOURCE,TARGET,FSTYPE /srv/nginx
+/dev/nvme0n1p3 /srv/nginx ext4
+
+$ chronyc sources | grep '\^\*'
+^* 192.168.50.200                3   6    37    31  -2878ns[  +26us] +/-   76ms
+
+$ curl -fsS -o /dev/null -w '%{http_code}\n' http://192.168.50.207/
+200</code></pre>
+<p>The digest read from <code>/proc</code> after the reboot is the rebuilt binary, so this row is evidence for the artifact the record names, not only for the unit.</p>
 <h3>Known failed units</h3>
 <pre><code class="lang-text">$ systemctl --failed
 ● sssd-nss.socket      loaded failed failed SSSD NSS Service responder socket
 ● sssd-pam-priv.socket loaded failed failed SSSD PAM Service responder private socket</code></pre>
 <p>This is HX4-F02, open and deferred fleet-wide. <code>/etc/sssd/sssd.conf</code> carries <code>services = nss, pam</code>, so the responders start under <code>sssd.service</code> while their socket units also attempt activation. Domain identity resolution is unaffected and is shown in section 1. HX-4 exhibited three failed sockets; HX-7 has two.</p>
+<h3>One host event, recorded rather than tidied away</h3>
+<p>The first attempt at the rebuild stopped when <code>apt</code> crashed:</p>
+<pre><code class="lang-text">apt[1782]: segfault at 71dceee34100 ip 000071d7722fe705 sp 00007fffa7e32f58
+           error 4 in libapt-pkg.so.6.0.0</code></pre>
+<p>The host was healthy at the time: 14Gi memory free, no OOM kill, <code>dpkg --audit</code> clean, and all four build dependencies already installed, so the line that crashed had nothing to do. Re-running the same command immediately afterwards returned <code>rc=0</code>, and the build then completed. Recorded because a segmentation fault inside <code>libapt-pkg</code> on a newly built host is worth recognising if it happens again, not because anything is known to be wrong.</p>
 <h3>Deferred: proof step C4</h3>
 <p><code>C4</code> requires one temporary private-IP HTTP upstream hosted on HX-5, and HX-5 is not available for this purpose. The step stays <code>NOT_RUN</code> in <code>docs/00-control/hx-proof.tsv</code> and the gate on this record is <code>C4_DEFERRED</code> rather than <code>CLOSED</code>, so the obligation stays visible instead of being quietly dropped.</p>
 <h2>8. Final State</h2>
-<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td>PASS</td></tr><tr><td>Domain join / SSSD</td><td>PASS</td></tr><tr><td>GPU driver and visibility</td><td>N/A — no GPU fitted</td></tr><tr><td>Dedicated storage</td><td>PASS</td></tr><tr><td>Runtime version</td><td>PASS — <code>nginx/1.30.4</code></td></tr><tr><td>Service active / enabled</td><td>PASS</td></tr><tr><td>Model / application loaded</td><td>PASS — both digests recorded</td></tr><tr><td>Known-answer functional proof</td><td>DEFERRED — proof step <code>C4</code></td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td>PASS</td></tr><tr><td>Domain join / SSSD</td><td>PASS</td></tr><tr><td>GPU driver and visibility</td><td>N/A — no GPU fitted</td></tr><tr><td>Dedicated storage</td><td>PASS</td></tr><tr><td>Runtime version</td><td>PASS — <code>nginx/1.30.4</code></td></tr><tr><td>Service active / enabled</td><td>PASS</td></tr><tr><td>Model / application loaded</td><td>PASS — both digests recorded</td></tr><tr><td>Known-answer functional proof</td><td>DEFERRED — proof step <code>C4</code></td></tr><tr><td>Reboot persistence</td><td>PASS — twice, the second against the current binary</td></tr></tbody></table></div>
 <h2>9. Evidence References</h2>
 <p>Evidence model 2 applies, and no bundle is retained yet. The only smoke test assigned to HX-7 is <code>smoke-tests/nginx-smoke-test.md</code>, run as proof step <code>C4</code>, and that step is deferred for the reason in section 7. A retained bundle under <code>docs/05-evidence/hx-7/nginx/&lt;run-id&gt;/</code> follows when <code>C4</code> runs.</p>
 <p>Until then the proof is inline in section 7, with the exact commands and the exact responses.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-7.md</code>.</footer></div></body></html>

@@ -74,8 +74,20 @@ HX-1 directly instead.
 | Firmware version | `UNRESOLVED` — no firmware change was made during this build |
 | sudo policy | `hxsa ALL=(ALL:ALL) NOPASSWD: ALL` in `/etc/sudoers.d/90-hx-admin` |
 
-`apt update` and `apt upgrade` ran in Block 1. After the final reboot,
-`0 updates can be applied immediately`.
+`apt update` and `apt upgrade` ran in Block 1. Four packages remain upgradable
+as of 2026-09-17, all one source package held back by Ubuntu's phased rollout:
+
+```text
+libnetplan1        1.1.2-8ubuntu1~24.04.1 -> ~24.04.3
+netplan-generator  1.1.2-8ubuntu1~24.04.1 -> ~24.04.3
+netplan.io         1.1.2-8ubuntu1~24.04.1 -> ~24.04.3
+python3-netplan    1.1.2-8ubuntu1~24.04.1 -> ~24.04.3
+```
+
+They are phased, not held by this build, and no `apt-mark hold` is set on this
+host. D-026 makes network configuration something this process validates and
+never writes, so a netplan upgrade is a deliberate act rather than something a
+block should take on its own.
 
 ## 3. GPU Configuration
 
@@ -142,6 +154,7 @@ volume rather than on `/`.
 | Binary | `/usr/local/sbin/nginx` |
 | Configuration | `/srv/nginx/nginx.conf`, with `include /srv/nginx/conf.d/*.conf` |
 | Listener | `0.0.0.0:80` |
+| Optional modules | `compat`, `http_ssl`, `http_v2`, `http_realip`, `http_stub_status`, `http_sub` |
 
 ```text
 $ ss -ltn | grep :80
@@ -149,6 +162,12 @@ LISTEN 0      511          0.0.0.0:80        0.0.0.0:*
 ```
 
 Not Snap and not the Ubuntu archive, per D-021.
+
+nginx compiles about thirty modules by default, including `proxy`, `rewrite`,
+`gzip` and the upstream balancers, so the proxy role needs nothing added for
+it. The six above are default-off. `compat` is the structural one: without it
+nginx refuses to load any third-party dynamic module, and adding one later
+would mean another build rather than a configuration change.
 
 ## 6. Model / Application Provenance
 
@@ -165,13 +184,31 @@ binary that build produced:
 
 ```text
 Binary path:      /usr/local/sbin/nginx
-Binary SHA-256:   b595c64fdd20355703b79da693c234166f18069a46b40697d89a0ad28e302fb7
+Binary SHA-256:   1aaea115232e297901414a82033992a52d0217bfce258382718ac7815aeaa151
 Build arguments:  --prefix=/srv/nginx --sbin-path=/usr/local/sbin/nginx
                   --conf-path=/srv/nginx/nginx.conf --pid-path=/run/nginx.pid
                   --error-log-path=/srv/nginx/logs/error.log
                   --http-log-path=/srv/nginx/logs/access.log
-                  --with-http_ssl_module --with-http_v2_module
+                  --with-compat --with-http_ssl_module --with-http_v2_module
+                  --with-http_realip_module --with-http_stub_status_module
+                  --with-http_sub_module
 ```
+
+Rebuilt on 2026-09-17 at 01:27 UTC to add four modules, so this digest replaces
+the one from the first build, `b595c64f...`. The source tarball is the same
+artifact and its digest is unchanged; only the configure arguments differ.
+
+The running process was checked against the file rather than assumed:
+
+```text
+$ sudo sha256sum /proc/$(cat /run/nginx.pid)/exe
+1aaea115232e297901414a82033992a52d0217bfce258382718ac7815aeaa151
+```
+
+That check exists because `systemctl enable --now` does nothing to a unit that
+is already running. Before the block gained an explicit restart, a rebuild
+replaced the file on disk and left the previous binary serving, and the block's
+own health check would have passed against it.
 
 Both digests are recorded because the tarball hash proves what was compiled and
 the binary hash proves what is running. A version string establishes neither.
@@ -231,6 +268,38 @@ $ curl -fsS -o /dev/null -w '%{http_code}\n' http://192.168.50.207/
 
 Serving, enabled, dedicated volume still mounted, and still tracking HX-1.
 
+That reboot proved the first binary. The rebuild at 01:27 UTC replaced it, so
+the host was rebooted a second time and re-checked without intervention.
+
+```text
+$ uptime -s
+2026-09-17 01:39:07
+
+$ sudo sha256sum /proc/$(cat /run/nginx.pid)/exe
+1aaea115232e297901414a82033992a52d0217bfce258382718ac7815aeaa151
+
+$ nginx -V 2>&1 | grep -o -- '--with-[a-z_0-9]*'
+--with-compat --with-http_ssl_module --with-http_v2_module
+--with-http_realip_module --with-http_stub_status_module --with-http_sub_module
+
+$ systemctl is-active hx-nginx
+active
+$ systemctl is-enabled hx-nginx
+enabled
+
+$ findmnt -no SOURCE,TARGET,FSTYPE /srv/nginx
+/dev/nvme0n1p3 /srv/nginx ext4
+
+$ chronyc sources | grep '\^\*'
+^* 192.168.50.200                3   6    37    31  -2878ns[  +26us] +/-   76ms
+
+$ curl -fsS -o /dev/null -w '%{http_code}\n' http://192.168.50.207/
+200
+```
+
+The digest read from `/proc` after the reboot is the rebuilt binary, so this
+row is evidence for the artifact the record names, not only for the unit.
+
 ### Known failed units
 
 ```text
@@ -243,6 +312,22 @@ This is HX4-F02, open and deferred fleet-wide. `/etc/sssd/sssd.conf` carries
 `services = nss, pam`, so the responders start under `sssd.service` while their
 socket units also attempt activation. Domain identity resolution is unaffected
 and is shown in section 1. HX-4 exhibited three failed sockets; HX-7 has two.
+
+### One host event, recorded rather than tidied away
+
+The first attempt at the rebuild stopped when `apt` crashed:
+
+```text
+apt[1782]: segfault at 71dceee34100 ip 000071d7722fe705 sp 00007fffa7e32f58
+           error 4 in libapt-pkg.so.6.0.0
+```
+
+The host was healthy at the time: 14Gi memory free, no OOM kill, `dpkg --audit`
+clean, and all four build dependencies already installed, so the line that
+crashed had nothing to do. Re-running the same command immediately afterwards
+returned `rc=0`, and the build then completed. Recorded because a segmentation
+fault inside `libapt-pkg` on a newly built host is worth recognising if it
+happens again, not because anything is known to be wrong.
 
 ### Deferred: proof step C4
 
@@ -264,7 +349,7 @@ dropped.
 | Service active / enabled | PASS |
 | Model / application loaded | PASS — both digests recorded |
 | Known-answer functional proof | DEFERRED — proof step `C4` |
-| Reboot persistence | PASS |
+| Reboot persistence | PASS — twice, the second against the current binary |
 
 ## 9. Evidence References
 
