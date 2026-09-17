@@ -75,16 +75,11 @@ MCP client registration, agent tool binding, and permanent orchestration wiring 
 
 ## 3. Current accepted baseline
 
-| Server | Current role | State |
-|---|---|---|
-| HX-1 | Samba AD / DNS / Kerberos / NTP | **PASS / CLOSED** |
-| HX-2 | Qwen-X / Ollama / Qwen3.8-27B Q6_K | **PASS / CLOSED** |
-| HX-3 | Coder-X / Ollama / Qwen3-Coder-30B Q6_K | **PASS / CLOSED** |
-| HX-4 | Meta-X / GPT-OSS 20B + shared embedding/reranking | **NEXT — runbooks staged** |
-| HX-5 | CentCom / Ornith + DeepSeek Harness / dev-test | **NOT STARTED — runbooks staged** |
-| HX-6 | OmniRoute | **NOT STARTED** |
-| HX-7 | NGINX dev/test only | **IN PROGRESS** |
-| HX-8 through HX-17 | Assigned workloads below | **NOT STARTED** |
+Server state is recorded once, in `docs/00-control/hx-fleet.tsv`, and rendered
+into section 10 of this document from there. There is no table here, because a
+second one maintained by hand is exactly how this document came to say HX-4 was
+next and HX-5 not started while the inventory recorded HX-4 closed and HX-5 in
+progress. See HX7-F03.
 
 HX-2 and HX-3 establish the proven GPU-inference pattern: clean OS, domain membership, NVIDIA 595 Server Open, dedicated Ollama storage, LAN API, exact model, functional inference, and reboot persistence.
 

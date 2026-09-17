@@ -1681,7 +1681,7 @@ no longer blocked behind a station that does not exist.
 
 ## HX7-F03 — a hand-kept status table contradicts the generated one beside it
 
-**Status:** OPEN
+**Status:** CLOSED
 **Severity:** Low
 **Scope:** `docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md`
 **Discovered on:** Repository
@@ -1705,15 +1705,31 @@ rows are stale, and they predate this finding by some time.
 drift. A reader who stops at the first table gets the wrong fleet state from a
 control document.
 
+### Root cause
+
+A status table maintained by hand, in a document that already renders the same
+state from `hx-fleet.tsv` two hundred lines below. `hx-fleet` rewrites only
+what sits inside its `HX-FLEET:TABLE` markers, so the hand-kept copy was
+outside every check the repository has. It drifted silently and nothing could
+notice, which is why it still called HX-4 "NEXT" some days after HX-4 closed.
+
+### Resolution
+
+The hand-kept table is deleted. The generated table in section 10 is the only
+answer in that document, and `hx-fleet.tsv` remains the only place state is
+recorded.
+
+It was not replaced with a second generated table. Two generated tables would
+agree, so nothing would break, but a reader would still have to work out which
+one to trust and a later edit could still fork them. The section now says in
+one sentence where state lives and points at section 10.
+
+The prose that sat under the table is kept. It describes the proven
+GPU-inference pattern, which is content rather than status, and nothing about
+it drifted.
+
 ### Disposition
 
-OPEN. Either put the hand table inside `HX-FLEET:TABLE` markers so it is
-generated, or delete it and let the generated table be the only answer. Do not
-hand-correct it, because that fixes today's rows and leaves the next drift to
-the next reader.
-
-HX-7's row was corrected in place during its closure, because leaving a host
-recorded NOT STARTED while its record said otherwise was worse than the
-inconsistency this finding describes. The other two rows were left, so the
-finding has evidence to point at.
+CLOSED. The class is fixed, not the instance: hand-correcting the two stale
+rows would have left the next drift to the next reader.
 
