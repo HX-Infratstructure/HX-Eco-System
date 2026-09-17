@@ -46,9 +46,9 @@ font-size:12.5px;color:var(--fg2)}
 <h2>Sequence</h2>
 <ol>
 <li>Base/admin/network validation; apt update + upgrade; reboot.</li>
-<li>Join <code>hx.local.arpa</code>; validate SSSD/domain user; install the pinned NVIDIA</li>
+<li>Join <code>hx.local.arpa</code>; validate SSSD/domain user; reboot. The block installs</li>
 </ol>
-<p>driver; reboot.</p>
+<p>the pinned NVIDIA driver only on hosts listed in <code>HX_GPU_HOSTS</code>, which this host is not, so nothing is installed here. The reboot happens either way.</p>
 <ol>
 <li>Install Docling and Granite-Docling:</li>
 </ol>

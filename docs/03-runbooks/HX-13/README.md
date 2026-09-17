@@ -21,8 +21,9 @@ in `../common/hx-base.env`. See `../README.md` before changing a pin.
 ## Sequence
 
 1. Base/admin/network validation; apt update + upgrade; reboot.
-2. Join `hx.local.arpa`; validate SSSD/domain user; install the pinned NVIDIA
-   driver; reboot.
+2. Join `hx.local.arpa`; validate SSSD/domain user; reboot. The block installs
+   the pinned NVIDIA driver only on hosts listed in `HX_GPU_HOSTS`, which this
+   host is not, so nothing is installed here. The reboot happens either way.
 3. Install Mem0:
    `../common/10-mem0.sh hx-13`
    Versions are pinned in `../common/hx-base.env`. Application software

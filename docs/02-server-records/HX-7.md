@@ -1,13 +1,16 @@
 # HX-7 — NGINX dev/test only Server Configuration
 
-**Build state:** PASS
+**Build state:** IN PROGRESS
 **Gate:** C4_DEFERRED
 **IP:** `192.168.50.207`
 **FQDN:** `hx-7.hx.local.arpa`
 **Record updated:** 2026-09-17
 
-Built 2026-09-17, 00:21 to 00:33 UTC. Layer 0/1 and the application are proven.
-Proof step `C4` is deferred; section 7 says why.
+Built 2026-09-17, 00:21 to 00:33 UTC. Layer 0/1 and the application are proven
+and the host survives a reboot. The state is IN PROGRESS rather than PASS
+because `C4` is HX-7's functional gate and it has not run, and
+`docs/00-control/BUILD-STATE.md` makes the functional gate part of what PASS
+means. Section 7 says why it is deferred.
 
 ## Foundation
 
@@ -68,7 +71,7 @@ HX-1 directly instead.
 |---|---|
 | Distribution / release | Ubuntu 24.04.5 LTS |
 | Kernel | `6.8.0-139-generic` |
-| Firmware version | not recorded; no firmware change was made during this build |
+| Firmware version | `UNRESOLVED` — no firmware change was made during this build |
 | sudo policy | `hxsa ALL=(ALL:ALL) NOPASSWD: ALL` in `/etc/sudoers.d/90-hx-admin` |
 
 `apt update` and `apt upgrade` ran in Block 1. After the final reboot,

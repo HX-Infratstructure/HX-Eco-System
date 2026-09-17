@@ -57,8 +57,9 @@ in `../common/hx-base.env`. See `../README.md` before changing a pin.
 ## Sequence
 
 1. Base/admin/network validation; apt update + upgrade; reboot.
-2. Join `hx.local.arpa`; validate SSSD/domain user; install the pinned NVIDIA
-   driver; reboot.
+2. Join `hx.local.arpa`; validate SSSD/domain user; reboot. The block installs
+   the pinned NVIDIA driver only on hosts listed in `HX_GPU_HOSTS`. The reboot
+   happens either way.
 {step3}{appstep}. Install the {role} application software.
    Application software comes from PyPI, a GitHub release, or a direct binary.
    Not Snap. Not the Ubuntu archive.

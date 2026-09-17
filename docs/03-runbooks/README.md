@@ -31,7 +31,8 @@ on HX-5.
 
 1. Identity, network and DNS validation, admin sudo policy, apt update/upgrade,
    then reboot.
-2. Domain join, SSSD, domain user resolution, pinned NVIDIA driver, then reboot.
+2. Domain join, SSSD, domain user resolution, then the pinned NVIDIA driver on
+   hosts listed in `HX_GPU_HOSTS`, then reboot.
 3. Domain/GPU/storage re-validation, pinned Ollama, systemd override, listener
    and API proof.
 
