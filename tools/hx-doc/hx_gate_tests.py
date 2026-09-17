@@ -1334,7 +1334,13 @@ _resolves_fn = re.search(
     r"^omniroute_resolves\(\) \{\n(.*?)^\}", _omni, re.S | re.M)
 check("omniroute: the resolution probe exists", bool(_resolves_fn))
 if _resolves_fn:
-    _rf = _resolves_fn.group(0)
+    # A commented-out command would satisfy a substring or line match, so
+    # every assertion below runs against the executable body only: comment
+    # lines stripped, nothing else.
+    _rf = "\n".join(
+        line for line in _resolves_fn.group(0).splitlines()
+        if not line.lstrip().startswith("#")
+    )
     check("omniroute: the resolution probe runs as the service identity",
           "sudo -u omniroute bash -lc" in _rf, _rf)
     # The cd must be guarded so a failed cd stops the probe: `cd ... || exit`
@@ -1348,7 +1354,12 @@ _loads_fn = re.search(
     r"^omniroute_native_loads\(\) \{\n(.*?)^\}", _omni, re.S | re.M)
 check("omniroute: the native-load probe exists", bool(_loads_fn))
 if _loads_fn:
-    _lf = _loads_fn.group(0)
+    # Same rule as the resolution probe: assertions run against the
+    # executable body only, with comment lines stripped.
+    _lf = "\n".join(
+        line for line in _loads_fn.group(0).splitlines()
+        if not line.lstrip().startswith("#")
+    )
     check("omniroute: the native-load probe runs as the service identity",
           "sudo -u omniroute bash -lc" in _lf, _lf)
     check("omniroute: the native-load probe cds into the app tree before node",
@@ -1356,12 +1367,17 @@ if _loads_fn:
           and not re.search(r"cd '\$HX_OMNIROUTE_APP_DIR'[^\n]*(\|\| true|;\s*\n\s*node)", _lf),
           _lf)
     # The runbook writes the JS inside a double-quoted shell string, so its
-    # quotes are escaped. Unescape them, strip comments, and match the
-    # executable require -> open -> close sequence, not substrings that a
-    # comment or dead code could satisfy.
-    _lf_js = "\n".join(
-        line.split("#", 1)[0]
-        for line in _lf.replace('\\"', '"').splitlines()
+    # quotes are escaped. Unescape them, strip trailing shell comments and
+    # unreachable `if (false)` branches, and match the executable
+    # require -> open -> close sequence, not substrings that a comment or
+    # dead code could satisfy.
+    _lf_js = re.sub(
+        r'if\s*\(\s*false\s*\)\s*\{.*?\}', '',
+        "\n".join(
+            line.split("#", 1)[0]
+            for line in _lf.replace('\\"', '"').splitlines()
+        ),
+        flags=re.S,
     )
     check("omniroute: the native-load probe loads better-sqlite3",
           re.search(r'require\("better-sqlite3"\)\(":memory:"\)', _lf_js) is not None,
@@ -1381,6 +1397,48 @@ check("omniroute: the native load is gated, not just noted",
           _omni,
           re.S,
       ) is not None)
+
+# The checker must be able to fail, or it is decoration. A commented-out
+# command must not satisfy the identity or cd requirements, and a dead-code
+# require must not satisfy the load requirement.
+_commented = """omniroute_resolves() {
+  # sudo -u omniroute bash -lc
+  # cd '$HX_OMNIROUTE_APP_DIR' || exit 1
+  node -e 'require.resolve("x")'
+}"""
+_commented_body = "\n".join(
+    line for line in _commented.splitlines() if not line.lstrip().startswith("#"))
+check("omniroute: a commented-out probe fails the identity check",
+      "sudo -u omniroute bash -lc" not in _commented_body)
+check("omniroute: a commented-out probe fails the cd check",
+      re.search(r"cd '\$HX_OMNIROUTE_APP_DIR' \|\| exit \d+", _commented_body) is None)
+_dead = """omniroute_native_loads() {
+  sudo -u omniroute bash -lc "
+    cd '$HX_OMNIROUTE_APP_DIR' || exit 1
+    node -e '
+      if (false) {
+        const db = require(\\"better-sqlite3\\")(\\":memory:\\");
+        db.close();
+      }
+    '
+  " >/dev/null 2>&1
+}"""
+_dead_js = re.sub(
+    r'if\s*\(\s*false\s*\)\s*\{.*?\}', '',
+    "\n".join(
+        line.split("#", 1)[0]
+        for line in _dead.replace('\\"', '"').splitlines()
+    ),
+    flags=re.S,
+)
+check("omniroute: a dead-code require fails the load check",
+      re.search(
+          r'const\s+(?P<db>[A-Za-z_$][A-Za-z0-9_$]*)\s*=\s*'
+          r'require\("better-sqlite3"\)\(":memory:"\)\s*;'
+          r'.*(?P=db)\.close\(\)',
+          _dead_js,
+          re.S,
+      ) is None)
 
 # The cwd mechanism itself, not just its shape. The HX-6 false negative was:
 # node run as the service identity with its cwd still inside the caller's
