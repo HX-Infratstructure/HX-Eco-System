@@ -10,8 +10,8 @@ Steps 1-3 are the shared base blocks. Run them from this directory; each one
 refuses to run on any host other than `hx-4`.
 
 ```bash
-./01-base-admin-network-updates.sh    # reboots
-./02-domain-nvidia.sh                 # reboots
+./01-base-admin-network-updates.sh # reboots
+./02-domain.sh              # reboots
 ./03-storage-ollama.sh
 ./05-gpt-oss.sh                       # Meta-X generation model
 ./06-embeddings.sh                    # BGE-M3 primary + Nomic v1.5 alternate

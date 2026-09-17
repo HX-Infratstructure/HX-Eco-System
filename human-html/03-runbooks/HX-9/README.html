@@ -40,7 +40,7 @@ font-size:12.5px;color:var(--fg2)}
 <h2>Execution</h2>
 <p>Steps 1-2 are the shared base blocks. Run them from this directory; each one refuses to run on any host other than <code>hx-9</code>.</p>
 <pre><code class="lang-bash">./01-base-admin-network-updates.sh # reboots
-./02-domain-nvidia.sh              # reboots
+./02-domain.sh              # reboots
 ../common/10-postgresql.sh hx-9
 ../common/10-redis.sh hx-9</code></pre>
 <p>Implementation lives in <code>../common/</code>; version pins and the host -&gt; IP map live in <code>../common/hx-base.env</code>. See <code>../README.md</code> before changing a pin.</p>

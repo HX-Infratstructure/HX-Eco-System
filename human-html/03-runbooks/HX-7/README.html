@@ -36,7 +36,7 @@ a{color:var(--accent)}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
 </style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/03-runbooks/HX-7/README.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-7 Current Runbook</h1>
-<p><strong>Host:</strong> hx-7 <strong>Expected IP:</strong> <code>192.168.50.207</code> <strong>FQDN:</strong> <code>hx-7.hx.local.arpa</code> <strong>Role:</strong> NGINX, development and test rendering only <strong>GPU:</strong> none. HX-7 is CPU-only.</p>
+<p><strong>Host:</strong> hx-7 <strong>Expected IP:</strong> <code>192.168.50.207</code> <strong>FQDN:</strong> <code>hx-7.hx.local.arpa</code> <strong>Role:</strong> NGINX, development and test rendering only</p>
 <h2>1. HX authority and boundaries</h2>
 <p>This runbook executes the shared blocks. It does not redefine them. Where this file and a control document disagree, the control document wins.</p>
 <ul>
@@ -60,7 +60,7 @@ font-size:12.5px;color:var(--fg2)}
 <p>Run from this directory. Each block refuses to run on any host other than <code>hx-7</code>.</p>
 <pre><code class="lang-bash">../common/00-foundation.sh hx-7     # foundation; no reboot
 ./01-base-admin-network-updates.sh # reboots
-./02-domain-nvidia.sh              # reboots
+./02-domain.sh              # reboots
 ../common/10-nginx.sh hx-7</code></pre>
 <h2>4. Sequence</h2>
 <ol>
@@ -70,12 +70,11 @@ font-size:12.5px;color:var(--fg2)}
 <ol>
 <li><strong>Base, admin, network, updates.</strong> Foundation gate, then <code>apt update</code> and</li>
 </ol>
-<p><code>apt upgrade</code>, then reboot. The D-028 NVIDIA hold runs here and finds nothing to hold on HX-7, which is correct.</p>
+<p><code>apt upgrade</code>, then reboot.</p>
 <ol>
 <li><strong>Domain join.</strong> Join <code>hx.local.arpa</code>, validate SSSD and domain user</li>
 </ol>
-<p>resolution, then reboot.</p>
-<p><strong>No driver is installed on HX-7.</strong> <code>HX_GPU_HOSTS</code> in <code>../common/hx-base.env</code> records that only HX-2 through HX-5 carry a card, and Block 2 cross-checks that list against the PCI vendor ids in sysfs. If HX-7 is found to have an NVIDIA device, the block stops with exit 46 rather than installing one, because the list and the record would then be wrong.</p>
+<p>resolution, then reboot. The block is shared and installs a driver only on the hosts that carry one. It installs nothing here.</p>
 <ol>
 <li><strong>NGINX.</strong> <code>../common/10-nginx.sh hx-7</code> builds NGINX from the upstream</li>
 </ol>
@@ -121,7 +120,7 @@ curl -fsS -o /dev/null -w '%{http_code}\n' http://192.168.50.207/</code></pre>
 <p><code>systemctl is-active</code> on its own is not proof. A service that crashes and restarts reports <code>active</code> in the gaps between restarts, which is how HX4-F06 went unseen. The HTTP response is what shows it is serving.</p>
 <h2>8. HX-7 BASE PASS definition</h2>
 <p>All of the following, or the server does not close:</p>
-<div class="tw"><table><thead><tr><th>Requirement</th><th>Evidence</th></tr></thead><tbody><tr><td>Foundation established</td><td>proof step <code>F0</code> satisfied</td></tr><tr><td>Every Foundation row filled</td><td><code>tools/hx-doc/hx-record-check</code> passes for HX-7</td></tr><tr><td>External key-only administration</td><td><code>tools/hx-doc/hx-fleet-access hx-7</code> returns <code>hx-7</code> and <code>KEY+SUDO-PASS</code></td></tr><tr><td>Domain join</td><td><code>realm list</code> reports <code>configured: kerberos-member</code>; domain user resolves</td></tr><tr><td>No driver installed</td><td>no <code>nvidia-*</code> package present on a CPU-only host</td></tr><tr><td>NGINX serving</td><td><code>hx-nginx</code> active and enabled, HTTP answering on the LAN address</td></tr><tr><td>Provenance recorded</td><td>section 6 of the record carries the tarball and binary digests</td></tr><tr><td>Reboot persistence</td><td>section 7 above, after an unattended reboot</td></tr><tr><td>Routing proof</td><td>step <code>C4</code> run, evidence retained, temporary upstream removed</td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Requirement</th><th>Evidence</th></tr></thead><tbody><tr><td>Foundation established</td><td>proof step <code>F0</code> satisfied</td></tr><tr><td>Every Foundation row filled</td><td><code>tools/hx-doc/hx-record-check</code> passes for HX-7</td></tr><tr><td>External key-only administration</td><td><code>tools/hx-doc/hx-fleet-access hx-7</code> returns <code>hx-7</code> and <code>KEY+SUDO-PASS</code></td></tr><tr><td>Domain join</td><td><code>realm list</code> reports <code>configured: kerberos-member</code>; domain user resolves</td></tr><tr><td>NGINX serving</td><td><code>hx-nginx</code> active and enabled, HTTP answering on the LAN address</td></tr><tr><td>Provenance recorded</td><td>section 6 of the record carries the tarball and binary digests</td></tr><tr><td>Reboot persistence</td><td>section 7 above, after an unattended reboot</td></tr><tr><td>Routing proof</td><td>step <code>C4</code> run, evidence retained, temporary upstream removed</td></tr></tbody></table></div>
 <h2>9. Record and fleet closure</h2>
 <ol>
 <li>Fill <a href="../../02-server-records/HX-7.html"><code>HX-7.md</code></a>, including every Foundation</li>
@@ -139,7 +138,6 @@ curl -fsS -o /dev/null -w '%{http_code}\n' http://192.168.50.207/</code></pre>
 </ul>
 <p>negotiable in this runbook.</p>
 <ul>
-<li>No GPU workload. No driver, no CUDA, no model serving.</li>
 <li>Do not mount or wipe unrelated disks.</li>
 <li>Do not import prior application state.</li>
 <li>Do not add TLS termination for an ecosystem service here. A development</li>

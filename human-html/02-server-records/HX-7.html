@@ -36,34 +36,116 @@ a{color:var(--accent)}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
 </style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/02-server-records/HX-7.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-7 — NGINX dev/test only Server Configuration</h1>
-<p><strong>Build state:</strong> NOT STARTED <strong>Gate:</strong> — <strong>IP:</strong> <code>192.168.50.207</code> <strong>FQDN:</strong> <code>hx-7.hx.local.arpa</code> <strong>Record updated:</strong> 2026-09-10</p>
-<blockquote>Scaffolded by <code>tools/hx-doc/hx-new-server hx-7</code>. Fill every section as the build proceeds. <code>tools/hx-doc/hx-record-check</code> reports what is still open.</blockquote>
+<p><strong>Build state:</strong> PASS <strong>Gate:</strong> C4_DEFERRED <strong>IP:</strong> <code>192.168.50.207</code> <strong>FQDN:</strong> <code>hx-7.hx.local.arpa</code> <strong>Record updated:</strong> 2026-09-17</p>
+<p>Built 2026-09-17, 00:21 to 00:33 UTC. Layer 0/1 and the application are proven. Proof step <code>C4</code> is deferred; section 7 says why.</p>
 <h2>Foundation</h2>
-<p>Established by <code>docs/03-runbooks/common/00-foundation.sh</code> before Block 1, and gated by <code>01-base-admin-network-updates.sh</code>, which refuses to proceed without it. Proven from the operator workstation before Layer 0/1 closes.</p>
-<div class="tw"><table><thead><tr><th>Control</th><th>Expected</th><th>State</th></tr></thead><tbody><tr><td><code>hostname -f</code></td><td><code>hx-7.hx.local.arpa</code></td><td>NOT ESTABLISHED</td></tr><tr><td>AD DNS A record</td><td>the address recorded in <code>docs/00-control/hx-fleet.tsv</code></td><td>NOT ESTABLISHED</td></tr><tr><td>Time authority</td><td><code>chronyc sources</code> shows <code>^* 192.168.50.200</code></td><td>NOT ESTABLISHED</td></tr><tr><td>Fleet key</td><td><code>SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk</code></td><td>NOT ESTABLISHED</td></tr><tr><td>NOPASSWD sudo</td><td><code>sudo -k -n true</code> succeeds</td><td>NOT ESTABLISHED</td></tr><tr><td>SSH persistence</td><td><code>ssh.service</code> or <code>ssh.socket</code> enabled</td><td>NOT ESTABLISHED</td></tr><tr><td>External key-only login</td><td><code>tools/hx-doc/hx-fleet-access hx-7</code> returns <code>hx-7</code> and <code>KEY+SUDO-PASS</code></td><td>NOT ESTABLISHED</td></tr><tr><td>SSH host key</td><td>recorded at build, so a later change is answerable from the repository</td><td>NOT ESTABLISHED</td></tr><tr><td>SPNs in AD</td><td>all four forms, short and FQDN, for <code>host/</code> and <code>RestrictedKrbHost/</code></td><td>NOT ESTABLISHED</td></tr></tbody></table></div>
-<p>This host is not built. Every row is filled from the build, and proof step F0 in <code>docs/00-control/hx-proof.tsv</code> must be satisfied before this server's own phase can close.</p>
+<p>Established by <code>docs/03-runbooks/common/00-foundation.sh</code> before Block 1, and gated by <code>01-base-admin-network-updates.sh</code>, which refuses to proceed without it. Proven from the operator workstation, which is not this host.</p>
+<div class="tw"><table><thead><tr><th>Control</th><th>Evidence</th><th>State</th></tr></thead><tbody><tr><td><code>hostname -f</code></td><td><code>hx-7.hx.local.arpa</code></td><td>PASS</td></tr><tr><td>AD DNS A record</td><td><code>192.168.50.207</code>, read from HX-1 directly rather than through this host's resolver</td><td>PASS</td></tr><tr><td>Time authority</td><td><code>chronyc sources</code> selects <code>^* 192.168.50.200</code>, offset -150us; tracking reference <code>C0A832C8 (192.168.50.200)</code></td><td>PASS</td></tr><tr><td>Fleet key</td><td><code>SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk</code>, comment <code>hx-fleet-20260810</code>, in <code>/home/hxsa/.ssh/authorized_keys</code></td><td>PASS</td></tr><tr><td>NOPASSWD sudo</td><td><code>sudo -k -n true</code> succeeds, so a cached credential is not what proves it</td><td>PASS</td></tr><tr><td>SSH persistence</td><td><code>ssh.socket</code> enabled; <code>ssh.service</code> disabled, which is correct on Ubuntu</td><td>PASS</td></tr><tr><td>External key-only login</td><td><code>tools/hx-doc/hx-fleet-access hx-7</code> returns <code>hx-7</code> and <code>KEY+SUDO-PASS</code>, run from the operator workstation</td><td>PASS</td></tr><tr><td>SSH host key</td><td>ed25519 <code>SHA256:vujtx9f0GPBlEQA9gF2SS2uSf3aTzmAlBpFXrdSX6x4</code><br/>rsa <code>SHA256:+HlJXtdsTdL+mPsz2aUAPIZkjsRjhePczKiOYxX7O04</code></td><td>PASS</td></tr><tr><td>SPNs in AD</td><td><code>host/HX-7</code>, <code>host/hx-7.hx.local.arpa</code>, <code>RestrictedKrbHost/HX-7</code>, <code>RestrictedKrbHost/hx-7.hx.local.arpa</code>; <code>dNSHostName</code> is <code>hx-7.hx.local.arpa</code></td><td>PASS</td></tr></tbody></table></div>
+<p>The SPN row was read from the directory on HX-1, not from this host's keytab. HX5-F12 established that the keytab lists only what was issued to the host and <code>kvno</code> reports only what a KDC will serve, so neither settles what AD stores. HX-7 arrived with all four forms and an FQDN <code>dNSHostName</code>, which is the state HX-2, HX-3 and HX-4 had to be corrected into.</p>
 <h2>1. Identity and Network</h2>
-<p>Hostname, IP, gateway, DNS, domain join, SSSD, domain user resolution. State the gate result: <strong>Domain join gate: PASS/FAIL</strong>.</p>
+<ul>
+<li>Hostname: <code>hx-7</code></li>
+<li>FQDN: <code>hx-7.hx.local.arpa</code></li>
+<li>IP: <code>192.168.50.207/24</code></li>
+<li>Interface: <code>enp2s0</code></li>
+<li>Realm: <code>HX.LOCAL.ARPA</code></li>
+<li>DNS: <code>192.168.50.200</code> (HX-1)</li>
+</ul>
+<p>Domain join, after the Block 2 reboot:</p>
+<pre><code class="lang-text">$ realm list | grep configured:
+  configured: kerberos-member
+
+$ systemctl is-active sssd
+active
+
+$ id jarvisr@hx.local.arpa
+uid=218001148(jarvisr@hx.local.arpa) gid=218000513(domain users@hx.local.arpa) groups=218000513(domain users@hx.local.arpa)</code></pre>
+<p><code>/etc/hosts</code> carries <code>127.0.1.1 hx-7.hx.local.arpa hx-7</code>, which is the Ubuntu default and is present on HX-5 identically. It means <code>getent hosts</code> answers from the file rather than from AD, so the DNS row above was verified by querying HX-1 directly instead.</p>
+<p><strong>Domain join gate: PASS</strong></p>
 <h2>2. Operating System</h2>
-<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Distribution / release</td><td></td></tr><tr><td>Kernel</td><td></td></tr><tr><td>Firmware version</td><td></td></tr><tr><td>sudo policy</td><td></td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Distribution / release</td><td>Ubuntu 24.04.5 LTS</td></tr><tr><td>Kernel</td><td><code>6.8.0-139-generic</code></td></tr><tr><td>Firmware version</td><td>not recorded; no firmware change was made during this build</td></tr><tr><td>sudo policy</td><td><code>hxsa ALL=(ALL:ALL) NOPASSWD: ALL</code> in <code>/etc/sudoers.d/90-hx-admin</code></td></tr></tbody></table></div>
+<p><code>apt update</code> and <code>apt upgrade</code> ran in Block 1. After the final reboot, <code>0 updates can be applied immediately</code>.</p>
 <h2>3. GPU Configuration</h2>
-<p>Driver package <strong>and exact version</strong>, GPU models and count, <code>nvidia-smi</code> proof. State the gate result: <strong>GPU gate: PASS/FAIL</strong>.</p>
+<p><strong>HX-7 has no GPU.</strong> No driver was installed and none is expected.</p>
+<pre><code class="lang-text">$ dpkg -l 'nvidia-driver-*' 'nvidia-dkms-*' 'nvidia-kernel-*' | grep '^ii'
+(no driver packages)
+
+$ command -v nvidia-smi
+(absent)</code></pre>
+<p>One package matches the name and is not a driver:</p>
+<pre><code class="lang-text">ii  linux-firmware-nvidia-graphics  20240318.git3b128b60-0ubuntu3.1  all  Firmware for Nvidia graphics</code></pre>
+<p>That ships with Ubuntu's <code>linux-firmware</code> and was present before this build. It does not match the D-028 hold pattern, which is scoped to the pinned branch, so Block 1 correctly reported nothing to hold.</p>
+<p>Block 2 confirmed the expectation against the hardware rather than trusting the host list:</p>
+<pre><code class="lang-text">hx-7 carries no GPU, so Block 2 is domain join only here.</code></pre>
+<p><strong>GPU gate: N/A — no GPU fitted</strong></p>
 <h2>4. Storage Layout</h2>
-<p>Devices, filesystems, mount points, and the dedicated application path. State the gate result: <strong>Storage gate: PASS/FAIL</strong>.</p>
+<div class="tw"><table><thead><tr><th>Device</th><th>Size</th><th>FS</th><th>Mount</th></tr></thead><tbody><tr><td><code>nvme0n1p1</code></td><td>1G</td><td>vfat</td><td><code>/boot/efi</code></td></tr><tr><td><code>nvme0n1p2</code></td><td>120G</td><td>ext4</td><td><code>/</code></td></tr><tr><td><code>nvme0n1p3</code></td><td>117.4G</td><td>ext4</td><td><code>/srv/nginx</code></td></tr></tbody></table></div>
+<p><code>/srv/nginx</code> is a dedicated partition, mounted by UUID <code>9b334181-272c-4b0a-8d15-caab0997848f</code> from <code>/etc/fstab</code>, provisioned by the installer. It was mounted and empty apart from <code>lost+found</code> before the NGINX block ran, at 24K used. No disk was partitioned, formatted or mounted during this build.</p>
+<p><code>/srv</code> itself is a directory on <code>/</code>, not a mount. That does not matter, because the dedicated volume is mounted one level deeper at exactly the prefix the build writes to.</p>
+<p>Dedicated application path: <code>/srv/nginx</code>, which holds the configuration, the <code>conf.d</code> drop-in directory and both logs. Logs therefore land on the dedicated volume rather than on <code>/</code>.</p>
+<p><strong>Storage gate: PASS</strong></p>
 <h2>5. Runtime</h2>
-<p>Package source, <strong>exact installed version</strong>, service unit, systemd overrides, listener address and port.</p>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Source</td><td>upstream source tarball from <code>nginx.org</code>, built natively</td></tr><tr><td>Installed version</td><td><code>nginx/1.30.4</code></td></tr><tr><td>Service unit</td><td><code>hx-nginx.service</code></td></tr><tr><td>Binary</td><td><code>/usr/local/sbin/nginx</code></td></tr><tr><td>Configuration</td><td><code>/srv/nginx/nginx.conf</code>, with <code>include /srv/nginx/conf.d/*.conf</code></td></tr><tr><td>Listener</td><td><code>0.0.0.0:80</code></td></tr></tbody></table></div>
+<pre><code class="lang-text">$ ss -ltn | grep :80
+LISTEN 0      511          0.0.0.0:80        0.0.0.0:*</code></pre>
+<p>Not Snap and not the Ubuntu archive, per D-021.</p>
 <h2>6. Model / Application Provenance</h2>
-<p>Required for every server that hosts a model or a downloaded artifact. All five fields are mandatory — an unknown value is recorded as <code>UNRESOLVED</code>, never omitted, because a missing field cannot be told apart from a forgotten one.</p>
-<pre><code class="lang-text">HX alias:              &lt;ollama name or service identifier&gt;
-Upstream identity:     &lt;official model/product name and version&gt;
-Source URI:            &lt;exact hf.co/... repo:file, package URL, or registry ref&gt;
-Artifact SHA-256:      &lt;full 64-character hash of the downloaded artifact&gt;
-Import method:         &lt;pull | GGUF import | package install | build from source&gt;</code></pre>
-<p>If the artifact was imported rather than pulled, also record the Modelfile or build definition verbatim, including any template, parameter, or stop-token settings. If none were set, say so explicitly.</p>
-<p>Why both Source URI and SHA-256 are required: the hash proves what is running, and the URI proves where it came from. Public model registries carry modified community rebuilds under names close to the official ones, so neither field alone establishes provenance.</p>
+<pre><code class="lang-text">HX alias:              hx-nginx
+Upstream identity:     NGINX 1.30.4
+Source URI:            https://nginx.org/download/nginx-1.30.4.tar.gz
+Artifact SHA-256:      4261dc90e9e47c1c4041276e9aaa3d48ebe2e664f728e14fa95ae6c67d57a08b
+Import method:         build from source</code></pre>
+<p>The source tarball was verified against its recorded pin before the build. The binary that build produced:</p>
+<pre><code class="lang-text">Binary path:      /usr/local/sbin/nginx
+Binary SHA-256:   b595c64fdd20355703b79da693c234166f18069a46b40697d89a0ad28e302fb7
+Build arguments:  --prefix=/srv/nginx --sbin-path=/usr/local/sbin/nginx
+                  --conf-path=/srv/nginx/nginx.conf --pid-path=/run/nginx.pid
+                  --error-log-path=/srv/nginx/logs/error.log
+                  --http-log-path=/srv/nginx/logs/access.log
+                  --with-http_ssl_module --with-http_v2_module</code></pre>
+<p>Both digests are recorded because the tarball hash proves what was compiled and the binary hash proves what is running. A version string establishes neither.</p>
 <h2>7. Functional Validation</h2>
-<p>Known-answer CLI proof, HTTP/API proof, LAN proof, reboot persistence. Include the exact command and the exact response for each.</p>
+<p>Evidence model 2 applies to HX-7, but no run bundle exists yet, because the only smoke test assigned to this server is proof step <code>C4</code> and that step is deferred. The install and persistence proof below is inline. See section 9.</p>
+<h3>Service state</h3>
+<pre><code class="lang-text">$ systemctl is-active hx-nginx
+active
+$ systemctl is-enabled hx-nginx
+enabled
+$ nginx -t
+nginx: the configuration file /srv/nginx/nginx.conf syntax is ok
+nginx: configuration file /srv/nginx/nginx.conf test is successful</code></pre>
+<h3>LAN proof, issued from off-host</h3>
+<pre><code class="lang-text">$ curl -fsS -o /dev/null -w '%{http_code}\n' http://192.168.50.207/
+200</code></pre>
+<p>Issued from the operator workstation, not from HX-7. The block's own health check runs against <code>127.0.0.1</code>, which cannot prove the service is reachable on the LAN.</p>
+<h3>Reboot persistence</h3>
+<p>The host was rebooted after the application was installed, then re-checked without intervention.</p>
+<pre><code class="lang-text">$ uptime -s
+2026-09-17 00:33:08
+
+$ systemctl is-active hx-nginx
+active
+$ systemctl is-enabled hx-nginx
+enabled
+
+$ findmnt -no SOURCE,TARGET,FSTYPE /srv/nginx
+/dev/nvme0n1p3 /srv/nginx ext4
+
+$ chronyc sources | grep '\^\*'
+^* 192.168.50.200                3   6    17     5    +17us[  +46us] +/-   73ms
+
+$ curl -fsS -o /dev/null -w '%{http_code}\n' http://192.168.50.207/
+200</code></pre>
+<p>Serving, enabled, dedicated volume still mounted, and still tracking HX-1.</p>
+<h3>Known failed units</h3>
+<pre><code class="lang-text">$ systemctl --failed
+● sssd-nss.socket      loaded failed failed SSSD NSS Service responder socket
+● sssd-pam-priv.socket loaded failed failed SSSD PAM Service responder private socket</code></pre>
+<p>This is HX4-F02, open and deferred fleet-wide. <code>/etc/sssd/sssd.conf</code> carries <code>services = nss, pam</code>, so the responders start under <code>sssd.service</code> while their socket units also attempt activation. Domain identity resolution is unaffected and is shown in section 1. HX-4 exhibited three failed sockets; HX-7 has two.</p>
+<h3>Deferred: proof step C4</h3>
+<p><code>C4</code> requires one temporary private-IP HTTP upstream hosted on HX-5, and HX-5 is not available for this purpose. The step stays <code>NOT_RUN</code> in <code>docs/00-control/hx-proof.tsv</code> and the gate on this record is <code>C4_DEFERRED</code> rather than <code>CLOSED</code>, so the obligation stays visible instead of being quietly dropped.</p>
 <h2>8. Final State</h2>
-<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td></td></tr><tr><td>Domain join / SSSD</td><td></td></tr><tr><td>GPU driver and visibility</td><td></td></tr><tr><td>Dedicated storage</td><td></td></tr><tr><td>Runtime version</td><td></td></tr><tr><td>Service active / enabled</td><td></td></tr><tr><td>Model / application loaded</td><td></td></tr><tr><td>Known-answer functional proof</td><td></td></tr><tr><td>Reboot persistence</td><td></td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td>PASS</td></tr><tr><td>Domain join / SSSD</td><td>PASS</td></tr><tr><td>GPU driver and visibility</td><td>N/A — no GPU fitted</td></tr><tr><td>Dedicated storage</td><td>PASS</td></tr><tr><td>Runtime version</td><td>PASS — <code>nginx/1.30.4</code></td></tr><tr><td>Service active / enabled</td><td>PASS</td></tr><tr><td>Model / application loaded</td><td>PASS — both digests recorded</td></tr><tr><td>Known-answer functional proof</td><td>DEFERRED — proof step <code>C4</code></td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr></tbody></table></div>
 <h2>9. Evidence References</h2>
-<p>Either a retained bundle path under <code>docs/05-evidence/&lt;server&gt;/&lt;component&gt;/&lt;run-id&gt;/</code>, or an explicit statement that the proof is recorded inline in section 7 of this record. See <code>docs/05-evidence/README.md</code> for which model applies.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-7.md</code>.</footer></div></body></html>
+<p>Evidence model 2 applies, and no bundle is retained yet. The only smoke test assigned to HX-7 is <code>smoke-tests/nginx-smoke-test.md</code>, run as proof step <code>C4</code>, and that step is deferred for the reason in section 7. A retained bundle under <code>docs/05-evidence/hx-7/nginx/&lt;run-id&gt;/</code> follows when <code>C4</code> runs.</p>
+<p>Until then the proof is inline in section 7, with the exact commands and the exact responses.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-7.md</code>.</footer></div></body></html>

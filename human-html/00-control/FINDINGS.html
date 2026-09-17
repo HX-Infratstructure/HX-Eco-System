@@ -183,7 +183,7 @@ rc=30  ""                empty</code></pre>
 <p>CLOSED. The gate is in place and proven, and the pin is resolved to <code>bge-m3:567m</code>. HX-4 steps 4 and 5 are both runnable.</p>
 <p>At the time of resolution <code>bge-m3:latest</code>, <code>bge-m3:567m</code> and <code>bge-m3:567m-fp16</code> all resolved to the same registry manifest, <code>7907646426070047...</code>, pushed 2024-08-07. The Ollama registry does not serve manifests by digest, so a fixed tag is the strongest reference the pin itself can carry; artifact-level identity comes from the install-time capture described above.</p>
 <h2>HX4-F05 — The HX4-F01 pattern survives in the domain-join block</h2>
-<p><strong>Status:</strong> OPEN / MONITOR <strong>Severity:</strong> Low <strong>Scope:</strong> <code>docs/03-runbooks/common/02-domain-nvidia.sh</code> <strong>Discovered on:</strong> HX-4 <strong>Discovered during:</strong> Post-fix sweep for other instances of HX4-F01</p>
+<p><strong>Status:</strong> OPEN / MONITOR <strong>Severity:</strong> Low <strong>Scope:</strong> <code>docs/03-runbooks/common/02-domain.sh</code> <strong>Discovered on:</strong> HX-4 <strong>Discovered during:</strong> Post-fix sweep for other instances of HX4-F01</p>
 <h3>Finding</h3>
 <p>HX4-F01 is recorded as fixed fleet-wide. That is true of the base block it names, but one instance of the same pattern remains in the domain-join block:</p>
 <pre><code class="lang-bash">if realm list | grep -q 'configured: kerberos-member'; then</code></pre>

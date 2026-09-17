@@ -7,7 +7,7 @@ chances to leave out a section.
 
 Creates, from docs/00-control/hx-fleet.tsv and the record template:
   docs/03-runbooks/<HX-N>/01-base-admin-network-updates.sh
-  docs/03-runbooks/<HX-N>/02-domain-nvidia.sh
+  docs/03-runbooks/<HX-N>/02-domain.sh
   docs/03-runbooks/<HX-N>/03-storage-ollama.sh      (inference hosts only)
   docs/03-runbooks/<HX-N>/README.md
   docs/02-server-records/<HX-N>.md
@@ -116,7 +116,7 @@ def main() -> int:
     ip, role = row["ip"].strip(), row["role"].strip()
     rb = REPO / "docs/03-runbooks" / upper
 
-    blocks = ["01-base-admin-network-updates", "02-domain-nvidia"]
+    blocks = ["01-base-admin-network-updates", "02-domain"]
     if with_ollama:
         blocks.append("03-storage-ollama")
 

@@ -11,7 +11,7 @@ refuses to run on any host other than `hx-14`.
 
 ```bash
 ./01-base-admin-network-updates.sh # reboots
-./02-domain-nvidia.sh              # reboots
+./02-domain.sh              # reboots
 ../common/10-n8n.sh hx-14
 ```
 

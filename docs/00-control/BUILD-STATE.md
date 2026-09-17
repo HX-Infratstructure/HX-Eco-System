@@ -15,7 +15,7 @@ Outstanding infrastructure findings are tracked in `docs/00-control/FINDINGS.md`
 | HX-4 | Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker | **PASS** | **CLOSED** | Meta-X gpt-oss:20b + BGE-M3 1024d + Nomic v1.5 768d + bge-reranker-v2-m3 on infinity-emb 7997; 2 x RTX 5060 Ti 16GB; reranker artifact hash UNRESOLVED |
 | HX-5 | CentCom / Ornith / DeepSeek Harness / dev-test | **IN PROGRESS** | **CENTCOM RUNNER NEXT** | Layer 0/1 CLOSED; Ollama 0.34.0 PASS; ornith-1.5:35b BASE PASS incl. CLI/API/LAN/dual-GPU placement/reboot; CentCom smoke-runner activation remains |
 | HX-6 | OmniRoute | **NOT STARTED** | — | Provider and model allowlists required (D-010) |
-| HX-7 | NGINX dev/test only | **NOT STARTED** | — | Not the ecosystem reverse proxy (D-004) |
+| HX-7 | NGINX dev/test only | **PASS** | **C4 DEFERRED** | Not the ecosystem reverse proxy (D-004) |
 | HX-8 | Open WebUI | **NOT STARTED** | — | Last in build order; temporary Ollama link for base proof (D-008) |
 | HX-9 | PostgreSQL + MCP / Redis + MCP | **NOT STARTED** | — | Two applications on one host; each closes separately |
 | HX-10 | Qdrant + Web UI + MCP | **NOT STARTED** | — | One embedding identity per collection (D-005) |

@@ -10,7 +10,7 @@ docs/03-runbooks/
 ├── common/                  one implementation of the shared base blocks
 │   ├── hx-base.env          version pins, LAN facts, host -> IP map, host guard
 │   ├── 01-base-admin-network-updates.sh
-│   ├── 02-domain-nvidia.sh
+│   ├── 02-domain.sh
 │   └── 03-storage-ollama.sh
 ├── HX-4/                    thin wrappers that call common/ with the host name
 └── HX-5/                    thin wrappers plus the HX-5-only CentCom bootstrap

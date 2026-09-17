@@ -57,7 +57,7 @@ Identical for all of them. Two reboots, then the application.
 | 0 | `common/00-foundation.sh` | no | 5 min |
 | 1 | `tools/hx-doc/hx-fleet-access <host>` **from the workstation** | no | seconds |
 | 2 | `common/01-base-admin-network-updates.sh` | yes | 10-20 min |
-| 3 | `common/02-domain-nvidia.sh` | yes | 10-15 min |
+| 3 | `common/02-domain.sh` | yes | 10-15 min |
 | 4 | `common/03-storage-ollama.sh` | no | 5 min |
 | 5 | the application block | no | varies |
 | 6 | validate: starts, then reboot, then starts | yes | 5 min |

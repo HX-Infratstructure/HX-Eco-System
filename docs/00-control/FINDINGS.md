@@ -301,7 +301,7 @@ identity comes from the install-time capture described above.
 
 **Status:** OPEN / MONITOR  
 **Severity:** Low  
-**Scope:** `docs/03-runbooks/common/02-domain-nvidia.sh`  
+**Scope:** `docs/03-runbooks/common/02-domain.sh`  
 **Discovered on:** HX-4  
 **Discovered during:** Post-fix sweep for other instances of HX4-F01
 
