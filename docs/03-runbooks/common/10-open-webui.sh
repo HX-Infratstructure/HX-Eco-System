@@ -28,9 +28,10 @@ sudo -u openwebui test -w /srv/open-webui || {
   exit 34
 }
 
-# Open WebUI 0.11.3 declares requires_python >=3.11,<3.13. hx_app_venv builds
-# with the system python3, so the interpreter is an inherited assumption rather
-# than a pin. Ubuntu 24.04 ships 3.12 and satisfies it; a host on 3.13 fails
+# The pinned Open WebUI release declares a requires_python range, recorded as
+# HX_OPEN_WEBUI_PY_MIN and HX_OPEN_WEBUI_PY_MAX. hx_app_venv builds with the
+# system python3, so the interpreter is an inherited assumption rather than a
+# pin. Ubuntu 24.04 ships 3.12 and satisfies it; a host outside the range fails
 # during pip resolution with a message about wheels rather than about Python.
 hx_require_python_range "$(python3 -c 'import sys; print("%d.%d" % sys.version_info[:2])')" \
   "$HX_OPEN_WEBUI_PY_MIN" "$HX_OPEN_WEBUI_PY_MAX"
