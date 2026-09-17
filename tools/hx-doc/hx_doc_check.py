@@ -491,6 +491,49 @@ def check_withdrawn_paths() -> None:
         notes.append(f"withdrawn: {len(WITHDRAWN_PATHS)} withdrawn path(s) absent")
 
 
+def check_omniroute_version_consistency() -> None:
+    """The OmniRoute baseline is stated identically everywhere it is documented.
+
+    The HX-6 runbook once targeted 3.8.51 while hx-base.env and the run sheet
+    pinned 3.8.50, and nothing caught the split. Machine authority is
+    hx-base.env -> common/10-omniroute.sh -> installed version; the documents
+    describe that state, so they must agree with the pin and with each other.
+    """
+    env = (REPO / "docs/03-runbooks/common/hx-base.env").read_text(
+        encoding="utf-8")
+    m = re.search(r'^HX_OMNIROUTE_VERSION="([^"]+)"', env, re.M)
+    if not m:
+        failures.append("versions: HX_OMNIROUTE_VERSION missing from hx-base.env")
+        return
+    pin = m.group(1)
+
+    run_sheet = (REPO / "docs/03-runbooks/RUN-SHEET.md").read_text(
+        encoding="utf-8")
+    # The build-order row is the run sheet's only OmniRoute version statement.
+    row = re.search(r"\|\s*6\s*\|\s*HX-6\s*\|\s*OmniRoute ([0-9][\w.]*)",
+                    run_sheet)
+    if not row:
+        failures.append("versions: RUN-SHEET.md build-order row no longer states "
+                        "the HX-6 OmniRoute version")
+    elif row.group(1) != pin:
+        failures.append(f"versions: RUN-SHEET.md lists OmniRoute {row.group(1)} "
+                        f"but hx-base.env pins {pin}")
+
+    readme = (REPO / "docs/03-runbooks/HX-6/README.md").read_text(
+        encoding="utf-8")
+    target = re.search(r"\*\*Target OmniRoute release:\*\* `([0-9][\w.]*)`", readme)
+    if not target:
+        failures.append("versions: HX-6 runbook no longer states a target "
+                        "OmniRoute release")
+    elif target.group(1) != pin:
+        failures.append(f"versions: HX-6 runbook targets OmniRoute "
+                        f"{target.group(1)} but hx-base.env pins {pin}")
+
+    if not any(f.startswith("versions:") for f in failures):
+        notes.append(f"versions: OmniRoute baseline {pin} consistent across "
+                     "hx-base.env, RUN-SHEET.md and the HX-6 runbook")
+
+
 def main() -> int:
     """Run every check and report. Returns the process exit status."""
     quiet = "--quiet" in sys.argv
@@ -508,6 +551,7 @@ def main() -> int:
         check_generated_authority_claims,
         check_tooling_docs,
         check_withdrawn_paths,
+        check_omniroute_version_consistency,
     )
     for fn in checks:
         fn()

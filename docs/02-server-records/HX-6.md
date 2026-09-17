@@ -4,7 +4,7 @@
 **Gate:** —
 **IP:** `192.168.50.206`
 **FQDN:** `hx-6.hx.local.arpa`
-**Record updated:** 2026-09-10
+**Record updated:** 2026-09-16
 > Scaffolded by `tools/hx-doc/hx-new-server hx-6`. Fill every section as the
 > build proceeds. `tools/hx-doc/hx-record-check` reports what is still open.
 

@@ -1055,6 +1055,28 @@ check('app-lib: the STOP names the finding it comes from',
       'HX4-F06' in applib('hx_require_http_answer', 'hx-n', _URL, '1')[1],
       applib('hx_require_http_answer', 'hx-n', _URL, '1')[1])
 
+# ------------------------- hx-base.env: the loopback listener --------------
+# HX-6's live-dashboard WebSocket must not be reachable from the LAN, and the
+# runbook listed that as an operator check until it became a gate.
+_LOOPBACK = ('LISTEN 0 511 127.0.0.1:20132 0.0.0.0:*\n'
+             'LISTEN 0 511 0.0.0.0:20128 0.0.0.0:*')
+_LOOPBACK6 = 'LISTEN 0 511 [::1]:20132 [::]:*'
+_LAN = ('LISTEN 0 511 192.168.50.206:20132 0.0.0.0:*\n'
+        'LISTEN 0 511 0.0.0.0:20128 0.0.0.0:*')
+_WILDCARD = 'LISTEN 0 511 0.0.0.0:20132 0.0.0.0:*'
+_ABSENT = 'LISTEN 0 511 0.0.0.0:20128 0.0.0.0:*'
+
+rc, out = foundation('hx_require_loopback_listener', _LOOPBACK, '20132')
+check('listener: 127.0.0.1 passes', rc == 0, out)
+rc, out = foundation('hx_require_loopback_listener', _LOOPBACK6, '20132')
+check('listener: [::1] passes', rc == 0, out)
+rc, out = foundation('hx_require_loopback_listener', _LAN, '20132')
+check('listener: a LAN address is refused', rc == 35, out)
+rc, out = foundation('hx_require_loopback_listener', _WILDCARD, '20132')
+check('listener: 0.0.0.0 is refused', rc == 35, out)
+rc, out = foundation('hx_require_loopback_listener', _ABSENT, '20132')
+check('listener: absent is refused, not treated as compliant', rc == 35, out)
+
 # Not ignore_errors: a workspace that cannot be removed is worth saying out
 # loud, but it is not a gate failure, so it does not change the exit status.
 try:

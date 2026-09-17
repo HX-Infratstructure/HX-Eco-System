@@ -5,7 +5,7 @@
 **FQDN:** `hx-6.hx.local.arpa`  
 **Role:** OmniRoute AI gateway / routing control plane / MCP-A2A interface  
 **Deployment:** native Ubuntu Linux + systemd; no Docker, Podman, Kubernetes, or Snap  
-**Target OmniRoute release:** `3.8.51`  
+**Target OmniRoute release:** `3.8.50` (current published install target, section 5.1)
 **Upstream:** `https://github.com/diegosouzapw/OmniRoute.git`  
 **Persistent application root:** `/srv/omniroute`
 
@@ -27,7 +27,7 @@ Current HX decisions that apply directly to OmniRoute:
 - **D-019:** HX-6 uses the Diego Souza OmniRoute project, installed from the pinned npm package on Node.js from the official Node binary distribution.
 - **D-021:** Snap is never a package source.
 
-The current foundation scripts on `main` also implement newer fleet controls discovered during the Layer 0/1 audit. Those scripts cite D-026 through D-029, which were ratified on 2026-09-16 and were recorded in `docs/00-control/DECISIONS.md` on 2026-09-17, having been implemented before they were written down. This HX-6 runbook inherits the **implemented common behavior** and takes its authority from those entries rather than restating them here.
+The current foundation scripts on `main` also implement newer fleet controls discovered during the Layer 0/1 audit. Those controls are now recorded in `docs/00-control/DECISIONS.md` as D-026 through D-029, documenting the already-implemented common behavior; this runbook inherits them rather than redefining them.
 
 Owner direction for HX-6:
 
@@ -39,7 +39,7 @@ Owner direction for HX-6:
 
 ## 2. Product model — HX-6 scope
 
-OmniRoute 3.8.51 is more than a routing daemon. HX-6 BASE covers the product surfaces required to operate it as the ecosystem routing control plane.
+OmniRoute is more than a routing daemon. HX-6 BASE covers the product surfaces required to operate it as the ecosystem routing control plane.
 
 | Capability | HX-6 BASE scope |
 |---|---|
@@ -78,7 +78,7 @@ The current fleet sequence on `main` is:
 Step 0  common/00-foundation.sh <host>
 Step 1  tools/hx-doc/hx-fleet-access <host>   # from the operator workstation
 Step 2  common/01-base-admin-network-updates.sh <host>   # reboots
-Step 3  common/02-domain-nvidia.sh <host>                 # reboots
+Step 3  common/02-domain.sh <host>                 # reboots
 Step 4  common/03-storage-ollama.sh                       # inference hosts only; SKIP on HX-6
 Step 5  application block
 ```
@@ -131,12 +131,12 @@ The HX-6 wrappers remain thin dispatchers into common authority:
 ```bash
 cd ~/src/HX-Eco-System/docs/03-runbooks/HX-6
 ./01-base-admin-network-updates.sh
-./02-domain-nvidia.sh
+./02-domain.sh
 ```
 
 `01-base-admin-network-updates.sh` opens with the foundation gate and refuses to continue unless FQDN, HX-1 NTP selection, the approved fleet key and SSH persistence are present. It also applies the common patch flow and current NVIDIA-package hold policy before reboot.
 
-`02-domain-nvidia.sh` remains the current shared authority for domain join, SSSD/domain-user resolution and the fleet's pinned NVIDIA package policy. HX-6 does not redefine that block here.
+`02-domain.sh` remains the current shared authority for domain join, SSSD/domain-user resolution and the fleet's pinned NVIDIA package policy. HX-6 does not redefine that block here.
 
 **Important:** if live HX-6 foundation/base work has already been completed under the current common standard, do not replay a destructive or unnecessary block merely because this document lists the canonical sequence. Reconcile live evidence and the HX-6 server record first. Target-state text is not proof that a block still needs to run.
 
@@ -180,19 +180,17 @@ Do not mount, format, wipe, repartition, replace or repurpose storage from this 
 
 Do not execute `common/10-omniroute.sh hx-6` until all items in this section are reconciled.
 
-### 5.1 Version pin mismatch
+### 5.1 Version baseline
 
-HX-6 targets **OmniRoute 3.8.51**. Upstream `release/v3.8.51` identifies the npm package as `omniroute` version `3.8.51` and supports Node `>=22.22.2 <23 || >=24.0.0 <27`.
-
-Current `main` still pins:
+The current published OmniRoute baseline for HX-6 is **3.8.50**, pinned by the owner decision of 2026-09-16: HX-6 installs the current published package, not an unpublished or staged upstream release. The authority chain is:
 
 ```text
-HX_OMNIROUTE_VERSION="3.8.50"
+hx-base.env -> common/10-omniroute.sh -> installed version verification
 ```
 
-and the current build-day run sheet still lists OmniRoute 3.8.50. Therefore the shared application path is **not executable for this runbook yet**. Reconcile the shared pin and any derived references through a separate reviewed change before HX-6 application execution.
+`hx-base.env` pins `HX_OMNIROUTE_VERSION="3.8.50"`; `../common/10-omniroute.sh` installs exactly that pin and verifies the actually-installed version against it before the unit is written or the block can report success. This runbook documents that state; it does not independently control it.
 
-Do not install 3.8.50 as an intermediate step merely to satisfy the existing common script.
+Upstream may have staged `3.8.51` on a release branch, but that is not the current published install target. Moving the baseline to a newer published release is a deliberate pin change in `hx-base.env` through a reviewed change, followed by re-validation — never an install-time fallback to `latest` or another version.
 
 ### 5.2 Current common OmniRoute block is incomplete for the accepted HX-6 contract
 
@@ -205,7 +203,7 @@ That is not sufficient for the HX-6 contract in this runbook. Before execution, 
 - required secret handling outside the repository;
 - the accepted `20128` LAN listener posture;
 - the accepted `20132` loopback-only posture;
-- current 3.8.51 runtime semantics rather than assumptions inherited from an older package.
+- persistent runtime semantics verified against the pinned package rather than assumptions inherited from another version.
 
 Until that shared block is reconciled, **do not run it** and then manually patch around it. The reviewed common block should produce the intended service state.
 
@@ -213,7 +211,7 @@ Until that shared block is reconciled, **do not run it** and then manually patch
 
 Do not carry `APP_BIND_HOST=0.0.0.0` forward as a native-systemd control. Current upstream uses `APP_BIND_HOST` for Docker/Compose host publishing, while upstream native/runtime material uses other host variables such as `HOSTNAME` and development code also references `HOST`.
 
-The exact bind variable used by the packaged 3.8.51 CLI must be confirmed before the shared HX application block is changed. The final runbook/service should document the variable actually proven on the packaged native runtime.
+The exact bind variable used by the packaged CLI must be confirmed before the shared HX application block is changed. The final runbook/service should document the variable actually proven on the packaged native runtime.
 
 ### 5.4 Application pre-read commands
 
@@ -231,7 +229,7 @@ sed -n '1,260p' docs/03-runbooks/common/10-omniroute.sh
 
 Do not execute if the block would:
 
-- install a version other than `3.8.51`;
+- install a version other than the pin in `hx-base.env` (currently `3.8.50`);
 - use Docker, Podman, Kubernetes or Snap;
 - use `npm run dev` as the permanent service;
 - wipe or replace `/srv/omniroute`;
@@ -253,7 +251,7 @@ command -v node
 command -v npm
 ```
 
-Provenance is an artifact identity, not a version string. For **both** Node.js and `omniroute@3.8.51`, record in the HX-6 server record:
+Provenance is an artifact identity, not a version string. For **both** Node.js and the pinned `omniroute` package (currently `3.8.50`), record in the HX-6 server record:
 
 - the exact source URI the artifact came from; and
 - the full SHA-256 of the artifact actually installed.
@@ -263,34 +261,33 @@ If either value cannot be established for an artifact, record `UNRESOLVED` for i
 Install the exact reviewed npm package:
 
 ```text
-omniroute@3.8.51
+omniroute@3.8.50
 ```
 
 The deployed service is the packaged runtime, not the source-development path.
 
-A release tag is not publication proof. Before install, prove the pinned package resolves from the approved npm registry — the official `https://registry.npmjs.org/`, passed explicitly so the check does not depend on the caller's npm configuration:
+A release tag is not publication proof. Before install, prove the pinned package resolves from the approved npm registry — the official `https://registry.npmjs.org/`, passed explicitly so the check does not depend on the caller's npm configuration. `../common/10-omniroute.sh` performs this check and records the requested version, installed version, command path and npm package identity at install time; capture the registry `dist.tarball` and `dist.integrity` for the server record:
 
 ```bash
-npm view omniroute@3.8.51 version dist.integrity dist.tarball --registry=https://registry.npmjs.org/
+npm view omniroute@3.8.50 version dist.integrity dist.tarball --registry=https://registry.npmjs.org/
 ```
 
-Record the returned `dist.tarball` and `dist.integrity` in the HX-6 server record. Then bind installation to that exact artifact — do not resolve the package a second time and hope it is the same bits. Fetch the recorded tarball once, verify its integrity and full SHA-256, and install the local file:
+Record the returned `dist.tarball` and `dist.integrity` in the HX-6 server record. Where the deployment binds installation to the exact artifact, fetch the recorded tarball once, verify its integrity and full SHA-256, and install the local file:
 
 ```bash
-curl -fL -o /tmp/omniroute-3.8.51.tgz "<recorded dist.tarball URL>"
-npm pack --pack-destination /tmp omniroute@3.8.51 --registry=https://registry.npmjs.org/  # alternative fetch path; use one
-EXPECTED_INTEGRITY="$(npm view omniroute@3.8.51 dist.integrity --registry=https://registry.npmjs.org/)"
+curl -fL -o /tmp/omniroute-3.8.50.tgz "<recorded dist.tarball URL>"
+EXPECTED_INTEGRITY="$(npm view omniroute@3.8.50 dist.integrity --registry=https://registry.npmjs.org/)"
 # sha512 integrity must match the downloaded tarball; a mismatch is a hard stop.
-tarball_integrity="$(openssl dgst -sha512 -binary /tmp/omniroute-3.8.51.tgz | openssl base64 -A)"
+tarball_integrity="$(openssl dgst -sha512 -binary /tmp/omniroute-3.8.50.tgz | openssl base64 -A)"
 [ "sha512-$tarball_integrity" = "$EXPECTED_INTEGRITY" ] \
   || { echo 'FAIL: tarball integrity mismatch'; exit 1; }
-sha256sum /tmp/omniroute-3.8.51.tgz        # record in the server record
-npm install --global /tmp/omniroute-3.8.51.tgz
+sha256sum /tmp/omniroute-3.8.50.tgz        # record in the server record
+npm install --global /tmp/omniroute-3.8.50.tgz
 ```
 
 Apply the same flow to the Node.js artifact: record its source URI, fetch that exact tarball, compute and record its full SHA-256, and install that verified artifact — only then is Node provenance PASS.
 
-If `3.8.51` does not resolve, deployment remains blocked. Do not fall back to `3.8.50`, `latest`, a git source, or `npm run dev`.
+If the pinned version does not resolve, deployment remains blocked. Do not fall back to `latest`, a git source, or `npm run dev`, and do not substitute a different version at install time.
 
 Required package proof:
 
@@ -361,7 +358,7 @@ INITIAL_PASSWORD=<owner/operator supplied; secret>
 OMNIROUTE_WS_BRIDGE_SECRET=<generated locally; secret>
 ```
 
-The exact 3.8.51 semantics must be verified against the packaged runtime immediately before implementation. If upstream behavior contradicts this target, stop and reconcile the shared block and this runbook rather than improvising on HX-6.
+The exact runtime semantics of the pinned package must be verified against the packaged runtime immediately before implementation. If upstream behavior contradicts this target, stop and reconcile the shared block and this runbook rather than improvising on HX-6.
 
 Preferred authenticated client contract:
 
@@ -429,7 +426,7 @@ A missing `20128` listener, a `20128` bound only to an address other than wildca
 
 A running process is not an OmniRoute BASE PASS. Use the installed product's own control plane as evidence.
 
-At minimum establish the current 3.8.51 equivalents of:
+At minimum establish the current equivalents of, in the pinned package:
 
 ```bash
 omniroute --version
@@ -452,7 +449,7 @@ Required surfaces:
 Dashboard:  http://192.168.50.206:20128
 API base:   http://192.168.50.206:20128/v1
 Models:     /v1/models
-Health:     current 3.8.51 health surface identified by product diagnostics/docs
+Health:     current health surface identified by product diagnostics/docs
 ```
 
 At minimum prove:
@@ -483,7 +480,7 @@ Discovery is not approval.
 
 OmniRoute's product-native MCP capability is part of HX-6 BASE PASS. HX-15 FastMCP does not substitute for it.
 
-Use the current 3.8.51 MCP transport supported by the packaged runtime and retain the exact endpoint/transport actually used. Expected product surfaces include network MCP endpoints such as `/api/mcp/stream` and `/api/mcp/sse`, subject to confirmation against the pinned package.
+Use the MCP transport supported by the pinned package and retain the exact endpoint/transport actually used. Expected product surfaces include network MCP endpoints such as `/api/mcp/stream` and `/api/mcp/sse`, subject to confirmation against the pinned package.
 
 Required proof:
 
@@ -621,7 +618,7 @@ HX-6 is not BASE PASS because `systemctl` is green or `/v1/models` returns 200.
 | Existing `/srv/omniroute` storage | PASS; no destructive storage change |
 | Node.js exact supported version | PASS |
 | Node.js provenance (source URI + SHA-256) | PASS; UNRESOLVED blocks closure |
-| OmniRoute exact `3.8.51` package | PASS |
+| OmniRoute exact pinned package (`3.8.50`) | PASS |
 | OmniRoute provenance (source URI + SHA-256) | PASS; UNRESOLVED blocks closure |
 | Native `hx-omniroute.service` | PASS |
 | Persistent `DATA_DIR` under `/srv/omniroute` | PASS |
