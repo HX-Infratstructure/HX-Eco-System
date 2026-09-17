@@ -1010,6 +1010,29 @@ if hasattr(os, 'geteuid') and os.geteuid() != 0:
           _problem is not None and 'cannot be read' in _problem, str(_problem))
 os.chmod(_unreadable, 0o600)
 
+# ------------------------- hx-base.env: the GPU expectation ----------------
+# Block 2 is shared by all seventeen hosts and installed a driver on every one
+# of them. Only HX-2 through HX-5 carry a card. A list on its own would repeat
+# the audit's own finding, so the list is checked against the hardware and both
+# disagreements have to be shown to fail.
+GPU_LIST = 'hx-2 hx-3 hx-4 hx-5'
+NV_PRESENT = '0x1234\n0x10de\n0x8086'
+NO_NV = '0x1234\n0x8086\n0x1af4'
+
+rc, out = foundation('hx_require_gpu_expectation', 'hx-4', GPU_LIST, NV_PRESENT)
+check('gpu: a listed host with a card installs', rc == 0 and out.strip() == 'install', out)
+rc, out = foundation('hx_require_gpu_expectation', 'hx-7', GPU_LIST, NO_NV)
+check('gpu: an unlisted host with no card skips', rc == 0 and out.strip() == 'skip', out)
+rc, out = foundation('hx_require_gpu_expectation', 'hx-4', GPU_LIST, NO_NV)
+check('gpu: a listed host with no card is refused', rc == 46, out)
+rc, out = foundation('hx_require_gpu_expectation', 'hx-7', GPU_LIST, NV_PRESENT)
+check('gpu: an unlisted host with a card is refused', rc == 46, out)
+
+# hx-17 is not a prefix or suffix of any listed host, but hx-2 is a substring
+# of nothing here by luck rather than design, so prove the match is word-wise.
+rc, out = foundation('hx_require_gpu_expectation', 'hx-1', GPU_LIST, NO_NV)
+check('gpu: hx-1 is not matched by hx-2..hx-5', rc == 0 and out.strip() == 'skip', out)
+
 # Not ignore_errors: a workspace that cannot be removed is worth saying out
 # loud, but it is not a gate failure, so it does not change the exit status.
 try:

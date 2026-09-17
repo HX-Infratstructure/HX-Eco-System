@@ -36,26 +36,112 @@ a{color:var(--accent)}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
 </style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/03-runbooks/HX-7/README.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-7 Current Runbook</h1>
-<p><strong>Host:</strong> hx-7 <strong>Expected IP:</strong> <code>192.168.50.207</code> <strong>Role:</strong> NGINX dev/test only</p>
-<h2>Execution</h2>
-<p>Steps 1-2 are the shared base blocks. Run them from this directory; each one refuses to run on any host other than <code>hx-7</code>.</p>
-<pre><code class="lang-bash">./01-base-admin-network-updates.sh # reboots
+<p><strong>Host:</strong> hx-7 <strong>Expected IP:</strong> <code>192.168.50.207</code> <strong>FQDN:</strong> <code>hx-7.hx.local.arpa</code> <strong>Role:</strong> NGINX, development and test rendering only <strong>GPU:</strong> none. HX-7 is CPU-only.</p>
+<h2>1. HX authority and boundaries</h2>
+<p>This runbook executes the shared blocks. It does not redefine them. Where this file and a control document disagree, the control document wins.</p>
+<ul>
+<li>Role boundary: <a href="../../04-application-standards/NGINX-ROLE-STANDARD.html"><code>NGINX-ROLE-STANDARD.md</code></a>, ratified as D-004.</li>
+<li>Proof obligation: step <code>C4</code> in <a href="../../00-control/hx-proof.tsv"><code>hx-proof.tsv</code></a>.</li>
+<li>Proof procedure: <a href="../../../smoke-tests/nginx-smoke-test.html"><code>nginx-smoke-test.md</code></a>.</li>
+<li>As-built record: <a href="../../02-server-records/HX-7.html"><code>HX-7.md</code></a>.</li>
+<li>Implementation and pins: <code>../common/</code>, with pins in <code>../common/hx-base.env</code>.</li>
+</ul>
+<p>D-004 is the point of this server and it is a limit, not a feature:</p>
+<blockquote>HX-7 NGINX is limited to dev/test application rendering. It is not the common reverse proxy for HX ecosystem services.</blockquote>
+<h2>2. Foundation — inherited, not duplicated</h2>
+<p>Layer 0/1 is established once, by the shared foundation block, and this runbook does not restate it. Run it first:</p>
+<pre><code class="lang-bash">../common/00-foundation.sh hx-7</code></pre>
+<p>That establishes network validation, identity, time authority, the admin account and sudo, the fleet key, and SSH persistence.</p>
+<p><code>01-base-admin-network-updates.sh</code> opens with a gate that refuses to continue without that state. If you skip step 0 the build stops, and the exit code names what is missing:</p>
+<div class="tw"><table><thead><tr><th>Exit</th><th>Meaning</th></tr></thead><tbody><tr><td>41</td><td>the host cannot resolve its own FQDN</td></tr><tr><td>42</td><td>HX-1 is not the selected time source</td></tr><tr><td>43</td><td>the fleet key is absent</td></tr><tr><td>44</td><td>the fleet key is present with the wrong fingerprint</td></tr><tr><td>45</td><td>neither <code>ssh.service</code> nor <code>ssh.socket</code> is enabled</td></tr></tbody></table></div>
+<p>Do not work around a foundation exit. Run <code>00-foundation.sh</code> and read what it reports.</p>
+<p>Proof step <code>F0</code> must be satisfied before HX-7's own phase can close.</p>
+<h2>3. Execution</h2>
+<p>Run from this directory. Each block refuses to run on any host other than <code>hx-7</code>.</p>
+<pre><code class="lang-bash">../common/00-foundation.sh hx-7     # foundation; no reboot
+./01-base-admin-network-updates.sh # reboots
 ./02-domain-nvidia.sh              # reboots
 ../common/10-nginx.sh hx-7</code></pre>
-<p>Implementation lives in <code>../common/</code>; version pins and the host -&gt; IP map live in <code>../common/hx-base.env</code>. See <code>../README.md</code> before changing a pin.</p>
-<h2>Sequence</h2>
+<h2>4. Sequence</h2>
 <ol>
-<li>Base/admin/network validation; apt update + upgrade; reboot.</li>
-<li>Join <code>hx.local.arpa</code>; validate SSSD/domain user; install the pinned NVIDIA</li>
+<li><strong>Foundation.</strong> Network validated and never written (D-026), identity, time</li>
 </ol>
-<p>driver; reboot.</p>
+<p>authority against HX-1, admin account and NOPASSWD sudo, fleet key, SSH persistence.</p>
 <ol>
-<li>Install NGINX (development and test rendering only):</li>
+<li><strong>Base, admin, network, updates.</strong> Foundation gate, then <code>apt update</code> and</li>
 </ol>
-<p><code>../common/10-nginx.sh hx-7</code> Versions are pinned in <code>../common/hx-base.env</code>. Application software comes from PyPI, a GitHub release, a direct binary, or Hugging Face. Not Snap. Not the Ubuntu archive.</p>
+<p><code>apt upgrade</code>, then reboot. The D-028 NVIDIA hold runs here and finds nothing to hold on HX-7, which is correct.</p>
 <ol>
-<li>Validation: the service starts, and it survives a reboot.</li>
-<li>Fill in <code>docs/02-server-records/HX-7.md</code>, then set <code>state</code> and</li>
+<li><strong>Domain join.</strong> Join <code>hx.local.arpa</code>, validate SSSD and domain user</li>
 </ol>
-<p><code>gate</code> for <code>HX-7</code> in <code>docs/00-control/hx-fleet.tsv</code> and run <code>tools/hx-doc/hx-fleet</code>.</p>
-<p>Do not mount/wipe unrelated disks. Do not import prior application state.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/03-runbooks/HX-7/README.md</code>.</footer></div></body></html>
+<p>resolution, then reboot.</p>
+<p><strong>No driver is installed on HX-7.</strong> <code>HX_GPU_HOSTS</code> in <code>../common/hx-base.env</code> records that only HX-2 through HX-5 carry a card, and Block 2 cross-checks that list against the PCI vendor ids in sysfs. If HX-7 is found to have an NVIDIA device, the block stops with exit 46 rather than installing one, because the list and the record would then be wrong.</p>
+<ol>
+<li><strong>NGINX.</strong> <code>../common/10-nginx.sh hx-7</code> builds NGINX from the upstream</li>
+</ol>
+<p>nginx.org source tarball, verified against its recorded SHA-256, and installs <code>hx-nginx.service</code>. Source is pinned in <code>../common/hx-base.env</code>. Not Snap. Not the Ubuntu archive (D-021).</p>
+<ol>
+<li><strong>Provenance.</strong> The block prints a provenance summary. Copy it into</li>
+</ol>
+<p><a href="../../02-server-records/HX-7.html"><code>HX-7.md</code></a> section 6. A version string is not an artifact identity; the tarball and binary digests are.</p>
+<ol>
+<li><strong>Proof.</strong> Run <a href="../../../smoke-tests/nginx-smoke-test.html"><code>nginx-smoke-test.md</code></a></li>
+</ol>
+<p>for proof step <code>C4</code>. It needs one temporary private-IP HTTP upstream on HX-5. Remove the upstream afterwards.</p>
+<ol>
+<li><strong>Closure.</strong> Section 9 below.</li>
+</ol>
+<h2>5. Provenance to record</h2>
+<p>Record all of these in section 6 of the server record. An unknown value is written <code>UNRESOLVED</code>, never omitted.</p>
+<pre><code class="lang-text">Component         NGINX &lt;pinned version&gt;
+Source URI        https://nginx.org/download/nginx-&lt;version&gt;.tar.gz
+Tarball SHA-256   the value the block verified against HX_NGINX_SHA256
+Binary path       /usr/local/sbin/nginx
+Binary SHA-256    the digest of the binary this build produced
+Build arguments   the configure arguments reported by `nginx -V`</code></pre>
+<h2>6. D-004 governance</h2>
+<p>HX-7 renders the UI of an application under active development. Put development server blocks in <code>/srv/nginx/conf.d/</code> and reload.</p>
+<p>Do <strong>not</strong> front any of the following from HX-7:</p>
+<ul>
+<li>Qdrant Web UI</li>
+<li>LightRAG</li>
+<li>n8n</li>
+<li>Open WebUI</li>
+<li>PostgreSQL or Redis consoles</li>
+<li>MCP servers</li>
+<li>any other normal HX ecosystem service</li>
+</ul>
+<p>Remove a temporary development proxy when the work that needed it is finished.</p>
+<p>This boundary is enforced by review, not by the block. Nothing inspects <code>/srv/nginx/conf.d/</code>, so a server block that violates D-004 will start. Treat the contents of that directory as reviewable configuration.</p>
+<h2>7. Reboot persistence</h2>
+<p>Layer 0/1 is not closed until the host returns to the same state unattended. After the final reboot, confirm:</p>
+<pre><code class="lang-bash">systemctl is-active hx-nginx
+systemctl is-enabled hx-nginx
+curl -fsS -o /dev/null -w '%{http_code}\n' http://192.168.50.207/</code></pre>
+<p><code>systemctl is-active</code> on its own is not proof. A service that crashes and restarts reports <code>active</code> in the gaps between restarts, which is how HX4-F06 went unseen. The HTTP response is what shows it is serving.</p>
+<h2>8. HX-7 BASE PASS definition</h2>
+<p>All of the following, or the server does not close:</p>
+<div class="tw"><table><thead><tr><th>Requirement</th><th>Evidence</th></tr></thead><tbody><tr><td>Foundation established</td><td>proof step <code>F0</code> satisfied</td></tr><tr><td>Every Foundation row filled</td><td><code>tools/hx-doc/hx-record-check</code> passes for HX-7</td></tr><tr><td>External key-only administration</td><td><code>tools/hx-doc/hx-fleet-access hx-7</code> returns <code>hx-7</code> and <code>KEY+SUDO-PASS</code></td></tr><tr><td>Domain join</td><td><code>realm list</code> reports <code>configured: kerberos-member</code>; domain user resolves</td></tr><tr><td>No driver installed</td><td>no <code>nvidia-*</code> package present on a CPU-only host</td></tr><tr><td>NGINX serving</td><td><code>hx-nginx</code> active and enabled, HTTP answering on the LAN address</td></tr><tr><td>Provenance recorded</td><td>section 6 of the record carries the tarball and binary digests</td></tr><tr><td>Reboot persistence</td><td>section 7 above, after an unattended reboot</td></tr><tr><td>Routing proof</td><td>step <code>C4</code> run, evidence retained, temporary upstream removed</td></tr></tbody></table></div>
+<h2>9. Record and fleet closure</h2>
+<ol>
+<li>Fill <a href="../../02-server-records/HX-7.html"><code>HX-7.md</code></a>, including every Foundation</li>
+</ol>
+<p>row and section 6 provenance.</p>
+<ol>
+<li>Set <code>state</code> and <code>gate</code> for <code>HX-7</code> in <a href="../../00-control/hx-fleet.tsv"><code>hx-fleet.tsv</code></a>.</li>
+<li>Set <code>C4</code> status in <a href="../../00-control/hx-proof.tsv"><code>hx-proof.tsv</code></a>.</li>
+<li>Run <code>tools/hx-doc/hx-fleet</code>, <code>tools/hx-doc/hx-record-check</code> and</li>
+</ol>
+<p><code>tools/hx-doc/hx-render-html</code>.</p>
+<h2>10. Non-goals</h2>
+<ul>
+<li>HX-7 is not the ecosystem reverse proxy. That is D-004 and it is not</li>
+</ul>
+<p>negotiable in this runbook.</p>
+<ul>
+<li>No GPU workload. No driver, no CUDA, no model serving.</li>
+<li>Do not mount or wipe unrelated disks.</li>
+<li>Do not import prior application state.</li>
+<li>Do not add TLS termination for an ecosystem service here. A development</li>
+</ul>
+<p>certificate for a development app is in scope; a production front door is not.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/03-runbooks/HX-7/README.md</code>.</footer></div></body></html>
