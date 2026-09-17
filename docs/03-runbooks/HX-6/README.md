@@ -78,7 +78,7 @@ The current fleet sequence on `main` is:
 Step 0  common/00-foundation.sh <host>
 Step 1  tools/hx-doc/hx-fleet-access <host>   # from the operator workstation
 Step 2  common/01-base-admin-network-updates.sh <host>   # reboots
-Step 3  common/02-domain-nvidia.sh <host>                 # reboots
+Step 3  common/02-domain.sh <host>                 # reboots
 Step 4  common/03-storage-ollama.sh                       # inference hosts only; SKIP on HX-6
 Step 5  application block
 ```
@@ -131,12 +131,12 @@ The HX-6 wrappers remain thin dispatchers into common authority:
 ```bash
 cd ~/src/HX-Eco-System/docs/03-runbooks/HX-6
 ./01-base-admin-network-updates.sh
-./02-domain-nvidia.sh
+./02-domain.sh
 ```
 
 `01-base-admin-network-updates.sh` opens with the foundation gate and refuses to continue unless FQDN, HX-1 NTP selection, the approved fleet key and SSH persistence are present. It also applies the common patch flow and current NVIDIA-package hold policy before reboot.
 
-`02-domain-nvidia.sh` remains the current shared authority for domain join, SSSD/domain-user resolution and the fleet's pinned NVIDIA package policy. HX-6 does not redefine that block here.
+`02-domain.sh` remains the current shared authority for domain join, SSSD/domain-user resolution and the fleet's pinned NVIDIA package policy. HX-6 does not redefine that block here.
 
 **Important:** if live HX-6 foundation/base work has already been completed under the current common standard, do not replay a destructive or unnecessary block merely because this document lists the canonical sequence. Reconcile live evidence and the HX-6 server record first. Target-state text is not proof that a block still needs to run.
 

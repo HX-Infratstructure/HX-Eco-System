@@ -15,7 +15,25 @@ hx_require_host "$1"
 # Not Snap, not the Ubuntu archive, not NodeSource.
 hx_node_install "$HX_NODE_VERSION"
 
+# F3: /srv/omniroute is a dedicated volume, and hx_app_user runs `mkdir -p`.
+# With the volume unmounted that silently creates the tree on / and the whole
+# install lands there, to disappear the moment the volume is mounted. The same
+# gap was found on HX-7 after the fact; 03-storage-ollama.sh has always done
+# this correctly and this is the same shape.
+findmnt /srv/omniroute >/dev/null || {
+  echo "STOP: /srv/omniroute is not a mounted filesystem." >&2
+  echo "      The dedicated volume must be mounted before OmniRoute is installed." >&2
+  exit 34
+}
+
 hx_app_user omniroute /srv/omniroute
+
+# Creating the user and chowning the tree is not the same as being able to
+# write to it. A read-only mount passes findmnt and fails everything after.
+sudo -u omniroute test -w /srv/omniroute || {
+  echo "STOP: /srv/omniroute is not writable by the omniroute service identity." >&2
+  exit 34
+}
 
 # Prove the pinned package resolves from the official registry, explicitly, so
 # the check does not depend on the caller's npm configuration. Resolution and
@@ -49,7 +67,7 @@ npm list -g --depth=0 omniroute
 if [ "$OMNIROUTE_INSTALLED" != "$HX_OMNIROUTE_VERSION" ]; then
   echo "STOP: installed omniroute ${OMNIROUTE_INSTALLED} != pinned ${HX_OMNIROUTE_VERSION}" >&2
   echo "      hx-base.env is the version authority; reconcile the pin or the install, never fall back" >&2
-  exit 32
+  exit 33
 fi
 
 hx_app_unit hx-omniroute "HX OmniRoute ${OMNIROUTE_INSTALLED}" omniroute /srv/omniroute \
@@ -59,6 +77,11 @@ hx_app_unit hx-omniroute "HX OmniRoute ${OMNIROUTE_INSTALLED}" omniroute /srv/om
   "HOST=0.0.0.0"
 
 hx_app_validate hx-omniroute "$HX_OMNIROUTE_PORT" /v1/models
+
+# F4: 20128 is LAN-facing and 20132 is loopback-only. hx_app_validate proves
+# 20128 answers; this proves 20132 exists and is not reachable from the LAN.
+# Environment text is not evidence - the binding is read from ss.
+hx_require_loopback_listener "$(sudo ss -lntH)" "$HX_OMNIROUTE_LIVE_WS_PORT"
 hx_app_done hx-omniroute "$HX_HOST" "OmniRoute ${OMNIROUTE_INSTALLED}" "http://${HX_IP}:${HX_OMNIROUTE_PORT}"
 
 cat <<'NOTE'
