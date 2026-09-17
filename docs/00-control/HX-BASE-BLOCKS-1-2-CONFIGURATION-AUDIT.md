@@ -12,7 +12,7 @@ scope: Layer 0/1 foundation prerequisites, Block 1-2 implementation coverage, HX
 This document reconciles the accepted HX foundation architecture with the actual implementation in:
 
 - `docs/03-runbooks/common/01-base-admin-network-updates.sh`
-- `docs/03-runbooks/common/02-domain-nvidia.sh`
+- `docs/03-runbooks/common/02-domain.sh`
 - `docs/03-runbooks/common/hx-base.env`
 
 HX-5's 2026-09-15 clean OS rebuild proved that Blocks 1 and 2 alone are not a complete clean-OS Layer 0/1 bootstrap. They validate and configure important portions of the foundation, but several required conditions live outside those scripts and must still be proven before Layer 0/1 may be closed.

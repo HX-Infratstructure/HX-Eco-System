@@ -82,7 +82,9 @@ MCP client registration, agent tool binding, and permanent orchestration wiring 
 | HX-3 | Coder-X / Ollama / Qwen3-Coder-30B Q6_K | **PASS / CLOSED** |
 | HX-4 | Meta-X / GPT-OSS 20B + shared embedding/reranking | **NEXT — runbooks staged** |
 | HX-5 | CentCom / Ornith + DeepSeek Harness / dev-test | **NOT STARTED — runbooks staged** |
-| HX-6 through HX-17 | Assigned workloads below | **NOT STARTED** |
+| HX-6 | OmniRoute | **NOT STARTED** |
+| HX-7 | NGINX dev/test only | **IN PROGRESS** |
+| HX-8 through HX-17 | Assigned workloads below | **NOT STARTED** |
 
 HX-2 and HX-3 establish the proven GPU-inference pattern: clean OS, domain membership, NVIDIA 595 Server Open, dedicated Ollama storage, LAN API, exact model, functional inference, and reboot persistence.
 
@@ -309,7 +311,7 @@ Normal application UIs remain directly accessible on their own native server/por
 | HX-4 | `192.168.50.204` | Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker | **PASS** |
 | HX-5 | `192.168.50.205` | CentCom / Ornith / DeepSeek Harness / dev-test | **IN PROGRESS** |
 | HX-6 | `192.168.50.206` | OmniRoute | **NOT STARTED** |
-| HX-7 | `192.168.50.207` | NGINX dev/test only | **NOT STARTED** |
+| HX-7 | `192.168.50.207` | NGINX dev/test only | **IN PROGRESS** |
 | HX-8 | `192.168.50.208` | Open WebUI | **NOT STARTED** |
 | HX-9 | `192.168.50.209` | PostgreSQL + MCP / Redis + MCP | **NOT STARTED** |
 | HX-10 | `192.168.50.210` | Qdrant + Web UI + MCP | **NOT STARTED** |

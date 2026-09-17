@@ -62,7 +62,7 @@ cross-cutting concerns make a diagram less readable rather than more:
 | HX-4 | `192.168.50.204` | Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker | **PASS** |
 | HX-5 | `192.168.50.205` | CentCom / Ornith / DeepSeek Harness / dev-test | **IN PROGRESS** |
 | HX-6 | `192.168.50.206` | OmniRoute | **NOT STARTED** |
-| HX-7 | `192.168.50.207` | NGINX dev/test only | **NOT STARTED** |
+| HX-7 | `192.168.50.207` | NGINX dev/test only | **IN PROGRESS** |
 | HX-8 | `192.168.50.208` | Open WebUI | **NOT STARTED** |
 | HX-9 | `192.168.50.209` | PostgreSQL + MCP / Redis + MCP | **NOT STARTED** |
 | HX-10 | `192.168.50.210` | Qdrant + Web UI + MCP | **NOT STARTED** |

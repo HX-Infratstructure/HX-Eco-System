@@ -4,7 +4,6 @@
 **Expected IP:** `192.168.50.207`
 **FQDN:** `hx-7.hx.local.arpa`
 **Role:** NGINX, development and test rendering only
-**GPU:** none. HX-7 is CPU-only.
 
 ## 1. HX authority and boundaries
 
@@ -59,7 +58,7 @@ Run from this directory. Each block refuses to run on any host other than
 ```bash
 ../common/00-foundation.sh hx-7     # foundation; no reboot
 ./01-base-admin-network-updates.sh # reboots
-./02-domain-nvidia.sh              # reboots
+./02-domain.sh              # reboots
 ../common/10-nginx.sh hx-7
 ```
 
@@ -70,17 +69,11 @@ Run from this directory. Each block refuses to run on any host other than
    persistence.
 
 2. **Base, admin, network, updates.** Foundation gate, then `apt update` and
-   `apt upgrade`, then reboot. The D-028 NVIDIA hold runs here and finds
-   nothing to hold on HX-7, which is correct.
+   `apt upgrade`, then reboot.
 
 3. **Domain join.** Join `hx.local.arpa`, validate SSSD and domain user
-   resolution, then reboot.
-
-   **No driver is installed on HX-7.** `HX_GPU_HOSTS` in `../common/hx-base.env`
-   records that only HX-2 through HX-5 carry a card, and Block 2 cross-checks
-   that list against the PCI vendor ids in sysfs. If HX-7 is found to have an
-   NVIDIA device, the block stops with exit 46 rather than installing one,
-   because the list and the record would then be wrong.
+   resolution, then reboot. The block is shared and installs a driver only on
+   the hosts that carry one. It installs nothing here.
 
 4. **NGINX.** `../common/10-nginx.sh hx-7` builds NGINX from the upstream
    nginx.org source tarball, verified against its recorded SHA-256, and
@@ -157,7 +150,6 @@ All of the following, or the server does not close:
 | Every Foundation row filled | `tools/hx-doc/hx-record-check` passes for HX-7 |
 | External key-only administration | `tools/hx-doc/hx-fleet-access hx-7` returns `hx-7` and `KEY+SUDO-PASS` |
 | Domain join | `realm list` reports `configured: kerberos-member`; domain user resolves |
-| No driver installed | no `nvidia-*` package present on a CPU-only host |
 | NGINX serving | `hx-nginx` active and enabled, HTTP answering on the LAN address |
 | Provenance recorded | section 6 of the record carries the tarball and binary digests |
 | Reboot persistence | section 7 above, after an unattended reboot |
@@ -176,7 +168,6 @@ All of the following, or the server does not close:
 
 - HX-7 is not the ecosystem reverse proxy. That is D-004 and it is not
   negotiable in this runbook.
-- No GPU workload. No driver, no CUDA, no model serving.
 - Do not mount or wipe unrelated disks.
 - Do not import prior application state.
 - Do not add TLS termination for an ecosystem service here. A development

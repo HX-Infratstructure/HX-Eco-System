@@ -44,8 +44,8 @@ The earlier `ornith-1.5:9b` assignment is stale and must not be used for HX-5.
 Steps 1-3 are the shared base blocks. They are already complete on the current HX-5 build and must not be rerun merely for confirmation.
 
 ```bash
-./01-base-admin-network-updates.sh    # COMPLETE
-./02-domain-nvidia.sh                 # COMPLETE; do not rerun on HX-5 because its accepted driver is 595.99.02
+./01-base-admin-network-updates.sh # COMPLETE
+./02-domain.sh              # COMPLETE; do not rerun on HX-5 because its accepted driver is 595.99.02
 ./03-storage-ollama.sh                # COMPLETE
 ```
 

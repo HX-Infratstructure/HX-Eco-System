@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # HX common base block 2 - domain join, then the NVIDIA driver on the hosts
 # that carry a GPU, then reboot.
-# Usage: ./02-domain-nvidia.sh <hx-host>
+# Usage: ./02-domain.sh <hx-host>
 set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=./hx-base.env

@@ -301,7 +301,7 @@ identity comes from the install-time capture described above.
 
 **Status:** OPEN / MONITOR  
 **Severity:** Low  
-**Scope:** `docs/03-runbooks/common/02-domain-nvidia.sh`  
+**Scope:** `docs/03-runbooks/common/02-domain.sh`  
 **Discovered on:** HX-4  
 **Discovered during:** Post-fix sweep for other instances of HX4-F01
 
@@ -953,6 +953,12 @@ Two changes, so the scaffold cannot restore the file unnoticed:
 Revoking `OPENWIKI_PR_TOKEN` and `ANTHROPIC_API_KEY` is on the backlog by owner
 decision of 2026-09-15. It is recorded here and is not scheduled.
 
+### The guard above did not hold
+
+`.github/workflows/openwiki-update.yml` returned to the working copy on
+2026-09-16 with the exclusion in place. The resolution recorded above is
+disproven; see HX7-F01.
+
 ## HX5-F07 — `net ads testjoin` disagrees with `adcli testjoin` by design
 
 **Status:** CLOSED / EXPECTED
@@ -1424,4 +1430,157 @@ operational failure.
 Related: proof step `F0` is `NOT_RUN` on this branch. It is set to PASS by the
 change that wires the foundation into the proof chain, which is a separate
 pull request and had not merged when this was written.
+
+## HX7-F01 — the OpenWiki guard is written down, is in place, and did not work
+
+**Status:** OPEN
+**Severity:** Medium
+**Scope:** Repository automation; the repository is public
+**Discovered on:** Operator workstation
+**Discovered during:** 2026-09-17 HX-7 closure, running the gates
+
+### Finding
+
+HX5-F06 records a resolution: `.openwikiignore` excludes `.github/**` so the
+scaffold cannot write the withdrawn workflow, and `hx_doc_check.py` carries
+`WITHDRAWN_PATHS` so a restored file fails CI.
+
+Both are in place. The exclusion even names the finding it exists to serve:
+
+```text
+# Repository automation. D-025 withdrew scheduled OpenWiki generation and
+# deleted .github/workflows/openwiki-update.yml. The scaffold writes that file
+# again unless this tree is excluded, so the exclusion is the guard. HX5-F06.
+.github/**
+```
+
+An OpenWiki run during the HX-7 build wrote the file anyway:
+
+```text
+$ ls -l .github/workflows/openwiki-update.yml
+-rw-r--r-- 1 agentzero agentzero 2783 Sep 16 19:20 openwiki-update.yml
+
+$ tools/hx-doc/hx-doc-check
+FAIL  withdrawn: .github/workflows/openwiki-update.yml exists; D-025 withdrew
+      scheduled OpenWiki generation and deleted this file
+```
+
+The same run rewrote most of `openwiki/`, deleting nine pages and adding seven
+others, so the write was not a stray edit.
+
+### What works and what does not
+
+Detection works. `hx-doc-check` caught the file on the first run after it
+appeared, which is exactly what `WITHDRAWN_PATHS` is for, and CI would have
+refused any pull request carrying it.
+
+Prevention does not. `.openwikiignore` was the mechanism recorded as stopping
+the write, and the write happened with that file present and correct. Either
+the scaffold does not consult `.openwikiignore` for this path, or it consults
+it for scanning but not for its own setup output. Which of those is true has
+not been established, and guessing is what produced the first wrong answer.
+
+### Why it matters beyond the tidying
+
+The file is the one D-025 withdrew because it carries a write-capable token in
+a public repository. It reappears in the working copy of whoever is building,
+and the only thing between it and the repository is a gate at the pull-request
+boundary. An agent staging broadly with `git add -A` would commit it, and the
+gate would then be the last line rather than a backstop.
+
+The file has been left in place and uncommitted, so the behaviour can be
+reproduced rather than tidied away before it is understood.
+
+### Disposition
+
+OPEN. Establish why the exclusion did not apply before changing anything. A
+second guard added on top of a first one that was never proven would repeat
+this finding a third time.
+
+## HX7-F02 — eight proof steps cannot run, because all of them wait on HX-5
+
+**Status:** OPEN
+**Severity:** Medium
+**Scope:** Fleet-wide; the proof chain
+**Discovered on:** HX-7
+**Discovered during:** 2026-09-17 HX-7 closure
+
+### Finding
+
+HX-7 finished its build, serves on the LAN and survives a reboot, and still
+cannot close. Its functional gate is proof step `C4`, `C4` requires `A5`, and
+`A5` is CentCom activation on HX-5.
+
+It is not one server's problem. Eight steps carry the same requirement:
+
+```text
+B1  hx-9   requires A5,F0
+B3  hx-9   requires A5,F0
+B5  hx-10  requires A5,F0
+C2  hx-15  requires A5,F0
+C4  hx-7   requires A5,F0
+D1  hx-16  requires A5,F0
+D3  hx-17  requires A5,F0
+F2  hx-14  requires A5,F0
+```
+
+Seven servers - HX-7, HX-9, HX-10, HX-14, HX-15, HX-16, HX-17 - can each be
+built to the same point HX-7 reached and then stop at the same wall.
+
+A further sixteen lines across the runbooks and smoke tests name HX-5 or
+CentCom as the runner or the upstream, outside HX-5's own runbook.
+
+### What this is not
+
+This is not an argument for building HX-5. That is an owner decision already
+taken, and the finding does not reopen it.
+
+It is a statement of what the proof chain currently says, so the cost is
+visible before it is paid seven more times rather than discovered on each host
+at closure.
+
+### Disposition
+
+OPEN. One decision covers all eight: either `A5` is satisfied, or the steps
+that depend on it are re-expressed against something that exists. Until one of
+those happens, every affected server closes at `IN_PROGRESS` with a deferred
+gate, as HX-7 just did.
+
+## HX7-F03 — a hand-kept status table contradicts the generated one beside it
+
+**Status:** OPEN
+**Severity:** Low
+**Scope:** `docs/00-control/HX-ECO-SYSTEM-BASE-IMPLEMENTATION-PRIORITY.md`
+**Discovered on:** Repository
+**Discovered during:** 2026-09-17 HX-7 closure
+
+### Finding
+
+That document carries two server-status tables. The one at the foot is
+generated from `hx-fleet.tsv` between `HX-FLEET:TABLE` markers and is correct
+by construction. The one near the top is maintained by hand and is not:
+
+```text
+| HX-4 | Meta-X / GPT-OSS 20B + shared embedding/reranking | **NEXT - runbooks staged** |
+| HX-5 | CentCom / Ornith + DeepSeek Harness / dev-test    | **NOT STARTED - runbooks staged** |
+```
+
+`hx-fleet.tsv` records HX-4 as `PASS / CLOSED` and HX-5 as `IN_PROGRESS`. Both
+rows are stale, and they predate this finding by some time.
+
+`hx-fleet` only rewrites what sits inside its markers, so nothing detects the
+drift. A reader who stops at the first table gets the wrong fleet state from a
+control document.
+
+### Disposition
+
+OPEN. Either put the hand table inside `HX-FLEET:TABLE` markers so it is
+generated, or delete it and let the generated table be the only answer. Do not
+hand-correct it, because that fixes today's rows and leaves the next drift to
+the next reader.
+
+HX-7's row was corrected in place during its closure, because leaving a host
+recorded NOT STARTED while its record said otherwise was worse than the
+inconsistency this finding describes. The other two rows were left, so the
+finding has evidence to point at.
 

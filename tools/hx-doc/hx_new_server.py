@@ -7,7 +7,7 @@ chances to leave out a section.
 
 Creates, from docs/00-control/hx-fleet.tsv and the record template:
   docs/03-runbooks/<HX-N>/01-base-admin-network-updates.sh
-  docs/03-runbooks/<HX-N>/02-domain-nvidia.sh
+  docs/03-runbooks/<HX-N>/02-domain.sh
   docs/03-runbooks/<HX-N>/03-storage-ollama.sh      (inference hosts only)
   docs/03-runbooks/<HX-N>/README.md
   docs/02-server-records/<HX-N>.md
@@ -57,8 +57,9 @@ in `../common/hx-base.env`. See `../README.md` before changing a pin.
 ## Sequence
 
 1. Base/admin/network validation; apt update + upgrade; reboot.
-2. Join `hx.local.arpa`; validate SSSD/domain user; install the pinned NVIDIA
-   driver; reboot.
+2. Join `hx.local.arpa`; validate SSSD/domain user; reboot. The block installs
+   the pinned NVIDIA driver only on hosts listed in `HX_GPU_HOSTS`. The reboot
+   happens either way.
 {step3}{appstep}. Install the {role} application software.
    Application software comes from PyPI, a GitHub release, or a direct binary.
    Not Snap. Not the Ubuntu archive.
@@ -116,7 +117,7 @@ def main() -> int:
     ip, role = row["ip"].strip(), row["role"].strip()
     rb = REPO / "docs/03-runbooks" / upper
 
-    blocks = ["01-base-admin-network-updates", "02-domain-nvidia"]
+    blocks = ["01-base-admin-network-updates", "02-domain"]
     if with_ollama:
         blocks.append("03-storage-ollama")
 
