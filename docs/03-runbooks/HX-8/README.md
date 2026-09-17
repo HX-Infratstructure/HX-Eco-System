@@ -92,7 +92,7 @@ Each of these stops the build rather than reporting a warning.
 
 | Exit | Refuses |
 |---|---|
-| 34 | `/srv/open-webui` is not mounted, or is not writable by the service identity |
+| 34 | `/srv/openwebui` is not mounted, or is not writable by the service identity |
 | 40 | the system `python3` is outside `>=3.11,<3.13` |
 | 30 | the `open-webui` entry point is missing after install |
 | 31 | `open-webui --version` produced nothing usable |
@@ -105,16 +105,16 @@ package, so the version is read back from the binary that will actually run.
 
 ## 6. Storage
 
-`/srv/open-webui` is a dedicated mounted volume, the same shape as HX-6 and
+`/srv/openwebui` is a dedicated mounted volume, the same shape as HX-6 and
 HX-7. Do not format, wipe, repartition or remount it. The block proves the
 mount before anything is created, because everything Open WebUI keeps lives
 under it:
 
 ```text
-/srv/open-webui/venv             the virtual environment
-/srv/open-webui/data             DATA_DIR: webui.db, uploads
-/srv/open-webui/hf               HF_HOME: model cache
-/srv/open-webui/open-webui.env   secrets, root:root 0600
+/srv/openwebui/venv             the virtual environment
+/srv/openwebui/data             DATA_DIR: webui.db, uploads
+/srv/openwebui/hf               HF_HOME: model cache
+/srv/openwebui/open-webui.env   secrets, root:root 0600
 ```
 
 **`DATA_DIR` is not an inert setting.** When it resolves differently from a
@@ -154,7 +154,7 @@ depending on it fails at use rather than at install.
 | Every Foundation row filled | `tools/hx-doc/hx-record-check` passes for HX-8 |
 | External key-only administration | `tools/hx-doc/hx-fleet-access hx-8` returns `hx-8` and `KEY+SUDO-PASS` |
 | Domain join | `realm list` reports `configured: kerberos-member`; domain user resolves |
-| Dedicated storage | `/srv/open-webui` mounted, proven by the block |
+| Dedicated storage | `/srv/openwebui` mounted, proven by the block |
 | Installed version | matches the pin, read back from the binary |
 | Service serving | `hx-open-webui` active and enabled, `/health` answering on the LAN address |
 | Authentication | `WEBUI_AUTH=True`, admin account created, signup closed |
