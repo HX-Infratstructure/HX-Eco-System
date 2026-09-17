@@ -33,10 +33,13 @@ reads `hx-8.hx.local.arpa`.
 
 Proof step `F0` in `docs/00-control/hx-proof.tsv` is satisfied.
 
-**One observation, recorded rather than acted on.** A reverse lookup of
-`192.168.50.208` from the workstation returned nothing on 2026-09-17. Forward
-resolution, the domain join and GSSAPI all work, so this is noted here as a
-fact about the zone rather than as a defect against this host.
+**Reverse DNS is absent fleet-wide, not on this host.** A reverse lookup of
+`192.168.50.208` returned nothing on 2026-09-17, and so did every other address
+checked, including the domain controller's own `192.168.50.200`. No reverse zone
+is served. The domain join and GSSAPI work because they use the SPNs, and all
+four forms are present above. This is recorded as `HX8-F01` in
+[`FINDINGS.md`](../00-control/FINDINGS.md) because it is a property of the
+domain, not a defect against hx-8.
 
 ## 1. Identity and Network
 
@@ -77,7 +80,7 @@ uid=218001148(jarvisr@hx.local.arpa) gid=218000513(domain users@hx.local.arpa) g
 |---|---|
 | Distribution / release | Ubuntu 24.04.5 LTS |
 | Kernel | `7.0.0-31-generic` |
-| Firmware version | UNRESOLVED — not read during this build |
+| Firmware version | HP `P21 Ver. 02.15`, dated `01/31/2018`, read from `/sys/class/dmi/id/` on 2026-09-17 |
 | sudo policy | NOPASSWD for the admin account via `/etc/sudoers.d/90-hx-admin`, parsed OK during the foundation block |
 
 Block 1 finished with `0 updates can be applied immediately` after its reboot.
@@ -169,9 +172,19 @@ Artifact SHA-256:      8436f9bb29c5accbdfd90d78470fcc917c882bd53f72ed88fed91b1ee
 Import method:         package install
 ```
 
-The hash is the one PyPI publishes for that wheel, read from the project JSON
-API on 2026-09-17. It was not recomputed from the installed tree, so it proves
-what the index serves at that URL rather than what pip wrote to disk.
+The hash was verified on 2026-09-17 by fetching that exact URL from the
+workstation and hashing the bytes, rather than by quoting the index:
+
+```text
+bytes:  146072797
+sha256: 8436f9bb29c5accbdfd90d78470fcc917c882bd53f72ed88fed91b1ee97fa547
+```
+
+That digest equals the one PyPI publishes for the wheel. It proves what the URL
+serves. It does not re-prove the copy on hx-8: pip unpacks and discards, and a
+search of the host on 2026-09-17 found no retained wheel to hash. pip verifies
+the index digest during install, so the two agree, but this record states which
+artifact was hashed and where.
 
 No Modelfile, template, parameter or stop-token settings apply here, because no
 model is imported on this host.
