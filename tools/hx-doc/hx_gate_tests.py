@@ -1107,6 +1107,40 @@ rc, out = foundation('hx_require_native_dep', 'better-sqlite3', '1')
 check('native dep: the STOP forbids the skip flag',
       'OMNIROUTE_SKIP_NATIVE_DEP_CHECK' in out, out)
 
+# ------------------------- 10-omniroute.sh: identity on the app tree -------
+# /srv/omniroute/app is mode 750 and omniroute-owned by design, so a filesystem
+# test run as the calling user answers about permission rather than about the
+# tree. That reported .git as absent on a rerun and the block tried to clone
+# into a populated checkout. Five accesses had the same defect.
+def unprivileged_app_reads(text: str) -> list[str]:
+    """Lines that touch the OmniRoute app tree without assuming its identity."""
+    out = []
+    for raw in text.splitlines():
+        line = raw.strip()
+        if line.startswith("#") or not line:
+            continue
+        if "HX_OMNIROUTE_APP_DIR" not in line and "OMNIROUTE_CLI" not in line:
+            continue
+        # Only filesystem access matters; --prefix and string interpolation do not.
+        if not re.search(r"(^|\s)(\[|test|node)\s", line):
+            continue
+        if "sudo -u omniroute" in line:
+            continue
+        out.append(line)
+    return out
+
+_omni = io.open(os.path.join(SRC, "docs", "03-runbooks", "common", "10-omniroute.sh"),
+                encoding="utf-8").read()
+_bad = unprivileged_app_reads(_omni)
+check("omniroute: every app-tree read assumes the omniroute identity",
+      _bad == [], "\n".join(_bad))
+
+# The checker must be able to fail, or it is decoration.
+check("omniroute: the identity check catches an unprivileged read",
+      unprivileged_app_reads('[ -f "$HX_OMNIROUTE_APP_DIR/dist/server.js" ] || exit 1') != [])
+check("omniroute: the identity check accepts a privileged one",
+      unprivileged_app_reads('sudo -u omniroute test -f "$HX_OMNIROUTE_APP_DIR/x"') == [])
+
 # Not ignore_errors: a workspace that cannot be removed is worth saying out
 # loud, but it is not a gate failure, so it does not change the exit status.
 try:
