@@ -1351,7 +1351,12 @@ if _loads_fn:
     check("omniroute: the native-load probe opens and closes an in-memory database",
           ":memory:" in _lf and "db.close()" in _lf, _lf)
 check("omniroute: the native load is gated, not just noted",
-      re.search(r"omniroute_native_loads && _nl=0 \|\| _nl=1", _omni) is not None)
+      re.search(
+          r"omniroute_native_loads && _nl=0 \|\| _nl=1.*"
+          r'hx_require_native_dep\s+"better-sqlite3 native addon"\s+"\$_nl"',
+          _omni,
+          re.S,
+      ) is not None)
 
 # The cwd mechanism itself, not just its shape. The HX-6 false negative was:
 # node run as the service identity with its cwd still inside the caller's
@@ -1375,8 +1380,8 @@ check("cwd: the cd-first probe fails loudly at the cd, not silently",
       _r.returncode != 0 and 'cd:' in _r.stderr, _r.stderr[-300:])
 # The control needs a world-traversable path from the root down: a 0755 leaf
 # under the 0700 mkdtemp parent is still unreachable for nobody.
-_open = '/tmp/hx-gate-open-control'
-os.makedirs(_open, mode=0o755, exist_ok=True)
+_open = tempfile.mkdtemp(prefix='hx-gate-open-', dir='/tmp')
+os.chmod(_open, 0o755)
 _r = subprocess.run(
     ['sudo', '-u', 'nobody', 'node', '-e', 'require.resolve("better-sqlite3")'],
     cwd=_open, capture_output=True, text=True)
