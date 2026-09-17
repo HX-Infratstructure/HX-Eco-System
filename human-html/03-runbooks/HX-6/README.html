@@ -150,6 +150,7 @@ sudo ls -ld /srv/omniroute</code></pre>
 <h3>5.3 Native bind variable must be verified, not guessed</h3>
 <p>Do not carry <code>APP_BIND_HOST=0.0.0.0</code> forward as a native-systemd control. Current upstream uses <code>APP_BIND_HOST</code> for Docker/Compose host publishing, while upstream native/runtime material uses other host variables such as <code>HOSTNAME</code> and development code also references <code>HOST</code>.</p>
 <p>The exact bind variable used by the packaged CLI must be confirmed before the shared HX application block is changed. The final runbook/service should document the variable actually proven on the packaged native runtime.</p>
+<p>This is now enforced rather than requested. <code>HX_OMNIROUTE_BIND_VAR</code> is empty in <code>hx-base.env</code>, and <code>10-omniroute.sh</code> stops with exit 36 before writing a unit. Observe the variable on the pinned package, record it there, and the block uses it. It will not guess, and <code>HOST=0.0.0.0</code> is no longer carried forward.</p>
 <h3>5.4 Application pre-read commands</h3>
 <p>Run these from the repository root so they do not depend on the caller's working directory:</p>
 <pre><code class="lang-bash">cd ~/src/HX-Eco-System
@@ -238,6 +239,12 @@ JWT_SECRET=&lt;generated locally; secret&gt;
 API_KEY_SECRET=&lt;generated locally; secret&gt;
 INITIAL_PASSWORD=&lt;owner/operator supplied; secret&gt;
 OMNIROUTE_WS_BRIDGE_SECRET=&lt;generated locally; secret&gt;</code></pre>
+<p><code>10-omniroute.sh</code> writes all eleven, split by whether the value is a secret.</p>
+<p>The seven non-secret entries become <code>Environment=</code> lines in <code>/etc/systemd/system/hx-omniroute.service</code>, with the bind variable taken from <code>HX_OMNIROUTE_BIND_VAR</code> and refused while that is empty.</p>
+<p>The four secrets do not. <code>/etc/systemd/system</code> is world-readable and <code>systemctl show</code> prints <code>Environment=</code> values, so they go in <code>/srv/omniroute/omniroute.env</code>, owned by <code>omniroute</code> at mode <code>600</code>, referenced by a single <code>EnvironmentFile=</code> line. Three are generated with <code>openssl rand -hex 32</code> on first run and deliberately not regenerated afterwards, because rotating them would invalidate every key and token already issued against them.</p>
+<p><code>INITIAL_PASSWORD</code> is the exception. It is owner-supplied, never generated and never stored in this repository. Export it for the run:</p>
+<pre><code class="lang-bash">export HX_OMNIROUTE_INITIAL_PASSWORD='&lt;owner supplied&gt;'</code></pre>
+<p>The block stops with exit 37 if it is absent.</p>
 <p>The exact runtime semantics of the pinned package must be verified against the packaged runtime immediately before implementation. If upstream behavior contradicts this target, stop and reconcile the shared block and this runbook rather than improvising on HX-6.</p>
 <p>Preferred authenticated client contract:</p>
 <pre><code class="lang-http">Authorization: Bearer &lt;HX-issued OmniRoute endpoint key&gt;</code></pre>

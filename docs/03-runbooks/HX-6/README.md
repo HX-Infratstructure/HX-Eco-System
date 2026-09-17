@@ -213,6 +213,8 @@ Do not carry `APP_BIND_HOST=0.0.0.0` forward as a native-systemd control. Curren
 
 The exact bind variable used by the packaged CLI must be confirmed before the shared HX application block is changed. The final runbook/service should document the variable actually proven on the packaged native runtime.
 
+This is now enforced rather than requested. `HX_OMNIROUTE_BIND_VAR` is empty in `hx-base.env`, and `10-omniroute.sh` stops with exit 36 before writing a unit. Observe the variable on the pinned package, record it there, and the block uses it. It will not guess, and `HOST=0.0.0.0` is no longer carried forward.
+
 ### 5.4 Application pre-read commands
 
 Run these from the repository root so they do not depend on the caller's
@@ -357,6 +359,29 @@ API_KEY_SECRET=<generated locally; secret>
 INITIAL_PASSWORD=<owner/operator supplied; secret>
 OMNIROUTE_WS_BRIDGE_SECRET=<generated locally; secret>
 ```
+
+`10-omniroute.sh` writes all eleven, split by whether the value is a secret.
+
+The seven non-secret entries become `Environment=` lines in
+`/etc/systemd/system/hx-omniroute.service`, with the bind variable taken from
+`HX_OMNIROUTE_BIND_VAR` and refused while that is empty.
+
+The four secrets do not. `/etc/systemd/system` is world-readable and
+`systemctl show` prints `Environment=` values, so they go in
+`/srv/omniroute/omniroute.env`, owned by `omniroute` at mode `600`, referenced
+by a single `EnvironmentFile=` line. Three are generated with
+`openssl rand -hex 32` on first run and deliberately not regenerated
+afterwards, because rotating them would invalidate every key and token already
+issued against them.
+
+`INITIAL_PASSWORD` is the exception. It is owner-supplied, never generated and
+never stored in this repository. Export it for the run:
+
+```bash
+export HX_OMNIROUTE_INITIAL_PASSWORD='<owner supplied>'
+```
+
+The block stops with exit 37 if it is absent.
 
 The exact runtime semantics of the pinned package must be verified against the packaged runtime immediately before implementation. If upstream behavior contradicts this target, stop and reconcile the shared block and this runbook rather than improvising on HX-6.
 

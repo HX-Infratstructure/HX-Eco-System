@@ -70,11 +70,41 @@ if [ "$OMNIROUTE_INSTALLED" != "$HX_OMNIROUTE_VERSION" ]; then
   exit 33
 fi
 
+# The runtime contract is eleven entries, and the block used to write three.
+# Four of them are secrets, so they go in an EnvironmentFile rather than the
+# unit, and one of those is the owner's to supply.
+hx_require_bind_var "$HX_OMNIROUTE_BIND_VAR"
+hx_require_supplied_secret HX_OMNIROUTE_INITIAL_PASSWORD "${HX_OMNIROUTE_INITIAL_PASSWORD:-}"
+
+sudo install -d -o omniroute -g omniroute -m 750 "$HX_OMNIROUTE_DATA_DIR"
+
+# Generated once. Re-generating on a rerun would invalidate every key and token
+# already issued against them, so an existing file is left alone.
+if [ ! -f "$HX_OMNIROUTE_ENV_FILE" ]; then
+  umask 077
+  {
+    printf 'JWT_SECRET=%s\n'                 "$(openssl rand -hex 32)"
+    printf 'API_KEY_SECRET=%s\n'             "$(openssl rand -hex 32)"
+    printf 'OMNIROUTE_WS_BRIDGE_SECRET=%s\n' "$(openssl rand -hex 32)"
+    printf 'INITIAL_PASSWORD=%s\n'           "$HX_OMNIROUTE_INITIAL_PASSWORD"
+  } | sudo tee "$HX_OMNIROUTE_ENV_FILE" >/dev/null
+  echo "Wrote $HX_OMNIROUTE_ENV_FILE (secrets generated once; not re-generated on a rerun)."
+else
+  echo "$HX_OMNIROUTE_ENV_FILE exists; leaving the generated secrets in place."
+fi
+sudo chown omniroute:omniroute "$HX_OMNIROUTE_ENV_FILE"
+sudo chmod 600 "$HX_OMNIROUTE_ENV_FILE"
+
+HX_APP_ENV_FILE="$HX_OMNIROUTE_ENV_FILE"
 hx_app_unit hx-omniroute "HX OmniRoute ${OMNIROUTE_INSTALLED}" omniroute /srv/omniroute \
   "$OMNIROUTE_BIN" \
   "HOME=/srv/omniroute" \
+  "DATA_DIR=${HX_OMNIROUTE_DATA_DIR}" \
   "PORT=${HX_OMNIROUTE_PORT}" \
-  "HOST=0.0.0.0"
+  "${HX_OMNIROUTE_BIND_VAR}=${HX_OMNIROUTE_BIND_ADDR}" \
+  "REQUIRE_API_KEY=true" \
+  "LIVE_WS_HOST=${HX_OMNIROUTE_LIVE_WS_HOST}" \
+  "LIVE_WS_PORT=${HX_OMNIROUTE_LIVE_WS_PORT}"
 
 hx_app_validate hx-omniroute "$HX_OMNIROUTE_PORT" /v1/models
 
