@@ -78,6 +78,49 @@ sudo -u omniroute git -C "$HX_OMNIROUTE_APP_DIR" diff --quiet || {
 # ---------------------------------------------------------------------------
 sudo -u omniroute env HOME=/srv/omniroute npm ci \
   --prefix "$HX_OMNIROUTE_APP_DIR" --no-audit --no-fund
+
+# better-sqlite3 is an optionalDependency whose install script compiles a native
+# addon. npm 11, which ships with Node 24, refuses to run install scripts for
+# optional dependencies unless they are approved: it skips the build, drops the
+# package from the tree, and still exits 0. Nothing in the install output says
+# the package is gone. Upstream documents this in
+# scripts/check/check-native-deps.mjs, and that check is what stops the build.
+#
+# The repair below is upstream's supported one, unchanged. The check is never
+# bypassed and OMNIROUTE_SKIP_NATIVE_DEP_CHECK is never set: the gate is what
+# turned a four-minute module-not-found into a one-second message.
+#
+# Resolution is asked with an explicit paths root rather than from the current
+# directory, so the answer is about the application tree and not about wherever
+# this block happens to be run from.
+omniroute_resolves() {
+  sudo -u omniroute env HOME=/srv/omniroute node \
+    -e "require.resolve('$1', { paths: ['$HX_OMNIROUTE_APP_DIR'] })" >/dev/null 2>&1
+}
+
+OMNIROUTE_NATIVE_REPAIR="not needed"
+if omniroute_resolves better-sqlite3; then
+  echo "better-sqlite3 resolves from $HX_OMNIROUTE_APP_DIR; no repair needed."
+else
+  echo "better-sqlite3 is absent after npm ci; running the upstream repair."
+  sudo -u omniroute env HOME=/srv/omniroute npm install better-sqlite3 \
+    --no-save --foreground-scripts --prefix "$HX_OMNIROUTE_APP_DIR"
+  OMNIROUTE_NATIVE_REPAIR="applied"
+fi
+
+omniroute_resolves better-sqlite3 && _nd=0 || _nd=1
+hx_require_native_dep better-sqlite3 "$_nd"
+
+# --no-save keeps the manifests out of it, and node_modules is gitignored
+# upstream. Prove that rather than trust it: the provenance gate above says this
+# build is the recorded commit, and a repair that edited a manifest would make
+# that untrue without touching the SHA.
+sudo -u omniroute git -C "$HX_OMNIROUTE_APP_DIR" diff --quiet -- package.json package-lock.json || {
+  echo "STOP: the native repair modified package.json or package-lock.json." >&2
+  echo "      The build would no longer be $OMNIROUTE_SHA as recorded." >&2
+  exit 38
+}
+
 sudo -u omniroute env HOME=/srv/omniroute npm run build \
   --prefix "$HX_OMNIROUTE_APP_DIR"
 
@@ -119,6 +162,7 @@ App directory:    ${HX_OMNIROUTE_APP_DIR}
 Node:             $(node --version)
 npm:              $(npm --version)
 Install method:   source build from the release branch, npm ci + npm run build
+Native repair:    ${OMNIROUTE_NATIVE_REPAIR}   (better-sqlite3, upstream remediation)
 =======================================================================
 PROV
 

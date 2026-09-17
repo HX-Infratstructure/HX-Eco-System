@@ -1097,6 +1097,16 @@ check('source pin: a branch name is refused', rc == 38, out)
 rc, out = foundation('hx_require_source_pin', '3d5baf13f41bf0e35c8b1e57f1d5119dbdaaaf3f')
 check('source pin: a resolved commit passes', rc == 0, out)
 
+# npm 11 drops an optionalDependency whose install script it will not run, and
+# exits 0. The repair is upstream's; this refuses to continue when it did not take.
+rc, out = foundation('hx_require_native_dep', 'better-sqlite3', '1')
+check('native dep: an unresolved addon is refused', rc == 39, out)
+rc, out = foundation('hx_require_native_dep', 'better-sqlite3', '0')
+check('native dep: a resolved addon passes', rc == 0, out)
+rc, out = foundation('hx_require_native_dep', 'better-sqlite3', '1')
+check('native dep: the STOP forbids the skip flag',
+      'OMNIROUTE_SKIP_NATIVE_DEP_CHECK' in out, out)
+
 # Not ignore_errors: a workspace that cannot be removed is worth saying out
 # loud, but it is not a gate failure, so it does not change the exit status.
 try:
