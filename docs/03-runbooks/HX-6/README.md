@@ -5,7 +5,7 @@
 **FQDN:** `hx-6.hx.local.arpa`  
 **Role:** OmniRoute AI gateway / routing control plane / MCP-A2A interface  
 **Deployment:** native Ubuntu Linux + systemd; no Docker, Podman, Kubernetes, or Snap  
-**Target OmniRoute release:** `3.8.50` (current published install target, section 5.1)
+**Target OmniRoute release:** `3.8.51`, built from the upstream release branch (section 5.1)
 **Upstream:** `https://github.com/diegosouzapw/OmniRoute.git`  
 **Persistent application root:** `/srv/omniroute`
 
@@ -182,15 +182,36 @@ Do not execute `common/10-omniroute.sh hx-6` until all items in this section are
 
 ### 5.1 Version baseline
 
-The current published OmniRoute baseline for HX-6 is **3.8.50**, pinned by the owner decision of 2026-09-16: HX-6 installs the current published package, not an unpublished or staged upstream release. The authority chain is:
+HX-6 deploys **OmniRoute 3.8.51**, built from the official upstream release
+branch. Owner decision of 2026-09-17.
+
+`3.8.51` is not published to the npm registry. `npm view omniroute@3.8.51`
+returns `E404`, `dist-tags.latest` is `3.8.50`, and the newest publish of any
+version is 2026-08-28. **npm publication is not required for this deployment**,
+and there is no fallback to the published `3.8.50`.
 
 ```text
-hx-base.env -> common/10-omniroute.sh -> installed version verification
+repository  https://github.com/diegosouzapw/OmniRoute
+branch      release/v3.8.51
+commit      3d5baf13f41bf0e35c8b1e57f1d5119dbdaaaf3f
 ```
 
-`hx-base.env` pins `HX_OMNIROUTE_VERSION="3.8.50"`; `../common/10-omniroute.sh` installs exactly that pin and verifies the actually-installed version against it before the unit is written or the block can report success. This runbook documents that state; it does not independently control it.
+The authority chain is:
 
-Upstream may have staged `3.8.51` on a release branch, but that is not the current published install target. Moving the baseline to a newer published release is a deliberate pin change in `hx-base.env` through a reviewed change, followed by re-validation — never an install-time fallback to `latest` or another version.
+```text
+hx-base.env -> common/10-omniroute.sh -> built version verification
+```
+
+`hx-base.env` pins the version, the repository, the branch and the commit.
+`../common/10-omniroute.sh` checks out that commit, refuses a branch tip,
+refuses a dirty tree, builds, and verifies the built CLI reports `3.8.51`
+before the unit is written or the block can report success. This runbook
+documents that state; it does not independently control it.
+
+The branch is how the commit is found. The commit is what is built. A moving
+tip would let two runs of the same block produce different servers under one
+recorded version, which is why the block checks the resolved SHA back after
+checkout and stops on any mismatch.
 
 ### 5.2 Current common OmniRoute block is incomplete for the accepted HX-6 contract
 
@@ -213,25 +234,33 @@ Do not carry `APP_BIND_HOST=0.0.0.0` forward as a native-systemd control. Curren
 
 The exact bind variable used by the packaged CLI must be confirmed before the shared HX application block is changed. The final runbook/service should document the variable actually proven on the packaged native runtime.
 
-**Resolved 2026-09-17, from the published package rather than from source or inference.**
+**Resolved 2026-09-17, from `release/v3.8.51` source at the pinned commit.**
 
-`npm pack omniroute@3.8.50` produces `omniroute-3.8.50.tgz`, sha256
-`738c58af1faae8c57eb643a939d1191f8d7e083d9295ef61687d2bff04878c29`. Its server
-entry, `package/dist/server.js`, binds with:
+`bin/cli/utils/serverHost.mjs`:
 
 ```js
-const hostname = process.env.HOSTNAME || '0.0.0.0'
+export function resolveServerHost(env = process.env, runtimePlatform = platform(), machineHostname = hostname()) {
+  if (env.OMNIROUTE_SERVER_HOST) return env.OMNIROUTE_SERVER_HOST;
+  if (runtimePlatform === "win32" && env.HOSTNAME && env.HOSTNAME !== machineHostname) {
+    return env.HOSTNAME;
+  }
+  return "0.0.0.0";
+}
 ```
 
-The same file reads `APP_BIND_HOST`, `API_HOST` and a bare `HOST` **zero**
-times. `API_HOST` does appear in the shipped `dist/.env.example`, but only under
-split-port mode, where the API and dashboard are served on separate ports; it
-does not set the default bind. `HOST` is what this block used to pass, and
-nothing in 3.8.50 reads it.
+On Linux the only configuration input is `OMNIROUTE_SERVER_HOST`. `HOSTNAME` is
+a Windows-only legacy fallback, and the source says why: it is a standard shell
+variable on Unix-like systems, so only the dedicated OmniRoute variable is
+treated as configuration there. `APP_BIND_HOST` is Docker/Compose host
+publishing and is not the native serve control.
 
-`HX_OMNIROUTE_BIND_VAR="HOSTNAME"` in `hx-base.env`. The gate stays: an empty
-value still stops the block at exit 36, so a future version whose variable
-changes cannot be papered over by a default.
+The published `3.8.50` did read `HOSTNAME` directly, in `dist/server.js`.
+Deploying that pin would have worked and then quietly changed meaning on
+upgrade, which is the concern this section was written for.
+
+`HX_OMNIROUTE_BIND_VAR="OMNIROUTE_SERVER_HOST"` in `hx-base.env`. The gate
+stays: an empty value still stops the block at exit 36, so a future version
+whose variable changes cannot be papered over by a default.
 
 ### 5.4 Application pre-read commands
 
@@ -249,7 +278,7 @@ sed -n '1,260p' docs/03-runbooks/common/10-omniroute.sh
 
 Do not execute if the block would:
 
-- install a version other than the pin in `hx-base.env` (currently `3.8.50`);
+- build a commit other than the pin in `hx-base.env`, or install the published `3.8.50`;
 - use Docker, Podman, Kubernetes or Snap;
 - use `npm run dev` as the permanent service;
 - wipe or replace `/srv/omniroute`;
@@ -271,43 +300,43 @@ command -v node
 command -v npm
 ```
 
-Provenance is an artifact identity, not a version string. For **both** Node.js and the pinned `omniroute` package (currently `3.8.50`), record in the HX-6 server record:
+Provenance is an artifact identity, not a version string.
 
-- the exact source URI the artifact came from; and
-- the full SHA-256 of the artifact actually installed.
+**Node.js** keeps artifact provenance: record its source URI and the full
+SHA-256 of the tarball actually installed. `hx_node_install` fetches a
+checksum-verified binary from nodejs.org. 3.8.51 requires
+`>=22.22.2 <23 || >=24.0.0 <27`; `HX_NODE_VERSION` is inside that range.
 
-If either value cannot be established for an artifact, record `UNRESOLVED` for it. Do not fabricate a hash, and do not treat the npm version alone as provenance. The HX-6 deployment gate cannot be marked PASS or CLOSED while either the Node.js or the OmniRoute provenance is `UNRESOLVED`.
+**OmniRoute does not, because this deployment is source-based.** There is no
+published artifact to hash. **The commit is the provenance.** Registry
+`dist.tarball` and `dist.integrity` do not apply and are not recorded.
 
-Install the exact reviewed npm package:
+Record in the HX-6 server record, section 6:
 
 ```text
-omniroute@3.8.50
+Component:        OmniRoute 3.8.51
+Source URI:       https://github.com/diegosouzapw/OmniRoute
+Branch:           release/v3.8.51
+Source commit:    3d5baf13f41bf0e35c8b1e57f1d5119dbdaaaf3f
+package.json:     3.8.51
+Built CLI:        3.8.51   (node <app>/bin/omniroute.mjs --version)
+App directory:    /srv/omniroute/app
+Node:             as installed
+npm:              as installed
+Install method:   source build from the release branch, npm ci + npm run build
 ```
 
-The deployed service is the packaged runtime, not the source-development path.
+`../common/10-omniroute.sh` prints exactly that block at install time. If a
+value cannot be established, record `UNRESOLVED` for it; do not fabricate one.
 
-A release tag is not publication proof. Before install, prove the pinned package resolves from the approved npm registry — the official `https://registry.npmjs.org/`, passed explicitly so the check does not depend on the caller's npm configuration. `../common/10-omniroute.sh` performs this check and records the requested version, installed version, command path and npm package identity at install time; capture the registry `dist.tarball` and `dist.integrity` for the server record:
+The build is `npm ci` against the committed lockfile, then `npm run build`,
+which produces the standalone bundle at `dist/server.js`. The block stops if
+that file is absent afterwards, because `omniroute serve` would otherwise fall
+back to a path that does not exist here.
 
-```bash
-npm view omniroute@3.8.50 version dist.integrity dist.tarball --registry=https://registry.npmjs.org/
-```
-
-Record the returned `dist.tarball` and `dist.integrity` in the HX-6 server record. Where the deployment binds installation to the exact artifact, fetch the recorded tarball once, verify its integrity and full SHA-256, and install the local file:
-
-```bash
-curl -fL -o /tmp/omniroute-3.8.50.tgz "<recorded dist.tarball URL>"
-EXPECTED_INTEGRITY="$(npm view omniroute@3.8.50 dist.integrity --registry=https://registry.npmjs.org/)"
-# sha512 integrity must match the downloaded tarball; a mismatch is a hard stop.
-tarball_integrity="$(openssl dgst -sha512 -binary /tmp/omniroute-3.8.50.tgz | openssl base64 -A)"
-[ "sha512-$tarball_integrity" = "$EXPECTED_INTEGRITY" ] \
-  || { echo 'FAIL: tarball integrity mismatch'; exit 1; }
-sha256sum /tmp/omniroute-3.8.50.tgz        # record in the server record
-npm install --global /tmp/omniroute-3.8.50.tgz
-```
-
-Apply the same flow to the Node.js artifact: record its source URI, fetch that exact tarball, compute and record its full SHA-256, and install that verified artifact — only then is Node provenance PASS.
-
-If the pinned version does not resolve, deployment remains blocked. Do not fall back to `latest`, a git source, or `npm run dev`, and do not substitute a different version at install time.
+If the pinned commit does not check out, or the built CLI does not report
+`3.8.51`, deployment is blocked. Do not fall back to the published `3.8.50`,
+to a branch tip, to `latest`, or to `npm run dev`.
 
 Required package proof:
 
@@ -672,7 +701,7 @@ HX-6 is not BASE PASS because `systemctl` is green or `/v1/models` returns 200.
 | Existing `/srv/omniroute` storage | PASS; no destructive storage change |
 | Node.js exact supported version | PASS |
 | Node.js provenance (source URI + SHA-256) | PASS; UNRESOLVED blocks closure |
-| OmniRoute exact pinned package (`3.8.50`) | PASS |
+| OmniRoute built from the pinned commit, CLI reports `3.8.51` | PASS |
 | OmniRoute provenance (source URI + SHA-256) | PASS; UNRESOLVED blocks closure |
 | Native `hx-omniroute.service` | PASS |
 | Persistent `DATA_DIR` under `/srv/omniroute` | PASS |

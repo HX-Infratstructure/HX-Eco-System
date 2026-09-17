@@ -1089,6 +1089,14 @@ check('omniroute: a missing owner secret is refused', rc == 37, out)
 rc, out = foundation('hx_require_supplied_secret', 'HX_OMNIROUTE_INITIAL_PASSWORD', 'x')
 check('omniroute: a supplied owner secret passes', rc == 0, out)
 
+# A branch tip is not a pin: HX-6 builds a recorded commit, not release/v3.8.51.
+rc, out = foundation('hx_require_source_pin', '')
+check('source pin: an empty commit is refused', rc == 38, out)
+rc, out = foundation('hx_require_source_pin', 'release/v3.8.51')
+check('source pin: a branch name is refused', rc == 38, out)
+rc, out = foundation('hx_require_source_pin', '3d5baf13f41bf0e35c8b1e57f1d5119dbdaaaf3f')
+check('source pin: a resolved commit passes', rc == 0, out)
+
 # Not ignore_errors: a workspace that cannot be removed is worth saying out
 # loud, but it is not a gate failure, so it does not change the exit status.
 try:
