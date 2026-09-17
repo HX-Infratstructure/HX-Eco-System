@@ -95,13 +95,15 @@ Each of these stops the build rather than reporting a warning.
 | 34 | `/srv/openwebui` is not mounted, or is not writable by the service identity |
 | 40 | the system `python3` is outside `>=3.11,<3.13` |
 | 30 | the `open-webui` entry point is missing after install |
-| 31 | `open-webui --version` produced nothing usable |
+| 31 | the installed distribution metadata gave no usable version |
 | 33 | the installed version is not the pin |
 | 32 | the service never answered on its port |
 
 Exit 33 exists because an installer's exit code is not proof of what landed.
 HX-6 lost a build day to npm reporting success while silently dropping a
-package, so the version is read back from the binary that will actually run.
+package, so the version is read back from the distribution metadata, through
+the venv interpreter the unit executes. The CLI is not asked: `open-webui`
+accepts no `--version` and exits 2 on it, observed on hx-8 against 0.11.3.
 
 ## 6. Storage
 
@@ -155,7 +157,7 @@ depending on it fails at use rather than at install.
 | External key-only administration | `tools/hx-doc/hx-fleet-access hx-8` returns `hx-8` and `KEY+SUDO-PASS` |
 | Domain join | `realm list` reports `configured: kerberos-member`; domain user resolves |
 | Dedicated storage | `/srv/openwebui` mounted, proven by the block |
-| Installed version | matches the pin, read back from the binary |
+| Installed version | matches the pin, read back from distribution metadata |
 | Service serving | `hx-open-webui` active and enabled, `/health` answering on the LAN address |
 | Authentication | `WEBUI_AUTH=True`, admin account created, signup closed |
 | Provenance recorded | section 6 of the record carries version, source, extras and Python |

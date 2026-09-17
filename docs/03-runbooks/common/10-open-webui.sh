@@ -56,10 +56,17 @@ OPEN_WEBUI_BIN=/srv/openwebui/venv/bin/open-webui
 # An installer's exit code is not proof of what landed. HX-6 spent a build day
 # on npm reporting success while silently dropping a package, so the version is
 # read back from the thing that will actually run.
-OPEN_WEBUI_INSTALLED="$(sudo -u openwebui "$OPEN_WEBUI_BIN" --version 2>/dev/null | tr -cd '0-9.' || true)"
+#
+# Not from the CLI. `open-webui --version` does not exist: the entry point takes
+# only --install-completion, --show-completion and --help, and exits 2 on
+# anything else. Observed on hx-8 against 0.11.3. The distribution metadata is
+# read through the venv interpreter instead, which is the same interpreter the
+# unit executes, so this answers about the installed package rather than about
+# whichever pip happens to be on PATH.
+OPEN_WEBUI_INSTALLED="$(sudo -u openwebui /srv/openwebui/venv/bin/python -c   'import importlib.metadata as m; print(m.version("open-webui"))' 2>/dev/null | tr -cd '0-9.' || true)"
 case "$OPEN_WEBUI_INSTALLED" in
   [0-9]*) ;;
-  *) echo "STOP: open-webui --version produced no usable version (got '${OPEN_WEBUI_INSTALLED}')" >&2; exit 31 ;;
+  *) echo "STOP: open-webui distribution metadata gave no usable version (got '${OPEN_WEBUI_INSTALLED}')" >&2; exit 31 ;;
 esac
 if [ "$OPEN_WEBUI_INSTALLED" != "$HX_OPEN_WEBUI_VERSION" ]; then
   echo "STOP: installed open-webui ${OPEN_WEBUI_INSTALLED} != pinned ${HX_OPEN_WEBUI_VERSION}" >&2
