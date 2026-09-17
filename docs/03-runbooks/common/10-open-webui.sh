@@ -89,19 +89,16 @@ PROV
 # Authentication stays ON. Upstream's default is WEBUI_AUTH=True, and this
 # block used to override it to False. On a LAN-facing UI wired to a proven
 # Ollama endpoint for the D-008 proof, that leaves the inference plane open to
-# anything that can reach the port. The first account created becomes admin.
+# anything that can reach the port. The first account is created manually and
+# becomes admin; no bootstrap credentials are persisted by this block.
 # ---------------------------------------------------------------------------
-hx_require_supplied_secret HX_OPEN_WEBUI_ADMIN_PASSWORD "${HX_OPEN_WEBUI_ADMIN_PASSWORD:-}"
-
 # WEBUI_SECRET_KEY signs sessions. Left unset, the CLI generates one into its
 # working directory and nothing manages it; losing or moving that file
 # invalidates every session silently. Generated once here, kept out of the unit.
 if [ ! -f "$HX_OPEN_WEBUI_ENV_FILE" ]; then
   umask 077
-  {
-    printf 'WEBUI_SECRET_KEY=%s\n'   "$(openssl rand -hex 32)"
-    printf 'ADMIN_PASSWORD=%s\n'     "$HX_OPEN_WEBUI_ADMIN_PASSWORD"
-  } | sudo tee "$HX_OPEN_WEBUI_ENV_FILE" >/dev/null
+  printf 'WEBUI_SECRET_KEY=%s\n' "$(openssl rand -hex 32)" \
+    | sudo tee "$HX_OPEN_WEBUI_ENV_FILE" >/dev/null
   echo "Wrote $HX_OPEN_WEBUI_ENV_FILE (secret generated once; not re-generated on a rerun)."
 else
   echo "$HX_OPEN_WEBUI_ENV_FILE exists; leaving the generated secret in place."

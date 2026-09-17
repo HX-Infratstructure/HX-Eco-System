@@ -56,14 +56,11 @@ Run from this directory. Each block refuses to run on any host other than
 ../common/10-open-webui.sh hx-8
 ```
 
-Before the last step, export the owner-supplied admin password for that run:
-
-```bash
-export HX_OPEN_WEBUI_ADMIN_PASSWORD='<owner supplied>'
-```
-
-It is never generated, never defaulted, and never stored in this repository.
-The block stops with exit 37 without it.
+The block does not accept or persist an administrator email or password. After
+the service starts, open its LAN URL and create the first account manually; the
+first account becomes the administrator. Its credentials are supplied through
+the Open WebUI registration form and are never stored in this repository or
+the systemd environment file.
 
 ## 4. Sequence
 
@@ -80,8 +77,9 @@ The block stops with exit 37 without it.
 
 4. **Open WebUI.** `../common/10-open-webui.sh hx-8` proves the dedicated
    volume, asserts the Python range, installs the pinned wheel into a venv,
-   reads the installed version back, writes the secret file and the unit, and
-   proves the service answers.
+   reads the installed version back, writes the session-secret file and the
+   unit, and proves the service answers. Create the first account manually in
+   the UI after the service starts.
 
 5. **Proof.** Run [`open-webui-smoke-test.md`](../../../smoke-tests/open-webui-smoke-test.md)
    for proof step `G1` and D-008. Remove the temporary connection afterwards.
@@ -99,7 +97,6 @@ Each of these stops the build rather than reporting a warning.
 | 30 | the `open-webui` entry point is missing after install |
 | 31 | `open-webui --version` produced nothing usable |
 | 33 | the installed version is not the pin |
-| 37 | the owner-supplied admin password was not exported |
 | 32 | the service never answered on its port |
 
 Exit 33 exists because an installer's exit code is not proof of what landed.
@@ -135,6 +132,9 @@ Ollama endpoint. The exposure there is the inference plane, not a web page.
 deliberately. The first account created becomes the administrator. Until then
 nobody can sign in, which is the point: the window in which the UI is open is
 one that somebody chooses.
+
+The block does not bootstrap an owner account or persist account credentials.
+Create the first account manually through the Open WebUI registration form.
 
 **Extras are opt-in and currently empty.** `open-webui[all]` adds thirteen
 packages, among them Azure Search, Pinecone, Oracle and Elasticsearch clients,
