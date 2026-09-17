@@ -1440,7 +1440,7 @@ pull request and had not merged when this was written.
 
 ## HX7-F01 — the OpenWiki guard is written down, is in place, and could never have worked
 
-**Status:** OPEN / ROOT CAUSE ESTABLISHED
+**Status:** CLOSED
 **Severity:** Medium
 **Scope:** Repository automation; the repository is public
 **Discovered on:** Operator workstation
@@ -1584,17 +1584,31 @@ from it. Patching the vendored package would be lost on the next install, and a
 second file guard would treat the symptom that `WITHDRAWN_PATHS` already
 catches.
 
+### Resolution
+
+Both actions are done, on 2026-09-17.
+
+D-030 records that `openwiki init` is not run in this repository and that
+update mode is the only mode used. That is the control, because the write
+happens in setup and only setup writes it.
+
+`origin/docs/tooling-home` is deleted. It was merged under PR #15 and still
+carried the older workflow, which wired `OPENWIKI_PR_TOKEN` and
+`ANTHROPIC_API_KEY`. The commit remains reachable through the merge on `main`,
+so nothing is lost.
+
+The comment in `.openwikiignore` was corrected. It stated that the exclusion
+was what kept the workflow deleted, which was the belief this finding
+disproved, and a stale comment is how that belief would have been rebuilt.
+
 ### Disposition
 
-OPEN. Two actions remain, in this order:
+CLOSED on the root cause. `WITHDRAWN_PATHS` is unchanged: it is the backstop,
+it fired, and nothing here asked it to change.
 
-1. Record in `docs/00-control/DECISIONS.md`, alongside D-025, that `openwiki
-   init` is not run in this repository. Update mode only.
-2. Delete `origin/docs/tooling-home`. It is merged and still publishes the
-   secret wiring.
-
-`WITHDRAWN_PATHS` stays exactly as it is. It is the backstop, it fired, and
-nothing about this finding asks it to change.
+Rotating `OPENWIKI_PR_TOKEN` and `ANTHROPIC_API_KEY` is not part of this. It
+sits on the backlog under HX5-F06 by owner decision and is unaffected by the
+root cause being understood.
 
 ## HX7-F02 — eight proof steps cannot run, because all of them wait on HX-5
 

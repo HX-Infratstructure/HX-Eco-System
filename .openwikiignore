@@ -15,7 +15,12 @@ graft/**
 # Harness configuration, not repository content.
 .claude/**
 
-# Repository automation. D-025 withdrew scheduled OpenWiki generation and
-# deleted .github/workflows/openwiki-update.yml. The scaffold writes that file
-# again unless this tree is excluded, so the exclusion is the guard. HX5-F06.
+# Repository automation. Excluded so the documentation agent does not describe
+# or edit CI configuration.
+#
+# This exclusion is NOT what keeps .github/workflows/openwiki-update.yml
+# deleted, and an earlier comment here claimed that it was. This file governs
+# the documentation agent's own reads and writes. The workflow is written by
+# OpenWiki's setup path, which never consults it, and only by `openwiki init`.
+# D-030 is the control: init is not run here. HX7-F01 has the evidence.
 .github/**

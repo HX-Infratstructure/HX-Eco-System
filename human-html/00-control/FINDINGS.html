@@ -630,7 +630,7 @@ HOST/hx-1.hx.local.arpa              RestrictedKrbHost/hx-1.hx.local.arpa
 <p>CLOSED on evidence, not by moving the state. HX-1 stays <code>PASS / CLOSED</code> in both the record and <code>hx-fleet.tsv</code>, which keeps runtime state, repository state and evidence state separate instead of letting a documentation gap read as an operational failure.</p>
 <p>Related: proof step <code>F0</code> is <code>NOT_RUN</code> on this branch. It is set to PASS by the change that wires the foundation into the proof chain, which is a separate pull request and had not merged when this was written.</p>
 <h2>HX7-F01 — the OpenWiki guard is written down, is in place, and could never have worked</h2>
-<p><strong>Status:</strong> OPEN / ROOT CAUSE ESTABLISHED <strong>Severity:</strong> Medium <strong>Scope:</strong> Repository automation; the repository is public <strong>Discovered on:</strong> Operator workstation <strong>Discovered during:</strong> 2026-09-17 HX-7 closure, running the gates</p>
+<p><strong>Status:</strong> CLOSED <strong>Severity:</strong> Medium <strong>Scope:</strong> Repository automation; the repository is public <strong>Discovered on:</strong> Operator workstation <strong>Discovered during:</strong> 2026-09-17 HX-7 closure, running the gates</p>
 <h3>Finding</h3>
 <p>HX5-F06 records a resolution: <code>.openwikiignore</code> excludes <code>.github/**</code> so the scaffold cannot write the withdrawn workflow, and <code>hx_doc_check.py</code> carries <code>WITHDRAWN_PATHS</code> so a restored file fails CI.</p>
 <p>Both are in place. The exclusion even names the finding it exists to serve:</p>
@@ -693,17 +693,14 @@ targetGitHead  e1f5bad</code></pre>
 <h3>The fix is not another guard</h3>
 <p><code>openwiki init</code> is a setup command and installing the scheduled workflow is what setup does. The tool is behaving as designed, in a repository whose owner withdrew that design. Update mode passes <code>createWorkflow: false</code> and never touches the path.</p>
 <p>So the root-cause fix is to stop running <code>init</code> here, not to defend the path from it. Patching the vendored package would be lost on the next install, and a second file guard would treat the symptom that <code>WITHDRAWN_PATHS</code> already catches.</p>
+<h3>Resolution</h3>
+<p>Both actions are done, on 2026-09-17.</p>
+<p>D-030 records that <code>openwiki init</code> is not run in this repository and that update mode is the only mode used. That is the control, because the write happens in setup and only setup writes it.</p>
+<p><code>origin/docs/tooling-home</code> is deleted. It was merged under PR #15 and still carried the older workflow, which wired <code>OPENWIKI_PR_TOKEN</code> and <code>ANTHROPIC_API_KEY</code>. The commit remains reachable through the merge on <code>main</code>, so nothing is lost.</p>
+<p>The comment in <code>.openwikiignore</code> was corrected. It stated that the exclusion was what kept the workflow deleted, which was the belief this finding disproved, and a stale comment is how that belief would have been rebuilt.</p>
 <h3>Disposition</h3>
-<p>OPEN. Two actions remain, in this order:</p>
-<ol>
-<li>Record in <code>docs/00-control/DECISIONS.md</code>, alongside D-025, that `openwiki</li>
-</ol>
-<p>init` is not run in this repository. Update mode only.</p>
-<ol>
-<li>Delete <code>origin/docs/tooling-home</code>. It is merged and still publishes the</li>
-</ol>
-<p>secret wiring.</p>
-<p><code>WITHDRAWN_PATHS</code> stays exactly as it is. It is the backstop, it fired, and nothing about this finding asks it to change.</p>
+<p>CLOSED on the root cause. <code>WITHDRAWN_PATHS</code> is unchanged: it is the backstop, it fired, and nothing here asked it to change.</p>
+<p>Rotating <code>OPENWIKI_PR_TOKEN</code> and <code>ANTHROPIC_API_KEY</code> is not part of this. It sits on the backlog under HX5-F06 by owner decision and is unaffected by the root cause being understood.</p>
 <h2>HX7-F02 — eight proof steps cannot run, because all of them wait on HX-5</h2>
 <p><strong>Status:</strong> OPEN <strong>Severity:</strong> Medium <strong>Scope:</strong> Fleet-wide; the proof chain <strong>Discovered on:</strong> HX-7 <strong>Discovered during:</strong> 2026-09-17 HX-7 closure</p>
 <h3>Finding</h3>
