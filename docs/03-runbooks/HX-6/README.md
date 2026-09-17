@@ -27,7 +27,7 @@ Current HX decisions that apply directly to OmniRoute:
 - **D-019:** HX-6 uses the Diego Souza OmniRoute project, installed from the pinned npm package on Node.js from the official Node binary distribution.
 - **D-021:** Snap is never a package source.
 
-The current foundation scripts on `main` also implement newer fleet controls discovered during the Layer 0/1 audit. Some of those scripts cite D-026 through D-029 even though those entries are not yet present in `docs/00-control/DECISIONS.md`. This HX-6 runbook therefore inherits the **implemented common behavior** but does not create new decision authority by repeating those decision numbers here.
+The current foundation scripts on `main` also implement newer fleet controls discovered during the Layer 0/1 audit. Those scripts cite D-026 through D-029, which were ratified on 2026-09-16 and were recorded in `docs/00-control/DECISIONS.md` on 2026-09-17, having been implemented before they were written down. This HX-6 runbook inherits the **implemented common behavior** and takes its authority from those entries rather than restating them here.
 
 Owner direction for HX-6:
 
