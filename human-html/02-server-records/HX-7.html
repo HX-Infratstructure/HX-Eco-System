@@ -64,7 +64,12 @@ uid=218001148(jarvisr@hx.local.arpa) gid=218000513(domain users@hx.local.arpa) g
 <p><strong>Domain join gate: PASS</strong></p>
 <h2>2. Operating System</h2>
 <div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Distribution / release</td><td>Ubuntu 24.04.5 LTS</td></tr><tr><td>Kernel</td><td><code>6.8.0-139-generic</code></td></tr><tr><td>Firmware version</td><td><code>UNRESOLVED</code> — no firmware change was made during this build</td></tr><tr><td>sudo policy</td><td><code>hxsa ALL=(ALL:ALL) NOPASSWD: ALL</code> in <code>/etc/sudoers.d/90-hx-admin</code></td></tr></tbody></table></div>
-<p><code>apt update</code> and <code>apt upgrade</code> ran in Block 1. After the final reboot, <code>0 updates can be applied immediately</code>.</p>
+<p><code>apt update</code> and <code>apt upgrade</code> ran in Block 1. Four packages remain upgradable as of 2026-09-17, all one source package held back by Ubuntu's phased rollout:</p>
+<pre><code class="lang-text">libnetplan1        1.1.2-8ubuntu1~24.04.1 -&gt; ~24.04.3
+netplan-generator  1.1.2-8ubuntu1~24.04.1 -&gt; ~24.04.3
+netplan.io         1.1.2-8ubuntu1~24.04.1 -&gt; ~24.04.3
+python3-netplan    1.1.2-8ubuntu1~24.04.1 -&gt; ~24.04.3</code></pre>
+<p>They are phased, not held by this build, and no <code>apt-mark hold</code> is set on this host. D-026 makes network configuration something this process validates and never writes, so a netplan upgrade is a deliberate act rather than something a block should take on its own.</p>
 <h2>3. GPU Configuration</h2>
 <p><strong>HX-7 has no GPU.</strong> No driver was installed and none is expected.</p>
 <pre><code class="lang-text">$ dpkg -l 'nvidia-driver-*' 'nvidia-dkms-*' 'nvidia-kernel-*' | grep '^ii'
@@ -145,7 +150,31 @@ $ chronyc sources | grep '\^\*'
 $ curl -fsS -o /dev/null -w '%{http_code}\n' http://192.168.50.207/
 200</code></pre>
 <p>Serving, enabled, dedicated volume still mounted, and still tracking HX-1.</p>
-<p>That reboot proved the first binary. The rebuild at 01:27 UTC replaced the binary but not the unit, which is byte-identical and still enabled, and the service was verified active and answering on the LAN afterwards. The host has not been rebooted again since the rebuild, so this row is evidence for the unit and the mount rather than for the current artifact.</p>
+<p>That reboot proved the first binary. The rebuild at 01:27 UTC replaced it, so the host was rebooted a second time and re-checked without intervention.</p>
+<pre><code class="lang-text">$ uptime -s
+2026-09-17 01:39:07
+
+$ sudo sha256sum /proc/$(cat /run/nginx.pid)/exe
+1aaea115232e297901414a82033992a52d0217bfce258382718ac7815aeaa151
+
+$ nginx -V 2&gt;&amp;1 | grep -o -- '--with-[a-z_0-9]*'
+--with-compat --with-http_ssl_module --with-http_v2_module
+--with-http_realip_module --with-http_stub_status_module --with-http_sub_module
+
+$ systemctl is-active hx-nginx
+active
+$ systemctl is-enabled hx-nginx
+enabled
+
+$ findmnt -no SOURCE,TARGET,FSTYPE /srv/nginx
+/dev/nvme0n1p3 /srv/nginx ext4
+
+$ chronyc sources | grep '\^\*'
+^* 192.168.50.200                3   6    37    31  -2878ns[  +26us] +/-   76ms
+
+$ curl -fsS -o /dev/null -w '%{http_code}\n' http://192.168.50.207/
+200</code></pre>
+<p>The digest read from <code>/proc</code> after the reboot is the rebuilt binary, so this row is evidence for the artifact the record names, not only for the unit.</p>
 <h3>Known failed units</h3>
 <pre><code class="lang-text">$ systemctl --failed
 ● sssd-nss.socket      loaded failed failed SSSD NSS Service responder socket
@@ -159,7 +188,7 @@ $ curl -fsS -o /dev/null -w '%{http_code}\n' http://192.168.50.207/
 <h3>Deferred: proof step C4</h3>
 <p><code>C4</code> requires one temporary private-IP HTTP upstream hosted on HX-5, and HX-5 is not available for this purpose. The step stays <code>NOT_RUN</code> in <code>docs/00-control/hx-proof.tsv</code> and the gate on this record is <code>C4_DEFERRED</code> rather than <code>CLOSED</code>, so the obligation stays visible instead of being quietly dropped.</p>
 <h2>8. Final State</h2>
-<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td>PASS</td></tr><tr><td>Domain join / SSSD</td><td>PASS</td></tr><tr><td>GPU driver and visibility</td><td>N/A — no GPU fitted</td></tr><tr><td>Dedicated storage</td><td>PASS</td></tr><tr><td>Runtime version</td><td>PASS — <code>nginx/1.30.4</code></td></tr><tr><td>Service active / enabled</td><td>PASS</td></tr><tr><td>Model / application loaded</td><td>PASS — both digests recorded</td></tr><tr><td>Known-answer functional proof</td><td>DEFERRED — proof step <code>C4</code></td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td>PASS</td></tr><tr><td>Domain join / SSSD</td><td>PASS</td></tr><tr><td>GPU driver and visibility</td><td>N/A — no GPU fitted</td></tr><tr><td>Dedicated storage</td><td>PASS</td></tr><tr><td>Runtime version</td><td>PASS — <code>nginx/1.30.4</code></td></tr><tr><td>Service active / enabled</td><td>PASS</td></tr><tr><td>Model / application loaded</td><td>PASS — both digests recorded</td></tr><tr><td>Known-answer functional proof</td><td>DEFERRED — proof step <code>C4</code></td></tr><tr><td>Reboot persistence</td><td>PASS — twice, the second against the current binary</td></tr></tbody></table></div>
 <h2>9. Evidence References</h2>
 <p>Evidence model 2 applies, and no bundle is retained yet. The only smoke test assigned to HX-7 is <code>smoke-tests/nginx-smoke-test.md</code>, run as proof step <code>C4</code>, and that step is deferred for the reason in section 7. A retained bundle under <code>docs/05-evidence/hx-7/nginx/&lt;run-id&gt;/</code> follows when <code>C4</code> runs.</p>
 <p>Until then the proof is inline in section 7, with the exact commands and the exact responses.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-7.md</code>.</footer></div></body></html>

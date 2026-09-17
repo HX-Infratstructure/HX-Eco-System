@@ -74,8 +74,20 @@ HX-1 directly instead.
 | Firmware version | `UNRESOLVED` — no firmware change was made during this build |
 | sudo policy | `hxsa ALL=(ALL:ALL) NOPASSWD: ALL` in `/etc/sudoers.d/90-hx-admin` |
 
-`apt update` and `apt upgrade` ran in Block 1. After the final reboot,
-`0 updates can be applied immediately`.
+`apt update` and `apt upgrade` ran in Block 1. Four packages remain upgradable
+as of 2026-09-17, all one source package held back by Ubuntu's phased rollout:
+
+```text
+libnetplan1        1.1.2-8ubuntu1~24.04.1 -> ~24.04.3
+netplan-generator  1.1.2-8ubuntu1~24.04.1 -> ~24.04.3
+netplan.io         1.1.2-8ubuntu1~24.04.1 -> ~24.04.3
+python3-netplan    1.1.2-8ubuntu1~24.04.1 -> ~24.04.3
+```
+
+They are phased, not held by this build, and no `apt-mark hold` is set on this
+host. D-026 makes network configuration something this process validates and
+never writes, so a netplan upgrade is a deliberate act rather than something a
+block should take on its own.
 
 ## 3. GPU Configuration
 
@@ -256,11 +268,37 @@ $ curl -fsS -o /dev/null -w '%{http_code}\n' http://192.168.50.207/
 
 Serving, enabled, dedicated volume still mounted, and still tracking HX-1.
 
-That reboot proved the first binary. The rebuild at 01:27 UTC replaced the
-binary but not the unit, which is byte-identical and still enabled, and the
-service was verified active and answering on the LAN afterwards. The host has
-not been rebooted again since the rebuild, so this row is evidence for the unit
-and the mount rather than for the current artifact.
+That reboot proved the first binary. The rebuild at 01:27 UTC replaced it, so
+the host was rebooted a second time and re-checked without intervention.
+
+```text
+$ uptime -s
+2026-09-17 01:39:07
+
+$ sudo sha256sum /proc/$(cat /run/nginx.pid)/exe
+1aaea115232e297901414a82033992a52d0217bfce258382718ac7815aeaa151
+
+$ nginx -V 2>&1 | grep -o -- '--with-[a-z_0-9]*'
+--with-compat --with-http_ssl_module --with-http_v2_module
+--with-http_realip_module --with-http_stub_status_module --with-http_sub_module
+
+$ systemctl is-active hx-nginx
+active
+$ systemctl is-enabled hx-nginx
+enabled
+
+$ findmnt -no SOURCE,TARGET,FSTYPE /srv/nginx
+/dev/nvme0n1p3 /srv/nginx ext4
+
+$ chronyc sources | grep '\^\*'
+^* 192.168.50.200                3   6    37    31  -2878ns[  +26us] +/-   76ms
+
+$ curl -fsS -o /dev/null -w '%{http_code}\n' http://192.168.50.207/
+200
+```
+
+The digest read from `/proc` after the reboot is the rebuilt binary, so this
+row is evidence for the artifact the record names, not only for the unit.
 
 ### Known failed units
 
@@ -311,7 +349,7 @@ dropped.
 | Service active / enabled | PASS |
 | Model / application loaded | PASS — both digests recorded |
 | Known-answer functional proof | DEFERRED — proof step `C4` |
-| Reboot persistence | PASS |
+| Reboot persistence | PASS — twice, the second against the current binary |
 
 ## 9. Evidence References
 
