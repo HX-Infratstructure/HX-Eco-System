@@ -1367,8 +1367,13 @@ if _loads_fn:
           re.search(r'require\("better-sqlite3"\)\(":memory:"\)', _lf_js) is not None,
           _lf_js)
     check("omniroute: the native-load probe closes the database after opening it",
-          re.search(r'require\("better-sqlite3"\)\(":memory:"\).*db\.close\(\)',
-                    _lf_js, re.S) is not None, _lf_js)
+          re.search(
+              r'const\s+(?P<db>[A-Za-z_$][A-Za-z0-9_$]*)\s*=\s*'
+              r'require\("better-sqlite3"\)\(":memory:"\)\s*;'
+              r'.*(?P=db)\.close\(\)',
+              _lf_js,
+              re.S,
+          ) is not None, _lf_js)
 check("omniroute: the native load is gated, not just noted",
       re.search(
           r"omniroute_native_loads && _nl=0 \|\| _nl=1.*"
