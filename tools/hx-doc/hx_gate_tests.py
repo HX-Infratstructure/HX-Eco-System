@@ -1348,8 +1348,14 @@ if _loads_fn:
           "sudo -u omniroute bash -lc" in _lf, _lf)
     check("omniroute: the native-load probe cds into the app tree before node",
           re.search(r"cd '\$HX_OMNIROUTE_APP_DIR'.*node -e", _lf, re.S) is not None, _lf)
+    # The runbook writes the JS inside a double-quoted shell string, so its
+    # quotes are escaped. Unescape them before matching, then require the
+    # whole chain: load better-sqlite3, open :memory:, close the database.
+    _lf_js = _lf.replace('\\"', '"')
+    check("omniroute: the native-load probe loads better-sqlite3",
+          'require("better-sqlite3")' in _lf_js, _lf_js)
     check("omniroute: the native-load probe opens and closes an in-memory database",
-          ":memory:" in _lf and "db.close()" in _lf, _lf)
+          '":memory:"' in _lf_js and "db.close()" in _lf_js, _lf_js)
 check("omniroute: the native load is gated, not just noted",
       re.search(
           r"omniroute_native_loads && _nl=0 \|\| _nl=1.*"
@@ -1389,7 +1395,10 @@ check("cwd: a traversable cwd gives the honest module-not-found",
       _r.returncode != 0 and "Cannot find module 'better-sqlite3'" in _r.stderr,
       _r.stderr[-300:])
 os.chmod(_open, 0o700)
-shutil.rmtree(_open, ignore_errors=True)
+try:
+    shutil.rmtree(_open)
+except OSError as exc:
+    print(f"warning: could not remove {_open}: {exc}")
 
 # Not ignore_errors: a workspace that cannot be removed is worth saying out
 # loud, but it is not a gate failure, so it does not change the exit status.
