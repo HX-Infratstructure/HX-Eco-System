@@ -22,6 +22,19 @@ hx_fetch_verified "$URL" "$tmp/nginx.tar.gz" "${HX_NGINX_SHA256:-}"
 tar -xzf "$tmp/nginx.tar.gz" -C "$tmp"
 (
   cd "$tmp/nginx-${HX_NGINX_VERSION}"
+  # nginx compiles about thirty modules by default, including proxy, rewrite,
+  # gzip and the upstream balancers, so the dev-proxy job needs nothing added
+  # for it. These six are the default-off ones worth having here.
+  #
+  # compat is the structural one: without it nginx refuses to load any
+  # third-party dynamic module, and adding one later means another build
+  # rather than a configuration change.
+  #
+  # The rest are what a rendering proxy reaches for first. realip so the app
+  # behind nginx sees the client address instead of nginx's. stub_status
+  # because there is otherwise no way to read nginx's own counters. sub to
+  # rewrite strings in a response body, which is how a development app that
+  # emits absolute URLs is made to work through a proxy.
   ./configure \
     --prefix=/srv/nginx \
     --sbin-path=/usr/local/sbin/nginx \
@@ -29,8 +42,12 @@ tar -xzf "$tmp/nginx.tar.gz" -C "$tmp"
     --pid-path=/run/nginx.pid \
     --error-log-path=/srv/nginx/logs/error.log \
     --http-log-path=/srv/nginx/logs/access.log \
+    --with-compat \
     --with-http_ssl_module \
-    --with-http_v2_module
+    --with-http_v2_module \
+    --with-http_realip_module \
+    --with-http_stub_status_module \
+    --with-http_sub_module
   make -j"$(nproc)"
   sudo make install
 )
@@ -63,6 +80,13 @@ UNIT
 
 sudo systemctl daemon-reload
 sudo systemctl enable --now hx-nginx
+
+# `enable --now` starts a stopped unit and does nothing to a running one, so on
+# a rerun the previous binary keeps serving and the build that just replaced it
+# never takes effect. hx_app_validate would then pass against the old binary.
+# This is the chrony defect from 00-foundation.sh in another place.
+sudo systemctl restart hx-nginx
+
 hx_app_validate hx-nginx 80
 
 # The tarball was verified against its pin before the build, and the binary is

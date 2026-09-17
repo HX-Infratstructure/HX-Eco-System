@@ -142,6 +142,7 @@ volume rather than on `/`.
 | Binary | `/usr/local/sbin/nginx` |
 | Configuration | `/srv/nginx/nginx.conf`, with `include /srv/nginx/conf.d/*.conf` |
 | Listener | `0.0.0.0:80` |
+| Optional modules | `compat`, `http_ssl`, `http_v2`, `http_realip`, `http_stub_status`, `http_sub` |
 
 ```text
 $ ss -ltn | grep :80
@@ -149,6 +150,12 @@ LISTEN 0      511          0.0.0.0:80        0.0.0.0:*
 ```
 
 Not Snap and not the Ubuntu archive, per D-021.
+
+nginx compiles about thirty modules by default, including `proxy`, `rewrite`,
+`gzip` and the upstream balancers, so the proxy role needs nothing added for
+it. The six above are default-off. `compat` is the structural one: without it
+nginx refuses to load any third-party dynamic module, and adding one later
+would mean another build rather than a configuration change.
 
 ## 6. Model / Application Provenance
 
@@ -165,13 +172,31 @@ binary that build produced:
 
 ```text
 Binary path:      /usr/local/sbin/nginx
-Binary SHA-256:   b595c64fdd20355703b79da693c234166f18069a46b40697d89a0ad28e302fb7
+Binary SHA-256:   1aaea115232e297901414a82033992a52d0217bfce258382718ac7815aeaa151
 Build arguments:  --prefix=/srv/nginx --sbin-path=/usr/local/sbin/nginx
                   --conf-path=/srv/nginx/nginx.conf --pid-path=/run/nginx.pid
                   --error-log-path=/srv/nginx/logs/error.log
                   --http-log-path=/srv/nginx/logs/access.log
-                  --with-http_ssl_module --with-http_v2_module
+                  --with-compat --with-http_ssl_module --with-http_v2_module
+                  --with-http_realip_module --with-http_stub_status_module
+                  --with-http_sub_module
 ```
+
+Rebuilt on 2026-09-17 at 01:27 UTC to add four modules, so this digest replaces
+the one from the first build, `b595c64f...`. The source tarball is the same
+artifact and its digest is unchanged; only the configure arguments differ.
+
+The running process was checked against the file rather than assumed:
+
+```text
+$ sudo sha256sum /proc/$(cat /run/nginx.pid)/exe
+1aaea115232e297901414a82033992a52d0217bfce258382718ac7815aeaa151
+```
+
+That check exists because `systemctl enable --now` does nothing to a unit that
+is already running. Before the block gained an explicit restart, a rebuild
+replaced the file on disk and left the previous binary serving, and the block's
+own health check would have passed against it.
 
 Both digests are recorded because the tarball hash proves what was compiled and
 the binary hash proves what is running. A version string establishes neither.
@@ -231,6 +256,12 @@ $ curl -fsS -o /dev/null -w '%{http_code}\n' http://192.168.50.207/
 
 Serving, enabled, dedicated volume still mounted, and still tracking HX-1.
 
+That reboot proved the first binary. The rebuild at 01:27 UTC replaced the
+binary but not the unit, which is byte-identical and still enabled, and the
+service was verified active and answering on the LAN afterwards. The host has
+not been rebooted again since the rebuild, so this row is evidence for the unit
+and the mount rather than for the current artifact.
+
 ### Known failed units
 
 ```text
@@ -243,6 +274,22 @@ This is HX4-F02, open and deferred fleet-wide. `/etc/sssd/sssd.conf` carries
 `services = nss, pam`, so the responders start under `sssd.service` while their
 socket units also attempt activation. Domain identity resolution is unaffected
 and is shown in section 1. HX-4 exhibited three failed sockets; HX-7 has two.
+
+### One host event, recorded rather than tidied away
+
+The first attempt at the rebuild stopped when `apt` crashed:
+
+```text
+apt[1782]: segfault at 71dceee34100 ip 000071d7722fe705 sp 00007fffa7e32f58
+           error 4 in libapt-pkg.so.6.0.0
+```
+
+The host was healthy at the time: 14Gi memory free, no OOM kill, `dpkg --audit`
+clean, and all four build dependencies already installed, so the line that
+crashed had nothing to do. Re-running the same command immediately afterwards
+returned `rc=0`, and the build then completed. Recorded because a segmentation
+fault inside `libapt-pkg` on a newly built host is worth recognising if it
+happens again, not because anything is known to be wrong.
 
 ### Deferred: proof step C4
 
