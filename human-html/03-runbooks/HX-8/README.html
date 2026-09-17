@@ -36,26 +36,95 @@ a{color:var(--accent)}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
 </style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/03-runbooks/HX-8/README.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-8 Current Runbook</h1>
-<p><strong>Host:</strong> hx-8 <strong>Expected IP:</strong> <code>192.168.50.208</code> <strong>Role:</strong> Open WebUI</p>
-<h2>Execution</h2>
-<p>Steps 1-2 are the shared base blocks. Run them from this directory; each one refuses to run on any host other than <code>hx-8</code>.</p>
-<pre><code class="lang-bash">./01-base-admin-network-updates.sh # reboots
-./02-domain.sh              # reboots
+<p><strong>Host:</strong> hx-8 <strong>Expected IP:</strong> <code>192.168.50.208</code> <strong>FQDN:</strong> <code>hx-8.hx.local.arpa</code> <strong>Role:</strong> Open WebUI, the human-facing chat interface <strong>Target release:</strong> <code>0.11.3</code>, PyPI wheel into a native venv</p>
+<h2>1. HX authority and boundaries</h2>
+<p>This runbook executes the shared blocks. It does not redefine them. Where this file and a control document disagree, the control document wins.</p>
+<ul>
+<li>Functional proof: D-008, ratified. One temporary connection to an</li>
+</ul>
+<p>already-proven Ollama endpoint, one prompt, one response rendered in the UI, evidence captured, then the connection removed.</p>
+<ul>
+<li>Proof obligation: step <code>G1</code> in <a href="../../00-control/hx-proof.tsv"><code>hx-proof.tsv</code></a>.</li>
+<li>Proof procedure: <a href="../../../smoke-tests/open-webui-smoke-test.html"><code>open-webui-smoke-test.md</code></a>.</li>
+<li>As-built record: <a href="../../02-server-records/HX-8.html"><code>HX-8.md</code></a>.</li>
+<li>Implementation and pins: <code>../common/</code>, with pins in <code>../common/hx-base.env</code>.</li>
+</ul>
+<p>HX-8 is the last server in the build order. It consumes the inference plane rather than providing it, so it proves the planes beneath it already work.</p>
+<h2>2. Foundation — inherited, not duplicated</h2>
+<p>Layer 0/1 is established once, by the shared foundation block. Run it first:</p>
+<pre><code class="lang-bash">../common/00-foundation.sh hx-8</code></pre>
+<p><code>01-base-admin-network-updates.sh</code> opens with a gate that refuses to continue without that state, and names what is missing:</p>
+<div class="tw"><table><thead><tr><th>Exit</th><th>Meaning</th></tr></thead><tbody><tr><td>41</td><td>the host cannot resolve its own FQDN</td></tr><tr><td>42</td><td>HX-1 is not the selected time source</td></tr><tr><td>43</td><td>the fleet key is absent</td></tr><tr><td>44</td><td>the fleet key is present with the wrong fingerprint</td></tr><tr><td>45</td><td>neither <code>ssh.service</code> nor <code>ssh.socket</code> is enabled</td></tr></tbody></table></div>
+<p>Do not work around a foundation exit. Run <code>00-foundation.sh</code> and read what it reports. Proof step <code>F0</code> must be satisfied before HX-8 can close.</p>
+<h2>3. Execution</h2>
+<p>Run from this directory. Each block refuses to run on any host other than <code>hx-8</code>.</p>
+<pre><code class="lang-bash">../common/00-foundation.sh hx-8     # foundation; no reboot
+./01-base-admin-network-updates.sh  # reboots
+./02-domain.sh                      # reboots
 ../common/10-open-webui.sh hx-8</code></pre>
-<p>Implementation lives in <code>../common/</code>; version pins and the host -&gt; IP map live in <code>../common/hx-base.env</code>. See <code>../README.md</code> before changing a pin.</p>
-<h2>Sequence</h2>
+<p>Before the last step, export the owner-supplied admin password for that run:</p>
+<pre><code class="lang-bash">export HX_OPEN_WEBUI_ADMIN_PASSWORD='&lt;owner supplied&gt;'</code></pre>
+<p>It is never generated, never defaulted, and never stored in this repository. The block stops with exit 37 without it.</p>
+<h2>4. Sequence</h2>
 <ol>
-<li>Base/admin/network validation; apt update + upgrade; reboot.</li>
-<li>Join <code>hx.local.arpa</code>; validate SSSD/domain user; reboot. The block installs</li>
+<li><strong>Foundation.</strong> Network validated and never written (D-026), identity, time</li>
 </ol>
-<p>the pinned NVIDIA driver only on hosts listed in <code>HX_GPU_HOSTS</code>, which this host is not, so nothing is installed here. The reboot happens either way.</p>
+<p>authority against HX-1, admin account and NOPASSWD sudo, fleet key, SSH persistence.</p>
 <ol>
-<li>Install Open WebUI:</li>
+<li><strong>Base, admin, network, updates.</strong> Foundation gate, then <code>apt update</code> and</li>
 </ol>
-<p><code>../common/10-open-webui.sh hx-8</code> Versions are pinned in <code>../common/hx-base.env</code>. Application software comes from PyPI, a GitHub release, a direct binary, or Hugging Face. Not Snap. Not the Ubuntu archive.</p>
+<p><code>apt upgrade</code>, then reboot.</p>
 <ol>
-<li>Validation: the service starts, and it survives a reboot.</li>
-<li>Fill in <code>docs/02-server-records/HX-8.md</code>, then set <code>state</code> and</li>
+<li><strong>Domain join.</strong> Join <code>hx.local.arpa</code>, validate SSSD and domain user</li>
 </ol>
-<p><code>gate</code> for <code>HX-8</code> in <code>docs/00-control/hx-fleet.tsv</code> and run <code>tools/hx-doc/hx-fleet</code>.</p>
-<p>Do not mount/wipe unrelated disks. Do not import prior application state.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/03-runbooks/HX-8/README.md</code>.</footer></div></body></html>
+<p>resolution, then reboot. The block is shared and installs a driver only on the hosts that carry one. It installs nothing here.</p>
+<ol>
+<li><strong>Open WebUI.</strong> <code>../common/10-open-webui.sh hx-8</code> proves the dedicated</li>
+</ol>
+<p>volume, asserts the Python range, installs the pinned wheel into a venv, reads the installed version back, writes the secret file and the unit, and proves the service answers.</p>
+<ol>
+<li><strong>Proof.</strong> Run <a href="../../../smoke-tests/open-webui-smoke-test.html"><code>open-webui-smoke-test.md</code></a></li>
+</ol>
+<p>for proof step <code>G1</code> and D-008. Remove the temporary connection afterwards.</p>
+<ol>
+<li><strong>Closure.</strong> Section 8 below.</li>
+</ol>
+<h2>5. What the block enforces</h2>
+<p>Each of these stops the build rather than reporting a warning.</p>
+<div class="tw"><table><thead><tr><th>Exit</th><th>Refuses</th></tr></thead><tbody><tr><td>34</td><td><code>/srv/open-webui</code> is not mounted, or is not writable by the service identity</td></tr><tr><td>40</td><td>the system <code>python3</code> is outside <code>&gt;=3.11,&lt;3.13</code></td></tr><tr><td>30</td><td>the <code>open-webui</code> entry point is missing after install</td></tr><tr><td>31</td><td><code>open-webui --version</code> produced nothing usable</td></tr><tr><td>33</td><td>the installed version is not the pin</td></tr><tr><td>37</td><td>the owner-supplied admin password was not exported</td></tr><tr><td>32</td><td>the service never answered on its port</td></tr></tbody></table></div>
+<p>Exit 33 exists because an installer's exit code is not proof of what landed. HX-6 lost a build day to npm reporting success while silently dropping a package, so the version is read back from the binary that will actually run.</p>
+<h2>6. Storage</h2>
+<p><code>/srv/open-webui</code> is a dedicated mounted volume, the same shape as HX-6 and HX-7. Do not format, wipe, repartition or remount it. The block proves the mount before anything is created, because everything Open WebUI keeps lives under it:</p>
+<pre><code class="lang-text">/srv/open-webui/venv             the virtual environment
+/srv/open-webui/data             DATA_DIR: webui.db, uploads
+/srv/open-webui/hf               HF_HOME: model cache
+/srv/open-webui/open-webui.env   secrets, root:root 0600</code></pre>
+<p><strong><code>DATA_DIR</code> is not an inert setting.</strong> When it resolves differently from a previous run, upstream moves the contents, archives the old directory and removes it. Change that value deliberately or not at all.</p>
+<h2>7. Authentication and extras</h2>
+<p><strong>Authentication is on.</strong> <code>WEBUI_AUTH=True</code>, which is upstream's own default. An earlier version of the shared block set it to <code>False</code>, which removed the login form entirely on a LAN-facing UI that D-008 then wires to a working Ollama endpoint. The exposure there is the inference plane, not a web page.</p>
+<p><code>ENABLE_SIGNUP=False</code> ships with it, so no account exists until one is created deliberately. The first account created becomes the administrator. Until then nobody can sign in, which is the point: the window in which the UI is open is one that somebody chooses.</p>
+<p><strong>Extras are opt-in and currently empty.</strong> <code>open-webui[all]</code> adds thirteen packages, among them Azure Search, Pinecone, Oracle and Elasticsearch clients, and Playwright. Installing a connector is not approving it, which is the line D-010 draws for HX-6. Set <code>HX_OPEN_WEBUI_EXTRAS</code> in <code>hx-base.env</code> only when a named HX capability needs one, and record which and why.</p>
+<p>Playwright is worth naming separately: its Python package installs, but its browser binaries need a separate step this block does not run, so anything depending on it fails at use rather than at install.</p>
+<h2>8. HX-8 BASE PASS definition</h2>
+<div class="tw"><table><thead><tr><th>Requirement</th><th>Evidence</th></tr></thead><tbody><tr><td>Foundation established</td><td>proof step <code>F0</code> satisfied</td></tr><tr><td>Every Foundation row filled</td><td><code>tools/hx-doc/hx-record-check</code> passes for HX-8</td></tr><tr><td>External key-only administration</td><td><code>tools/hx-doc/hx-fleet-access hx-8</code> returns <code>hx-8</code> and <code>KEY+SUDO-PASS</code></td></tr><tr><td>Domain join</td><td><code>realm list</code> reports <code>configured: kerberos-member</code>; domain user resolves</td></tr><tr><td>Dedicated storage</td><td><code>/srv/open-webui</code> mounted, proven by the block</td></tr><tr><td>Installed version</td><td>matches the pin, read back from the binary</td></tr><tr><td>Service serving</td><td><code>hx-open-webui</code> active and enabled, <code>/health</code> answering on the LAN address</td></tr><tr><td>Authentication</td><td><code>WEBUI_AUTH=True</code>, admin account created, signup closed</td></tr><tr><td>Provenance recorded</td><td>section 6 of the record carries version, source, extras and Python</td></tr><tr><td>Reboot persistence</td><td>active, enabled and answering after an unattended reboot</td></tr><tr><td>Routing proof</td><td>step <code>G1</code> and D-008 run, evidence retained, temporary connection removed</td></tr></tbody></table></div>
+<p><code>systemctl is-active</code> alone is not proof. A service that crashes and restarts reports <code>active</code> in the gaps between restarts, which is how HX4-F06 went unseen. The HTTP response is what shows it is serving.</p>
+<h2>9. Record and fleet closure</h2>
+<ol>
+<li>Fill <a href="../../02-server-records/HX-8.html"><code>HX-8.md</code></a>, including every Foundation</li>
+</ol>
+<p>row and section 6 provenance.</p>
+<ol>
+<li>Set <code>state</code> and <code>gate</code> for <code>HX-8</code> in <a href="../../00-control/hx-fleet.tsv"><code>hx-fleet.tsv</code></a>.</li>
+<li>Set <code>G1</code> status in <a href="../../00-control/hx-proof.tsv"><code>hx-proof.tsv</code></a>.</li>
+<li>Run <code>tools/hx-doc/hx-fleet</code>, <code>tools/hx-doc/hx-record-check</code> and</li>
+</ol>
+<p><code>tools/hx-doc/hx-render-html</code>.</p>
+<h2>10. Non-goals</h2>
+<ul>
+<li>No Docker, Podman, Kubernetes or Snap. Native venv and systemd only.</li>
+<li>Do not enable extras to see what they do.</li>
+<li>Do not disable authentication.</li>
+<li>Do not leave the D-008 connection in place after the proof.</li>
+<li>Do not mount or wipe unrelated disks.</li>
+<li>Do not import prior application state.</li>
+</ul><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/03-runbooks/HX-8/README.md</code>.</footer></div></body></html>

@@ -1501,6 +1501,18 @@ try:
 except OSError as exc:
     print(f"warning: could not remove {_open}: {exc}")
 
+# Open WebUI declares >=3.11,<3.13 and hx_app_venv uses the system python3.
+rc, out = foundation('hx_require_python_range', '3.12', '3.11', '3.13')
+check('python range: 3.12 is inside >=3.11,<3.13', rc == 0, out)
+rc, out = foundation('hx_require_python_range', '3.11', '3.11', '3.13')
+check('python range: the minimum itself passes', rc == 0, out)
+rc, out = foundation('hx_require_python_range', '3.13', '3.11', '3.13')
+check('python range: the exclusive maximum is refused', rc == 40, out)
+rc, out = foundation('hx_require_python_range', '3.10', '3.11', '3.13')
+check('python range: below the minimum is refused', rc == 40, out)
+rc, out = foundation('hx_require_python_range', '4.0', '3.11', '3.13')
+check('python range: a future major is refused', rc == 40, out)
+
 # Not ignore_errors: a workspace that cannot be removed is worth saying out
 # loud, but it is not a gate failure, so it does not change the exit status.
 try:

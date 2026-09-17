@@ -1747,3 +1747,72 @@ it drifted.
 CLOSED. The class is fixed, not the instance: hand-correcting the two stale
 rows would have left the next drift to the next reader.
 
+## HX6-F01 — npm reported success and had dropped the package the build needs
+
+**Status:** CLOSED
+**Severity:** Medium
+**Scope:** `docs/03-runbooks/common/10-omniroute.sh`; the class is fleet-wide
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17 first source build of OmniRoute 3.8.51
+
+### Finding
+
+`npm ci` completed under npm 11.19.0 and `npm run build` then stopped in
+`check:native-deps` saying `better-sqlite3` was missing from `node_modules`.
+
+The cause is not npm failing. It is npm succeeding at something nobody asked
+for. Upstream states it at the pinned commit, in
+`scripts/check/check-native-deps.mjs`:
+
+```text
+npm 11 (bundled with Node 24+) refuses to run install scripts for OPTIONAL
+dependencies unless they are approved. `better-sqlite3` is an
+optionalDependency whose install script compiles a native addon, so npm skips
+it, removes it from the tree, and still exits 0. Nothing in the install output
+says the package is gone.
+```
+
+`better-sqlite3` is declared `optionalDependencies ^13.0.2` and is present in
+the committed lockfile, so `npm ci` was right to consider it and wrong to
+discard it silently. `HX_NODE_VERSION` is `24.21.0`, so every HX build meets
+this, not one.
+
+### Resolution
+
+The block now asks whether the package resolves from the application tree after
+`npm ci`, repairs it with upstream's own remediation when it does not, asks
+again, and refuses at exit 39 if the answer is still no. Idempotent: a tree that
+already has it is left alone.
+
+The check is never bypassed. `OMNIROUTE_SKIP_NATIVE_DEP_CHECK` appears nowhere
+in this repository. That hatch exists upstream for vendored trees, and using it
+would have discarded the only thing that turned a module-not-found four minutes
+into a build into a one-second message naming the package.
+
+The repair cannot quietly invalidate provenance either. `--no-save` keeps the
+manifests out of it and `node_modules/` is gitignored upstream, but the block
+proves both afterwards rather than trusting them, because a repair that edited
+a manifest would make the recorded commit untrue without changing the SHA.
+
+### The class, which is what matters beyond OmniRoute
+
+**An installer's exit code is not evidence of what it installed.** Three
+different package managers now sit in this fleet, and the lesson transfers even
+where the mechanism does not.
+
+`pip` does not have npm's optional-dependency behaviour, so HX-8 cannot fail
+this exact way. It can still fail the class: a wheel that resolves for one
+interpreter and not another, an extra that installs nothing useful, a console
+script that is absent after a install that reported success.
+
+`10-open-webui.sh` therefore reads the installed version back from the binary
+that will actually run and refuses at exit 33 when it is not the pin, and
+asserts the interpreter range before building the venv rather than letting pip
+fail later about wheels. Neither check would have been written without this
+finding.
+
+### Disposition
+
+CLOSED. The repair is in the shared block, the class is recorded here, and the
+HX-8 block carries the equivalent checks for its own package manager.
+
