@@ -1,5 +1,21 @@
 # HX-6 Current Runbook — OmniRoute
 
+> **Superseded for the deployment path.** HX-6 runs the **npm global install of
+> `omniroute@3.8.50`**, started by `hx-omniroute.service` from
+> `/usr/local/bin/omniroute`. `D-031` ratified that on 2026-09-17 and is the
+> authority. Phase 10 acceptance is recorded in
+> [`HX-6-ACCEPTANCE.md`](../../02-server-records/HX-6-ACCEPTANCE.md):
+> ACCEPTED WITH FOLLOW-UP ITEMS.
+>
+> The source-build material below describes building `3.8.51` from a pinned
+> commit into `/srv/omniroute/app`. **HX-6 does not run that.** It is kept as
+> history because the defects it found are real and transfer to any host that
+> builds from source under npm 11 — `HX6-F01`, `HX6-F02`, `HX6-F03`.
+>
+> `../common/10-omniroute.sh` refuses to run and exits 47. Do not execute it.
+> Live configuration, findings and the A2A/MCP setup are recorded in
+> [`HX-6.md`](../../02-server-records/HX-6.md).
+
 **Host:** `hx-6`  
 **Expected IP:** `192.168.50.206`  
 **FQDN:** `hx-6.hx.local.arpa`  
