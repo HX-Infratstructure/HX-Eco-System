@@ -21,7 +21,7 @@
 **FQDN:** `hx-6.hx.local.arpa`  
 **Role:** OmniRoute AI gateway / routing control plane / MCP-A2A interface  
 **Deployment:** native Ubuntu Linux + systemd; no Docker, Podman, Kubernetes, or Snap  
-**Target OmniRoute release:** `3.8.51`, built from the upstream release branch (section 5.1)
+**Target OmniRoute release:** `3.8.50`, npm global install (D-031). The `3.8.51` source build described below is historical.
 **Upstream:** `https://github.com/diegosouzapw/OmniRoute.git`  
 **Persistent application root:** `/srv/omniroute`
 

@@ -896,7 +896,7 @@ felo-web  -&gt; felo-search     400</code></pre>
 const combo = task.input.metadata?.combo as string | undefined;</code></pre>
 <p>and upstream defines <code>auto</code> as <strong>all connected providers</strong>, LKGP strategy, balanced weights. The candidate pool is whatever is connected, so <code>opencode</code> and <code>felo-web</code> are legitimate candidates while they remain connected.</p>
 <h3>The part that matters for governance</h3>
-<p>A category or tier suffix is not a control. <code>docs/routing/AUTO-COMBO.md</code> states it plainly:</p>
+<p>A category or tier suffix is not a control. Upstream's own <code>docs/routing/AUTO-COMBO.md</code>, in the OmniRoute repository, states it plainly:</p>
 <blockquote>Filtering is <strong>fail-open</strong> — if a constraint matches no connected models, the full pool is used so routing never breaks.</blockquote>
 <p>So <code>auto/coding</code> narrows the pool when it can and silently returns the whole pool when it cannot. Anything built on a suffix to keep traffic inside HX would hold most of the time and fail open exactly when it mattered.</p>
 <h3>What the finding does not yet establish</h3>
@@ -975,7 +975,7 @@ local_corpus_*   3 tools
 obsidian_*      22 tools, including delete_note and execute_command</code></pre>
 <p>The tools that load code into the running process are all in that unmapped set.</p>
 <h3>What actually gated this, and what opened it</h3>
-<p><code>/api/mcp/*</code> is <code>LOCAL_ONLY</code> by default. <code>docs/architecture/AUTHZ_GUIDE.md</code>:</p>
+<p><code>/api/mcp/*</code> is <code>LOCAL_ONLY</code> by default. Upstream's <code>docs/architecture/AUTHZ_GUIDE.md</code>, in the OmniRoute repository:</p>
 <blockquote><code>/api/mcp/*</code> is still LOCAL_ONLY by default but now accepts non-loopback requests when the <code>Authorization: Bearer &lt;api-key&gt;</code> header carries the <code>manage</code> scope. ... Anonymous requests to <code>/api/mcp/*</code> from non-loopback continue to return <code>403 LOCAL_ONLY</code>.</blockquote>
 <p>The proving call came from <code>192.168.50.206</code>, the host's LAN address rather than loopback, and it succeeded. So the key in use carries <code>manage</code>, and that one scope is what made all 110 tools reachable from the network.</p>
 <h3>Upstream drew this line and then did not apply it here</h3>
