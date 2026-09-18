@@ -2033,7 +2033,7 @@ attempt or removed.
 
 ## HX6-F06 — the service configuration is outside systemd
 
-**Status:** OPEN
+**Status:** RESOLVED
 **Severity:** Low
 **Scope:** HX-6, `hx-omniroute.service`
 **Discovered on:** HX-6
@@ -2060,9 +2060,171 @@ The posture itself is proven working: 20128 refused an unauthenticated
 `/v1/models` with `401 AUTH_002` from the workstation on 2026-09-17, and 20132
 did not answer from the LAN.
 
+### Reclassified on 2026-09-17
+
+The first reading of this finding was too strong. It said the service had no
+persistent environment mechanism. It has one, and it is supported: `loadEnvFile()`
+at `bin/omniroute.mjs:169` runs at top level before the server starts, and reads,
+in order:
+
+```text
+1  $DATA_DIR/.env                              when DATA_DIR is set
+2  <default data dir>/.env                     /home/hxsa/.omniroute/.env
+3  $PWD/.env
+4  <package root>/.env                         inside the npm tree
+```
+
+First writer wins. The loader refuses to overwrite a key that is already set,
+and says so rather than failing quietly:
+
+```js
+if (process.env[key] === undefined) { process.env[key] = ... }
+else if (!shadowed.has(key)) { shadowed.set(key, { winner, loser }); }
+```
+
+A shadowed key prints `KEY in <file> is ignored, <winner> set it first`. The
+upstream comment names why that exists: issue #6194, where a shell's own
+`HOSTNAME` beat the `.env` and the server bound to the wrong address in silence.
+
+So the home file outranks the package file, and nothing was missing except the
+key itself.
+
+### Resolution
+
+`OMNIROUTE_API_KEY` was added to `/home/hxsa/.omniroute/.env` by the owner and
+OmniRoute was restarted. No systemd unit change and no new file under `/etc`.
+Internal A2A authentication now passes. `HX6-A2A-01` records the mechanism.
+
+A restart is required rather than a reload: `smartRouting.ts` reads the variable
+into a module-level `const` at import time, so the value is fixed for the life
+of the process.
+
+### Coupling worth knowing before HX6-F05 is picked up
+
+`$DATA_DIR/.env` outranks the home file. Moving the store onto `/srv/omniroute`
+by setting `DATA_DIR`, which is what HX6-F05 would do, also moves the env file
+the service reads. The two changes have to be made together or the key stops
+being found.
+
 ### Disposition
 
-OPEN. No change proposed. Recorded because the control is real and its location
-is not where the repository states it, so a later reader checking the unit would
-conclude the API key requirement was unset.
+RESOLVED. The observation that `systemctl show` does not report the service
+configuration remains true and is now recorded as intended behaviour of this
+install method rather than as a gap, under D-031.
+
+## HX6-A2A-01 — smart routing had no credential to send, and 3.8.51 would not have changed that
+
+**Status:** RESOLVED
+**Severity:** Medium
+**Scope:** HX-6, OmniRoute A2A smart-routing skill
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17 A2A enablement
+
+### Finding
+
+An A2A request authenticated successfully, and the smart-routing skill's own
+call back into the OmniRoute API was refused with `401 AUTH_002`. It was first
+classed as internal credential propagation and deferred pending a 3.8.51 npm
+release.
+
+Read-only inspection of upstream showed both parts of that to be wrong.
+
+**There is no propagation, by design.** `src/lib/a2a/skills/smartRouting.ts`
+reads the credential from the process environment into a module-level constant,
+and sends no `Authorization` header at all when it is empty:
+
+```ts
+const OMNIROUTE_API_KEY = process.env.OMNIROUTE_API_KEY || "";
+...
+...(OMNIROUTE_API_KEY ? { Authorization: `Bearer ${OMNIROUTE_API_KEY}` } : {}),
+```
+
+The skill never sees the caller's token and does not try to. With
+`REQUIRE_API_KEY=true` and no bearer, `src/server/authz/policies/clientApi.ts`
+returns `reject(401, "AUTH_002", "Authentication required")`, which is correct
+behaviour rather than a defect.
+
+**Waiting for 3.8.51 would not have helped.** That file is byte-identical
+between tag `v3.8.50` and branch `release/v3.8.51`. And 3.8.51 has never been
+published: npm `dist-tags.latest` was `3.8.50` from 2026-08-28, and the newest
+GitHub release was `v3.8.50` from 2026-08-26, checked on 2026-09-17 while
+upstream was still pushing to the release branch.
+
+### Resolution
+
+`OMNIROUTE_API_KEY` set in `/home/hxsa/.omniroute/.env`, which OmniRoute already
+loads before the skill is imported, and the service restarted. See `HX6-F06` for
+the loader order and why a restart rather than a reload is required.
+
+### Disposition
+
+RESOLVED as configuration. Not an upstream defect, and not one to re-open on a
+future release.
+
+## HX6-A2A-02 — A2A smart routing defaults to `auto`, and `auto` is every connected provider
+
+**Status:** OPEN
+**Severity:** Medium
+**Scope:** HX-6 routing policy; HX model governance
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17, immediately after HX6-A2A-01 was resolved
+
+### Finding
+
+With internal authentication working, the request reached the routing engine and
+failed at provider execution with `502`. The routing attempts were:
+
+```text
+opencode  -> oc/big-pickle   403
+felo-web  -> felo-chat       400
+felo-web  -> felo-search     400
+```
+
+None of those is an approved HX provider. The four approved local Ollama
+providers are Orion-X, Coder-X, Qwen-X and Meta-X.
+
+The cause is not a misconfiguration. `smartRouting.ts` defaults the model when
+the caller does not name one:
+
+```ts
+const model = (task.input.metadata?.model as string) || "auto";
+const combo = task.input.metadata?.combo as string | undefined;
+```
+
+and upstream defines `auto` as **all connected providers**, LKGP strategy,
+balanced weights. The candidate pool is whatever is connected, so `opencode` and
+`felo-web` are legitimate candidates while they remain connected.
+
+### The part that matters for governance
+
+A category or tier suffix is not a control. `docs/routing/AUTO-COMBO.md` states
+it plainly:
+
+> Filtering is **fail-open** — if a constraint matches no connected models, the
+> full pool is used so routing never breaks.
+
+So `auto/coding` narrows the pool when it can and silently returns the whole
+pool when it cannot. Anything built on a suffix to keep traffic inside HX would
+hold most of the time and fail open exactly when it mattered.
+
+### What the finding does not yet establish
+
+Whether a named combo is also fail-open was not checked. Until it is, a combo
+should not be assumed to be a boundary either.
+
+### Options, none applied
+
+1. **Control what is connected.** The pool is the connected provider set, so
+   disconnecting non-HX providers makes the boundary structural rather than a
+   filter that can fail open.
+2. **Name the model per call.** `task.input.metadata.model` is honoured, so an
+   A2A caller can bypass `auto` entirely.
+3. **Name a combo per call.** `task.input.metadata.combo` is sent as `x-combo`.
+   Subject to the unchecked question above.
+
+### Disposition
+
+OPEN. Owner decision required on which providers may remain connected to HX-6
+and whether A2A callers are permitted to use `auto` at all. No server change has
+been made; HX-6 is not to be touched until the owner says otherwise.
 
