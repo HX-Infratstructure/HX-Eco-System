@@ -16,7 +16,7 @@ Outstanding infrastructure findings are tracked in `docs/00-control/FINDINGS.md`
 | HX-5 | CentCom / Ornith / DeepSeek Harness / dev-test | **IN PROGRESS** | **CENTCOM RUNNER NEXT** | Layer 0/1 CLOSED; Ollama 0.34.0 PASS; ornith-1.5:35b BASE PASS incl. CLI/API/LAN/dual-GPU placement/reboot; CentCom smoke-runner activation remains |
 | HX-6 | OmniRoute | **NOT STARTED** | — | Provider and model allowlists required (D-010) |
 | HX-7 | NGINX dev/test only | **IN PROGRESS** | **C4 DEFERRED** | Not the ecosystem reverse proxy (D-004) |
-| HX-8 | Open WebUI | **NOT STARTED** | — | Last in build order; temporary Ollama link for base proof (D-008) |
+| HX-8 | Open WebUI | **PASS** | **CLOSED** | Open WebUI 0.11.3 on Python 3.12.3; D-008 proved against HX-2, HX-3, HX-4 and HX-5; owner kept the four direct connections, D-008 removal clause open |
 | HX-9 | PostgreSQL + MCP / Redis + MCP | **NOT STARTED** | — | Two applications on one host; each closes separately |
 | HX-10 | Qdrant + Web UI + MCP | **NOT STARTED** | — | One embedding identity per collection (D-005) |
 | HX-11 | LightRAG + MCP | **NOT STARTED** | — | Needs HX-10 and HX-4 proof first |

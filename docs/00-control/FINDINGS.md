@@ -1816,3 +1816,45 @@ finding.
 CLOSED. The repair is in the shared block, the class is recorded here, and the
 HX-8 block carries the equivalent checks for its own package manager.
 
+## HX8-F01 — the domain serves no reverse zone
+
+**Status:** OPEN
+**Severity:** Low
+**Scope:** `hx.local.arpa`; fleet-wide, not one host
+**Discovered on:** HX-8
+**Discovered during:** 2026-09-17 HX-8 closure evidence collection
+
+### Finding
+
+A reverse lookup of `192.168.50.208` returned nothing while the HX-8 record was
+being written. Checking further addresses showed the gap is not about hx-8:
+
+```text
+192.168.50.200   no PTR      <- the domain controller itself
+192.168.50.202   no PTR
+192.168.50.207   no PTR
+192.168.50.208   no PTR
+```
+
+No address tested resolves backwards. Forward resolution works: the same
+workstation resolves `hx-8.hx.local.arpa` to `192.168.50.208` against the DC.
+
+### Why it has not broken anything
+
+Kerberos on these hosts matches against the SPNs registered in AD, and HX-8
+carries all four forms that D-029 requires, short and FQDN, for `host/` and
+`RestrictedKrbHost/`. The domain join, SSSD and domain-user resolution all pass
+with no PTR present.
+
+### Why it is still worth recording
+
+A client that canonicalises a host name through reverse DNS before requesting a
+ticket will not find one. That behaviour is configurable and is not the default
+here, so this is a latent property rather than an active fault. It is recorded
+so that a future Kerberos or logging problem is not diagnosed from scratch.
+
+### Disposition
+
+OPEN. No change is proposed. The owner decides whether `hx.local.arpa` should
+serve a reverse zone; nothing in the current build needs one.
+
