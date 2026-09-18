@@ -2445,3 +2445,119 @@ be touched until the owner says otherwise. Recorded now because the inventory is
 a point-in-time measurement: it was taken on 2026-09-17 against 3.8.50, and the
 number will move when the package does.
 
+## HX6-CLI-01 — remote mode applies the active context to some commands and not others
+
+**Status:** OPEN
+**Severity:** Medium
+**Scope:** OmniRoute CLI 3.8.50 in remote mode; workstation, not HX-6
+**Discovered on:** workstation `HANA-X-JR0` against HX-6
+**Discovered during:** 2026-09-17 CLI remote-mode bring-up
+
+### Finding
+
+The CLI was installed on the workstation, connected to HX-6 with a scoped access
+token, and the context was active:
+
+```text
+| ● | hx-6 | http://192.168.50.206:20128 | keychain | admin | Remote OmniRoute |
+```
+
+`health` answered with real remote data. Two other read commands did not.
+
+```text
+omniroute health          Status: healthy, Uptime 2844s, Version 3.8.50, Requests (24h) 4
+omniroute providers list  No providers configured.
+omniroute models list     No models found.
+```
+
+HX-6 has four configured Ollama providers, and traffic had been routed through
+all four the same evening. `health` proves the context targets the remote.
+
+`~/.omniroute/storage.sqlite` did not exist on the workstation before those
+commands and appeared when they ran. So `providers list` and `models list`
+opened a fresh, empty **local** database rather than querying the remote.
+
+The command does not error, does not warn, and does not say it answered locally.
+An operator reads "No providers configured" as a fact about HX-6.
+
+### The same shape, with a sharper edge
+
+`omniroute chat` fails in remote mode with `401 AUTH_002 Invalid API key`, while
+the same key succeeds over HTTP from the same machine:
+
+```text
+omniroute chat -m hx/general "..."        401 AUTH_002 Invalid API key
+
+curl POST /v1/chat/completions
+  Authorization: Bearer <same sk- key>    HTTP 200
+  {"model":"meta-x:gpt-oss-20b", ... "content":"CURL PASS"}
+```
+
+The credential and the network path are both good. In remote mode the CLI sends
+the context's `oma_live_` **management** token to `/v1`, which is the
+`CLIENT_API` route class and wants the `sk-` **inference** key. Two credentials,
+two route classes, and remote mode does not keep them apart.
+
+### Root shape
+
+One cause, three symptoms: the active context is honoured by `health`, ignored
+by `providers` and `models`, and applied with the wrong credential by `chat`.
+Nothing announces which of the three happened.
+
+### Workaround in place
+
+`~/.hx-chat.sh` on the workstation defines `hxchat`, which posts directly to
+`/v1/chat/completions` with the `sk-` key from `~/.omniroute/.env`. It defaults
+to `hx/general` rather than `auto`, because `auto` reaches providers outside the
+HX fleet; see `HX6-A2A-02`. Proven working on 2026-09-17, both as an argument
+and through a pipe.
+
+The CLI's own management commands that do honour the context, such as `health`,
+are unaffected and remain usable.
+
+### Disposition
+
+OPEN. No change proposed, and nothing on HX-6 is involved: this is client
+behaviour. Recorded so that an empty `providers list` against a working server
+is not investigated as a server fault, and so that `chat` failing on a valid key
+is not read as a credential problem.
+
+## HX6-CLI-02 — the CLI writes its secret file world-readable
+
+**Status:** OPEN
+**Severity:** Medium on a multi-user host, Low on a single-user workstation
+**Scope:** OmniRoute CLI and server data directories
+**Discovered on:** workstation `HANA-X-JR0`; the same pattern exists on HX-6
+**Discovered during:** 2026-09-17 CLI remote-mode bring-up
+
+### Finding
+
+The CLI creates its data directory on first run and writes two files with
+different modes:
+
+```text
+-rw-------  config.json   600   contexts, credentialRef
+-rw-r--r--  .env          644   STORAGE_ENCRYPTION_KEY, OMNIROUTE_API_KEY
+```
+
+`config.json` is correct. `.env` is not, and `.env` is the file that holds
+secrets in plaintext. The context credential itself is in the OS keychain when
+one is operational, so the weaker file is the one carrying the storage key and,
+where set, the inference API key.
+
+On HX-6 the same file is `/home/hxsa/.omniroute/.env`, and since 2026-09-17 it
+holds `OMNIROUTE_API_KEY` as well, which is what `HX6-A2A-01` relies on. HX-6 is
+domain-joined, so at mode 644 any account SSSD resolves and permits to log in
+can read both values. The owner set that file to 600 on 2026-09-17; the CLI will
+recreate it at 644 on a host where it does not yet exist.
+
+Contrast with what the runbook does for the same class of file:
+`/srv/omniroute/omniroute.env` is `root:root 0600`, read by systemd as PID 1
+before it drops to the service identity.
+
+### Disposition
+
+OPEN. Recorded rather than fixed, because the fix is a `chmod` that the next
+first-run recreates. Worth checking after any fresh install on any host, and
+worth stating in the runbook rather than relying on someone remembering.
+
