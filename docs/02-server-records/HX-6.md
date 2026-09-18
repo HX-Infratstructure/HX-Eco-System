@@ -313,7 +313,7 @@ admission        normal
 | Reboot persistence | PASS |
 
 **Phase 10 acceptance: ACCEPTED WITH FOLLOW-UP ITEMS.** Full record in
-[`HX-6-ACCEPTANCE.md`](HX-6-ACCEPTANCE.md).
+[`phase-10-acceptance.md`](../05-evidence/hx-6/omniroute/phase-10-acceptance.md).
 
 ### Resolved findings
 
@@ -344,7 +344,7 @@ admission        normal
 ## 9. Evidence References
 
 The proof is recorded inline in section 7 of this record and in
-[`HX-6-ACCEPTANCE.md`](HX-6-ACCEPTANCE.md). Every figure is a command and its
+[`phase-10-acceptance.md`](../05-evidence/hx-6/omniroute/phase-10-acceptance.md). Every figure is a command and its
 output, captured 2026-09-17 and 2026-09-18. The security, routing, A2A and MCP
 gates were run from the workstation rather than on the host, so they prove the
 LAN path and not a loopback listener.

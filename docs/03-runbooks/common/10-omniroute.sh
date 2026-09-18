@@ -6,7 +6,7 @@
 # HX-6 runs the npm global install of omniroute@3.8.50, started by
 # hx-omniroute.service from /usr/local/bin/omniroute. D-031 ratified that on
 # 2026-09-17 and it is the authority. Phase 10 acceptance
-# (docs/02-server-records/HX-6-ACCEPTANCE.md) proved that implementation:
+# (docs/05-evidence/hx-6/omniroute/phase-10-acceptance.md) proved that implementation:
 # service persistence, API security, three HX aliases to three inference hosts,
 # Open WebUI, OpenCode, A2A and MCP.
 #
@@ -35,7 +35,7 @@ cat >&2 <<'OBSOLETE'
 STOP: this block is obsolete and will not run.
 
 HX-6 runs the npm global install of omniroute@3.8.50 as hx-omniroute.service.
-D-031 is the authority and docs/02-server-records/HX-6-ACCEPTANCE.md is the
+D-031 is the authority and docs/05-evidence/hx-6/omniroute/phase-10-acceptance.md is the
 proof. This file builds 3.8.51 from source into /srv/omniroute/app, which HX-6
 does not use, and running it would write a second unit on a host already
 serving port 20128.

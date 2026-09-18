@@ -4,7 +4,7 @@
 > `omniroute@3.8.50`**, started by `hx-omniroute.service` from
 > `/usr/local/bin/omniroute`. `D-031` ratified that on 2026-09-17 and is the
 > authority. Phase 10 acceptance is recorded in
-> [`HX-6-ACCEPTANCE.md`](../../02-server-records/HX-6-ACCEPTANCE.md):
+> [`phase-10-acceptance.md`](../../05-evidence/hx-6/omniroute/phase-10-acceptance.md):
 > ACCEPTED WITH FOLLOW-UP ITEMS.
 >
 > The source-build material below describes building `3.8.51` from a pinned
