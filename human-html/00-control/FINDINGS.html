@@ -938,10 +938,11 @@ return res.json();</code></pre>
 <h3>It is not only the explanation line</h3>
 <p>The same variable feeds the resilience trace:</p>
 <pre><code class="lang-ts">resilience_trace: [{ event: "primary_selected", provider, timestamp: ... }]</code></pre>
-<p>And <code>raw?.cost || 0</code> has the identical shape, because the cost is in</p>
-<p><code>X-OmniRoute-Response-Cost</code>. <code>cost_envelope.actual</code> therefore reports <code>0</code> whatever the real spend was. That is worth checking against an observed A2A response before it is relied on for budget policy, because <code>withinBudget</code> is computed from it:</p>
+<p><code>raw?.cost || 0</code> has the same shape, because the cost is carried in</p>
+<p><code>X-OmniRoute-Response-Cost</code> rather than in the body. <strong>What was observed</strong> is a reported cost of <code>0</code> on one successful local-model route; the source indicates the body carries no cost field at all, but that was not tested across a paid provider path, so no claim is made that it is always <code>0</code>.</p>
+<p>The reason it matters is that <code>withinBudget</code> is computed from the same value:</p>
 <pre><code class="lang-ts">const withinBudget = budget ? actualCost &lt;= budget : true;</code></pre>
-<p>A budget test against a cost that is always <code>0</code> passes unconditionally.</p>
+<p>A budget test against a cost of <code>0</code> passes unconditionally. Whether that is the case on every route is unestablished and should be measured before <code>cost_envelope</code> is relied on for budget policy.</p>
 <h3>Why the model field looked right</h3>
 <p><code>raw?.model || model</code> falls back to the model that was <strong>sent</strong>. <code>hx/general</code></p>
 <p>displayed correctly because of that fallback, not because the response carried the resolved model.</p>
@@ -1006,6 +1007,7 @@ obsidian_*      22 tools, including delete_note and execute_command</code></pre>
 <p>Most of the third-party tools will fail for want of credentials. The plugin and skills tools need no external credential.</p>
 <h3>Not established</h3>
 <p>Whether an unmapped tool fails open or closed when a scoped key calls it over loopback was not traced. The enforcement site was not read, only the catalogue, the scope map and the authorization guide. Until that is known, a scoped-down key should not be assumed to be unable to reach <code>plugin_install</code>.</p>
+<p><strong>Observed wording, on the evidence available: scopes enforced — no.</strong> A key reached all 110 tools, including the 73 that carry no scope. Whether upstream implements this as an opt-in enforcement mode was not established from source or runtime, so this record does not use that phrasing.</p>
 <h3>Options, none applied</h3>
 <ol>
 <li><strong>Issue a second key without <code>manage</code>.</strong> It receives <code>403 LOCAL_ONLY</code> for</li>
@@ -1029,7 +1031,11 @@ obsidian_*      22 tools, including delete_note and execute_command</code></pre>
 <p><code>health</code> answered with real remote data. Two other read commands did not.</p>
 <pre><code class="lang-text">omniroute health          Status: healthy, Uptime 2844s, Version 3.8.50, Requests (24h) 4
 omniroute providers list  No providers configured.
-omniroute models list     No models found.</code></pre>
+omniroute models          No models found.</code></pre>
+<p><strong>One correction to the first write-up of this finding.</strong> It originally cited <code>omniroute models list</code>. That command is malformed: <code>models</code> takes an optional <em>provider</em> argument, so <code>list</code> was read as a provider name and the empty answer was correct. The owner caught it.</p>
+<p>The finding survives the correction. <code>providers list</code> is a real subcommand, and <code>models</code> with no argument is correct usage, and both still answer empty:</p>
+<pre><code class="lang-text">omniroute models          No models found.        GET /v1/models returns 516 ids
+omniroute providers list  No providers configured. four providers routing live</code></pre>
 <p>HX-6 has four configured Ollama providers, and traffic had been routed through all four the same evening. <code>health</code> proves the context targets the remote.</p>
 <p><code>~/.omniroute/storage.sqlite</code> did not exist on the workstation before those commands and appeared when they ran. So <code>providers list</code> and <code>models list</code> opened a fresh, empty <strong>local</strong> database rather than querying the remote.</p>
 <p>The command does not error, does not warn, and does not say it answered locally. An operator reads "No providers configured" as a fact about HX-6.</p>
@@ -1046,6 +1052,8 @@ curl POST /v1/chat/completions
 <h3>Workaround in place</h3>
 <p><code>~/.hx-chat.sh</code> on the workstation defines <code>hxchat</code>, which posts directly to <code>/v1/chat/completions</code> with the <code>sk-</code> key from <code>~/.omniroute/.env</code>. It defaults to <code>hx/general</code> rather than <code>auto</code>, because <code>auto</code> reaches providers outside the HX fleet; see <code>HX6-A2A-02</code>. Proven working on 2026-09-17, both as an argument and through a pipe.</p>
 <p>The CLI's own management commands that do honour the context, such as <code>health</code>, are unaffected and remain usable.</p>
+<h3>Relationship to Phase 10 acceptance</h3>
+<p>This finding is <strong>not</strong> the reason the CLI gate is deferred. The owner stopped CLI work by choice on 2026-09-18, after the workstation install was proven: 3.8.50 installed, <code>@parcel/watcher</code>, <code>koffi</code> and <code>keytar</code> all load, the remote <code>hx-6</code> context connected, and the admin token authenticated. The acceptance record shows <code>CLI — DEFERRED BY OWNER</code>, not a failed gate.</p>
 <h3>Disposition</h3>
 <p>OPEN. No change proposed, and nothing on HX-6 is involved: this is client behaviour. Recorded so that an empty <code>providers list</code> against a working server is not investigated as a server fault, and so that <code>chat</code> failing on a valid key is not read as a credential problem.</p>
 <h2>HX6-CLI-02 — the CLI writes its secret file world-readable</h2>
@@ -1058,4 +1066,14 @@ curl POST /v1/chat/completions
 <p>On HX-6 the same file is <code>/home/hxsa/.omniroute/.env</code>, and since 2026-09-17 it holds <code>OMNIROUTE_API_KEY</code> as well, which is what <code>HX6-A2A-01</code> relies on. HX-6 is domain-joined, so at mode 644 any account SSSD resolves and permits to log in can read both values. The owner set that file to 600 on 2026-09-17; the CLI will recreate it at 644 on a host where it does not yet exist.</p>
 <p>Contrast with what the runbook does for the same class of file: <code>/srv/omniroute/omniroute.env</code> is <code>root:root 0600</code>, read by systemd as PID 1 before it drops to the service identity.</p>
 <h3>Disposition</h3>
-<p>OPEN. Recorded rather than fixed, because the fix is a <code>chmod</code> that the next first-run recreates. Worth checking after any fresh install on any host, and worth stating in the runbook rather than relying on someone remembering.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/00-control/FINDINGS.md</code>.</footer></div></body></html>
+<p>OPEN. Recorded rather than fixed, because the fix is a <code>chmod</code> that the next first-run recreates. Worth checking after any fresh install on any host, and worth stating in the runbook rather than relying on someone remembering.</p>
+<h2>HX6-MCP-02 — the MCP audit records what ran, not who ran it</h2>
+<p><strong>Status:</strong> OPEN — observability / audit <strong>Severity:</strong> Medium on a surface reachable from the LAN <strong>Scope:</strong> HX-6, MCP audit log <strong>Discovered on:</strong> HX-6 <strong>Discovered during:</strong> 2026-09-18 Phase 10 acceptance</p>
+<h3>Finding</h3>
+<p>The MCP audit captured both <code>omniroute_get_health</code> calls made during acceptance, with timestamp, duration, result and output:</p>
+<pre><code class="lang-text">9/18/2026, 1:31:56 AM   omniroute_get_health   15ms   Success   API Key: —
+9/18/2026, 12:18:03 AM  omniroute_get_health   22ms   Success   API Key: —</code></pre>
+<p>Calls (24h) 2, success rate 100%. The <code>API Key</code> attribution field is blank on both.</p>
+<p>The trail proves <strong>what</strong> executed and that it succeeded. It does not identify <strong>which credential</strong> initiated it. On a surface of 110 tools reachable from the LAN by any key carrying <code>manage</code> (<code>HX6-MCP-01</code>), an audit without attribution cannot answer the question that would be asked first.</p>
+<h3>Disposition</h3>
+<p>OPEN. No change proposed. Recorded because the audit looks complete at a glance, and the missing column is only visible if someone goes looking for it.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/00-control/FINDINGS.md</code>.</footer></div></body></html>

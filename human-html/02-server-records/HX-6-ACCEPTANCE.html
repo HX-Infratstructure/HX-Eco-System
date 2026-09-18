@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HX-6 OmniRoute Acceptance — Phase 10</title><style>
+:root{--bg:#f7f8f9;--fg:#14181d;--fg2:#4c5764;--rule:#d8dde2;--surf:#fff;
+--surf2:#eceff2;--accent:#8f4f12;--ok:#1f5f52}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1215;--fg:#e5e8eb;--fg2:#a3adb7;
+--rule:#262c33;--surf:#161a1e;--surf2:#1c2127;--accent:#d5943e;--ok:#6cbfae}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);margin:0;
+font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+.banner{background:var(--surf);border:1px solid var(--rule);border-left:4px solid var(--accent);
+border-radius:3px;padding:12px 16px;margin-bottom:28px;font-size:14px;color:var(--fg2)}
+.banner b{color:var(--fg)}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:21px;margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+h3{font-size:17px;margin:24px 0 8px}
+h4,h5,h6{font-size:15px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:76ch}
+ul,ol{margin:0 0 12px;padding-left:24px;max-width:76ch}
+li{margin:3px 0}
+code{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:1px 5px;font:13px ui-monospace,Menlo,Consolas,monospace;word-break:break-word}
+pre{background:var(--surf2);border:1px solid var(--rule);border-radius:3px;
+padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.5}
+blockquote{border-left:3px solid var(--accent);background:var(--surf);margin:0 0 14px;
+padding:10px 16px;color:var(--fg2);max-width:76ch}
+.tw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surf)}
+th,td{border-bottom:1px solid var(--rule);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+hr{border:none;border-top:1px solid var(--rule);margin:26px 0}
+a{color:var(--accent)}
+.mermaid{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+font-size:12.5px;color:var(--fg2)}
+</style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/02-server-records/HX-6-ACCEPTANCE.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-6 OmniRoute Acceptance — Phase 10</h1>
+<p><strong>Version:</strong> 3.8.50 <strong>Date:</strong> 2026-09-18 <strong>Implementation:</strong> npm global install, <code>hx-omniroute.service</code> (D-031) <strong>Scope:</strong> confirm the integrated HX-6 baseline and record the result. No new tests were invented, and no finding was fixed during acceptance.</p>
+<h2>Result</h2>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Installation / Persistence</td><td>PASS</td></tr><tr><td>API Security</td><td>PASS</td></tr><tr><td>HX Routing</td><td>PASS</td></tr><tr><td>Open WebUI</td><td>PASS</td></tr><tr><td>OpenCode</td><td>PASS</td></tr><tr><td>A2A</td><td>PASS</td></tr><tr><td>MCP</td><td>PASS</td></tr><tr><td>CLI</td><td>DEFERRED BY OWNER</td></tr><tr><td><strong>Overall</strong></td><td><strong>ACCEPTED WITH FOLLOW-UP ITEMS</strong></td></tr></tbody></table></div>
+<h2>Evidence</h2>
+<h3>Installation / persistence</h3>
+<pre><code class="lang-text">systemctl is-active hx-omniroute     active
+systemctl is-enabled hx-omniroute    enabled
+LISTEN 0 511   0.0.0.0:20128   users:(("omniroute (v16.",pid=4221,fd=21))
+LISTEN 0 511 127.0.0.1:20132   users:(("omniroute (v16.",pid=4221,fd=33))</code></pre>
+<p>20128 is LAN-facing and 20132 is loopback-only, which is the posture the runbook states. The service had already survived a reboot earlier the same day.</p>
+<h3>API security</h3>
+<p>Run from the workstation, off-host, so the LAN path is proven rather than a loopback listener:</p>
+<pre><code class="lang-text">GET /v1/models  no Authorization    401  AUTH_002 Authentication required
+GET /v1/models  Bearer &lt;sk- key&gt;    200
+GET :20132      from the LAN        no answer</code></pre>
+<h3>HX routing</h3>
+<p>One request per alias. Each resolved to a different inference host:</p>
+<pre><code class="lang-text">hx/general    -&gt; meta-x:gpt-oss-20b        HX-4    finish_reason=stop   6429ms
+hx/coding     -&gt; Coder-X-GLM-Flash:latest  HX-3    finish_reason=stop  12648ms
+hx/reasoning  -&gt; qwen-x:qwen3.8-27b-q6_k   HX-2    finish_reason=stop   5934ms</code></pre>
+<p><code>finish_reason=stop</code> with a resolved model name is what separates a real completion from a truncated or substituted one.</p>
+<h3>Open WebUI</h3>
+<p>A prompt answered in the browser through <code>HX-REASONING</code>.</p>
+<h3>OpenCode</h3>
+<p>A completion returned in the client through an HX alias.</p>
+<h3>A2A</h3>
+<pre><code class="lang-text">GET /.well-known/agent.json          200, version 1.8.1, six skills advertised
+POST /a2a  message/send
+  skill    smart-routing
+  metadata model = hx/general
+  result   task.state = completed, artifact returned</code></pre>
+<h3>MCP</h3>
+<pre><code class="lang-text">initialize        PASS   protocolVersion 2025-03-26
+server            omniroute 1.8.1
+session creation  PASS
+tools/list        PASS   110 tools
+tools/call        PASS   omniroute_get_health
+transport         streamable-http
+audit telemetry   PASS   2 calls in 24h, success rate 100%</code></pre>
+<p>The audit entry corroborates the call independently: the recorded output carries <code>uptime 5293.241318082</code>, matching the value returned to the caller.</p>
+<h3>CLI — deferred by owner</h3>
+<p>Deferred by owner direction on 2026-09-18, not because a gate failed. What was proven before stopping:</p>
+<pre><code class="lang-text">workstation CLI 3.8.50 installed        under a user prefix, no root
+@parcel/watcher                         LOADS
+koffi                                   LOADS
+keytar                                  LOADS
+remote context hx-6                     connected
+admin token                             authenticated</code></pre>
+<p>Further CLI acceptance was intentionally deferred.</p>
+<h2>Follow-up items</h2>
+<p>Recorded, not fixed. None blocks acceptance.</p>
+<div class="tw"><table><thead><tr><th>Finding</th><th>Status</th><th>Summary</th></tr></thead><tbody><tr><td><code>HX6-A2A-01</code></td><td>RESOLVED</td><td>Configuration. <code>OMNIROUTE_API_KEY</code> was absent from the OmniRoute process environment; persisted in <code>/home/hxsa/.omniroute/.env</code> and the service restarted. Validated by <code>message/send</code> through <code>hx/general</code> to Meta-X, <code>state=completed</code>, artifact returned.</td></tr><tr><td><code>HX6-A2A-02</code></td><td>FOLLOW-UP</td><td>A2A smart-routing defaults to <code>model=auto</code> when none is supplied, and live testing showed <code>auto</code> can select non-HX providers. HX aliases work correctly when explicitly supplied.</td></tr><tr><td><code>HX6-A2A-03</code></td><td>FOLLOW-UP</td><td><code>routing_explanation</code> returned <code>provider="unknown"</code> while the selected HX model was correctly identified. Observability and metadata, not a routing failure.</td></tr><tr><td><code>HX6-MCP-01</code></td><td>FOLLOW-UP</td><td>The dashboard summary advertises 37 tools; live <code>tools/list</code> exposes 110. Scopes enforced: no.</td></tr><tr><td><code>HX6-MCP-02</code></td><td>FOLLOW-UP</td><td>The MCP audit records tool, timestamp, duration, result and output, and leaves the API-key attribution field blank for the observed calls.</td></tr><tr><td><code>HX6-CLI-01</code></td><td>FOLLOW-UP</td><td>The remote CLI applies the active context inconsistently. Client behaviour; unrelated to the deferral above.</td></tr><tr><td><code>HX6-CLI-02</code></td><td>FOLLOW-UP</td><td>The CLI writes <code>.env</code> at mode 644 while <code>config.json</code> gets 600.</td></tr><tr><td><code>HX6-F04</code></td><td>LOGGED</td><td>The service runs as <code>hxsa</code>, by owner decision D-031, with reversal criteria.</td></tr><tr><td><code>HX6-F05</code></td><td>FOLLOW-UP</td><td><code>/srv/omniroute</code> holds 15G of the abandoned source checkout while the live service works from <code>/home/hxsa</code>.</td></tr></tbody></table></div>
+<h3>A2A skills outside this scope</h3>
+<p>Live discovery advertises six skills. Only <code>smart-routing</code> was acceptance-tested. Five remain present and untested:</p>
+<pre><code class="lang-text">quota-management
+provider-discovery
+cost-analysis
+health-report
+list-capabilities</code></pre>
+<p>Phase 10 was deliberately not widened to cover them. The scope was baseline acceptance, not additional test invention.</p>
+<h2>Disposition</h2>
+<p><strong>ACCEPTED WITH FOLLOW-UP ITEMS.</strong> The integrated HX-6 baseline is confirmed at 3.8.50: the service persists, the API refuses unauthenticated callers, all three tested HX aliases route to distinct hosts, and both agent protocols complete a real task end to end from off-host.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-6-ACCEPTANCE.md</code>.</footer></div></body></html>

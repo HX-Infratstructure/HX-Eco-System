@@ -2284,17 +2284,21 @@ The same variable feeds the resilience trace:
 resilience_trace: [{ event: "primary_selected", provider, timestamp: ... }]
 ```
 
-And `raw?.cost || 0` has the identical shape, because the cost is in
-`X-OmniRoute-Response-Cost`. `cost_envelope.actual` therefore reports `0` whatever
-the real spend was. That is worth checking against an observed A2A response
-before it is relied on for budget policy, because `withinBudget` is computed from
-it:
+`raw?.cost || 0` has the same shape, because the cost is carried in
+`X-OmniRoute-Response-Cost` rather than in the body. **What was observed** is a
+reported cost of `0` on one successful local-model route; the source indicates
+the body carries no cost field at all, but that was not tested across a paid
+provider path, so no claim is made that it is always `0`.
+
+The reason it matters is that `withinBudget` is computed from the same value:
 
 ```ts
 const withinBudget = budget ? actualCost <= budget : true;
 ```
 
-A budget test against a cost that is always `0` passes unconditionally.
+A budget test against a cost of `0` passes unconditionally. Whether that is
+the case on every route is unestablished and should be measured before
+`cost_envelope` is relied on for budget policy.
 
 ### Why the model field looked right
 
@@ -2428,6 +2432,11 @@ loopback was not traced. The enforcement site was not read, only the catalogue,
 the scope map and the authorization guide. Until that is known, a scoped-down
 key should not be assumed to be unable to reach `plugin_install`.
 
+**Observed wording, on the evidence available: scopes enforced — no.** A key
+reached all 110 tools, including the 73 that carry no scope. Whether upstream
+implements this as an opt-in enforcement mode was not established from source or
+runtime, so this record does not use that phrasing.
+
 ### Options, none applied
 
 1. **Issue a second key without `manage`.** It receives `403 LOCAL_ONLY` for
@@ -2467,7 +2476,20 @@ token, and the context was active:
 ```text
 omniroute health          Status: healthy, Uptime 2844s, Version 3.8.50, Requests (24h) 4
 omniroute providers list  No providers configured.
-omniroute models list     No models found.
+omniroute models          No models found.
+```
+
+**One correction to the first write-up of this finding.** It originally cited
+`omniroute models list`. That command is malformed: `models` takes an optional
+*provider* argument, so `list` was read as a provider name and the empty answer
+was correct. The owner caught it.
+
+The finding survives the correction. `providers list` is a real subcommand, and
+`models` with no argument is correct usage, and both still answer empty:
+
+```text
+omniroute models          No models found.        GET /v1/models returns 516 ids
+omniroute providers list  No providers configured. four providers routing live
 ```
 
 HX-6 has four configured Ollama providers, and traffic had been routed through
@@ -2515,6 +2537,14 @@ and through a pipe.
 The CLI's own management commands that do honour the context, such as `health`,
 are unaffected and remain usable.
 
+### Relationship to Phase 10 acceptance
+
+This finding is **not** the reason the CLI gate is deferred. The owner stopped
+CLI work by choice on 2026-09-18, after the workstation install was proven:
+3.8.50 installed, `@parcel/watcher`, `koffi` and `keytar` all load, the remote
+`hx-6` context connected, and the admin token authenticated. The acceptance
+record shows `CLI — DEFERRED BY OWNER`, not a failed gate.
+
 ### Disposition
 
 OPEN. No change proposed, and nothing on HX-6 is involved: this is client
@@ -2560,4 +2590,35 @@ before it drops to the service identity.
 OPEN. Recorded rather than fixed, because the fix is a `chmod` that the next
 first-run recreates. Worth checking after any fresh install on any host, and
 worth stating in the runbook rather than relying on someone remembering.
+
+## HX6-MCP-02 — the MCP audit records what ran, not who ran it
+
+**Status:** OPEN — observability / audit
+**Severity:** Medium on a surface reachable from the LAN
+**Scope:** HX-6, MCP audit log
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-18 Phase 10 acceptance
+
+### Finding
+
+The MCP audit captured both `omniroute_get_health` calls made during acceptance,
+with timestamp, duration, result and output:
+
+```text
+9/18/2026, 1:31:56 AM   omniroute_get_health   15ms   Success   API Key: —
+9/18/2026, 12:18:03 AM  omniroute_get_health   22ms   Success   API Key: —
+```
+
+Calls (24h) 2, success rate 100%. The `API Key` attribution field is blank on
+both.
+
+The trail proves **what** executed and that it succeeded. It does not identify
+**which credential** initiated it. On a surface of 110 tools reachable from the
+LAN by any key carrying `manage` (`HX6-MCP-01`), an audit without attribution
+cannot answer the question that would be asked first.
+
+### Disposition
+
+OPEN. No change proposed. Recorded because the audit looks complete at a glance,
+and the missing column is only visible if someone goes looking for it.
 
