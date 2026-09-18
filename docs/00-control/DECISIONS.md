@@ -435,3 +435,33 @@ carries the code and the evidence.
 fails when a path a ratified decision deleted exists again. It caught the
 2026-09-17 recurrence on the first run. It stays as it is. This decision is the
 control; that gate is what catches the decision being broken.
+
+## D-031 — HX-6 runs the npm global install, and runs it as `hxsa`
+
+**Ratified 2026-09-17 by the owner.**
+
+HX-6 OmniRoute is the global npm install of `omniroute@3.8.50` at
+`/usr/local/lib/node_modules/omniroute`, started by `hx-omniroute.service` from
+`/usr/local/bin/omniroute`. It is enabled, it recovers across reboot, it binds
+20128 on `0.0.0.0` and 20132 on loopback, it refuses unauthenticated requests
+with `401 AUTH_002`, and it routes to four local Ollama providers.
+
+The source build described by `docs/03-runbooks/common/10-omniroute.sh` is no
+longer authoritative for HX-6. Its checkout remains on disk at
+`/srv/omniroute/app` and is not what runs.
+
+**The service runs as `hxsa`, and that is deliberate.** The repository's model
+is a dedicated `omniroute` identity that owns only the application tree, with an
+EnvironmentFile at `root:root 0600` the service never reads. The owner was shown
+the consequence — `hxsa` holds NOPASSWD sudo, so a compromise of a LAN-facing
+HTTP service would be a host compromise rather than an application one — and
+decided to keep `hxsa`. This decision overrides the repository model for HX-6.
+
+It is recorded here rather than argued in a runbook so that the next reader sees
+a choice that was made, not a control that was missed. `HX6-F04` carries the
+technical detail and stays open as a logged item, not as a defect to fix.
+
+**Reversal criteria.** Revisit if HX-6 becomes reachable from outside the
+management LAN, if OmniRoute gains the ability to execute provider-supplied
+code, or if `hxsa` stops being an account the owner alone uses.
+

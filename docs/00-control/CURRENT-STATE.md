@@ -22,7 +22,7 @@ The **ecosystem architecture is the cornerstone**. Validation proves the ecosyst
 | HX-3 | Coder-X / Ollama | **PASS** |
 | HX-4 | Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker | **PASS** |
 | HX-5 | CentCom / Ornith / DeepSeek Harness / dev-test | **IN PROGRESS** |
-| HX-6 | OmniRoute | **NOT STARTED** |
+| HX-6 | OmniRoute | **PASS** |
 | HX-7 | NGINX dev/test only | **IN PROGRESS** |
 | HX-8 | Open WebUI | **PASS** |
 | HX-9 | PostgreSQL + MCP / Redis + MCP | **NOT STARTED** |

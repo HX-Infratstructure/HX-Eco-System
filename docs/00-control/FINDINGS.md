@@ -1965,3 +1965,664 @@ needed, with a message about a shared object rather than about OmniRoute.
 CLOSED. The library is installed by the block and the module is load-gated by
 HX6-F02's loop.
 
+## HX6-F04 — the OmniRoute service runs as the administrator account
+
+**Status:** LOGGED — accepted by owner decision D-031, not scheduled
+**Severity:** High if the premise changes; accepted at the current posture
+**Scope:** HX-6, `hx-omniroute.service`
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17 review of the working npm implementation
+
+### Finding
+
+```text
+ExecStart={ path=/usr/local/bin/omniroute ; argv[]=/usr/local/bin/omniroute ... }
+WorkingDirectory=/home/hxsa
+User=hxsa
+```
+
+`hxsa` is the administrator account and holds NOPASSWD sudo. OmniRoute is a
+LAN-facing HTTP service on `0.0.0.0:20128` that performs provider calls. At this
+identity an application compromise is a host compromise, with no escalation step
+in between.
+
+The repository model for application hosts is a dedicated service user that owns
+only the application tree. HX-7 nginx, HX-8 Open WebUI and the HX-6 source build
+all follow it.
+
+### Disposition
+
+LOGGED, not open for fix. The owner was shown the consequence and chose to keep
+`hxsa` on 2026-09-17. D-031 records that decision and its reversal criteria.
+This entry exists so the posture is discoverable from the findings register
+rather than only from a unit file.
+
+## HX6-F05 — the dedicated volume holds the abandoned build, not the live data
+
+**Status:** OPEN
+**Severity:** Low
+**Scope:** HX-6 storage layout
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17 review of the working npm implementation
+
+### Finding
+
+```text
+/dev/nvme0n1p3  116G   17G   94G  15%  /srv/omniroute
+
+15G     /srv/omniroute/app          the abandoned source build
+2.5M    /srv/omniroute/data         written by that build
+4.0K    /srv/omniroute/omniroute.env
+16K     /srv/omniroute/lost+found
+```
+
+The running service has `WorkingDirectory=/home/hxsa`, which is on the 120G root
+filesystem, and generated its `STORAGE_ENCRYPTION_KEY` into
+`/home/hxsa/.omniroute/.env`. So the dedicated 117G volume carries 15G of a
+checkout that nothing runs, while the live service writes to the root disk.
+
+A search of `/home/hxsa/.omniroute` to depth 2 found no database file, so where
+the live store actually sits has not been established and is not claimed here.
+
+### Disposition
+
+OPEN. No change proposed. Two things to settle when this is picked up: where the
+running service keeps its store, and whether the 15G checkout at
+`/srv/omniroute/app` should be retained as the record of the source-build
+attempt or removed.
+
+## HX6-F06 — the service configuration is outside systemd
+
+**Status:** RESOLVED
+**Severity:** Low
+**Scope:** HX-6, `hx-omniroute.service`
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17 review of the working npm implementation
+
+### Finding
+
+```text
+EnvironmentFiles=          (empty)
+```
+
+`REQUIRE_API_KEY=true` and the generated `STORAGE_ENCRYPTION_KEY` are not
+supplied by the unit. The binary loads them itself, from
+`/usr/local/lib/node_modules/omniroute/.env` inside the package tree and from
+`/home/hxsa/.omniroute/.env`, both observed in the startup output on
+2026-09-17.
+
+Two consequences. `systemctl show hx-omniroute` does not report the service's
+configuration, so the unit is not a truthful record of how it runs. And a
+`npm install -g omniroute` that rewrites the package tree can replace a file the
+service depends on, because one of the two env files lives inside the package.
+
+The posture itself is proven working: 20128 refused an unauthenticated
+`/v1/models` with `401 AUTH_002` from the workstation on 2026-09-17, and 20132
+did not answer from the LAN.
+
+### Reclassified on 2026-09-17
+
+The first reading of this finding was too strong. It said the service had no
+persistent environment mechanism. It has one, and it is supported: `loadEnvFile()`
+at `bin/omniroute.mjs:169` runs at top level before the server starts, and reads,
+in order:
+
+```text
+1  $DATA_DIR/.env                              when DATA_DIR is set
+2  <default data dir>/.env                     /home/hxsa/.omniroute/.env
+3  $PWD/.env
+4  <package root>/.env                         inside the npm tree
+```
+
+First writer wins. The loader refuses to overwrite a key that is already set,
+and says so rather than failing quietly:
+
+```js
+if (process.env[key] === undefined) { process.env[key] = ... }
+else if (!shadowed.has(key)) { shadowed.set(key, { winner, loser }); }
+```
+
+A shadowed key prints `KEY in <file> is ignored, <winner> set it first`. The
+upstream comment names why that exists: issue #6194, where a shell's own
+`HOSTNAME` beat the `.env` and the server bound to the wrong address in silence.
+
+So the home file outranks the package file, and nothing was missing except the
+key itself.
+
+### Resolution
+
+`OMNIROUTE_API_KEY` was added to `/home/hxsa/.omniroute/.env` by the owner and
+OmniRoute was restarted. No systemd unit change and no new file under `/etc`.
+Internal A2A authentication now passes. `HX6-A2A-01` records the mechanism.
+
+A restart is required rather than a reload: `smartRouting.ts` reads the variable
+into a module-level `const` at import time, so the value is fixed for the life
+of the process.
+
+### Coupling worth knowing before HX6-F05 is picked up
+
+`$DATA_DIR/.env` outranks the home file. Moving the store onto `/srv/omniroute`
+by setting `DATA_DIR`, which is what HX6-F05 would do, also moves the env file
+the service reads. The two changes have to be made together or the key stops
+being found.
+
+### Disposition
+
+RESOLVED. The observation that `systemctl show` does not report the service
+configuration remains true and is now recorded as intended behaviour of this
+install method rather than as a gap, under D-031.
+
+## HX6-A2A-01 — smart routing had no credential to send, and 3.8.51 would not have changed that
+
+**Status:** RESOLVED
+**Severity:** Medium
+**Scope:** HX-6, OmniRoute A2A smart-routing skill
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17 A2A enablement
+
+### Finding
+
+An A2A request authenticated successfully, and the smart-routing skill's own
+call back into the OmniRoute API was refused with `401 AUTH_002`. It was first
+classed as internal credential propagation and deferred pending a 3.8.51 npm
+release.
+
+Read-only inspection of upstream showed both parts of that to be wrong.
+
+**There is no propagation, by design.** `src/lib/a2a/skills/smartRouting.ts`
+reads the credential from the process environment into a module-level constant,
+and sends no `Authorization` header at all when it is empty:
+
+```ts
+const OMNIROUTE_API_KEY = process.env.OMNIROUTE_API_KEY || "";
+...
+...(OMNIROUTE_API_KEY ? { Authorization: `Bearer ${OMNIROUTE_API_KEY}` } : {}),
+```
+
+The skill never sees the caller's token and does not try to. With
+`REQUIRE_API_KEY=true` and no bearer, `src/server/authz/policies/clientApi.ts`
+returns `reject(401, "AUTH_002", "Authentication required")`, which is correct
+behaviour rather than a defect.
+
+**Waiting for 3.8.51 would not have helped.** That file is byte-identical
+between tag `v3.8.50` and branch `release/v3.8.51`. And 3.8.51 has never been
+published: npm `dist-tags.latest` was `3.8.50` from 2026-08-28, and the newest
+GitHub release was `v3.8.50` from 2026-08-26, checked on 2026-09-17 while
+upstream was still pushing to the release branch.
+
+### Resolution
+
+`OMNIROUTE_API_KEY` set in `/home/hxsa/.omniroute/.env`, which OmniRoute already
+loads before the skill is imported, and the service restarted. See `HX6-F06` for
+the loader order and why a restart rather than a reload is required.
+
+### Disposition
+
+RESOLVED as configuration. Not an upstream defect, and not one to re-open on a
+future release.
+
+## HX6-A2A-02 — A2A smart routing defaults to `auto`, and `auto` is every connected provider
+
+**Status:** OPEN
+**Severity:** Medium
+**Scope:** HX-6 routing policy; HX model governance
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17, immediately after HX6-A2A-01 was resolved
+
+### Finding
+
+With internal authentication working, the request reached the routing engine and
+failed at provider execution with `502`. The routing attempts were:
+
+```text
+opencode  -> oc/big-pickle   403
+felo-web  -> felo-chat       400
+felo-web  -> felo-search     400
+```
+
+None of those is an approved HX provider. The four approved local Ollama
+providers are Orion-X, Coder-X, Qwen-X and Meta-X.
+
+The cause is not a misconfiguration. `smartRouting.ts` defaults the model when
+the caller does not name one:
+
+```ts
+const model = (task.input.metadata?.model as string) || "auto";
+const combo = task.input.metadata?.combo as string | undefined;
+```
+
+and upstream defines `auto` as **all connected providers**, LKGP strategy,
+balanced weights. The candidate pool is whatever is connected, so `opencode` and
+`felo-web` are legitimate candidates while they remain connected.
+
+### The part that matters for governance
+
+A category or tier suffix is not a control. Upstream's own
+[AUTO-COMBO.md](https://github.com/diegosouzapw/OmniRoute/blob/v3.8.50/docs/routing/AUTO-COMBO.md), pinned at the deployed
+release, states
+it plainly:
+
+> Filtering is **fail-open** — if a constraint matches no connected models, the
+> full pool is used so routing never breaks.
+
+So `auto/coding` narrows the pool when it can and silently returns the whole
+pool when it cannot. Anything built on a suffix to keep traffic inside HX would
+hold most of the time and fail open exactly when it mattered.
+
+### What the finding does not yet establish
+
+Whether a named combo is also fail-open was not checked. Until it is, a combo
+should not be assumed to be a boundary either.
+
+### Options, none applied
+
+1. **Control what is connected.** The pool is the connected provider set, so
+   disconnecting non-HX providers makes the boundary structural rather than a
+   filter that can fail open.
+2. **Name the model per call.** `task.input.metadata.model` is honoured, so an
+   A2A caller can bypass `auto` entirely.
+3. **Name a combo per call.** `task.input.metadata.combo` is sent as `x-combo`.
+   Subject to the unchecked question above.
+
+### Disposition
+
+OPEN. Owner decision required on which providers may remain connected to HX-6
+and whether A2A callers are permitted to use `auto` at all. No server change has
+been made; HX-6 is not to be touched until the owner says otherwise.
+
+## HX6-A2A-03 — the A2A skill reads routing metadata from the body, and OmniRoute puts it in headers
+
+**Status:** OPEN
+**Severity:** Low
+**Scope:** HX-6, OmniRoute A2A smart-routing skill; upstream `v3.8.50`
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17 A2A end-to-end proof
+
+### Finding
+
+A successful A2A task returned a correct artifact and a `routing_explanation`
+naming `provider "unknown"`, while the model resolved correctly to
+`meta-x:gpt-oss-20b`.
+
+The two halves come from different places, and only one of them exists.
+
+`src/lib/a2a/skills/smartRouting.ts` takes the provider from the response body:
+
+```ts
+const provider = raw?.provider || "unknown";
+const actualCost = raw?.cost || 0;
+```
+
+OmniRoute publishes that metadata as response **headers**, declared in
+`src/shared/constants/headers.ts`:
+
+```ts
+model:        "X-OmniRoute-Model",
+provider:     "X-OmniRoute-Provider",
+responseCost: "X-OmniRoute-Response-Cost",
+costSaved:    "X-OmniRoute-Cost-Saved",
+```
+
+`src/domain/omnirouteResponseMeta.ts` attaches them and says explicitly that the
+body is left alone:
+
+> `(never replacing) headers so the original Content-Type / body stay intact.`
+
+And `routeFetch` discards the headers before the caller ever sees them:
+
+```ts
+const res = await fetch(url, { ...options, headers, signal: ... });
+return res.json();
+```
+
+So `raw.provider` is `undefined` on every call and `"unknown"` is the only value
+that string can take. No HX configuration changes it.
+
+### It is not only the explanation line
+
+The same variable feeds the resilience trace:
+
+```ts
+resilience_trace: [{ event: "primary_selected", provider, timestamp: ... }]
+```
+
+`raw?.cost || 0` has the same shape, because the cost is carried in
+`X-OmniRoute-Response-Cost` rather than in the body. **What was observed** is a
+reported cost of `0` on one successful local-model route; the source indicates
+the body carries no cost field at all, but that was not tested across a paid
+provider path, so no claim is made that it is always `0`.
+
+The reason it matters is that `withinBudget` is computed from the same value:
+
+```ts
+const withinBudget = budget ? actualCost <= budget : true;
+```
+
+A budget test against a cost of `0` passes unconditionally. Whether that is
+the case on every route is unestablished and should be measured before
+`cost_envelope` is relied on for budget policy.
+
+### Why the model field looked right
+
+`raw?.model || model` falls back to the model that was **sent**. `hx/general`
+displayed correctly because of that fallback, not because the response carried
+the resolved model.
+
+### Scope of the impact
+
+Observability only. Routing, execution, the task lifecycle and the returned
+artifact are all correct and were proven end to end on 2026-09-17. What is wrong
+is the metadata describing the route.
+
+Present in tag `v3.8.50`. `release/v3.8.51` was not diffed for this, so no claim
+is made about whether upstream has since changed it.
+
+### Disposition
+
+OPEN. No change proposed here; the code is upstream. Recorded so that
+`provider "unknown"` is not investigated again as an HX misconfiguration, and so
+that `cost_envelope` is treated as unproven rather than as evidence of zero cost.
+
+## HX6-MCP-01 — the MCP surface is 110 tools, the governed catalogue is 37, and one scope opened it to the LAN
+
+**Status:** OPEN
+**Severity:** High until the owner decides the posture
+**Scope:** HX-6, `/api/mcp/*`; upstream `v3.8.50`
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17 MCP enablement and `tools/list`
+
+### What works
+
+MCP Streamable HTTP is live and proven end to end from the LAN on 2026-09-17:
+endpoint, management auth, transport negotiation, `initialize`, session
+creation, `tools/list`, and a real `tools/call` returning
+`omniroute_get_health`. None of what follows is a fault in that.
+
+### Finding
+
+`tools/list` returned **110 tools**. The dashboard reports **37**.
+
+They disagree because they are measuring different things.
+`src/app/api/mcp/tools/route.ts` returns `MCP_TOOLS.length`, and `MCP_TOOLS` in
+`open-sse/mcp-server/schemas/tools.ts` is a curated catalogue that carries
+`scopes` and an audit level per tool. The live server serves that catalogue plus
+tools registered elsewhere, which carry neither.
+
+So the 73 tools the dashboard does not show are the same 73 that no scope
+governs. The operator view and the governed set are one list, and everything
+outside it is invisible in both places.
+
+`src/shared/constants/mcpScopes.ts` defines 17 scopes and states the intent:
+
+> API keys can be configured with a subset of scopes to limit tool access
+> (least-privilege).
+
+`MCP_TOOL_SCOPES` maps roughly 45 tool names. Not mapped, and therefore not
+constrained by any scope that could be granted or withheld:
+
+```text
+plugin_install / activate / deactivate / uninstall / configure / scan
+omniroute_skills_execute / enable / list / executions
+omniroute_github_skills_search / scan / install
+omniroute_agent_skills_list / get / coverage
+omniroute_memory_search / add / clear
+omniroute_create_combo           switch_combo IS scoped; create is not
+omniroute_set_routing_strategy
+gamification_*   8 tools, including gamification_transfer
+notion_*         6 tools
+local_corpus_*   3 tools
+obsidian_*      22 tools, including delete_note and execute_command
+```
+
+The tools that load code into the running process are all in that unmapped set.
+
+### What actually gated this, and what opened it
+
+`/api/mcp/*` is `LOCAL_ONLY` by default. Upstream's
+[AUTHZ_GUIDE.md](https://github.com/diegosouzapw/OmniRoute/blob/v3.8.50/docs/architecture/AUTHZ_GUIDE.md), pinned at the
+deployed release:
+
+> `/api/mcp/*` is still LOCAL_ONLY by default but now accepts non-loopback
+> requests when the `Authorization: Bearer <api-key>` header carries the
+> `manage` scope. ... Anonymous requests to `/api/mcp/*` from non-loopback
+> continue to return `403 LOCAL_ONLY`.
+
+The proving call came from `192.168.50.206`, the host's LAN address rather than
+loopback, and it succeeded. So the key in use carries `manage`, and that one
+scope is what made all 110 tools reachable from the network.
+
+### Upstream drew this line and then did not apply it here
+
+The same paragraph:
+
+> the sibling LOCAL_ONLY prefix `/api/cli-tools/runtime/*` is **intentionally
+> NOT bypassable** because it can spawn arbitrary subprocesses.
+
+Subprocess spawning was excluded from the carve-out. `/api/mcp/` received the
+carve-out anyway, while `plugin_install` takes a filesystem path and
+`plugin_activate` "loads hooks into the request pipeline". That is code
+execution inside OmniRoute, which on HX-6 runs as `hxsa` with NOPASSWD sudo per
+D-031 and `HX6-F04`. This finding is what gives that identity decision a remote
+trigger.
+
+### Risk classes present in the live inventory
+
+- **Code into the running process.** `plugin_install`, `plugin_activate`,
+  `plugin_scan`, `omniroute_skills_execute`, `omniroute_github_skills_install`,
+  which installs into `~/.claude/skills/`, `~/.gemini/skills/` and
+  `~/.opencode/skills/`.
+- **Destructive against OmniRoute state.** `omniroute_db_health_check` with
+  `autoRepair`, which writes to the same `storage.sqlite` holding live provider
+  credentials; `cache_flush` with both arguments omitted clears everything;
+  `pool_reset`; `memory_clear`.
+- **Filesystem read.** `local_corpus_read`, `local_corpus_search`.
+- **Egress.** `web_search` across sixteen providers, `web_fetch`, `x_search`,
+  and `oneproxy_fetch` / `rotate`, which route through a third-party free-proxy
+  marketplace.
+- **Third-party data planes not configured here.** 6 Notion tools and 22
+  Obsidian tools, including `obsidian_delete_note`, `obsidian_move_note` and
+  `obsidian_execute_command`.
+- **Token movement.** `gamification_transfer` between API keys,
+  `gamification_invite` creating invite tokens for server connection, and
+  `gamification_servers` listing connected community servers.
+
+Most of the third-party tools will fail for want of credentials. The plugin and
+skills tools need no external credential.
+
+### Not established
+
+Whether an unmapped tool fails open or closed when a scoped key calls it over
+loopback was not traced. The enforcement site was not read, only the catalogue,
+the scope map and the authorization guide. Until that is known, a scoped-down
+key should not be assumed to be unable to reach `plugin_install`.
+
+**Observed wording, on the evidence available: scopes enforced — no.** A key
+reached all 110 tools, including the 73 that carry no scope. Whether upstream
+implements this as an opt-in enforcement mode was not established from source or
+runtime, so this record does not use that phrasing.
+
+### Options, none applied
+
+1. **Issue a second key without `manage`.** It receives `403 LOCAL_ONLY` for
+   `/api/mcp/*` from the LAN, which is a structural boundary rather than a
+   filter. Grant it only the read scopes MCP is actually used for.
+2. **Keep MCP loopback-only.** Remove `manage` from any key used off-host, so
+   the carve-out is never taken.
+3. **Accept the surface and record it**, the way D-031 records the service
+   identity, with reversal criteria.
+
+### Disposition
+
+OPEN. Owner decision required. No server change has been made and HX-6 is not to
+be touched until the owner says otherwise. Recorded now because the inventory is
+a point-in-time measurement: it was taken on 2026-09-17 against 3.8.50, and the
+number will move when the package does.
+
+## HX6-CLI-01 — remote mode applies the active context to some commands and not others
+
+**Status:** OPEN
+**Severity:** Medium
+**Scope:** OmniRoute CLI 3.8.50 in remote mode; workstation, not HX-6
+**Discovered on:** workstation `HANA-X-JR0` against HX-6
+**Discovered during:** 2026-09-17 CLI remote-mode bring-up
+
+### Finding
+
+The CLI was installed on the workstation, connected to HX-6 with a scoped access
+token, and the context was active:
+
+```text
+| ● | hx-6 | http://192.168.50.206:20128 | keychain | admin | Remote OmniRoute |
+```
+
+`health` answered with real remote data. Two other read commands did not.
+
+```text
+omniroute health          Status: healthy, Uptime 2844s, Version 3.8.50, Requests (24h) 4
+omniroute providers list  No providers configured.
+omniroute models          No models found.
+```
+
+**One correction to the first write-up of this finding.** It originally cited
+`omniroute models list`. That command is malformed: `models` takes an optional
+*provider* argument, so `list` was read as a provider name and the empty answer
+was correct. The owner caught it.
+
+The finding survives the correction. `providers list` is a real subcommand, and
+`models` with no argument is correct usage, and both still answer empty:
+
+```text
+omniroute models          No models found.        GET /v1/models returns 516 ids
+omniroute providers list  No providers configured. four providers routing live
+```
+
+HX-6 has four configured Ollama providers, and traffic had been routed through
+all four the same evening. `health` proves the context targets the remote.
+
+`~/.omniroute/storage.sqlite` did not exist on the workstation before those
+commands and appeared when they ran. So `providers list` and `models list`
+opened a fresh, empty **local** database rather than querying the remote.
+
+The command does not error, does not warn, and does not say it answered locally.
+An operator reads "No providers configured" as a fact about HX-6.
+
+### The same shape, with a sharper edge
+
+`omniroute chat` fails in remote mode with `401 AUTH_002 Invalid API key`, while
+the same key succeeds over HTTP from the same machine:
+
+```text
+omniroute chat -m hx/general "..."        401 AUTH_002 Invalid API key
+
+curl POST /v1/chat/completions
+  Authorization: Bearer <same sk- key>    HTTP 200
+  {"model":"meta-x:gpt-oss-20b", ... "content":"CURL PASS"}
+```
+
+The credential and the network path are both good. In remote mode the CLI sends
+the context's `oma_live_` **management** token to `/v1`, which is the
+`CLIENT_API` route class and wants the `sk-` **inference** key. Two credentials,
+two route classes, and remote mode does not keep them apart.
+
+### Root shape
+
+One cause, three symptoms: the active context is honoured by `health`, ignored
+by `providers` and `models`, and applied with the wrong credential by `chat`.
+Nothing announces which of the three happened.
+
+### Workaround in place
+
+`~/.hx-chat.sh` on the workstation defines `hxchat`, which posts directly to
+`/v1/chat/completions` with the `sk-` key from `~/.omniroute/.env`. It defaults
+to `hx/general` rather than `auto`, because `auto` reaches providers outside the
+HX fleet; see `HX6-A2A-02`. Proven working on 2026-09-17, both as an argument
+and through a pipe.
+
+The CLI's own management commands that do honour the context, such as `health`,
+are unaffected and remain usable.
+
+### Relationship to Phase 10 acceptance
+
+This finding is **not** the reason the CLI gate is deferred. The owner stopped
+CLI work by choice on 2026-09-18, after the workstation install was proven:
+3.8.50 installed, `@parcel/watcher`, `koffi` and `keytar` all load, the remote
+`hx-6` context connected, and the admin token authenticated. The acceptance
+record shows `CLI — DEFERRED BY OWNER`, not a failed gate.
+
+### Disposition
+
+OPEN. No change proposed, and nothing on HX-6 is involved: this is client
+behaviour. Recorded so that an empty `providers list` against a working server
+is not investigated as a server fault, and so that `chat` failing on a valid key
+is not read as a credential problem.
+
+## HX6-CLI-02 — the CLI writes its secret file world-readable
+
+**Status:** OPEN
+**Severity:** Medium on a multi-user host, Low on a single-user workstation
+**Scope:** OmniRoute CLI and server data directories
+**Discovered on:** workstation `HANA-X-JR0`; the same pattern exists on HX-6
+**Discovered during:** 2026-09-17 CLI remote-mode bring-up
+
+### Finding
+
+The CLI creates its data directory on first run and writes two files with
+different modes:
+
+```text
+-rw-------  config.json   600   contexts, credentialRef
+-rw-r--r--  .env          644   STORAGE_ENCRYPTION_KEY, OMNIROUTE_API_KEY
+```
+
+`config.json` is correct. `.env` is not, and `.env` is the file that holds
+secrets in plaintext. The context credential itself is in the OS keychain when
+one is operational, so the weaker file is the one carrying the storage key and,
+where set, the inference API key.
+
+On HX-6 the same file is `/home/hxsa/.omniroute/.env`, and since 2026-09-17 it
+holds `OMNIROUTE_API_KEY` as well, which is what `HX6-A2A-01` relies on. HX-6 is
+domain-joined, so at mode 644 any account SSSD resolves and permits to log in
+can read both values. The owner set that file to 600 on 2026-09-17; the CLI will
+recreate it at 644 on a host where it does not yet exist.
+
+Contrast with what the runbook does for the same class of file:
+`/srv/omniroute/omniroute.env` is `root:root 0600`, read by systemd as PID 1
+before it drops to the service identity.
+
+### Disposition
+
+OPEN. Recorded rather than fixed, because the fix is a `chmod` that the next
+first-run recreates. Worth checking after any fresh install on any host, and
+worth stating in the runbook rather than relying on someone remembering.
+
+## HX6-MCP-02 — the MCP audit records what ran, not who ran it
+
+**Status:** OPEN — observability / audit
+**Severity:** Medium on a surface reachable from the LAN
+**Scope:** HX-6, MCP audit log
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-18 Phase 10 acceptance
+
+### Finding
+
+The MCP audit captured both `omniroute_get_health` calls made during acceptance,
+with timestamp, duration, result and output:
+
+```text
+9/18/2026, 1:31:56 AM   omniroute_get_health   15ms   Success   API Key: —
+9/18/2026, 12:18:03 AM  omniroute_get_health   22ms   Success   API Key: —
+```
+
+Calls (24h) 2, success rate 100%. The `API Key` attribution field is blank on
+both.
+
+The trail proves **what** executed and that it succeeded. It does not identify
+**which credential** initiated it. On a surface of 110 tools reachable from the
+LAN by any key carrying `manage` (`HX6-MCP-01`), an audit without attribution
+cannot answer the question that would be asked first.
+
+### Disposition
+
+OPEN. No change proposed. Recorded because the audit looks complete at a glance,
+and the missing column is only visible if someone goes looking for it.
+

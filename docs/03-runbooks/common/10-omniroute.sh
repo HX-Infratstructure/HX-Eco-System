@@ -1,14 +1,52 @@
 #!/usr/bin/env bash
-# HX-6 OmniRoute AI gateway - built from the owner-approved upstream release
-# branch, run natively under systemd.
+# ===========================================================================
+# OBSOLETE - NOT THE DEPLOYMENT PATH. Retained as history.
+# ===========================================================================
 #
-# Not npm-global: 3.8.51 is not published to the npm registry, and the owner
-# decision of 2026-09-17 is to deploy that release from source rather than take
-# the older published 3.8.50. Registry provenance therefore does not apply here;
-# the source commit is the provenance.
+# HX-6 runs the npm global install of omniroute@3.8.50, started by
+# hx-omniroute.service from /usr/local/bin/omniroute. D-031 ratified that on
+# 2026-09-17 and it is the authority. Phase 10 acceptance
+# (docs/05-evidence/hx-6/omniroute/phase-10-acceptance.md) proved that implementation:
+# service persistence, API security, three HX aliases to three inference hosts,
+# Open WebUI, OpenCode, A2A and MCP.
 #
-# Usage: ./10-omniroute.sh <hx-host>
+# This file describes a source build from a pinned commit that HX-6 does not
+# run. It is kept because the defects it found are real and transfer to any
+# host that builds from source under npm 11:
+#
+#   HX6-F01  npm drops an optionalDependency whose install script it will not
+#            run, and exits 0
+#   HX6-F02  npm declines install scripts it has not been told to allow, names
+#            them, and exits 0 - the package stays, the binary does not
+#   HX6-F03  keytar links against libsecret at load time, so a built binding
+#            still fails to import when the OS library is absent
+#
+# HX6-F02 was hit again on the live npm-global install and again on the
+# workstation CLI, which is why the file earns its place rather than deletion.
+#
+# The block refuses to run. An obsolete script that still executes is a trap,
+# and this one would clone into /srv/omniroute/app and write a second systemd
+# unit on a host that already serves 20128.
+#
+# Usage: superseded. To rebuild HX-6, follow docs/03-runbooks/HX-6/README.md.
 set -euo pipefail
+
+cat >&2 <<'OBSOLETE'
+STOP: this block is obsolete and will not run.
+
+HX-6 runs the npm global install of omniroute@3.8.50 as hx-omniroute.service.
+D-031 is the authority and docs/05-evidence/hx-6/omniroute/phase-10-acceptance.md is the
+proof. This file builds 3.8.51 from source into /srv/omniroute/app, which HX-6
+does not use, and running it would write a second unit on a host already
+serving port 20128.
+
+Read docs/03-runbooks/HX-6/README.md for the current path.
+OBSOLETE
+exit 47
+
+# --------------------------------------------------------------------------
+# Everything below is retained for the record and is unreachable.
+# --------------------------------------------------------------------------
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=./hx-base.env
 . "$SCRIPT_DIR/hx-base.env"
