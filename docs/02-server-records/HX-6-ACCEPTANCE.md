@@ -139,6 +139,42 @@ list-capabilities
 Phase 10 was deliberately not widened to cover them. The scope was baseline
 acceptance, not additional test invention.
 
+## What this acceptance does not say
+
+**HX-6 is accepted as the current baseline. OmniRoute is not fully implemented.**
+
+Phase 10 exercised the surfaces it set out to accept and nothing more. Large
+parts of the product are present on this host and have never been run here:
+
+```text
+A2A skills          five of six advertised skills UNTESTED
+MCP scope           enforcement not in use; scopes enforced: no
+MCP tools           110 live; one exercised
+memory              omniroute_memory_* UNTESTED
+skills execution    omniroute_skills_execute UNTESTED
+plugins             plugin_* UNTESTED
+compression         RTK, CCR, compression combos UNTESTED
+resilience          profiles, circuit-breaker tuning UNTESTED
+budgets and quotas  budget guard, quota management UNTESTED
+web and search      search and fetch gateways UNTESTED
+session pools       pool lifecycle and stealth browser UNTESTED
+remote CLI          DEFERRED by owner
+observability       audit attribution incomplete, HX6-MCP-02
+```
+
+Status labels used in this record and in HX-6.md carry these meanings, so a
+passing gate cannot be read as a finished capability:
+
+| Label | Meaning |
+|---|---|
+| PROVEN / PASS | exercised successfully, with the evidence shown |
+| PARTIAL | some path works, full capability not validated |
+| DEFERRED | intentionally stopped |
+| UNTESTED | discovered but not exercised |
+| COMPLETE | only when the defined scope is actually complete |
+
+Nothing in this record is labelled COMPLETE.
+
 ## Disposition
 
 **ACCEPTED WITH FOLLOW-UP ITEMS.** The integrated HX-6 baseline is confirmed at
