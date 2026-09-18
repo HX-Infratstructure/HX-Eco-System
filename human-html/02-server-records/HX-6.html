@@ -36,34 +36,136 @@ a{color:var(--accent)}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
 </style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/02-server-records/HX-6.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-6 — OmniRoute Server Configuration</h1>
-<p><strong>Build state:</strong> NOT STARTED <strong>Gate:</strong> — <strong>IP:</strong> <code>192.168.50.206</code> <strong>FQDN:</strong> <code>hx-6.hx.local.arpa</code> <strong>Record updated:</strong> 2026-09-16</p>
-<blockquote>Scaffolded by <code>tools/hx-doc/hx-new-server hx-6</code>. Fill every section as the build proceeds. <code>tools/hx-doc/hx-record-check</code> reports what is still open.</blockquote>
+<p><strong>Build state:</strong> PASS <strong>Gate:</strong> ACCEPTED WITH FOLLOW-UP ITEMS <strong>IP:</strong> <code>192.168.50.206</code> <strong>FQDN:</strong> <code>hx-6.hx.local.arpa</code> <strong>Record updated:</strong> 2026-09-18</p>
+<blockquote><strong>Deployment method: npm global install.</strong> HX-6 runs <code>omniroute@3.8.50</code> installed globally from the npm registry, started by <code>hx-omniroute.service</code> from <code>/usr/local/bin/omniroute</code>. <code>D-031</code> ratified this on 2026-09-17. The source build of <code>3.8.51</code> described in <a href="../03-runbooks/HX-6/README.html"><code>../03-runbooks/HX-6/README.md</code></a> is <strong>not</strong> the deployment path. Its checkout remains on disk and nothing runs it; <code>../03-runbooks/common/10-omniroute.sh</code> refuses to execute and exits 47.</blockquote>
 <h2>Foundation</h2>
-<p>Established by <code>docs/03-runbooks/common/00-foundation.sh</code> before Block 1, and gated by <code>01-base-admin-network-updates.sh</code>, which refuses to proceed without it. Proven from the operator workstation before Layer 0/1 closes.</p>
-<div class="tw"><table><thead><tr><th>Control</th><th>Expected</th><th>State</th></tr></thead><tbody><tr><td><code>hostname -f</code></td><td><code>hx-6.hx.local.arpa</code></td><td>NOT ESTABLISHED</td></tr><tr><td>AD DNS A record</td><td>the address recorded in <code>docs/00-control/hx-fleet.tsv</code></td><td>NOT ESTABLISHED</td></tr><tr><td>Time authority</td><td><code>chronyc sources</code> shows <code>^* 192.168.50.200</code></td><td>NOT ESTABLISHED</td></tr><tr><td>Fleet key</td><td><code>SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk</code></td><td>NOT ESTABLISHED</td></tr><tr><td>NOPASSWD sudo</td><td><code>sudo -k -n true</code> succeeds</td><td>NOT ESTABLISHED</td></tr><tr><td>SSH persistence</td><td><code>ssh.service</code> or <code>ssh.socket</code> enabled</td><td>NOT ESTABLISHED</td></tr><tr><td>External key-only login</td><td><code>tools/hx-doc/hx-fleet-access hx-6</code> returns <code>hx-6</code> and <code>KEY+SUDO-PASS</code></td><td>NOT ESTABLISHED</td></tr><tr><td>SSH host key</td><td>recorded at build, so a later change is answerable from the repository</td><td>NOT ESTABLISHED</td></tr><tr><td>SPNs in AD</td><td>all four forms, short and FQDN, for <code>host/</code> and <code>RestrictedKrbHost/</code></td><td>NOT ESTABLISHED</td></tr></tbody></table></div>
-<p>This host is not built. Every row is filled from the build, and proof step F0 in <code>docs/00-control/hx-proof.tsv</code> must be satisfied before this server's own phase can close.</p>
+<p><strong>Not captured in this record.</strong> HX-6 was built before the Phase 10 acceptance run, and the foundation controls were not re-measured during it. This section states that rather than reproducing rows nobody took.</p>
+<p>What is known from the acceptance run: the host answers on <code>192.168.50.206</code>, it is reachable by name as <code>hx-6</code> from the workstation, and its services survive reboot.</p>
+<p>To close this section, capture the same nine controls HX-8 carries:</p>
+<pre><code class="lang-bash">hostname -f
+chronyc sources
+sudo -k -n true &amp;&amp; echo NOPASSWD-OK
+tools/hx-doc/hx-fleet-access hx-6          # from the workstation, not the host
+ssh-keyscan -t ed25519 192.168.50.206 | ssh-keygen -lf -
+samba-tool computer show hx-6 -U 'HX\Administrator'   # on HX-1, for the SPNs</code></pre>
 <h2>1. Identity and Network</h2>
-<p>Hostname, IP, gateway, DNS, domain join, SSSD, domain user resolution. State the gate result: <strong>Domain join gate: PASS/FAIL</strong>.</p>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Hostname</td><td><code>hx-6</code></td></tr><tr><td>IP</td><td><code>192.168.50.206</code></td></tr><tr><td>Dashboard / API</td><td><code>http://192.168.50.206:20128</code></td></tr><tr><td>Live WebSocket</td><td><code>127.0.0.1:20132</code>, loopback only</td></tr></tbody></table></div>
+<p><strong>Domain join gate: NOT RECORDED</strong> in this pass. See Foundation above.</p>
 <h2>2. Operating System</h2>
-<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Distribution / release</td><td></td></tr><tr><td>Kernel</td><td></td></tr><tr><td>Firmware version</td><td></td></tr><tr><td>sudo policy</td><td></td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Distribution / release</td><td>NOT RECORDED in this pass</td></tr><tr><td>Kernel</td><td>NOT RECORDED in this pass</td></tr><tr><td>Firmware version</td><td>NOT RECORDED in this pass</td></tr><tr><td>Node.js</td><td>v16-series reported by the process name in <code>ss</code> output; the exact version was not read</td></tr><tr><td>npm</td><td><code>11.19.0</code> observed during the install, which is what <code>HX6-F02</code> turns on</td></tr></tbody></table></div>
 <h2>3. GPU Configuration</h2>
-<p>Driver package <strong>and exact version</strong>, GPU models and count, <code>nvidia-smi</code> proof. State the gate result: <strong>GPU gate: PASS/FAIL</strong>.</p>
+<p>HX-6 carries no GPU. <code>HX_GPU_HOSTS</code> is <code>hx-2 hx-3 hx-4 hx-5</code>, and <code>hx_require_gpu_expectation</code> refuses a driver install on any host outside it.</p>
+<p><strong>GPU gate: PASS — no GPU expected, none installed</strong></p>
 <h2>4. Storage Layout</h2>
-<p>Devices, filesystems, mount points, and the dedicated application path. State the gate result: <strong>Storage gate: PASS/FAIL</strong>.</p>
+<p><code>/srv/omniroute</code> is a dedicated filesystem. Measured 2026-09-17:</p>
+<pre><code class="lang-text">/dev/nvme0n1p3  116G   17G   94G  15%  /srv/omniroute
+
+15G     /srv/omniroute/app          the abandoned source checkout
+2.5M    /srv/omniroute/data         written by that build
+4.0K    /srv/omniroute/omniroute.env
+16K     /srv/omniroute/lost+found</code></pre>
+<p><strong>The running service does not use it.</strong> <code>WorkingDirectory</code> is <code>/home/hxsa</code>, on the 120G root filesystem, and the CLI's data directory is <code>/home/hxsa/.omniroute/</code>. So the dedicated volume carries 15G of a checkout nothing runs while the live service writes to the root disk. Recorded as <code>HX6-F05</code>; where the live store sits was not established.</p>
+<p><strong>Storage gate: PASS with an exception</strong> — the volume exists, is mounted and is persistent. It is not where the application writes.</p>
 <h2>5. Runtime</h2>
-<p>Package source, <strong>exact installed version</strong>, service unit, systemd overrides, listener address and port.</p>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Package source</td><td>npm registry, global install</td></tr><tr><td>Installed version</td><td><code>3.8.50</code></td></tr><tr><td>Install path</td><td><code>/usr/local/lib/node_modules/omniroute</code></td></tr><tr><td>Executable</td><td><code>/usr/local/bin/omniroute</code></td></tr><tr><td>Service unit</td><td><code>hx-omniroute.service</code></td></tr><tr><td>Service identity</td><td><code>User=hxsa</code> — see D-031 and <code>HX6-F04</code></td></tr><tr><td>Working directory</td><td><code>/home/hxsa</code></td></tr><tr><td>LAN listener</td><td><code>0.0.0.0:20128</code></td></tr><tr><td>Loopback listener</td><td><code>127.0.0.1:20132</code></td></tr></tbody></table></div>
+<pre><code class="lang-text">ExecStart={ path=/usr/local/bin/omniroute ; argv[]=/usr/local/bin/omniroute ; ... }
+WorkingDirectory=/home/hxsa
+User=hxsa
+EnvironmentFiles=          (empty)
+
+systemctl is-active   active
+systemctl is-enabled  enabled
+
+LISTEN 0 511   0.0.0.0:20128   users:(("omniroute (v16.",pid=4221,fd=21))
+LISTEN 0 511 127.0.0.1:20132   users:(("omniroute (v16.",pid=4221,fd=33))</code></pre>
+<h3>Configuration and secrets</h3>
+<p>The unit supplies no environment. OmniRoute loads its own, at startup, before the server begins, from <code>bin/omniroute.mjs</code> <code>loadEnvFile()</code>:</p>
+<pre><code class="lang-text">1  $DATA_DIR/.env                          when DATA_DIR is set
+2  /home/hxsa/.omniroute/.env               the default data dir — authoritative
+3  $PWD/.env
+4  /usr/local/lib/node_modules/omniroute/.env   inside the npm tree</code></pre>
+<p>First writer wins, and a shadowed key is reported rather than dropped:</p>
+<pre><code class="lang-text">⚠ REQUIRE_API_KEY in /usr/local/lib/node_modules/omniroute/.env is ignored,
+  /home/hxsa/.omniroute/.env set it first</code></pre>
+<p><code>/home/hxsa/.omniroute/.env</code> is the authoritative file and holds <code>STORAGE_ENCRYPTION_KEY</code>, <code>OMNIROUTE_API_KEY</code> and <code>REQUIRE_API_KEY</code>. It was set to mode <code>600</code> on 2026-09-17; the CLI creates it at <code>644</code>, which is <code>HX6-CLI-02</code>.</p>
+<p>Two consequences worth knowing. <code>systemctl show hx-omniroute</code> does not report the service's configuration, so the unit is not a truthful record of how it runs — <code>HX6-F06</code>. And the fourth file lives inside the npm package tree, so <code>npm install -g omniroute</code> replaces it.</p>
+<p><strong>A restart, not a reload, is required after changing that file.</strong> The A2A skill reads its credential into a module-level <code>const</code> at import time, so the value is fixed for the life of the process.</p>
+<h3>API-key enforcement</h3>
+<p><code>REQUIRE_API_KEY=true</code>. Proven from the workstation, off-host, on 2026-09-18:</p>
+<pre><code class="lang-text">GET /v1/models  no Authorization    401  AUTH_002 Authentication required
+GET /v1/models  Bearer &lt;sk- key&gt;    200
+GET :20132      from the LAN        no answer</code></pre>
+<p>Two credential classes, not interchangeable:</p>
+<div class="tw"><table><thead><tr><th>Form</th><th>Plane</th><th>Used for</th></tr></thead><tbody><tr><td><code>sk-…</code></td><td><code>CLIENT_API</code></td><td><code>/v1/*</code> inference, and the A2A internal call</td></tr><tr><td><code>oma_live_…</code></td><td><code>MANAGEMENT</code></td><td>remote CLI access tokens, scoped read/write/admin</td></tr></tbody></table></div>
 <h2>6. Model / Application Provenance</h2>
-<p>Required for every server that hosts a model or a downloaded artifact. All five fields are mandatory — an unknown value is recorded as <code>UNRESOLVED</code>, never omitted, because a missing field cannot be told apart from a forgotten one.</p>
-<pre><code class="lang-text">HX alias:              &lt;ollama name or service identifier&gt;
-Upstream identity:     &lt;official model/product name and version&gt;
-Source URI:            &lt;exact hf.co/... repo:file, package URL, or registry ref&gt;
-Artifact SHA-256:      &lt;full 64-character hash of the downloaded artifact&gt;
-Import method:         &lt;pull | GGUF import | package install | build from source&gt;</code></pre>
-<p>If the artifact was imported rather than pulled, also record the Modelfile or build definition verbatim, including any template, parameter, or stop-token settings. If none were set, say so explicitly.</p>
-<p>Why both Source URI and SHA-256 are required: the hash proves what is running, and the URI proves where it came from. Public model registries carry modified community rebuilds under names close to the official ones, so neither field alone establishes provenance.</p>
+<pre><code class="lang-text">HX alias:              hx-omniroute
+Upstream identity:     OmniRoute 3.8.50
+Source URI:            https://registry.npmjs.org/omniroute  (dist-tag latest)
+Artifact SHA-256:      UNRESOLVED — not captured at install time
+Import method:         package install (npm install -g omniroute)</code></pre>
+<p><code>3.8.50</code> was the npm <code>latest</code> when installed, published 2026-08-28, and the newest GitHub release tag was <code>v3.8.50</code> from 2026-08-26. <code>3.8.51</code> has never been published to the registry; upstream's default branch is <code>release/v3.8.51</code> and was still being pushed to on 2026-09-17.</p>
+<p>The artifact hash is <code>UNRESOLVED</code> rather than omitted: the install predates this record and no digest was captured. It can be closed by reading the integrity field npm recorded, or by re-resolving the published tarball digest.</p>
+<h3>Providers, aliases and combos</h3>
+<p>Four local Ollama providers, all reachable and answering <code>{"version":"0.34.0"}</code>:</p>
+<div class="tw"><table><thead><tr><th>Provider</th><th>Host</th><th>Model</th></tr></thead><tbody><tr><td>Orion-X</td><td>HX-5 <code>192.168.50.205</code></td><td><code>ornith-1.5:35b</code></td></tr><tr><td>Coder-X</td><td>HX-3 <code>192.168.50.203</code></td><td><code>Coder-X-GLM-Flash:latest</code></td></tr><tr><td>Qwen-X</td><td>HX-2 <code>192.168.50.202</code></td><td><code>qwen-x:qwen3.8-27b-q6_k</code></td></tr><tr><td>Meta-X</td><td>HX-4 <code>192.168.50.204</code></td><td><code>meta-x:gpt-oss-20b</code></td></tr></tbody></table></div>
+<p><code>GET /v1/models</code> returns <strong>516</strong> model ids. Five are HX aliases:</p>
+<pre><code class="lang-text">HX-CODING   HX-REASONING   HX-GENERAL   HX-TOOLS   HX-FAST</code></pre>
+<p>Eight are the local Ollama models behind them:</p>
+<pre><code class="lang-text">ollama/ornith-1.5:35b
+ollama/Coder-X-GLM-Flash:latest
+ollama/coder-x-glm:glm47flash-q5km
+ollama/hf.co/bartowski/zai-org_GLM-4.7-Flash-GGUF:Q5_K_M
+ollama/coder-x:qwen3-coder-30b-q6_k
+ollama/qwen-x:qwen3.8-27b-q6_k
+ollama/gpt-oss:20b
+ollama/meta-x:gpt-oss-20b</code></pre>
+<p>An <code>omniroute_test_combo</code> run against the tools combo returned, per provider:</p>
+<pre><code class="lang-text">Meta-X   1381ms   ok
+Orion-X  8668ms   ok
+Qwen-X  15064ms   ok</code></pre>
+<p>Cold model loading on the larger local models is visible in those figures and is carried as a performance item, not a defect.</p>
 <h2>7. Functional Validation</h2>
-<p>Known-answer CLI proof, HTTP/API proof, LAN proof, reboot persistence. Include the exact command and the exact response for each.</p>
+<h3>HX routing</h3>
+<p>One request per alias, from the workstation, 2026-09-18. Each resolved to a different inference host:</p>
+<pre><code class="lang-text">hx/general    -&gt; meta-x:gpt-oss-20b        HX-4   finish_reason=stop   6429ms
+hx/coding     -&gt; Coder-X-GLM-Flash:latest  HX-3   finish_reason=stop  12648ms
+hx/reasoning  -&gt; qwen-x:qwen3.8-27b-q6_k   HX-2   finish_reason=stop   5934ms</code></pre>
+<h3>A2A — enabled and validated</h3>
+<pre><code class="lang-text">GET /.well-known/agent.json      200, agent version 1.8.1
+skills advertised                six
+POST /a2a  message/send
+  skill                          smart-routing
+  metadata.model                 hx/general
+  result                         task.state = completed, artifact returned</code></pre>
+<p>The six advertised skills are <code>smart-routing</code>, <code>quota-management</code>, <code>provider-discovery</code>, <code>cost-analysis</code>, <code>health-report</code> and <code>list-capabilities</code>. <strong>Only <code>smart-routing</code> has been tested.</strong> Upstream's own <code>A2A-SERVER.md</code> documents two skills, not six.</p>
+<p>The agent card is served unauthenticated, which is correct for discovery. Two observations on its content: <code>url</code> advertises <code>http://0.0.0.0:20128/a2a</code>, which is a bind address rather than a destination a client can use, and the card is served in Chinese.</p>
+<p><code>/a2a</code> itself refuses an unauthenticated request with <code>-32600 Unauthorized: missing or invalid API key</code>.</p>
+<h3>MCP — enabled, streamable-http</h3>
+<pre><code class="lang-text">initialize        PASS    protocolVersion 2025-03-26
+server            omniroute 1.8.1
+session creation  PASS
+tools/list        PASS    110 tools
+tools/call        PASS    omniroute_get_health
+transport         streamable-http
+audit telemetry   PASS    2 calls in 24h, success rate 100%</code></pre>
+<p>The audit entry corroborates the call independently: its recorded output carries <code>uptime 5293.241318082</code>, matching the value returned to the caller.</p>
+<p><code>/api/mcp/*</code> is <code>LOCAL_ONLY</code> by default. It was reached from a non-loopback address because the key carries the <code>manage</code> scope, which upstream's route guard admits as a carve-out. A narrower <code>mcp:connect</code> scope exists for exactly this purpose and is not in use.</p>
+<h3>Client integration</h3>
+<div class="tw"><table><thead><tr><th>Client</th><th>Result</th></tr></thead><tbody><tr><td>Open WebUI</td><td>PASS — a prompt answered through <code>HX-REASONING</code></td></tr><tr><td>OpenCode</td><td>PASS — a completion returned through an HX alias</td></tr></tbody></table></div>
+<h3>Health baseline</h3>
+<p>Taken 2026-09-18 through <code>omniroute_get_health</code>, for later comparison:</p>
+<pre><code class="lang-text">version          3.8.50
+cryptography     aes-256-gcm, healthy
+circuitBreakers  []
+rateLimits       []
+admission        normal</code></pre>
 <h2>8. Final State</h2>
-<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td></td></tr><tr><td>Domain join / SSSD</td><td></td></tr><tr><td>GPU driver and visibility</td><td></td></tr><tr><td>Dedicated storage</td><td></td></tr><tr><td>Runtime version</td><td></td></tr><tr><td>Service active / enabled</td><td></td></tr><tr><td>Model / application loaded</td><td></td></tr><tr><td>Known-answer functional proof</td><td></td></tr><tr><td>Reboot persistence</td><td></td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td>NOT RECORDED in this pass</td></tr><tr><td>Domain join / SSSD</td><td>NOT RECORDED in this pass</td></tr><tr><td>GPU driver and visibility</td><td>PASS — no GPU expected, none installed</td></tr><tr><td>Dedicated storage</td><td>PASS with an exception — mounted, not where the app writes</td></tr><tr><td>Runtime version</td><td>PASS — <code>3.8.50</code></td></tr><tr><td>Service active / enabled</td><td>PASS</td></tr><tr><td>Model / application loaded</td><td>PASS — four providers, five aliases, 516 model ids</td></tr><tr><td>Known-answer functional proof</td><td>PASS — three aliases to three hosts</td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr></tbody></table></div>
+<p><strong>Phase 10 acceptance: ACCEPTED WITH FOLLOW-UP ITEMS.</strong> Full record in <a href="HX-6-ACCEPTANCE.html"><code>HX-6-ACCEPTANCE.md</code></a>.</p>
+<h3>Resolved findings</h3>
+<div class="tw"><table><thead><tr><th>Finding</th><th>Resolution</th></tr></thead><tbody><tr><td><code>HX6-A2A-01</code></td><td>Configuration, not an upstream defect. The A2A skill reads <code>OMNIROUTE_API_KEY</code> from the process environment at module load and sends no <code>Authorization</code> header when it is empty, so <code>AUTH_002</code> was the authorization policy answering correctly. Persisting the key in <code>/home/hxsa/.omniroute/.env</code> and restarting the service resolved it. Validated by <code>message/send</code> through <code>hx/general</code> to Meta-X, <code>state=completed</code>. The file is byte-identical between <code>v3.8.50</code> and <code>release/v3.8.51</code>, so waiting for a release would not have helped.</td></tr><tr><td><code>HX6-F01</code></td><td>npm dropped <code>better-sqlite3</code>, an <code>optionalDependency</code> whose install script it would not run, and exited 0. Class recorded; the repair lives in the now-obsolete source block.</td></tr><tr><td><code>HX6-F02</code></td><td>npm 11.19 declines install scripts it has not been told to allow, names them, and exits 0 — the package stays and the binary does not. Hit three times: the source build, this npm-global install, and the workstation CLI. Repaired here with <code>--allow-scripts</code>.</td></tr><tr><td><code>HX6-F03</code></td><td><code>keytar</code> links against libsecret at load time, so a correctly built binding still failed to import until <code>libsecret-1-0</code> was installed. Distinct from <code>HX6-F02</code>: npm was not what was missing.</td></tr><tr><td><code>HX6-F06</code></td><td>Reclassified. OmniRoute has a supported persistent environment mechanism; the key was simply absent from it.</td></tr></tbody></table></div>
+<h3>Open follow-ups</h3>
+<div class="tw"><table><thead><tr><th>Finding</th><th>Summary</th></tr></thead><tbody><tr><td><code>HX6-A2A-02</code></td><td>Smart-routing defaults to <code>model=auto</code> when none is supplied, and <code>auto</code> can select non-HX providers. HX aliases work correctly when explicitly supplied. Upstream documents <code>auto</code> filtering as fail-open, so a category suffix is not a boundary.</td></tr><tr><td><code>HX6-A2A-03</code></td><td><code>routing_explanation</code> returns <code>provider="unknown"</code> while the selected HX model is correctly identified. The skill reads provider and cost from the response body; OmniRoute publishes both as <code>X-OmniRoute-*</code> headers and leaves the body intact. Observability, not a routing failure.</td></tr><tr><td><code>HX6-MCP-01</code></td><td>The dashboard advertises 37 tools; live <code>tools/list</code> exposes 110. Scopes enforced: no. The 73 tools the dashboard omits are the same 73 that carry no scope.</td></tr><tr><td><code>HX6-MCP-02</code></td><td>The MCP audit records tool, timestamp, duration, result and output, and leaves the API-key attribution blank.</td></tr><tr><td><code>HX6-CLI-01</code></td><td>The remote CLI applies the active context inconsistently. Client behaviour, unrelated to the acceptance deferral.</td></tr><tr><td><code>HX6-CLI-02</code></td><td>The CLI writes <code>.env</code> at mode <code>644</code> while <code>config.json</code> gets <code>600</code>.</td></tr><tr><td><code>HX6-F04</code></td><td>The service runs as <code>hxsa</code>, which holds NOPASSWD sudo. Logged by owner decision <code>D-031</code> with reversal criteria, not open for fix.</td></tr><tr><td><code>HX6-F05</code></td><td><code>/srv/omniroute</code> holds 15G of the abandoned checkout while the live service works from <code>/home/hxsa</code>.</td></tr><tr><td>CLI acceptance</td><td>Deferred by owner on 2026-09-18. The install was proven first: 3.8.50 under a user prefix, <code>@parcel/watcher</code>, <code>koffi</code> and <code>keytar</code> all loading, the remote context connected and the token authenticated.</td></tr><tr><td>A2A skills</td><td>Five advertised skills untested: <code>quota-management</code>, <code>provider-discovery</code>, <code>cost-analysis</code>, <code>health-report</code>, <code>list-capabilities</code>.</td></tr><tr><td>Performance</td><td>Cold model loading is visible on the larger local models, up to 15s. Keeping selected Ollama models resident is a separate tuning activity.</td></tr></tbody></table></div>
 <h2>9. Evidence References</h2>
-<p>Either a retained bundle path under <code>docs/05-evidence/&lt;server&gt;/&lt;component&gt;/&lt;run-id&gt;/</code>, or an explicit statement that the proof is recorded inline in section 7 of this record. See <code>docs/05-evidence/README.md</code> for which model applies.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-6.md</code>.</footer></div></body></html>
+<p>The proof is recorded inline in section 7 of this record and in <a href="HX-6-ACCEPTANCE.html"><code>HX-6-ACCEPTANCE.md</code></a>. Every figure is a command and its output, captured 2026-09-17 and 2026-09-18. The security, routing, A2A and MCP gates were run from the workstation rather than on the host, so they prove the LAN path and not a loopback listener.</p>
+<p>Foundation controls and the OS rows are marked NOT RECORDED rather than filled from memory. The commands that would close them are listed under Foundation.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-6.md</code>.</footer></div></body></html>
