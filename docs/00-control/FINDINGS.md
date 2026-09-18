@@ -2198,7 +2198,8 @@ balanced weights. The candidate pool is whatever is connected, so `opencode` and
 ### The part that matters for governance
 
 A category or tier suffix is not a control. Upstream's own
-`docs/routing/AUTO-COMBO.md`, in the OmniRoute repository, states
+[AUTO-COMBO.md](https://github.com/diegosouzapw/OmniRoute/blob/v3.8.50/docs/routing/AUTO-COMBO.md), pinned at the deployed
+release, states
 it plainly:
 
 > Filtering is **fail-open** — if a constraint matches no connected models, the
@@ -2378,7 +2379,8 @@ The tools that load code into the running process are all in that unmapped set.
 ### What actually gated this, and what opened it
 
 `/api/mcp/*` is `LOCAL_ONLY` by default. Upstream's
-`docs/architecture/AUTHZ_GUIDE.md`, in the OmniRoute repository:
+[AUTHZ_GUIDE.md](https://github.com/diegosouzapw/OmniRoute/blob/v3.8.50/docs/architecture/AUTHZ_GUIDE.md), pinned at the
+deployed release:
 
 > `/api/mcp/*` is still LOCAL_ONLY by default but now accepts non-loopback
 > requests when the `Authorization: Bearer <api-key>` header carries the
