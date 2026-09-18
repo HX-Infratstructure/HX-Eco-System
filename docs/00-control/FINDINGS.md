@@ -2317,3 +2317,131 @@ OPEN. No change proposed here; the code is upstream. Recorded so that
 `provider "unknown"` is not investigated again as an HX misconfiguration, and so
 that `cost_envelope` is treated as unproven rather than as evidence of zero cost.
 
+## HX6-MCP-01 — the MCP surface is 110 tools, the governed catalogue is 37, and one scope opened it to the LAN
+
+**Status:** OPEN
+**Severity:** High until the owner decides the posture
+**Scope:** HX-6, `/api/mcp/*`; upstream `v3.8.50`
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17 MCP enablement and `tools/list`
+
+### What works
+
+MCP Streamable HTTP is live and proven end to end from the LAN on 2026-09-17:
+endpoint, management auth, transport negotiation, `initialize`, session
+creation, `tools/list`, and a real `tools/call` returning
+`omniroute_get_health`. None of what follows is a fault in that.
+
+### Finding
+
+`tools/list` returned **110 tools**. The dashboard reports **37**.
+
+They disagree because they are measuring different things.
+`src/app/api/mcp/tools/route.ts` returns `MCP_TOOLS.length`, and `MCP_TOOLS` in
+`open-sse/mcp-server/schemas/tools.ts` is a curated catalogue that carries
+`scopes` and an audit level per tool. The live server serves that catalogue plus
+tools registered elsewhere, which carry neither.
+
+So the 73 tools the dashboard does not show are the same 73 that no scope
+governs. The operator view and the governed set are one list, and everything
+outside it is invisible in both places.
+
+`src/shared/constants/mcpScopes.ts` defines 17 scopes and states the intent:
+
+> API keys can be configured with a subset of scopes to limit tool access
+> (least-privilege).
+
+`MCP_TOOL_SCOPES` maps roughly 45 tool names. Not mapped, and therefore not
+constrained by any scope that could be granted or withheld:
+
+```text
+plugin_install / activate / deactivate / uninstall / configure / scan
+omniroute_skills_execute / enable / list / executions
+omniroute_github_skills_search / scan / install
+omniroute_agent_skills_list / get / coverage
+omniroute_memory_search / add / clear
+omniroute_create_combo           switch_combo IS scoped; create is not
+omniroute_set_routing_strategy
+gamification_*   8 tools, including gamification_transfer
+notion_*         6 tools
+local_corpus_*   3 tools
+obsidian_*      22 tools, including delete_note and execute_command
+```
+
+The tools that load code into the running process are all in that unmapped set.
+
+### What actually gated this, and what opened it
+
+`/api/mcp/*` is `LOCAL_ONLY` by default. `docs/architecture/AUTHZ_GUIDE.md`:
+
+> `/api/mcp/*` is still LOCAL_ONLY by default but now accepts non-loopback
+> requests when the `Authorization: Bearer <api-key>` header carries the
+> `manage` scope. ... Anonymous requests to `/api/mcp/*` from non-loopback
+> continue to return `403 LOCAL_ONLY`.
+
+The proving call came from `192.168.50.206`, the host's LAN address rather than
+loopback, and it succeeded. So the key in use carries `manage`, and that one
+scope is what made all 110 tools reachable from the network.
+
+### Upstream drew this line and then did not apply it here
+
+The same paragraph:
+
+> the sibling LOCAL_ONLY prefix `/api/cli-tools/runtime/*` is **intentionally
+> NOT bypassable** because it can spawn arbitrary subprocesses.
+
+Subprocess spawning was excluded from the carve-out. `/api/mcp/` received the
+carve-out anyway, while `plugin_install` takes a filesystem path and
+`plugin_activate` "loads hooks into the request pipeline". That is code
+execution inside OmniRoute, which on HX-6 runs as `hxsa` with NOPASSWD sudo per
+D-031 and `HX6-F04`. This finding is what gives that identity decision a remote
+trigger.
+
+### Risk classes present in the live inventory
+
+- **Code into the running process.** `plugin_install`, `plugin_activate`,
+  `plugin_scan`, `omniroute_skills_execute`, `omniroute_github_skills_install`,
+  which installs into `~/.claude/skills/`, `~/.gemini/skills/` and
+  `~/.opencode/skills/`.
+- **Destructive against OmniRoute state.** `omniroute_db_health_check` with
+  `autoRepair`, which writes to the same `storage.sqlite` holding live provider
+  credentials; `cache_flush` with both arguments omitted clears everything;
+  `pool_reset`; `memory_clear`.
+- **Filesystem read.** `local_corpus_read`, `local_corpus_search`.
+- **Egress.** `web_search` across sixteen providers, `web_fetch`, `x_search`,
+  and `oneproxy_fetch` / `rotate`, which route through a third-party free-proxy
+  marketplace.
+- **Third-party data planes not configured here.** 6 Notion tools and 22
+  Obsidian tools, including `obsidian_delete_note`, `obsidian_move_note` and
+  `obsidian_execute_command`.
+- **Token movement.** `gamification_transfer` between API keys,
+  `gamification_invite` creating invite tokens for server connection, and
+  `gamification_servers` listing connected community servers.
+
+Most of the third-party tools will fail for want of credentials. The plugin and
+skills tools need no external credential.
+
+### Not established
+
+Whether an unmapped tool fails open or closed when a scoped key calls it over
+loopback was not traced. The enforcement site was not read, only the catalogue,
+the scope map and the authorization guide. Until that is known, a scoped-down
+key should not be assumed to be unable to reach `plugin_install`.
+
+### Options, none applied
+
+1. **Issue a second key without `manage`.** It receives `403 LOCAL_ONLY` for
+   `/api/mcp/*` from the LAN, which is a structural boundary rather than a
+   filter. Grant it only the read scopes MCP is actually used for.
+2. **Keep MCP loopback-only.** Remove `manage` from any key used off-host, so
+   the carve-out is never taken.
+3. **Accept the surface and record it**, the way D-031 records the service
+   identity, with reversal criteria.
+
+### Disposition
+
+OPEN. Owner decision required. No server change has been made and HX-6 is not to
+be touched until the owner says otherwise. Recorded now because the inventory is
+a point-in-time measurement: it was taken on 2026-09-17 against 3.8.50, and the
+number will move when the package does.
+
