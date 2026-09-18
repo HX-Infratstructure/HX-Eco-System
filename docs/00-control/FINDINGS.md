@@ -2228,3 +2228,92 @@ OPEN. Owner decision required on which providers may remain connected to HX-6
 and whether A2A callers are permitted to use `auto` at all. No server change has
 been made; HX-6 is not to be touched until the owner says otherwise.
 
+## HX6-A2A-03 — the A2A skill reads routing metadata from the body, and OmniRoute puts it in headers
+
+**Status:** OPEN
+**Severity:** Low
+**Scope:** HX-6, OmniRoute A2A smart-routing skill; upstream `v3.8.50`
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17 A2A end-to-end proof
+
+### Finding
+
+A successful A2A task returned a correct artifact and a `routing_explanation`
+naming `provider "unknown"`, while the model resolved correctly to
+`meta-x:gpt-oss-20b`.
+
+The two halves come from different places, and only one of them exists.
+
+`src/lib/a2a/skills/smartRouting.ts` takes the provider from the response body:
+
+```ts
+const provider = raw?.provider || "unknown";
+const actualCost = raw?.cost || 0;
+```
+
+OmniRoute publishes that metadata as response **headers**, declared in
+`src/shared/constants/headers.ts`:
+
+```ts
+model:        "X-OmniRoute-Model",
+provider:     "X-OmniRoute-Provider",
+responseCost: "X-OmniRoute-Response-Cost",
+costSaved:    "X-OmniRoute-Cost-Saved",
+```
+
+`src/domain/omnirouteResponseMeta.ts` attaches them and says explicitly that the
+body is left alone:
+
+> `(never replacing) headers so the original Content-Type / body stay intact.`
+
+And `routeFetch` discards the headers before the caller ever sees them:
+
+```ts
+const res = await fetch(url, { ...options, headers, signal: ... });
+return res.json();
+```
+
+So `raw.provider` is `undefined` on every call and `"unknown"` is the only value
+that string can take. No HX configuration changes it.
+
+### It is not only the explanation line
+
+The same variable feeds the resilience trace:
+
+```ts
+resilience_trace: [{ event: "primary_selected", provider, timestamp: ... }]
+```
+
+And `raw?.cost || 0` has the identical shape, because the cost is in
+`X-OmniRoute-Response-Cost`. `cost_envelope.actual` therefore reports `0` whatever
+the real spend was. That is worth checking against an observed A2A response
+before it is relied on for budget policy, because `withinBudget` is computed from
+it:
+
+```ts
+const withinBudget = budget ? actualCost <= budget : true;
+```
+
+A budget test against a cost that is always `0` passes unconditionally.
+
+### Why the model field looked right
+
+`raw?.model || model` falls back to the model that was **sent**. `hx/general`
+displayed correctly because of that fallback, not because the response carried
+the resolved model.
+
+### Scope of the impact
+
+Observability only. Routing, execution, the task lifecycle and the returned
+artifact are all correct and were proven end to end on 2026-09-17. What is wrong
+is the metadata describing the route.
+
+Present in tag `v3.8.50`. `release/v3.8.51` was not diffed for this, so no claim
+is made about whether upstream has since changed it.
+
+### Disposition
+
+OPEN. No change proposed here; the code is upstream. Recorded so that
+`provider "unknown"` is not investigated again as an HX misconfiguration, and so
+that `cost_envelope` is treated as unproven rather than as evidence of zero cost.
+
