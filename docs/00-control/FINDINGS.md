@@ -1858,3 +1858,110 @@ so that a future Kerberos or logging problem is not diagnosed from scratch.
 OPEN. No change is proposed. The owner decides whether `hx.local.arpa` should
 serve a reverse zone; nothing in the current build needs one.
 
+## HX6-F02 — npm declined ten install scripts, named them, and exited 0
+
+**Status:** CLOSED
+**Severity:** Medium
+**Scope:** `docs/03-runbooks/common/10-omniroute.sh`; the class is fleet-wide
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17 manual `npm install -g omniroute` by the owner
+
+### Finding
+
+A global install of `omniroute@3.8.50` under npm 11.19.0 reported
+`added 1165 packages in 2m` and then listed ten packages whose install scripts
+it had not run:
+
+```text
+omniroute@3.8.50        (postinstall: node scripts/build/postinstall.mjs)
+keytar@7.9.0            (install: prebuild-install || npm run build)
+onnxruntime-node@1.24.3 (postinstall: node ./script/install)
+tls-client-node@0.2.0   (postinstall: node ./scripts/postinstall.js)
+onnxruntime-node@1.30.0 (postinstall: node ./script/install)
+@parcel/watcher@2.6.0   (install: node scripts/build-from-source.js)
+@swc/core@1.16.2        (postinstall: node postinstall.js)
+protobufjs@7.6.6        (postinstall: node scripts/postinstall)
+koffi@2.16.3            (install: node src/cnoke/cnoke.js ...)
+esbuild@0.28.2          (postinstall: node install.js)
+```
+
+Eight of the ten either compile a native addon or download a platform binary.
+Re-running the install with `--allow-scripts` for those packages repaired it,
+and OmniRoute then started under systemd and survived a reboot.
+
+### Why this is not HX6-F01
+
+They are different npm behaviours with different symptoms.
+
+| | HX6-F01 | HX6-F02 |
+|---|---|---|
+| Trigger | `optionalDependencies` only | any package with an install script |
+| Result | package removed from the tree | package present, script never ran |
+| `require.resolve` | fails | **succeeds** |
+| Exit code | 0 | 0 |
+
+HX6-F01's repair only ever looks at `better-sqlite3`, so it does not cover this.
+And because resolution still succeeds here, a resolve-only check reports health
+on a package with no binary behind it.
+
+### Resolution
+
+The block does not pass an allow list. An allow list has to be trusted, and a
+trusted list is exactly what produced a silent skip in the first place. It
+proves the outcome instead: after `npm ci`, every module in
+`HX_OMNIROUTE_NATIVE_MODULES` is imported. A module that cannot load is
+reinstalled with its own install script in the foreground and then re-imported,
+and `hx_require_native_dep` refuses at exit 39 if the second import still fails.
+
+Only modules whose load was measured on HX-6 on 2026-09-17 are listed:
+`better-sqlite3`, `@parcel/watcher`, `koffi`, `keytar`. The remaining six ran
+their scripts during the repair but were not load-tested, so they are named in
+the `hx-base.env` comment rather than gated on evidence that was not collected.
+
+### Disposition
+
+CLOSED. The block proves imports rather than reading install output.
+
+## HX6-F03 — keytar's binding was built and still could not load
+
+**Status:** CLOSED
+**Severity:** Low
+**Scope:** `docs/03-runbooks/common/10-omniroute.sh`
+**Discovered on:** HX-6
+**Discovered during:** 2026-09-17 load verification of the repaired install
+
+### Finding
+
+After the repaired install, `keytar` was measured directly:
+
+```text
+./node_modules/keytar/build/Release/keytar.node   present
+require("keytar")  ->  libsecret-1.so.0: cannot open shared object file
+```
+
+The npm side was complete. `keytar` links against libsecret at load time rather
+than at build time, and `libsecret-1-0` was absent from the operating system, so
+a correctly built binding could not be loaded.
+
+`@parcel/watcher` and `koffi` were measured the same way and both imported
+successfully, which is what separates this from HX6-F02: the install script was
+not the thing missing.
+
+### Resolution
+
+`HX_OMNIROUTE_OS_PACKAGES` records `libsecret-1-0`, and the block installs it
+before anything asks the tree to import. No npm flag would have fixed this,
+because npm was not what was missing.
+
+### Scope of the impact
+
+OmniRoute ran and stayed healthy across a reboot without keytar. This is a
+component-level gap, not evidence against the service baseline. It is recorded
+because a credential-store call would have failed at the moment it was first
+needed, with a message about a shared object rather than about OmniRoute.
+
+### Disposition
+
+CLOSED. The library is installed by the block and the module is load-gated by
+HX6-F02's loop.
+
