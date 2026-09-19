@@ -6,7 +6,7 @@
 Server: HX-9
 IP: 192.168.50.209
 Role: PostgreSQL + PostgreSQL MCP / Redis + assigned Redis MCP
-Current state: NOT STARTED
+Current state: IN PROGRESS — PostgreSQL core/pgvector proven; PostgreSQL MCP pending
 Deployment: native Ubuntu Linux + systemd
 Containers: not used unless the owner explicitly changes the architecture
 ```
@@ -55,22 +55,24 @@ new psql session proves pg_temp.hx_smoke_postgresql is absent
 
 No permanent schema/table or production data is required. PostgreSQL MCP is proven separately with `smoke-tests/mcp-companion-smoke-test.md`.
 
-## Current implementation gaps
+## Current as-built state and remaining gaps
 
-As of the current clean rebuild state:
+As of the 2026-09-19 clean-rebuild record:
 
-- HX-9 is NOT STARTED;
-- no active HX-9 server record exists yet under `docs/02-server-records/`;
-- no active HX-9 runbook exists yet under `docs/03-runbooks/`;
-- PostgreSQL major version is not owner-pinned in current authority;
-- Ubuntu distribution package versus PostgreSQL Apt Repository source is not pinned;
-- PostgreSQL data directory/storage placement is not pinned;
-- listener address and `pg_hba.conf` pattern are not pinned;
-- application role/database topology is not pinned;
-- HA/replication, PgBouncer, backup/PITR architecture, and production schema design are not BASE assumptions;
-- exact PostgreSQL MCP implementation still requires separate review/selection.
+- PostgreSQL 18.6 is installed from the official source tarball and hash-verified.
+- Prefix: `/srv/postgresql`.
+- PGDATA: `/srv/postgresql/data/pgdata`.
+- Unit: `hx-postgresql.service`; active/enabled and reboot-proven.
+- Listener: LAN-capable port 5432 with `192.168.50.0/24` SCRAM HBA access.
+- Data checksums are enabled.
+- pgvector 0.8.6 is installed and functionally proven.
+- LAN create/write/read/temporary-object cleanup proof passed.
+- remote pgAdmin administration over SCRAM is proven.
+- PostgreSQL MCP is not yet implemented and is the next PostgreSQL companion gate.
 
-These are not reasons to invent defaults. They are implementation-time owner decisions or runbook work.
+Still outside current BASE unless separately approved: HA/replication, PgBouncer,
+backup/PITR topology, production application role/database/schema design, and
+formula-driven tuning.
 
 ## HX invariants
 
