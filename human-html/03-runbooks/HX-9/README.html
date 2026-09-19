@@ -36,27 +36,54 @@ a{color:var(--accent)}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
 </style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/03-runbooks/HX-9/README.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-9 Current Runbook</h1>
-<p><strong>Host:</strong> hx-9 <strong>Expected IP:</strong> <code>192.168.50.209</code> <strong>Role:</strong> PostgreSQL + MCP / Redis + MCP</p>
-<h2>Execution</h2>
-<p>Steps 1-2 are the shared base blocks. Run them from this directory; each one refuses to run on any host other than <code>hx-9</code>.</p>
+<p><strong>Host:</strong> hx-9 <strong>Expected IP:</strong> <code>192.168.50.209</code> <strong>Role:</strong> PostgreSQL + MCP / Redis + MCP <strong>Current state:</strong> IN PROGRESS <strong>Current gate:</strong> POSTGRESQL MCP NEXT <strong>As-built record:</strong> <code>../../02-server-records/HX-9.md</code></p>
+<h2>Current as-built position</h2>
+<p>Foundation, domain membership, storage, PostgreSQL 18.6, pgvector 0.8.6, Redis 8.10.2, RedisBloom, RedisJSON, RediSearch, and P3X Redis UI are installed natively and proven on HX-9. PostgreSQL, Redis, and P3X survive host reboot.</p>
+<p>The RedisVL/FastMCP Streamable HTTP companion is active and enabled at <code>http://192.168.50.209:8000/mcp</code>; its post-install host-reboot gate remains open. PostgreSQL MCP has not yet been installed and is the next primary build gate.</p>
+<p>The authoritative live configuration, hashes, paths, units, listeners, functional proofs, and unresolved evidence items are recorded in <code>docs/02-server-records/HX-9.md</code>.</p>
+<h2>Foundation execution</h2>
+<p>The shared foundation blocks remain the authority for a clean rebuild of this host:</p>
 <pre><code class="lang-bash">./01-base-admin-network-updates.sh # reboots
-./02-domain.sh              # reboots
-../common/10-postgresql.sh hx-9
-../common/10-redis.sh hx-9</code></pre>
-<p>Implementation lives in <code>../common/</code>; version pins and the host -&gt; IP map live in <code>../common/hx-base.env</code>. See <code>../README.md</code> before changing a pin.</p>
-<h2>Sequence</h2>
+./02-domain.sh                     # reboots</code></pre>
+<p>HX-9 is CPU-only and is not in <code>HX_GPU_HOSTS</code>.</p>
+<h2>Application execution history</h2>
+<p>The current HX-9 applications were built during the owner-directed manual implementation session. Do not re-run the generic application blocks against the live host merely to make the host resemble an older pin.</p>
+<p>Current live versions are:</p>
+<pre><code class="lang-text">PostgreSQL 18.6
+pgvector 0.8.6
+Redis 8.10.2
+P3X Redis UI 2026.10.100
+FastMCP 3.4.7 inside the RedisVL MCP runtime</code></pre>
+<p>The repository application blocks remain useful rebuild references, but any version or procedure conflict must be reconciled against the as-built server record and current owner direction before execution. In particular, the live Redis runtime is 8.10.2; do not silently downgrade it to an older repository pin.</p>
+<h2>Accepted service layout</h2>
+<div class="tw"><table><thead><tr><th>Capability</th><th>Unit / process</th><th>Native endpoint</th></tr></thead><tbody><tr><td>PostgreSQL</td><td><code>hx-postgresql.service</code></td><td><code>192.168.50.209:5432</code></td></tr><tr><td>Redis</td><td><code>hx-redis.service</code></td><td><code>192.168.50.209:6379</code></td></tr><tr><td>P3X Redis UI</td><td><code>hx-redis-webui.service</code></td><td><code>http://192.168.50.209:7843/</code></td></tr><tr><td>RedisVL MCP</td><td><code>hx-redis-mcp.service</code></td><td><code>http://192.168.50.209:8000/mcp</code></td></tr></tbody></table></div>
+<p>PostgreSQL data is under <code>/srv/postgresql/data/pgdata</code>; Redis data is under <code>/srv/redis/data</code>. Do not move, remount, or repurpose storage without explicit owner approval.</p>
+<h2>Remaining closure sequence</h2>
 <ol>
-<li>Base/admin/network validation; apt update + upgrade; reboot.</li>
-<li>Join <code>hx.local.arpa</code>; validate SSSD/domain user; reboot. The block installs</li>
+<li>Select and install the PostgreSQL MCP companion.</li>
+<li>Prove PostgreSQL MCP discovery plus a bounded known-answer safe tool call.</li>
+<li>Reboot HX-9 and prove <code>hx-redis-mcp.service</code> returns active/enabled and the</li>
 </ol>
-<p>the pinned NVIDIA driver only on hosts listed in <code>HX_GPU_HOSTS</code>, which this host is not, so nothing is installed here. The reboot happens either way.</p>
+<p>Streamable HTTP endpoint responds.</p>
 <ol>
-<li>Install PostgreSQL and Redis:</li>
+<li>Reconcile the Redis PID-file and <code>vm.overcommit_memory</code> warnings</li>
 </ol>
-<p><code>../common/10-postgresql.sh hx-9</code> <code>../common/10-redis.sh hx-9</code> Versions are pinned in <code>../common/hx-base.env</code>. Application software comes from PyPI, a GitHub release, a direct binary, or Hugging Face. Not Snap. Not the Ubuntu archive.</p>
+<p>deliberately; do not convert them into generic hardening work.</p>
 <ol>
-<li>Validation: the service starts, and it survives a reboot.</li>
-<li>Fill in <code>docs/02-server-records/HX-9.md</code>, then set <code>state</code> and</li>
+<li>Close or explicitly accept the two remaining foundation-record evidence</li>
 </ol>
-<p><code>gate</code> for <code>HX-9</code> in <code>docs/00-control/hx-fleet.tsv</code> and run <code>tools/hx-doc/hx-fleet</code>.</p>
-<p>Do not mount/wipe unrelated disks. Do not import prior application state.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/03-runbooks/HX-9/README.md</code>.</footer></div></body></html>
+<p>gaps: SSH host-key fingerprint and four-form AD SPN transcript.</p>
+<ol>
+<li>Run/promote the repository-defined HX-9 smoke/evidence gates when the</li>
+</ol>
+<p>approved runner layer is available.</p>
+<ol>
+<li>Update <code>docs/00-control/hx-fleet.tsv</code> to <code>PASS / CLOSED</code> only after every</li>
+</ol>
+<p>required companion, cleanup, and reboot gate is actually proven.</p>
+<h2>Validation references</h2>
+<pre><code class="lang-text">smoke-tests/postgresql-smoke-test.md
+smoke-tests/redis-smoke-test.md
+smoke-tests/mcp-companion-smoke-test.md</code></pre>
+<p>Do not equate service health with companion-tool discovery. Redis MCP client registration/tool injection belongs to the consuming runtime; the HX-9 server gate proves the MCP endpoint and bounded tool contract.</p>
+<p>Do not mount/wipe unrelated disks. Do not import prior application state. Do not add firewall/TLS/access restrictions without owner approval.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/03-runbooks/HX-9/README.md</code>.</footer></div></body></html>
