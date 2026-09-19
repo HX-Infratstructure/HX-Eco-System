@@ -19,7 +19,8 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 . "$SCRIPT_DIR/hx-base.env"
 
 [ $# -eq 1 ] || { echo "Usage: ${0##*/} <hx-host>   (e.g. hx-6)" >&2; exit 2; }
-hx_require_host "$1"
+# Claims the name rather than requiring it: step 0 is what sets it.
+hx_claim_host "$1"
 
 FQDN_WANT="$HX_HOST.$HX_DOMAIN"
 ADMIN_HOME="/home/$HX_ADMIN_USER"
@@ -43,7 +44,12 @@ grep -v '^127\.0\.1\.1[[:space:]]' /etc/hosts > \"\$tmp\"
 printf '127.0.1.1\t%s %s\n' '$FQDN_WANT' '$HX_HOST' >> \"\$tmp\"
 chown root:root \"\$tmp\"; chmod 0644 \"\$tmp\"
 mv \"\$tmp\" /etc/hosts"
-echo "hostname -f: $(hostname -f)"
+# Prove the identity took rather than print it. A failing $(hostname -f) on an
+# echo line is invisible under set -e, and "Foundation complete" printed
+# anyway. Same gate Block 1 applies, so the stop is 41 here too.
+FQDN_NOW="$(hostname -f || true)"
+echo "hostname -f: $FQDN_NOW"
+hx_require_fqdn "$FQDN_NOW" "$FQDN_WANT"
 
 echo "--- time authority: HX-1 ---"
 if ! command -v chronyc >/dev/null 2>&1; then
@@ -67,7 +73,9 @@ sudo systemctl enable --now chrony
 # HX-3 and HX-4 failed this way: the drop-in was on disk two seconds after
 # chrony started, and stayed unread. Restart, do not assume.
 sudo systemctl restart chrony
-if systemctl list-unit-files systemd-timesyncd.service >/dev/null 2>&1; then
+# `list-unit-files` exits 0 on some systemd versions whether or not anything
+# matched, so it cannot say "absent". `cat` fails when the unit file is gone.
+if systemctl cat systemd-timesyncd.service >/dev/null 2>&1; then
   sudo systemctl disable --now systemd-timesyncd 2>/dev/null || true
 fi
 sudo chronyc -a makestep >/dev/null 2>&1 || true
@@ -78,7 +86,7 @@ sudo chronyc -a makestep >/dev/null 2>&1 || true
 # later, so a sixty-second window reported a false failure. Three minutes.
 HX_NTP_OK=0
 for _ in $(seq 1 36); do
-  if hx_ntp_selected "$(chronyc sources 2>/dev/null || true)" "$HX_NTP_SERVER"; then
+  if hx_ntp_selected "$(chronyc -n sources 2>/dev/null || true)" "$HX_NTP_SERVER"; then
     HX_NTP_OK=1
     break
   fi
@@ -106,11 +114,11 @@ id "$HX_ADMIN_USER" >/dev/null 2>&1 || sudo useradd -m -s /bin/bash "$HX_ADMIN_U
 sudo sh -c 'set -e
 tmp=/etc/sudoers.d/90-hx-admin.tmp
 umask 022
-printf "%s\n" "hxsa ALL=(ALL:ALL) NOPASSWD: ALL" > "$tmp"
+printf "%s\n" "$1 ALL=(ALL:ALL) NOPASSWD: ALL" > "$tmp"
 chown root:root "$tmp"; chmod 0440 "$tmp"
 visudo -cf "$tmp"
 mv "$tmp" /etc/sudoers.d/90-hx-admin
-visudo -c'
+visudo -c' _ "$HX_ADMIN_USER"
 
 echo "--- fleet key (D-027: from the committed public key) ---"
 [ -f "$HX_FLEET_KEY_PUB" ] || { echo "STOP: $HX_FLEET_KEY_PUB missing from the runbooks"; exit 43; }

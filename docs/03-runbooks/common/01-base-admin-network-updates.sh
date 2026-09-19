@@ -44,7 +44,16 @@ grep -q "$HX_DC_IP" <<<"$RESOLV" || { echo "STOP: expected HX-1 DNS $HX_DC_IP no
 hx_require_fqdn "$(hostname -f)" "$HX_HOST.$HX_DOMAIN"
 
 # Time authority. HX-1 must be the selected source, not merely configured.
-hx_require_ntp_source "$(chronyc sources 2>/dev/null || true)" "$HX_NTP_SERVER"
+# After a reboot chrony selects from cold again, and 00-foundation.sh records
+# HX-4 taking about a minute to reach HX-1, so this gate gets the same three
+# minutes before it fails rather than one look.
+for _ in $(seq 1 36); do
+  if hx_ntp_selected "$(chronyc -n sources 2>/dev/null || true)" "$HX_NTP_SERVER"; then
+    break
+  fi
+  sleep 5
+done
+hx_require_ntp_source "$(chronyc -n sources 2>/dev/null || true)" "$HX_NTP_SERVER"
 
 # Fleet access. The approved key, by fingerprint - not merely some key.
 hx_require_fleet_key "/home/$HX_ADMIN_USER/.ssh/authorized_keys" "$HX_FLEET_KEY_FINGERPRINT"
@@ -59,16 +68,20 @@ echo "FOUNDATION GATE: PASS"
 sudo sh -c 'set -e
 tmp=/etc/sudoers.d/90-hx-admin.tmp
 umask 022
-printf "%s\n" "hxsa ALL=(ALL:ALL) NOPASSWD: ALL" > "$tmp"
+printf "%s\n" "$1 ALL=(ALL:ALL) NOPASSWD: ALL" > "$tmp"
 chown root:root "$tmp"
 chmod 0440 "$tmp"
 visudo -cf "$tmp"
 mv "$tmp" /etc/sudoers.d/90-hx-admin
-visudo -c'
+visudo -c' _ "$HX_ADMIN_USER"
 
-# Verify the NOPASSWD policy actually took effect.
+# Verify the NOPASSWD policy actually took effect - for the admin account, with
+# the credential cache ignored. `sudo -n true` alone tested whoever ran this
+# block, and the sudo call above had just warmed that user's timestamp, so it
+# passed with the policy missing. tools/hx-doc/hx_fleet_access.py makes the
+# same point about -k.
 # `set -e` aborts before any trailing "$?" echo, so test explicitly.
-if sudo -n true; then
+if sudo -u "$HX_ADMIN_USER" sudo -k -n true; then
   echo "NOPASSWD sudo: PASS"
 else
   echo "STOP: NOPASSWD sudo did not take effect" >&2
@@ -89,7 +102,7 @@ systemctl is-active firewalld || echo "firewalld unit not found or inactive"
 # tools/hx-doc/hx-fleet-access. These two lines are evidence, not a control:
 # `is-active` was true on HX-2 and HX-3 the whole time the fleet could not
 # log in to either.
-systemctl is-active ssh
+systemctl is-active ssh || true
 sudo sshd -T | grep '^port '
 
 # D-028: hold the NVIDIA branch before any upgrade runs, so routine patching
