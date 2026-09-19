@@ -17,7 +17,7 @@ Outstanding infrastructure findings are tracked in `docs/00-control/FINDINGS.md`
 | HX-6 | OmniRoute | **PASS** | **ACCEPTED FOLLOW UP** | OmniRoute 3.8.50 npm global (D-031); Phase 10 accepted with follow-up items; A2A and MCP live; auto-routing governance open (HX6-A2A-02) |
 | HX-7 | NGINX dev/test only | **IN PROGRESS** | **C4 DEFERRED** | Not the ecosystem reverse proxy (D-004) |
 | HX-8 | Open WebUI | **PASS** | **CLOSED** | Open WebUI 0.11.3 on Python 3.12.3; D-008 proved against HX-2, HX-3, HX-4 and HX-5; owner kept the four direct connections, D-008 removal clause open |
-| HX-9 | PostgreSQL + MCP / Redis + MCP | **IN PROGRESS** | **POSTGRESQL MCP NEXT** | PostgreSQL 18.6 + pgvector and Redis 8.10.2 + Bloom/JSON/Search + P3X WebUI proven; Redis MCP daemon active; PostgreSQL MCP and Redis MCP reboot proof remain |
+| HX-9 | PostgreSQL + MCP / Redis + MCP | **IN PROGRESS** | **POSTGRESQL MCP NEXT** | PostgreSQL 18.6 + pgvector and Redis 8.10.2 + Bloom/JSON/Search + P3X WebUI proven; Redis MCP daemon active; PostgreSQL MCP plus Redis MCP discovery/tool-call and reboot proof remain |
 | HX-10 | Qdrant + Web UI + MCP | **NOT STARTED** | — | One embedding identity per collection (D-005) |
 | HX-11 | LightRAG + MCP | **NOT STARTED** | — | Needs HX-10 and HX-4 proof first |
 | HX-12 | Deep Agents (LangChain) LOB agent factory | **NOT STARTED** | — | Prose runbook; pin deepagents version at implementation time |
