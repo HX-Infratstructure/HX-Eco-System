@@ -451,7 +451,8 @@ instance bound successfully.
 | RedisBloom / RedisJSON / RediSearch | PASS |
 | Redis P3X WebUI | PASS |
 | Redis/WebUI reboot persistence | PASS |
-| RedisVL/FastMCP daemon | PASS — current runtime |
+| RedisVL/FastMCP daemon/runtime endpoint | RUNNING / PROVEN CURRENT RUNTIME |
+| Redis MCP companion discovery + safe tool call | NOT YET PROVEN |
 | Redis MCP reboot persistence | NOT YET PROVEN |
 | SSH host-key record | UNRESOLVED |
 | Exact AD four-form SPN transcript | UNRESOLVED |
@@ -461,13 +462,14 @@ instance bound successfully.
 
 1. Select/install/configure the PostgreSQL MCP companion.
 2. Prove PostgreSQL MCP discovery + known-answer safe tool call.
-3. Reboot HX-9 and re-prove `hx-redis-mcp.service` plus MCP endpoint.
-4. Reconcile Redis PID-file and `vm.overcommit_memory` warnings deliberately,
+3. Run the repository MCP companion procedure against RedisVL with a real MCP client: tool discovery plus one safe known-answer tool call.
+4. Reboot HX-9 and re-prove `hx-redis-mcp.service` plus MCP endpoint.
+5. Reconcile Redis PID-file and `vm.overcommit_memory` warnings deliberately,
    without generic security hardening.
-5. Close remaining foundation record evidence gaps or explicitly accept them.
-6. Run/promote the repository-defined HX-9 smoke/evidence gates from the
+6. Close remaining foundation record evidence gaps or explicitly accept them.
+7. Run/promote the repository-defined HX-9 smoke/evidence gates from the
    approved runner when that validation layer is available.
-7. Only then promote HX-9 to `PASS / CLOSED`.
+8. Only then promote HX-9 to `PASS / CLOSED`.
 
 ## 9. Evidence References
 
