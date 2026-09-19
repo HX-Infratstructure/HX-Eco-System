@@ -7,7 +7,7 @@ HX-5	192.168.50.205	CentCom / Ornith / DeepSeek Harness / dev-test	IN_PROGRESS	C
 HX-6	192.168.50.206	OmniRoute	PASS	ACCEPTED_FOLLOW_UP	OmniRoute 3.8.50 npm global (D-031); Phase 10 accepted with follow-up items; A2A and MCP live; auto-routing governance open (HX6-A2A-02)
 HX-7	192.168.50.207	NGINX dev/test only	IN_PROGRESS	C4_DEFERRED	Not the ecosystem reverse proxy (D-004)
 HX-8	192.168.50.208	Open WebUI	PASS	CLOSED	Open WebUI 0.11.3 on Python 3.12.3; D-008 proved against HX-2, HX-3, HX-4 and HX-5; owner kept the four direct connections, D-008 removal clause open
-HX-9	192.168.50.209	PostgreSQL + MCP / Redis + MCP	NOT_STARTED	-	Two applications on one host; each closes separately
+HX-9	192.168.50.209	PostgreSQL + MCP / Redis + MCP	IN_PROGRESS	POSTGRESQL_MCP_NEXT	PostgreSQL 18.6 + pgvector and Redis 8.10.2 + Bloom/JSON/Search + P3X WebUI proven; Redis MCP daemon active; PostgreSQL MCP and Redis MCP reboot proof remain
 HX-10	192.168.50.210	Qdrant + Web UI + MCP	NOT_STARTED	-	One embedding identity per collection (D-005)
 HX-11	192.168.50.211	LightRAG + MCP	NOT_STARTED	-	Needs HX-10 and HX-4 proof first
 HX-12	192.168.50.212	Deep Agents (LangChain) LOB agent factory	NOT_STARTED	-	Prose runbook; pin deepagents version at implementation time
