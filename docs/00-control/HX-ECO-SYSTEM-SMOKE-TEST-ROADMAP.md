@@ -101,6 +101,15 @@ If a materially relevant dependency changes after its PASS—model revision/dime
 |---|---|---|---|---|---|---|
 | **P0** | - | Foundation PASS (HX-1, HX-2, HX-3) | [`BUILD-STATE.md`](../../docs/00-control/BUILD-STATE.md) | — | None | **PASS** |
 | **F0** | - | Foundation control standard (FQDN, HX-1 NTP, fleet key, external proof) | [`00-foundation.sh`](../../docs/03-runbooks/common/00-foundation.sh) | — | None | **PASS** |
+| **F0-HX-9** | hx-9 | Foundation on hx-9 (F0 controls, proven externally) | [`00-foundation.sh`](../../docs/03-runbooks/common/00-foundation.sh) | F0 | None | NOT RUN |
+| **F0-HX-10** | hx-10 | Foundation on hx-10 (F0 controls, proven externally) | [`00-foundation.sh`](../../docs/03-runbooks/common/00-foundation.sh) | F0 | None | NOT RUN |
+| **F0-HX-11** | hx-11 | Foundation on hx-11 (F0 controls, proven externally) | [`00-foundation.sh`](../../docs/03-runbooks/common/00-foundation.sh) | F0 | None | NOT RUN |
+| **F0-HX-12** | hx-12 | Foundation on hx-12 (F0 controls, proven externally) | [`00-foundation.sh`](../../docs/03-runbooks/common/00-foundation.sh) | F0 | None | NOT RUN |
+| **F0-HX-13** | hx-13 | Foundation on hx-13 (F0 controls, proven externally) | [`00-foundation.sh`](../../docs/03-runbooks/common/00-foundation.sh) | F0 | None | NOT RUN |
+| **F0-HX-14** | hx-14 | Foundation on hx-14 (F0 controls, proven externally) | [`00-foundation.sh`](../../docs/03-runbooks/common/00-foundation.sh) | F0 | None | NOT RUN |
+| **F0-HX-15** | hx-15 | Foundation on hx-15 (F0 controls, proven externally) | [`00-foundation.sh`](../../docs/03-runbooks/common/00-foundation.sh) | F0 | None | NOT RUN |
+| **F0-HX-16** | hx-16 | Foundation on hx-16 (F0 controls, proven externally) | [`00-foundation.sh`](../../docs/03-runbooks/common/00-foundation.sh) | F0 | None | NOT RUN |
+| **F0-HX-17** | hx-17 | Foundation on hx-17 (F0 controls, proven externally) | [`00-foundation.sh`](../../docs/03-runbooks/common/00-foundation.sh) | F0 | None | NOT RUN |
 <!-- /HX-PROOF -->
 
 **Exit:** current foundation and at least one known-good HX model endpoint exist.
@@ -134,11 +143,11 @@ After A5, later component smoke tests run from HX-5 whenever the product exposes
 <!-- HX-PROOF:TABLE phase=B -->
 | Step | SUT | Proof | Authority | Requires | Limited integration | Status |
 |---|---|---|---|---|---|---|
-| **B1** | hx-9 | PostgreSQL core | [`postgresql-smoke-test.md`](../../smoke-tests/postgresql-smoke-test.md) | F0 | None; session-scoped disposable data | NOT RUN |
+| **B1** | hx-9 | PostgreSQL core | [`postgresql-smoke-test.md`](../../smoke-tests/postgresql-smoke-test.md) | F0-HX-9 | None; session-scoped disposable data | NOT RUN |
 | **B2** | hx-9 | PostgreSQL MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | B1 | Parent PostgreSQL service only | NOT RUN |
-| **B3** | hx-9 | Redis core | [`redis-smoke-test.md`](../../smoke-tests/redis-smoke-test.md) | F0 | None; TTL-protected disposable key | NOT RUN |
+| **B3** | hx-9 | Redis core | [`redis-smoke-test.md`](../../smoke-tests/redis-smoke-test.md) | F0-HX-9 | None; TTL-protected disposable key | NOT RUN |
 | **B4** | hx-9 | Redis MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | B3 | Parent Redis service only | NOT RUN |
-| **B5** | hx-10 | Qdrant core | [`qdrant-smoke-test.md`](../../smoke-tests/qdrant-smoke-test.md) | F0 | None; deterministic raw vectors avoid an embedding dependency | NOT RUN |
+| **B5** | hx-10 | Qdrant core | [`qdrant-smoke-test.md`](../../smoke-tests/qdrant-smoke-test.md) | F0-HX-10 | None; deterministic raw vectors avoid an embedding dependency | NOT RUN |
 | **B6** | hx-10 | Qdrant Web UI | [`native-web-ui-smoke-test.md`](../../smoke-tests/native-web-ui-smoke-test.md) | B5 | Parent Qdrant live state only | NOT RUN |
 | **B7** | hx-10 | Qdrant MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | B5 | Parent Qdrant service only | NOT RUN |
 <!-- /HX-PROOF -->
@@ -153,7 +162,7 @@ After A5, later component smoke tests run from HX-5 whenever the product exposes
 | Step | SUT | Proof | Authority | Requires | Limited integration | Status |
 |---|---|---|---|---|---|---|
 | **C1** | hx-6 | OmniRoute | [`omniroute-smoke-test.md`](../../smoke-tests/omniroute-smoke-test.md) | P0,F0 | One temporary route to the proven model; remove afterward | NOT RUN |
-| **C2** | hx-15 | FastMCP | [`fastmcp-smoke-test.md`](../../smoke-tests/fastmcp-smoke-test.md) | F0 | Disposable custom MCP server/tool only | NOT RUN |
+| **C2** | hx-15 | FastMCP | [`fastmcp-smoke-test.md`](../../smoke-tests/fastmcp-smoke-test.md) | F0-HX-15 | Disposable custom MCP server/tool only | NOT RUN |
 | **C3** | hx-5 | DeepSeek Harness | [`deepseek-harness-smoke-test.md`](../../smoke-tests/deepseek-harness-smoke-test.md) | A4 | Direct model use for a disposable generated AI project | NOT RUN |
 | **C4** | hx-7 | NGINX dev/test | [`nginx-smoke-test.md`](../../smoke-tests/nginx-smoke-test.md) | A1,F0 | Proxies the A1-proven HX-4 Ollama endpoint; no new service is created; record the upstream host, IP and port in the evidence | NOT RUN |
 <!-- /HX-PROOF -->
@@ -167,9 +176,9 @@ After A5, later component smoke tests run from HX-5 whenever the product exposes
 <!-- HX-PROOF:TABLE phase=D -->
 | Step | SUT | Proof | Authority | Requires | Limited integration | Status |
 |---|---|---|---|---|---|---|
-| **D1** | hx-16 | Docling + Granite-Docling | [`docling-smoke-test.md`](../../smoke-tests/docling-smoke-test.md) | F0 | None; self-generated local PDF | NOT RUN |
+| **D1** | hx-16 | Docling + Granite-Docling | [`docling-smoke-test.md`](../../smoke-tests/docling-smoke-test.md) | F0-HX-16 | None; self-generated local PDF | NOT RUN |
 | **D2** | hx-16 | Docling MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | D1 | Parent Docling service only | NOT RUN |
-| **D3** | hx-17 | Crawl4AI | [`crawl4ai-smoke-test.md`](../../smoke-tests/crawl4ai-smoke-test.md) | F0 | None; deterministic inline raw HTML | NOT RUN |
+| **D3** | hx-17 | Crawl4AI | [`crawl4ai-smoke-test.md`](../../smoke-tests/crawl4ai-smoke-test.md) | F0-HX-17 | None; deterministic inline raw HTML | NOT RUN |
 | **D4** | hx-17 | Crawl4AI MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | D3 | Parent Crawl4AI service only | NOT RUN |
 <!-- /HX-PROOF -->
 
@@ -182,9 +191,9 @@ After A5, later component smoke tests run from HX-5 whenever the product exposes
 <!-- HX-PROOF:TABLE phase=E -->
 | Step | SUT | Proof | Authority | Requires | Limited integration | Status |
 |---|---|---|---|---|---|---|
-| **E1** | hx-11 | LightRAG core | [`lightrag-smoke-test.md`](../../smoke-tests/lightrag-smoke-test.md) | B5,A2,P0,F0 | Synthetic document through the accepted Qdrant/embedding/LLM path; delete afterward | NOT RUN |
+| **E1** | hx-11 | LightRAG core | [`lightrag-smoke-test.md`](../../smoke-tests/lightrag-smoke-test.md) | B5,A2,P0,F0-HX-11 | Synthetic document through the accepted Qdrant/embedding/LLM path; delete afterward | NOT RUN |
 | **E2** | hx-11 | LightRAG MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | E1 | Parent LightRAG service only | NOT RUN |
-| **E3** | hx-13 | Mem0 core | [`mem0-smoke-test.md`](../../smoke-tests/mem0-smoke-test.md) | B5,A2,P0,F0 | Dedicated disposable Qdrant collection + synthetic memory; delete both | NOT RUN |
+| **E3** | hx-13 | Mem0 core | [`mem0-smoke-test.md`](../../smoke-tests/mem0-smoke-test.md) | B5,A2,P0,F0-HX-13 | Dedicated disposable Qdrant collection + synthetic memory; delete both | NOT RUN |
 | **E4** | hx-13 | Mem0 MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | E3 | Parent Mem0 service only | NOT RUN |
 <!-- /HX-PROOF -->
 
@@ -199,8 +208,8 @@ Docling/Crawl4AI PASS is useful upstream ecosystem evidence but is **not forced 
 <!-- HX-PROOF:TABLE phase=F -->
 | Step | SUT | Proof | Authority | Requires | Limited integration | Status |
 |---|---|---|---|---|---|---|
-| **F1** | hx-12 | Deep Agents | [`deep-agents-smoke-test.md`](../../smoke-tests/deep-agents-smoke-test.md) | P0,F0 | Model + local synthetic rules + disposable in-memory checkpointer | NOT RUN |
-| **F2** | hx-14 | n8n core | [`n8n-smoke-test.md`](../../smoke-tests/n8n-smoke-test.md) | F0 | Disposable deterministic workflow only | NOT RUN |
+| **F1** | hx-12 | Deep Agents | [`deep-agents-smoke-test.md`](../../smoke-tests/deep-agents-smoke-test.md) | P0,F0-HX-12 | Model + local synthetic rules + disposable in-memory checkpointer | NOT RUN |
+| **F2** | hx-14 | n8n core | [`n8n-smoke-test.md`](../../smoke-tests/n8n-smoke-test.md) | F0-HX-14 | Disposable deterministic workflow only | NOT RUN |
 | **F3** | hx-14 | n8n Web UI | [`native-web-ui-smoke-test.md`](../../smoke-tests/native-web-ui-smoke-test.md) | F2 | Parent n8n live state only | NOT RUN |
 | **F4** | hx-14 | n8n MCP | [`mcp-companion-smoke-test.md`](../../smoke-tests/mcp-companion-smoke-test.md) | F2 | Parent n8n service only | NOT RUN |
 <!-- /HX-PROOF -->
@@ -232,6 +241,15 @@ from the picture, including every MCP companion gate.
 flowchart LR
     P0["<b>P0</b><br/>Foundation PASS (HX-1, HX-2, HX-3)"]
     F0["<b>F0</b><br/>Foundation control standard (FQDN, HX-1 NTP, fleet key, external proof)"]
+    F0-HX-9["<b>F0-HX-9</b><br/>Foundation on hx-9 (F0 controls, proven externally)"]
+    F0-HX-10["<b>F0-HX-10</b><br/>Foundation on hx-10 (F0 controls, proven externally)"]
+    F0-HX-11["<b>F0-HX-11</b><br/>Foundation on hx-11 (F0 controls, proven externally)"]
+    F0-HX-12["<b>F0-HX-12</b><br/>Foundation on hx-12 (F0 controls, proven externally)"]
+    F0-HX-13["<b>F0-HX-13</b><br/>Foundation on hx-13 (F0 controls, proven externally)"]
+    F0-HX-14["<b>F0-HX-14</b><br/>Foundation on hx-14 (F0 controls, proven externally)"]
+    F0-HX-15["<b>F0-HX-15</b><br/>Foundation on hx-15 (F0 controls, proven externally)"]
+    F0-HX-16["<b>F0-HX-16</b><br/>Foundation on hx-16 (F0 controls, proven externally)"]
+    F0-HX-17["<b>F0-HX-17</b><br/>Foundation on hx-17 (F0 controls, proven externally)"]
     A1["<b>A1</b><br/>GPT-OSS / Ollama inference"]
     A2["<b>A2</b><br/>BGE-M3 + Nomic embeddings"]
     A3["<b>A3</b><br/>BGE-family reranker"]
@@ -262,42 +280,51 @@ flowchart LR
     F4["<b>F4</b><br/>n8n MCP"]
     G1["<b>G1</b><br/>Open WebUI"]
 
+    F0 --> F0-HX-9
+    F0 --> F0-HX-10
+    F0 --> F0-HX-11
+    F0 --> F0-HX-12
+    F0 --> F0-HX-13
+    F0 --> F0-HX-14
+    F0 --> F0-HX-15
+    F0 --> F0-HX-16
+    F0 --> F0-HX-17
     P0 --> A1
     A1 --> A2
     A1 --> A3
     P0 --> A4
     A4 --> A5
     P0 --> A5
-    F0 --> B1
+    F0-HX-9 --> B1
     B1 --> B2
-    F0 --> B3
+    F0-HX-9 --> B3
     B3 --> B4
-    F0 --> B5
+    F0-HX-10 --> B5
     B5 --> B6
     B5 --> B7
     P0 --> C1
     F0 --> C1
-    F0 --> C2
+    F0-HX-15 --> C2
     A4 --> C3
     A1 --> C4
     F0 --> C4
-    F0 --> D1
+    F0-HX-16 --> D1
     D1 --> D2
-    F0 --> D3
+    F0-HX-17 --> D3
     D3 --> D4
     B5 --> E1
     A2 --> E1
     P0 --> E1
-    F0 --> E1
+    F0-HX-11 --> E1
     E1 --> E2
     B5 --> E3
     A2 --> E3
     P0 --> E3
-    F0 --> E3
+    F0-HX-13 --> E3
     E3 --> E4
     P0 --> F1
-    F0 --> F1
-    F0 --> F2
+    F0-HX-12 --> F1
+    F0-HX-14 --> F2
     F2 --> F3
     F2 --> F4
     P0 --> G1
