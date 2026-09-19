@@ -107,6 +107,7 @@ Outstanding infrastructure findings are tracked in `docs/00-control/FINDINGS.md`
 - RedisBloom, RedisJSON, RediSearch combined catalog proof: PASS
 - P3X Redis UI 2026.10.100 on port 7843: PASS, including host reboot
 - RedisVL/FastMCP Streamable HTTP companion on port 8000: ACTIVE / PROVEN CURRENT RUNTIME
+- Redis MCP companion discovery + safe known-answer tool call: NOT YET PROVEN
 - Redis MCP host-reboot persistence after companion installation: PENDING
 - Redis PID-file and `vm.overcommit_memory` warnings: ACCEPTED FOLLOW-UP, no automatic hardening/tuning
 - Exact SSH host-key fingerprint and four-form AD SPN transcript: UNRESOLVED evidence fields
