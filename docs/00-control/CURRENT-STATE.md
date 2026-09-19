@@ -1,7 +1,7 @@
 ---
 document: HX Eco-System Current State
 status: current
-date: 2026-09-09
+date: 2026-09-19
 authority: infrastructure-owner
 ---
 
@@ -25,7 +25,7 @@ The **ecosystem architecture is the cornerstone**. Validation proves the ecosyst
 | HX-6 | OmniRoute | **PASS** |
 | HX-7 | NGINX dev/test only | **IN PROGRESS** |
 | HX-8 | Open WebUI | **PASS** |
-| HX-9 | PostgreSQL + MCP / Redis + MCP | **NOT STARTED** |
+| HX-9 | PostgreSQL + MCP / Redis + MCP | **IN PROGRESS** |
 | HX-10 | Qdrant + Web UI + MCP | **NOT STARTED** |
 | HX-11 | LightRAG + MCP | **NOT STARTED** |
 | HX-12 | Deep Agents (LangChain) LOB agent factory | **NOT STARTED** |
