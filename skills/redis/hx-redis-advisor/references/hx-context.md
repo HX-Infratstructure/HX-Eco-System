@@ -6,7 +6,7 @@
 Server: HX-9
 IP: 192.168.50.209
 Role: PostgreSQL + PostgreSQL MCP / Redis + Redis MCP
-Current state: NOT STARTED
+Current state: IN PROGRESS — Redis core/modules/WebUI proven; Redis MCP daemon active, reboot proof pending
 Deployment: native Ubuntu Linux + systemd
 Containers: not used unless the owner explicitly changes the architecture
 ```
@@ -33,21 +33,22 @@ cleanup is therefore proven
 
 Redis MCP is proven separately by `smoke-tests/mcp-companion-smoke-test.md`. Reboot persistence and retained evidence follow current closure rules.
 
-## Current implementation gaps
+## Current as-built state and remaining gaps
 
-As of the current clean rebuild state:
+As of the 2026-09-19 clean-rebuild record:
 
-- HX-9 is NOT STARTED;
-- no active HX-9 server record exists under `docs/02-server-records/`;
-- no active HX-9 runbook exists under `docs/03-runbooks/`;
-- Redis runtime version/package source is not selected by this skill;
-- actual Redis unit/config/data path must be established by package/runbook/runtime evidence;
-- persistence and memory/eviction policy must be reconciled with PostgreSQL shared-host requirements;
-- network/authentication/TLS/firewall policy is owner/runbook controlled;
-- Cluster, Sentinel, replication/failover are not current BASE assumptions;
-- exact Redis MCP implementation still requires current runbook/selection authority.
-
-Do not turn these gaps into guessed defaults.
+- Redis 8.10.2 is installed natively from the official release tarball and hash-verified.
+- Unit: `hx-redis.service`; active/enabled and reboot-proven.
+- Config: `/etc/redis/redis.conf`; data: `/srv/redis/data`; AOF enabled.
+- LAN listeners: port 6379 on IPv4/IPv6; current trusted-LAN no-auth posture is deliberate owner policy.
+- RedisBloom, RedisJSON, and RediSearch are loaded from absolute module paths and functionally proven.
+- RedisTimeSeries remains deferred.
+- P3X Redis UI 2026.10.100 is active/enabled on port 7843 and reboot-proven.
+- RedisVL/FastMCP Streamable HTTP companion is active/enabled on port 8000 at `/mcp`.
+- Redis MCP post-install host-reboot proof remains open.
+- PID-file permission and `vm.overcommit_memory` warnings remain deliberate follow-up items, not automatic hardening triggers.
+- memory/eviction tuning remains evidence-driven because PostgreSQL shares HX-9.
+- Cluster, Sentinel, replication/failover remain outside current BASE unless separately approved.
 
 ## HX invariants
 

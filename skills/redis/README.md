@@ -12,7 +12,7 @@ skills/redis/hx-redis-advisor/
 HX-9 — 192.168.50.209
 PostgreSQL + PostgreSQL MCP
 Redis + Redis MCP on the same host
-State: NOT STARTED
+State: IN PROGRESS — Redis core/modules/WebUI proven; Redis MCP daemon active, reboot proof pending
 Deployment: native Ubuntu Linux + systemd
 ```
 
@@ -48,7 +48,7 @@ skills/redis/
 
 The official Redis skill bundle is not installed wholesale as a second HX source of truth. The HX wrapper accepts/adapts Redis core, connections, Search, and observability guidance; treats Cluster/replication, Redis Cloud LangCache, and managed Agent Memory as reference-only for current BASE; and keeps TLS/firewall/bind/global-command hardening owner-controlled.
 
-At the 2026-09-09 review, the latest non-prerelease Redis release is 8.10.1 and the reviewed `redis/agent-skills` main commit is `a84871d065f398fed55e1633f66b66f731eb4e2b`. These record upstream context; they do not by themselves select the HX-9 runtime version or package source.
+At the 2026-09-09 skill review, Redis 8.10.1 was the upstream context and the reviewed `redis/agent-skills` main commit was `a84871d065f398fed55e1633f66b66f731eb4e2b`. The later owner-directed HX-9 build installed and hash-verified Redis 8.10.2; the live server record now governs the as-built runtime. Skill-review version context must not be used to downgrade the live host.
 
 ## Governed intake verification
 
@@ -70,10 +70,10 @@ B4  HX-9 Redis MCP
 
 The canonical `hx-redis-advisor` package passes the current skill validator and packages successfully as `skill.zip`. The included `redis-readonly-audit.sh` also passes shell syntax validation and a representative no-Redis read-only run. The helper discovers Redis-named systemd service units rather than assuming a package-specific unit name.
 
-This is **skill-package validation only**. It is not Redis runtime evidence and does not advance HX-9 `BUILD-STATE`.
+The skill-package validation remains separate from runtime evidence. HX-9 runtime state now comes from the live build and `docs/02-server-records/HX-9.md`, not from skill approval.
 
 ## Important boundary
 
-The wrapper is approved guidance; HX-9 itself remains NOT STARTED. It does not advance BUILD-STATE or independently select Redis runtime version/package source, service/config/data path, persistence/memory/eviction policy, network/auth/TLS/firewall policy, Cluster/Sentinel/replication topology, application integration, or exact Redis MCP implementation before current HX authority pins those choices.
+The wrapper remains advisory. HX-9 now runs Redis 8.10.2 natively with AOF, RedisBloom, RedisJSON, RediSearch, P3X Redis UI, and a RedisVL/FastMCP Streamable HTTP companion. The live as-built record pins the current paths, units, listeners, hashes, and deliberate trusted-LAN posture. Redis MCP host-reboot proof, the PID-file/overcommit warnings, and any future memory/eviction tuning remain open; Cluster/Sentinel/replication and generic security hardening remain outside current BASE unless separately approved.
 
 Validation remains controlled by `smoke-tests/redis-smoke-test.md`, the companion MCP smoke test, reboot persistence, retained evidence, and current HX closure rules.

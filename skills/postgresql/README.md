@@ -12,7 +12,7 @@ skills/postgresql/hx-postgresql-advisor/
 HX-9 — 192.168.50.209
 PostgreSQL + PostgreSQL MCP
 Redis + assigned Redis MCP on the same host
-State: NOT STARTED
+State: IN PROGRESS — PostgreSQL core/pgvector proven; PostgreSQL MCP pending
 Deployment: native Ubuntu Linux + systemd
 ```
 
@@ -45,6 +45,6 @@ skills/postgresql/
 
 ## Important boundary
 
-The wrapper is approved guidance; HX-9 itself remains NOT STARTED. It does not select the PostgreSQL major, Ubuntu-vs-PGDG package source, data path, listener/authentication pattern, HA/replication, PgBouncer, backup/PITR topology, or PostgreSQL MCP implementation before the HX-9 runbook pins those choices.
+The wrapper remains advisory. HX-9 now runs PostgreSQL 18.6 built from the official source tarball under `/srv/postgresql`, with PGDATA at `/srv/postgresql/data/pgdata`, LAN SCRAM access, pgvector 0.8.6, functional LAN proof, pgAdmin access, and reboot persistence. The PostgreSQL MCP companion remains unimplemented and is the next HX-9 application gate. HA/replication, PgBouncer, backup/PITR topology, production schema design, and unrelated tuning remain outside the current BASE unless separately approved.
 
 Validation remains controlled by `smoke-tests/postgresql-smoke-test.md`, the companion MCP smoke test, reboot persistence, retained evidence, and current HX closure rules.
