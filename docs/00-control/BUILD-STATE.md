@@ -1,6 +1,6 @@
 # HX-Eco-System Build State
 
-**Date:** 2026-09-15  
+**Date:** 2026-09-19  
 **Owner:** Jarvis Richardson  
 **Method:** KISS / one server at a time
 
@@ -17,7 +17,7 @@ Outstanding infrastructure findings are tracked in `docs/00-control/FINDINGS.md`
 | HX-6 | OmniRoute | **PASS** | **ACCEPTED FOLLOW UP** | OmniRoute 3.8.50 npm global (D-031); Phase 10 accepted with follow-up items; A2A and MCP live; auto-routing governance open (HX6-A2A-02) |
 | HX-7 | NGINX dev/test only | **IN PROGRESS** | **C4 DEFERRED** | Not the ecosystem reverse proxy (D-004) |
 | HX-8 | Open WebUI | **PASS** | **CLOSED** | Open WebUI 0.11.3 on Python 3.12.3; D-008 proved against HX-2, HX-3, HX-4 and HX-5; owner kept the four direct connections, D-008 removal clause open |
-| HX-9 | PostgreSQL + MCP / Redis + MCP | **NOT STARTED** | — | Two applications on one host; each closes separately |
+| HX-9 | PostgreSQL + MCP / Redis + MCP | **IN PROGRESS** | **POSTGRESQL MCP NEXT** | PostgreSQL 18.6 + pgvector and Redis 8.10.2 + Bloom/JSON/Search + P3X WebUI proven; Redis MCP daemon active; PostgreSQL MCP and Redis MCP reboot proof remain |
 | HX-10 | Qdrant + Web UI + MCP | **NOT STARTED** | — | One embedding identity per collection (D-005) |
 | HX-11 | LightRAG + MCP | **NOT STARTED** | — | Needs HX-10 and HX-4 proof first |
 | HX-12 | Deep Agents (LangChain) LOB agent factory | **NOT STARTED** | — | Prose runbook; pin deepagents version at implementation time |
@@ -94,6 +94,23 @@ Outstanding infrastructure findings are tracked in `docs/00-control/FINDINGS.md`
 - Ollama / model / storage / inference reboot persistence: PASS
 - CentCom smoke-runner bootstrap and doctor gates: PENDING / NEXT
 - DeepSeek Harness: future scheduled workload; not a prerequisite for CentCom smoke-runner activation
+
+## HX-9 current state
+
+- Layer 0/1 foundation, HX-1 NTP, fleet-key SSH, NOPASSWD sudo, domain membership/SSSD, and persistent storage: PASS
+- PostgreSQL 18.6 source build: PASS
+- PostgreSQL PGDATA `/srv/postgresql/data/pgdata`, checksums, LAN SCRAM listener, systemd and reboot persistence: PASS
+- pgvector 0.8.6: PASS
+- PostgreSQL LAN known-answer proof and remote pgAdmin administration: PASS
+- PostgreSQL MCP companion: NOT IMPLEMENTED / NEXT
+- Redis 8.10.2 source build and AOF service: PASS
+- RedisBloom, RedisJSON, RediSearch combined catalog proof: PASS
+- P3X Redis UI 2026.10.100 on port 7843: PASS, including host reboot
+- RedisVL/FastMCP Streamable HTTP companion on port 8000: ACTIVE / PROVEN CURRENT RUNTIME
+- Redis MCP host-reboot persistence after companion installation: PENDING
+- Redis PID-file and `vm.overcommit_memory` warnings: ACCEPTED FOLLOW-UP, no automatic hardening/tuning
+- Exact SSH host-key fingerprint and four-form AD SPN transcript: UNRESOLVED evidence fields
+- Overall HX-9: IN PROGRESS; do not promote to PASS/CLOSED until the open companion/reboot/evidence gates close
 
 ## Planned retrospective audit
 
