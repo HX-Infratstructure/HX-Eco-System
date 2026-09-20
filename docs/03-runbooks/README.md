@@ -51,7 +51,7 @@ directory, the same way the base blocks are.
 
 | Host | Block | Source |
 |---|---|---|
-| HX-6 | `10-omniroute.sh` **(obsolete, exits 47)** | npm global `omniroute@3.8.50` installed directly per D-031; the block described a source build HX-6 does not run |
+| HX-6 | `10-omniroute.sh` **(obsolete, exits 47)** | npm global `omniroute@3.8.50` per D-031, on the build erased on 2026-09-19; the block described a source build HX-6 never ran |
 | HX-7 | `10-nginx.sh` | nginx.org stable source, built natively |
 | HX-8 | `10-open-webui.sh` | PyPI |
 | HX-9 | `10-postgresql.sh` | postgresql.org source tarball, hash-verified, built natively |
