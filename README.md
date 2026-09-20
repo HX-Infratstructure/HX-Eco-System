@@ -64,7 +64,7 @@ cross-cutting concerns make a diagram less readable rather than more:
 | HX-6 | `192.168.50.206` | OmniRoute | **PASS** |
 | HX-7 | `192.168.50.207` | NGINX dev/test only | **IN PROGRESS** |
 | HX-8 | `192.168.50.208` | Open WebUI | **PASS** |
-| HX-9 | `192.168.50.209` | PostgreSQL + MCP / Redis + MCP | **NOT STARTED** |
+| HX-9 | `192.168.50.209` | PostgreSQL + MCP / Redis + MCP | **IN PROGRESS** |
 | HX-10 | `192.168.50.210` | Qdrant + Web UI + MCP | **NOT STARTED** |
 | HX-11 | `192.168.50.211` | LightRAG + MCP | **NOT STARTED** |
 | HX-12 | `192.168.50.212` | Deep Agents (LangChain) LOB agent factory | **NOT STARTED** |

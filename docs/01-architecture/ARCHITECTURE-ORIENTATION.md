@@ -2,7 +2,7 @@
 document: HX Eco-System Architecture Orientation
 status: current
 version: 2.0
-date: 2026-09-09
+date: 2026-09-19
 scope: foundational HX ecosystem architecture, server roles, baseline configuration, dependency planes, and validation boundary
 authority: HX-Eco-System clean rebuild
 ---
@@ -126,12 +126,12 @@ This is the current owner-approved target assignment. State is shown separately 
 | HX-1 | `192.168.50.200` | Samba AD / DNS / Kerberos / NTP | **PASS / CLOSED** |
 | HX-2 | `192.168.50.202` | Qwen-X / Ollama / Qwen3.8-27B Q6_K | **PASS / CLOSED** |
 | HX-3 | `192.168.50.203` | Coder-X / Ollama / Qwen3-Coder-30B Q6_K | **PASS / CLOSED** |
-| HX-4 | `192.168.50.204` | Meta-X / GPT-OSS 20B + BGE-M3 / Nomic / BGE reranker | **NEXT** |
-| HX-5 | `192.168.50.205` | CentCom / Ornith / DeepSeek Harness / dev-test | **NOT STARTED** |
-| HX-6 | `192.168.50.206` | OmniRoute | **NOT STARTED** |
-| HX-7 | `192.168.50.207` | NGINX dev/test only | **NOT STARTED** |
-| HX-8 | `192.168.50.208` | Open WebUI | **NOT STARTED** |
-| HX-9 | `192.168.50.209` | PostgreSQL + MCP / Redis + MCP | **NOT STARTED** |
+| HX-4 | `192.168.50.204` | Meta-X / GPT-OSS 20B + BGE-M3 / Nomic / BGE reranker | **PASS / CLOSED** |
+| HX-5 | `192.168.50.205` | CentCom / Ornith / DeepSeek Harness / dev-test | **IN PROGRESS** |
+| HX-6 | `192.168.50.206` | OmniRoute | **PASS / ACCEPTED FOLLOW-UP** |
+| HX-7 | `192.168.50.207` | NGINX dev/test only | **IN PROGRESS** |
+| HX-8 | `192.168.50.208` | Open WebUI | **PASS / CLOSED** |
+| HX-9 | `192.168.50.209` | PostgreSQL + MCP / Redis + MCP | **IN PROGRESS — PostgreSQL MCP next** |
 | HX-10 | `192.168.50.210` | Qdrant + Web UI + MCP | **NOT STARTED** |
 | HX-11 | `192.168.50.211` | LightRAG + MCP | **NOT STARTED** |
 | HX-12 | `192.168.50.212` | Deep Agents by LangChain — LOB agent factory/runtime harness | **NOT STARTED** |
@@ -149,8 +149,8 @@ The full dependency order and BASE PASS boundaries remain authoritative in `../0
 
 - **HX-2 Qwen-X** — Qwen3.8-27B Q6_K; current PASS/CLOSED inference endpoint.
 - **HX-3 Coder-X** — Qwen3-Coder-30B Q6_K; current PASS/CLOSED inference endpoint.
-- **HX-4 Meta-X** — GPT-OSS 20B target plus shared retrieval inference.
-- **HX-5 CentCom** — Ornith target plus development/test and DeepSeek Harness responsibilities.
+- **HX-4 Meta-X** — GPT-OSS 20B plus shared retrieval inference; PASS/CLOSED.
+- **HX-5 CentCom** — Ornith inference is live/proven; the broader CentCom/DeepSeek Harness host remains IN PROGRESS.
 
 Only models on servers that have passed their own applicable BASE PASS may enter the active HX routing/model catalog.
 
@@ -252,11 +252,13 @@ If the agent cannot answer 1–7, it is **not ready to execute validation**.
 
 ## 11. Current state boundary
 
-As of 2026-09-09:
+As of 2026-09-19:
 
-- HX-1, HX-2, and HX-3 are the current PASS/CLOSED as-built foundation.
-- HX-4 is next.
-- HX-5 through HX-17 remain planned/not started except for staged repository documentation/runbooks where present.
+- HX-1, HX-2, HX-3, HX-4, HX-6, and HX-8 are PASS under their current fleet gates; HX-6 carries accepted follow-up work.
+- HX-5 and HX-7 remain IN PROGRESS.
+- HX-9 is IN PROGRESS: PostgreSQL 18.6 + pgvector and Redis 8.10.2 + Bloom/JSON/Search + P3X WebUI are proven; Redis MCP has a live daemon endpoint but its repository companion tool-call/reboot proof remains open; PostgreSQL MCP is next.
+- HX-10 through HX-17 remain NOT STARTED.
+- `docs/00-control/hx-fleet.tsv` and `docs/00-control/BUILD-STATE.md` remain the current state authority; this architecture document explains placement and dependency boundaries.
 - Smoke-test authorities and CentCom runner tooling may be designed in the repository before their corresponding runtime capability exists.
 
 Design readiness is not as-built completion.

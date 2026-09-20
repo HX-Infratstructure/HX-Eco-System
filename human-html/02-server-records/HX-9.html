@@ -36,34 +36,230 @@ a{color:var(--accent)}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
 </style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/02-server-records/HX-9.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-9 — PostgreSQL + MCP / Redis + MCP Server Configuration</h1>
-<p><strong>Build state:</strong> NOT STARTED <strong>Gate:</strong> — <strong>IP:</strong> <code>192.168.50.209</code> <strong>FQDN:</strong> <code>hx-9.hx.local.arpa</code> <strong>Record updated:</strong> 2026-09-10</p>
-<blockquote>Scaffolded by <code>tools/hx-doc/hx-new-server hx-9</code>. Fill every section as the build proceeds. <code>tools/hx-doc/hx-record-check</code> reports what is still open.</blockquote>
+<p><strong>Build state:</strong> IN PROGRESS <strong>Gate:</strong> POSTGRESQL MCP NEXT <strong>IP:</strong> <code>192.168.50.209</code> <strong>FQDN:</strong> <code>hx-9.hx.local.arpa</code> <strong>Record updated:</strong> 2026-09-19</p>
+<p>HX-9 is the shared HX state-services host. PostgreSQL and Redis are separate applications with separate service identities, storage, configuration, and companion gates. This record reflects the live clean-rebuild configuration observed during the 2026-09-18/19 build session. It does not import prototype state.</p>
 <h2>Foundation</h2>
-<p>Established by <code>docs/03-runbooks/common/00-foundation.sh</code> before Block 1, and gated by <code>01-base-admin-network-updates.sh</code>, which refuses to proceed without it. Proven from the operator workstation before Layer 0/1 closes.</p>
-<div class="tw"><table><thead><tr><th>Control</th><th>Expected</th><th>State</th></tr></thead><tbody><tr><td><code>hostname -f</code></td><td><code>hx-9.hx.local.arpa</code></td><td>NOT ESTABLISHED</td></tr><tr><td>AD DNS A record</td><td>the address recorded in <code>docs/00-control/hx-fleet.tsv</code></td><td>NOT ESTABLISHED</td></tr><tr><td>Time authority</td><td><code>chronyc sources</code> shows <code>^* 192.168.50.200</code></td><td>NOT ESTABLISHED</td></tr><tr><td>Fleet key</td><td><code>SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk</code></td><td>NOT ESTABLISHED</td></tr><tr><td>NOPASSWD sudo</td><td><code>sudo -k -n true</code> succeeds</td><td>NOT ESTABLISHED</td></tr><tr><td>SSH persistence</td><td><code>ssh.service</code> or <code>ssh.socket</code> enabled</td><td>NOT ESTABLISHED</td></tr><tr><td>External key-only login</td><td><code>tools/hx-doc/hx-fleet-access hx-9</code> returns <code>hx-9</code> and <code>KEY+SUDO-PASS</code></td><td>NOT ESTABLISHED</td></tr><tr><td>SSH host key</td><td>recorded at build, so a later change is answerable from the repository</td><td>NOT ESTABLISHED</td></tr><tr><td>SPNs in AD</td><td>all four forms, short and FQDN, for <code>host/</code> and <code>RestrictedKrbHost/</code></td><td>NOT ESTABLISHED</td></tr></tbody></table></div>
-<p>This host is not built. Every row is filled from the build, and proof step F0 in <code>docs/00-control/hx-proof.tsv</code> must be satisfied before this server's own phase can close.</p>
+<div class="tw"><table><thead><tr><th>Control</th><th>Current as-built evidence</th><th>State</th></tr></thead><tbody><tr><td><code>hostname -f</code></td><td><code>hx-9.hx.local.arpa</code></td><td>PASS</td></tr><tr><td>Address</td><td><code>192.168.50.209/24</code></td><td>PASS</td></tr><tr><td>HX-1 time authority</td><td><code>chronyc sources</code> selected <code>^* 192.168.50.200</code></td><td>PASS</td></tr><tr><td>Fleet key</td><td><code>SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk</code></td><td>PASS</td></tr><tr><td>NOPASSWD sudo</td><td>externally proven with fleet-key administration</td><td>PASS</td></tr><tr><td>SSH persistence</td><td>survives reboot; key-only administration proven</td><td>PASS</td></tr><tr><td>External key-only login</td><td>fleet-key login + passwordless sudo proven</td><td>PASS</td></tr><tr><td>SSH host-key fingerprint</td><td>not captured in this session</td><td>UNRESOLVED</td></tr><tr><td>AD SPN four-form check</td><td>domain membership is proven; exact four-form SPN transcript was not retained here</td><td>UNRESOLVED</td></tr></tbody></table></div>
+<p>Foundation, domain, and storage survived reboot. The two unresolved record fields above are documentation/evidence gaps only; they are not replaced with guessed values.</p>
 <h2>1. Identity and Network</h2>
-<p>Hostname, IP, gateway, DNS, domain join, SSSD, domain user resolution. State the gate result: <strong>Domain join gate: PASS/FAIL</strong>.</p>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Hostname</td><td><code>hx-9</code></td></tr><tr><td>FQDN</td><td><code>hx-9.hx.local.arpa</code></td></tr><tr><td>IPv4</td><td><code>192.168.50.209</code></td></tr><tr><td>Gateway</td><td><code>192.168.50.1</code></td></tr><tr><td>HX DNS / AD / NTP authority</td><td>HX-1, <code>192.168.50.200</code></td></tr><tr><td>Realm</td><td><code>HX.LOCAL.ARPA</code></td></tr><tr><td>Domain client</td><td>realmd / SSSD / Kerberos member</td></tr><tr><td>Domain user resolution</td><td>PASS</td></tr><tr><td>Deployment posture</td><td>native Ubuntu Linux + systemd; no containers</td></tr></tbody></table></div>
+<p><strong>Domain join gate: PASS.</strong></p>
+<p>The trusted HX LAN posture remains owner-controlled. No firewall, TLS, segmentation, or access-hardening changes were introduced during this build.</p>
 <h2>2. Operating System</h2>
-<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Distribution / release</td><td></td></tr><tr><td>Kernel</td><td></td></tr><tr><td>Firmware version</td><td></td></tr><tr><td>sudo policy</td><td></td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Distribution / release</td><td>Ubuntu 24.04.5 LTS</td></tr><tr><td>Kernel</td><td><code>7.0.0-31-generic</code></td></tr><tr><td>Firmware version</td><td>UNRESOLVED</td></tr><tr><td>sudo policy</td><td>HX fleet admin account <code>hxsa</code>; passwordless sudo proven</td></tr><tr><td>Admin account</td><td><code>hxsa</code></td></tr><tr><td>GPU expectation</td><td>CPU-only host</td></tr></tbody></table></div>
 <h2>3. GPU Configuration</h2>
-<p>Driver package <strong>and exact version</strong>, GPU models and count, <code>nvidia-smi</code> proof. State the gate result: <strong>GPU gate: PASS/FAIL</strong>.</p>
+<p><strong>Not applicable:</strong> HX-9 is a CPU-only fleet host and is not listed in <code>HX_GPU_HOSTS</code>. No NVIDIA driver is required for its assigned PostgreSQL/Redis workloads.</p>
+<p><strong>GPU gate: NOT APPLICABLE.</strong></p>
 <h2>4. Storage Layout</h2>
-<p>Devices, filesystems, mount points, and the dedicated application path. State the gate result: <strong>Storage gate: PASS/FAIL</strong>.</p>
+<p>Live persistent layout after reboot:</p>
+<div class="tw"><table><thead><tr><th>Device</th><th>Size</th><th>Filesystem</th><th>Mount</th><th>Use</th></tr></thead><tbody><tr><td><code>/dev/sda1</code></td><td>1G</td><td>vfat</td><td><code>/boot/efi</code></td><td>EFI</td></tr><tr><td><code>/dev/sda2</code></td><td>120G</td><td>ext4</td><td><code>/</code></td><td>OS</td></tr><tr><td><code>/dev/sda3</code></td><td>50G</td><td>ext4</td><td><code>/srv/redis</code></td><td>Redis service/data/WebUI/MCP</td></tr><tr><td><code>/dev/sda4</code></td><td>65G</td><td>ext4</td><td><code>/srv/postgresql</code></td><td>PostgreSQL software prefix</td></tr><tr><td><code>/dev/sda5</code></td><td>1.6T</td><td>ext4</td><td><code>/srv/postgresql/data</code></td><td>PostgreSQL data</td></tr><tr><td><code>/dev/nvme0n1</code></td><td>present</td><td>—</td><td>unmounted</td><td>intentionally untouched</td></tr></tbody></table></div>
+<p>PostgreSQL cannot use the ext4 mount root as PGDATA because of <code>lost+found</code>. The accepted child data directory is:</p>
+<pre><code class="lang-text">/srv/postgresql/data/pgdata</code></pre>
+<p>Redis paths:</p>
+<pre><code class="lang-text">/srv/redis                 root:root 0755
+/srv/redis/data            redis:redis 0700
+/srv/redis/webui           HX P3X WebUI working/config directory
+/srv/redis/mcp             RedisVL MCP configuration</code></pre>
+<p><strong>Storage gate: PASS.</strong></p>
 <h2>5. Runtime</h2>
-<p>Package source, <strong>exact installed version</strong>, service unit, systemd overrides, listener address and port.</p>
+<h3>5.1 PostgreSQL</h3>
+<div class="tw"><table><thead><tr><th>Item</th><th>As-built value</th></tr></thead><tbody><tr><td>Product</td><td>PostgreSQL 18.6</td></tr><tr><td>Source</td><td>official <code>postgresql.org</code> source tarball</td></tr><tr><td>Tarball SHA-256</td><td><code>555610c24d53e4316da5b7d3fc25c279d96856d5e0e23ee308c328c5fa881d9f</code></td></tr><tr><td>Prefix</td><td><code>/srv/postgresql</code></td></tr><tr><td>PGDATA</td><td><code>/srv/postgresql/data/pgdata</code></td></tr><tr><td>Service identity</td><td><code>postgres</code></td></tr><tr><td>Unit</td><td><code>hx-postgresql.service</code></td></tr><tr><td>Listener</td><td><code>0.0.0.0:5432</code> and IPv6 equivalent</td></tr><tr><td>Checksums</td><td>PostgreSQL data-checksum version 1</td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr></tbody></table></div>
+<p>Build dependencies observed/required:</p>
+<pre><code class="lang-text">build-essential
+pkg-config
+libreadline-dev
+zlib1g-dev
+libicu-dev
+libssl-dev
+libsystemd-dev
+bison
+flex</code></pre>
+<p>Configure line:</p>
+<pre><code class="lang-bash">./configure --prefix=/srv/postgresql --with-openssl --with-icu --with-systemd</code></pre>
+<p>Accepted network configuration:</p>
+<pre><code class="lang-text">listen_addresses = '*'
+host all all 192.168.50.0/24 scram-sha-256</code></pre>
+<p>Local trust defaults remain in place. The <code>postgres</code> database role has a LAN password configured for pgAdmin/SCRAM use; the password is intentionally not stored in this repository.</p>
+<h3>5.2 pgvector</h3>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Extension</td><td>pgvector 0.8.6</td></tr><tr><td>Reviewed tag/commit</td><td><code>8ee86c96f0fd72390f890aa8a336fda6d3ab4c6c</code></td></tr><tr><td>Install target</td><td>PostgreSQL 18.6 tree under <code>/srv/postgresql</code></td></tr><tr><td>Extension create</td><td>PASS</td></tr><tr><td>Functional distance query</td><td>PASS</td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr></tbody></table></div>
+<p>pgvector is relational-adjacent capability only. HX-10 Qdrant remains the authoritative/default HX vector database.</p>
+<h3>5.3 Redis core</h3>
+<div class="tw"><table><thead><tr><th>Item</th><th>As-built value</th></tr></thead><tbody><tr><td>Product</td><td>Redis 8.10.2</td></tr><tr><td>Source</td><td>official <code>download.redis.io</code> release tarball</td></tr><tr><td>Tarball SHA-256</td><td><code>b9ffee226b5eecdba98a679260dad764b2a4ebd90dce4ad5ac9e9f3eef9c02b3</code></td></tr><tr><td>Core build</td><td><code>make build redis USE_SYSTEMD=yes -j"$(nproc)"</code></td></tr><tr><td>Installed server</td><td><code>/usr/local/bin/redis-server</code></td></tr><tr><td>Installed CLI</td><td><code>/usr/local/bin/redis-cli</code></td></tr><tr><td>Config</td><td><code>/etc/redis/redis.conf</code></td></tr><tr><td>Config ownership</td><td><code>root:redis 0640</code></td></tr><tr><td>Data path</td><td><code>/srv/redis/data</code></td></tr><tr><td>Unit</td><td><code>hx-redis.service</code></td></tr><tr><td>Listener</td><td><code>0.0.0.0:6379</code> and <code>[::]:6379</code></td></tr><tr><td>Persistence</td><td>AOF enabled</td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr></tbody></table></div>
+<p>Accepted active Redis settings:</p>
+<pre><code class="lang-text">bind 0.0.0.0 ::
+protected-mode no
+supervised systemd
+dir /srv/redis/data
+appendonly yes</code></pre>
+<p>This unauthenticated LAN posture is deliberate for the current trusted HX LAN under owner policy. It is not permission to add TLS, firewall, or authentication hardening without a separate owner decision.</p>
+<p>Open Redis runtime follow-ups recorded during build:</p>
+<ul>
+<li>Redis warned that the configured PID-file path was not writable. The service</li>
+</ul>
+<p>itself is systemd-managed and functional; the warning has not yet been reconciled in <code>redis.conf</code>.</p>
+<ul>
+<li>Redis warned that <code>vm.overcommit_memory</code> should be enabled. No kernel tuning</li>
+</ul>
+<p>was applied during this session; measure/reconcile shared-host impact first.</p>
+<h3>5.4 Redis modules</h3>
+<p>Permanent absolute module load lines:</p>
+<pre><code class="lang-text">loadmodule /usr/local/lib/redis/modules/redisbloom.so
+loadmodule /usr/local/lib/redis/modules/rejson.so
+loadmodule /usr/local/lib/redis/modules/redisearch.so</code></pre>
+<p>The stock relative module lines under the temporary source tree are disabled.</p>
+<div class="tw"><table><thead><tr><th>Capability</th><th>Runtime identity</th><th>State</th></tr></thead><tbody><tr><td>RedisBloom</td><td>module <code>bf</code>, version integer <code>81001</code></td><td>PROVEN</td></tr><tr><td>RedisJSON</td><td>module <code>ReJSON</code>, version integer <code>81000</code></td><td>PROVEN</td></tr><tr><td>RediSearch</td><td>module <code>search</code>, version integer <code>81001</code></td><td>PROVEN</td></tr><tr><td>VectorSet</td><td>Redis 8 built-in <code>vectorset</code>, version <code>1</code></td><td>PRESENT</td></tr><tr><td>RedisTimeSeries</td><td>not loaded</td><td>DEFERRED</td></tr></tbody></table></div>
+<h3>5.5 P3X Redis WebUI</h3>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Product</td><td>P3X Redis UI 2026.10.100</td></tr><tr><td>Node.js</td><td>24.21.0</td></tr><tr><td>npm</td><td>11.19.0</td></tr><tr><td>CLI</td><td><code>/usr/bin/p3x-redis</code></td></tr><tr><td>Working/config path</td><td><code>/srv/redis/webui</code></td></tr><tr><td>Config</td><td><code>/srv/redis/webui/p3xrs.json</code></td></tr><tr><td>Connection target</td><td>local Redis <code>127.0.0.1:6379</code></td></tr><tr><td>Unit</td><td><code>hx-redis-webui.service</code></td></tr><tr><td>Listener</td><td><code>0.0.0.0:7843</code></td></tr><tr><td>LAN URL</td><td><code>http://192.168.50.209:7843/</code></td></tr><tr><td>Health</td><td><code>/health</code> returns <code>{"status":"ok","version":"2026.10.100",...}</code></td></tr><tr><td>Reboot persistence</td><td>PASS</td></tr></tbody></table></div>
+<p>The UI successfully tested the HX-9 Redis connection, console <code>PING -&gt; PONG</code>, and the built-in AI console path.</p>
+<h3>5.6 Redis MCP</h3>
+<p>Two MCP forms were evaluated:</p>
+<ol>
+<li>The official <code>redis-mcp-server</code> was proven as a local stdio process via</li>
+</ol>
+<p><code>uvx</code> against <code>redis://127.0.0.1:6379/0</code>.</p>
+<ol>
+<li>The permanent remote-capable HX endpoint uses RedisVL MCP over FastMCP with</li>
+</ol>
+<p>Streamable HTTP.</p>
+<p>Permanent service:</p>
+<div class="tw"><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Unit</td><td><code>hx-redis-mcp.service</code></td></tr><tr><td>Working path</td><td><code>/srv/redis/mcp</code></td></tr><tr><td>Config</td><td><code>/srv/redis/mcp/redisvl-mcp.yaml</code></td></tr><tr><td>Transport</td><td><code>streamable-http</code></td></tr><tr><td>Bind</td><td><code>0.0.0.0:8000</code></td></tr><tr><td>MCP URL</td><td><code>http://192.168.50.209:8000/mcp</code></td></tr><tr><td>FastMCP observed</td><td>3.4.7</td></tr><tr><td>RedisVL package version</td><td>UNRESOLVED — CLI version was not captured</td></tr><tr><td>Auth</td><td>none; explicit <code>--allow-unauthenticated</code> on trusted HX LAN</td></tr><tr><td>systemd active/enabled</td><td>PASS</td></tr><tr><td>host reboot persistence after MCP installation</td><td>NOT YET PROVEN</td></tr></tbody></table></div>
+<p>RedisVL currently constrains FastMCP to <code>&gt;=2,&lt;4</code>; the runtime-advertised FastMCP 4.x update was deliberately not applied underneath RedisVL.</p>
+<p>MCP test index:</p>
+<pre><code class="lang-text">Redis index: hx:idx:mcp
+RedisVL label: hx-catalog
+Seed key: hx:mcp:001
+Category: infrastructure</code></pre>
+<p>The index returned the seeded record through direct RediSearch. A later Open WebUI client test did not surface/invoke the Redis MCP tools; Open WebUI itself labels native MCP support experimental. That client-side limitation is not recorded as an HX-9 server failure. Runtime-level MCP tool registration is integration/client work.</p>
+<h3>5.7 PostgreSQL MCP</h3>
+<p><strong>Not yet implemented.</strong> PostgreSQL core is complete and remote administration is proven, but the assigned PostgreSQL MCP companion remains the primary open HX-9 base gate.</p>
 <h2>6. Model / Application Provenance</h2>
-<p>Required for every server that hosts a model or a downloaded artifact. All five fields are mandatory — an unknown value is recorded as <code>UNRESOLVED</code>, never omitted, because a missing field cannot be told apart from a forgotten one.</p>
-<pre><code class="lang-text">HX alias:              &lt;ollama name or service identifier&gt;
-Upstream identity:     &lt;official model/product name and version&gt;
-Source URI:            &lt;exact hf.co/... repo:file, package URL, or registry ref&gt;
-Artifact SHA-256:      &lt;full 64-character hash of the downloaded artifact&gt;
-Import method:         &lt;pull | GGUF import | package install | build from source&gt;</code></pre>
-<p>If the artifact was imported rather than pulled, also record the Modelfile or build definition verbatim, including any template, parameter, or stop-token settings. If none were set, say so explicitly.</p>
-<p>Why both Source URI and SHA-256 are required: the hash proves what is running, and the URI proves where it came from. Public model registries carry modified community rebuilds under names close to the official ones, so neither field alone establishes provenance.</p>
+<p>HX-9 hosts no Ollama model. Application provenance is recorded below.</p>
+<h3>PostgreSQL 18.6</h3>
+<pre><code class="lang-text">HX alias/service:       hx-postgresql
+Upstream identity:     PostgreSQL 18.6
+Source URI:            https://ftp.postgresql.org/pub/source/v18.6/postgresql-18.6.tar.gz
+Artifact SHA-256:      555610c24d53e4316da5b7d3fc25c279d96856d5e0e23ee308c328c5fa881d9f
+Import method:         build from source</code></pre>
+<h3>Redis 8.10.2</h3>
+<pre><code class="lang-text">HX alias/service:       hx-redis
+Upstream identity:     Redis 8.10.2
+Source URI:            https://download.redis.io/releases/redis-8.10.2.tar.gz
+Artifact SHA-256:      b9ffee226b5eecdba98a679260dad764b2a4ebd90dce4ad5ac9e9f3eef9c02b3
+Import method:         build from source</code></pre>
+<h3>pgvector 0.8.6</h3>
+<pre><code class="lang-text">HX alias/service:       PostgreSQL extension vector
+Upstream identity:     pgvector 0.8.6
+Source identity:       tag/commit 8ee86c96f0fd72390f890aa8a336fda6d3ab4c6c
+Artifact SHA-256:      UNRESOLVED — source-tree archive hash not retained
+Import method:         build from source against PostgreSQL 18.6</code></pre>
+<h3>P3X Redis UI</h3>
+<pre><code class="lang-text">HX alias/service:       hx-redis-webui
+Upstream identity:     p3x-redis-ui 2026.10.100
+Source URI:            npm package p3x-redis-ui@2026.10.100
+Artifact SHA-256:      UNRESOLVED — npm package integrity was not retained in this record
+Import method:         npm global install</code></pre>
+<h3>RedisVL MCP</h3>
+<pre><code class="lang-text">HX alias/service:       hx-redis-mcp
+Upstream identity:     RedisVL MCP + FastMCP 3.4.7 runtime
+Source URI:            uvx package extra redisvl[mcp]
+Artifact SHA-256:      UNRESOLVED
+Import method:         uvx-managed Python environment</code></pre>
 <h2>7. Functional Validation</h2>
-<p>Known-answer CLI proof, HTTP/API proof, LAN proof, reboot persistence. Include the exact command and the exact response for each.</p>
+<h3>PostgreSQL core</h3>
+<p>Proven during the build:</p>
+<ul>
+<li>service active/enabled;</li>
+<li>listener on port 5432;</li>
+<li>data checksums enabled;</li>
+<li>pgvector extension version 0.8.6;</li>
+<li>vector distance query returned the expected result;</li>
+<li>LAN smoke from a separate workstation created a temporary database/role,</li>
+</ul>
+<p>created/inserted/read <code>HX-POSTGRES-SMOKE-9271</code>, opened a new session and proved the temporary relation absent, then cleaned up the disposable database/role;</p>
+<ul>
+<li>remote pgAdmin connection from the operator workstation succeeded using</li>
+</ul>
+<p>SCRAM authentication;</p>
+<ul>
+<li>PostgreSQL + pgvector survived host reboot.</li>
+</ul>
+<h3>Redis core and modules</h3>
+<p>Proven during the build:</p>
+<pre><code class="lang-text">redis-cli PING -&gt; PONG</code></pre>
+<p>RedisBloom:</p>
+<pre><code class="lang-text">BF.ADD hx:smoke:bloom HX-DOC-001      -&gt; 1
+BF.EXISTS ... HX-DOC-001              -&gt; 1
+BF.EXISTS ... HX-DOC-999              -&gt; 0
+cleanup DEL                            -&gt; 1</code></pre>
+<p>RedisJSON:</p>
+<pre><code class="lang-text">JSON.SET hx:smoke:json '$' {...}       -&gt; OK
+JSON.GET hx:smoke:json '$.document'    -&gt; ["HX-DOC-001"]
+cleanup DEL                            -&gt; 1</code></pre>
+<p>RedisJSON + RediSearch combined catalog proof:</p>
+<pre><code class="lang-text">FT.CREATE hx:idx:docs ON JSON ...      -&gt; OK
+FT.SEARCH hx:idx:docs '@project:{HX\-Infrastructure} @ingested:{false}'
+                                      -&gt; 1 hit: hx:doc:001</code></pre>
+<p>The temporary index/document were intended for cleanup after the proof; the cleanup transcript was not retained in this session and is therefore <code>UNRESOLVED</code> rather than assumed.</p>
+<h3>Redis WebUI</h3>
+<p>After host reboot:</p>
+<pre><code class="lang-text">systemctl is-active hx-redis           -&gt; active
+systemctl is-active hx-redis-webui     -&gt; active
+systemctl is-enabled hx-redis          -&gt; enabled
+systemctl is-enabled hx-redis-webui    -&gt; enabled
+0.0.0.0:6379                           -&gt; listening
+0.0.0.0:7843                           -&gt; listening
+redis-cli PING                          -&gt; PONG
+GET /health                             -&gt; status=ok, version=2026.10.100
+UI console PING                         -&gt; PONG</code></pre>
+<h3>Redis MCP</h3>
+<p>Current daemon proof:</p>
+<pre><code class="lang-text">systemctl is-active hx-redis-mcp        -&gt; active
+systemctl is-enabled hx-redis-mcp       -&gt; enabled
+0.0.0.0:8000                            -&gt; listening
+GET /mcp without MCP Accept header      -&gt; HTTP 406 with MCP session id and
+                                           "Client must accept text/event-stream"</code></pre>
+<p>The earlier systemd restart counter was explained by the still-running manual test process occupying port 8000; once that process was stopped, the systemd instance bound successfully.</p>
+<p><strong>Redis MCP host-reboot proof after service installation: NOT YET PROVEN.</strong></p>
 <h2>8. Final State</h2>
-<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td></td></tr><tr><td>Domain join / SSSD</td><td></td></tr><tr><td>GPU driver and visibility</td><td></td></tr><tr><td>Dedicated storage</td><td></td></tr><tr><td>Runtime version</td><td></td></tr><tr><td>Service active / enabled</td><td></td></tr><tr><td>Model / application loaded</td><td></td></tr><tr><td>Known-answer functional proof</td><td></td></tr><tr><td>Reboot persistence</td><td></td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Gate</th><th>Result</th></tr></thead><tbody><tr><td>Clean base build</td><td>PASS</td></tr><tr><td>Domain join / SSSD</td><td>PASS</td></tr><tr><td>GPU driver and visibility</td><td>NOT APPLICABLE</td></tr><tr><td>Dedicated storage</td><td>PASS</td></tr><tr><td>PostgreSQL 18.6 runtime</td><td>PASS</td></tr><tr><td>PostgreSQL pgvector 0.8.6</td><td>PASS</td></tr><tr><td>PostgreSQL LAN + pgAdmin access</td><td>PASS</td></tr><tr><td>PostgreSQL reboot persistence</td><td>PASS</td></tr><tr><td>PostgreSQL MCP companion</td><td>NOT IMPLEMENTED</td></tr><tr><td>Redis 8.10.2 runtime</td><td>PASS</td></tr><tr><td>RedisBloom / RedisJSON / RediSearch</td><td>PASS</td></tr><tr><td>Redis P3X WebUI</td><td>PASS</td></tr><tr><td>Redis/WebUI reboot persistence</td><td>PASS</td></tr><tr><td>RedisVL/FastMCP daemon/runtime endpoint</td><td>RUNNING / PROVEN CURRENT RUNTIME</td></tr><tr><td>Redis MCP companion discovery + safe tool call</td><td>NOT YET PROVEN</td></tr><tr><td>Redis MCP reboot persistence</td><td>NOT YET PROVEN</td></tr><tr><td>SSH host-key record</td><td>UNRESOLVED</td></tr><tr><td>Exact AD four-form SPN transcript</td><td>UNRESOLVED</td></tr><tr><td>Overall HX-9 BASE</td><td>IN PROGRESS</td></tr></tbody></table></div>
+<h3>Next closure sequence</h3>
+<ol>
+<li>Select/install/configure the PostgreSQL MCP companion.</li>
+<li>Prove PostgreSQL MCP discovery + known-answer safe tool call.</li>
+<li>Run the repository MCP companion procedure against RedisVL with a real MCP client: tool discovery plus one safe known-answer tool call.</li>
+<li>Reboot HX-9 and re-prove <code>hx-redis-mcp.service</code> plus MCP endpoint.</li>
+<li>Reconcile Redis PID-file and <code>vm.overcommit_memory</code> warnings deliberately,</li>
+</ol>
+<p>without generic security hardening.</p>
+<ol>
+<li>Close remaining foundation record evidence gaps or explicitly accept them.</li>
+<li>Run/promote the repository-defined HX-9 smoke/evidence gates from the</li>
+</ol>
+<p>approved runner when that validation layer is available.</p>
+<ol>
+<li>Only then promote HX-9 to <code>PASS / CLOSED</code>.</li>
+</ol>
 <h2>9. Evidence References</h2>
-<p>Either a retained bundle path under <code>docs/05-evidence/&lt;server&gt;/&lt;component&gt;/&lt;run-id&gt;/</code>, or an explicit statement that the proof is recorded inline in section 7 of this record. See <code>docs/05-evidence/README.md</code> for which model applies.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-9.md</code>.</footer></div></body></html>
+<p>This record currently uses <strong>inline evidence</strong> from the live HX-9 build session rather than a promoted bundle under <code>docs/05-evidence/</code>.</p>
+<p>Important evidence identities:</p>
+<ul>
+<li>PostgreSQL 18.6 source SHA-256:</li>
+</ul>
+<p><code>555610c24d53e4316da5b7d3fc25c279d96856d5e0e23ee308c328c5fa881d9f</code></p>
+<ul>
+<li>Redis 8.10.2 source SHA-256:</li>
+</ul>
+<p><code>b9ffee226b5eecdba98a679260dad764b2a4ebd90dce4ad5ac9e9f3eef9c02b3</code></p>
+<ul>
+<li>pgvector 0.8.6 commit:</li>
+</ul>
+<p><code>8ee86c96f0fd72390f890aa8a336fda6d3ab4c6c</code></p>
+<ul>
+<li>P3X Redis UI:</li>
+</ul>
+<p><code>2026.10.100</code></p>
+<ul>
+<li>FastMCP observed in RedisVL MCP runtime:</li>
+</ul>
+<p><code>3.4.7</code></p>
+<p>Secrets are intentionally excluded. In particular, the PostgreSQL role password used for remote pgAdmin/SCRAM access is not recorded in this repository.</p><footer>Generated by <code>tools/hx-doc/hx_render_html.py</code> from <code>docs/02-server-records/HX-9.md</code>.</footer></div></body></html>

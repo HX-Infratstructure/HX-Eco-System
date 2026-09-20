@@ -1,7 +1,7 @@
 ---
 document: HX Eco-System Current State
 status: current
-date: 2026-09-09
+date: 2026-09-19
 authority: infrastructure-owner
 ---
 
@@ -25,7 +25,7 @@ The **ecosystem architecture is the cornerstone**. Validation proves the ecosyst
 | HX-6 | OmniRoute | **PASS** |
 | HX-7 | NGINX dev/test only | **IN PROGRESS** |
 | HX-8 | Open WebUI | **PASS** |
-| HX-9 | PostgreSQL + MCP / Redis + MCP | **NOT STARTED** |
+| HX-9 | PostgreSQL + MCP / Redis + MCP | **IN PROGRESS** |
 | HX-10 | Qdrant + Web UI + MCP | **NOT STARTED** |
 | HX-11 | LightRAG + MCP | **NOT STARTED** |
 | HX-12 | Deep Agents (LangChain) LOB agent factory | **NOT STARTED** |
@@ -69,12 +69,15 @@ Validation/proof authority:
 
 The smoke roadmap is subordinate to deployment readiness: a component cannot be smoke-tested before its SUT is installed and ready.
 
-Current smoke position:
+Current formal proof position from `docs/00-control/hx-proof.tsv`:
 
-- Phase 0 foundation proof exists for HX-1, HX-2, HX-3.
-- Phase A is next, beginning with HX-4 inference/retrieval-model proof and HX-5 inference/runner activation when the deployment sequence reaches those servers.
+- P0 and F0 foundation controls are PASS.
+- HX-4 A1-A3 (GPT-OSS inference, embeddings, reranker) are PASS.
+- HX-8 G1 Open WebUI is PASS.
+- HX-5 A4/A5 remain NOT RUN.
+- HX-9 B1-B4 remain NOT RUN in the formal proof DAG even though the live build record contains direct functional evidence for PostgreSQL, Redis, modules, WebUI, and the Redis MCP daemon. Do not promote those direct observations into formal smoke PASS without the repository-defined runner/evidence procedure.
+- All later proof steps remain dependency-gated by `hx-proof.tsv`.
 - After CentCom activation, later smoke tests run remotely from HX-5 where practical.
-- Downstream tests reference current prior PASS evidence when their primary contract depends on earlier components.
 - Temporary integrations are limited to the minimum required for proof and are cleaned up afterward.
 
 ## Important current constraints

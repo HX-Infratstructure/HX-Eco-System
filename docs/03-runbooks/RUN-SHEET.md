@@ -146,7 +146,7 @@ Dependency-driven. Do not reorder without a reason.
 | 1 | HX-4 | Meta-X: GPT-OSS 20B, BGE-M3, Nomic, reranker | `common/04-reranker.sh hx-4` |
 | 2 | HX-5 | CentCom / Ornith inference | base blocks only |
 | 3 | HX-9 | PostgreSQL 18.6 | `common/10-postgresql.sh hx-9` |
-| 4 | HX-9 | Redis 8.10.1 | `common/10-redis.sh hx-9` |
+| 4 | HX-9 | Redis 8.10.2 (as-built) | manual as-built complete; reconcile `common/10-redis.sh` before reuse |
 | 5 | HX-10 | Qdrant 1.19.1 | `common/10-qdrant.sh hx-10` |
 | 6 | HX-6 | OmniRoute 3.8.50 (npm global, D-031) | installed; `common/10-omniroute.sh` is obsolete and exits 47 |
 | 7 | HX-15 | FastMCP 4.0.3 | `common/10-fastmcp.sh hx-15` |
