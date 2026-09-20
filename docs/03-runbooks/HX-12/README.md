@@ -4,6 +4,24 @@
 **Expected IP:** `192.168.50.212`  
 **Role:** Deep Agents by LangChain — LOB agent factory/runtime harness
 
+## Foundation — proof step `F0-HX-12`
+
+Layer 0/1 is established once, by the shared foundation block. Run it before
+step 1; `01-base-admin-network-updates.sh` refuses to continue without it and
+names what is missing.
+
+```bash
+../common/00-foundation.sh hx-12
+```
+
+This host's gate is `F0-HX-12` in
+[`hx-proof.tsv`](../../00-control/hx-proof.tsv). Row `F0` is the fleet-wide
+standard and is already `PASS`, so it gates nothing. Record `F0-HX-12` from the
+fifteen controls in section 9 of
+[`HX-BASE-BLOCKS-1-2-CONFIGURATION-AUDIT.md`](../../00-control/HX-BASE-BLOCKS-1-2-CONFIGURATION-AUDIT.md),
+never from `hx-proof --ready`, which reads the recorded verdict and re-runs none
+of them.
+
 ## Sequence
 
 1. Validate the HX-12 base OS, hostname/IP/DNS/gateway, domain membership, SSSD, updates, and failed-unit state using the standard clean-build pattern.

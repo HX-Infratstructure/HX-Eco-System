@@ -170,7 +170,7 @@ Before the application phase, the HX-6 server record must carry observed evidenc
 - recorded SSH host key;
 - AD computer identity with FQDN `dNSHostName` and the required short/FQDN `host/` and `RestrictedKrbHost/` SPNs.
 
-The repository proof chain treats foundation step `F0` as a prerequisite for unbuilt-server proof. Do not close HX-6 application work around an unproven foundation.
+The repository proof chain treats foundation step `F0-HX-6` as the prerequisite for HX-6 proof; `F0` is the fleet-wide standard and is already `PASS`, so it gates nothing. Do not close HX-6 application work around an unproven foundation.
 
 ### 3.6 Known fleet findings are not HX-6 application work
 
@@ -711,7 +711,7 @@ HX-6 is not BASE PASS because `systemctl` is green or `/v1/models` returns 200.
 
 | Gate | Required result |
 |---|---|
-| Common Foundation / F0 | PASS with recorded evidence |
+| Common Foundation / F0-HX-6 | PASS with recorded evidence |
 | External fleet-key proof | `hx-6` + `KEY+SUDO-PASS` |
 | Domain join / SSSD core function | PASS, or `HX4-F02` (SSSD responder/socket conflict, OPEN/DEFERRED) documented as non-impacting HX-6 with recorded evidence; no other finding satisfies this gate |
 | Existing `/srv/omniroute` storage | PASS; no destructive storage change |
@@ -744,7 +744,7 @@ The current server record still represents an unproven/not-started host until ob
 
 The final record/evidence must include at least:
 
-- Foundation/F0 evidence from the current common standard;
+- Foundation/F0-HX-6 evidence from the current common standard;
 - external `hx-fleet-access` proof;
 - domain identity and SPN evidence;
 - `/srv/omniroute` filesystem/UUID/mount evidence;

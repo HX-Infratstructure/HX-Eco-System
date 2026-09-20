@@ -42,7 +42,8 @@ without that state, and names what is missing:
 | 45 | neither `ssh.service` nor `ssh.socket` is enabled |
 
 Do not work around a foundation exit. Run `00-foundation.sh` and read what it
-reports. Proof step `F0` must be satisfied before HX-8 can close.
+reports. Proof step `F0-HX-8` must be satisfied before HX-8 can close. `F0` is
+the fleet-wide standard and is already `PASS`, so it is not this host's gate.
 
 ## 3. Execution
 
@@ -152,7 +153,7 @@ depending on it fails at use rather than at install.
 
 | Requirement | Evidence |
 |---|---|
-| Foundation established | proof step `F0` satisfied |
+| Foundation established | proof step `F0-HX-8` satisfied |
 | Every Foundation row filled | `tools/hx-doc/hx-record-check` passes for HX-8 |
 | External key-only administration | `tools/hx-doc/hx-fleet-access hx-8` returns `hx-8` and `KEY+SUDO-PASS` |
 | Domain join | `realm list` reports `configured: kerberos-member`; domain user resolves |

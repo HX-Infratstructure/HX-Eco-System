@@ -4,6 +4,24 @@
 **Expected IP:** `192.168.50.213`
 **Role:** Mem0 + assigned MCP
 
+## Foundation — proof step `F0-HX-13`
+
+Layer 0/1 is established once, by the shared foundation block. Run it before
+step 1; `01-base-admin-network-updates.sh` refuses to continue without it and
+names what is missing.
+
+```bash
+../common/00-foundation.sh hx-13
+```
+
+This host's gate is `F0-HX-13` in
+[`hx-proof.tsv`](../../00-control/hx-proof.tsv). Row `F0` is the fleet-wide
+standard and is already `PASS`, so it gates nothing. Record `F0-HX-13` from the
+fifteen controls in section 9 of
+[`HX-BASE-BLOCKS-1-2-CONFIGURATION-AUDIT.md`](../../00-control/HX-BASE-BLOCKS-1-2-CONFIGURATION-AUDIT.md),
+never from `hx-proof --ready`, which reads the recorded verdict and re-runs none
+of them.
+
 ## Execution
 
 Steps 1-2 are the shared base blocks. Run them from this directory; each one

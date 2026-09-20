@@ -26,9 +26,10 @@ it. Proven from the operator workstation before Layer 0/1 closes.
 | SSH host key | recorded at build, so a later change is answerable from the repository | NOT ESTABLISHED |
 | SPNs in AD | all four forms, short and FQDN, for `host/` and `RestrictedKrbHost/` | NOT ESTABLISHED |
 
-This host is not built. Every row is filled from the build, and proof step F0
-in `docs/00-control/hx-proof.tsv` must be satisfied before this server's own
-phase can close.
+This host is not built. Every row is filled from the build, and proof step
+`F0-HX-9` in `docs/00-control/hx-proof.tsv` must be satisfied before this
+server's own phase can close. Row `F0` is the fleet-wide standard and is
+already `PASS`, so it is not this host's gate.
 
 ## 1. Identity and Network
 
