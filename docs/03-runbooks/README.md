@@ -23,9 +23,9 @@ Run a block from its server directory, or call the common block directly:
 ./docs/03-runbooks/common/01-base-admin-network-updates.sh hx-4
 ```
 
-Blocks 1, 2 and 3 call `hx_require_host` first and refuse to run on any server
-other than the one named. That is the guard against running HX-4's block on
-HX-5.
+Every common block except step 0 calls `hx_require_host` first and refuses to
+run on any server other than the one named. That is the guard against running
+HX-4's block on HX-5.
 
 Step 0 is the exception, because it is the block that names the host. It calls
 `hx_claim_host`, which refuses only a host that already answers to a different

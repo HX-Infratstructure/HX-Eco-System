@@ -49,7 +49,7 @@ font-size:12.5px;color:var(--fg2)}
 <p>Run a block from its server directory, or call the common block directly:</p>
 <pre><code class="lang-bash">./docs/03-runbooks/HX-4/01-base-admin-network-updates.sh
 ./docs/03-runbooks/common/01-base-admin-network-updates.sh hx-4</code></pre>
-<p>Blocks 1, 2 and 3 call <code>hx_require_host</code> first and refuse to run on any server other than the one named. That is the guard against running HX-4's block on HX-5.</p>
+<p>Every common block except step 0 calls <code>hx_require_host</code> first and refuses to run on any server other than the one named. That is the guard against running HX-4's block on HX-5.</p>
 <p>Step 0 is the exception, because it is the block that names the host. It calls <code>hx_claim_host</code>, which refuses only a host that already answers to a different fleet name, so a fresh install still carrying the installer's name is allowed through and a built server cannot be renamed by it. The address is checked next (D-026), so an unnamed host at the wrong IP still stops before anything is written.</p>
 <h2>The three common base blocks</h2>
 <ol>
