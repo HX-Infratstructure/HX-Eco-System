@@ -1,6 +1,17 @@
 # HX Eco-System
 
-Authoritative repository for the clean-room HX Eco-System rebuild: a
+> **Read this first.** This repository recorded the clean-room HX Eco-System
+> rebuild through 2026-09-20. The states, tables and records here are as of
+> 2026-09-20 and are not current.
+> [HX-Exploration](https://github.com/HX-Infratstructure/HX-Exploration) is the
+> controlled continuation of this repository. It has held the current fleet
+> records, server records and plans since 2026-09-21.
+> [HX-LightRAG](https://github.com/HX-Infratstructure/HX-LightRAG) has been the
+> authority on HX-11 LightRAG since 2026-09-30.
+> [HX-Mem0](https://github.com/HX-Infratstructure/HX-Mem0) has been the
+> authority on HX-13 Mem0 since 2026-09-30. Notice added 2026-09-30.
+
+The clean-room HX Eco-System rebuild targets a
 **17-server native-Linux AI ecosystem**, built one server at a time, each one
 validated and recorded before the next begins.
 

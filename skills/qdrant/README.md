@@ -1,5 +1,7 @@
 # HX Qdrant Skills
 
+> **Note added 2026-09-30.** The current authority on HX-10 Qdrant is HX-Exploration's [HX-10 server record](https://github.com/HX-Infratstructure/HX-Exploration/blob/main/02-server-records/HX-10.md).
+
 Qdrant is the first reference implementation of the governed HX skill architecture.
 
 ## HX placement

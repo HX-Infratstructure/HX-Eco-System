@@ -300,6 +300,17 @@ rc, out = run('tools/hx-doc/hx_render_html.py', '--check')
 check('hx-render-html: an edited source with a stale mirror fails',
       rc != 0 and 'stale' in out.lower(), out)
 
+# ------------------------------ hx_render_html: a remote .md link is kept ---
+fresh()
+edit('docs/03-runbooks/README.md', lambda s: s + '\n[remote](https://example.org/a.md) '
+     'and [local](RUN-SHEET.md)\n')
+rc, out = run('tools/hx-doc/hx_render_html.py')
+_mirror = io.open(os.path.join(WORK, 'human-html', '03-runbooks', 'README.html'),
+                  encoding='utf-8').read()
+check('hx-render-html: a remote .md link keeps its target, a local one is mirrored',
+      rc == 0 and 'href="https://example.org/a.md"' in _mirror
+      and 'href="RUN-SHEET.html"' in _mirror, out + _mirror[-400:])
+
 # ------------------------------------ hx_smoke_lint: no known answer --------
 fresh()
 def strip_known(s):

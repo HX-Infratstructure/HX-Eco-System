@@ -66,7 +66,7 @@ def inline(text: str) -> str:
 
     def link(m: re.Match[str]) -> str:
         href = m.group(2)
-        if href.endswith(".md"):
+        if href.endswith(".md") and "://" not in href:
             href = href[:-3] + ".html"  # keep mirror-to-mirror links working
         return f'<a href="{html.escape(href, quote=True)}">{m.group(1)}</a>'
 

@@ -1,5 +1,10 @@
 # HX-10 Current Runbook
 
+> **Note added 2026-09-30.** HX-10 Qdrant was installed on 2026-09-26 from
+> [HX-Exploration's Qdrant plan](https://github.com/HX-Infratstructure/HX-Exploration/tree/main/03-implementation-plans/HX-10/Qdrant).
+> The current record is
+> [HX-Exploration's HX-10 server record](https://github.com/HX-Infratstructure/HX-Exploration/blob/main/02-server-records/HX-10.md).
+
 **Host:** hx-10
 **Expected IP:** `192.168.50.210`
 **Role:** Qdrant + Web UI + MCP

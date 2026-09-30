@@ -7,13 +7,15 @@ authority: HX-Eco-System repository control
 
 # HX Eco-System — Repository Status
 
+> **Read this first.** This repository recorded the clean-room HX Eco-System rebuild through 2026-09-20. The states, tables and records here are as of 2026-09-20 and are not current. [HX-Exploration](https://github.com/HX-Infratstructure/HX-Exploration) is the controlled continuation of this repository. It has held the current fleet records, server records and plans since 2026-09-21. [HX-LightRAG](https://github.com/HX-Infratstructure/HX-LightRAG) has been the authority on HX-11 LightRAG since 2026-09-30. [HX-Mem0](https://github.com/HX-Infratstructure/HX-Mem0) has been the authority on HX-13 Mem0 since 2026-09-30. Notice added 2026-09-30.
+
 ## Status
 
 **Agent-facing repository initialization and SSOT reconciliation: PASS**
 
 Repository: `HX-Infratstructure/HX-Eco-System`  
 Branch: `main`  
-Visibility: private
+Visibility: public (checked 2026-09-30)
 
 ## Authority model
 

@@ -1,5 +1,7 @@
 # HX LightRAG Skills
 
+> **Note added 2026-09-30.** The current authority on HX-11 LightRAG is [HX-LightRAG](https://github.com/HX-Infratstructure/HX-LightRAG).
+
 LightRAG on HX-11 uses a governed HX wrapper around **current official HKUDS/LightRAG repository guidance**.
 
 Unlike Qdrant, the current `HKUDS/LightRAG` repository does not publish a Qdrant-style official `SKILL.md` catalog. Its strongest current upstream authorities are the repository `AGENTS.md`, API/server documentation, `env.example`, release metadata, and implementation source/tests.
