@@ -148,7 +148,7 @@ Dependency-driven. Do not reorder without a reason.
 | 3 | HX-9 | PostgreSQL 18.6 | `common/10-postgresql.sh hx-9` |
 | 4 | HX-9 | Redis 8.10.2 (as-built) | manual as-built complete; reconcile `common/10-redis.sh` before reuse |
 | 5 | HX-10 | Qdrant 1.19.1 | `common/10-qdrant.sh hx-10` |
-| 6 | HX-6 | OmniRoute 3.8.50 (npm global, D-031) | installed; `common/10-omniroute.sh` is obsolete and exits 47 |
+| 6 | HX-6 | OmniRoute 3.8.50 (npm global, D-031) | void; HX-6 was rebuilt to baseline on 2026-09-19 and is `NOT_STARTED`; `common/10-omniroute.sh` is obsolete and exits 47 |
 | 7 | HX-15 | FastMCP 4.0.3 | `common/10-fastmcp.sh hx-15` |
 | 8 | HX-5 | DeepSeek Harness | see the HX-5 runbook |
 | 9 | HX-7 | NGINX 1.30.4 | `common/10-nginx.sh hx-7` |
