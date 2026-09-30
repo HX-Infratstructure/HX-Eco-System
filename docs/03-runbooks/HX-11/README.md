@@ -1,5 +1,12 @@
 # HX-11 Current Runbook
 
+> **Note added 2026-09-30.**
+> [HX-LightRAG](https://github.com/HX-Infratstructure/HX-LightRAG) has been the
+> authority on HX-11 LightRAG since 2026-09-30 and holds its current
+> [runbook](https://github.com/HX-Infratstructure/HX-LightRAG/blob/main/docs/03-runbook/runbook.md).
+> The current host record is
+> [HX-Exploration's HX-11 server record](https://github.com/HX-Infratstructure/HX-Exploration/blob/main/02-server-records/HX-11.md).
+
 **Host:** hx-11
 **Expected IP:** `192.168.50.211`
 **Role:** LightRAG + MCP

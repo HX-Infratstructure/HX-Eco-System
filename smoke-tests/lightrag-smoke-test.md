@@ -1,5 +1,7 @@
 # LightRAG Smoke Test
 
+> **Note added 2026-09-30.** The current authority on HX-11 LightRAG and its acceptance is [HX-LightRAG](https://github.com/HX-Infratstructure/HX-LightRAG).
+
 ## 1. Title & Purpose
 
 LightRAG is the HX retrieval-augmented generation service on HX-11. This smoke test validates that the LightRAG API is reachable, can ingest one synthetic text document, index it with the configured LLM/embedding services, retrieve the known content, generate a small RAG answer, and delete the smoke-test document.
