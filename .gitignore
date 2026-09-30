@@ -39,3 +39,7 @@ temp/
 
 # Claude Code per-machine overrides
 .claude/settings.local.json
+
+# Local scratch that is not part of the repository.
+/.phase1.py
+/Claude outputs/
