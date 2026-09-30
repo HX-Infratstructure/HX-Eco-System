@@ -1,10 +1,20 @@
 # HX-8 — Open WebUI Server Configuration
 
-**Build state:** PASS
-**Gate:** CLOSED
+**Build state:** NOT STARTED
+**Gate:** -
 **IP:** `192.168.50.208`
 **FQDN:** `hx-8.hx.local.arpa`
-**Record updated:** 2026-09-17
+**Record updated:** 2026-09-19
+
+> **HX-8 was rebuilt to baseline Ubuntu 24.04 on 2026-09-19. Everything below
+> describes the machine that was wiped.** Open WebUI 0.11.3 is gone, and the
+> `G1` smoke-test PASS it earned went with it. `G1` is `NOT_RUN` again and now
+> requires `F0-HX-8`, which is also `NOT_RUN`. That is why the state above
+> reads `NOT STARTED` and the gate is empty. The sections that follow are kept
+> as the record of the previous build, because their measured values are the
+> only evidence that build ever produced. Read every present tense in them as
+> past tense. The replacement role for this host is not yet ratified in this
+> repository.
 
 ## Foundation
 
@@ -31,7 +41,9 @@ claims it.
 All four SPN forms are present, which is what D-029 requires. `dNSHostName`
 reads `hx-8.hx.local.arpa`.
 
-Proof step `F0` in `docs/00-control/hx-proof.tsv` is satisfied.
+Proof step `F0` in `docs/00-control/hx-proof.tsv` was satisfied by the build
+recorded above. The host-scoped row `F0-HX-8` is `NOT_RUN`, and the rebuild
+has to prove these controls again on the machine that exists now.
 
 **Reverse DNS is absent fleet-wide, not on this host.** A reverse lookup of
 `192.168.50.208` returned nothing on 2026-09-17, and so did every other address

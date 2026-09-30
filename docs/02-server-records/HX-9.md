@@ -30,6 +30,11 @@ Foundation, domain, and storage survived reboot. The two unresolved record
 fields above are documentation/evidence gaps only; they are not replaced with
 guessed values.
 
+Proof step `F0-HX-9` in `docs/00-control/hx-proof.tsv`, not the fleet-wide
+row `F0`, is this host's foundation gate; it is recorded from the fifteen
+controls in section 9 of
+`docs/00-control/HX-BASE-BLOCKS-1-2-CONFIGURATION-AUDIT.md` and is `NOT_RUN`.
+
 ## 1. Identity and Network
 
 | Item | Value |

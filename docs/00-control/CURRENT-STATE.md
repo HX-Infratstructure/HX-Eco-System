@@ -22,9 +22,9 @@ The **ecosystem architecture is the cornerstone**. Validation proves the ecosyst
 | HX-3 | Coder-X / Ollama | **PASS** |
 | HX-4 | Meta-X / GPT-OSS 20B + BGE-M3 + Nomic + BGE reranker | **PASS** |
 | HX-5 | CentCom / Ornith / DeepSeek Harness / dev-test | **IN PROGRESS** |
-| HX-6 | OmniRoute | **PASS** |
+| HX-6 | OmniRoute | **NOT STARTED** |
 | HX-7 | NGINX dev/test only | **IN PROGRESS** |
-| HX-8 | Open WebUI | **PASS** |
+| HX-8 | Open WebUI | **NOT STARTED** |
 | HX-9 | PostgreSQL + MCP / Redis + MCP | **IN PROGRESS** |
 | HX-10 | Qdrant + Web UI + MCP | **NOT STARTED** |
 | HX-11 | LightRAG + MCP | **NOT STARTED** |
@@ -71,9 +71,11 @@ The smoke roadmap is subordinate to deployment readiness: a component cannot be 
 
 Current formal proof position from `docs/00-control/hx-proof.tsv`:
 
-- P0 and F0 foundation controls are PASS.
+- P0 and the fleet-wide F0 standard are PASS. The per-host foundation steps
+  F0-HX-6, F0-HX-8, and F0-HX-9 through F0-HX-17 are NOT RUN.
 - HX-4 A1-A3 (GPT-OSS inference, embeddings, reranker) are PASS.
-- HX-8 G1 Open WebUI is PASS.
+- HX-8 G1 Open WebUI is NOT RUN. HX-8 was rebuilt to baseline on 2026-09-19,
+  its earlier G1 PASS is withdrawn, and G1 now requires F0-HX-8.
 - HX-5 A4/A5 remain NOT RUN.
 - HX-9 B1-B4 remain NOT RUN in the formal proof DAG even though the live build record contains direct functional evidence for PostgreSQL, Redis, modules, WebUI, and the Redis MCP daemon. Do not promote those direct observations into formal smoke PASS without the repository-defined runner/evidence procedure.
 - All later proof steps remain dependency-gated by `hx-proof.tsv`.

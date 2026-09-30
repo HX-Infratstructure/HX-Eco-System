@@ -37,15 +37,19 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 font-size:12.5px;color:var(--fg2)}
 </style></head><body><div class="wrap"><div class="banner"><b>Human mirror.</b> Generated from <code>docs/03-runbooks/HX-9/README.md</code>, which is the authoritative source. This page is not execution authority. Do not edit it by hand; run <code>tools/hx-doc/hx-render-html</code>.</div><h1>HX-9 Current Runbook</h1>
 <p><strong>Host:</strong> hx-9 <strong>Expected IP:</strong> <code>192.168.50.209</code> <strong>Role:</strong> PostgreSQL + MCP / Redis + MCP <strong>Current state:</strong> IN PROGRESS <strong>Current gate:</strong> POSTGRESQL MCP NEXT <strong>As-built record:</strong> <code>../../02-server-records/HX-9.md</code></p>
-<h2>Current as-built position</h2>
-<p>Foundation, domain membership, storage, PostgreSQL 18.6, pgvector 0.8.6, Redis 8.10.2, RedisBloom, RedisJSON, RediSearch, and P3X Redis UI are installed natively and proven on HX-9. PostgreSQL, Redis, and P3X survive host reboot.</p>
-<p>The RedisVL/FastMCP Streamable HTTP companion is active and enabled at <code>http://192.168.50.209:8000/mcp</code>; its post-install host-reboot gate remains open. PostgreSQL MCP has not yet been installed and is the next primary build gate.</p>
-<p>The authoritative live configuration, hashes, paths, units, listeners, functional proofs, and unresolved evidence items are recorded in <code>docs/02-server-records/HX-9.md</code>.</p>
+<h2>Foundation — proof step <code>F0-HX-9</code></h2>
+<p>Layer 0/1 is established once, by the shared foundation block. Run it before the foundation execution blocks below; <code>01-base-admin-network-updates.sh</code> refuses to continue without it and names what is missing.</p>
+<pre><code class="lang-bash">../common/00-foundation.sh hx-9</code></pre>
+<p>This host's gate is <code>F0-HX-9</code> in <a href="../../00-control/hx-proof.tsv"><code>hx-proof.tsv</code></a>. Row <code>F0</code> is the fleet-wide standard and is already <code>PASS</code>, so it gates nothing. Record <code>F0-HX-9</code> from the fifteen controls in section 9 of <a href="../../00-control/HX-BASE-BLOCKS-1-2-CONFIGURATION-AUDIT.html"><code>HX-BASE-BLOCKS-1-2-CONFIGURATION-AUDIT.md</code></a>, never from <code>hx-proof --ready</code>, which reads the recorded verdict and re-runs none of them.</p>
 <h2>Foundation execution</h2>
 <p>The shared foundation blocks remain the authority for a clean rebuild of this host:</p>
 <pre><code class="lang-bash">./01-base-admin-network-updates.sh # reboots
 ./02-domain.sh                     # reboots</code></pre>
 <p>HX-9 is CPU-only and is not in <code>HX_GPU_HOSTS</code>.</p>
+<h2>Current as-built position</h2>
+<p>Foundation, domain membership, storage, PostgreSQL 18.6, pgvector 0.8.6, Redis 8.10.2, RedisBloom, RedisJSON, RediSearch, and P3X Redis UI are installed natively and proven on HX-9. PostgreSQL, Redis, and P3X survive host reboot.</p>
+<p>The RedisVL/FastMCP Streamable HTTP companion is active and enabled at <code>http://192.168.50.209:8000/mcp</code>; its post-install host-reboot gate remains open. PostgreSQL MCP has not yet been installed and is the next primary build gate.</p>
+<p>The authoritative live configuration, hashes, paths, units, listeners, functional proofs, and unresolved evidence items are recorded in <code>docs/02-server-records/HX-9.md</code>.</p>
 <h2>Application execution history</h2>
 <p>The current HX-9 applications were built during the owner-directed manual implementation session. Do not re-run the generic application blocks against the live host merely to make the host resemble an older pin.</p>
 <p>Current live versions are:</p>

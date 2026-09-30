@@ -1,10 +1,20 @@
 # HX-6 — OmniRoute Server Configuration
 
-**Build state:** PASS
-**Gate:** ACCEPTED WITH FOLLOW-UP ITEMS
+**Build state:** NOT STARTED
+**Gate:** -
 **IP:** `192.168.50.206`
 **FQDN:** `hx-6.hx.local.arpa`
-**Record updated:** 2026-09-18
+**Record updated:** 2026-09-19
+
+> **HX-6 was rebuilt to baseline Ubuntu 24.04 on 2026-09-19. Everything below
+> describes the machine that was wiped.** OmniRoute 3.8.50 is gone and so is
+> the Phase 10 acceptance that closed it, which is why the state above reads
+> `NOT STARTED` and the gate is empty. The sections that follow are kept as
+> the record of the previous build, because their measured values are the
+> only evidence that build ever produced. Read every present tense in them as
+> past tense. Proof step `F0-HX-6` in `docs/00-control/hx-proof.tsv` is
+> `NOT_RUN` and `C1` now requires it. The replacement role for this host is
+> not yet ratified in this repository.
 
 > **Deployment method: npm global install.** HX-6 runs `omniroute@3.8.50`
 > installed globally from the npm registry, started by `hx-omniroute.service`

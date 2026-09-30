@@ -1,20 +1,29 @@
 # HX-6 Current Runbook — OmniRoute
 
-> **Superseded for the deployment path.** HX-6 runs the **npm global install of
-> `omniroute@3.8.50`**, started by `hx-omniroute.service` from
-> `/usr/local/bin/omniroute`. `D-031` ratified that on 2026-09-17 and is the
-> authority. Phase 10 acceptance is recorded in
+> **HX-6 was rebuilt to baseline Ubuntu 24.04 on 2026-09-19. Nothing below
+> describes the machine as it is now.** OmniRoute 3.8.50 is gone, so is the
+> `hx-omniroute.service` unit, and the Phase 10 acceptance that closed the build
+> is void. `docs/00-control/hx-fleet.tsv` carries HX-6 at `NOT_STARTED` with no
+> gate, proof step `F0-HX-6` is `NOT_RUN`, and `C1` requires it. The replacement
+> role for this host is not ratified in this repository, so HX-6 has no current
+> runbook and this file is not one. Read every present tense below as past
+> tense.
+>
+> **What the erased build ran.** The npm global install of `omniroute@3.8.50`,
+> started by `hx-omniroute.service` from `/usr/local/bin/omniroute`, ratified by
+> `D-031` on 2026-09-17. Phase 10 acceptance is recorded in
 > [`phase-10-acceptance.md`](../../05-evidence/hx-6/omniroute/phase-10-acceptance.md):
-> ACCEPTED WITH FOLLOW-UP ITEMS.
+> ACCEPTED WITH FOLLOW-UP ITEMS. That record is history and no longer describes
+> a running host.
 >
 > The source-build material below describes building `3.8.51` from a pinned
-> commit into `/srv/omniroute/app`. **HX-6 does not run that.** It is kept as
-> history because the defects it found are real and transfer to any host that
-> builds from source under npm 11 — `HX6-F01`, `HX6-F02`, `HX6-F03`.
+> commit into `/srv/omniroute/app`. **That was never the deployment path.** It is
+> kept because the defects it found are real and transfer to any host that
+> builds from source under npm 11, `HX6-F01`, `HX6-F02` and `HX6-F03`.
 >
 > `../common/10-omniroute.sh` refuses to run and exits 47. Do not execute it.
-> Live configuration, findings and the A2A/MCP setup are recorded in
-> [`HX-6.md`](../../02-server-records/HX-6.md).
+> The configuration, findings and A2A/MCP setup of the erased build are recorded
+> in [`HX-6.md`](../../02-server-records/HX-6.md), under the same warning.
 
 **Host:** `hx-6`  
 **Expected IP:** `192.168.50.206`  
@@ -170,7 +179,7 @@ Before the application phase, the HX-6 server record must carry observed evidenc
 - recorded SSH host key;
 - AD computer identity with FQDN `dNSHostName` and the required short/FQDN `host/` and `RestrictedKrbHost/` SPNs.
 
-The repository proof chain treats foundation step `F0` as a prerequisite for unbuilt-server proof. Do not close HX-6 application work around an unproven foundation.
+The repository proof chain treats foundation step `F0-HX-6` as the prerequisite for HX-6 proof; `F0` is the fleet-wide standard and is already `PASS`, so it gates nothing. Do not close HX-6 application work around an unproven foundation.
 
 ### 3.6 Known fleet findings are not HX-6 application work
 
@@ -711,7 +720,7 @@ HX-6 is not BASE PASS because `systemctl` is green or `/v1/models` returns 200.
 
 | Gate | Required result |
 |---|---|
-| Common Foundation / F0 | PASS with recorded evidence |
+| Common Foundation / F0-HX-6 | PASS with recorded evidence |
 | External fleet-key proof | `hx-6` + `KEY+SUDO-PASS` |
 | Domain join / SSSD core function | PASS, or `HX4-F02` (SSSD responder/socket conflict, OPEN/DEFERRED) documented as non-impacting HX-6 with recorded evidence; no other finding satisfies this gate |
 | Existing `/srv/omniroute` storage | PASS; no destructive storage change |
@@ -744,7 +753,7 @@ The current server record still represents an unproven/not-started host until ob
 
 The final record/evidence must include at least:
 
-- Foundation/F0 evidence from the current common standard;
+- Foundation/F0-HX-6 evidence from the current common standard;
 - external `hx-fleet-access` proof;
 - domain identity and SPN evidence;
 - `/srv/omniroute` filesystem/UUID/mount evidence;

@@ -128,9 +128,9 @@ This is the current owner-approved target assignment. State is shown separately 
 | HX-3 | `192.168.50.203` | Coder-X / Ollama / Qwen3-Coder-30B Q6_K | **PASS / CLOSED** |
 | HX-4 | `192.168.50.204` | Meta-X / GPT-OSS 20B + BGE-M3 / Nomic / BGE reranker | **PASS / CLOSED** |
 | HX-5 | `192.168.50.205` | CentCom / Ornith / DeepSeek Harness / dev-test | **IN PROGRESS** |
-| HX-6 | `192.168.50.206` | OmniRoute | **PASS / ACCEPTED FOLLOW-UP** |
+| HX-6 | `192.168.50.206` | OmniRoute | **NOT STARTED** |
 | HX-7 | `192.168.50.207` | NGINX dev/test only | **IN PROGRESS** |
-| HX-8 | `192.168.50.208` | Open WebUI | **PASS / CLOSED** |
+| HX-8 | `192.168.50.208` | Open WebUI | **NOT STARTED** |
 | HX-9 | `192.168.50.209` | PostgreSQL + MCP / Redis + MCP | **IN PROGRESS — PostgreSQL MCP next** |
 | HX-10 | `192.168.50.210` | Qdrant + Web UI + MCP | **NOT STARTED** |
 | HX-11 | `192.168.50.211` | LightRAG + MCP | **NOT STARTED** |
@@ -254,7 +254,8 @@ If the agent cannot answer 1–7, it is **not ready to execute validation**.
 
 As of 2026-09-19:
 
-- HX-1, HX-2, HX-3, HX-4, HX-6, and HX-8 are PASS under their current fleet gates; HX-6 carries accepted follow-up work.
+- HX-1, HX-2, HX-3, and HX-4 are PASS under their current fleet gates.
+- HX-6 and HX-8 were rebuilt to baseline Ubuntu 24.04 on 2026-09-19 and are NOT STARTED; their earlier builds are void and their replacement roles are not yet ratified here.
 - HX-5 and HX-7 remain IN PROGRESS.
 - HX-9 is IN PROGRESS: PostgreSQL 18.6 + pgvector and Redis 8.10.2 + Bloom/JSON/Search + P3X WebUI are proven; Redis MCP has a live daemon endpoint but its repository companion tool-call/reboot proof remains open; PostgreSQL MCP is next.
 - HX-10 through HX-17 remain NOT STARTED.

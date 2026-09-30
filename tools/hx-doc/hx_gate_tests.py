@@ -733,6 +733,24 @@ def foundation(fn, *args):
         capture_output=True, text=True, encoding='utf-8', errors='replace')
     return r.returncode, (r.stdout or '') + (r.stderr or '')
 
+
+def foundation_host(fn, actual, expected):
+    """Call one host guard with `hostname` answering `actual`.
+
+    hx_require_host and hx_claim_host differ only in what they do on a host
+    that is not yet named, and `hostname -s` is what decides it. Shadowing the
+    command is the only way to exercise that difference without a server.
+    """
+    env = os.path.join(SRC, 'docs', '03-runbooks', 'common', 'hx-base.env')
+    script = ('. "$1" 2>/dev/null; '
+              'HX_FAKE_HOSTNAME="$2"; '
+              'hostname() { echo "$HX_FAKE_HOSTNAME"; }; '
+              '"$3" "$4" >/dev/null')
+    r = subprocess.run(['bash', '-c', script, '_', env, actual, fn, expected],
+                       capture_output=True, text=True, encoding='utf-8',
+                       errors='replace')
+    return r.returncode, (r.stdout or '') + (r.stderr or '')
+
 FLEET_FP = 'SHA256:fpIJEHjkhRYRqnhvRhtgSqggOAjkTU90vSGWbh0vsPk'
 
 # Identity. HX-2, HX-3 and HX-4 all answered with the short name.
@@ -740,6 +758,24 @@ rc, out = foundation('hx_require_fqdn', 'hx-6', 'hx-6.hx.local.arpa')
 check('foundation: a short hostname is not an FQDN', rc == 41, out)
 rc, out = foundation('hx_require_fqdn', 'hx-6.hx.local.arpa', 'hx-6.hx.local.arpa')
 check('foundation: the correct FQDN passes', rc == 0, out)
+
+# The host guard. 00-foundation.sh is the block that names the host, so it
+# cannot demand the name first: hx_require_host exited 10 fifteen lines before
+# set-hostname, and no fresh install could run step 0. hx_claim_host replaced it
+# and must still refuse a built server being renamed. The two read alike, so the
+# difference is stated as four cases rather than left to the reader.
+rc, out = foundation_host('hx_claim_host', 'ubuntu', 'hx-6')
+check('foundation: hx_claim_host accepts a fresh install under the installer name',
+      rc == 0, out)
+rc, out = foundation_host('hx_require_host', 'ubuntu', 'hx-6')
+check('foundation: hx_require_host refuses that same install, which is why step 0 '
+      'could not use it', rc == 10, out)
+rc, out = foundation_host('hx_claim_host', 'hx-5', 'hx-6')
+check('foundation: hx_claim_host refuses a host already answering to hx-5',
+      rc == 10, out)
+rc, out = foundation_host('hx_claim_host', 'hx-6', 'hx-6')
+check('foundation: hx_claim_host accepts the host that already carries the name',
+      rc == 0, out)
 
 # Time. The subtle case: HX-1 present in the source list but not selected.
 # Three of four hosts were synchronised to a public pool with chrony absent.
@@ -799,6 +835,18 @@ check('foundation: hx_ntp_selected returns true for the selected source',
 rc, out = foundation('hx_ntp_selected', _NOT, '192.168.50.200')
 check('foundation: hx_ntp_selected returns false, it does not exit, when unselected',
       rc == 1, out)
+
+# The dots in the pin are regex. A single backslash is consumed by the
+# expansion, so the unescaped matcher left them as wildcards and any address of
+# the same shape matched. Every address this file already carries passes both
+# bodies. Only a lookalike separates them, so the lookalike is the test.
+_LOOKALIKE = '^* 192a168b50c200   3  6  377  15  +22us[+27us] +/- 71ms'
+rc, out = foundation('hx_ntp_selected', _LOOKALIKE, '192.168.50.200')
+check('foundation: the dots in the HX-1 pin are literal, not wildcards',
+      rc == 1, out)
+rc, out = foundation('hx_require_ntp_source', _LOOKALIKE, '192.168.50.200')
+check('foundation: a lookalike time source is refused, not accepted',
+      rc == 42, out)
 
 # The rollback has to be in the script, not just in the intention.
 _found = io.open(os.path.join(SRC, 'docs', '03-runbooks', 'common',

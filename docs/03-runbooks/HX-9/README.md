@@ -7,6 +7,36 @@
 **Current gate:** POSTGRESQL MCP NEXT  
 **As-built record:** `../../02-server-records/HX-9.md`
 
+## Foundation — proof step `F0-HX-9`
+
+Layer 0/1 is established once, by the shared foundation block. Run it before
+the foundation execution blocks below; `01-base-admin-network-updates.sh`
+refuses to continue without it and names what is missing.
+
+```bash
+../common/00-foundation.sh hx-9
+```
+
+This host's gate is `F0-HX-9` in
+[`hx-proof.tsv`](../../00-control/hx-proof.tsv). Row `F0` is the fleet-wide
+standard and is already `PASS`, so it gates nothing. Record `F0-HX-9` from the
+fifteen controls in section 9 of
+[`HX-BASE-BLOCKS-1-2-CONFIGURATION-AUDIT.md`](../../00-control/HX-BASE-BLOCKS-1-2-CONFIGURATION-AUDIT.md),
+never from `hx-proof --ready`, which reads the recorded verdict and re-runs none
+of them.
+
+## Foundation execution
+
+The shared foundation blocks remain the authority for a clean rebuild of this
+host:
+
+```bash
+./01-base-admin-network-updates.sh # reboots
+./02-domain.sh                     # reboots
+```
+
+HX-9 is CPU-only and is not in `HX_GPU_HOSTS`.
+
 ## Current as-built position
 
 Foundation, domain membership, storage, PostgreSQL 18.6, pgvector 0.8.6,
@@ -21,18 +51,6 @@ gate.
 The authoritative live configuration, hashes, paths, units, listeners,
 functional proofs, and unresolved evidence items are recorded in
 `docs/02-server-records/HX-9.md`.
-
-## Foundation execution
-
-The shared foundation blocks remain the authority for a clean rebuild of this
-host:
-
-```bash
-./01-base-admin-network-updates.sh # reboots
-./02-domain.sh                     # reboots
-```
-
-HX-9 is CPU-only and is not in `HX_GPU_HOSTS`.
 
 ## Application execution history
 
